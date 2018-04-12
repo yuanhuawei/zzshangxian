@@ -1,0 +1,24 @@
+<!--{php168}-->
+<style type="text/css">
+.label_list11_date li{overflow: hidden;height:42px;*float:left;padding-bottom:12px;}
+.label_list11_date .date11{width:50px;height:42px;float:left;background:#1e6e9f;color:#fff;text-align:center;}
+.label_list11_date .date11 .de1{width:50px;height:25px;line-height:25px;font-size:16px;}
+.label_list11_date .date11 .de2{width:50px;height:17px;line-height:17px;font-size:10px;}
+.label_list11_date .text11{width:450px;float:right;height:42px;}
+.label_list11_date h4{font-size:14px;line-height:24px;overflow: hidden;font-weight:normal;}
+.label_list11_date h4 a{color:#595959;}
+</style>
+<ul class="label_list11_date">
+	<!--{foreach $list $value}-->
+	<li>
+		<div class="date11">
+			<div class="de1">{date('d', $value['timestamp'])}</div>
+			<div class="de2">{date('Y.m', $value['timestamp'])}</div>
+		</div>
+	    <div class="text11">
+			<h4><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h4>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

@@ -1,0 +1,45 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<div id="tab_1" class="tab_box mtop20">
+	<div class="head">
+		<span {if $status==1}class="over"{/if}><a href="$this_url?status=1">正常的需求</a></span> 
+		<span {if $status==0}class="over"{/if}><a href="$this_url?status=0">未审核的需求</a></span>
+		<span {if $status==2}class="over"{/if}><a href="$this_url?status=2">过期的需求</a></span>
+		<a href="$this_router-demand_edit" class="sendmsg_link_bg">新增需求</a>
+	</div>
+	<div class="main profile" style="margin-top:20px">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table">
+	<tr class="head">
+		<td>ID</td>
+		<td>职位名称</td>
+		<td>发布时间</td>
+		<td>到期时间</td>
+		<td>浏览量</td>
+		<td>简历量</td>
+		<td>状态</td>
+		<td>操作</td>
+	</tr>
+	<!--{foreach $list $key $val}-->
+	<tr>
+		<td><input type="checkbox" name="id[]" value="$val[id]" />$val[id]</td>
+		<td>$val[title]</td>
+		<td>{date('Y-m-d',$val['begintime'])}</td>
+		<td>{date('Y-m-d',$val['endtime'])}</td>
+		<td>56</td>
+		<td>4</td>
+		<td>已审</td>
+		<td>涮新 <a href="$this_router-update?id=$val[id]">修改</a> 删除</td>
+	</tr>
+	<!--{/foreach}-->
+	<tr>
+		<td align="center" colspan="6" class="pages">
+			$pages
+		</td>
+	</tr>
+</table>
+	</div>
+</div>
+<div class="clear">
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

@@ -1,0 +1,117 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：
+	<a href="{$core.admin_controller}/sites/farm-index">站群系统</a> &gt; 
+	<a href="{$core.admin_controller}/sites/farm-add">
+	<!--{if !empty($data['alias'])}-->编辑<!--{else}-->	添加<!--{/if}-->导航</a></td>
+  </tr>
+</table>
+<form action="$this_router-menu_cache" method="post" id="form">
+<div class="mainbox mainborder">
+<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table" align="center">
+	<tr class="title fix_head">
+	<td width="9%" class="list_top list_left">名称</td>
+	<td width="12%" class="list_top">状态</td>
+	<td width="17%" class="list_top">排序</td>
+	<td width="17%" class="list_top list_right">操作</td>
+</tr>
+<!--{php
+			function _list($ms, $l = 0,$p=0){
+				global $this_router, $P8LANG, $SKIN;
+				$k=count($ms);
+				$j=0;
+			}-->
+			<!--{foreach $ms $v}-->
+			<!--{php $j++;}-->
+			<tr>
+				<td style="text-align:left;margin-left:20px">
+					<!--{if  $l != 0}-->
+					<!--{php echo str_repeat('│&nbsp;&nbsp;', $l-$p).str_repeat('&nbsp;&nbsp;&nbsp;', $p);}-->
+					<!--{if $j==$k}--><!--{php $p++;}-->└<!--{else}-->├<!--{/if}--><!--{/if}-->
+					{$v['name']} </td>
+				<td> <span style="cursor: pointer;" id="display_$v[id]" onclick="display_menu(this)">
+					<!--{if $v['display']}-->
+					<img src="{$SKIN}/check_yes.gif" alt="1" />
+					<!--{else}-->
+					<img src="{$SKIN}/check_no.gif" alt="0" />
+					<!--{/if}-->
+					</span>
+				</td>
+				<td><input  type="text" class="txt" name="display_order[{$v['id']}]" value="{$v['display_order']}" size="4" /></td>
+				<td> <a href="$this_router-menu_update?id={$v['id']}">{$P8LANG['edit']}</a> <a id="menu_{$v['id']}" href="$this_router-menu_delete?id={$v['id']}" onclick="return delete_menu(this);">{$P8LANG['delete']}</a></td>
+			</tr>
+			<!--{php if(isset($v['menus'])) _list($v['menus'], $l+1,$p);}-->
+			<!--{/foreach}-->
+			<!--{php
+			}
+			
+			_list($menus);
+			}-->	
+</table>
+<br/>
+<input type="button" value=" 添加菜单 " name="{$P8LANG['add']}" onclick="window.location.href='{$this_router}-menu_add'" class="edit_btn"  /> 
+
+<input type="button" value=" 更新缓存 " name="cache" onclick="location.href='$this_router-menu_cache'" class="edit_btn"  /> 
+
+<input type="button" value=" {$P8LANG['submit_cache']} " onclick="this.form.action='$this_router-menu_cache';this.form.submit()" class="edit_btn" />
+ <input type="hidden" name="display_json" id="display_json" />			
+
+</div>
+</form>
+<script type="text/javascript">
+	
+	var display_json = {};
+	
+	function display_menu(obj){
+		var id = intval($(obj).attr('id'));
+		switch(parseInt($('img', obj).attr('alt'))){
+			case 0:
+				//show
+				display_json[id] = 1;
+				
+				$('img', obj).attr('src', '{$SKIN}/check_yes.gif').attr('alt', '1');
+			break;
+			
+			case 1:
+				//hide
+				display_json[id] = 0;
+				
+				$('img', obj).attr('src', '{$SKIN}/check_no.gif').attr('alt', '0');
+			break;
+		}
+		
+		$('#display_json').val($.toJSON(display_json));
+	}
+	
+	function delete_menu(obj){
+		if(confirm('{$P8LANG['confirm_to_delete']}')){
+			$.ajax({
+				url: '$this_router-menu_delete',
+				type: 'POST',
+				dataType: 'json',
+				data: {id: obj.id.replace(/[^0-9]/g, '')},
+				cache: false,
+				success: function(json){
+					for(var i in json){
+						$('#menu_'+ json[i]).parent().parent().remove();
+					}
+				}
+			});
+		}
+		
+		return false;
+	}
+	
+	$('form input[name^=display_order]').change(function(){
+		this.value = this.value.replace(/[^0-9]/g, '') || 0;
+		if(this.value > 255) this.value = 255;
+		if(this.value < 0) this.value = 0;
+		
+		$('#form').append('<input type="hidden" name="_display_order['+ this.name.replace(/[^0-9]/g, '') +']" value="'+ this.value +'" />');
+		$(this).css({border: '1px solid #ff0000'});
+	});
+</script>
+<!--{/php168}-->	

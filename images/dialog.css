@@ -1,0 +1,9 @@
+.php168_dialog { position: absolute; border: 5px solid #8CB8EA; background-color: #ffffff; width: 400px; height: 200px; }
+.php168_dialog .title_bar { padding: 5px; background-color: #f1f7fd; cursor: move; }
+.php168_dialog .title { }
+.php168_dialog .close { float: right; cursor: pointer; width: 18px; height: 18px; background: url(close.gif) no-repeat 0px -18px; }
+.php168_dialog .close  span{ display: none; }
+.php168_dialog .content_container { width: 100%; }
+.php168_dialog .content { padding: 5px; }
+.php168_dialog .button_bar { clear: left; }
+.foot_negative { margin-bottom:-5px; }

@@ -1,0 +1,24 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/mobile/default/core/letter/style.css" />
+<div class="wraper">
+    <a class="post_button" style="margin-top:15px" href="{$this_router}-post">鎴戣?鍐欎俊</a>
+     <!--{foreach $list $key $row}-->
+          <!--{php $k=$key%2;}-->
+          
+        <div class="items">
+            <h3>[<!--{php echo date('Y-m-d',$row['create_time']);}-->]<a href="$row[url]" title="$row[title]" target="_blank">$row[title_s]</a> <img src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp{$row['dp']}.gif"/></h3>
+            <p>
+            $row[type_name],
+            $row[department_name],
+            <span style="color:{if $row['status']==3}#0F96E5{else}#F27D03{/if}">{if $row['status']==3}鈭歿else}锛漿/if}$row[status_name]</span>
+            </p>
+        </div>
+         <!--{/foreach}-->
+        
+       <div class="pages no_right" colspan="6"> {$pages}  </div>
+</div>
+
+<!--{template $core footer}-->
+<!--{/php168}-->
+

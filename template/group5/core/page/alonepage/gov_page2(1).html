@@ -1,0 +1,80 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/alonepage/style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKDIR}core/common.css" />
+<div class="nav mtop">
+	您的位置：<a href="{$this_system.url}">首页</a>&nbsp;&gt;&nbsp;<a href="#">$data[title]</a>
+</div>
+<div class="mtop">
+	<div class="contain_left">	
+		<div class="border1">
+			<div class="head1">
+				<span class="title1">
+					$label[let_menu_title]
+				</span>
+			</div>	
+				<div class="main1" id='leftbox'>
+					$label[let_menu]
+				</div>
+				<div class="clear">
+				</div>
+		</div>
+		
+		<div class="border1 mtop">
+			<div class="head1">
+				<span class="title1">
+					$label[let_title_2]
+				</span>
+			</div>	
+				<div class="main1">
+				<div style="min-height:40px;">$label[let_content_2]</div>
+				<div style="min-height:40px;margin-top:10px;">$label[let_content_3]</div>
+				<div style="min-height:40px;margin-top:10px;">$label[let_content_4]</div>
+				</div>
+		</div>
+	</div>
+	<div class="contain_right">
+		<div class="show_box_gov" style="border:none;">
+			<div class="head_gov_r2">
+			<span class="title99">$data[title]</span><span class="more2 more44">您当前所在的位置：首页&nbsp;&gt;&nbsp;$data[title]</span><span class="more1 more44" id="editcontent"></span>
+			</div>
+			<div class="main1 main_r_bg govborder" id="rightbox">
+				<div class="line2"></div>
+				$data[content]
+				<div class="clear">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clear">
+</div>
+<!--{if $addcontent}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/images/dialog.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<script type="text/javascript">
+<!--{template_init_js}-->
+
+var \$id='$id';
+var editlabel = get_cookie('IS_ADMIN');
+var dialog
+$(document).ready(function(){
+dialog = new P8_Dialog({
+	title_text: '编辑内容',
+	button: false,
+	zIndex:10000,
+	width: 750,
+	height: 500,
+	url: \$this_router+'-addcontent?id='+\$id
+});
+if(editlabel !==undefined){
+$("#editcontent").html("<a href='javascript:void(0)' onClick='dialog.show()'>编辑</a>");
+}
+						   })
+</script>
+<!--{/if}-->
+<!--{template $core foot_pre}-->
+<!--{template $core footer}-->
+<!--{/php168}-->

@@ -1,0 +1,76 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<div class="mainbox mainborder">
+<form name="form" id="searchFrom" action="" method="post">
+<table class="columntable formtable hover_table click_changeable" width="100%" style="text-align:center" >
+<tr bgcolor="#eeeeee" class="title">
+	<td>统计</td>
+</tr>
+<tr>
+	<td>
+		开始时间：<input type="text" name="begintime" value="{if isset($begintime)}$begintime{/if}" autocomplete="off" onclick="rcalendar(this, 'full')" /> 
+		结束时间：<input type="text" name="endtime" value="{if isset($endtime)}$endtime{/if}" autocomplete="off" onclick="rcalendar(this, 'full')" /> 
+		<!--信访部门： <select name="department" id="department">
+					<option value=''>全部</option>
+		<!--{foreach $cates['department'] $key $row}-->
+                  <option value="{$row['id']}" {if !empty($department) && $department==$row['id']}selected{/if}>{$row['name']}</option>
+               <!--{/foreach}-->   
+			   </select>
+		问题类别：<select name="type" id="type">
+		<option value=''>全部</option>
+                 <!--{foreach $cates['type'] $key $row}-->
+                  <option value="{$row['id']}" {if !empty($type) && $type==$row['id']}selected{/if}>{$row['name']}</option>
+               <!--{/foreach}--> 
+                </select>-->
+		<input type="hidden" name="act" value="search"/><input type="submit" value="统计" />
+		<input type="button" value="导出Excel" onclick="download()"/>
+	</td>
+</tr>
+<tr>
+</table>
+<table align="center" cellpadding="3" cellspacing="3" width="100%" class="columntable formtable hover_table click_changeable" width="100%" style="text-align:center" >
+<tr><td></td>
+<!--{foreach $cates['type'] $key $row}-->
+<td><strong>$row[name]</strong></td>
+<!--{/foreach}--> 
+<td><strong>小计</strong></td>
+<tr>
+<!--{foreach $cates['department'] $key $row}-->
+ <tr>
+ <td><strong>$row[name]</strong></td>
+ <!--{foreach $cates['type'] $k $v}-->
+ <td>{if $list[$key][$k]['total']}{$list[$key][$k]['total']}{else}0{/if}/
+ {if $list[$key][$k]['solve']}{$list[$key][$k]['solve']}{else}0{/if}</td>
+<!--{/foreach}-->
+<td>{if $list['total'][$key]['total']}{$list['total'][$key]['total']}{else}0{/if}/
+    {if $list['total'][$key]['solve']}{$list['total'][$key]['solve']}{else}0{/if}</td>
+ </tr>
+<!--{/foreach}--> 
+ <tr>
+ <td><strong>小计</strong></td>
+ <!--{foreach $cates['type'] $k $v}-->
+ <td>{if $list['total'][$k]['total']}{$list['total'][$k]['total']}{else}0{/if}/
+     {if $list['total'][$k]['solve']}{$list['total'][$k]['solve']}{else}0{/if}</td>
+<!--{/foreach}--> 
+ </tr>
+</table>
+</form>
+</div>
+<script type="text/javascript">
+function printthis(){
+	$('#searchFrom input[name="act"]').val('print');
+	$('#searchFrom').attr('target','_blank').submit();
+}
+function searchthis(){
+	$('#searchFrom input[name="act"]').val('search');
+	$('#searchFrom').attr('target','_self').submit();
+}
+function download(style){
+	
+	$('#searchFrom input[name="act"]').val('download');
+	$('#searchFrom').submit();
+
+}
+</script>
+<!--{/php168}-->

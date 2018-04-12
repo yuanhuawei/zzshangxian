@@ -1,0 +1,25 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module header}-->
+<div class="toptitle">
+	发布信息
+</div>
+<div class="postfirst mtop">
+<span>发布流程：</span><span class="thisstep">选择模型</span>----<span class="eachstep">详细发布</span>----<span class="eachstep">发布成功</span>
+</div>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table" >
+	<tr class="head" style="background:#eeeeee">
+		<td>模型</td>
+		<td>发布</td>
+		</tr>
+		<!--{foreach $models $k $v}-->	
+<tr>
+		<td><strong>{$v['alias']}</strong></td>
+		<td><a href="$this_router-add?model=$k" target="_blank">发布</a></td>
+		</tr>
+		<!--{/foreach}-->
+</table>
+
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

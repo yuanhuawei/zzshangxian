@@ -1,0 +1,17 @@
+<!--{php168}-->
+<ul class = "label_ul_s" style="font-size:12px;color:#454545;">
+	<!--{php $i = 0;}-->
+	<!--{foreach $list $value}-->
+	<!--{php $i++;}-->
+	<!--{if $i <= 3}-->
+	<li>
+		<span class = "label_order123">$i</span><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a>
+	</li>
+	<!--{else}-->
+	<li>
+		<span class = "label_order456">$i</span><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a>
+	</li>
+	<!--{/if}-->
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

@@ -1,0 +1,15 @@
+<!--{php168}-->
+<tr>
+	<td class="tdR">
+		<table border="0" cellpadding="0" cellspacing="0" class="role_actions">
+			<tr>
+				<td class="actions_list clear_border_bottom" style="padding-left: 40px;">
+					<!--{foreach $info['actions'] $k $v}-->
+						<span><input type="checkbox" id="acl[actions][$k]" name="acl[actions][$k]" value="1"{if !empty($acl['actions'][$k])} checked{/if} /><label for="acl[actions][$k]">$v</label></span>
+					<!--{/foreach}-->
+				</td>
+			</tr>
+		</table>
+	</td>
+</tr>
+<!--{/php168}-->

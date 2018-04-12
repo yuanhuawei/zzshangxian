@@ -1,0 +1,683 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $this_system menu_bar admin}-->
+<!--{php isset($MODEL) || $MODEL = '';}-->
+
+
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/iColorPicker.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+
+<link rel="stylesheet" href="{$SKIN}/{$SYSTEM}/category_selector.css" type="text/css" />
+
+<script type="text/javascript">
+var MODEL = '$MODEL';
+var form_submit = false;
+{if !empty($this_model['CONFIG']['content_thumb_width'])}P8CONFIG.cthumb_width = {$this_model['CONFIG']['content_thumb_width']};{/if}
+{if !empty($this_model['CONFIG']['content_thumb_height'])}P8CONFIG.cthumb_height = {$this_model['CONFIG']['content_thumb_height']};{/if}
+
+window.onbeforeunload = function(){
+	P8_Upload.del(form_submit);
+};
+
+$(function(){
+	
+	$('#form').validate({
+		rules: {
+			<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+			title: {
+				required: true,
+				maxlength: 80
+			},
+			
+			summary: {
+				maxlength: 220
+			},
+			
+			cid: {
+				required: true
+			},
+			
+			html_view_url_rule: {
+				required: false,
+				maxlength: 80
+			}
+			<!--{/if}-->
+		},
+		
+		messages: {
+			<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+			title: {
+				required: '{$P8LANG['cms_item']['title_required']}',
+				maxlength: '{$P8LANG['cms_item']['title_oversize']}'
+			},
+			
+			summary: {
+				maxlength: '{$P8LANG['cms_item']['summary_oversize']}'
+			},
+			
+			cid: {
+				required: '{$P8LANG['cms_item']['category_required']}'
+			},
+			
+			html_view_url_rule: {
+				maxlength: '{$P8LANG['cms_item']['html_view_url_rule_oversize']}'
+			}
+			<!--{/if}-->
+		},
+		
+		errorPlacement: function(error, element) {
+			if(element.parent().attr('tagName').toLowerCase() == 'td')
+				error.wrap('<div></div>').appendTo(element.parent().prev());
+			else
+				error.wrap('<div></div>').appendTo(element.parent().parent().prev());
+		},
+		
+		wrapper: 'div',
+		
+		submitHandler: function(form){
+			form_submit = true;
+			
+			form.submit();
+		},
+		
+		onkeyup: false
+	});
+});
+</script>
+
+<form action="$this_url" method="post" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="formtable">
+				<tr>
+					<td colspan="2" class="title">
+						<!--{if $ACTION == 'add' || $ACTION == 'addon'}-->
+						{$P8LANG['cms_item']['add']} <!--{if $ACTION == 'addon'}--> - $data[title]<!--{/if}-->
+						<!--{elseif $ACTION == 'update' || $ACTION == 'update_addon'}-->
+						{$P8LANG['cms_item']['update']} - $data[title] - {$this_module.CONFIG['verify_acl'][$data['verified']]['name']}
+						<!--{/if}-->
+					</td>
+				</tr>
+				<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+				<tr>
+					<td colspan="2" id="tabs">
+						<ul class="boxmenu mtop but_border">
+							<li class="bm2_over" id="tab_1"><a class="bm_l">基本信息</a></li>
+							<li class="bm2_out" id="tab_2"><a class="bm_l">其它设置</a></li>
+						</ul>
+					</td>
+				</tr>
+				<!--{/if}-->
+				
+				<tr>
+					<td>
+						<fieldset>
+							<table class="formtable columntable" id="tabs-1">
+								<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+								<tr>
+									<td class="tdL" width="15%">{$P8LANG['cms_item']['category']}</td>
+									<td class="tdR" width="85%">
+										<span id="cids"></span>
+										<input type="button" value="{$P8LANG['select_category']}" onclick="dialog.show()" />
+										<input type="hidden" name="cid" value="{if isset($data['cid'])}$data[cid]{/if}" />
+										<input type="hidden" id="cid" />
+									</td>
+								</tr>
+								<tr>
+									<td class="tdL">{$P8LANG['title']}</td>
+									<td class="tdR">
+										<input type="text" class="txt" name="title"  value="{if !empty($data['title'])}{$data['title']}{/if}" size="60" />
+										&nbsp;&nbsp; 
+										{$P8LANG['cms_item']['title_color']}<input type="text"  name="title_color" size="7" id="titlecolor" class="iColorPicker" value="{if !empty($data['title_color'])}$data[title_color]{/if}" onclick="iColorShow('titlecolor','titlecolor', function(v){ $('#titlecolor').val(v);})" autocomplete="off" />
+										{$P8LANG['cms_item']['title_bold']}<input type="checkbox" name="title_bold" value="1"{if !empty($data['title_bold'])} checked{/if} />
+									</td>
+								</tr>
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['sub_title']}</td>
+									<td class="tdR">
+										<input type="text" class="txt" name="sub_title"  value="{if !empty($data['sub_title'])}{$data['sub_title']}{/if}" size="60" />
+										<input type="button" value="{$P8LANG['cms_item']['sub_title_hint']}" onclick="$(this).prev().val('xxx|http://')" />
+									</td>
+								</tr>
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['source']}</td>
+									<td class="tdR">
+										<input type="text" class="txt" name="source" id="source" value="{if !empty($data['source'])}{$data['source']}{/if}" size="60" />
+										<input type="button" value="{$P8LANG['cms_item']['source_hint']}" onclick="$('#source').val('xxx|http://')" />
+									</td>
+								</tr>
+								
+								<!--{if $allow_attribute}-->
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['attribute']['']}</td>
+									<td class="tdR">
+										<!--{foreach $this_module->attributes $aid $v}-->
+											<!--{if $IS_FOUNDER || !empty($this_module->CONFIG['attribute_acl'][$aid][$ROLE])}-->
+											<input type="checkbox" id="attribute_$aid" name="attribute[$aid]" value="$aid" {if isset($data['attributes'][$aid])} checked{/if} /><span title="{if !empty($attributes[$aid])}{$attributes[$aid]['last_setter']} 于 {date('Y-m-d H:i', $attributes[$aid]['timestamp'])}设置{/if}"><label for="attribute_$aid">{$P8LANG['cms_item']['attribute'][$aid]}</label></span>&nbsp;
+											<!--{/if}-->
+										<!--{/foreach}-->
+										<span class="help">{$P8LANG['cms_item']['attribute']['hint']}</span>
+									</td>
+								</tr>
+								<!--{/if}-->
+								
+								<tr>
+									<td class="tdL">{$P8LANG['keyword']}</td>
+									<td class="tdR">
+										<input name="keywords" id="keywords" type="text" class="txt" size="50" value="{if !empty($data['keywords'])}$data[keywords]{/if}" />
+										{$P8LANG['cms_item']['keyword_hint']}
+									</td>
+								</tr>
+								
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['frame']}</td>
+									<td class="tdR">
+										<input type="text" class="txt" name="frame" id="frame"  value="{if !empty($data['frame'])}{$data['frame']}{/if}" size="50" />
+										<input type="button" onclick="uploader.choseup();" value="{$P8LANG['upload']}" />
+										<input type="button" id="frame_toggle" onclick="" value="" style="display: none;" />
+										<a href="###" onclick="uploader.image_cut()">[$P8LANG[image_cut]]</a><br />
+										
+										<script type="text/javascript">
+										var uploader;
+										$(function(){
+											uploader = new P8_Upload({
+												element: {
+													src: $('#frame'),
+													attribute: 'value'
+												},
+												param: {
+													return_thumb: true<!--{if !empty($this_model['CONFIG']['frame_thumb_width']) && !empty($this_model['CONFIG']['frame_thumb_height'])}-->,
+													thumb_width: {$this_model['CONFIG']['frame_thumb_width']},
+													thumb_height: {$this_model['CONFIG']['frame_thumb_height']}
+													<!--{/if}-->
+												}
+											});
+										});
+										</script>
+									</td>
+								</tr>
+								
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['summary']}</td>
+									<td class="tdR">
+										<textarea name="summary" cols="90" rows="5">{if !empty($data['summary'])}{$data['summary']}{/if}</textarea>
+									</td>
+								</tr>
+								<!--{/if}-->
+								
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['addon_title']}</td>
+									<td class="tdR">
+										<input type="text" name="addon_title" size="40" value="{if isset($data['addon_title'])}$data[addon_title]{/if}" />
+										<span class="help">只能在内容页显示</span>
+									</td>
+								</tr>
+								
+								<tr>
+									<td class="tdL">相关设置</td>
+									<td class="tdR">
+										<input type="checkbox" name="capture_image" id="capture_image" value="1" /><label for="capture_image">保存远程图片</label>
+									</td>
+								</tr>
+								
+								<!--{if $ACTION == 'update' || $ACTION == 'update_addon' || $ACTION == 'addon'}-->
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['addon']}</td>
+									<td class="tdR pages">
+										$pages
+										<input type="button" value="{$P8LANG['add']}" onclick="window.location.href = '$this_router-addon?model=$MODEL&iid=$data[iid]&verified=$verified'" />
+									</td>
+								</tr>
+								<!--{/if}-->
+								
+								<!--
+								<tr>
+									<td class="tdL">工具箱</td>
+									<td class="tdR">
+										
+										<input name="" type="checkbox" value="" />是否将内容中的外部图片采集回来(网速慢时，很影响速度)<br />
+										<input name="" type="checkbox" value="" />是否将内容中的超链接去除
+									</td>
+								</tr>
+								-->
+								
+														<!--{foreach $this_model['fields'] $field $field_data}-->
+								<!--{php if(!$field_data['editable']) continue;}-->
+								<tr>
+									<td class="tdL"><!--{if $field_data['not_null']}--><font color="red">*</font><!--{/if}-->{$field_data['alias']}<!--{if !empty($field_data['description'])}--> <span class="help">$field_data[description]</span><!--{/if}--></td>
+									<td class="tdR">
+									<!--{php 
+										$__name = '';
+										include template($core, 'widget/'. $field_data['widget'], 'default');
+										
+										switch($field_data['widget']){
+										
+										case 'checkbox': case 'multi_select':
+											$__name = '[]';
+										break;
+										case 'uploader':case 'image_uploader':
+											$__name = '[url]';
+										break;
+										case 'multi_uploader':
+											$__name = '[url][]';
+										break;
+										
+										}
+									}-->
+									<!--{if !empty($field_data['units'])}-->$field_data[units]<!--{/if}-->
+									</td>
+								</tr>
+								<!--{if $field_data['not_null']}-->
+								<script type="text/javascript">
+								$(document).ready(function(){
+									$('#form *[name="field#[$field]$__name"]').rules('add', {
+										required: function(){ return !$('#url').val().length && true;},
+										messages: { required: '{$P8LANG['cms_item']['field_required']}'}
+									});
+								});
+								</script>
+								<!--{/if}-->
+								<!--{/foreach}-->
+														
+														<tr style="display: none;">
+									<td class="tdL">{$field_data['alias']}</td>
+									<td class="tdR">
+																										$(function(){
+											$('#form *[name="field#[$field]$__name"]').rules('add', {
+												required: function(){ return !$('#url').val().length && true;},
+												messages: { required: '{$P8LANG['cms_item']['field_required']}'}
+											});
+										});
+																	</td>
+								</tr>
+														
+							</table>
+						</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+						<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+						<fieldset style="display:none">
+							<table id="tabs-2" class="formtable">
+							<tr>
+								<td class="tdL">{$P8LANG['cms_item']['assistant_category']} </td>
+								<td class="tdR">
+									<input type="button" value="选择" onclick="asct_dialog.show()"/>
+									<input type="hidden" id="categories" />
+									<input type="text" id="forcategories" name="assist_category" value="{if !empty($assist_categories)}$assist_categories{/if}" />
+									<div id="category_path"></div>
+		<script type="text/javascript">
+
+		var asct_dialog = new P8_Dialog({
+			title_text: '{$P8LANG['select_category']}',
+			button: true,
+			width: 700,
+			height: 300,
+			show: function(){
+				_cs.init();
+			},
+			ok: function(){
+				var values = _cs.get_value();
+				$('#forcategories').val(values.join(','));
+				_category_path(values);
+			}
+		});
+
+		var _cs = new Recursive_Selector({
+			url: '{$this_system.controller}/assist_category-json',
+			multiple: true,
+			input: $('#categories'),
+			dialog: asct_dialog,
+			sub_property: 'categories',
+			values: $('#form input[name="assist_category"]').val(),
+			init_callback: function(){
+				_category_path(this.get_value());
+			},
+			item_callback: function(cat, item){
+				if(cat.categories !==undefined){
+					item.find('span').addClass('frame_category');
+					item.find('input[type=checkbox]').attr('disabled', true);
+				}
+				
+				if(cat.categories)
+					item.addClass('sub_category');
+			}
+		});
+
+		function _category_path(cids){
+			$('#category_path').html('');
+			
+			cids = array_filter(cids);
+			
+			var html = '';
+			for(var i in cids){
+				
+				_cs.get_by_id(cids[i], function(json){
+					if(!json) return;
+					
+					var p = [];
+					while(true){
+						p.unshift(json.name);
+						if(json.parent == 0) break;
+						
+						json = _cs.get_by_id(json.parent);
+					}
+					html += '<div>'+ p.join(' &gt; ') +'</div>';
+				});
+			}
+			
+			$('#category_path').html(html);
+		}
+		$(function(){
+			_cs.init();
+		 });
+		</script>
+									
+									
+									</td>
+								</tr>
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['url']}</td>
+									<td class="tdR">
+										<input type="text" name="url" id="url" value="{if !empty($data['url'])}$data[url]{/if}" size="60" />
+										<span class="help">{$P8LANG['cms_item']['url_note']}</span>
+									</td>
+								</tr>
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['author']}</td>
+									<td class="tdR">
+										<input type="text" name="author" id="author" value="{if !empty($data['author'])}$data[author]{/if}"/>
+									</td>
+								</tr>
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['editer']}</td>
+									<td class="tdR">
+										<input type="text" name="editer" id="editer" value="{if !empty($data['editer'])}$data[editer]{/if}"/>
+									</td>
+								</tr>
+								<!--{if $allow_list_order}-->
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['list_order']['']}</td>
+									<td class="tdR">
+										<input type="text" name="list_order" value="{if isset($data['list_order_date'])}$data[list_order_date]{/if}" autocomplete="off" onclick="rcalendar(this, 'full')" />
+										<span class="help">{$P8LANG['cms_item']['list_order']['note']}</span>
+									</td>
+								</tr>
+								<!--{/if}-->
+								<!--{if $allow_create_time}-->
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['create_time']}</td>
+									<td class="tdR">
+										<input type="text" name="timestamp" value="{if isset($data['timestamp_date'])}$data[timestamp_date]{/if}" autocomplete="off" onclick="rcalendar(this, 'full')" />
+									</td>
+								</tr>
+								<!--{/if}-->
+								
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['forbidden_comment']}</td>
+									<td class="tdR">
+										<input type="checkbox" name="forbidden_comment" value="1"{if !isset($data['allow_comment']) && empty($this_module->CONFIG['allow_comment']) || isset($data['allow_comment']) && empty($data['allow_comment'])} checked{/if} />
+									</td>
+								</tr>
+								
+								<!--{if $allow_verify}-->
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['verify']['']}</td>
+									<td class="tdR">
+										<input type="checkbox" name="verify" value="1"{if $ACTION == 'add' || $data['verified'] == 1} checked{/if} />
+									</td>
+								</tr>
+								<!--{/if}-->
+								
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['html_at_once']}</td>
+									<td class="tdR">
+										<input type="checkbox" name="html" value="1"{if $this_module->CONFIG['htmlize']} checked{/if} />
+									</td>
+								</tr>
+								
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['fee']}</td>
+									<td class="tdR">
+										<input type="radio" name="credit_type" id="credit_0" value="0" /><label for="credit_0">{$P8LANG['cms_item']['no_fee']}</label>
+										<!--{foreach $core->credits $k $v}-->
+										<input type="radio" name="credit_type" id="credit_$k" value="$k"{if !empty($data['credit_type']) && $data['credit_type'] == $k} checked{/if} /><label for="credit_$k">$v[name]($v[unit])</label>
+										<!--{/foreach}-->
+										{$P8LANG['cms_item']['count']}:<input type="text" name="credit" value="{if !empty($data['credit'])}$data[credit]{/if}" size="3" />
+									</td>
+								</tr>
+								
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['html_view_url_rule']}</td>
+									<td class="tdR">
+										<input type="text" name="html_view_url_rule" value="{if !empty($data['html_view_url_rule'])}$data[html_view_url_rule]{/if}" size="80" id="html_view_url_rule" />
+										<input type="button" value="{$P8LANG['default']}" onclick="$('#html_view_url_rule').val('{\$category_url}/{\$Y}-{\$m}-{\$d}/content-{\$id}#-{\$page}#.html')" />
+										<span class="help">{$P8LANG['cms_item']['view_url_rule_note']}</span>
+									</td>
+								</tr>
+								
+								<tr>
+									<td class="tdL">{$P8LANG['seo_keywords']}</td>
+									<td class="tdR">
+										<input type="text" name="seo_keywords" value="{if !empty($data['seo_keywords'])}$data[seo_keywords]{/if}" size="80" />
+									</td>
+								</tr>
+								
+								<tr>
+									<td class="tdL">{$P8LANG['seo_description']}</td>
+									<td class="tdR">
+										<input type="text" name="seo_description" value="{if !empty($data['seo_description'])}$data[seo_description]{/if}" size="80" />
+									</td>
+								</tr>
+								<!--
+								<tr>
+									<td class="tdL">独立标签后缀</td>
+									<td class="tdR">
+										<input type="text" name="label_postfix" value="{if !empty($data['label_postfix'])}$data[label_postfix]{/if}" size="15" />
+										<input type="button" value="填充后缀" onclick="$(this).prev().val('item_$data[id]');" />
+									</td>
+								</tr>
+								-->
+								<tr>
+									<td class="tdL">{$P8LANG['template']}</td>
+									<td class="tdR">
+										<input type="text" name="template" id="template" value="{if !empty($data['template'])}$data[template]{/if}" size="30" />
+										<input type="button" value="{$P8LANG['select_template']}" onclick="template_dialog.show();" />
+									</td>
+								</tr>
+								
+								
+								<!--{if $ACTION == 'update'}-->
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['ip']}</td>
+									<td class="tdR">$data[ip]</td>
+								</tr>
+								<tr>
+									<td class="tdL">{$P8LANG['cms_item']['last_update_ip']}</td>
+									<td class="tdR">$data[last_update_ip]</td>
+								</tr>
+								<!--{/if}-->
+							</table>
+						</fieldset>
+						<!--{/if}-->
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdR" align="center">
+						<input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+</div>
+
+<input type="hidden" name="model" value="$MODEL" />
+<input type="hidden" name="verified" value="{if isset($verified)}$verified{/if}" />
+<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" />
+<input type="hidden" name="iid" value="{if !empty($data['iid'])}{$data['iid']}{/if}" />
+<input type="hidden" name="page" value="{if !empty($data['page'])}{$data['page']}{/if}" />
+<input type="hidden" name="_referer" value="$HTTP_REFERER" />
+<input type="hidden" name="action" value="$ACTION" />
+<input type="hidden" name="attachment_hash" value="<!--{php echo $attachment_hash = unique_id(16);}-->" />
+
+<!--{if $ACTION == 'addon' || $ACTION == 'update_addon'}-->
+<input type="hidden" name="url" id="url" />
+<input type="hidden" name="html" value="1" />
+<!--{/if}-->
+</form>
+
+<script type="text/javascript">
+var attachment_hash = '$attachment_hash';
+
+<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+var my_addible_category = $my_addible_category;
+/*
+var filter = {};
+if(!count(my_addible_category) || my_addible_category[0] === undefined){
+	for(var i in my_addible_category){
+		
+		if(CATEGORY_PATH[i].length > 1){
+			for(var j in CATEGORY_PATH[i]){
+				filter[CATEGORY_PATH[i][j]] = 1;
+			}
+		}else{
+			filter[i] = 1;
+		}
+	}
+	//alert($.toJSON(filter));
+}*/
+
+var dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_category']}',
+	button: true,
+	width: 700,
+	height: 300,
+	ok: function(){
+		var id = cs.get_value();
+		$('#form input[name=cid]').val(id);
+		category_path(id);
+	},
+	show: function(){
+		cs.init();
+	}
+});
+
+var cs = new Recursive_Selector({
+	input: $('#cid'),
+	dialog: dialog,
+	url: '{$this_system.controller}/category-json',
+	sub_property: 'categories',
+	value: $('#form input[name=cid]').val(),
+	filter: function(cat){
+		if(!my_addible_category || my_addible_category[0] || my_addible_category[cat.id]){
+			return true;
+		}
+	},
+	init_callback: function(){
+		category_path(this.get_value());
+	},
+	item_callback: function(cat, item){
+		if(cat.model != '$MODEL')
+			item.css({opacity: '0.3', alpha: '(opacity=30)'});
+		
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	},
+	change: function(select){
+		var cat = cs.get_by_id(select.data('value'));
+		if(cat.model != '$MODEL' && !cat.categories){
+			alert('你选了一个非本模型的分类');
+			
+			return false;
+		}
+	}
+});
+
+function category_path(cid){
+	if(!cid){
+		$('#cids').html('');
+		return;
+	}
+	
+	var tmp = cs.get_by_id(cid);
+	var html = '';
+	
+	while(true){
+		html = tmp.name +' &gt; '+ html;
+		if(tmp.parent == 0) break;
+		
+		tmp = cs.get_by_id(tmp.parent);
+	}
+	
+	$('#cids').html(html);
+}
+
+var template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 350,
+	ok: function(){
+		$('#template').val(template_selector.value);
+	},
+	show: function(){
+		template_selector.init();
+	}
+});
+template_dialog.content.height(300);
+
+var template_selector = new Template_Selector({
+	base_dir: '{$this_module.CONFIG['template']}/{$SYSTEM}/{$MODULE}/',
+	template_dir: '{$core.CONFIG['template_dir']}',
+	selected: '{if !empty($data['template'])}$data[template]{/if}',
+	dialog: template_dialog
+});
+<!--{/if}-->
+
+
+$(function(){
+	<!--{if $ACTION == 'add'}-->
+	$('#form input[name=title]').focus();
+	<!--{/if}-->
+	
+	<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+	show_title_nav('tabs','bm2_over','bm2_out');
+	
+	cs.init();
+	<!--{/if}-->
+});
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

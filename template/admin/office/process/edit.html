@@ -1,0 +1,46 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+	<table class="formtable">
+		<tr>
+			<td class="title">快捷操作</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				<ul>
+					<li><a href="{$this_router}-process">流程列表</a></li>
+					<li><a href="{$this_router}-process?act=add">添加流程</a></li>
+				</ul>
+			</td>
+		</tr>
+		
+	</table>
+</div>
+<form action="$this_url" method="post">
+	<table class="mainbox mainborder">
+	<tr><td>
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td colspan="2" class="title">{$P8LANG[$act]}流程</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">流程名称</td>
+				<td class="tdR"><input type="text" class="txt" name="name" size="30" value="{if !empty($data['name'])}{$data['name']}{/if}" /></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">流程描述 </td>
+				<td class="tdR"><textarea rows="3" cols="50" name="description"><!--{if !empty($data['description'])}--><!--{$data['description']}--><!--{/if}--></textarea></td>
+			</tr>
+			
+			<tr>
+			  <td class="tdL"><input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}"/>
+							<input type="hidden" name="act" value="{$act}"/></td>
+			  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		  </tr>
+	    </table>
+	</td></tr>
+    </table>
+</form>
+<!--{/php168}-->

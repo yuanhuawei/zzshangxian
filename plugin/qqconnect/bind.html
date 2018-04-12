@@ -1,0 +1,147 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>QQ会员绑定_{$core.CONFIG['site_name']}</title>
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/member_common.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript">
+</script>
+</head>
+<body>
+<style>
+.fright{float:right}
+.fleft{float:left}
+a:link, a:visited { color:#666666;}
+a:hover { color:#ff0000; text-decoration:underline; }
+.color a{color:#07669B}
+label.yes { background: url(yes.gif) no-repeat 0 8px; padding-left: 18px; display: block; }
+label.no { background: url(no.gif) no-repeat 0 8px; padding-left: 18px; display: block; }
+body{background:url(reg_top_bg.gif) repeat-x}
+.wrap{width:847px;overflow-x:hidden;margin:0 auto;}
+.start{color:#F00}
+.head{padding:0px 5px 0px 10px;border-bottom:#076B9F 3px solid;margin-top:50px;}
+.title{color:#FF6633;font-size:16px;font-weight:bolder;padding:15px 0px;}
+.reg_box{border:#CDDEF0 1px solid;border-top:#CDDEF0 2px solid;}
+.reg_box .rhead{background-color:#E7EBED;padding:10px 0px 5px 10px;font-weight:bolder;color:#666666;}
+.textinput{border:#7F9DB9 1px solid;width:206px;height:17px;}
+.reg_table{width:100%;line-height:35px;font-size:14px;margin-bottom:10px;margin-top:20px;}
+.chose{width:98%;margin-left:10px;padding:15px 0px;text-align:center;border-bottom:#CCCCCC 1px dashed;}
+.fright{float:right}
+#tab_1 .head{border-bottom:#076B9F 2px solid; margin:15px; font-size:14px}
+#tab_1 .head span{padding:5px 30px 0 30px}
+.over{background-color:#076B9F;color:#ffffff;}
+.note{color:red;font-size:12px}
+
+</style>
+<div class="wrap">
+	<div class="head">
+		<span class="fright color"><a href="{$RESOURCE}">{$P8LANG['back_to_index']}</a> | <a href="{$core.controller}/core/page-view-id-1" target="_blank">关于我们</a> </span> <span style="position:relative;top:-5px;color:#AAAAAA;">| 网站会员绑定注册</span>
+	</div>
+	<div class="title">
+		欢迎您的注册，网站会员将得到各方面实用功能服务
+	</div>
+	<div class="reg_box">
+		<div class="rhead">
+			填写相关信息。
+		</div>
+		<div>
+		<div class="gov_index_middle " id="tab_1">
+			<div class="head" style="text-align:center">
+				<span class="over" >已有帐号</span> <span >没有帐号</span>
+			</div>
+			<div class="main">
+				<div  class="content">
+				<form method="post" id="form" action="$this_url" >
+				<table width="100%" align='center'>
+					<tr>
+						<td width="40%" align="right">帐号：</td><td><input type="text" style="width:200px" name="username" /></td>
+					</tr>
+					<tr>
+						<td align="right">密码：</td><td><input type="password" style="width:200px" name="password" /></td>
+					</tr>
+					<tr>
+						<td></td><td><input type="submit" value="确定" style="border:1px #AAAAAA solid;padding:2px 10px;background-color:#ECE9D8;margin:20px 0px; cursor:pointer"/></td>
+					</tr>
+				</table>
+				</form>
+				</div>
+				<div  class="content">
+				<form method="post" id="form" action="$this_url" onsubmit="return checkform()">
+					<table  width="100%"  align='center'>
+					<tr>
+						<td width="40%" align="right">帐号：</td><td><input type="text" style="width:200px" id="username" name="username" onblur="checkUsername(this);"/>&nbsp;<span id="username_hint" class="note"></span></td>
+					</tr>
+					<tr>
+						<td align="right">密码：</td><td><input type="password" style="width:200px" id="password" name="password"/ onblur="checkpasswd(this);">&nbsp;<span id="passwd_verify"  class="note"></span></td>
+					</tr>
+					<tr>
+						<td align="right">Email：</td><td><input type="text" name="email" id="email" style="width:200px" onblur="valid_email(this)"/>&nbsp;<span class="note" id="mail_verify"></span></td>
+					</tr>
+					<tr>
+						<td></td><td><input type="submit" value="确定" style="border:1px #AAAAAA solid;padding:3px 10px;background-color:#ECE9D8;margin:20px 0px; cursor:pointer"/></td>
+					</tr>
+				</table>
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>	
+<script language="javascript">
+$(document).ready(function(){
+MoveTabs('tab_1',0,'mouseover');
+});
+check1 = check2 = check3 = true;
+function checkUsername(){
+	if($('#username').val()<3){
+		$("#username_hint").html("用户名太短");
+		check1 = false;
+	}
+	else if(!/^[A-Za-z0-9]\w{2,}$/.test($('#username').val())){
+		$("#username_hint").html("用户名不允许有特殊字符");
+		check1 = false;
+	}else{
+		$("#username_hint").css("display","none");
+		check1 = true;
+	}
+}
+function valid_email(){
+	if($('#email').val().length > 3 && /^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/.test($('#email').val())){
+		$('#mail_verify').html('');
+		check2 = true;
+	}else{
+		$('#mail_verify').html('邮箱格式不正确');
+		check2 = false;
+	}
+}
+function checkpasswd(){
+	if($('#password').val().length < 5){
+		$('#passwd_verify').html('密码长度太短');
+		check3 = false;
+	}else{
+		$('#passwd_verify').html('');
+		check3 = true;
+	}
+
+}
+
+function checkform(){
+checkUsername();
+valid_email();
+checkpasswd()
+if(check1 && check2 && check3)
+	return true;
+else 
+	return false;
+
+}
+</script>
+</body>
+</html>
+<!--{/php168}-->

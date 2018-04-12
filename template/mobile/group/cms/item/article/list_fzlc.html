@@ -1,0 +1,17 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!--{template $core header_two}-->
+<div class="position">
+	<a href="{$core.mobile_controller}">首页</a>
+	<!--{foreach $parent_cats $v}-->
+	&gt; <a href="$v[m_url]">$v[name]</a>
+	<!--{/foreach}-->
+	&gt; <a href="$CAT[m_url]">$CAT[name]</a> 
+</div>
+<div class="history">
+	<div class="fzlist">
+		$label[group_mobile_history_con1]
+	</div>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->

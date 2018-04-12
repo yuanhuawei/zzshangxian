@@ -1,0 +1,105 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<form action="$this_url" method="POST">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+						<tr class="title">
+						  <td colspan="3" class="title">添加友情链接</td>
+						</tr>
+						<tr> 
+						  <td class="tdL">链接名称：<font color="red">*</font></td>
+						  <td class="tdL"><input class="txt" type="text" name="link[name]" value="{if !empty($link['name'])}$link[name]{/if}"  style="width:300px;"/></td>
+						  <td class="tdR">&nbsp;</td>
+						 </tr>
+						 <tr> 
+						  <td class="tdL">所属类别：<p class="help">注：如果此处没有分类可选，请先添加分类！</p></td>
+						  <td class="tdL">
+							 <select name="link[fid]" >
+								<!--{if !empty($sorts)}-->
+								<!--{foreach $sorts $sort}-->
+								<option value="$sort[fid]" {if (!empty($link['fid'])&&$link['fid']==$sort['fid'])}selected{/if}>$sort[name]</option>
+								<!--{/foreach}-->
+								<!--{/if}-->
+							</select>
+						  </td>
+						  <td class="tdR">&nbsp;</td>
+						 </tr>
+						 <tr> 
+						  <td class="tdL">网址：<font color="red">*</font></td>
+						  <td class="tdL"><input class="txt" type="text" name="link[url]" value="{if !empty($link['url'])}$link[url]{else}http://{/if}"  style="width:300px;"/></td>
+						  <td class="tdR">&nbsp;</td>
+						 </tr>
+						 <tr> 
+						  <td class="tdL">LOGO图片(可为空)：</td>
+						  <td class="tdL"><input id="logo" class="txt" type="text" name="link[logo]" value="<!--{if !empty($link['logo'])}-->$link[logo]<!--{/if}-->"  style="width:300px;"/></td>
+						  <td class="tdR"><input type="button" value="选择图片" onclick="uploaddialog.choseup();" /></td>
+						 </tr>
+						 <tr> 
+						  <td class="tdL">描述介绍(可不填)：</td>
+						  <td class="tdL"><textarea name="link[descrip]" rows="6" cols="50"/><!--{if !empty($link['descrip'])}-->$link[descrip]<!--{/if}--></textarea></td>
+						  <td class="tdR">&nbsp;</td>
+						 </tr>
+						  <tr> 
+						  <td class="tdL">是否显示：</td>
+						  <td class="tdL"><input type="radio" name="link[ifhide]" value="0" {if empty($link['ifhide'])}checked{/if} />显示<input type="radio" name="link[ifhide]" value="1" {if !empty($link['ifhide'])}checked{/if} />不显示</td>
+						  <td class="tdR">&nbsp;</td>
+						 </tr>
+						   <tr> 
+						  <td class="tdL">审核与否：</td>
+						  <td class="tdL"><input type="radio" name="link[yz]" value="1" {if !isset($link['yz']) || !empty($link['yz'])}checked{/if}>已审核<input type="radio" name="link[yz]" value="0" {if isset($link['yz']) && empty($link['yz'])}checked{/if}>未审核</td>
+						  <td class="tdR">&nbsp;</td>
+						 </tr>
+						   <tr> 
+						  <td class="tdL">是否强制为文字链接：</td>
+						  <td class="tdL"><input type="radio" name="link[iswordlink]" value="1" {if !empty($link['iswordlink'])}checked{/if}>强制<input type="radio" name="link[iswordlink]" value="0" {if empty($link['iswordlink'])}checked{/if}>不强制</td>
+						  <td class="tdR">&nbsp;</td>
+						 </tr>
+						  <tr> 
+						  <td class="tdL">截止显示日期：</td>
+						  <td class="tdL"><input class="txt" type="text" name="link[endtime]" value="<!--{php if(!empty($link['endtime']))echo date('Y-m-d H:i:s', $link['endtime']);}-->" onclick="rcalendar(this, 'full')"/></td>
+						  <td class="tdR">（时间格式：<font color="red">0000-00-00 00:00:00</font>，留空则永久有效）</td>
+						 </tr>
+					</table>
+				</td></tr>
+				<tr><td colspan="3" class="footer" align="center"><input type="submit" class="submit_btn" value="提交数据" /></td></tr>
+			</table>
+		</div>
+	</div>
+	<input type="hidden" name="link[id]" value="<!--{if !empty($link['id'])}-->$link[id]<!--{/if}-->"/>
+</form>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr><td>
+				<table class="columntable formtable hover_table">
+					<tr class="title">
+					  <td class="title">说明:</td>
+					</tr>
+					<tr> 
+					  <td>可以通过标签来调用友情链接.</td>
+					</tr>
+				</table> 
+			</td></tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+var uploaddialog = new P8_Upload({
+	element: {
+		src: $('#logo'),
+		attribute: 'value'
+	}
+});
+
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->
+
+

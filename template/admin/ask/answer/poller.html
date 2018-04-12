@@ -1,0 +1,163 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $this_module header admin}-->
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+				<form action="{$this_router}-{$ACTION}" id="form" name="form" method="post">
+					<table class="formtable columntable hover_table click_changeable" id="list">			
+						<tr class="title">
+							<td>{$P8LANG['ask_choose']}</td>
+							<td>ID</td>
+							<td>{$P8LANG['ask_belong_answer']}</td>
+							<td>{$P8LANG['user']}</td>
+							<td>{$P8LANG['ask_time']}</td>
+							<td>IP</td>
+							<td>{$P8LANG['ask_verify_title']}</td>
+							<td>{$P8LANG['ask_markup_handler']}</td>
+							<td class="cleartd">{$P8LANG['operation']}</td>
+						</tr>
+						<!--{if empty($list)}-->
+							<tr><td colspan="9">{$P8LANG['ask_no_records']}</td></tr>
+						<!--{else}-->
+						<!--{foreach $list $value}-->
+						<tr id="poller_{$value['id']}">
+							<td><input type="checkbox" name="ids[]" value="{$value['id']}"/></td>
+							<td>{$value['id']}</td>
+							<td class="txtlist"><a href="{$value['item_url']}" target="_blank">{$value['answer_content']}</a></td>
+							<td><!--{if $value['anonymous'] && empty($value['username'])}-->{$P8LANG['ask_anonymous']}<!--{else}--><a href="#{$value['uid']}">{$value['username']}</a><!--{/if}--></td>
+							<td><!--{php echo date('Y-m-d H:i:s',$value['addtime']);}--></td>
+							<td>{$value['ip']}</td>
+							<td>
+								<span id="verify_{$value['aid']}_{$value['id']}"><!--{if $value['verify']}--><img src="{$SKIN}/check_yes.gif"/><!--{else}--><img src="{$SKIN}/check_no.gif"/><!--{/if}--></span>
+							</td>
+							<td><!--{if $value['handler']}--><img src="{$SKIN}/check_yes.gif" id="handler_{$value['id']}"/><!--{else}--><img src="{$SKIN}/check_no.gif" id="handler_{$value['id']}"/><!--{/if}--></td>
+							<td class="cleartd">
+								<span id="locked_{$value['id']}"><!--{if $value['verify']}--><a href="javascript:void(0);" onclick="javascript:locked({id:{$value['aid']},verify:0})">{$P8LANG['ask_locked_answer']}</a><!--{else}--><a href="javascript:void(0);" onclick="javascript:locked({id:{$value['aid']},verify:1})">{$P8LANG['ask_unlocked_answer']}</a><!--{/if}--></span> | 
+								<a href="javascript:void(0);" onclick="javascript:view_poller({id:{$value['id']}});">{$P8LANG['ask_view_content']}</a> | <a href="javascript:void(0);" onclick="javascript:delete_poller({id:{$value['id']}});">{$P8LANG['delete']}</a>
+							</td>
+						</tr>
+						<!--{/foreach}-->
+						<!--{/if}-->
+					</table>
+					</form>
+					<!--{if $list}-->
+					<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+						<tr>
+							<td width="6%">
+								<div align="right"><input type="checkbox" id="ChkAll" onclick="check_all(this, 'ids[]', $('#list'))"/> {$P8LANG['ask_checkall']}</div>
+							</td>
+							<td width="*">
+								<input type="button" name="Submit" value="{$P8LANG['delete']}" class="edit_btn" onclick="javascript:delete_poller({});"/>
+							</td>
+						</tr>
+						<!--{if $pages}-->
+						<tr>
+						<td colspan="2" height="40" class="pages">&nbsp;&nbsp;&nbsp;{$pages}</td>
+						</tr>
+						<!--{/if}-->
+					</table>
+					<!--{/if}-->
+				</td></tr>
+			</table>
+		</div>
+	</div>
+<script type="text/javascript">
+var reg = /^[0-9]*$/;
+
+//查看投诉内容
+function view_poller(options)
+{
+	if(options.id == undefined || !reg.test(options.id)){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+
+	var poller_dialog = new P8_Dialog({
+	title_text: '',
+	button: true,
+	width: 700,
+	height: 300,
+	url: '{$this_router}-view_poller?id='+options.id,
+	ok: function(){
+		
+		}
+	});
+	poller_dialog.show();
+}
+
+
+//批量删除投诉内容
+function delete_poller(options)
+{
+	var ids = data = [];
+
+	if(options.id == undefined || !reg.test(options.id)){
+		ids = checked_values('ids[]', $('#list'));
+		var data = ajax_parameters({ids:ids});
+	}else{
+		ids = options.id;
+		var data = ajax_parameters({ids:[ids]});
+	}
+
+	if(data.length<1){alert('{$P8LANG['ask_not_chose_record']}');return false;}
+
+	if(!confirm('{$P8LANG['ask_delete_tips']}')){
+		return false;
+	}
+
+	$.ajax({
+		url: '{$this_router}-delete_poller',
+		type: 'POST',
+		dataType: 'json',
+		data: data,
+		cache: false,
+		success: function(json){
+			
+			if(!json.length) return;
+
+			for(var i in json){
+				$('#poller_' + json[i]).remove();
+			}
+
+		}
+	});
+}
+
+//锁定答案
+function locked(options)
+{
+	if(options.id == undefined || !reg.test(options.id) || options.verify == undefined){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+
+	if(options.verify == 1){
+		var img = 'check_yes.gif';
+	}else{
+		var img = 'check_no.gif';
+	}
+
+	$.ajax({
+		url: '{$this_router}-verify',
+		type: 'POST',
+		dataType: 'json',
+		data: 'verify=' + options.verify + ajax_parameters({ids:[options.id]}),
+		cache: false,
+		success: function(json){
+			$("span[id^='verify_"+options.id+"_']").each(function(){
+				e = $(this).attr('id').split('_');
+				if(options.verify == 1){
+					$('#locked_'+e[2]).html('<a onclick="javascript:locked({id:'+e[1]+',verify:0})" href="javascript:void(0);">{$P8LANG['ask_locked_answer']}</a>');
+				}else{
+					$('#locked_'+e[2]).html('<a onclick="javascript:locked({id:'+e[1]+',verify:1})" href="javascript:void(0);">{$P8LANG['ask_unlocked_answer']}</a>');
+				}
+				$(this).find('img').attr('src','{$SKIN}/'+img);
+			});
+		}
+	});
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

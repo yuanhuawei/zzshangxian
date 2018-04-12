@@ -1,0 +1,128 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/sortable.js"></script>
+<div class="mainbox mainborder">
+	<div class="section">
+		<form name="form" id="form" method="post">
+			<table width="100%" border="0" cellspacing="1" cellpadding="3" class="columntable formtable click_changeable">
+				<tr class="title">
+					<td colspan="2">设置</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['templatestyle']}</td>
+					<td class="tdR">
+					<select name="config[template]">
+					<option value="">----</option>
+					<!--{foreach $core->CONFIG['templates'] $name $alias}-->
+					<!--{if is_dir(TEMPLATE_PATH . $name .'/core/'. $MODULE)}-->
+						<option value="$name"{if !empty($config['template']) && $config['template'] == $name} selected{/if}>$alias</option>
+					<!--{/if}-->
+					<!--{/foreach}-->
+					</select>	<span class="point">一般不作设置</span>			
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">移动风格</td>
+					<td class="tdR">
+					<select name="config[mobile_template]">
+					<option value="">----</option>
+					<!--{foreach $core->CONFIG['templates'] $name $alias}-->
+					<!--{if is_dir(TEMPLATE_PATH . 'mobile/'. $name .'/core/'. $MODULE)}-->
+						<option value="mobile/$name"{if !empty($config['mobile_template']) && $config['mobile_template'] == 'mobile/'.$name} selected{/if}>$alias</option>
+					<!--{/if}-->
+					<!--{/foreach}-->
+					</select>	<span class="point">一般不作设置</span>			
+					</td>
+				</tr>
+				<tr>
+					<td width="100">默认显示状态</td>
+					<td>
+					<input type="radio" name="config[undisplay]" value="0" {if empty($config['undisplay'])}checked{/if}/>显示 <span class="help">选此项，提交后，由会员设为“公开”或“不公开”决定是否显示。</span><br/>
+					<input type="radio" name="config[undisplay]" value="1" {if !empty($config['undisplay'])}checked{/if}/>不显示 <span class="help">选此项，提交后，无论会员设为“公开”或“不公开”都不显示，由审核员决定是否显示。</span><br/>
+					</td>
+				</tr>
+				<tr>
+					<td width="100">短信验证</td>
+					<td>
+					<input type="radio" name="config[mobile_confirm]" value="0" {if empty($config['mobile_confirm'])}checked{/if}/>否 <br/>
+					<input type="radio" name="config[mobile_confirm]" value="1" {if !empty($config['mobile_confirm'])}checked{/if}/>是 <span class="help">填表前需要验证手机号。</span><br/>
+					</td>
+				</tr>
+				<tr>
+					<td width="100">警示设置</td>
+					<td>
+					黄灯<input type="text" name="config[huan]" value="{if !empty($config['huan'])}$config[huan]{else}3{/if}"/> <span class="help">N天没处理完毕，黄灯警示。</span><br/>
+					红灯<input type="text" name="config[hong]" value="{if !empty($config['hong'])}$config[hong]{else}7{/if}"/> <span class="help">N天没处理完毕，红灯警示。</span><br/>
+					</td>
+				</tr>
+				<tr>
+					<td width="100">收件模式</td>
+					<td>
+					<input type="radio" name="config[receive]" value=1 {if !empty($config['receive'])}checked{/if}/>信件分发统一接收&nbsp;<font color=red>接收部门ID</font><input type="text" name="config[redepartment]" value="$config[redepartment]"/><br/>
+					<input type="radio" name="config[receive]" value=0 {if empty($config['receive'])}checked{/if}/>各部门接收<br/>
+					</td>
+				</tr>
+				<tr>
+					<td width="100">部门</td>
+					<td id="department_box">
+			<!--{foreach $cates['department'] $k $row}-->		
+					<p><b style="cursor: move; background: url({$RESOURCE}/images/draggable.png) no-repeat 0px -20px;">&nbsp;&nbsp;<input type="hidden" name="department[order][]" value="{$row['id']}"/></b>
+					&nbsp;{$row['id']} <input name="department[old][{$row['id']}]" type="text" value="{$row['name']}"/> 
+					
+					<!--{if $config['redepartment']!=$row['id']}--><input name="delete[{$row['id']}]" value="{$row['id']}" type="checkbox"/>删除<!--{/if}-->
+					</p>
+			<!--{/foreach}-->		
+					<span id="more_department"></span>
+					<input type="button" value="添加部门" onclick="addmore('department')" />
+					<input type="checkbox" name="" value="" style="margin-left:120px" onclick="javascript:$('#department_box input[type=checkbox]').prop('checked',$(this).prop('checked'))"/>全选		</td>
+				</tr>
+				<tr>
+					<td>问题类别</td>
+					<td id="type_box">
+			<!--{foreach $cates['type'] $k $row}-->		
+					<p><b style="cursor: move; background: url({$RESOURCE}/images/draggable.png) no-repeat 0px -20px;">&nbsp;&nbsp;<input type="hidden" name="type[order][]" value="{$row['id']}"/></b>
+					&nbsp;{$row['id']} <input name="type[old][{$row['id']}]" type="text" value="{$row['name']}"/> <input name="delete[{$row['id']}]" value="{$row['id']}" type="checkbox"/>删除</p>
+			<!--{/foreach}-->		
+					<span id="more_type"></span>
+					<input type="button" value="添加类别" onclick="addmore2('type')" />
+					<input type="checkbox" name="" value="" style="margin-left:120px" onclick="javascript:$('#type_box input[type=checkbox]').prop('checked',$(this).prop('checked'))"/>全选	
+					</td>
+				</tr>
+				<tr>
+				<td></td><td><input type="submit" value="确定" class="submit_btn" /></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+
+$('#department_box').sortable({
+    axis:"y",
+    items:"p",
+    handle:"b",
+    containmentType:"parent"
+})
+
+function addmore(kind){
+	$('#more_'+kind).append('<p><b style="cursor: move; background: url({$RESOURCE}/images/draggable.png) no-repeat 0px -20px;">&nbsp;&nbsp;<input type="hidden" name="'+kind+'[order][]" value="new[]"/></b>&nbsp;<input name=\"'+kind+'[new][]\" type=\"text\" /><input type="button" value="移除" onclick="removeItem(this)"/></p>');
+	//$('#department_box').sortable("refresh");
+}
+
+$('#type_box').sortable({
+    axis:"y",
+    items:"p",
+    handle:"b",
+    containmentType:"parent"
+})
+function addmore2(kind){
+	$('#more_'+kind).append('<p><b style="cursor: move; background: url({$RESOURCE}/images/draggable.png) no-repeat 0px -20px;">&nbsp;&nbsp;<input type="hidden" name="'+kind+'[order][]" value="new[]"/></b>&nbsp;<input name=\"'+kind+'[new][]\" type=\"text\" /><input type="button" value="移除" onclick="removeItem(this)"/></p>');
+}
+function removeItem(obj){
+	$(obj).parent().remove();
+}
+
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

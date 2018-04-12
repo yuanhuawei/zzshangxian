@@ -1,0 +1,31 @@
+<!--{php168}--> 
+<!--{template $core header admin}-->
+ <form name="form1" method="post" action="$this_url?action=$job">
+<table width='100%' cellspacing='1' cellpadding='3' class="tablewidth">
+ 
+    <tr  class="head"> 
+      <td colspan="2"> 
+        <div align='center'><b><font color="#FFFFFF">{$P8LANG['guestbook']['reply']}</font></b></div>
+      </td>
+    </tr>
+    <tr> 
+      <td bgcolor='#FFFFFF' width="12%">{$P8LANG['name']}</td>
+      <td bgcolor='#FFFFFF' width="88%">
+        <input type="text" class="txt" name="postdb[replyer]" value="$rsdb[replyer]">
+      </td>
+    </tr>
+    <tr> 
+      <td bgcolor='#FFFFFF' width="12%">{$P8LANG['content']}</td>
+      <td bgcolor='#FFFFFF' width="88%">
+        <textarea name="postdb[reply]" cols="80" rows="12">$rsdb[reply]</textarea>
+      </td>
+    </tr>
+    <tr> 
+      <td align="center" bgcolor='#FFFFFF' colspan="2"> 
+        <input  class="submit_btn"  type='submit' name='w' value={$P8LANG['submit']}>
+        <input type="hidden" name="id" value="$id">
+      </td>
+    </tr></table>
+  </form>
+  <!--{template $core footer admin}-->
+<!--{/php168}-->

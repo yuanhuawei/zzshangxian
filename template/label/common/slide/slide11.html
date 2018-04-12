@@ -1,0 +1,113 @@
+<!--{php168}-->
+<style type="text/css">
+#focPic_{$label['id']} {
+	width:{$swidth}px;
+	height:<!--{php echo $sheight+77;}-->px;
+	background:url(images/indFocPicBg.png) no-repeat;
+	overflow:hidden;
+}
+#focPic_{$label['id']} .bd {
+	width:{$swidth}px;
+	height:{$sheight}px;
+	overflow:hidden;
+}
+#focPic_{$label['id']} .bd ul li {
+	width:{$swidth}px;
+	height:{$sheight}px;
+	position:relative;
+	overflow:hidden;
+	z-index:1;
+}
+#focPic_{$label['id']} .bd ul li .con .title a {
+	position:absolute;
+	bottom:0px;
+	width:{$swidth}px;
+	height:30px;
+	line-height:30px;
+	display:block;
+	text-align:center;
+	color:#fff;
+	z-index:3;
+}
+#focPic_{$label['id']} .bd ul li .con .bg {
+	filter:alpha(opacity=40);
+	-moz-opacity:0.4;
+	-khtml-opacity: 0.4;
+	opacity: 0.4;
+	background:#000;
+	height:28px;
+	width:<!--{php echo $swidth+8;}-->px;
+	position:absolute;
+	left:0;
+	bottom:0;
+	z-index:2;
+}
+#focPic_{$label['id']} .hd {
+	overflow:hidden;
+}
+#focPic_{$label['id']} .hd ul {
+	padding-left:1px;
+}
+#focPic_{$label['id']} .hd ul li {
+	float:left;
+	padding:4px;
+	height:<!--{php echo ($swidth/4-9)*0.75;}-->px;
+	width:<!--{php echo $swidth/4-9;}-->px;
+	overflow:hidden;
+}
+
+#focPic_{$label['id']} .hd ul li img {
+	width:<!--{php echo $swidth/4-11;}-->px;
+	height:<!--{php echo ($swidth/4-11)*0.75;}-->px;
+	padding:1px;
+	border:1px solid #ccc;
+}
+#focPic_{$label['id']} .hd ul li.on {
+	background:url({$RESOURCE}/skin/label/dot04.png) center top no-repeat;
+}
+#focPic_{$label['id']} .hd ul li.on img {
+	border:1px solid #6395cb;
+}
+#focPic_{$label['id']} .hd ul .title {
+	display:none;
+}
+</style>
+<div class="focPic fl" id="focPic_{$label['id']}">
+  <div class="bd">
+    <ul>
+     <!--{foreach $list $key $value}-->
+      <li style="display: {if $key}none{/if};">
+        <div class="pic"><a target="_blank" href="{$value['url']}"><img src="{$value['frame']}" width="$swidth" height="$sheight" alt="{$value['title']}"></a></div>
+        <div class="con">
+          <div class="title"><a target="_blank" href="{$value['url']}">{$value['title']}</a></div>
+          <div class="bg"></div>
+        </div>
+      </li>
+      <!--{/foreach}--> 
+    </ul>
+  </div>
+  <div class="hd">
+    <ul>
+     <!--{foreach $list $key $value}-->
+      <li class="{if !$key}on{/if}" title="{$value['full_title']}">
+        <div class="pic"><img src="{$value['frame']}"></div>
+        <div class="title"><a href="_blank">{$value['title']}</a></div>
+      </li>
+	<!--{/foreach}--> 
+    </ul>
+  </div>
+</div>
+<script type="text/javascript">
+(function(){
+var c = $('#focPic_{$label['id']} .bd ul li').length,a=0;timer =  setInterval(move_anti, 5000);
+$('#focPic_{$label['id']} .hd ul li').hover( function(){ clearInterval(timer);timer = null; a=$('#focPic_{$label['id']} .hd ul li').index($(this)); move_anti()},function(){ timer =  setInterval(move_anti, 5000);});
+
+function move_anti(){
+	$('#focPic_{$label['id']} .bd ul li').eq(a).fadeIn(500).siblings().hide();
+	$('#focPic_{$label['id']} .hd ul li').removeClass('on').eq(a).addClass('on');
+	a = a>=c-1?0:a+1;
+}
+})();
+</script>
+<!--{/php168}-->
+

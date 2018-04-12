@@ -1,0 +1,79 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<form action="$this_url" method="POST" onsubmit="check_privileges()">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<table class="acltable">
+							<tr>
+								<td class="title"></td>
+							</tr>
+							<tr>
+								<td class="headerbtn_list">
+									<ul style="background: #D5E9FF;">
+											<li>
+												<a href="{$core.admin_controller}/core-set_member_acl?user_id=$user_id">
+												<!--{if $SYSTEM == 'core'}-->
+												<b>{$P8LANG['core']}</b>
+												<!--{else}-->
+												{$P8LANG['core']}
+												<!--{/if}-->
+												</a>
+												</li>
+											<!--{foreach $core->systems $k $v}-->
+											<!--{if file_exists(PHP168_PATH . $k .'/admin/set_member_acl.php')}-->
+											<li>
+												<a href="{$core.admin_controller}/$k-set_member_acl?user_id=$user_id">
+												<!--{if $SYSTEM == $k}-->
+												<b>{$v['alias']}</b>
+												<!--{else}-->
+												{$v['alias']}
+												<!--{/if}-->
+												</a>
+											</li>
+											<!--{/if}-->
+											<!--{/foreach}-->
+									</ul>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table class="acltable">
+							<tbody class="privileges">
+								<!--{template $member acl_action admin}-->
+								<!--{foreach $acls $module $_acl}--> 
+								<!--{template $member acl_module_action admin}-->
+								<!--{/foreach}-->
+								<tr><td class="foot_blank"></td></tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</table>
+			<table align="center" border="0" cellpadding="0" cellspacing="0" class="buttomtable">
+				<tr><td class="" >
+					<input type="hidden" name="user_id" value="{if !empty($user_id)}$user_id{/if}" />
+					<input type="submit" name="submit" value="确定" class="edit_btn" />
+					<input type="reset" name="rest" value="重置" class="edit_btn"/>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+function check_privileges(){
+	$('.privileges input[type=checkbox]').each(function(i){
+		if(!this.checked){
+			this.checked = true;
+			this.value = 0;
+		}
+	});
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

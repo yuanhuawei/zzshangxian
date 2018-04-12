@@ -1,0 +1,66 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="columntable formtable hover_table padding_table">
+			<tr class="title">
+				<td colspan="2">内容查看</td>
+			</tr>
+			<tr >
+				<td class="tdL">项目: </td>
+				<td class="tdR">
+					$item[title]
+				</td>
+			</tr>
+			<tr bgcolor="#FFFFFF">
+				<td class="tdL"> 答卷时间: </td>
+				<td  class="tdR">
+					<!--{php echo !empty($data['timestamp'])?date("Y-m-d H:i:s",$data['timestamp']):'';}-->
+				</td>
+			</tr>
+			<tr bgcolor="#FFFFFF">
+				<td class="tdL">名字/IP: </td>
+				<td  class="tdR">
+					$data[name]/$data[ip]
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">内容</td>
+			</tr>
+			<!--{foreach $titles $title}-->
+			
+			<tr bgcolor="#FFFFFF">
+				<td class="tdL">$title[display_order]、$title[tittle] </td>
+				<td  class="tdR">
+					<!--{if $title['type']=='radio' || $title['type']=='select'}-->
+								{$title['data'][$addon[$title['id']]['data']]}
+						<!--{elseif $title['type']=='checkbox'}-->
+							<!--{foreach $title['data'] $key $val}-->
+								<!--{php $asw = explode(',',$addon[$title['id']]['data']); if(!in_array($key,$asw))continue;}-->$val<br/>
+							<!--{/foreach}-->
+						<!--{elseif $title['type']=='text' || $title['type']=='area'}-->
+							{$addon[$title['id']]['data']}
+						<!--{/if}-->
+							
+						<!--{if $title['other'] && !empty($addon[$title['id']]['other'])}-->
+						<br/>其它: {$addon[$title['id']]['other']}
+						<!--{/if}-->
+				</td>
+			</tr>
+			<!--{/foreach}-->
+			
+			
+			<tr bgcolor="#FFFFFF" align="center">
+				<td colspan="2" class="tdL"> 
+				<input type="button" value="返回" onclick="history.go(-1)"> 
+				</td>
+			</tr>
+
+		</table>
+	</div>
+</div>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,87 @@
+.search_option{float:left;margin:7px 0 0 10px;height:auto;overflow:hidden;}
+.search_option strong{float:left;}
+.search_option .txt{height:16px;line-height:18px;_height:18px;}
+.search_btn{background: url(../images/search_btn.gif) no-repeat;width: 71px;height: 21px;border: none;cursor: pointer;}
+.supplierTable td{ background-color:#FFF; padding:5px;text-align:center;font-size:12px;color:#000;border:1px solid #c1d1ff;}
+.supplierTable .head td{background-color:#E7F1F8;padding:10px 5px;font-size:12px;color:#000;}
+@media (max-width: 580px){
+	.search_option{float:none;}
+}
+
+#yiping{background:url(ying.png) no-repeat; display:block; width:120px; height:30px;}
+#tuijian{background:url(comm.png) no-repeat; display:block; width:120px; height:30px;}
+.ad_box{ border:1px solid #eeeeee; display:block; min-height:30px}
+
+.tomember{ background:url(postquest.gif) no-repeat;width:181px; height:49px; display:block; clear:both}
+
+#yuanxi .title_jian{ background:url(box1bg.gif) no-repeat left -206px; padding-left:30px; font-weight:normal;color:#333333;}
+
+#yuanxi .cat_list{ background:url(cat_list.gif) no-repeat; text-align:center;font-weight:bold; height:30px; padding-top:3px;}
+
+#yuanxi .ad_box{ border:1px solid #E2E2E2; display:block; min-height:30px}
+
+/**标题图标***/
+.title_jian{ background:url(box1bg.gif) no-repeat left -180px; padding-left:30px; font-weight:normal}
+.title_icon_5{background:url(icon.gif) no-repeat left -129px; padding-left:15px;}
+.title_icon_4{background:url(box1bg.gif) no-repeat left -178px; padding-left:40px;}
+.title_icon_3{background:url(box1bg.gif) no-repeat left -145px; padding-left:40px;}
+.title_icon_2{background:url(box1bg.gif) no-repeat left -38px; padding-left:40px;}
+.title_icon_1{background:url(box1bg.gif) no-repeat left -5px; height:20px; padding-left:40px;}
+
+/**平台***/
+.list_nave {background: url("cms_icon.gif") no-repeat scroll left -173px transparent;font-size: 12px;line-height: 120%;margin: 9px 10px 0;padding-left: 20px;}
+.plant{margin-top:10px;width:990px;overflow:hidden;height:184px;}
+.plant .title{height:33px;}
+.plant .title .text{background:url(title.png) no-repeat;width:120px;float:left;padding-left:10px;line-height:25px;font-size:14px;font-weight:600;color:#2976B2;}
+.plant .content{width:990px;overflow:hidden;height:151px;}
+.plant .content_l{height:149px;float:left;width:196px;overflow:hidden;background:url(plant_l.png) no-repeat;madding-left:15px;}
+.plant_img {height:55px;width:155px;overflow:hidden;text-align:center;padding-top:35px;padding-left:15px;}
+.plant_text {overflow:hidden;text-align:center;height:35px;line-height:35px;font-size:12px;}
+.plant .content_c{height:149px;float:left;width:186px;overflow:hidden;background:url(plant_c.png) repeat-x;}
+.plant .content_r{height:149px;float:left;width:196px;overflow:hidden;background:url(plant_r.png) no-repeat;madding-right:15px;}
+.plant .content_fg{width:10px;height:149px;background:url(plant_fg.png) no-repeat;float:left;}
+
+/**email***/
+.email_frame {clear: both;overflow: hidden;margin:60px auto;width: 400px;}
+.email_frame2 {clear: both;overflow: hidden;margin:60px auto;width: 740px;}
+.email_frame2 .title{background:url(email_title.gif) repeat-x;height:30px;border:1px #BDDBF0 solid;}
+.email_frame .title{background:url(email_title.gif) repeat-x;height:30px;border:1px #BDDBF0 solid;}
+.title{background:url(email_title.gif) repeat-x;height:30px;border:1px #BDDBF0 solid;}
+#yuanxi .title{border:none;height:auto;}
+.txt{float:left;padding-left:5px;line-height:30px;height:30px;font-size:13px;font-weight:bold;text-decoration:none;}
+.email_frame  #header_t{line-height:30px;height:30px;float:left;padding-left:10px;font-size:12px;color:#ff0000;}
+.email_frame2  #header_t{line-height:30px;height:30px;float:left;padding-left:10px;font-size:12px;color:#ff0000;}
+ .x{background:url(x.gif) no-repeat;height:15px;width:14px;float:right;margin-right:10px;}
+ .x a:link{text-decoration:none;}
+
+.email_frame .logo{background:url(email_logo.jpg) no-repeat;width:173px;float:left;}
+.email_frame2 .logo{background:url(email_logo.jpg) no-repeat;width:173px;float:left;}
+.email_frame .email_intra{background-position:0 -5px;width:173px;height:50px;}
+.email_frame .email_163{background-position:0 -55px;width:173px;height:50px;}
+.email_frame .email_126{background-position:0 -110px;width:173px;height:50px;}
+ .email_frame .email_qq{background-position:0 -165px;width:173px;height:50px;}
+ .email_frame .email_sina{background-position:0 -220px;width:173px;height:50px;}
+ .email_frame .email_yahoo{background-position:0 -270px;width:173px;height:50px;}
+ .email_frame .email_gmail{background-position:0 -320px;width:173px;height:50px;}
+ .enter{background:url(enter_email.gif) no-repeat;width:79px;height:29px;text-align:center;line-height:29px;font-size:13px;float:left;margin:10px 0 0 50px;}
+ .enter1{background:url(enter_email.gif) no-repeat;width:79px;height:29px;text-align:center;line-height:29px;font-size:13px;float:left;margin:18px 0 0 5px;color:#0000ff;}
+ .enter a:link{text-decoration:none;}
+ .jixiao{background:url(first.jpg) no-repeat;float:left;width:160px;overflow:hidden;height:50px;line-height:50px;padding-left:55px;font-size:18px;font-weight:bold;font-family:黑体;}
+ .head_margin{margin-top:15px;height:50px;padding-bottom:15px;}
+ .text{margin-top:10px;padding-bottom:10px;}
+ .text_tittle{font-size:14px;font-weight:bold;font-family:宋体;padding-left:10px;}
+ .dash {background: url("dash.gif") no-repeat scroll 0 0 transparent;height: 11px;margin: 0 0 5px;width: 385px;}
+ .dash2 {background: url("dash2.gif") no-repeat scroll 0 0 transparent;height: 11px;margin: 0 0 5px;width: 728px;}
+.text_content{}
+
+
+/**提示**/
+.tipbox{background:url(background.gif) no-repeat;margin:0px auto; font-size:12px;line-height:200%;width:361px;height:150px;margin-top:150px; padding-top: 5px;}
+.close{float:right;margin-right:10px;}
+.message{padding:30px 18px 0 56px;color:#333333;} 
+
+/**售后**/
+.pic{height:18px;line-height:18px;margin-right:10px;}
+.head{background-color:#907c57;color:#fff;font-size:14px;text-align:center;}
+
+#rightbox p{line-height:200%;}

@@ -1,0 +1,253 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<link rel="stylesheet" href="{$RESOURCE}/images/category_selector.css" type="text/css">
+<div class="mainbox mainborder">
+	<div class="section">
+		<script type="text/javascript">
+		$(document).ready(function(){
+								   $('#form1').validate({
+				rules: {
+					title: {
+						required: true
+					},
+					description:{
+						required: true
+					},
+					cid:{
+						required: true
+					}
+				},
+				messages:{
+					title:{
+						required:'{$P8LANG['special']['title_need']}'
+					},
+					description:{
+						required: '{$P8LANG['special']['description_need']}'
+					},
+					cid:{
+						required: '{$P8LANG['special']['cid_need']}'
+					}
+				},
+				onkeyup: false	
+				})
+					})
+								   
+		</script>
+		<form name="form1" action="" id="form1" method="post">
+			<table class="columntable formtable hover_table padding_table">
+				<tr class="title">
+					<td colspan="2">{$P8LANG['special']['add_special']}</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['special']['chose_category']}</td><td class="tdR">
+										<span id="cids"></span>
+										<input type="button" value="{$P8LANG['chose']}" onclick="dialog.show()" />
+										<input type="hidden" name="cid" />
+										<input type="hidden" id="cid" value="{if !empty($rsdb['cid'])}$rsdb[cid]{/if}" /></td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['special']['special_title']}</td><td class="tdR"><input name="title" type="text" class="txt" id="title" value="{if !empty($rsdb['title'])}$rsdb[title]{/if}" size="50"/></td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['special']['banner']}<span class="help">{$P8LANG['special']['banner_note']}</span></td><td class="tdR">
+										<input type="text" class="txt" name="banner" id="banner"  value="{if !empty($rsdb['banner'])}{$rsdb['banner']}{/if}" size="50" />
+										<input type="button" onclick="uploader.choseup();" value="{$P8LANG['browse']}"/><input type="button" onclick="uploader.image_cut()" value="{$P8LANG['image_cut']}" />
+										<script type="text/javascript">
+										
+										var uploader;
+										$(document).ready(function(){
+											uploader = new P8_Upload({
+												element: {
+													src: $('#banner'),
+													attribute: 'value'
+												}
+											});
+										});
+										</script></td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['thumb_image']}<span class="help">{$P8LANG['special']['thumb_image_note']}</span></td><td class="tdR">
+										<input type="text" class="txt" name="frame" id="frame"  value="{if !empty($rsdb['frame'])}{$rsdb['frame']}{/if}" size="50" />
+										<input type="button" onclick="uploader2.choseup();" value="{$P8LANG['browse']}"/><input type="button" onclick="uploader2.image_cut()" value="{$P8LANG['image_cut']}" />
+										<script type="text/javascript">
+										
+										var uploader2;
+										$(document).ready(function(){
+											uploader2 = new P8_Upload({
+												element: {
+													src: $('#frame'),
+													attribute: 'value'
+												}
+											});
+										});
+										</script>
+										</td>
+				</tr>						
+				<tr>
+					<td class="tdL">{$P8LANG['special']['html_url_rule']}</td><td class="tdR"><input type="text" name="html_view_url_rule" id="html_view_url_rule" value="{if !empty($rsdb['html_view_url_rule'])}$rsdb[html_view_url_rule]{else}{\$system_url}/special/{\$id}.html{/if}" size="50" /></td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['special']['description']}</td><td class="tdR">
+						<textarea name="description" id="description" cols="45" rows="5">{if !empty($rsdb['description'])}{$rsdb['description']}{/if}</textarea>
+					</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+				<td class="tdL">{$P8LANG['special']['seo_keyword']}: </td><td  class="tdR"><input type="text" class="txt" name="seo_keywords" value="{if !empty($rsdb['seo_keywords'])}$rsdb[seo_keywords]{/if}" size="50"><span class="point">{$P8LANG['special']['seo_note']}</span></td>
+				</tr>
+				<tr style="display:none">
+					<td class="tdL">{$P8LANG['special']['if_commont']}</td>
+					<td class="tdR"><input type="radio" name="ifcomment" id="ifcomment1" value="1" {if !empty($rsdb['ifcomment'])}checked{/if} />{$P8LANG['Y']} <input type="radio" name="ifcomment" id="ifcomment2" value="0" {if empty($rsdb['ifcomment'])}checked{/if}/>{$P8LANG['N']} </td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['special']['add_menu']}<br />({$P8LANG['special']['menu_note']})</td><td class="tdR">
+						<table>
+							<tr>
+							
+								<td>{$P8LANG['title']} </td> <td>{$P8LANG['special']['address']} </td> <td>{$P8LANG['special']['order']} </td>
+							</tr>
+							<tbody id="morecate">
+		<!--{foreach $rsdb[navigation] $k $v}-->
+								<tr>
+									<td><input name="navigation[$k][name]" type="text" size="20" value="$v[name]" /></td>
+									<td><input name="navigation[$k][url]" type="text"  size="50" value="$v[url]"/></td>
+									<td><input name="navigation[$k][order]" type="text" size="5" value="$v[order]"/></td>
+								</tr>
+		<!--{/foreach}-->					
+							</tbody>
+							<tr>	
+								<td colspan="3"><input  type="button" value="{$P8LANG['special']['more']}" onclick="morecate()" /></td>
+							</tr>
+						</table>	
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['special']['chose_main_template']}</td><td class="tdR"><input type="text" class="txt" name="tpl_main" id="mt1" value="{if !empty($rsdb['template']['tpl_main'])}{$rsdb['template']['tpl_main']}{/if}" /><input type="button" value="{$P8LANG['chose']}" onclick="mt1_template_dialog.show()" /><span class="point">{$P8LANG['special']['template_note']}</span></td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['special']['chose_head_template']}</td><td class="tdR"><input type="text" class="txt" name="tpl_head" id="mt2" value="{if !empty($rsdb['template']['tpl_head'])}{$rsdb['template']['tpl_head']}{/if}" /><input type="button" value="{$P8LANG['chose']}" onclick="mt2_template_dialog.show()" /></td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['special']['chose_foot_template']}</td><td class="tdR"><input type="text" class="txt" name="tpl_foot" id="mt3" value="{if !empty($rsdb['template']['tpl_foot'])}{$rsdb['template']['tpl_foot']}{/if}" /><input type="button" value="{$P8LANG['chose']}" onclick="mt3_template_dialog.show()" /></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td><td><input type="submit" value="{$P8LANG['submit']}" class="submit_btn" /><input type="hidden" name="id" value="{if !empty($rsdb['id'])}$rsdb[id]{/if}" /></td>
+				</tr>	
+			</table>
+			</form>
+		</div>
+</div>
+<script type="text/javascript">
+
+function morecate(){
+	var sid=Math.random();
+	sid=sid.toString().substring(2,5);
+	$("#morecate").append('<tr>	<td><input name="navigation['+sid+'][name]" type="text" size="20" /></td><td><input name="navigation['+sid+'][url]" type="text" value="" size="50" /></td><td><input name="navigation['+sid+'][order]" type="text" size="5" /></td></tr>')
+}
+var CATEGORY_JSON = $json[json];
+var CATEGORY_PATH = $json[path];
+
+var dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_category']}',
+	button: true,
+	width: 700,
+	height: 300,
+	ok: function(){
+		category_path();
+	},
+	show: function(){
+		cs.init();
+	}
+});
+dialog.content.height(240);
+
+var cs = new Recursive_Selector({
+	json: CATEGORY_JSON,
+	path: CATEGORY_PATH,
+	input: $('#cid'),
+	dialog: dialog,
+	sub_property: 'categories',
+	parents: <!--{if !empty($rsdb['cid'])}-->clone(CATEGORY_PATH[$rsdb[cid]])<!--{else}-->null<!--{/if}-->,
+	item_callback: function(cat, item){
+		
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	}
+});
+
+function category_path(){
+	var val = $('#cid').val();
+	$('#form1 input[name=cid]').val(val);
+	
+	$('#cids').empty();
+	var path = clone(CATEGORY_PATH[val]);
+	if(!path) return;
+	for(var i = 0; i < path.length; i++){
+		var cat = cs.get_by_id(path[i]);
+		$('#cids').append($('<span>'+ cat.name +' &gt; </span>'));
+	}
+}
+
+
+var mt1_template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['special']['chose_template']}',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		$('#mt1').val(mt1_template_selector.value);
+	}
+});
+
+var mt1_template_selector = new Template_Selector({
+												  
+	base_dir: '{$rsdb['templatestyle']}/core/{$this_module.name}/main/',
+	selected: $('#mt1').val(),
+	dialog: mt1_template_dialog
+});
+
+var mt2_template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['special']['chose_template']}',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		$('#mt2').val(mt2_template_selector.value);
+	}
+});
+var mt2_template_selector = new Template_Selector({
+	base_dir: '{$rsdb['templatestyle']}/core/{$this_module.name}/head/',
+	selected: $('#mt2').val(),
+	dialog: mt2_template_dialog
+});
+
+var mt3_template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['special']['chose_template']}',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		$('#mt3').val(mt3_template_selector.value);
+	}
+});
+var mt3_template_selector = new Template_Selector({
+	base_dir: '{$rsdb['templatestyle']}/core/{$this_module.name}/foot/',
+	selected: $('#mt3').val(),
+	dialog: mt3_template_dialog
+});
+$(document).ready(
+	morecate(),
+	category_path(),
+	mt1_template_selector.init(),
+	mt2_template_selector.init(),
+	mt3_template_selector.init(),
+	parent_path()
+);
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,5 @@
+<?php
+return array (
+  'json' => '{"1":{"htmlize":"0","id":1,"parent":0,"type":"2","name":"\\u5b66\\u751f\\u4e13\\u9898","item_count":"1","page_size":20,"html_list_url_rule":"{$system_url}\\/special\\/list_{$id}#-page-{$page}#html","html_view_url_rule":"{$system_url}\\/special\\/{$id}.html","url":"http:\\/\\/localhost:8080\\/jt\\/index.php\\/special-list-category-1.html"},"2":{"htmlize":"0","id":2,"parent":0,"type":"2","name":"\\u6559\\u5e08\\u4e13\\u9898","item_count":"0","page_size":20,"html_list_url_rule":"{$system_url}\\/special\\/list_{$id}#-page-{$page}#html","html_view_url_rule":"{$system_url}\\/special\\/{$id}.html","url":"http:\\/\\/localhost:8080\\/jt\\/index.php\\/special-list-category-2.html"},"3":{"htmlize":"0","id":3,"parent":0,"type":"2","name":"\\u515a\\u7ec4\\u7ec7\\u4e13\\u9898","item_count":"0","page_size":20,"html_list_url_rule":"{$system_url}\\/special\\/list_{$id}#-page-{$page}#html","html_view_url_rule":"{$system_url}\\/special\\/{$id}.html","url":"http:\\/\\/localhost:8080\\/jt\\/index.php\\/special-list-category-3.html"}}',
+  'path' => '{"1":[1],"2":[2],"3":[3]}',
+);

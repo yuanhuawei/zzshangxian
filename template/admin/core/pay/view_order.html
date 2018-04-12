@@ -1,0 +1,77 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<div class="mainbox mainborder">
+
+	<table class="columntable formtable hover_table">
+	<tr class="title">
+		<td class="title" colspan="2">{$P8LANG['order']['detail']}</td>
+	</tr>
+	
+	<tr>
+		<td width="10%">{$P8LANG['order']['NO']}</td>
+		<td>$data[NO]</td>
+	</tr>
+	
+	<tr>
+		<td width="10%">{$P8LANG['order']['interface_NO']}</td>
+		<td>$data[interface_NO]</td>
+	</tr>
+	
+	<tr>
+		<td width="10%">{$P8LANG['order']['name']}</td>
+		<td>$data[name]</td>
+	</tr>
+	
+	<tr>
+		<td width="10%">{$P8LANG['order']['buyer']}</td>
+		<td>$data[buyer_username]</td>
+	</tr>
+	
+	<tr>
+		<td width="10%">{$P8LANG['order']['seller']}</td>
+		<td>$data[seller_username]</td>
+	</tr>
+	
+	<tr>
+		<td width="10%">{$P8LANG['pay_interface']}</td>
+		<td>
+			<!--{if isset($this_module->CONFIG['interfaces'][$data['interface']])}-->{$this_module.CONFIG['interfaces'][$data['interface']]['alias']}<!--{/if}-->
+			<!--{if $data['interface'] == 'offline' && isset($data['notify']['bank'])}-->
+			{$this_module.CONFIG['interfaces'][$data['interface']]['config']['bank'][$data['notify']['bank']]['name']}
+			{$this_module.CONFIG['interfaces'][$data['interface']]['config']['bank'][$data['notify']['bank']]['account']}
+			<!--{/if}-->
+		</td>
+	</tr>
+	
+	<tr>
+		<td width="10%">{$P8LANG['order']['amount']}</td>
+		<td>$data[amount]</td>
+	</tr>
+	
+	<tr>
+		<td width="10%">{$P8LANG['order']['item_number']}</td>
+		<td>$data[number]</td>
+	</tr>
+	
+	<tr>
+		<td width="10%">{$P8LANG['order']['status']['']}</td>
+		<td>
+			{$P8LANG['order']['status'][$data['status']]}
+		</td>
+	</tr>
+	
+	<tr>
+		<td width="10%">锁定状态</td>
+		<td><!--{if !empty($data['lid'])}--><img src="{$SKIN}/check_yes.gif" /><!--{else}--><img src="{$SKIN}/check_no.gif" /><!--{/if}--></td>
+	</tr>
+	
+	</table>
+		
+</div>
+
+<script type="text/javascript">
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

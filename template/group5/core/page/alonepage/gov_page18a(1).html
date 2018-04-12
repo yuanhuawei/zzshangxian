@@ -1,0 +1,160 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$SKDIR}core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/alonepage/style.css" />
+<div class="nav mtop">
+	您的位置：<a href="{$this_system.url}">首页</a>&nbsp;&gt;&nbsp;<a href="#">$data[title]</a>
+</div>
+<div class="mtop">
+	<div class="contain_left">	
+		<div class="border1 gov18">
+			<div class="head1">
+				<span class="title1">
+					$label[let_menu_title]
+				</span>
+			</div>	
+				<div class="main1" id='leftbox'>
+					$label[let_menu2]
+				</div>
+				<div class="clear">
+				</div>
+		</div>
+		
+		<div class="border1 mtop">
+			<div class="head1 gov18">
+				<span class="title1">
+					$label[let_title_2]
+				</span>
+			</div>	
+				<div class="main1">
+				<div style="min-height:40px;">$label[let_content_2]</div>
+                                </div>
+		</div>
+		<div class="mtop">
+		$label[let_ad]
+		</div>
+	</div>
+	<div class="contain_right">
+    <div class="border1" id="tab_1">
+		<div class="gov_tab_head head">
+			<div class="bigtitle">$label[tab_1_bigtt]</div>
+			<span class="over">$label[tab_1_tt1]</span><span>$label[tab_1_tt2]</span><span>$label[tab_1_tt3]</span><span>$label[tab_1_tt4]</span><span  style="border:none">$label[tab_1_tt5]</span>
+			<div class="more1">$label[tab_1_bigtt_more]</div>
+		</div>
+		<div class="main">
+			<div  class="gov_index_middle_content content">
+                 $label[tab_1_con1]
+			</div>
+			<div class="gov_index_middle_content  content" style="display:none;">
+				$label[tab_1_con2]
+			</div>
+			<div class="gov_index_middle_content  content" style="display:none;">
+				$label[tab_1_con3]
+			</div>
+						<div class="gov_index_middle_content  content" style="display:none;">
+				$label[tab_1_con4]
+			</div>
+						<div class="gov_index_middle_content  content" style="display:none;">
+				$label[tab_1_con5]
+			</div>
+		</div>
+</div>
+<div class="rightAdBox mtop">$label[rightAdbox1]</div>
+<style type="text/css">
+.main{padding:15px}
+.main,.main .content,p,.contain_right .label_summary{color: #434343;font-size:12px;font-family: "微软雅黑";line-height: 24px;}
+.label_pic_com_ul li img {border: 1px solid #CFCFCF;float: left;margin-right: 12px;padding:0px;}
+
+</style>
+    <div class="border1 mtop" id="tab_2">
+		<div class="gov_tab_head head">
+			<div class="bigtitle">$label[tab_2_bigtt]</div>
+			<span class="over">$label[tab_2_tt1]</span><span>$label[tab_2_tt2]</span><span>$label[tab_2_tt3]</span><span  style="border:none">$label[tab_2_tt4]</span>
+			<div class="more1">$label[tab_2_bigtt_more]</div>
+		</div>
+		<div class="main">
+			<div  class="gov_index_middle_content content">
+                 $label[tab_2_con1]
+			</div>
+			<div class="gov_index_middle_content  content" style="display:none;">
+				$label[tab_2_con2]
+			</div>
+			<div class="gov_index_middle_content  content" style="display:none;">
+				$label[tab_2_con3]
+			</div>
+						<div class="gov_index_middle_content  content" style="display:none;">
+				$label[tab_2_con4]
+		</div>
+</div>
+</div>
+    <div class="border1 mtop" id="tab_3">
+		<div class="head_gov_r">
+			<div class="bigtitle">$label[tab_3_bigtt]</div>
+			<span class="over">$label[tab_3_tt1]</span><span>$label[tab_3_tt2]</span><span>$label[tab_3_tt3]</span><span>$label[tab_3_tt4]</span><span>$label[tab_3_tt5]</span><span style="border:none">$label[tab_3_tt6]</span>
+			<div class="more1">$label[tab_3_bigtt_more]</div>
+		</div>
+		<div class="main">
+			<div  class="gov_index_middle_content content">
+                 $label[tab_3_con1]
+			</div>
+			<div class="gov_index_middle_content  content" style="display:none;">
+				$label[tab_3_con2]
+			</div>
+			<div class="gov_index_middle_content  content" style="display:none;">
+				$label[tab_3_con3]
+			</div>
+						<div class="gov_index_middle_content  content" style="display:none;">
+				$label[tab_3_con4]
+			</div>
+			<div class="gov_index_middle_content  content" style="display:none;">
+				$label[tab_3_con5]
+			</div>
+						<div class="gov_index_middle_content  content" style="display:none;">
+				$label[tab_3_con6]
+			</div>
+		</div>
+</div>
+
+
+	</div>
+</div>
+<div class="clear">
+</div>
+<div class="frdlink mtop">$label[frdlink]</div>
+<!--{if $addcontent}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/images/dialog.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<script type="text/javascript">
+<!--{template_init_js}-->
+
+var \$id='$id';
+var editlabel = get_cookie('IS_ADMIN');
+var dialog
+$(document).ready(function(){
+dialog = new P8_Dialog({
+	title_text: '编辑内容',
+	button: false,
+	zIndex:10000,
+	width: 750,
+	height: 500,
+	url: \$this_router+'-addcontent?id='+\$id
+});
+if(editlabel !==undefined){
+$("#editcontent").html("<a href='javascript:void(0)' onClick='dialog.show()'>编辑</a>");
+}
+						   })
+</script>
+<!--{/if}-->
+<script language="javascript">
+$(document).ready(function(){
+MoveTabs('tab_1',0,'mouseover');
+MoveTabs('tab_2',0,'mouseover');
+MoveTabs('tab_3',0,'mouseover');
+MoveTabs('tab_4',0,'mouseover');
+});
+</script>
+<!--{template $core foot_pre}-->
+<!--{template $core footer}-->
+<!--{/php168}-->

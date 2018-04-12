@@ -1,0 +1,70 @@
+<!--{php168}-->
+<!--{php $TITLE='发通知';}-->
+<!--{template $this_module header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+
+<form action="$this_url" method="POST" id="form">
+<table class="mainbox mainborder">
+	<tr><td>
+		<table class="columntable formtable hover_table">
+			<tr class="title">
+				<td colspan="3" class="title">
+					查看通知
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">通知标题</td>
+				<td class="tdR">
+					$data[title]
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">通知内容</td>
+				<td class="tdR">
+					<div id="p8_content_show">$data[content]</div>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL" valign="top">通知接收人</td>
+				<td class="tdR">
+					<table width="100%">
+						<!--{foreach $list $value}-->
+						<tr>
+							<td width="10%">用户名</td>
+							<td width="90%">$value[username]</td>
+						</tr>
+						<tr>
+							<td>状态</td>
+							<td><img src="{$SKIN}/{if $value['status']}check_yes.gif{else}check_no.gif{/if}" /></td>
+						</tr>
+						<tr>
+							<td>时间</td>
+							<td>
+								<!--{if $value['timestamp']}-->
+								{date('Y-m-d H:i:s', $value['timestamp'])}
+								<!--{/if}-->
+							</td>
+						</tr>
+						<tr>
+							<td>备注</td>
+							<td>$value[comment]</td>
+						</tr>
+						<!--{/foreach}-->
+					</table>
+				</td>
+			</tr>
+		</table>
+	</td></tr>
+</table>
+<input type="hidden" name="id" value="$data[id]" />
+<input type="hidden" name="where" value="" />
+</form>
+
+<script type="text/javascript">
+</script>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->

@@ -1,0 +1,100 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+
+<div class="mainbox mainborder">
+
+	<form action="$this_url" method="post" id="form">
+	<table width="100%" class="columntable formtable hover_table">
+	
+	<tr class="title">
+		
+		<td width="3%" class="title">ID</td>
+		<td width="3%" class="title">删除</td>
+		<td width="25%" class="title">名称</td>
+		<td width="25%" class="title">图片</td>
+		<td width="10%" class="title">排序</td>
+	</tr>
+	
+	<!--{foreach $list $value}-->
+	<tr>
+		<td align="center">$value[id]</td>
+		<td align="center">
+			<input type="checkbox" name="delete_id[]" value="$value[id]" />
+		</td>
+		<td>
+			<input type="text" class="txt" name="name[$value[id]]" value="$value[name]" />
+		</td>
+		<td>
+			<input type="text" class="txt" name="image[$value[id]]" value="$value[image]" />
+			<img id="image[$value[id]]" src="{$RESOURCE}/images/cms/mood/$value[image]" />
+		</td>
+		<td>
+			<input type="text" class="txt" name="display_order[$value[id]]" value="$value[display_order]" size="5" />
+		</td>
+	</tr>
+	<!--{/foreach}-->
+	
+	<tr>
+		<td align="center">新增</td>
+		<td align="center">&nbsp;</td>
+		<td>
+			<input type="text" class="txt" name="new_name[]" />
+		</td>
+		<td>
+			<input type="text" class="txt" name="new_image[]" />
+		</td>
+		<td>
+			<input type="text" class="txt" name="new_display_order[]" size="5" />
+		</td>
+	</tr>
+	</table>
+	
+	<div id="changes"></div>
+	
+	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+	<tr>
+		<td align="center">
+			<input type="submit" value="{$P8LANG['submit']}" />
+		</td>
+	</tr>
+	</table>
+	
+	</form>
+	
+</div>
+<div class="mainbox mainborder">
+	<div class="formtable">
+			<div class="title">{$P8LANG['help_about']}</div>
+
+			<div class="headerbtn_list" style="padding:8px">
+				<p>1、你可以依次增加标签图片，大家可在“新增”后面填写文字及图片地址</p>
+
+				<p>2、表情图片存放地址为“../images/cms/mood/”文件夹，大家上传即可</p>
+			</div>
+	</div>
+</div>
+<script type="text/javascript">
+$('#form input[name^="name["]').change(function(){
+	$(this).css({border: '1px solid #ff0000'});
+	_changes(this.name);
+});
+
+$('#form input[name^="image["]').change(function(){
+	$(this).css({border: '1px solid #ff0000'});
+	$('#image['+ this.name.replace(/[^0-9]/g, '') +']').attr('src', '{$RESOURCE}/images/cms/mood/'+ this.value);
+	_changes(this.name);
+});
+
+$('#form input[name^="display_order["]').change(function(){
+	$(this).css({border: '1px solid #ff0000'});
+	_changes(this.name);
+});
+
+function _changes(name){
+	$('#changes').append($('<input type="hidden" name="changes[]" value="'+ name.replace(/[^0-9]/g, '') +'" />'));
+}
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

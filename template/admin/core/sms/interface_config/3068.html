@@ -1,0 +1,39 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td colspan="2" class="title">短信通接口</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">帐号：</td>
+					<td class="tdR">
+						<input type="text" class="txt" name="config[username]" value="{if !empty($config['username'])}$config[username]{/if}" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">密码：</td>
+					<td class="tdR">
+						<input type="text" class="txt" name="config[password]" value="{if !empty($config['password'])}$config[password]{/if}" />
+					</td>
+				</tr>
+				
+				<tr>
+				  <td class="tdL">&nbsp;</td>
+				  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<input type="hidden" name="interface" value="$interface"/>
+</form>
+
+
+<!--{template $core footer admin}-->
+
+<!--{/php168}-->

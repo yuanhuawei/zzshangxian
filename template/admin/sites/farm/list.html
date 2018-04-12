@@ -1,0 +1,140 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：<a href="{$core.admin_controller}/sites/farm-index">分站系统</a> &gt; <a href="#">管理首页</a></td>
+  </tr>
+</table>
+
+<form action="$this_router-cache" method="post" id="form">
+<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table" align="center">
+	<tr class="title fix_head">
+		<td width="9%" class="list_top list_left">名称</td>
+		<td width="17%" class="list_top">别名</td>
+		<td width="20%" class="list_top">域名</td>
+		<td width="12%" class="list_top">创建时间</td>
+		<td width="5%" class="list_top">排序</td>
+		<td width="5%" class="list_top">状态</td>
+		<td width="25%" class="list_top list_right">操作</td>
+	</tr>
+	<!--{foreach $list $value}-->
+	<tr>
+		<td class="list_left list_ico">{$value['sitename']}</td>
+		<td><strong>{$value['alias']}</strong></td>
+		<td class="list_title"><a href="{if empty($value['ipordomain'])}{$core->CONFIG['url']}/s.php/{$value['alias']}/{else}{$value['domain']}{/if}" target="_blank">
+		<!--{if empty($value['ipordomain'])}-->
+		{$core->CONFIG['url']}/s.php/{$value['alias']}/
+		<!--{else}-->
+		{$value['domain']}
+		<!--{/if}-->
+		</a></td>
+		<td ><!--{php echo date('Y-m-d',$value['timestamp']);}--></td>
+		<td><input type="text" class="txt" name="sort[{$value['id']}]" value="{$value['sort']}" size="3"  /></td>
+		<td ><img src="$_SKIN/status_{$value['status']}.gif" /></td>
+		<td class="list_btn">
+			<a href="{if empty($value['ipordomain'])}{$core->CONFIG['url']}/s.php/{$value['alias']}/{else}{$value['domain']}{/if}" target="_blank">访问</a> 
+			<!--{if $site_edit or in_array($value['alias'],$mysites)}--><a href="$this_router-update?alias={$value['alias']}">{$P8LANG['edit']}</a> <!--{/if}-->
+            <!--{if $site_create}--><a href="$this_router-acl?alias={$value['alias']}">站点授权</a> <!--{/if}-->
+			<!--{if $site_edit or in_array($value['alias'],$mysites)}--><a href="javascript:;" onclick="cache_all('{$value['alias']}')">更新缓存</a> <!--{/if}-->
+			<!--{if $site_edit or in_array($value['alias'],$mysites)}--><a href="{$this_router}-dbm?site={$value['alias']}">数据库</a> <!--{/if}-->
+			<!--{if $site_delete}--><a href="$this_router-delete?alias={$value['alias']}" id="delete_$value[alias]" onclick="if(!confirm('删除站点会同时清除与此相关的一切数据，不可恢复！\r\n确定要删除此站么？')) return false">{$P8LANG['delete']}</a><!--{/if}-->
+		</td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+
+<br/>
+<!--{if $site_create}--><input type="button" class="button" value=" 添加分站 " name=" {$P8LANG['add']} " onclick="window.location.href='{$this_router}-add'" class="edit_btn"  /><!--{/if}-->
+<input type="button" class="button" value=" 更新缓存 " name="cache" onclick="if(!confirm('{$P8LANG['confirm_to_do']}'))return false;this.form.action='$this_router-cache';this.form.submit();" class="edit_btn"  />  
+<input type="button" class="button" value=" 更新排序 " onclick="this.form.action='$this_url';this.form.submit();"/>
+</form>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+<tr>
+	<td align="center">
+		<span  id="page" class="pages">$pages</span>
+	</td>
+</tr>
+
+</table>
+
+<script type="text/javascript">
+function delete_site(obj){
+	if(!confirm('$P8LANG[confirm_to_delete]')) return false;
+	
+	var id = [];
+	$.each(obj, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	
+	$.ajax({
+		url: '$this_router-delete',
+		type: 'POST',
+		cache: false,
+		dataType: 'json',
+		data: ajax_parameters({id: id}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i in json){
+				$('#delete_'+ json[i]).parent().parent().remove();
+			}
+		}
+	});
+	return false;
+}
+
+var cache_dialog =  new P8_Dialog({
+	title_text:'选择缓存项目',
+	width: 200,
+	height: 200,
+	button: true,
+	ok:function(){
+		if(!$('#cache_form').find('input:checked').length)return;
+		ajaxing({});
+		$.ajax({
+			url: '{$this_router}-cacheall',
+			type: 'POST',
+			dataType: 'json',
+			data: $('#cache_form').serialize(),
+			success: function(){
+				ajaxing({action: 'hide'});
+				alert('操作成功');
+			}
+		})
+	}
+});
+$('form input[name^=sort]').change(function(){
+	this.value = this.value.replace(/[^0-9]/g, '') || 0;
+	if(this.value > 255) this.value = 255;
+	if(this.value < 0) this.value = 0;
+	$('#form').append('<input type="hidden" name="_sort['+ this.name.replace(/[^0-9]/g, '') +']" value="'+ this.value +'" />');
+	$(this).css({border: '1px solid #ff0000'});
+});
+function cache_all(site){
+	cache_dialog.content.html('<form id="cache_form"><input type="hidden" name="site" value="'+site+'"/>\
+	<input type="checkbox" onchange="change_cache()" id="check_all_cache"/>全选<br/>\
+	<input type="checkbox" name="cache[]" value="farm"/>站点信息<br/>\
+	<input type="checkbox" name="cache[]" value="template"/>模板缓存<br/>\
+	<input type="checkbox" name="cache[]" value="label"/>标签缓存 <br/>\
+	<input type="checkbox" name="cache[]" value="manu"/>导航缓存 <br/>\
+	<input type="checkbox" name="cache[]" value="model"/>模型缓存 <br/>\
+	<input type="checkbox" name="cache[]" value="category"/>栏目缓存\
+	</form>');
+	cache_dialog.show();
+	
+}
+function change_cache(){
+	if($('#check_all_cache').prop('checked')){
+		$('#cache_form').find('input[type=checkbox]').prop('checked','checked');
+	}else{
+		$('#cache_form').find('input[type=checkbox]').prop('checked',false);
+	}
+}
+</script>
+
+<!--{template $this_system footer admin}-->
+<!--{/php168}-->

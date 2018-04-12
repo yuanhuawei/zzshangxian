@@ -1,0 +1,29 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+ <table width='99%' align="center" cellspacing='1' cellpadding='3' class="formtable columntable hover_table mtop20">
+			<tr class="head">
+			  <td align="center">广告名称</td>
+		      <td align="center">售价(金币/天)</td>
+		      <td align="center">广告类型</td>
+		      <td align="center">申请有效时间</td>
+		      <td align="center">操作</td>
+			</tr>
+			<!--{foreach $contents $content}-->
+			<tr>
+			  <td><a href="$content[url]" target="_blank" title="预览">$content[name]</a></td>
+		      <td>$content[price]</td>
+		      <td>
+			      <!--{if empty($content[content_type])}-->文字广告
+			      <!--{elseif $content[content_type]==1}-->图片广告
+			      <!--{elseif $content[content_type]==2}-->FLASH广告
+			      <!--{else}-->自定义<!--{/if}-->
+			  </td>
+		      <td>
+				 <!--{php if(empty($content['endtime']))echo date("Y-m-d");else echo date("Y-m-d",$content['endtime']);}-->
+			  </td>
+		       <td><a href="$this_router-ad_buy?id=$content[id]">[购买]</a></td>
+			</tr>
+		    <!--{/foreach}-->
+		</table>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

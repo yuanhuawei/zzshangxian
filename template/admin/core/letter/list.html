@@ -1,0 +1,88 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<div id="tab_1" class="tab_box mtop">
+			<div class="head">
+				<span class="$class[0]"><a href="$this_router-list?status=0">处理中信件</a></span>
+				<span class="$class[3]"><a href="$this_router-list?status=3">已处理信件</a></span> 
+			</div>
+		</div>
+	</div>
+</div>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="columntable formtable hover_table click_changeable" width="100%" style="text-align:center" >
+			<tr bgcolor="#eeeeee" class="title">
+				<td width="9%">编号</td>
+				<td width="8%">状态</td>
+				<td width="8%">来源</td>
+				<td width="34%">标题</td>
+				<td width="10%">部门/类型</td>
+				<td width="12%">提问时间</td>
+				<td width="12%">解决时间</td>
+				<td width="8%">操作</td>
+			</tr>
+			<!--{foreach $list $k $v}-->
+			<tr>
+				<td>$v[number]</td>
+				<td>
+					<!--{if $v['status']==0}-->
+					未受理 
+					<!--{elseif $v['status']==3}-->
+					已解决
+					<!--{else}-->
+					处理中
+					<!--{/if}-->
+				</td>
+				<td>{$P8LANG['source_'.$v['source']]}</td>
+				<td><a href="{$this_module.controller}-view-id-{$v['id']}" target="_blank">$v[title]</a></td>
+				<td>{$cates['department'][$v['department']]['name']}/{$cates['type'][$v['type']]['name']}</td>
+				<td>
+					<!--{php echo date("Y-m-d H:i:s",$v['create_time']);}-->
+				</td>
+				<td>
+					<!--{php  if($v['solve_time']) echo date("Y-m-d H:i:s",$v['solve_time']);}-->
+				</td>
+				<td><a href="{$this_module.controller}-view-id-{$v['id']}" target="_blank">查看</a> / <a href="$this_router-delete?id=$v[id]" onclick="javascript:return confirm('确定了')">删除</a></td>
+			</tr>
+			<!--{/foreach}-->
+			<tr>
+				<td colspan="7" class="pages">{$pages}</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="mainbox mainborder">
+	<div class="section">
+		<form name="form" id="searchFrom" action="" method="post">
+			<table class="columntable formtable hover_table click_changeable" width="100%" style="text-align:center" >
+			<tr bgcolor="#eeeeee" class="title">
+				<td>搜索</td>
+			</tr>
+			<tr>
+				<td>
+					
+							信件来源： <select name="source">
+							<option value="">全部</option>
+							<option value="1" {if $source==1}selected{/if}>在线</option>
+							<option value="2" {if $source==2}selected{/if}>邮箱</option>
+							<option value="3" {if $source==3}selected{/if}>电话</option>
+							</select>问题编号：<input name="number" value="$number" type="text" /> 关键词：<input name="keyword" value="$keyword" type="text" /> 解决人：<input name="solve_name" value="$solve_name" type="text" /> <input type="hidden" name="act" value="search"/><input type="submit" value="搜索" />
+				</td>
+			</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+function printthis(){
+	$('#searchFrom input[name="act"]').val('print');
+	$('#searchFrom').attr('target','_blank').submit();
+}
+function searchthis(){
+	$('#searchFrom input[name="act"]').val('search');
+	$('#searchFrom').attr('target','_self').submit();
+}
+</script>
+<!--{/php168}-->

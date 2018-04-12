@@ -1,0 +1,33 @@
+*{ word-break:break-all; }
+body { color:#000; font-size:12px; font-family:"宋体",Arial; text-align:left; line-height:150%; background:#fff; }
+html, body, div, ul, li, dl, dt, dd, form, input, select, h1, h2, h3, h4, h5, p { margin:0px; padding:0px; }
+ul, li { list-style:none; }
+img { border:0px; margin:0px; padding:0px; }
+*img { float:left; }
+input, select { font-size:12px; }
+a:link, a:visited { color:#454545; text-decoration:none; }
+a:hover { color:#ff0000; text-decoration:underline; }
+.clear { clear:both; height:1px; margin-top:-1px; overflow:hidden; }
+.pointer { cursor:pointer; } 
+.wrap { margin:0 auto; }
+.wrap, #container { width:960px; overflow:hidden}
+#container { display:inline-block; }
+.layout_wrap { width:958px; overflow-x:hidden; }
+
+.label{
+	position: absolute; top: 0px; left: 0px; border: 1px solid #000000; z-index: 9999;
+	background-color: #cccccc; 
+}
+.label div{
+	position: absolute; width: 20px; height: 20px; background-color: #000000;
+	right: 0px; bottom: 0px;
+	clear: both;
+}
+
+.ajaxing{
+	position: absolute;
+	height: 36px;
+	background: url(../../../images/wait-big.gif) no-repeat;
+	padding-left: 32px;
+	border: 2px solid #000000;
+}

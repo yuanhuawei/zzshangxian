@@ -1,0 +1,47 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style>
+body { color:#000; font-size:12px; font-family:Arial; }
+html, body, form{ margin:0px; padding:0px; }
+td{ font-size:12px; line-height: 150%;background:url($RESOURCE/images/cms/digg/diggtrample.gif) no-repeat; width:100px; height:29px; cursor:pointer}
+.num{width:50px; text-align:center;float:right;margin-right:5px;height:20px; display:block; color:#ffffff; font-size:14px; font-weight:bold}
+#digg{ background-position:left top}
+#trample{background-position:left bottom}
+span{ cursor: pointer; }
+</style>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/cms/zh-cn.js"></script>
+</head>
+
+<body>
+<form id="form" action="$this_url" method="post">
+<table style="margin:0 auto;">
+	<tr>
+	<td id="digg" onclick="_submit(1)"><a class="num">$dig[digg]</a></td>
+	</tr>
+</table>
+<input type="hidden" name="did" id="did" value="did" />
+<input type="hidden" name="iid" value="$iid" />
+</form>
+<script type="text/javascript">
+function _submit(e){
+	var cookie = get_cookie('digged_cms_item') || ',';
+	if(cookie.indexOf(',$iid,') != -1){
+		alert(P8LANG.cms.digg.digged);
+		return;
+	}
+	cookie += '$iid,';
+	set_cookie('digged_cms_item', cookie);
+	
+	
+	$('#did').val(e);
+	$('#form').get(0).submit();
+}
+</script>
+</body>
+</html>
+<!--{/php168}-->

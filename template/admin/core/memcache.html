@@ -1,0 +1,130 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['operation']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					<ul>
+						<li><a href="{$core.admin_controller}/core-memcached">memcache{$P8LANG['manage']}</a></li>
+						<li><a href="{$core.admin_controller}/core-memcache">memcache{$P8LANG['config']}</a></li>
+						<li><a href="{$core.admin_controller}/core-cache">{$P8LANG['update_cache']}</a></li>
+					</ul>
+				</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+						<tr>
+							<td colspan="2" class="title">{$P8LANG['cache_with_memcache_config']}</td>
+						</tr>
+						
+						
+						<tr>
+							<td class="tdL">{$P8LANG['cache_with_memcache_enabled']}</td>
+							<td class="tdR">
+								<input type="radio" name="config[memcache][enabled]" value="1"{if !empty($config['memcache']['enabled'])} checked{/if} />{$P8LANG['Y']}
+								<input type="radio" name="config[memcache][enabled]" value="0"{if empty($config['memcache']['enabled'])} checked{/if} />{$P8LANG['N']}
+							</td>
+						</tr>
+						
+						<tbody id="servers">
+							<tr id="clone" style="display: none;">
+								<td class="tdL">{$P8LANG['memcache_host']}</td>
+								<td class="tdR">
+									<input type="text" class="txt" name="" value="localhost" />:<input type="text" class="txt" name="" value="11211" size="5" />
+									<input type="button" value="{$P8LANG['test_memcache']}" />
+									<input type="button" value="{$P8LANG['delete']}" />
+									<img src="{$SKIN}/check_no.gif" />
+								</td>
+							</tr>
+						</tbody>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['memcache_pconnect']}</td>
+							<td class="tdR">
+								<input type="radio" name="config[memcache][pconnect]" value="1" {if !empty($config['memcache']['pconnect']) || !isset($config['memcache']['pconnect'])} checked{/if} />{$P8LANG['Y']}
+								<input type="radio" name="config[memcache][pconnect]" value="0" {if empty($config['memcache']['pconnect']) && isset($config['memcache']['pconnect'])} checked{/if} />{$P8LANG['N']}
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['memcache_compress']}</td>
+							<td class="tdR">
+								<input type="radio" name="config[memcache][compress]" value="1" {if !empty($config['memcache']['compress'])}--> checked{/if} />{$P8LANG['Y']}
+								<input type="radio" name="config[memcache][compress]" value="0" {if empty($config['memcache']['compress'])} checked{/if} />{$P8LANG['N']}
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['memcache_prefix']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="config[memcache][prefix]" value="{if !empty($config['memcache']['prefix'])}{$config['memcache']['prefix']}{else}<!--{php echo rand_str(4) .'_';}-->{/if}" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL"><input type="button" value="添加服务器" onclick="_add()" /></td>
+							<td class="tdR">
+								<div id="memcache_test_result"></div>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">&nbsp;</td>
+							<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+						</tr>
+					</table>
+					
+				</td></tr>
+			</table>
+		</div>
+	</div>
+</form>
+
+<script type="text/javascript">
+
+function _add(host, port){
+	var copy = $('#clone').clone(true).show().attr('id', '').appendTo($('#servers'));
+	copy.find('input:eq(0)').attr('name', 'config[memcache][server][host][]').val(host !== undefined ? host : 'localhost');
+	copy.find('input:eq(1)').attr('name', 'config[memcache][server][port][]').val(host !== undefined ? port : '11211');
+	
+	copy.find('input:eq(2)').click(function(){
+		$.ajax({
+			url: '$this_router-test_memcache',
+			type: 'post',
+			data: {host: copy.find('input:eq(0)').val(), port: copy.find('input:eq(1)').val()},
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(status){
+				ajaxing({action: 'hide'});
+				
+				copy.find('img').attr('src', '{$SKIN}/check_'+ (status == 1 ? 'yes' : 'no') +'.gif');
+			}
+		});
+	});
+	
+	copy.find('input:eq(3)').click(function(){
+		copy.remove();
+	});
+}
+
+<!--{foreach $config['memcache']['server'] $v}-->
+_add('$v[host]', '$v[port]');
+<!--{/foreach}-->
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

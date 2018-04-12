@@ -1,0 +1,83 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<!--{php
+if(isset($config['bank'])){
+	end($config['bank']);
+	$offset = key($config['bank']);
+}else{
+	$offset = 0;
+}
+}-->
+<form action="$this_url" method="POST" id="form">
+
+<div class="mainbox mainborder">
+	
+	<table class="columntable formtable hover_table">
+	<tr class="title">
+		<td class="title" colspan="2">{$P8LANG['pay_offline']['config']}</td>
+	</tr>
+	
+	<tr id="clone" style="display: none;">
+		<td width="10%">{$P8LANG['pay_offline']['account']}</td>
+		<td>
+			{$P8LANG['pay_offline']['bank']}:<input type="text" value="" /><br />
+			{$P8LANG['pay_offline']['account']}:<input type="text" value="" /><br />
+			{$P8LANG['pay_offline']['payee']}:<input type="text" value="" /><br />
+			{$P8LANG['pay_offline']['logo']}:<input type="text" value="" /> <span class="help">{$P8LANG['pay_offline']['logo_note']}</span><br />
+			<input type="button" value="{$P8LANG['delete']}" /><br />
+		</td>
+	</tr>
+	
+	<tbody id="trs">
+		
+	</tbody>
+	
+	<tr>
+		<td class="tdL"><input type="button" value="{$P8LANG['pay_offline']['add_more']}" onclick="copy_bank()" /></td>
+		<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+	</tr>
+	
+	</table>
+</div>
+<input type="hidden" name="name" value="{if isset($interface)}{$interface}{/if}" />
+</form>
+
+<script type="text/javascript">
+var offset = $offset;
+
+function copy_bank(config){
+	var copy = $('#clone').clone().show();
+	copy.find('input:eq(0)').attr('name', 'config[bank]['+ offset +'][name]').
+		val(config !== undefined && config.name !== undefined ? config.name : '');
+	copy.find('input:eq(1)').attr('name', 'config[bank]['+ offset +'][account]').
+		val(config !== undefined && config.account !== undefined ? config.account : '');
+	copy.find('input:eq(2)').attr('name', 'config[bank]['+ offset +'][payee]').
+		val(config !== undefined && config.payee !== undefined ? config.payee : '');
+	copy.find('input:eq(3)').attr('name', 'config[bank]['+ offset +'][logo]').
+		val(config !== undefined && config.logo !== undefined ? config.logo : '');
+		
+	copy.find('input:eq(4)').click(function(){
+		$(this).parent().parent().remove();
+	});
+	
+	$('#trs').append(copy);
+	
+	offset++;
+}
+
+<!--{foreach $config['bank'] $v}-->
+copy_bank({
+	name: '$v[name]',
+	account: '$v[account]',
+	payee: '$v[payee]',
+	logo: '$v[logo]'
+});
+<!--{/foreach}-->
+<!--{foreachelse}-->
+copy_bank();
+<!--{/foreachelse}-->
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

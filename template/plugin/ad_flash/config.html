@@ -1,0 +1,92 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<style>
+.box { padding:2px; border:1px solid #cccccc; }
+.head{ background-color:#eeeeee}
+.formtable .title{ color:#FFF}
+#showimgbox{ display:none; width:305px; height:105px; position:absolute;  border:1px solid #cccccc}
+</style>
+
+<div class="mainbox mainborder">
+	<table class="formtable">
+		<tr>
+			<td class="title">{$P8LANG['operation']}</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				<ul>
+					<li><a href="{$this_url}?plugin=ad_flash">列表</a></li>
+					<li><a href="{$this_url}?plugin=ad_flash&job=cache">刷新缓存</a></li>
+					<li><a href="{$this_url}?plugin=ad_flash&job=add">添加一个</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mainbox mainborder" style="display:">
+	<table class="formtable">
+		<tr>
+			<td class="title">{$P8LANG['operation']}</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				<form name="form1" action="" method="post">
+				宽：<input name="config[width]" type="text" size="5" value="{if !empty($config['width'])}$config[width]{else}960{/if}"/> 
+				高：<input name="config[height]" type="text" size="5" value="{if !empty($config['height'])}$config[height]{else}290{/if}"/>
+				 转换速度：<select name="config[rolltimes]">
+					<option value="5" {if !empty($config['rolltimes']) && $config['rolltimes']==5}selected{/if}>5</option>
+					<option value="10" {if !empty($config['rolltimes']) && $config['rolltimes']==10}selected{/if}>10</option>
+					<option value="15" {if !empty($config['rolltimes']) && $config['rolltimes']==15}selected{/if}>15</option>
+					<option value="20" {if !empty($config['rolltimes']) && $config['rolltimes']==20}selected{/if}>20</option>
+				</select>
+				字体：
+				<select name="config[textfonts]">
+					<option value="宋体" {if !empty($config['textfonts']) && $config['textfonts']=='宋体'}selected{/if}>宋体</option>
+					<option value="黑体" {if !empty($config['textfonts']) && $config['textfonts']=='黑体'}selected{/if}>黑体</option>
+				</select>
+				字体大小：
+				<select name="config[textsizes]">
+					<option value="12" {if !empty($config['textsizes']) && $config['textsizes']==12}selected{/if}>12</option>
+					<option value="14" {if !empty($config['textsizes']) && $config['textsizes']==14}selected{/if}>14</option>
+					<option value="16" {if !empty($config['textsizes']) && $config['textsizes']==16}selected{/if}>16</option>
+					<option value="18" {if !empty($config['textsizes']) && $config['textsizes']==18}selected{/if}>18</option>
+				</select>
+				加粗：<input type="checkbox" name="config[textbolds]" value="1"  {if !empty($config['textbolds'])}checked{/if}/> 
+				<input type="submit" value="确定" class="submit_btn" />
+				<input type="hidden" name="do" value="config" />
+				</form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mainbox mainborder">
+	<table class="formtable hover_table">
+	
+					<tr >
+						<td class="title">&nbsp;</td>
+						<td class="title">标题</td>
+						<td class="title">图片</td>
+						<td class="title">状态</td>
+						<td class="title">操作</td>
+					</tr>
+				<!--{foreach $listdb $k $v}-->	
+					<tr>
+						<td>$v[id]</td>
+						<td>$v[title]</td>
+						<td><a href="$v[bigpic]" target="_blank" id="img_$v[id]" onmouseover="show_img($v[id])">$v[bigpic]</a></td>
+						<td><!--{if !empty($v['ifshow'])}--><a href="$this_url?plugin=ad_flash&job=unshow&id=$v[id]">显示</a><!--{else}--><a href="$this_url?plugin=ad_flash&job=show&id=$v[id]">不显示</a><!--{/if}--></td>
+						<td><a href="$this_url?plugin=ad_flash&job=edit&id=$v[id]">修改</a>/<a onclick="javascript:return confirm('确定要删除')" href="$this_url?plugin=ad_flash&job=delete&id=$v[id]">删除</a></td>
+					</tr>
+					<!--{/foreach}-->
+				
+	</table>
+</div>
+<script type="text/javascript">
+function show_img(id){
+	$('#showimgbox').show().css({left:$("#img_"+id).position().left+200+'px',top:$("#img_"+id).position().top+'px'});
+	$('#showimg').attr('src',$("#img_"+id).attr('href'));
+}
+</script>
+<div id="showimgbox"><img src="" id="showimg" width="300" height="100" /></div>
+
+<!--{/php168}-->

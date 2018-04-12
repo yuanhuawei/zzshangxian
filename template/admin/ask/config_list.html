@@ -1,0 +1,80 @@
+<!--{php168}-->
+
+<!--{template $this_system header admin}-->
+	
+<form action="$this_router-$ACTION" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="formtable">
+						<tr>
+							<td colspan="2" class="title">{$P8LANG['ask_config_list']}</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_config_title']}</td>
+							<td class="tdR"><input type="text" class="txt" name="config[title_length]" size="10"  value="<!--{if !empty($config['title_length'])}-->{$config['title_length']}<!--{/if}-->" /></td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_config_content']}</td>
+							<td class="tdR">
+								{$P8LANG['ask_min']}<input type="text" class="txt" name="config[content_min_length]" size="10"  value="<!--{if !empty($config['content_min_length'])}-->{$config['content_min_length']}<!--{/if}-->" /> - 
+								{$P8LANG['ask_max']}<input type="text" class="txt" name="config[content_max_length]" size="10"  value="<!--{if !empty($config['content_max_length'])}-->{$config['content_max_length']}<!--{/if}-->" />
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_config_addition']}</td>
+							<td class="tdR"><input type="text" class="txt" name="config[addition_length]" size="10"  value="<!--{if !empty($config['addition_length'])}-->{$config['addition_length']}<!--{/if}-->" /></td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_config_poller_length']}</td>
+							<td class="tdR"><input type="text" class="txt" name="config[poller_length]" size="10"  value="<!--{if !empty($config['poller_length'])}-->{$config['poller_length']}<!--{/if}-->" /></td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_config_answer_content_length']}</td>
+							<td class="tdR"><input type="text" class="txt" name="config[answer_content_length]" size="10"  value="<!--{if !empty($config['answer_content_length'])}-->{$config['answer_content_length']}<!--{/if}-->" /></td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_config_perpage']}</td>
+							<td class="tdR"><input type="text" class="txt" name="config[perpage]" size="10"  value="<!--{if !empty($config['perpage'])}-->{$config['perpage']}<!--{/if}-->" /></td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_config_layout_size']}</td>
+							<td class="tdR"><input type="text" class="txt" name="config[layout_size]" size="10"  value="<!--{if !empty($config['layout_size'])}-->{$config['layout_size']}<!--{/if}-->" /></td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_config_confirm_number']}</td>
+							<td class="tdR"><input type="text" class="txt" name="config[confirm_number]" size="10"  value="<!--{if !empty($config['confirm_number'])}-->{$config['confirm_number']}<!--{/if}-->" /></td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_config_confirm_perpage']}</td>
+							<td class="tdR"><input type="text" class="txt" name="config[confirm_perpage]" size="10"  value="<!--{if !empty($config['confirm_perpage'])}-->{$config['confirm_perpage']}<!--{/if}-->" /></td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_config_search_perpage']}</td>
+							<td class="tdR"><input type="text" class="txt" name="config[search_perpage]" size="10"  value="<!--{if !empty($config['search_perpage'])}-->{$config['search_perpage']}<!--{/if}-->" /></td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_config_search_layout_size']}</td>
+							<td class="tdR"><input type="text" class="txt" name="config[search_layout_size]" size="10"  value="<!--{if !empty($config['search_layout_size'])}-->{$config['search_layout_size']}<!--{/if}-->" /></td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_config_tags_number']}</td>
+							<td class="tdR"><input type="text" class="txt" name="config[tags_number]" size="10"  value="<!--{if !empty($config['tags_number'])}-->{$config['tags_number']}<!--{/if}-->" /></td>
+						</tr>
+						<tr>
+						  <td class="tdL">&nbsp;</td>
+						  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+					  </tr>
+					</table>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+	
+</form>
+
+
+<!--{template $core footer admin}-->
+
+<!--{/php168}-->

@@ -1,0 +1,11 @@
+<!--{php168}-->
+<ul class="label_ul_s">
+	<!--{foreach $list $value}-->
+	<li class="label_border_dashed">
+		<span style="background-color:<!--{php echo $value['digg']>$value['trample']?'#f00':'#000';}-->;color:#ffffff;padding:1px 3px; margin-right:5px"><!--{php echo $value['digg']>$value['trample']? $value['digg']:$value['trample'];}--></span><span class="sp_title"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></span>
+	</li>
+	<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->
+

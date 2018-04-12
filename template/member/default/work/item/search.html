@@ -1,0 +1,32 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{php $CURN_TITLE='办事查询';}-->
+<!--{template $this_module header}-->
+<div class="search_border">
+<div class="searchbox">
+	<div class="search_box">
+		<div class="searchform">
+			<form name="form" id="form" action="" method="post">
+			<select name="type"><option value="1"> 编号 </option></select> <input type="text" value="$number" name="number" />&nbsp;<input type="submit" class="search_btn" value="" />
+			</form>
+		</div>
+		<div class="searchresult">
+		<h1 class="head">进度信息</h1>
+		<!--{if !empty($list)}-->
+		<ul class="list">
+			<!--{foreach $list $v}-->
+			<li>$v[date] $v[prog] 处理人:$v[adminname]
+				<p>评语:<!--{if !empty($v['reason'])}-->$v[reason]<!--{else}-->无<!--{/if}--></p>
+			</li>
+			
+			<!--{/foreach}-->
+		</ul>
+		<!--{else}-->
+		<p>没有相关信息</p>
+		<!--{/if}-->
+		</div>
+	</div>
+</div>
+</div>
+<!--{template $this_module footer}-->
+<!--{/php168}-->

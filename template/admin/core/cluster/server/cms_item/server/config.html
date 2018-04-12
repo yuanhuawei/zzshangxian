@@ -1,0 +1,26 @@
+<!--{php168}-->
+<!--{template $this_module $template_path/header admin}-->
+
+<form action="$_this_url" method="post" id="form">
+<table width="100%" cellspacing="0" cellpadding="0" class="zq_list">
+	<tr>
+		<td colspan="2" class="list_top"></td>
+	</tr>
+	
+	<tr>
+		<td class="tdL">{$P8LANG['cluster_cms_item']['auto_receive']}</td>
+		<td class="tdR">
+			<input type="radio" name="config[auto_receive]" value="1"{if !empty($config['auto_receive'])} checked{/if} />{$P8LANG['Y']}
+			<input type="radio" name="config[auto_receive]" value="0"{if empty($config['auto_receive'])} checked{/if} />{$P8LANG['N']}
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="tdL">&nbsp;</td>
+		<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+	</tr>
+</table>
+</form>
+
+<!--{template $this_module footer admin}-->
+<!--{/php168}-->

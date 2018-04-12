@@ -1,0 +1,141 @@
+<!--{php168}-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=gbk" http-equiv="Content-Type">
+<title>{$TITLE}</title>
+<meta content="局长信箱" name="keywords">
+<meta content="局长信箱" name="description">
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<link rel="stylesheet" type="text/css" href="{$SKIN}common.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/letter/style.css" />
+</head>
+<body>
+<div class="boxouter">
+<h1 style="text-align:center">$label[hdjl-letter_vt]</h1>
+<h1 style="text-align:center">$label[hdjl-letter_vtitle]</h1>
+<div class="table_hd"><div class="fl b">编号:<span>{$data['number']}</span></div>
+<div class="fl m">$label[hdjl-letter_vt2]</div><div class="fr b">申请日期:<span><!--{php echo date('Y-m-d',$data['create_time']);}--></span></div></div>
+<table class="mailtb" width="100%" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse;">
+  <tr>
+    <td width="143" class="grey b center">申请人</td>
+    <td width="168" class="red">{$data['username']}</td>
+    <td width="246" class="grey b center">性别</td>
+    <td width="255" class="red">{if $data['gender']==1}男{else}女{/if}</td>
+  </tr>
+  <tr>
+    <td class="grey b center">年龄</td>
+    <td width="168" class="red">{$data['age']}</td>
+    <td class="grey b center">职业</td>
+    <td width="168" class="red">{$data['profession']}</td>
+  </tr>
+  <!--{if $manager }-->
+  <tr>
+    <td class="grey b center">证件类型</td>
+    <td width="168" class="red">{$id_type[$data['id_type']]}</td>
+    <td class="grey b center">证件号码</td>
+    <td width="168" class="red">{$data['id_num']}</td>
+  </tr>
+  <tr>
+    <td class="grey b center">联系电话</td>
+    <td width="168" class="red">{$data['phone']}</td>
+    <td class="grey b center">电子邮件</td>
+    <td width="168" class="red">{$data['email']}</td>
+  </tr>
+  <tr>
+    <td class="grey b center">联系地址</td>
+    <td colspan="3" class="red">{$data['address']}</td>
+  </tr>
+  <!--{/if}-->
+   <tr>
+    <td class="grey b center">信访部门</td>
+    <td width="168" class="red">{$cates['department'][$data['department']]['name']}</td>
+    <td class="grey b center">问题类别</td>
+    <td width="168" class="red">{$cates['type'][$data['type']]['name']}</td>
+  </tr>
+   <tr>
+    <td class="grey b center">主题</td>
+    <td colspan="3" class="red">{$data['title']}</td>
+  </tr>
+  <tr>
+    <td class="grey b center">内容</td>
+    <td colspan="3" class="fonty">
+    <span lang="zh-cn" xml:lang="zh-cn">{$data['data'][0]['content']}</span></td>
+  </tr>
+  <!--{if !empty($data['data'][0]['attachment'])}-->
+  <tr>
+    <td class="grey b center">附件</td>
+    <td colspan="3" class="red"><a href="{$data['data'][0]['attachment']}" target="_blank">{$data['data'][0]['attachment_name']}</a></td>
+  </tr>
+   <!--{/if}-->
+</table>
+<div class="clear"></div>
+<div class="rlink"><a>处理结果</a></div>
+<table class="mailtb" width="100%" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse;">
+  <tr>
+    <td width="143" class="grey b center">受理部门</td>
+    <td width="168" class=" red">{if !empty($data['solve_department'])}{$cates['department'][$data['solve_department']]['name']}{/if}</td>
+    <td width="246" class="grey b center">受理人</td>
+    <td width="255" class="red">{$data['solve_name']}</td>
+  </tr>
+  
+  <tr>
+    <td class="grey b center">处理进度</td>
+    <td class="red">{$P8LANG['status_'.$data['status']]}</td>
+    <td class="grey b center">完成时间</td>
+    <td class="red"><!--{php if($data['solve_time'])echo date('Y-m-d',$data['solve_time']);}--></td>
+  </tr>
+  <tr>
+    <td class="grey b center">答复内容</td>
+    <td colspan="3" class="fonty"> <span lang="zh-cn" xml:lang="zh-cn">{if !empty($data['data'][0]['reply'])}{$data['data'][0]['reply']}{/if}</span></td>
+   </tr>
+</table>
+<div class="clear"></div>
+<!--{if $data['status']==3}-->
+<div class="botline">信访人的评价:<span>
+<!--{if $isposter && !$data['comment']}-->
+<a href="javascript:;" onclick="dialog.show()">还没评价,点击这里进行评价</a>
+<script type="text/javascript">
+var message = new Message();
+var dialog = new P8_Dialog({
+	title_text: '评价',
+	button: true,
+	zIndex:10000,
+	width: 400,
+	height: 100,
+	ok:function(){
+		$('#common_form').submit();
+	}
+});
+shtml ='<form id="common_form" action="" method="post"><div style="padding:10px">你对本次信访的评价是：<!--{foreach $comments $ck $com}-->&nbsp;<input type="radio" name="common" value="$ck"/>$com<!--{/foreach}--></div></form>';
+dialog.content.html(shtml);
+
+</script>
+<!--{elseif !$data['comment']}-->
+还没评价
+<!--{else}-->
+<!--{if $data['comment']==1}-->
+<strong style="color:blue">{$comments[$data['comment']]}</strong>
+<!--{else}-->
+{$comments[$data['comment']]}
+<!--{/if}-->
+<!--{/if}-->
+</span></div>
+<!--{/if}-->
+
+<p style="text-align:right; margin:30px 0 20px 0">
+【<a href="{$this_router}-post">发布</a>】 
+<!--{if $manager}-->
+【<a href="{$this_router}-reply?id={$data['id']}">处理</a>】 
+【<a href="javascript:;" onclick="message.send($data[uid])"><img src="{$RESOURCE}/images/qyfa.gif" border="0" align="top"/></a>】 
+【<a  href="{$this_url}?act=del&id={$data['id']}" onclick="javascript:if(!confirm('确定要删？'))return false;" target="_blank">删除</a>】
+<!--{/if}-->
+【<a href="javascript:;"  onclick="window.print();">打印</a>】 
+【<a href="javascript:;"  onclick="window.close()">关闭</a>】 
+</p>
+</div>
+</body>
+</html>
+<!--{/php168}-->

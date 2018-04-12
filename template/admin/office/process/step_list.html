@@ -1,0 +1,45 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+	<table class="formtable">
+		<tr>
+			<td class="title">快捷操作</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				<ul>
+					<li><a href="{$this_router}-step?pid=$pid">流程步骤列表</a></li>
+					<li><a href="{$this_router}-step?act=add&pid=$pid">添加流程步骤</a></li>
+				</ul>
+			</td>
+		</tr>
+		
+	</table>
+</div>
+<div class="mainbox mainborder">
+	<form name="form" id="form" action="$this_url" method="post">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="columntable formtable hover_table">
+			<tr align="center" height="18" class="head title">
+				<td width="5%">ID</td>
+				<td width="10%">流程流程名称</td>
+				<td width="10%" >流程流程描述</td>
+				<td width="20%" >操作</td>
+			</tr>
+			<!--{foreach $list $key $value}-->
+			<tr id="item_$value[id]" align="center">
+				<td>
+					<input type="checkbox" name="id[]" value="$value[id]" />
+					$value[id]</td>
+				<td>$value[name]</td>
+				<td>$value[description]</td>
+				<td align="center">
+					<a href="{$this_url}?act=update&id=$value[id]">修改流程步骤</a> 
+					<a href="{$this_url}?act=del&id=$value[id]" onclick="deleteitem($value[id]);return false">删除流程步骤</a>
+				</td>
+			</tr>
+			<!--{/foreach}-->
+		</table>
+	</form>
+</div>
+
+<!--{/php168}-->

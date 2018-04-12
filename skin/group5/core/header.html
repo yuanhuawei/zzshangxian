@@ -1,0 +1,72 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$TITLE</title>
+<meta name="keywords" content="$SEO_KEYWORDS" />
+<meta name="description" content="$SEO_DESCRIPTION" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/head_foot/style.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/label/label.css" />
+<link rel="Shortcut Icon" href="favicon.ico">
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+</head>
+<body>
+<div class="container">
+	<!--banner页眉部分-->
+	<div id="header">
+		<div class="top_bjt">
+        <div id="header_t">
+<a class="each_item" onclick="try{window.external.AddFavorite('{$RESOURCE}', '国微CMS门户方案----领先的开源CMS平台');}catch(e){window.sidebar.addPanel('国微CMS门户方案----领先的开源CMS平台', '{$RESOURCE}', '');}" href="javascript:void(0)">收藏本站</a>|
+<a class="each_item" onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('{$RESOURCE}');" href="javascript:void(0)">设为首页</a>|<a class="each_item" href="{$RESOURCE}/index.php/cms/item-rss">RSS订阅<span class="rss"></span></a>
+</div>
+<span>海南省陵水黎族自治县人民政府欢迎您！</span>
+		</div>
+		<div class="flash">
+        <div class="logo_con"><a href="{$this_system.controller}">返回首页</a></div>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+<div class="nav-extra-outer clearfix nav_menu_outer">
+		<div  class="clearfix nav_menu">
+			<ul id="menu_nav">
+				<!--{php $loadsystem = ($SYSTEM == $core->CONFIG['index_system'] || $core->CONFIG['CoreMenu'])? 'core' : $this_system->name;}-->
+			<!--{php $navigation_menu = $CACHE->read('', $loadsystem, 'navigation');}-->
+				<!--{foreach $navigation_menu['menus'] $k $v}-->
+				<li><a href="$v[url]" target="$v[target]"><span>$v[name]</span></a>
+				<!--{if !empty($v['menus']) && $core->CONFIG['ShowMenu']}-->
+					<dl>
+					<!--{foreach $v['menus'] $k2 $v2}-->
+					<dt><a href="$v2[url]">$v2[name]</a> | </dt>
+					
+					<!--{/foreach}-->
+					</dl>
+				<!--{/if}-->
+				</li>
+				<!--{/foreach}-->		
+			</ul>
+			</div>
+</div>
+<script type="text/javascript" src="{$RESOURCE}/skin/dangwei/core/governament.js"></script>
+<div class="nav-extra-outer">
+<div class="nav-extra">
+<div class="notice"><span>热点资讯:</span><div class="con">$label[move_news]</div></div>
+<div class="search_form">
+<form action="{$core.controller}/cms/item-search" target="_blank" method="get" name="form1" id="form1">
+<input type="text" value="" class="keyword" id="keyword" name="keyword"> <input type="submit" class="submitbtn" value="" id="button" name="button">
+</form>
+</div>
+</div></div>
+<div class="container bg_white">
+<!--{/php168}-->
+

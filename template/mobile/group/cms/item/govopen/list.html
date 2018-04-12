@@ -1,0 +1,16 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!--{template $core header_two}-->
+<div class="position">
+	<a href="{$core.mobile_controller}">首页</a>
+	<!--{foreach $parent_cats $v}-->
+	&gt; <a href="$v[m_url]">$v[name]</a>
+	<!--{/foreach}-->
+	&gt; <a href="$CAT[m_url]">$CAT[name]</a> 
+</div>
+<div class="listbox1">
+    <!--{php include template($TEMP_OBJ, $CAT['item_template_mobile'], 'label');}-->
+    <div class="page">$pages</div>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->

@@ -1,0 +1,344 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+
+<form action="$this_url" method="POST" id="form">
+<table class="mainbox mainborder">
+	<tr><td>
+		<table class="columntable formtable hover_table">
+			<tr class="title">
+				<td colspan="3" class="title">投票</td>
+			</tr>			
+			<tr>
+				<td class="tdL">投票标题</td>
+				<td class="tdR">
+					<input class="txt" type="text" name="name" value="{if isset($data['name'])}$data[name]{/if}" size="40" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">投票说明</td>
+				<td class="tdR">
+					<textarea id="content" name="content" cols="80" rows="5">{if isset($data['content'])}{html_entities($data['content'])}{/if}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdL">缩略图</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="frame" id="frame"  value="{if !empty($data['frame'])}{$data['frame']}{/if}" size="50" />
+					<input type="button" onclick="uploader.choseup();" value="{$P8LANG['upload']}" />
+					<input type="button" id="frame_toggle" onclick="" value="" style="display: none;" />
+					<a href="###" onclick="uploader.image_cut()">[$P8LANG[image_cut]]</a><br />
+					
+					<script type="text/javascript">
+					var uploader;
+					$(function(){
+						uploader = new P8_Upload({
+							element: {
+								src: $('#frame'),
+								attribute: 'value'
+							},
+							param: {
+								return_thumb: true
+								<!--{if !empty($this_model['CONFIG']['frame_thumb_width']) && !empty($this_model['CONFIG']['frame_thumb_height'])}-->
+								,thumb_width: {$this_model['CONFIG']['frame_thumb_width']},
+								thumb_height: {$this_model['CONFIG']['frame_thumb_height']}
+								<!--{/if}-->
+							}
+						});
+					});
+					</script>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdL">投票时间间隔(天)</td>
+				<td class="tdR">
+					<input type="text" name="vote_interval" value="{if isset($data['vote_interval'])}$data[vote_interval]{else}1000{/if}" size="3" />
+					<span class="help">如果是游客投票，那么一个IP只能投一次，如果会员投票，那么一个会员ID只能投一次。如果你想实现投票永久一人投一次，你可以设置999天等无法到达的间隔日期即可。</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">最大投票项数</td>
+				<td class="tdR">
+					<input type="text" name="multi" value="{if isset($data['multi'])}$data[multi]{else}1{/if}" size="3" />
+					<span class="help">填入允许一人可投多少选项。"0"表示可投所有选项</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">分页项数</td>
+				<td class="tdR">
+					<input type="text" name="page_size" value="{if isset($data['page_size'])}$data[page_size]{else}0{/if}" size="3" />
+					<span class="help">用于超大型投票，每一页内的投票项数。0为不分页</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">是否允许查看结果</td>
+				<td class="tdR">
+					<input type="checkbox" name="viewable" value="1"{if !empty($data['viewable'])} checked{/if} /> <span class="point">选了此项，不投也能看结果</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">投票后才能查看结果</td>
+				<td class="tdR">
+					<input type="checkbox" name="vote_to_view" value="1"{if !empty($data['vote_to_view'])} checked{/if} /> <span class="point">先选上面项，此项才有效。</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">是否允许查看投票者</td>
+				<td class="tdR">
+					<input type="checkbox" name="view_voter" value="1"{if !empty($data['view_voter'])} checked{/if} />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">是否启用此投票</td>
+				<td class="tdR">
+					<input type="checkbox" name="enabled" value="1"{if !empty($data['enabled']) || !isset($data['enabled'])} checked{/if} />
+				</td>
+			</tr>
+			<tr>
+				<td class="tdL">是否启用验证码</td>
+				<td class="tdR">
+					<input type="checkbox" name="captcha" value="1"{if !empty($data['captcha'])} checked{/if} />
+				</td>
+			</tr>
+			<tr>
+				<td class="tdL">投票截止时间</td>
+				<td class="tdR">
+					<input type="text" name="expire" value="{if !empty($data['expire'])}{date('Y-m-d H:i:s', $data['expire'])}{/if}" onclick="rcalendar(this, 'full')" autocomplete="off" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">显示模板</td>
+				<td class="tdR">
+					<input type="text" name="template" value="{if !empty($data['template'])}$data[template]{else}vote{/if}" />
+					<input type="button" value="选择" onclick="template_dialog.show();" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">JS调用显示模板</td>
+				<td class="tdR">
+					<input type="text" name="label_template" value="{if !empty($data['label_template'])}$data[label_template]{else}vote{/if}" />
+					<input type="button" value="选择" onclick="label_template_dialog.show();" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">允许投票的角色</td>
+				<td class="tdR">
+					<!--{foreach $core->roles $id $v}-->
+					<input type="checkbox" id="role_$id" name="roles[$id]" value="$id"{if isset($data['roles'][$id])} checked{/if} /><label for="role_$id">$v[name]</label> 
+					<!--{/foreach}-->
+					
+					<!--
+					<select name="roles[]" multiple style="height: 100px;" onchange="if(this.value == 0) this.selectedIndex = -1;">
+						<option value="0">---------</option>
+						<!--{foreach $core->roles $id $v}-->
+						<option value="$id"{if isset($data['roles'][$id])} selected{/if}>$v[name]</option>
+						<!--{/foreach}-->
+					</select>
+					-->
+					<br /><span class="help">“不选”则所有人都能投票。如限会员投票，请不要勾选“游客”</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">投票选项</td>
+				<td class="tdR">
+					<font color="blue">名称项留空为即为删除选项。 小技巧：批量上传图片时可以批量添加选项，你上传的文件名将作为“名称”项</font>
+				</td>
+			</tr>
+			
+		</table>
+	</td></tr>
+	
+	<tr>
+		<td>
+			<table class="columntable formtable hover_table">
+				<tr class="title">
+					<td class="title">ID</td>
+					<td class="title">名称</td>
+					<td class="title">图片描述</td>
+					<td class="title">链接(可以留空，也可以外链)</td>
+					<td class="title">图片(如相片等)</td>
+					<td class="title">显示顺序</td>
+					<td class="title">结果</td>
+				</tr>
+				
+				<tbody id="options">
+					
+				</tbody>
+				
+				<tr id="option" style="display: none;">
+					<td></td>
+					<td><input class="name" type="text" name="option_name[]" size="20" value="" autocomplete="off" /></td>
+					<td><input class="description" type="text" name="option_description[]" size="30" value="" autocomplete="off" /></td>
+					<td><input class="ourl" type="text" name="option_url[]" size="20" value="" autocomplete="off" /></td>
+					<td>
+						<input class="frame" type="text" name="option_frame[]" size="20" value="" autocomplete="off" />
+						<input class="upload" type="button" value="上传" />
+					</td>
+					<td><input class="order" type="text" name="option_order[]" value="" size="3" autocomplete="off" /></td>
+					<td><a class="voter" href="" target="_blank">查看</a> | <a href="javascript:void(0)" onclick="deletetr(this)">删除</a></td>
+				</tr>
+				
+			</table>
+		</td>
+	</tr>
+	
+	<tr>
+		<td colspan="3" class="footer">
+			<input type="button" value="添加选项" onclick="add_option({})" />
+		</td>
+	</tr>
+	
+	<tr>
+		<td colspan="3" class="footer" align="center">
+			<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" />
+		</td>
+	</tr>
+</table>
+
+<input type="hidden" name="id" value="{if isset($data['id'])}$data[id]{/if}" />
+<input type="hidden" name="attachment_hash" value="<!--{php echo $attachment_hash = unique_id(16);}-->" />
+</form>
+
+<script type="text/javascript">
+
+var attachment_hash = '$attachment_hash';
+
+var options = <!--{if !empty($options)}-->{p8_json($options)}<!--{else}-->[{id: '', name: '', url: '', display_order: ''}]<!--{/if}-->;
+
+function add_option(data){
+	var copy = $('#option').clone(true).show().attr('id', '').appendTo($('#options'));
+	
+	if(data.id){
+		copy.find('td:eq(0)').html(data.id);
+		copy.find('input.name').attr('name', 'option_name['+ data.id +']').val(data.name);
+		copy.find('input.ourl').attr('name', 'option_url['+ data.id +']').val(data.url);
+		copy.find('input.description').attr('name', 'option_description['+ data.id +']').val(data.description);
+		copy.find('input.frame').attr('name', 'option_frame['+ data.id +']').val(data.frame);
+		copy.find('input.order').attr('name', 'option_order['+ data.id +']').val(data.display_order);
+		copy.find('a.voter').attr('href', '{$this_module.controller}-voter?id={if isset($data['id'])}$data[id]{/if}&oid='+ data.id);
+	}
+	copy.find('input.name').val(data.name === undefined ? '' : data.name);
+	copy.find('input.frame').val(data.frame === undefined ? '' : data.frame);
+	
+	var uploader = new P8_Upload({
+		element: {
+			src: copy.find('input.frame'),
+			attribute: 'value'
+		},
+		param: {
+			count: -99,
+			return_thumb: 1
+			<!--{if !empty($this_module->CONFIG['frame_thumb_width']) && !empty($this_module->CONFIG['frame_thumb_height'])}-->
+			,thumb_width: {$this_module.CONFIG['frame_thumb_width']},
+			thumb_height: {$this_module.CONFIG['frame_thumb_height']}
+			<!--{/if}-->
+		},
+		callback: function(json){
+			var files = json.attachments;
+			
+			if(copy.find('input.name').val() == ''){
+				var o = files[0].name.lastIndexOf('.');
+				copy.find('input.name').val(files[0].name.substr(0, o != -1 ? o : files[0].name.length));
+			}
+			files.shift();
+			
+			for(var i = 0; i < files.length; i++){
+				var o = files[i].name.lastIndexOf('.');
+				add_option({name: files[i].name.substr(0, o != -1 ? o : files[i].name.length), frame: files[i].thumb != 0 ? files[i].file +'.thumb.jpg' : files[i].file});
+			}
+		}
+	});
+	
+	copy.find('input.upload').click(function(){
+		uploader.choseup();
+	});
+}
+function deletetr(obj){
+$(obj).parent().parent().remove();
+return false;
+}
+for(var i in options){
+	add_option(options[i]);
+}
+
+$('#form').validate({
+	rules: {
+		name: {
+			required: true
+		}
+	},
+	
+	messages: {
+		name: {
+			required: '&nbsp;'
+		}
+	},
+	
+	submitHandler: function(form){
+		form.submit();
+	}
+});
+<!--{if $ACTION == 'add'}-->
+$('#form input[name=name]').focus();
+<!--{/if}-->
+
+
+var template_dialog = new P8_Dialog({
+	title_text: '$P8LANG[select_template]',
+	button: true,
+	width: 600,
+	height: 300,
+	show: function(){
+		template_selector.init();
+	},
+	ok: function(){
+		$('#form input[name=template]').val(template_selector.value);
+	}
+});
+
+var template_selector = new Template_Selector({
+	base_dir: '{if empty($this_module->CONFIG['template']) || !is_dir(TEMPLATE_PATH . $SYSTEM .'/'. $MODULE .'/'. $this_module->CONFIG['template'])}default{else}{$this_module.CONFIG['template']}{/if}/{$SYSTEM}/{$MODULE}/style/',
+	template_dir: '{$core.CONFIG['template_dir']}',
+	selected: $('#form input[name=template]').val(),
+	dialog: template_dialog
+});
+
+
+
+var label_template_dialog = new P8_Dialog({
+	title_text: '$P8LANG[select_template]',
+	button: true,
+	width: 600,
+	height: 300,
+	show: function(){
+		label_template_selector.init();
+	},
+	ok: function(){
+		$('#form input[name=label_template]').val(label_template_selector.value);
+	}
+});
+
+var label_template_selector = new Template_Selector({
+	base_dir: 'label/$MODULE/',
+	template_dir: '{$core.CONFIG['template_dir']}',
+	selected: $('#form input[name=label_template]').val(),
+	dialog: label_template_dialog
+});
+
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

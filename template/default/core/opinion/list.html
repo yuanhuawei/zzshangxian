@@ -1,0 +1,48 @@
+<!--{php168}-->
+<!--{php $TITLE = '意见征集  - ';}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/css/style.css">
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/css/style_opinion.css">
+<div class="breadwte"></div>
+<div class="maincon">
+	<div class="container">
+		<div class="row">
+			<div class="contain-left fl">	
+				<div class="border1 mbottom">
+					<div class="head1">
+						<span class="title1">$label[hdjl-firstTitle]</span>
+					</div>
+					<div class="main1">$label[hdjl-leftDaohang_hudong]</div>
+				</div>
+				<div class="border4">
+					<div class="head6">
+						<span class="title6">$label[hdjl-last_news_1]</span> 
+					</div>
+					<div class="main1">
+						$label[hdjl-opinion_list_1]
+					</div>
+				</div>
+			</div>
+			<div class="contain-right fr">
+				<div class="add-inner">
+					<div id="breadcrumb">
+						<p>您现在的位置：<a href="{$core.url}">首页</a>&gt;&gt; <span class="current"> <a href="{$this_router}-main">网络问政</a>&gt;&gt; <a href="{$this_router}-list">意见征集</a></span></p>
+					</div>
+					<div id="page_feedback">
+						<div class="article-content pager-content">
+							<ul class="title-list title-left circle-list title-450">
+								<!--{foreach $list $val}-->
+								<li><a title="$val[title]" href="$val[url]" target="_blank" class="title-link">$val[title]</a><span class="date">[截至日期:<!--{php echo date('Y-m-d',$val['endtime']);}-->]</span><!--{if $val['endtime']<P8_TIME}--><span><img src="{$RESOURCE}/skin/default/core/opinion/zjend.gif"/></span><!--{/if}--></li>
+								<!--{/foreach}-->
+							</ul>
+						</div>
+					<div class="pages pagecss"> $pages</div>
+				  </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+<!--{template $core footer}-->  
+<!--{/php168}-->

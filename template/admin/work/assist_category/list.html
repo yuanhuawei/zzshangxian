@@ -1,0 +1,157 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/autocomplete.js"></script>
+<form action="$this_url" method="post" id="form">
+	<div class="mainbox mainborder">
+		<table class="columntable formtable hover_table">
+			<tr class="title fix_head">
+				<td class="title">ID</td>
+				<td class="title">栏目名称</td>
+				<td class="title">类型</td>
+				<td class="title">记录</td>
+				<td class="title">排序</td>
+				<td class="title">操作</td> 
+			</tr>
+			<tbody id="__">
+			</tbody>
+	    </table>
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+		<tr>
+			<td>
+				<input type="button" value="{$P8LANG['update_cache']}" onclick="this.form.action='$this_router-cache';this.form.submit()" class="edit_btn" />
+			</td>
+		</tr>
+		</table>
+	</div>
+	
+</form>
+
+<script type="text/javascript">
+
+	var CATEGORY_JSON = $json[json];
+	var CATEGORY_PATH = $json[path];
+	var datas = $json_datas; 
+	
+	function ___(json, l, p){
+		l = l === undefined ? 0 : l;
+		p = p === undefined ? 0 : p;
+		
+		var j = 0, k = count(json);
+		for(var i in json){
+			var html = '';
+			j++;
+			var c = '';
+			if(l != 0){
+				c += str_repeat('│&nbsp;&nbsp;', l - p) + str_repeat('&nbsp;&nbsp;&nbsp;', p);
+				if(j == k){
+					p++;
+					c += '└';
+				}else{
+					c += '├';
+				}
+			}
+			
+			var sub = json[i].categories ? true: false;
+			var path = CATEGORY_PATH[json[i].id].join('_');
+			c += (json[i].categories ? '<span style="cursor: pointer;"><img src="{$SKIN}/hide.gif" /></span> ' : '');
+			var dis= json[i].display==1 ? '<img src="{$SKIN}/check_yes.gif" alt="1" />' : '<img src="{$SKIN}/check_no.gif" alt="1" />';
+			var type = json[i].type==1?'大分类':'栏目';
+			var item_count = json[i].type == 1? '':(datas[i].count+'条');
+			html += '\
+			<tr id="category_'+ json[i].id +'" path="path_'+ path +'" title="1"'+ (sub ? ' sub="1"' : '') +' level="'+ (l +1) +'">\
+				<td>'+ json[i].id +'</td>\
+				<td>'+ c + json[i].name +'</td>\
+				<td>'+ type +'</td>\
+				<td><a href="{$core.admin_controller}/cms/assist_category-content_list?sid='+ json[i].id +'">'+ item_count +'</a></td>\
+				<td>'+ json[i].display_order+'</td>\
+				<td>\
+				<a href="$this_router-edit?id='+json[i].id+'">[编辑]</a>\
+				<a id="ac_'+json[i].id+'" href="javascript:;" onclick="delete_ac(this.id);">[删除]</a>\
+				</td>\
+			</tr>';
+			
+			var tr = $(html);
+			$('#__').append(tr);
+			if(sub){
+				___(json[i].categories, l +1, p);
+				_toggle(
+						$(tr).find('td:eq(1) span').
+						bind('click', function(){_toggle($(this)); return false;})
+				);
+			}
+		}
+	}
+
+	___(CATEGORY_JSON);
+
+	function _toggle(span){
+		var id = $(span).parent().parent().attr('id').replace(/[^0-9]/g, '');
+		var path = CATEGORY_PATH[id].join('_');
+		var on = $('#category_'+ id).attr('title') == 0;
+
+		var keep_close = [];
+		$('tr[path^=path_'+ path +'_]').each(function(){
+			if(on){
+
+				if($(this).show().attr('title') == 1 && $(this).attr('sub')){
+					keep_close.push(this.id.replace(/[^0-9]/g, ''));
+					
+					$(this).attr('title', 0);
+				}else{
+					$(this).attr('title', 1);
+				}
+				
+			}else{
+				
+				if($(this).hide().attr('title') == 0 && $(this).attr('sub')){
+					//keep close
+					$(this).attr('title', 1);
+				}else{
+					$(this).attr('title', 0);
+				}
+				
+			}
+		});
+		
+		if(on){
+			$(span).parent().parent().attr('title', 1);
+			$(span).html('<img src="{$SKIN}/hide.gif" />');
+		}else{
+			$(span).parent().parent().attr('title', 0);
+			$(span).html('<img src="{$SKIN}/show.gif" />');
+		}
+		for(var i = 0; i < keep_close.length; i++){
+			$('tr[path^=path_'+ CATEGORY_PATH[keep_close[i]].join('_') +'_]').hide().find('span');
+		}
+		return false;
+	}
+
+	function delete_ac(id){
+
+		var sid = id.replace(/[^0-9]/g, '');
+		
+		if(sid=='') return false;
+		
+		if(confirm('{$P8LANG['confirm_to_delete']}')){
+			$.ajax({
+				url: '$this_router-delete',
+				type: 'POST',
+				dataType: 'json',
+				data: ajax_parameters({sid: sid}),
+				cache: false,
+				beforeSend: function(){
+					ajaxing({});
+				},
+				success: function(json){
+					ajaxing({action: 'hide'});
+					for(var i in json){
+						$('#ac_'+ json[i]).parent().parent().remove();
+					}
+				}
+			});
+		}
+	}
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

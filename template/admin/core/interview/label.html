@@ -1,0 +1,239 @@
+<!--{php168}-->
+<!--{template $LABEL header admin}-->
+<link rel="stylesheet" href="{$SKIN}/cms/category_selector.css" type="text/css">
+
+<script type="text/javascript" src="{$RESOURCE}js/recursive_selector.js"></script>
+<script type="text/javascript" src="{$RESOURCE}js/core/label/label.js"></script>
+<script type="text/javascript">
+_order_by_offset = -1;
+
+var label_type = 'module_data';
+var action = '$action';
+var field_json = <!--{if !empty($field_json)}-->$field_json<!--{else}-->{}<!--{/if}-->;
+var _system;
+var _module;
+var _lang = {
+	copy_label_template_hint: '{$P8LANG['copy_label_template_hint']}',
+	done: '{$P8LANG['done']}',
+	fail: '{$P8LANG['fail']}' 
+}; 
+</script>
+<form action="$this_router-$ACTION?action=$action" id="form" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<table class="columntable formtable ">
+							<tr>
+								<td colspan="2" class="title">{$P8LANG['label_scope']}</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div id="tabs"  class="tab_box mtop">
+										<div class="head">
+											<span><a>基本设置</a></span> <span><a>风格样式</a></span> <span><a>其它设置</a></span><font color="red" id="message" style="visibility:hidden;">内容不能为空,或格式不正确!</font>
+										</div>
+										<div class="main">
+											<div class="content">
+												<table width="100%" class="hover_table">
+													<tr>
+														<td width="22%">访谈主题：</td>
+														<td width="78%"> <input id="display_content" type="text" class="txt" name="option[display_content]" value="{if !empty($option['display_content'])}$option[display_content]{/if}" /><input type="hidden" name="id" value="{if !empty($id)}$id{/if}"/> <input type="button" value="选择" onclick="dialog.show()" /> </td>
+													</tr>
+													<tr>
+														<td>&nbsp;</td>
+														<td></td>
+													</tr>
+												</table>
+											</div>
+											<div class="content">
+												<table width="100%" class="hover_table">
+													
+													<tr>
+														<td class="tdL">{$P8LANG['label_template']}</td>
+														<td class="tdR"> <input type="text" class="txt" name="option[template]" id="template" value="{if !empty($option['template'])}$option[template]{else}interview/list01{/if}" /> <input type="button" value="选择" onclick="template_dialog.show()" /><input type="button" class="usethistpl" value="编辑此模板" onclick="useThisTpl()" >(想自己进一步修改可用此功能)
+														</td>
+													</tr>
+													<tr>
+														<td class="tdL">{$P8LANG['label_limit']}</td>
+														<td class="tdR"> <input type="text" class="txt" name="option[limit]" size="3" value="{if !empty($option['limit'])}{$option['limit']}{else}10{/if}" /> </td>
+													</tr>
+													<tr>
+														<td class="tdL">分几列</td>
+														<td class="tdR">
+															<input name="option[rows]" type="text" size="3" class="txt" id="rows" value="{if !empty($option['rows'])}$option[rows]{else}1{/if}" />(对有些模板无效)
+														</td>
+													</tr>
+													<tr>
+														<td class="tdL">标题长度</td>
+														<td class="tdR"> <input type="text" class="txt" name="option[title_length]" size="3" value="{if !empty($option['title_length'])}{$option['title_length']}{else}60{/if}" /> </td>
+													</tr>
+													<tr>
+														<td>标题超过字数是否用省略号表示</td>
+														<td>
+															<input type="radio" name="option[title_dot]" value="1"{if !empty($option['title_dot'])} checked{/if} /> 用
+															<input type="radio" name="option[title_dot]" value="0"{if empty($option['title_dot'])} checked{/if} /> 不用</td>
+													</tr>
+													<tr>
+														<td>内容简介显示几个字</td>
+														<td> <input name="option[summary_length]" type="text" class="txt" id="textfield4" value="{if !empty($option['summary_length'])}$option[summary_length]{else}120{/if}" /> </td>
+													</tr>
+													
+													<tr>
+														<td>模板代码 <span class="help">一般为空，保证自己掌握了标签模板规则才可编辑，否则页面会报错</span></td>
+														<td>
+													<textarea name="option[tplcode]" id="tplcode" style="display:{if !empty($option['tplcode'])}{else}none{/if}" rows="15" cols="100" wrap=off>{if !empty($option['tplcode'])}{$option['tplcode']}{/if}</textarea>
+													<a href="javascript:void(0);" id="toshow" onclick="$('#tplcode').show();$(this).hide();">查看</a>
+												</td>
+												
+											</tr>
+													<tr>
+														<td>&nbsp;</td>
+														<td>&nbsp;</td>
+													</tr>
+												</table>
+											</div>
+											<div class="content">
+												<!--{template $LABEL other_set admin}-->
+											</div>
+										</div>
+									</div>
+									<script type="text/javascript">
+									MoveTabs("tabs",0);
+									</script>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL"><input type="button" value="{$P8LANG['explain_sql']}" class="submit_btn" onclick="explain_sql()" /></td>
+				</tr>
+				<tr>
+					<td class="tdR" id="explain"></td>
+				</tr>
+				<tr>
+					<td align="center">
+						<input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+</form>
+<script type="text/javascript">
+function getSubjects(cp){
+		$.ajax({
+			url: '$this_url?action=list',
+			type: 'post',
+			cache: false,
+			data: {cp:cp},
+			dataType: 'json', 
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				showSubjects(json);
+			}
+		});
+}
+
+function showSubjects(json){
+	
+	var sel = [{$option[display_content]}];
+	dialog.content.empty();
+	if(json.total > 0){
+		var cp=json.cp*1;
+		var count=json.count*1;
+		var content='';
+		content+='<div id="link_lists" style="height:160px;">';
+		ids = $('#display_content').val().split(',');
+		for(var i=0;i<json.total;i++){
+			var check= $.inArray(json[i].id,ids)>=0?'checked':'';
+			content+='<input type="checkbox" name="sortfid[]" value="'+json[i].id+'"'+check+'/>[标题]'+json[i].title+
+					 '<span style="margin-left:10px;">[嘉宾]'+json[i].gname+'</span>'+
+					 '<span style="margin-left:10px;">[开始时间]'+date('Y-m-d',json[i].begintime)+'</span>'+
+					 '<br/>';
+		}
+		content+="</div>";
+		content+="<div style='margin-left:200px;'><a href='javascript:;' onclick='getSubjects("+(cp-1<=1?1:cp-1)+")'>上一页</a>["+cp+"/"+count+"]<a href='javascript:;' onclick='getSubjects("+(cp+1>count?count:cp+1)+")'>下一页</a></div>";
+		
+		dialog.content.append(content);
+	}
+}
+
+function valid_add_time(time, obj){
+	var time1 = $('#timestamp1').val();
+	var time2 = $('#timestamp2').val();
+	
+	if(time2 && time1 >= time2){
+		$(obj).val('');
+	}
+}
+var dialog = new P8_Dialog({
+	title_text: '选择访谈主题',
+	button: true,
+	width: 400,
+	height: 250,
+	ok: function(){
+		var inputs=$("input[name='sortfid[]']:checked");
+		var ids=new Array();
+		for(var i=0;i<inputs.length;i++){
+			ids[i]=$(inputs[i]).attr("value");
+		}
+		if(ids.length>0){
+			$("#display_content").attr("value",ids);
+		}
+	},
+	show: function(){
+		getSubjects(0);
+	}
+});
+var template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 600,
+	height: 350,
+	ok: function(){
+		$('#template').val(template_selector.value);
+	}
+});
+var template_selector = new Template_Selector({
+	base_dir: 'label/',
+	template_dir: '{$core.CONFIG['template_dir']}',
+	selected: '{if !empty($option['template'])}$option[template]{/if}',
+	dialog: template_dialog
+});
+function useThisTpl(){
+	var tpl=$('#template').val();
+	$('#tplcode').show();
+	$('#toshow').hide();
+	
+	$.ajax({
+		type:'POST',
+		url:'{$core.admin_controller}/core/label-edit_template',
+		datatype:'html',
+		data:'bdir=label/&tpl='+tpl,
+		success:function(mesg){
+		 $('#tplcode').val(mesg); 
+		}
+	});
+	
+}
+
+$(document).ready(function(){
+	for(var i in field_json){
+		if(field_json[i].filterable == 1){
+			$('#_field').append($('<option value="'+ i +'">'+ field_json[i].alias +'</option>'));
+		}
+	}
+	
+	template_selector.init();
+	//cs.init();
+});
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

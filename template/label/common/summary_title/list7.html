@@ -1,0 +1,22 @@
+<!--{php168}-->
+<style type="text/css">
+.label_list_ul li{border-bottom:#cccdcf 1px solid;margin:5px 0 20px 0px;padding-bottom:10px;}
+.label_list_ul li h3{font-size:18px;color: #004080;font-weight:normal;padding:5px 5px;}
+.label_list_ul .label_18px_title{color: #004080;}
+.label_list_ul .label_summary{font-size:14px; color:#999999;margin:5px 5px 5px 5px;text-indent:0;line-height:180%;}
+.label_list_ul .list4{border-bottom:none;}
+</style>
+<ul class="label_list_ul">
+	<!--{php $i=0;}-->
+	<!--{foreach $list $value}-->
+	<!--{php $i++;}-->
+	<li class="list$i">
+		<h3><a class="label_18px_title" href="$value[url]" target="_blank" title="$value[full_title]" >$value[title]</a></h3>
+		<p class="label_summary">
+		$value[summary]... <span class="cDBlue"><a href="$value[url]" target="_blank">【详细】</a></span>
+		</p>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->
+

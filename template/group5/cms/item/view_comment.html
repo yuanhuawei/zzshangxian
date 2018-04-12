@@ -1,0 +1,110 @@
+<!--{php168}-->
+<link href="{$SKIN}comment.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="{$SKDIR}core/common.css" />
+<div class="comment_item" style="font-size:12px;" id="comment_box">
+	<div class="commont_box_title" style="font-size:14px;">
+		<strong>网友评论</strong>&nbsp; <span> <a href="$this_router-comment?iid=$data[id]" target="_blank"><font color="#1E50A2">已有 </font><span class="item_comments"><font color="#BA2636"><strong>$data[comments]</strong></font></span><font color="#1E50A2"> 条评论</font><font color="#BA2636">(点击查看)</font></a> </span>
+	</div>
+	<div id="layout_comment_box">
+		<div id="clone" style="display: none;">
+			<div style="margin-bottom: 20px;">
+				<span class="date">#date# 发表</span> <span class="author">#author#</span>
+			</div>
+			<div class="content">
+			</div>
+			<div class="button_bar">
+				<a href="###" onclick="comment.digg(#id#, this)">顶[#digg#]</a> <a href="$this_router-comment?iid=$data[id]" onclick="reply_comment(#id#)">回复</a>
+			</div>
+			<div class="clear">
+			</div>
+		</div>
+		
+		<a name="top"></a>
+		<div id="comments">
+		</div>
+		<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/item/comment.js"></script>
+		<script type="text/javascript">
+		function comment_jsonp(json){
+			$('#comments').html('<div></div>');
+			
+			var items = json.items;
+			for(var i = 0; i < items.length; i++){
+				$('#comments').append(comment.item(items[i], $('#clone').clone().show()));
+			}
+		}
+		
+		var comment = new Comment({
+			iid: $data[id],
+			url: \$this_router +'-comment',
+			callback: comment_jsonp,
+			view_page: true
+		});
+		
+		$(function(){
+			scroll_to_load($('#comment_box'), function(){
+				comment.request(1);
+			});
+		});
+		</script>
+		<div id="login_com_box">
+			<form method="post" action="{$core.U_controller}/core/member-login" >
+				<span> 网站通行证：</span><input type="text" name="username" value="" class="input common_input_border"/> <span>密码：</span><input type="password" name="password" value="" class="input common_input_border"/> <input type="submit" name="submit" value="登录" class="submit pointer"/> <input type="hidden" name="forward" value="$this_url?iid=$data[id]" /> <span> <a href="{$core.controller}/core/member-register">注册</a> | <a href="{$core.controller}/core/member-getpassword">忘记密码</a> </span>
+			</form>
+		</div>
+		<div id="logined_box">
+			网站通行证：<a href="{$RESOURCE}/u.php"><font color="#FF7F04">{$USERNAME}</font></a>
+		</div>
+		<div class="form_div">
+			<form action="$this_router-comment" method="post" id="comment_form" target="submit_comment" >
+				<textarea name="content" id="content" class="comment_body" cols="70" rows="5" onfocus="this.value=''">文明上网，登录留言</textarea><br />
+				<label>网友评论仅供其表达个人看法，并不表明本站同意其观点或证实其描述。</label>
+				<span> <input type="button" id="comment_submit" name="bbt" onclick="post_comment()"  value="马上发表"/> </span> <input type="hidden" name="action" value="add" /> <input type="hidden" name="iid" value="$data[id]" />
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+var limitTime;
+function post_comment(){
+	var content=$('#content').val();
+	if(content.length<5 || content==''){alert('评论字数太少或为空'); return false; }
+	$('#comment_form').submit();
+	$('#content').val('');
+	limitTime=5;
+	limitComment();
+	
+}
+
+function limitComment(){
+	limitTime=limitTime-1;
+	if(limitTime>0){
+		$('#content').val('还剩'+limitTime+'秒,你才可以再发表评论');
+		$('#content').attr('disabled','disabled');
+		$('#comment_submit').attr('disabled','disabled');
+		setTimeout("limitComment()",1000);
+	}else if(limitTime==0){
+		$('#content').val('文明上网，登录留言');
+		$('#content').removeAttr('disabled');
+		$('#comment_submit').removeAttr('disabled');
+	}
+}
+function reply_comment(id){
+	reply_id = id;
+	reply_dialog.show();
+	$('#comment_'+ id).addClass('pre_reply');
+	$('#reply_id').val(id);
+}
+
+var UID = get_cookie('UID');
+$(document).ready(function(){
+	if(UID === undefined){
+		$('#login_com_box').show();$('#logined_box').hide();
+	}else{
+		$('#logined_box').show();$('#login_com_box').hide();
+	}  
+});
+
+</script>
+<iframe name="submit_comment" style="display:none;"></iframe>
+<!--{/php168}-->
+

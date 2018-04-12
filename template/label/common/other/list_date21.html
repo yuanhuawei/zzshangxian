@@ -1,0 +1,28 @@
+<!--{php168}-->
+<style type="text/css">
+.label_list21_date .item{margin-top:25px;}
+.label_list21_date .time{width:62px;height:63px;float:left;background:#014fa1;;text-align: center;margin-right: 20px;}
+.label_list21_date .time span{display:block;text-align:center;font-size:14px;color:#fff;}
+.label_list21_date .time span.day{font-size:24px;padding-top:2px;}
+.label_list21_date .info h4{font-size:16px;font-weight:normal;margin:0;}
+.label_list21_date .info h4 a{display:block;color:#595959;text-decoration:none;}
+.label_list21_date .info h4 a:hover{color:#9c231b;}
+.label_list21_date .info p{color:#666;font-size:14px;margin:10px 0 0;}
+</style>
+<ul class="label_list21_date">
+	<!--{foreach $list $value}-->
+	<li>
+		<div class="media item">
+			<div class="time">
+				<span class="day"><!--{php echo date('d', $value['timestamp']);}--></span>
+				<span class="month"><!--{php echo date('m月', $value['timestamp']);}--></span>
+			</div>
+			<div class="media-body info">
+				<h4 class="item-tit"><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h4>
+				<p><span class="pull-left">$value[source]</span><span class="pull-right"><!--{php echo date('Y年m月d', $value['timestamp']);}--></span></p>
+			</div>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

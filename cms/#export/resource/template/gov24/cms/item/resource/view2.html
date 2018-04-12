@@ -1,0 +1,136 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/item/item.js"></script>
+<script src='http://pstatic.xunlei.com/js/webThunderDetect.js'></script>
+<script type="text/javascript" src="{$RESOURCE}/js/download_vote.js"></script>
+<script type="text/javascript">
+var item_id = $data[id],
+	model = '$data[model]',
+	item_cid = $data[cid],
+	verified = \$_GET['verified'] !== undefined || \$_GET['verified'] == 1 ? 1 : 0;
+
+$(function(){
+	if(get_cookie('IS_ADMIN') == 1){
+		item_operation($('#operation').show());
+	}
+});
+</script>
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<div class="nav mtop">您的位置：
+<a href="{$core.controller}">首页</a>
+<!--{foreach $parent_cats $v}-->
+&gt;&gt; <a href="$v[url]">$v[name]</a>
+<!--{/foreach}-->
+&gt;&gt; <a href="$CAT[url]">$CAT[name]</a> 
+</div>
+<div class="dt_left">
+<!--{if !empty($subcategories)}-->
+	<div class="border1">		
+		<div class="head6"><!--{php $parent = end($parent_cats);$parent_name = $parent ? $parent[name]:$CAT[name];$parent_url = $parent ? $parent[url] : $CAT[url];}-->
+			<span class="title7"><a href="$parent_url">$parent_name</a></span>
+		</div>
+		<div class="main1"><!--{template $this_module step_category}--></div>
+	</div>
+	<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[ar_list_title_0100]</span> <span class="more3">$label[gov_ar_list_more_0100]</span>
+		</div>
+		<div class="main1">
+			$label[ar_list_content_0100]
+		</div>
+	</div>
+	<!--{else}-->
+	<div class="border1">		
+		<div class="head6"><!--{php $parent = end($parent_cats);$parent_name = $parent ? $parent[name]:$CAT[name];$parent_url = $parent ? $parent[url] : $CAT[url];}-->
+			<span class="title7"><a href="$parent_url">$parent_name</a></span>
+		</div>
+		<div class="main1"><!--{template $this_module step_category}--></div>
+	</div>
+	<!--{/if}-->
+	<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[last_content_list]</span> <span class="more3">$label[gov_ar_list_more_2]</span>
+		</div>
+		<div class="main1">
+			$label[ar_big_list_content_001]
+		</div>
+	</div>
+
+
+<div class="mtop6">
+		$label[ar_list_ad_1]
+	</div>
+	<div class="mtop6">
+		$label[ar_list_ad_2]
+	</div>
+	<div class="mtop6">
+		$label[ar_list_ad_3]
+	</div>
+
+
+
+
+	
+	<p class="pic_ny">&nbsp;</p>
+</div>
+<div class="dt_right">
+		<div class="download_view_con">
+		    <span class="download_view_title">$data[title]</span><span class="list_more1" id="operation" style="display: none; cursor: pointer;">{$P8LANG['operation']}</span>
+		</div>
+		<div class="down_content1" id="maincontent" style="margin-top:0;">
+			<div class="down_frame"><img src="$data[frame]" />
+			</div>
+			<p class="bg"><span class="keyname">软件名称：</span>$data[title]</p>
+			<p class="nbg"><span class="keyname">授权形式：</span>{$this_model['fields'][copyright]['data'][$data['copyright']]}</p>
+			<p class="bg"><span class="keyname">资源大小：</span>$data[softsize] {$this_model['fields']['softsize']['units']}</p>
+			<p><span class="keyname">资源格式：</span><span class="item_down">$data[resources_type]</span></p>
+			<p class="bg"><span class="keyname">发布日期：</span>
+				<!--{php echo date("Y-m-d",$data['timestamp']);}-->
+			</p>
+			<div>
+				<span class="keyname fleft">下载地址：</span>
+				<div class="fleft">
+				<!--{if $pay_check}-->
+					<!--{if is_array($data['softurl'][0])}-->
+					<!--{foreach $data['softurl'] $key $val}-->
+					<!--{php 
+						$thunderUrl=Thunder_Encode($val['url']);						
+						$filename = $val['title'];
+					}-->
+					<a href="{$this_module.controller}-down?id=$data[id]&ti=$key&model=$MODEL" target="_blank" class="dow_url"><!--{if !empty($val['title'])}-->$val[title]<!--{else}-->点击下载<!--{/if}--></a>
+					
+					<!--{/foreach}-->
+					<!--{else}-->
+					<!--{php 
+						$thunderUrl=Thunder_Encode($data['softurl']['url']);						
+						$filename = $data['softurl']['title'];
+					}-->
+					<a href="{$this_module.controller}-down?id=$data[id]&ti=$key&model=$MODEL" target="_blank" class="dow_url">点击本地下载</a>
+					
+					<!--{/if}-->
+					
+				<!--{else}-->
+				<!--{php include template($this_module, 'down/pay');}-->
+				<!--{/if}-->
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+        <div class="download_content_rec mtop">
+				<span class="download_content_title">资源介绍</span></div>
+				<div class="download_content_detail ">
+					$data[content]
+				</div>
+		<div class="clear"></div>
+
+</div>
+
+<SCRIPT LANGUAGE='JavaScript'>
+function ConvertURL2FG(url,fUrl,uid){try{FlashgetDown(url,uid);}catch(e){location.href = fUrl;}}
+</SCRIPT>
+<script type="text/javascript" src="$this_router-count?id=$data[id]"></script>
+<div class="clear">
+</div>			
+<!--{template $this_system footer}-->
+<!--{/php168}-->

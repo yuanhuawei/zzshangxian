@@ -1,0 +1,101 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--中间内容部分-->
+<div class="nav mtop">
+<a href="{$core.controller}">首页</a>
+<!--{foreach $cats $v}-->
+&gt;&gt; <a href="$v[url]">$v[name]</a>
+<!--{/foreach}-->
+&gt;&gt; <a href="$CAT[url]">$CAT[name]</a> 
+</div>
+<div class="dt_left mtop">
+	<!--{if !empty($subcategories)}-->
+	<div class="border1">
+		<div class="head6">
+			<span class="title7">$label[product_left_box_title_0]</span>
+		</div>
+		<div class="main1">
+				<!--{foreach $subcategories $v}-->
+				<div class="cat_list">
+					<a href="$v[url]">$v[name]</a>
+				</div>
+				<!--{/foreach}-->
+				<div class="clear"></div>
+		</div>
+	</div>
+	<!--{/if}-->
+	<div class="border1 mtop">
+		<div class="head6">
+			<span class="title7">$label[dw_blist_title_1]</span> <span class="more3">$label[gov_dw_blist_more_1]</span>
+		</div>
+		<div class="main1">
+			$label[dw_blist_content_1]
+		</div>
+	</div>
+	<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[dw_blist_title_2]</span> <span class="more3">$label[gov_dw_blist_more_2]</span>
+		</div>
+		<div class="main1">
+			$label[dw_blist_content_2]
+		</div>
+	</div>
+	<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[dw_blist_title_3]</span> <span class="more3">$label[gov_dw_blist_more_3]</span>
+		</div>
+		<div class="main1">
+			$label[dw_blist_content_3]
+		</div>
+	</div>
+	<div class="mtop6">
+		$label[dw_blist_ad_1]
+	</div>
+	<div class="mtop6">
+		$label[dw_blist_ad_2]
+	</div>
+	<div class="mtop6">
+		$label[dw_blist_ad_3]
+	</div>
+	<p class="pic_ny">&nbsp;</p>
+</div>
+<div class="dt_right mtop">
+	<div class="border3">
+		<div class="head5">
+			<h1 class="title6">$label[dw_blist_title_11]</h1><span class="more1">$label[dw_bmore_1]</span>
+		</div>
+		<div class="main">
+			$label[dw_blist_content_11]
+		</div>
+	</div>
+	<div class="border3 mtop">
+		<div class="head5">
+			<h1 class="title6">$label[dw_blist_title_12]</h1><span class="more1">$label[dw_bmore_2]</span>
+		</div>
+		<div class="main">
+			$label[dw_blist_content_12]
+		</div>
+	</div>
+	<div class="border3 mtop">
+		<div class="head5">
+			<h1 class="title6">$label[dw_blist_title_13]</h1><span class="more1">$label[dw_bmore_3]</span>
+		</div>
+		<div class="main">
+			$label[dw_blist_content_13]
+		</div>
+	</div>
+	<div class="border3 mtop">
+		<div class="head5">
+			<h1 class="title6">$label[dw_blist_title_14]</h1><span class="more1">$label[dw_bmore_4]</span>
+		</div>
+		<div class="main">
+			$label[dw_blist_content_14]
+		</div>
+	</div>
+	
+</div>
+<div class="clear">
+</div>
+<!--{template $this_system foot_pre}-->
+<!--{template $this_system footer}-->
+<!--{/php168}-->

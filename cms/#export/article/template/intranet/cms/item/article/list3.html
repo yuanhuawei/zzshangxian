@@ -1,0 +1,78 @@
+<!--{php168}-->
+<!--{template $core zhiliao_center_header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<!--左边-->
+<div class="intranet_bglist_down_left">
+	<!--{if !empty($subcategories)}-->
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[gov_list_more0]</span> <span class="list_title1">$label[gov_list_title0]</span>
+	</div>
+	<div class="list_content_categories">
+		<table>
+			<tr>
+			   <td>
+				<!--{foreach $subcategories $v}-->
+				<div class="intranet_list_nm"><a href="$v[url]">$v[name]</a></div>
+				<!--{/foreach}-->
+			</td>
+		   </tr>
+		</table>
+	</div>
+	<!--{/if}-->
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[gov_list_more2]</span> <span class="list_title1">$label[gov_list_title2]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_list_content1]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[gov_list_more3]</span> <span class="list_title1">$label[gov_list_title3]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_list_content4]{'a.cid' => $cid, 'model' => $MODEL}
+	</div>
+	
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[nw_list_more5]</span> <span class="list_title1">$label[mw_list_title5]</span>
+	</div>
+	<div class="list_content1">
+		$label[nw_list_content5]{'i.cid' => $cid, 'model' => $MODEL}
+	</div>
+	<div class="mtop">
+	    $label[nw_list_artical_a1]
+	</div>
+</div>
+<!--右边-->
+<div class="list_atical_left">
+	<!--{if $CAT['type'] == 1}-->
+	<!--{php $i = 0;}-->
+	<!--{foreach $subcategories $v}-->
+	<!--{php if($i > 5) break; $i++;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+	<div class="list_head1 mtop">
+		<span class="list_more1" ><a href="{$core.U_controller}/cms/item-add?cid=$v[id]&model=$v[model]" target="_blank">发表</a> | <a href="$v[url]">更多>>></a></span> <span class="list_title2">$v[name]</span>
+	</div>
+	<div class="list_content1">
+		$label[CMS子分类内容列表]{'i.cid' => $subcat, 'model' => $MODEL}
+	</div>
+	<!--{/foreach}-->
+	<!--{else}-->
+	<div class="list_head1 mtop" >
+		<span class="list_more1" ><a href="{$core.U_controller}/cms/item-add?cid=$CAT[id]&model=$v[model]" target="_blank">发表</a></span> <span class="list_title2">$CAT[name]</span>
+	</div>
+	<div class="list_content1">
+		
+		
+		<!--{php include template($TEMP_OBJ, $CAT['item_template'], 'label');}-->
+		<div id="page">
+			{$pages}
+		</div>
+	</div>
+	<!--{/if}-->
+	
+</div>
+
+<div class="clear">
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

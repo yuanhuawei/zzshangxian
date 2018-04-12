@@ -1,0 +1,42 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<form action="$this_url" method="post" enctype="multipart/form-data">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+						<tr>
+							<td colspan="10" class="title">词语过滤</td>
+						</tr>
+						<tr>
+							<td class="tdL">导入过滤的词汇：</td>
+							<td class="tdR">
+							<input type="file" name="word_data" value="" onchange="checkFile(this);" />
+							<input type="hidden" name="type" value="import"/>
+							<font color="red" id="message" style="visibility:hidden;">文件类型错误</font>
+							请选择TXT文件类型导入
+							</td>
+						</tr>
+					</table>
+				</td></tr>
+			</table>
+			<input type="submit" value="导入数据" style="margin-left:5px;margin-top:10px;" />
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+<!--
+function checkFile(obj){
+	var str = typeof(obj.value)=='undefined'?'':obj.value.substring(obj.value.lastIndexOf(".")+1);
+	if(str != 'txt'){
+		$("#message").css("visibility","visible");
+	}else{
+		$("#message").css("visibility","hidden");
+	}
+}
+//-->
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

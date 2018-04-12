@@ -1,0 +1,27 @@
+<!--{php168}-->
+<style type="text/css">
+.label_list8_date li{margin:20px 0 0; height:68px;float:left;overflow: hidden;}
+.label_list8_date .date8{width:60px; height:68px;float:left;text-align:center;font-size:14px;background-color: #139f93;color: #fff}
+.label_list8_date .date8 .de1{width:60px;height:34px;line-height:34px;}
+.label_list8_date .date8 .de2{width:60px;height:34px;line-height:34px;background-color:#ededed;color: #333;}
+.label_list8_date .text8{width:420px;float:right;height:60px;margin-left:15px;}
+.label_list8_date h4{font-size:16px;line-height:28px;color:#4d4d4d;overflow: hidden;font-weight:normal;}
+.label_list8_date h4 a{color:#4d4d4d;}
+.label_list7_summary{color:#595959;font-size:12px;}
+</style>
+<!--{php $list_count = count($list);}-->
+<ul class="label_list8_date">
+	<!--{foreach $list $value}-->
+	<li>
+		<div class="date8">
+			<div class="de1">{date('m-d', $value['timestamp'])}</div>
+			<div class="de2">{date('Y', $value['timestamp'])}</div>
+		</div>
+	    <div class="text8">
+			<h4><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h4>
+			<div class="label_list7_summary">$value[summary]</div>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

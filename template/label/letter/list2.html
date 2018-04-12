@@ -1,0 +1,15 @@
+<!--{php168}-->
+<ul>
+<!--{foreach $list $key $row}-->
+	  <li style="border-bottom:1px dashed #e1e1e1;line-height:25px">
+	  <dt><a href="$row[url]" title="$row[full_title]" target="_blank"><strong>$row[title]</strong></a> 
+	  [类型]:$row[type_name] &nbsp;&nbsp;
+	  [来信日期]:<!--{php echo date('Y-m-d',$row['create_time']);}-->&nbsp;&nbsp;
+	  [办理状态]:$row[status_name]</td>
+		<dd>问：$row[summary]</dd>
+		<dd>答：$row[reply]</dd>
+	  </li>
+	  <!--{/foreach}-->
+</ul>
+<!--{/php168}-->
+

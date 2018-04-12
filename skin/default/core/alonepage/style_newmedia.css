@@ -1,0 +1,118 @@
+/***独立页样式***/
+/**常用**/
+.Mtop{margin-top:5px}
+.container{display:block; clear:both; overflow:hidden; }
+.container .contain_left{width:25%; float:left; overflow:hidden}
+.container .contain_left_sh{width:280px;; float:left; overflow:hidden}
+.container .contain_right{width:74%; float:right;overflow:hidden}
+.container .contain_right_sh{width:670px; float:right;overflow:hidden}
+.container#yuanxi .contain_left{width:226px; float:left;}
+.container#yuanxi .contain_right{width:754px; float:right;}
+.clear{ clear:both}
+
+
+/**左边块***/
+.show_box_leftnav{}
+.show_box_leftnav .sb1_head{ background:#ffffff url(box1head.gif) no-repeat; height:40px;line-height:40px;text-align:center; font-size:14px;font-weight:bold;color:#10509d;}
+.show_box_leftnav .sb1_head  a{ margin:auto; color:#10509d; font-weight:bold; display:block; font-size:14px;}
+.show_box_leftnav .sb1_main{ padding:0px;min-height:30px;border-left:#e8e8e8 1px solid;border-right:#e8e8e8 1px solid;}
+.show_box_leftnav .sb1_bottom{background:#ffffff url(box1bottom.gif) no-repeat;height:59px;}
+.show_box_leftnav .menu_list_1 li{ background:url(cat_list.gif) no-repeat; width:224px;text-align:center;font-weight:bold; height:30px; line-height:30px;margin:0px;padding:3px 0px 0px 0px;}
+
+
+.show_box_1{ border:1px solid #E2E2E2;}
+.show_box_1 .sb1_head{ background:#ffffff url(box1bg.gif) repeat-x left -110px; height:22px; border-bottom:1px solid #E2E2E2; text-align:center; padding-top:5px;font-weight:bold; font-size:14px;}
+.show_box_1 .sb1_head  a{ margin:auto; color:#323232; font-weight:bold; display:block; font-size:14px; padding-top:0}
+.show_box_1 .sb1_main{  border-top-width:0; padding:10px 5px 25px 5px; background-color:#F6F6F6; min-height:200px}
+.show_box_1 .sb3_main{ border-top-width:0; padding:5px 15px; background-color:#FBFBFB; min-height:200px}
+/**左边列表样式**/
+.menu_list_1 li{ background:url(info_bg.jpg) no-repeat left -5px; width:170px; height:30px; margin:5px auto; padding-left:30px; font-weight:bold}
+.cat_list{ background:url(cat_list.gif) no-repeat; padding-left:30px; height:25px;display:block}
+/**右边块***/
+.main_l {display: inline;float: left;margin: 10px;overflow: hidden;width: 290px;overflow:hidden;}
+.main_r {display: inline;float: right;overflow: hidden;width: 400px;overflow:hidden;}
+.show_box_2{ margin-bottom:10px}
+.show_box_2 .sb2_head{background: url("../special/zt1.gif") repeat-x;font-size: 14px;font-weight: bold;height: 18px;padding-top: 10px;}
+.show_box_2 .sb2_head  a{ color:#323232;}
+.show_box_2 .sb2_head .title{background: url("../special/zt2.gif") no-repeat 0 3px;float: left;margin-left: 10px;padding-left: 20px;}
+.show_box_2 .sb2_head .more{ float:right; padding-right:20px;}
+.show_box_2 .sb2_main{ border:1px solid #E2E2E2; border-top-width:0; padding:15px;}
+.show_box_2 .sb2_head .title2{ background:url(box1bg.gif) no-repeat left -170px; padding-left:40px; float:left; font-weight:bold; background:#ffffff}
+
+#yiping{background:url(ying.png) no-repeat; display:block; width:120px; height:30px;}
+#tuijian{background:url(comm.png) no-repeat; display:block; width:120px; height:30px;}
+.ad_box{ border:1px solid #eeeeee; display:block; min-height:30px}
+
+.tomember{ background:url(postquest.gif) no-repeat;width:181px; height:49px; display:block; clear:both}
+
+#yuanxi .title_jian{ background:url(box1bg.gif) no-repeat left -206px; padding-left:30px; font-weight:normal;color:#333333;}
+#yuanxi .navi_list{ background:url(cat_list.gif) no-repeat; text-align:center;font-weight:bold; height:30px;line-height:27px; padding-top:3px;}
+#yuanxi .ad_box{ border:1px solid #E2E2E2; display:block; min-height:30px}
+
+/**标题图标***/
+.title_jian{ background:url(box1bg.gif) no-repeat left -180px; padding-left:30px; font-weight:normal}
+.title_icon_5{background:url(icon.gif) no-repeat left -129px; padding-left:15px;}
+.title_icon_4{background:url(box1bg.gif) no-repeat left -178px; padding-left:40px;}
+.title_icon_3{background:url(box1bg.gif) no-repeat left -145px; padding-left:40px;}
+.title_icon_2{background:url(box1bg.gif) no-repeat left -38px; padding-left:40px;}
+.title_icon_1{background:url(box1bg.gif) no-repeat left -5px; height:20px; padding-left:40px;}
+
+/**平台***/
+.list_nave {background: url("cms_icon.gif") no-repeat scroll left -173px transparent;font-size: 12px;line-height: 120%;margin: 9px 10px 0;padding-left: 20px;}
+.plant{margin-top:10px;width:990px;overflow:hidden;height:184px;}
+.plant .title{height:33px;}
+.plant .title .text{background:url(title.png) no-repeat;width:120px;float:left;padding-left:10px;line-height:25px;font-size:14px;font-weight:600;color:#2976B2;}
+.plant .content{width:990px;overflow:hidden;height:151px;}
+.plant .content_l{height:149px;float:left;width:196px;overflow:hidden;background:url(plant_l.png) no-repeat;madding-left:15px;}
+.plant_img {height:55px;width:155px;overflow:hidden;text-align:center;padding-top:35px;padding-left:15px;}
+.plant_text {overflow:hidden;text-align:center;height:35px;line-height:35px;font-size:12px;}
+.plant .content_c{height:149px;float:left;width:186px;overflow:hidden;background:url(plant_c.png) repeat-x;}
+.plant .content_r{height:149px;float:left;width:196px;overflow:hidden;background:url(plant_r.png) no-repeat;madding-right:15px;}
+.plant .content_fg{width:10px;height:149px;background:url(plant_fg.png) no-repeat;float:left;}
+
+/**email***/
+.email_frame {clear: both;overflow: hidden;margin:60px auto;width: 400px;}
+.email_frame2 {clear: both;overflow: hidden;margin:60px auto;width: 740px;}
+.email_frame2 .title{background:url(email_title.gif) repeat-x;height:30px;border:1px #BDDBF0 solid;}
+.email_frame .title{background:url(email_title.gif) repeat-x;height:30px;border:1px #BDDBF0 solid;}
+.title{background:url(email_title.gif) repeat-x;height:30px;border:1px #BDDBF0 solid;}
+#yuanxi .title{border:none;height:auto;}
+.txt{float:left;padding-left:15px;line-height:30px;height:30px;font-size:13px;font-weight:bold;text-decoration:none;}
+.email_frame  #header_t{line-height:30px;height:30px;float:left;padding-left:10px;font-size:12px;color:#ff0000;}
+.email_frame2  #header_t{line-height:30px;height:30px;float:left;padding-left:10px;font-size:12px;color:#ff0000;}
+ .x{background:url(x.gif) no-repeat;height:15px;width:14px;float:right;margin-right:10px;}
+ .x a:link{text-decoration:none;}
+ .content{padding:5px;border:1px #BDDBF0 solid;border-top:none;}
+ .content ul{clear:both;}
+.email_frame .logo{background:url(email_logo.jpg) no-repeat;width:173px;float:left;}
+.email_frame2 .logo{background:url(email_logo.jpg) no-repeat;width:173px;float:left;}
+.email_frame .email_intra{background-position:0 -5px;width:173px;height:50px;}
+.email_frame .email_163{background-position:0 -55px;width:173px;height:50px;}
+.email_frame .email_126{background-position:0 -110px;width:173px;height:50px;}
+ .email_frame .email_qq{background-position:0 -165px;width:173px;height:50px;}
+ .email_frame .email_sina{background-position:0 -220px;width:173px;height:50px;}
+ .email_frame .email_yahoo{background-position:0 -270px;width:173px;height:50px;}
+ .email_frame .email_gmail{background-position:0 -320px;width:173px;height:50px;}
+ .enter{background:url(enter_email.gif) no-repeat;width:79px;height:29px;text-align:center;line-height:29px;font-size:13px;float:left;margin:10px 0 0 50px;}
+ .enter1{background:url(enter_email.gif) no-repeat;width:79px;height:29px;text-align:center;line-height:29px;font-size:13px;float:left;margin:18px 0 0 5px;color:#0000ff;}
+ .enter a:link{text-decoration:none;}
+ .jixiao{background:url(first.jpg) no-repeat;float:left;width:160px;overflow:hidden;height:50px;line-height:50px;padding-left:55px;font-size:18px;font-weight:bold;font-family:黑体;}
+ .head_margin{margin-top:15px;height:50px;padding-bottom:15px;}
+ .text{margin-top:10px;padding-bottom:10px;}
+ .text_tittle{font-size:14px;font-weight:bold;font-family:宋体;padding-left:10px;}
+ .dash {background: url("dash.gif") no-repeat scroll 0 0 transparent;height: 11px;margin: 0 0 5px;width: 385px;}
+ .dash2 {background: url("dash2.gif") no-repeat scroll 0 0 transparent;height: 11px;margin: 0 0 5px;width: 728px;}
+.text_content{}
+
+
+/**提示**/
+.tipbox{background:url(background.gif) no-repeat;margin:0px auto; font-size:12px;line-height:200%;width:361px;height:150px;margin-top:150px; padding-top: 5px;}
+.close{float:right;margin-right:10px;}
+.message{padding:30px 18px 0 56px;color:#333333;} 
+
+/**售后**/
+.pic{height:18px;line-height:18px;margin-right:10px;}
+.head{background-color:#907c57;font-size:14px;text-align:center;}
+
+
+#rightbox p{line-height:200%;}

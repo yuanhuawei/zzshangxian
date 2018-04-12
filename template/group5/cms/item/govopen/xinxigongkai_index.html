@@ -1,0 +1,115 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$SKDIR}core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../cms/item/govopen/style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" /><link rel="stylesheet" type="text/css" href="{$SKDIR}core/common.css" />
+<div class="nav mtop">您的位置：
+<a href="{$core.controller}">首页</a>
+&gt;&gt; <a href="##">政府信息公开 </a> 
+</div>
+<div class="wrap_990">
+<div class="sidebar"> <!--左侧-->
+<h3 class="ldzc_hd">$label[ldzc_tt]</h3>
+<div class="ldzc">
+$label[ldzc_con1]
+<div class="clear"></div>
+<div style="margin:0px 0 5px">$label[ldzc_con2]</div>
+<div class="clear"></div>
+$label[ldzc_con3]
+<div class="clear"></div>
+</div>
+
+
+
+<h3 class="yjgl_hd">$label[yjgl_tt]</h3>
+<div class="yjgl">
+$label[yjgl_con]
+</div>
+<h3 class="zkxx_hd"><span>$label[zkxx_more]</span>$label[zkxx_tt]</h3>
+<div class="zkxx">
+$label[zkxx_con]{'i.cid' => $CATEGORY, 'model' => $MODEL}
+</div>
+</div>
+<div class="mainBody"> <!--右侧主体-->
+<div class="col">
+<div class="zw_part_left">
+<div class="zw_bna">
+$label[newsFlash_zwgk]
+</div>
+<div class="zw_04">
+<h1><span>$label[zwdt_more]</span>$label[zwdt_tt]</h1>
+<div style="padding:5px;">
+$label[zwdt_con]
+</div>
+</div>
+</div>
+<div class="zw_part_right">
+<h1 class="zw_05"><span>$label[zw_05_more]</span>$label[zw_05_tt]</h1>
+<ul class="zw_07">
+<li style="background:url({$SKIN}../cms/item/govopen/zwgk_12.jpg) no-repeat;padding-left:30px;line-height:26px;width:72px;display:block;">$label[zw_07_li1]</li>
+<li style="background:url({$SKIN}../cms/item/govopen/zwgk_13.jpg) no-repeat;padding-left:30px;line-height:26px;width:72px;display:block;">$label[zw_07_li2]</li>
+</ul>
+<h1 class="zw_06"><span>$label[zw_06_more]</span>$label[zw_06_tt]</h1>
+<ul class="zw_08">
+<li style="background:url({$SKIN}../cms/item/govopen/zwgk_14.jpg) no-repeat;padding-top:47px;line-height:22px;width:107px;height:22px;display:block;text-align:center;">$label[zw_08_li1]</li>
+<li style="background:url({$SKIN}../cms/item/govopen/zwgk_15.jpg) no-repeat;padding-top:47px;line-height:22px;width:107px;height:22px;display:block;text-align:center;">$label[zw_08_li2]</li> 
+</ul>
+</div>
+
+</div><!--col01结束-->
+<div class="col mt_5">$label[rtAd0222]</div><!--col02结束-->
+<div class="col">
+<div class="col_dt_left">
+<div class="zw_09 fl">
+<h1><span>$label[zw09box_01_more]</span>$label[zw09box_01_tt]</h1>
+$label[zw09box_01_con1]
+</div>
+<div class="zw_09 fr">
+<h1><span>$label[zw09box_02_more]</span>$label[zw09box_02_tt]</h1>
+$label[zw09box_02_con1]
+</div>
+<div class="zw_09 fl">
+<h1><span>$label[zw09box_03_more]</span>$label[zw09box_03_tt]</h1>
+$label[zw09box_03_con1]
+</div>
+<div class="zw_09 fr">
+<h1><span>$label[zw09box_04_more]</span>$label[zw09box_04_tt]</h1>
+$label[zw09box_04_con1]
+</div>
+<div class="zw_09 fl">
+<h1><span>$label[zw09box_05_more]</span>$label[zw09box_05_tt]</h1>
+$label[zw09box_05_con1]
+</div>
+<div class="zw_09 fr">
+<h1><span>$label[zw09box_06_more]</span>$label[zw09box_06_tt]</h1>
+$label[zw09box_06_con1]
+</div>
+
+</div> <!--右下左结束-->
+<div class="col_dt_right">
+<h1 class="zw_05  mt_5"><span>$label[zw05_more]</span>$label[zw05_tt]</h1>
+<div class="zwgk">
+<div class="up">$label[rtbox2_top]</div>
+<div class="dt">$label[rtbox2_bot]</div>
+</div>
+<div class="rt_adbox mtop5">$label[rt_adbox01]</div>
+<div class="rt_adbox mtop5">$label[rt_adbox02]</div>
+<div class="rt_adbox mtop5">$label[rt_adbox03]</div>
+</div> <!--右下右结束-->
+</div> <!--右下结束-->
+</div><!--右侧主体结束-->
+</div><!--主体结束-->
+<div class="clear"></div>
+<div class="frdlink mtop">$label[frdlink]</div>
+<div class="clear"></div>
+<script type="text/javascript">
+$(function(){
+	$('#gov_left .tree_menu p').bind('click',function(){	$('#gov_left .tree_menu .one_manu').slideUp("normal");if($(this).parent().find('.one_manu').css('display')=='none'){	$(this).parent().find('.one_manu').slideDown('normal');	}else{	$(this).parent().find('.one_manu').slideUp("normal");}});
+	$('#gov_left .two_manu span').bind('click',function(){	$('#gov_left .two_manu dl').slideUp("normal"); if($(this).parent().find('dl').css('display')=='none'){	$(this).parent().find('dl').slideDown('normal');	}else{	$(this).parent().find('dl').slideUp("normal");}});
+})
+</script>
+<!--{template $core foot_pre}-->
+<!--{template $this_system footer}-->
+<!--{/php168}-->

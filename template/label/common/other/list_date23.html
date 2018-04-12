@@ -1,0 +1,44 @@
+<!--{php168}-->
+<style type="text/css">
+.label_list23_date li{margin-top:12px;padding-bottom:10px;}
+.label_list23_date .item, .label_list23_date .info{overflow: hidden;zoom: 1;}
+.label_list23_date .time{width:56px;height:54px;float:left;text-align:center;margin-right:10px;}
+.label_list23_date .time span{display:block;text-align:center;font-size:16px;}
+.label_list23_date .time .date{color:#fff;background:#870000;padding:5px 0;}
+.label_list23_date .time .year{color:#870000;background:#ebebeb;font-size:12px;padding:2px 0;}
+.label_list23_date .info h4{font-size:15px;font-weight:normal;margin:0;line-height:25px;}
+.label_list23_date .info h4 a{font-size:12px;}
+</style>
+<!--{php $list_count = count($list);}-->
+<!--{php $list_i = 0;}-->
+<ul class="label_list23_date">
+	<!--{foreach $list $value}-->
+	<!--{php $list_i ++;}-->
+	<!--{if $list_i == $list_count}-->
+	<li style="padding-bottom:0;">
+		<div class="item">
+			<div class="time">
+				<span class="date"><!--{php echo date('d', $value['timestamp']);}--></span>
+				<span class="year"><!--{php echo date('Y-m', $value['timestamp']);}--></span>
+			</div>
+			<div class="info">
+				<h4 class="item-tit">$value[title]<span class="cDRed"><a href="$value[url]" target="_blank">【详细】</a></span></h4>
+			</div>
+		</div>
+	</li>
+	<!--{else}-->	
+	<li>
+		<div class="item">
+			<div class="time">
+				<span class="date"><!--{php echo date('d', $value['timestamp']);}--></span>
+				<span class="year"><!--{php echo date('Y-m', $value['timestamp']);}--></span>
+			</div>
+			<div class="info">
+				<h4 class="item-tit">$value[title]<span class="cDRed"><a href="$value[url]" target="_blank">【详细】</a></span></h4>
+			</div>
+		</div>
+	</li>
+	<!--{/if}-->
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

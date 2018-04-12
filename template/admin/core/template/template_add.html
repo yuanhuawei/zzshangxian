@@ -1,0 +1,42 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $core template/menu_bar admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript">
+var SYSTEM = 'core';
+var MODULE = '';
+</script>
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td  class="title" colspan="2">添加模板</td>
+			</tr>
+			<tr>
+				<td class="tdL">模板命名</td>
+				<td class="tdR"><input type="text" class="txt" name="textfield" id="textfield" /></td>
+			</tr>
+			<tr>
+				<td class="tdL">添加模板文件</td>
+				<td class="tdR"><input type="file" name="textfield" id="textfield" /></td>
+			</tr><tr>
+				<td class="tdL">添加略缩图</td>
+				<td class="tdR"><input type="file" name="textfield" id="textfield" /></td>
+			</tr><tr>
+				<td class="tdL">模板介绍</td>
+				<td class="tdR">
+					<textarea name="textarea" id="textarea" cols="45" rows="5"></textarea>
+				</td>
+			</tr>
+			<tr><td colspan="2">&nbsp;</td></tr>
+			</tr><tr>
+				<td class="tdL"></td>
+				<td class="tdR">
+					<input type="submit" class="submit_btn" value="提交"/>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<!--{/php168}-->

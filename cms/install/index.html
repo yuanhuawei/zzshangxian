@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=gbk" /><title>install</title><meta name="keywords" content="" /><meta name="description" content="" /><link rel="stylesheet" type="text/css" href="http://www.16865.com/skin/media/core/common.css" /><link rel="stylesheet" type="text/css" href="http://www.16865.com/skin/media/core/head_foot.css" /><script type="text/javascript" src="http://www.16865.com/js/config.js"></script><script type="text/javascript" src="http://www.16865.com/js/jq.js"></script><script type="text/javascript" src="http://www.16865.com/js/util.js"></script><script type="text/javascript" src="http://www.16865.com/js/common.js"></script><script type="text/javascript" src="http://www.16865.com/js/lang/core/zh-cn.js"></script><script type="text/javascript" src="http://www.16865.com/js/lang/cms/zh-cn.js"></script><script type="text/javascript">var SYSTEM = 'cms',
+MODULE = 'item',
+ACTION = 'list',
+
+$this_router = P8CONFIG.URI[SYSTEM][MODULE].controller,
+$this_url = $this_router +'-'+ ACTION,
+SKIN = 'http://www.16865.com/skin/media/cms/',
+TEMPLATE = 'media';document.domain = '16865.com';document.base_domain = '16865.com';</script></head><body><div class="gov_top_bar">
+<div class="top_bar">
+<div id="header_login">
+<span id="login_link" style="display:none">
+<form method="post" action="http://www.16865.com/u.php/core/member-login">
+<span>用户名：</span><input type="text" name="username" value="" class="input common_input_border"/> <span>密码：</span><input type="password" name="password" value="" class="input common_input_border"/> <input type="submit" name="submit" value="登录" class="submit pointer"/> <input type='hidden' name='forward' id='forward' value="javascript:window.location.href"><span> <a href="http://www.16865.com/index.php/core/member-register">注册</a> | <a href="http://www.16865.com/index.php/core/member-getpassword">忘记密码</a> </span>
+</form>
+</span>
+<span id="login_info" style="display:none">
+<span style="margin-left:10px;"><a href="http://www.16865.com/u.php"><font color="#FF7F04"><b id="username"></b></font></a> 欢迎您回来！&nbsp;&nbsp;<a href="http://www.16865.com/u.php">会员中心</a> &nbsp;&nbsp;<a href="http://www.16865.com/u.php/core/member-logout">安全退出</a></span>
+</span>
+</div>
+<div id="header_t">
+<a href="javascript:void(0)" onclick="javascript:window.external.AddFavorite('http://www.16865.com/index.php','PHP168')" class="each_item">收藏本站</a>|<a href="javascript:void(0)" onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.16865.com/index.php');" class="each_item">设为首页</a>|<a href="#" class="each_item">RSS订阅<span class="rss"></span></a>
+</div>
+</div></div>
+<div class="gov_frame">
+<div class = "gov_head">
+<div class = "gov_logo">
+<img src = "http://www.16865.com/skin/media/core/gov_logo.gif" />
+</div>
+<div class = "gov_small_nav">
+
+</div>
+</div>
+<div class="gov_nav">
+<ul id="topnav" class="gov_nav_bar">
+<li><a href="http://www.16865.com/index.php" target="">首页</a>
+</li>
+<li class = "separator">&nbsp;</li>
+<li><a href="http://www.16865.com/index.php/cms/item-list-category-1" target="">新闻</a>
+</li>
+<li class = "separator">&nbsp;</li>
+<li><a href="http://www.16865.com/index.php/cms/item-list-category-27" target="">视频</a>
+</li>
+<li class = "separator">&nbsp;</li>
+<li><a href="http://www.16865.com/index.php/cms/item-list-category-28" target="">图片</a>
+</li>
+<li class = "separator">&nbsp;</li>
+<li><a href="http://www.16865.com/index.php/core/special" target="">专题</a>
+</li>
+<li class = "separator">&nbsp;</li>
+<li><a href="http://www.16865.com/index.php/ask" target="">问答系统</a>
+</li>
+<li class = "separator">&nbsp;</li>
+<li><a href="http://www.16865.com/u.php" target="">会员中心</a>
+</li>
+<li class = "separator">&nbsp;</li>
+<li><a href="http://www.16865.com/index.php/core/interview" target="">在线访谈</a>
+</li>
+<li class = "separator">&nbsp;</li>
+<li class = "gov_nav_bar_right">
+标准版
+</li>		
+</ul>
+<div class="gov_nav_tip">
+<div class = "gov_nav_tip_left">
+<strong class="fleft">热门关键字：</strong>
+&nbsp;   <a href="http://v65.php168.net/index.php/cms/item-view-id-225.html" target="_black">快乐大本营</a>  <a href="http://v65.php168.net/index.php/cms/item-view-id-226.html"target="_black">湖南卫视</a>  <a href="http://v65.php168.net/index.php/cms/item-view-id-227.html"target="_black">玉树地震</a>   <a href="http://v65.php168.net/index.php/cms/item-view-id-228.html"target="_black">何炅离职</a>  <a href="http://v65.php168.net/index.php/cms/item-view-id-229.html"target="_black">PHP168开源系统</a>
+</div>
+<div class = "gov_nav_tip_right">
+<form action="http://www.16865.com/index.php/cms/item-search" method="get">
+<input type="text" name="keyword" id="keyword" value="" />
+<select name="type" id="type" >
+<option value="">站内</option>
+</select>
+<input type="image" align="top" src="http://www.16865.com/skin/media/core/gov_head_search_button.gif" />
+</form>
+</div>
+</div>
+</div></div><script type="text/javascript">var USERNAME = get_cookie('USERNAME');var editlabel = get_cookie('IS_ADMIN');$(document).ready(function(){
+//**menu**//
+$('#topnav li>dl').hide();
+$("#topnav li:first").addClass('over');
+$("#topnav li").each(function () {
+$(this).hover(
+function(){
+$('#topnav li').removeClass('over');
+$('#topnav li>dl').hide();
+$(this).addClass('over');
+$(this).find('dl').show();
+$(this).find('dl').css({left: parseInt($(this).position().left) + 'px',width:$(this).find('dt').size()*81+'px'});
+},
+function(){
+$(this).find('dl').hide();
+}
+)
+});
+//**login box**//
+if(USERNAME !==undefined){
+$('#username').html(USERNAME);
+$('#login_info').show();
+}else{
+$('#forward').val(window.location.href);
+$('#login_link').show();
+}
+//**edit_label**//
+if(editlabel !==undefined){
+var thisurl = 'http://www.16865.com';
+var thisuri = '/index.php/cms/item-list-category-42-page-1';
+if(thisuri.indexOf('index.php')>-1){
+var _thisuri=thisuri.split('index.php');
+thisurl=thisurl+'/index.php'+_thisuri['1'];
+}else{
+thisurl=thisurl+thisuri;
+}
+if(thisurl.indexOf('edit_label')==-1){
+var ls='?';
+if(thisurl.indexOf('?')>-1)ls='&';
+thisurl=thisurl+ls+'edit_label=1';
+$('#header_t').prepend('<a href='+thisurl+' id="edit_label">[显示标签]</a>');
+}else{
+thisurl=thisurl.replace('&edit_label=1','');
+thisurl=thisurl.replace('edit_label=1','');
+$('#edit_label').remove();
+$('#header_t').prepend('<a href='+thisurl+' >[隐藏标签]</a>');
+}
+}});</script><div class="gov_frame">
+
+<link rel="stylesheet" type="text/css" href="http://www.16865.com/skin/media/cms/item/article/style.css" /><div class="list_banner">
+<a href='' title='' style = 'text-decoration:none;'><img width = '990' height = '91' border='none' alt = '' src='http://www.16865.com/attachment/core/label/2010_08/09_10/87b65d03808ccc1a.jpg' /></a></div><div class="list_nave">
+<a href="http://www.16865.com">首页</a>&nbsp;&gt;&nbsp;
+<a href="http://www.16865.com/cms/install/">install</a></div><!--左边--><div class="list_left">
+<div class="list_head1 mtop" >
+<span class="list_title2">install</span>
+</div>
+<div class="list_content1"><br />
+<font size='1'><table dir='ltr' border='1' cellspacing='0' cellpadding='1'>
+<tr><th align='left' bgcolor='#f57900' colspan="5"><span style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span> Notice: Undefined variable: label in D:\p8_server\www\6.5\data\template\label\cms\article\list.php on line <i>6</i></th></tr>
+<tr><th align='left' bgcolor='#e9b96e' colspan='5'>Call Stack</th></tr>
+<tr><th align='center' bgcolor='#eeeeec'>#</th><th align='left' bgcolor='#eeeeec'>Time</th><th align='left' bgcolor='#eeeeec'>Memory</th><th align='left' bgcolor='#eeeeec'>Function</th><th align='left' bgcolor='#eeeeec'>Location</th></tr>
+<tr><td bgcolor='#eeeeec' align='center'>1</td><td bgcolor='#eeeeec' align='center'>0.0005</td><td bgcolor='#eeeeec' align='right'>58592</td><td bgcolor='#eeeeec'>{main}(  )</td><td title='D:\p8_server\www\6.5\admin.php' bgcolor='#eeeeec'>..\admin.php<b>:</b>0</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>2</td><td bgcolor='#eeeeec' align='center'>0.0117</td><td bgcolor='#eeeeec' align='right'>246760</td><td bgcolor='#eeeeec'>require( <font color='#00bb00'>'D:\p8_server\www\6.5\cms\modules\item\admin\list_to_html.php'</font> )</td><td title='D:\p8_server\www\6.5\admin.php' bgcolor='#eeeeec'>..\admin.php<b>:</b>157</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>3</td><td bgcolor='#eeeeec' align='center'>0.0156</td><td bgcolor='#eeeeec' align='right'>361488</td><td bgcolor='#eeeeec'>require( <font color='#00bb00'>'D:\p8_server\www\6.5\index.php'</font> )</td><td title='D:\p8_server\www\6.5\cms\modules\item\admin\list_to_html.php' bgcolor='#eeeeec'>..\list_to_html.php<b>:</b>205</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>4</td><td bgcolor='#eeeeec' align='center'>0.0175</td><td bgcolor='#eeeeec' align='right'>370056</td><td bgcolor='#eeeeec'>require( <font color='#00bb00'>'D:\p8_server\www\6.5\cms\modules\item\list.php'</font> )</td><td title='D:\p8_server\www\6.5\index.php' bgcolor='#eeeeec'>..\index.php<b>:</b>183</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>5</td><td bgcolor='#eeeeec' align='center'>0.0196</td><td bgcolor='#eeeeec' align='right'>376176</td><td bgcolor='#eeeeec'>require( <font color='#00bb00'>'D:\p8_server\www\6.5\cms\model\article\list.php'</font> )</td><td title='D:\p8_server\www\6.5\cms\modules\item\list.php' bgcolor='#eeeeec'>..\list.php<b>:</b>47</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>6</td><td bgcolor='#eeeeec' align='center'>0.0285</td><td bgcolor='#eeeeec' align='right'>396296</td><td bgcolor='#eeeeec'>include( <font color='#00bb00'>'D:\p8_server\www\6.5\data\template\media\cms\item\article\list.php'</font> )</td><td title='D:\p8_server\www\6.5\cms\model\article\list.php' bgcolor='#eeeeec'>..\list.php<b>:</b>94</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>7</td><td bgcolor='#eeeeec' align='center'>0.0605</td><td bgcolor='#eeeeec' align='right'>738400</td><td bgcolor='#eeeeec'>include( <font color='#00bb00'>'D:\p8_server\www\6.5\data\template\label\cms\article\list.php'</font> )</td><td title='D:\p8_server\www\6.5\data\template\media\cms\item\article\list.php' bgcolor='#eeeeec'>..\list.php<b>:</b>277</td></tr>
+</table></font>
+<style>.label_dotlist_494 {line-height:180%;font-size:14px;color:}.label_dotlist_494 li.label_dottitle {background:none;display:block; float:left; width:99%; }.label_dotlist_494 li.label_dottitle .dottitle_dot{color:#CCC;}.label_dotlist_494 a{font-size:12px;}</style><ul class="label_dotlist_494">
+<li style="clear:both;"></li></ul>
+<div id="page">
+
+</div>
+</div></div><!--右边--><div class="list_right2 mtop">
+<div class="list_head3">
+<span class="list_more2"></span> &nbsp;媒体公告
+</div>
+<div class="list_content3">
+<style>.label_dotlist_247 {line-height:180%;font-size:14px;color:}.label_dotlist_247 li.label_dottitle {background:none;display:block; float:left; width:99%; }.label_dotlist_247 li.label_dottitle .dottitle_dot{color:#CCC;}.label_dotlist_247 a{font-size:12px;}</style><ul class="label_dotlist_247">
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.google.cn" target="_blank" title="xxxx">xxxx</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/guoji/2010_08/12_15/content-86.html" target="_blank" title="黄光裕家族：陈晓出局是唯一正确选择">黄光裕家族：陈晓出局是唯一正确选择</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/guoji/2010_08/12_11/content-84.html" target="_blank" title="调查显示59%俄罗斯人希望重新选择地方长官">调查显示59%俄罗斯人希望重新选择地方长官</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/guoji/2010_08/12_11/content-83.html" target="_blank" title="美国国务卿敦促共和党参议员批准核裁军条约">美国国务卿敦促共和党参议员批准核裁军条</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/guoji/2010_08/12_11/content-82.html" target="_blank" title="普京驾机灭火或涉嫌违法 俄网友指其无驾照(图)">普京驾机灭火或涉嫌违法 俄网友指其无驾照</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/guoji/2010_08/12_11/content-81.html" target="_blank" title="日本丰田汽车公司&quot;无限期&quot;停止向伊朗出口汽车">日本丰田汽车公司&quot;无限期&quot;停止向伊朗出口</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/guoji/2010_08/11_15/content-80.html" target="_blank" title="河南安阳曹操高陵临时展馆预计将于9月对外开放">河南安阳曹操高陵临时展馆预计将于9月对外</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/shehui/2010_08/11_14/content-70.html" target="_blank" title="民生银行聘任邢本秀为总行副行长">民生银行聘任邢本秀为总行副行长</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/shehui/2010_08/11_14/content-69.html" target="_blank" title="云南楚大高速修路游客蜂拥换乘 飞机火车票难求">云南楚大高速修路游客蜂拥换乘 飞机火车票</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/shehui/2010_08/11_14/content-68.html" target="_blank" title="广东封开发生滑坡 7栋居民楼倒塌无人员伤亡">广东封开发生滑坡 7栋居民楼倒塌无人员伤</a>
+</li>
+<li class="clear"></li></ul>
+</div>
+<div class="list_head3">
+<span class="list_more2"></span> &nbsp;最新新闻
+</div>
+<div class="list_content3">
+<style>.label_dotlist_572 {line-height:180%;font-size:14px;color:}.label_dotlist_572 li.label_dottitle {background:none;display:block; float:left; width:99%; }.label_dotlist_572 li.label_dottitle .dottitle_dot{color:#CCC;}.label_dotlist_572 a{font-size:12px;}</style><ul class="label_dotlist_572">
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.google.cn" target="_blank" title="xxxx">xxxx</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/guoji/2010_08/12_15/content-86.html" target="_blank" title="黄光裕家族：陈晓出局是唯一正确选择">黄光裕家族：陈晓出局是唯一正确选择</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/guoji/2010_08/12_11/content-84.html" target="_blank" title="调查显示59%俄罗斯人希望重新选择地方长官">调查显示59%俄罗斯人希望重新选择地方长官</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/guoji/2010_08/12_11/content-83.html" target="_blank" title="美国国务卿敦促共和党参议员批准核裁军条约">美国国务卿敦促共和党参议员批准核裁军条</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/guoji/2010_08/12_11/content-82.html" target="_blank" title="普京驾机灭火或涉嫌违法 俄网友指其无驾照(图)">普京驾机灭火或涉嫌违法 俄网友指其无驾照</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/guoji/2010_08/12_11/content-81.html" target="_blank" title="日本丰田汽车公司&quot;无限期&quot;停止向伊朗出口汽车">日本丰田汽车公司&quot;无限期&quot;停止向伊朗出口</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/guoji/2010_08/11_15/content-80.html" target="_blank" title="河南安阳曹操高陵临时展馆预计将于9月对外开放">河南安阳曹操高陵临时展馆预计将于9月对外</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/shehui/2010_08/11_14/content-70.html" target="_blank" title="民生银行聘任邢本秀为总行副行长">民生银行聘任邢本秀为总行副行长</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/shehui/2010_08/11_14/content-69.html" target="_blank" title="云南楚大高速修路游客蜂拥换乘 飞机火车票难求">云南楚大高速修路游客蜂拥换乘 飞机火车票</a>
+</li>
+<li class="label_dottitle">
+<span class="dottitle_dot">·</span><a href="http://www.16865.com/cms/xinwen/shehui/2010_08/11_14/content-68.html" target="_blank" title="广东封开发生滑坡 7栋居民楼倒塌无人员伤亡">广东封开发生滑坡 7栋居民楼倒塌无人员伤</a>
+</li>
+<li class="clear"></li></ul>
+</div></div><div class="clear"></div></div><div class="gov_frame">
+<ul id="footer">
+<li>联系方式: MSN: php168sales@hotmail.com 邮箱:sale@php168.net QQ：1272719834、1103315866 电话：020-38907975 传真：020-38907975</li>
+<li>Copyright@http://www.16865.com all rights reserved <a href="http://www.miibeian.gov.cn" target="_blank">京ICP备050453号 </a></li>
+<li>Powered by <a href="http://www.php168.net" target="_blank">PHP168 V6.5</a> Code &copy; 2003-2010 <a href="http://www.php168.net" target="_blank">PHP168cms</a></li>
+</ul></div></body></html>
+<pre>script:D:/p8_server/www/6.5/cms/modules/item/list.php<br>Array
+(
+    [0] => D:\p8_server\www\6.5\admin.php
+    [1] => D:\p8_server\www\6.5\inc\init.php
+    [2] => D:\p8_server\www\6.5\inc\core.php
+    [3] => D:\p8_server\www\6.5\data\core\core.php
+    [4] => D:\p8_server\www\6.5\inc\mysql.class.php
+    [5] => D:\p8_server\www\6.5\cms\system.php
+    [6] => D:\p8_server\www\6.5\cms\modules\item\module.php
+    [7] => D:\p8_server\www\6.5\cms\modules\item\controller.php
+    [8] => D:\p8_server\www\6.5\cms\modules\item\admin\list_to_html.php
+    [9] => D:\p8_server\www\6.5\inc\html.func.php
+    [10] => D:\p8_server\www\6.5\cms\modules\category\module.php
+    [11] => D:\p8_server\www\6.5\index.php
+    [12] => D:\p8_server\www\6.5\cms\modules\item\list.php
+    [13] => D:\p8_server\www\6.5\cms\model\article\list.php
+    [14] => D:\p8_server\www\6.5\inc\select.php
+    [15] => D:\p8_server\www\6.5\data\template\media\cms\item\article\list.php
+    [16] => D:\p8_server\www\6.5\modules\label\module.php
+    [17] => D:\p8_server\www\6.5\modules\label\call\refresh_labels.call.php
+    [18] => D:\p8_server\www\6.5\data\template\label\cms\article\list.php
+)
+<br />Time: 0.0607960224152<br />Memory: 655.104 KB<br />Querys: 1<br />UID:0<br />ROLE:3<br />ROLE_GROUP:2<br />USERNAME:admin<br /></pre>

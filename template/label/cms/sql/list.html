@@ -1,0 +1,22 @@
+<!--{php168}-->
+<table style="line-height:180%;font-size:12px;" width="100%" cellspacing="3" cellpadding="1">
+	<tr><th align="center" width="30%">排序</th><th align="center" width="*">用户名</th><th align="center" width="20%">投稿数量</th></tr>
+	  <!--{foreach $list $key=>$row}-->
+	  <tr>
+		  <td align="center" style="border-top:1px dashed #e1e1e1"><!--{php echo $key+1;}--></a></td>
+		  <td align="center" style="border-top:1px dashed #e1e1e1">$row[username]</td>
+		  <td align="center" style="border-top:1px dashed #e1e1e1">$row[tpost]</td>
+	</tr>
+	  <!--{/foreach}-->
+</table>
+<!--
+对CMS内容进行统计排行，如针对某一栏目ID的统计，
+则在下面的条件中再增加形如and a.cid=780的条件
+SELECT a.uid,SUM(a.post) as tpost,b.username,c.name 
+FROM  `p8_cms_statistic_member` a,`p8_member` b,`p8_cms_category` c
+WHERE a.uid=b.id and a.cid=c.id
+GROUP BY a.uid
+order by tpost desc
+LIMIT 0 , 5
+-->
+<!--{/php168}-->

@@ -1,0 +1,61 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<form action="$this_router-$ACTION" method="post">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="formtable">
+						<tr>
+							<td colspan="2" class="title">{$P8LANG['set_role']}</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['core']} {$P8LANG['role']}</td>
+							<td class="tdR">
+							<select name="role[core]">
+								<option value="">{$P8LANG['default']}</option>
+							<!--{foreach $role->system_roles['core']['system'] $v}-->
+								<option value="{$v['id']}"<!--{if $v['id'] == $roles['core']}--> selected<!--{/if}-->>{$v['name']}</option>
+							<!--{/foreach}-->
+							
+							<!--{foreach $role->system_roles['core']['normal'] $v}-->
+								<option value="{$v['id']}"<!--{if $v['id'] == $roles['core']}--> selected<!--{/if}-->>{$v['name']}</option>
+							<!--{/foreach}-->
+							</select>
+							</td>
+						</tr>
+						
+						<!--{if empty($core->CONFIG['use_core_roles_only'])}-->
+						<!--{foreach $core->systems $system $v}-->
+						<tr>
+							<td class="tdL">{$v['alias']} {$P8LANG['role']}</td>
+							<td class="tdR">
+							<select name="role[$system]">
+							<option value="">{$P8LANG['default']}</option>
+							<!--{foreach $role->system_roles[$system]['system'] $v}-->
+								<option value="{$v['id']}"<!--{if $v['id'] == $roles[$system]}--> selected<!--{/if}-->>{$v['name']}</option>
+							<!--{/foreach}-->
+							
+							<!--{foreach $role->system_roles[$system]['normal'] $v}-->
+								<option value="{$v['id']}"<!--{if $v['id'] == $roles[$system]}--> selected<!--{/if}-->>{$v['name']}</option>
+							<!--{/foreach}-->
+							</select>
+							</td>
+						</tr>
+						<!--{/foreach}-->
+						<!--{/if}-->
+						
+						<td class="tdL">&nbsp;</td>
+						<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+					  </tr>
+					</table>
+					
+				</td></tr>
+			</table>
+			<input type="hidden" name="id" value="{$id}" />
+		</form>
+	</div>
+</div>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

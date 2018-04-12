@@ -1,0 +1,43 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<form action="$this_url" method="post">
+			<table class="formtable template_box">
+				<tr>
+					<td  class="title">模板选择</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="max_title">
+							<span class="min_title">首页模板选择</span><span class="more">更多&gt;&gt;</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="list_template">
+						
+						<!--{foreach $core->CONFIG['member_templates'] $name $alias}-->
+						<!--{if is_dir(TEMPLATE_PATH .'member/'. $name)}-->
+						<div class="each_template">
+							<img src="{$RESOURCE}/{$core.CONFIG['template_dir']}member/$name/preview.jpg" border="0" width="150" height="180" onclick="" onerror="this.src='{$RESOURCE}/images/nopic.jpg'" /><br />
+							$alias<br />
+							<input type="radio" name="template" id="template_$name" value="member/$name"{if !empty($config['member_template']) && $config['member_template'] == 'member/'. $name} checked{/if} />
+							<label for="template_$name">设置为当前模板</label>
+						</div>
+						<!--{/if}-->
+						<!--{/foreach}-->
+						
+					</td>
+				</tr>
+				<tr><td align="center">
+				<p><input type="submit" value="提交" class="submit_btn"/></p>
+				</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

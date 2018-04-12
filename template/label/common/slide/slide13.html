@@ -1,0 +1,62 @@
+<!--{php168}-->
+<style type="text/css">
+.scroll_{$label['id']}{width:{$swidth}px;height:{$sheight}px;overflow:hidden;position:relative;border:#ccc 1px solid;}
+.scroll_{$label['id']} .slider{position:absolute;}
+.scroll_{$label['id']} .slider li{ margin:0; padding:0; width:{$swidth}px;height:{$sheight}px;overflow:hidden;}
+.scroll_{$label['id']} .slider li a{text-decoration:none;}
+.scroll_{$label['id']} .slider .stitle{background:#F0F0F0;height:25px;line-height:25px;text-align:center;font-weight:600;overflow:hidden;}
+.scroll_{$label['id']} .slider .summary{padding:3px;line-height:22px;height:66px;overflow:hidden;}
+.scroll_{$label['id']} .slider img{width:{$swidth}px;height:<!--{php echo $sheight-97;}-->px;display:block;}
+.scroll_{$label['id']} .num{position:absolute;right:5px;bottom:103px;}
+.scroll_{$label['id']} .num li{float:left;color:#FF7300;text-align:center;line-height:16px;width:16px;height:16px;font-family:Arial;font-size:12px;cursor:pointer;overflow:hidden;margin:3px 1px;border:1px solid #FF7300;background-color:#fff;}
+.scroll_{$label['id']} .num li.on{color:#fff;line-height:21px;width:21px;height:21px;font-size:16px;margin:0 1px;border:0;background-color:#FF7300;font-weight:bold;}
+</style>
+<div class="scroll_{$label['id']}" id="idTransformView_{$label['id']}">
+    <ul class="slider" id="idSlider_{$label['id']}">
+       <!--{foreach $list $value}-->
+          <li><a href="$value[url]" target="_blank" title="$value[full_title]"><img src="$value[frame]" alt="$value[full_title]"></a>
+	<div class="stitle"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></div>
+	<div class="summary" style="font-size:12px;text-index:2em;"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[summary]</a></div>
+	</li>
+	<!--{/foreach}-->
+    </ul>
+    <ul class="num" id="idNum_{$label['id']}">
+    </ul>
+</div>
+<script language="javascript" >
+(function(){
+    var len = $("#idSlider_{$label['id']} > li").length;
+	var index = 0;
+	for(ii=1;ii<=len;ii++){
+		$('#idNum_{$label['id']}').append('<li>'+ii+'</li>');
+	}
+	$("#idNum_{$label['id']} li").mouseover(function(){
+	   index =   $("#idNum_{$label['id']} li").index(this);
+	   showImg(index);
+	}); 
+	$('#idTransformView_{$label['id']}').hover(function(){
+		 if(MyTime){
+		 clearInterval(MyTime);
+		 }
+		},function(){
+		 MyTime = setInterval(function(){
+		   showImg(index)
+		 	index++;
+		 	if(index==len){index=0;}
+		 } , 4000);
+	});
+	var MyTime = setInterval(function(){
+	   showImg(index);
+	   index++;
+	   if(index==len){index=0;}
+	} , 4000);
+	function showImg(i){
+	   $("#idSlider_{$label['id']}").stop(true,false).animate({top : -{$sheight}*i},800);
+	   $("#idNum_{$label['id']} li")
+		.eq(i).addClass("on")
+		.siblings().removeClass("on");
+	}
+
+})();
+</script>
+<!--{/php168}-->

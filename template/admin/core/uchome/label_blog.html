@@ -1,0 +1,421 @@
+<!--{php168}-->
+<!--{template $LABEL header admin}-->
+<link rel="stylesheet" href="{$SKIN}/cms/category_selector.css" type="text/css">
+
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+
+<script type="text/javascript">
+_order_by_offset = -1;
+</script>
+<form action="$this_url?action=$action" id="form" method="post">
+
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<table class="columntable formtable ">
+							<tr>
+								<td colspan="2" class="title">编辑标签</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div id="tabs"  class="tab_box mtop">
+										<div class="head">
+											<span><a>基本设置</a></span>
+											<span><a>风格样式</a></span>
+											<span><a>其它设置</a></span>
+										</div>
+										<div class="main">
+											<div class="content">
+												<table width="100%" class="hover_table">
+													<tr>
+														<td class="tdL">指定内容ID</td>
+														<td class="tdR">
+															<input type="text" class="txt" name="option[ids]" value="{if !empty($option['ids'])}{implode(',', $option['ids'])}{/if}" size="60" />
+															多个用半角逗号,隔开
+														</td>
+													</tr>
+													
+													<tr>
+														<td class="tdL">指定用户ID</td>
+														<td class="tdR">
+															<input type="text" class="txt" name="option[uids]" value="{if !empty($option['uids'])}<!--{php if(is_array($option['uids']))$option['uids'] = implode(',', $option['uids']);echo $option['uids'];}-->{/if}" size="60" />
+															多个用半角逗号,隔开
+														</td>
+													</tr>
+													
+													<tr>
+														<td class="tdL">指定用户名</td>
+														<td class="tdR">
+															<input type="text" class="txt" name="option[username]" value="{if !empty($option['username'])}<!--{php if(is_array($option['username']))$option['username'] = implode(',', $option['username']);echo $option['username'];}-->{/if}" size="60" />
+															多个用半角逗号,隔开
+														</td>
+													</tr>
+													
+													<tr>
+														<td class="tdL">
+															标题
+														</td>
+														<td class="tdR">
+															<input type="text" class="txt" name="option[subject]" value="{if !empty($option['subject'])}$option[subject]{/if}" size="60" />
+														</td>
+													</tr>
+													<tr>
+														<td class="tdL">发布时间</td>
+														<td class="tdR">
+															<select name="option[dateline]">
+																<option selected="" value="0">---不限制---</option>
+																<option value="86400" {if $option['dateline']==86400}selected{/if}>一天以来</option>
+																<option value="172800" {if $option['dateline']==172800}selected{/if}>两天以来</option>
+																<option value="604800" {if $option['dateline']==604800}selected{/if}>一周以来</option>
+																<option value="1209600" {if $option['dateline']==1209600}selected{/if}>两周以来</option>
+																<option value="2592000" {if $option['dateline']==2592000}selected{/if}>一个月以来</option>
+																<option value="7948800" {if $option['dateline']==7948800}selected{/if}>三个月以来</option>
+																<option value="15897600" {if $option['dateline']==15897600}selected{/if}>六个月以来</option>
+																<option value="31536000" {if $option['dateline']==31536000}selected{/if}>一年以来</option>
+																</select>
+														</td>
+													</tr>
+													<tr>
+														<td class="tdL">隐私范围</td>
+														<td class="tdR">
+															<select name="option[friend]">
+																<option value="0" {if $option['friend']==0}selected{/if}>全站用户可见</option>
+																<option value="null" {if $option['friend']=='null'}selected{/if}>所有</option>
+																</select>
+														</td>
+													</tr>
+													<tr>
+														<td class="tdL">{$P8LANG['label_order_by']}</td>
+														<td class="tdR">
+															<!-- for clone -->
+															<div id="order_by">
+																<div style="display: none;">
+																	<select name="">
+																		<!--{foreach $order_bys $k $v}-->
+																		<option value="$k">{$P8LANG[$v]}</option>
+																		<!--{/foreach}-->
+																		<option value="">------</option>
+																	</select>
+																	<input type="radio" name="" value="1" /> {$P8LANG['label_desc']}
+																	<input type="radio" name="" value="0" /> {$P8LANG['label_asc']}
+																	<input type="button" value="{$P8LANG['delete']}" onclick="label_delete_order_by(this)" />
+																</div>
+															</div>
+															<!-- /for clone -->
+															
+															<div id="add_order_by">
+																<!--{if !empty($option['order_by'])}-->
+																<!--{foreach $option['order_by'] $field $v}-->
+																<script type="text/javascript">
+																	label_add_order_by($('#order_by'), $('#add_order_by'), '$field', '$v');
+																</script>
+																<!--{/foreach}-->
+																<!--{/if}-->
+															</div>
+															<br />
+															<input type="button" value="{$P8LANG['label_add_order_by']}" onclick="label_add_order_by($('#order_by'), $('#add_order_by'))" /> </td>
+													</tr>
+													
+													<tr>
+														<td class="tdL">是否可分页</td>
+														<td class="tdR"> <input name="option[pageable]" type="radio" value="1" {if !empty($option['pageable'])} checked {/if}/> 可以 <input name="option[pageable]" type="radio" value="0" {if empty($option['pageable'])} checked {/if}/> 不可以</td>
+													</tr>
+												</table>
+											</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+											<div class="content">
+												<table width="100%" class="hover_table">
+													<!--{if in_array($data['type'], array('sql', 'module_data'))}-->
+													<tr>
+														<td class="tdL">{$P8LANG['label_template']} <span class="help">模板选择即可，一般不用编辑。编辑功能是用于修改模板</span></td>
+														<td class="tdR">
+															<input type="text" class="txt" name="option[template]" id="template" value="{if !empty($option['template'])}$option[template]{else}uchome/blog{/if}" size="30" />
+															<input type="button" value="选择模板.." onclick="template_dialog.show()" /><input type="button" class="usethistpl" value="编辑此模板" onclick="useThisTpl()" >(想自己进一步修改可用此功能)<br />
+														<img style="max-height:300px; max-width:500px;display:block; border:1px solid #ff0000; padding:2px; " id="templateshowimg" src="{$RESOURCE}/images/nopic.jpg" onerror="this.src='{$RESOURCE}/images/nopic.jpg'"  />
+													
+														<script type="text/javascript">
+														$(document).ready(function(){
+															$('#templateshowimg').attr('src',function(){
+																return P8CONFIG.RESOURCE +'/{$core.CONFIG['template_dir']}label/'+$('#template').val()+'.jpg';
+															});
+														});
+														
+														</script>
+														</td>
+													</tr>
+													<!--{/if}-->
+													<tr>
+														<td class="tdL">幻灯片宽高：<br>（<font color="red">仅当选择幻灯片模版时生效</font>）</td>
+														<td class="tdR">
+															宽:<input type="text" class="txt" name="option[width]" size="3" value="{if !empty($option['width'])}{$option['width']}{else}300{/if}" />
+															高:<input type="text" class="txt" name="option[height]" size="3" value="{if !empty($option['height'])}{$option['height']}{else}300{/if}" /></td>
+													</tr>
+													<tr>
+														<td class="tdL">{$P8LANG['label_limit']}</td>
+														<td class="tdR"> <input type="text" class="txt" name="option[limit]" size="3" value="{if !empty($option['limit'])}{$option['limit']}{else}10{/if}" /> </td>
+													</tr>
+													<tr>
+														<td class="tdL">分几列</td>
+														<td class="tdR">
+															<input name="option[rows]" type="text" size="3" class="txt" id="rows" value="{if !empty($option['rows'])}$option[rows]{else}1{/if}" />(对有些模板无效)
+														</td>
+													</tr>
+													<tr>
+														<td class="tdL">大标题长度<span class="help">对于“head_title”等一类有大标题的模板才有效</span></td>
+														<td class="tdR"> <input type="text" class="txt" name="option[top_title_length]" size="3" value="{if !empty($option['top_title_length'])}{$option['top_title_length']}{else}40{/if}" /> </td>
+													</tr>
+													<tr>
+														<td class="tdL">列表标题长度</td>
+														<td class="tdR"> <input type="text" class="txt" name="option[title_length]" size="3" value="{if !empty($option['title_length'])}{$option['title_length']}{else}60{/if}" /> </td>
+													</tr>
+													<tr>
+														<td>标题超过字数是否用省略号表示</td>
+														<td>
+															<input type="radio" name="option[title_dot]" value="1"{if !empty($option['title_dot'])} checked{/if} /> 用
+															<input type="radio" name="option[title_dot]" value="0"{if empty($option['title_dot'])} checked{/if} /> 不用</td>
+													</tr>
+													<tr>
+														<td>内容简介显示几个字</td>
+														<td> <input name="option[summary_length]" type="text" class="txt" id="textfield4" value="{if !empty($option['summary_length'])}$option[summary_length]{else}120{/if}" /> </td>
+													</tr>
+													
+													<tr>
+														<td>模板代码 <span class="help">一般为空，保证自己掌握了标签模板规则才可编辑，否则页面会报错</span></td>
+														<td>
+													<textarea name="option[tplcode]" id="tplcode" style="display:{if !empty($option['tplcode'])}{else}none{/if}" rows="15" cols="100" wrap=off>{if !empty($option['tplcode'])}{$option['tplcode']}{/if}</textarea>
+													<a href="javascript:void(0);" id="toshow" onclick="$('#tplcode').show();$(this).hide();">查看</a>
+														</td>
+												
+											</tr>
+													<tr>
+														<td>&nbsp;</td>
+														<td>&nbsp;</td>
+													</tr>
+												</table>
+											</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+											<div class="content">
+												<!--{template $LABEL other_set admin}-->
+											</div>
+										</div>
+									</div>
+									<script type="text/javascript">
+									MoveTabs("tabs",1);
+									</script>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">
+						<input type="button" value="{$P8LANG['explain_sql']}" class="submit_btn" onclick="explain_sql()" />
+						<input type="button" value="{$P8LANG['preview']}" class="submit_btn" onclick="preview()" />
+						<input type="hidden" name="verify" value="0" />
+						<input type="hidden" name="data_type" value="{$type}" />
+						<input type="hidden" name="option[method]" value="label_{$type}" />
+						{$P8LANG['label_submit_fail_note']}
+					</td>
+				</tr>
+				<tr>
+					<td class="tdR" id="explain"></td>
+				</tr>
+				<tr>
+					<td align="center">
+						<input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+</form>
+
+<script type="text/javascript">
+
+var FORUMS_JSON = $json[json],
+	FORUMS_PATH = $json[path],
+	TYPES_JSON = $json[types];
+
+var dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_category']}',
+	button: true,
+	width: 700,
+	height: 300,
+	ok: function(){
+		var values = cs.get_value();
+		$('#form input[name="option[forums]"]').val(values.join(','));
+		forums_path(values);
+	},
+	show: function(){
+		cs.init();
+	}
+});
+dialog.content.height(240);
+
+var cs = new Recursive_Selector({
+	json: FORUMS_JSON,
+	path: FORUMS_PATH,
+	multiple: true,
+	input: $('#forums'),
+	dialog: dialog,
+	values: $('#form input[name="option[forums]"]').val(),
+	sub_property: 'forums',
+	item_callback: function(cat, item){
+		if(cat.type == 'group'){
+			item.find('span').addClass('frame_category');
+			item.find('input[type=checkbox]').attr('disabled', true);
+		}
+		
+		if(cat.forums)
+			item.addClass('sub_category');
+	}
+});
+
+
+var type_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_category']}',
+	button: true,
+	width: 700,
+	height: 300,
+	ok: function(){
+		var values = type_cs.get_value();
+		$('#form input[name="option[types]"]').val(values.join(','));
+		
+		var forums = cs.get_value();
+		for(var i in forums){
+			if(!forums[i]) continue;
+			
+			types_path(forums[i], values);
+			
+			break;
+		}
+		
+	},
+	show: function(){
+		
+		type_cs.json = TYPES_JSON[get_forum()];
+		type_cs.init(true);
+	}
+});
+
+var type_cs = new Recursive_Selector({
+	json: TYPES_JSON,
+	path: {},
+	multiple: true,
+	input: $('#types'),
+	dialog: type_dialog,
+	values: $('#form input[name="option[types]"]').val(),
+	sub_property: ''
+});
+
+function forums_path(fids){
+	$('#forums_path').empty();
+	
+	fids = array_filter(fids);
+	
+	for(var i in fids){
+		var path = clone(FORUMS_PATH[fids[i]]);
+		
+		if(!path) continue;
+		
+		var div = '';
+		for(var j = 0; j < path.length; j++){
+			var cat = cs.get_by_id(path[j]);
+			div += '<span>'+ cat.name +' &gt; </span>';
+		}
+		
+		$('#forums_path').append('<div>'+ div +'</div>');
+	}
+}
+
+function get_forum(){
+	var val = $('#form input[name="option[forums]"]').val().split(',');
+	for(var i in val){
+		if(!val[i]) continue;
+		
+		return val[i];
+	}
+}
+
+function types_path(fid, types){
+	$('#types_path').empty();
+	
+	types = array_filter(types);
+	
+	for(var i in types){
+		$('#types_path').append('<div>'+ TYPES_JSON[fid][types[i]].name +'</div>');
+	}
+}
+
+
+$(function(){
+	var val = $('#form input[name="option[forums]"]').val().split(',');
+	val ? forums_path(val) : '';
+	
+	var val2 = $('#form input[name="option[types]"]').val();
+	val2 ? types_path(get_forum(), val2.split(',')) : '';
+});
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

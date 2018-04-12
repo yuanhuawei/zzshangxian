@@ -1,0 +1,12 @@
+<!--{php168}-->
+<ul class="label_ul_b">
+<!--{php $i=0;}-->
+<!--{foreach $list $value}-->	
+<!--{php $i++;$j=$i%2;}-->	
+<li class="libackg_$j" style="$wf;">
+		<span class="label_datatime" style="color:#666666;font-size:12px;">[<!--{php echo date('Y-m-d', $value['timestamp']);}-->]</span>·<a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a>
+	</li>
+<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->

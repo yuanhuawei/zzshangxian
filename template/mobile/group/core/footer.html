@@ -1,0 +1,24 @@
+<!--{php168}-->
+</div>
+<div id="footer" class="footer">
+	<div class="bottom">
+		<div id="backtop" class="backtop">Top</div>
+	</div>
+	<div class="copyright">
+		$label[group_mobile_footer_1]
+	</div>
+</div>
+<div class="foothd"></div>
+<div class="footnav">
+	$label[group_mobile_footer_2]
+</div>
+<script type="text/javascript">
+	$(function(){
+		var l = location.href;
+		$('#pclink').attr('href',l.indexOf('ismobile')>-1?l.replace('ismobile=1','ismobile=0'):l+((l.indexOf('?')>-1?'&':'?')+'ismobile=0'));					 
+	})
+</script>
+<script src="{$RESOURCE}/skin/mobile/group/index.js"></script>
+</body>
+</html>
+<!--{/php168}-->

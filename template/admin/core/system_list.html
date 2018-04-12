@@ -1,0 +1,139 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['operation']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					<ul>
+						<li><a href="{$core.admin_controller}/core-system_list">{$P8LANG['system']}{$P8LANG['manage']}</a></li>
+						<li><a href="{$core.admin_controller}/core-module_list">{$P8LANG['module']}{$P8LANG['manage']}</a></li>
+						<li><a href="{$core.admin_controller}/core-plugin_list">{$P8LANG['plugin']}{$P8LANG['manage']}</a></li>
+						<li><a href="{$core.admin_controller}/core-cache">{$P8LANG['update_cache']}</a></li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<form action="" method="post" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0" >
+				<tr><td>
+					<table width="100%" class="columntable formtable hover_table">
+						<tr>
+							<td colspan="10" class="title">{$P8LANG['system']} {$P8LANG['list']}</td>
+						</tr>
+						
+						<tr>
+							<td width="15%" height="30">{$P8LANG['system_name']}</td>
+							<td width="40%">{$P8LANG['system_alias']}</td>
+							<!--td width="10%">{$P8LANG['install']}</td-->
+							<td width="5%">{$P8LANG['enabled']}</td>
+							<!--td width="5%">{$P8LANG['uninstall']}</td-->
+							<td width="10%">{$P8LANG['table_prefix']} <font color=red>(一般不作设置，属于高端应用)</font></td>
+						</tr>
+						<script type="text/javascript">
+							var systems = {};
+						</script>
+						<!--{foreach $list $k $v}-->
+						<tr>
+							<td>{$k}</td>
+							<td>{$v['alias']}</td>
+							
+							<!--td>
+								<!--{if $v['installed']}-->
+								<!--input type="button" class="status_btn2" value="{$P8LANG['installed']}" onclick="install_system('$k')"/-->
+								<!--{else}-->
+								<!--input type="button" class="status_btn" value="{$P8LANG['installsystem']}" onclick="install_system('$k')" /-->
+								<!--{/if}-->
+							</td-->
+							<td class="enables">
+								<!--{if $v['enabled']}-->
+								<img src="{$SKIN}/check_yes.gif" style="cursor: pointer;" alt="$k" title="1" />
+								<!--{else}-->
+								<img src="{$SKIN}/check_no.gif" style="cursor: pointer;" alt="$k" title="0" />
+								<!--{/if}-->
+							</td>
+							<!--td>
+								<img src="{$SKIN}/check_no.gif" style="cursor: pointer;" onclick="uninstall_system('$k')" />
+							</td-->
+							<td>
+								<input type="text" class="txt" name="prefix_$k" value="{if strpos($core->systems[$k]['table_prefix'], '.') !== false}<!--{php echo substr($core->systems[$k]['table_prefix'], 0, strpos($core->systems[$k]['table_prefix'], '.'));}-->.{/if}" />
+							</td>
+						</tr>
+						<script type="text/javascript">
+							systems['$k'] = {installed: '{$v['installed']}', enabled: '{$v['enabled']}'};
+						</script>
+						<!--{/foreach}-->
+						
+					</table>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+	<div id="table_prefixes"></div>
+	<input type="hidden" name="system" />
+	<input type="submit" value="{$P8LANG['refresh_system']}"  style="margin:15px 15px 0 15px;" />
+	<div id="submits"></div>
+</form>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['help_about']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					{$P8LANG['system_table_prefix_note']}
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	function install_system(system){
+		if(systems[system].installed){
+			if(!confirm('{$P8LANG['system_installed_reinstall?']}'))
+				return;
+		}
+		
+		$('input[name=system]').val(system);
+		$('#form').attr('method', 'get').attr('action', '{$core.admin_controller}/'+ system +'-install').submit();
+	}
+	
+	function uninstall_system(system){
+		if(confirm('{$P8LANG['uninstall_system?']}')){
+			$('input[name=system]').val(system);
+			$('#form').attr('action', '$this_router-uninstall_system').submit();
+		}
+		return;
+	}
+	
+	$('input[name^=prefix]').change(function(){
+		var name = this.name.replace(/^prefix_/, '');
+		
+		$(this).css({border: '1px solid #ff0000'});
+		$('#table_prefixes').append($('<input type="hidden" name="table_prefix['+ name +']" value="'+ this.value +'" />'));
+	});
+	
+	$('.enables img').click(function(){
+		var system = this.alt;
+		var enabled = this.title;
+		
+		$(this).attr('src', enabled == 1 ? '{$SKIN}/check_no.gif' : '{$SKIN}/check_yes.gif').
+		attr('title', enabled == 1 ? 0 : 1);
+		
+		$('#submits').append('<input type="hidden" name="enables['+ system +']" value="'+ (enabled == 1 ? 0 : 1) +'" />');
+	});
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

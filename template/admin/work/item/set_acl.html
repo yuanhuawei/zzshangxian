@@ -1,0 +1,252 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/jq_ui.core.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_tabs.js"></script>
+
+<form action="$this_url" method="post" id="form">
+<table class="mainbox mainborder"><tr><td>
+	<table class="columntable formtable padding_table">
+		<tr>
+			<td colspan="2" class="title">权限设置</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<div id="tabs"  class="tab_box mtop" style="border-bottom:none">
+					<div class="head">
+						<span id="workspan" class="over" onclick="this.className='over';$('#unworkspan').removeClass()"><a onclick="iswork = 1;show_unwork()">办事设置</a></span>
+						<span id="unworkspan" onclick="this.className='over';$('#workspan').removeClass()"><a onclick="iswork = 0;show_unwork()">文章设置</a></span>
+						<input type="submit" style="margin-left:50px" value="{$P8LANG['submit']}" class="edit_btn"/>
+					</div>
+					<div class="main">
+						<div class="content" >
+							<table class="columntable formtable hover_table click_changeable" style="width:2500px">
+								<tr class="title fix_head">
+									<td width="50" height="30">ID</td>
+									<td width="300" title="1" onclick="if(this.title == 1){this.title=0;hide_all();$(this).find('span img').attr('src', '{$SKIN}/show.gif');}else{this.title=1;show_all();$(this).find('span img').attr('src', '{$SKIN}/hide.gif');}" style="cursor: pointer;"><span><img src="{$SKIN}/hide.gif" /></span>{$P8LANG['cms_category_name']}</td>
+									<!--{foreach $info['actions'] $k $v}-->
+									<td title="{$P8LANG['select_all']}" width="100"><input type="checkbox" onclick="check_all_by_action('$k', this)" value="0" />$v</td>
+									
+									<script type="text/javascript">
+									$(document).ready(function(){
+										$('#form .action_$k').click(function(){
+											$('#form [name$=\'[0][actions][$k]\']').prop('checked', false);
+										});
+									});
+									</script>
+									<!--{/foreach}-->
+								</tr>
+								
+								<tr>
+									<td>0</td>
+									<td><input type="checkbox" onclick="_check_all(this)" />所有分类</td>
+									<!--{foreach $info['actions'] $k $v}-->
+									<td title="{$P8LANG['select_all']}"><input type="checkbox" name="acl[category_acl][0][actions][$k]" value="1"{if !empty($acls['category_acl'][0]['actions'][$k])} checked{/if} onclick="if(this.checked) $('.action_$k').prop('checked', false)" /></td>
+									
+									<!--{/foreach}-->
+								</tr>
+								
+								<tbody id="__">
+								
+								</tbody>
+								
+								
+							</table>
+						</div>
+												
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</td>
+		</tr>
+	</table>
+
+	
+	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+		<tr>
+		<td>
+			<input type="submit" value="{$P8LANG['submit']}" class="edit_btn"/>
+		</td>
+	</tr>
+	</table>
+<input type="hidden" name="role_id" value="$role_id" />
+</form>
+
+<script type="text/javascript">
+var CATEGORY_JSON = $json[json];
+var CATEGORY_PATH = $json[path];
+var info = <!--{php echo p8_json($info);}-->;
+var category_acl = <!--{php echo empty($acls['category_acl']) ? '{}' : p8_json($acls['category_acl']);}-->;
+var iswork=1;
+function ___(json, l, p){
+	l = l === undefined ? 0 : l;
+	p = p === undefined ? 0 : p;
+	
+	var j = 0, k = count(json);
+	
+	for(var i in json){
+		
+		var html = '';
+		j++;
+		var c = '';
+		if(l != 0){
+			c += str_repeat('│&nbsp;&nbsp;', l - p) + str_repeat('&nbsp;&nbsp;&nbsp;', p);
+			if(j == k){
+				p++;
+				c += '└';
+			}else{
+				c += '├';
+			}
+		}
+		
+		var sub = json[i].categories ? true: false;
+		var path = CATEGORY_PATH[json[i].id].join('_');
+		c += (json[i].categories ? '<span onclick="_toggle($(this))" style="cursor: pointer;"><img src="{$SKIN}/hide.gif" /></span> ' : '') +json[i].name;
+		
+		html += 
+		'<tr id="category_'+ json[i].id +'" path="path_'+ path +'" title="1"'+ (sub ? ' sub="1"' : '') +' level="'+ (l +1) +'" style="display:'+((json[i].iswork==iswork || json[i].type=='1')?"":"none")+'">'+
+			'<td>'+ json[i].id +'</td>'+
+			'<td>'+
+				'<input type="checkbox" onclick="check_all_by_category('+ json[i].id +', this)" alt="path_'+ path +'" />'+
+				c +
+			'</td>';
+			
+			var tds = '';
+			var actions = info['actions'];
+			for(var k in actions){
+				tds +=
+				'<td>'+
+					'<input type="checkbox" name="acl[category_acl]['+ json[i].id +'][actions]['+ k +']" '+
+					'value="'+ json[i].id +'"'+ (category_acl[json[i].id] && category_acl[json[i].id]['actions'][k] ? ' checked' : '') + ' '+
+					'iswork="'+ (json[i].type=='2'?json[i].iswork:'-1')+'"'+
+					'class="action_'+ k +'" onclick="check_all_by_action(\''+ k +'\', this)" />'+
+				'</td>';
+			}
+			
+			
+		html += tds +'</tr>';
+		
+		var tr = $(html);
+		$('#__').append(tr);
+		if(sub){
+			___(json[i].categories, l +1, p);
+		}
+	}
+}
+
+
+function show_unwork(){
+ajaxing({});
+	$('#__').html('');
+	___(CATEGORY_JSON);
+	ajaxing({action: 'hide'});
+}
+show_unwork();
+function _toggle(span){
+	var id = $(span).parent().parent().attr('id').replace(/[^0-9]/g, '');
+	var path = CATEGORY_PATH[id].join('_');
+	
+	var on = $('#category_'+ id).attr('title') == 0;
+	
+	var keep_close = [];
+	$('tr[path^=path_'+ path +'_]').each(function(){
+		if(on){
+			
+			if($(this).show().attr('title') == 1 && $(this).attr('sub')){
+				keep_close.push(this.id.replace(/[^0-9]/g, ''));
+				$(this).attr('title', 0);
+			}else{
+				$(this).attr('title', 1);
+			}
+			
+		}else{
+			
+			if($(this).hide().attr('title') == 0 && $(this).attr('sub')){
+				//keep close
+				$(this).attr('title', 1);
+			}else{
+				$(this).attr('title', 0);
+			}
+			
+		}
+	});
+	
+	if(on){
+		$(span).parent().parent().attr('title', 1);
+		$(span).html('<img src="{$SKIN}/hide.gif" />');
+	}else{
+		$(span).parent().parent().attr('title', 0);
+		$(span).html('<img src="{$SKIN}/show.gif" />');
+	}
+	
+	for(var i = 0; i < keep_close.length; i++){
+		$('tr[path^=path_'+ CATEGORY_PATH[keep_close[i]].join('_') +'_]').hide().find('span');
+	}
+}
+
+function show_all(){
+	$('#__ tr').each(function(){
+		var tr = $(this).show();
+		
+		if(tr.attr('sub')){
+			tr.attr('title', 1).find('td:eq(1) span').html('<img src="{$SKIN}/hide.gif" />');
+		}
+	});
+}
+
+function hide_all(){
+	$('#__ tr').each(function(){
+		var tr = $(this);
+		
+		if(tr.attr('sub')){
+			tr.attr('title', 0).find('td:eq(1) span').html('<img src="{$SKIN}/show.gif" />');
+		}
+		
+		if(tr.attr('level') != 1) tr.hide().attr('title', 1);
+	});
+}
+
+function check_all_by_action(action, obj){
+	_iswork = Math.abs(iswork-1);
+	if(obj.value == 0){
+		$('#form input[name$=\'['+ action +']\']:not([name*=\'[0]\'][iswork=\''+_iswork+'\'])').prop('checked', obj.checked);
+		
+		$('#form input[name=\'acl[category_acl][0][actions]['+ action +']\']').prop('checked', false);
+	}else{
+		var alt = $(obj).parent().parent().find('input[alt]').attr('alt');
+		
+		$('#form input[alt^="'+ alt +'_"]').each(function(){
+			$('input[name$=\'['+ action +']\']:not([name*=\'[0]\'][iswork=\''+_iswork+'\'])', $(this).parent().nextAll()).prop('checked', obj.checked);
+		});
+	}
+	return false;
+}
+
+function check_all_by_category(cid, obj){
+_iswork = Math.abs(iswork-1);
+	$('#form input[name^=\'acl[category_acl]['+ cid +']\']:not([iswork=\''+_iswork+'\'])').prop('checked', obj.checked);
+	
+	$('#form input[alt^="'+ obj.alt +'_"]').each(function(){
+		$('input[type=checkbox]:not([iswork=\''+_iswork+'\'])', $(this).parent().nextAll()).prop('checked', obj.checked);
+		
+		this.checked = obj.checked;
+	});
+	
+	$('#form input[name^=\'acl[category_acl][0][actions]\']').prop('checked', false);
+	return false;
+}
+
+function _check_all(obj){
+	var checked = obj.checked;
+	$('#form input[type=checkbox]').prop('checked', false);
+	
+	obj.checked = checked;
+	$('#form input[name^=\'acl[category_acl][0][actions]\']').prop('checked', checked);
+}
+
+</script>
+<div id="dd"></div>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

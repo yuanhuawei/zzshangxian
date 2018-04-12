@@ -1,0 +1,13 @@
+<!--{php168}-->
+<style>
+.label_vd_{$label['id']} .label_vd_frame{width:306px;height:146px;position:relative;overflow:hidden}
+.label_vd_{$label['id']} .label_vd_frame .vd_play{ position:absolute;width:48px;height:48px;top:35%;left:42%;background:url({$RESOURCE}/skin/label/video_05.png) no-repeat;}
+</style>
+<!--{php $first=array_shift($list);}-->
+<div class = "label_vd_{$label['id']}">
+	<div class="label_vd_frame">
+		<a href="$first[url]" target="_blank"><img src="$first[frame]" width="{$swidth}px"height="{$sheight}px" /></a>
+		<div class="vd_play"></div>
+	</div>
+</div>
+<!--{/php168}-->

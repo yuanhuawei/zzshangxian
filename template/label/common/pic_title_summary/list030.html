@@ -1,0 +1,24 @@
+<!--{php168}-->
+<!--{php $list_count = count($list);}-->
+<!--{php $list_i = 0;}-->
+<ul class="label_pic_com_ul30">
+	<!--{foreach $list $value}-->
+	<!--{php $list_i ++;}-->
+	<!--{if $list_i == $list_count}-->
+	<li style="margin:0;">
+		<a href="$value[url]" target="_blank" title="$value[full_title]"><img width="240" height="140" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a>
+		<div style="width:240px;"><h3 class="label_title"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></h3>
+		<p class="label_summary">$value[summary]<span class="cDBlue"><a href="$value[url]" target="_blank">[详细]</a></span></p>
+		</div>
+	</li>
+	<!--{else}-->	
+	<li style="$wf;">
+		<a href="$value[url]" target="_blank" title="$value[full_title]"><img width="240" height="140" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a>
+		<div style="width:240px;"><h3 class="label_title"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></h3>
+		<p class="label_summary">$value[summary]<span class="cDBlue"><a href="$value[url]" target="_blank">[详细]</a></span></p>
+		</div>
+	</li>
+	<!--{/if}-->	
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

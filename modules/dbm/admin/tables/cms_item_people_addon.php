@@ -1,0 +1,21 @@
+<?php
+return array(
+	'id' => 'ID',
+	'iid' => 'IID',
+	'page' => '页数',
+	'addon_title' => '追加标题',
+	'addon_frame' => '追加封面',
+	'addon_summary' => '追加摘要',
+	'ip' => 'IP',
+	'last_update_ip' => '最后更新IP',
+	'timestamp' => '追加时间',
+	'award' => '获奖荣誉',
+	'birthday' => '出生日期',
+	'content' => '人物介绍',
+	'education' => '学历',
+	'event' => '人物事迹',
+	'Hometown' => '籍贯',
+	'motion' => '企业提案',
+	'office' => '职务',
+	'photo' => '照片',
+);?>

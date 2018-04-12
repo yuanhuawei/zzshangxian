@@ -1,0 +1,98 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">操作管理</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+<form action="$this_url" method="post" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table click_changeable">
+				<tr class="title fix_head">
+					<td width="5%">ID</td>
+					<td width="10%" title="1" onclick="if(this.title == 1){this.title=0;hide_all();$(this).find('span img').attr('src', '{$SKIN}/show.gif');}else{this.title=1;show_all();$(this).find('span img').attr('src', '{$SKIN}/hide.gif');}" style="cursor: pointer;"><span><img src="{$SKIN}/hide.gif" /></span>{$P8LANG['forms_name']}</td>
+					<!--{foreach $info['actions'] $k $v}-->
+					<td title="{$P8LANG['select_all']}" width="3%"><input type="checkbox" onclick="check_all_by_action('$k', this)" value="0" />$v</td>
+					<!--{/foreach}-->
+				</tr>
+				
+				<tr>
+					<td>0</td>
+					<td><input type="checkbox" onclick="_check_all(this)" />{$P8LANG['all_type']}</td>
+					<!--{foreach $info['actions'] $k $v}-->
+					<td title="{$P8LANG['select_all']}"><input type="checkbox" name="acl[category_acl][0][actions][$k]" value="1"{if !empty($acls['category_acl'][0]['actions'][$k])} checked{/if} onclick="if(this.checked) $('.action_$k').prop('checked', false)" /></td>
+					
+					<!--{/foreach}-->
+				</tr>
+				
+				<tbody id="__">
+				<!--{foreach $cates['department'] $key $rs}-->
+					<tr>
+					<td>$rs[id] </td>
+					<td><input type="checkbox" onclick="check_all_by_category($rs[id], this)"  /> $rs[name]</td>
+					<!--{foreach $info['actions'] $k $v}-->
+					<td ><input type="checkbox" name="acl[category_acl][$rs[id]][actions][$k]" value="1"{if !empty($acls['category_acl'][$rs['id']]['actions'][$k])} checked{/if} /></td>
+					
+					<!--{/foreach}-->
+					</tr>
+				<!--{/foreach}-->	
+				</tbody>
+			</table>
+			<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+				<tr>
+					<td>
+						<input type="submit" value="{$P8LANG['submit']}" class="edit_btn"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<input type="hidden" name="role_id" value="$role_id" />
+</form>
+<script type="text/javascript">
+function check_all_by_action(action, obj){
+	if(obj.value == 0){
+		$('#form input[name$=\'['+ action +']\']:not([name*=\'[0]\'])').prop('checked', obj.checked);
+		
+		$('#form input[name=\'acl[category_acl][0][actions]['+ action +']\']').prop('checked', false);
+	}else{
+		var alt = $(obj).parent().parent().find('input[alt]').attr('alt');
+		
+		$('#form input[alt^="'+ alt +'_"]').each(function(){
+			$('input[name$=\'['+ action +']\']:not([name*=\'[0]\'])', $(this).parent().nextAll()).prop('checked', obj.checked);
+		});
+	}
+	return false;
+}
+
+function check_all_by_category(cid, obj){
+	$('#form input[name^=\'acl[category_acl]['+ cid +']\']').prop('checked', obj.checked);
+	
+	$('#form input[alt^="'+ obj.alt +'_"]').each(function(){
+		$('input[type=checkbox]', $(this).parent().nextAll()).prop('checked', obj.checked);
+		
+		this.checked = obj.checked;
+	});
+	
+	$('#form input[name^=\'acl[category_acl][0][actions]\']').prop('checked', false);
+	return false;
+}
+
+function _check_all(obj){
+	var checked = obj.checked;
+	$('#form input[type=checkbox]').prop('checked', false);
+	
+	obj.checked = checked;
+	$('#form input[name^=\'acl[category_acl][0][actions]\']').prop('checked', checked);
+}
+
+</script>
+<div id="dd"></div>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

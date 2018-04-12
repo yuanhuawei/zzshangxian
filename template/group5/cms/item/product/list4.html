@@ -1,0 +1,43 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<div class="breadbanner">
+	$label[zhuzhan-banner]
+</div>
+<div class="gp-container">
+	<div class="container">
+		<div class="row">
+			<div class="news-left">	
+				<div class="show_leftbox_nav gov18">
+					<!--{php $parent = end($parent_cats);$parent_name = $parent ? $parent[name]:$CAT[name];$parent_url = $parent ? $parent[url] : $CAT[url];}-->
+					<div class="sl1_head">
+						<h3>$parent_name</h3>
+					</div>
+					<div class="sl1_main" id='leftbox'>
+						<!--{template $this_module step_category5}-->
+					</div>
+				</div>
+			</div>
+			<div class="news-right">
+				<div class="position2">您的位置：
+					<a href="{$this_system->controller}">首页</a>
+					<!--{foreach $parent_cats $v}-->
+					&gt;&gt; <a href="$v[url]">$v[name]</a>
+					<!--{/foreach}-->
+					&gt;&gt; <a href="$CAT[url]">$CAT[name]</a> 
+					<div class="more1" style="margin:0 10px 0;">
+						<!--{if $add_enable}-->
+						<a href="{$core.U_controller}/sites/item-add?cid=$cid&model=$CAT[model]" target="_blank">发表</a>
+						<!--{/if}-->
+					</div>
+				</div>
+				<div class="row-product">
+					<div class="row"><!--{php include template($TEMP_OBJ, $CAT['item_template'], 'label');}--></div>
+					<div class="mtop pages" id="page">{$pages}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>	
+<!--{template $this_system footer}-->
+<!--{/php168}-->

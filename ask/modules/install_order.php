@@ -1,0 +1,19 @@
+<?php
+//Ä£¿é°²×°Ë³Ðò,Ë³Ðò²»ÄÜ¸ãÂÒ
+
+/**
+ ** Ä£¿éË³Ðò
+ ** Ä£¿éÃû³Æ       Ë³Ðò
+	answer			95
+    item			96
+	category        97
+	member          98
+**/
+
+
+return array(
+	'member',
+	'category',
+	'item',
+	'answer'
+);

@@ -1,0 +1,48 @@
+<!--{php168}-->
+<form name="form" action="$this_url" method="post">
+<table width="700" height="300">
+	<tr>
+		<td>
+			<textarea name="content" id="content">{if !empty($data['content'])}{$data['content']}{/if}</textarea>
+			<script type="text/javascript">
+									
+									P8_CKEDITOR({
+										id: 'content',
+										config: {
+											enterMode: 2,		//<br />
+											shiftEnterMode: 3,	//<div>
+											height:300,
+											toolbar:
+											[
+												['Source','-','Preview','-','Templates'],
+												['PasteText','PasteFromWord'],
+												['Undo','Redo','-','RemoveFormat'],
+												
+												['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
+												['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
+												['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+												['Link','Unlink'],
+												['Image','Flash','Table','HorizontalRule','Smiley'],
+												
+												['Styles','Format','Font','FontSize'],
+												['TextColor','BGColor'],
+												['Maximize','ShowBlocks']
+											],
+											contentsCss: ['{$RESOURCE}/skin/{$this_module.CONFIG['template']}/core/alonepage/style.css']
+										}
+									});
+									</script>
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+			<input name="" type="submit" value="{$P8LANG['submit']}" /> <input name="" type="button" value="{$P8LANG['cancel']}" onclick="dialog.close()" /><input type="hidden" name="id" value="$id" />
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+	</tr>
+</table>
+</form>
+
+<!--{/php168}-->

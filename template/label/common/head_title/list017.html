@@ -1,0 +1,29 @@
+<!--{php168}-->
+<div class = "label_list17_{$label['id']}">
+	<!--{php $first = array_splice($list,0,4);}-->
+	<table cellpadding="3" cellspacing="3" width="100%">
+		<tr>
+		<!--{foreach $first $val}-->
+	<td width="25%" valign="bottom">
+			<a href="$val[url]" target="_blank" title="$val[full_title]"><img width="103" onload="this.height=this.width" src="{if !empty($val['frame'])}$val[frame]{else}{$RESOURCE}/images/nopic.jpg{/if}" /></a>
+		<p class="mtop5" style="height:18px; overflow:hidden">
+			<a href="$val[url]" target="_blank" title="$val[full_title]">$val[title]</a>
+		</p>
+	</td>
+		<!--{/foreach}-->
+		</tr>
+	</table>
+	<p class="label_dashed"></p>
+	<ul>
+	<!--{foreach $list $value}-->
+	<li class="label_ul_b">
+		<span class="label_datatime">
+		<!--{php echo date('Y-m-d', $value['timestamp']);}-->
+		</span>·<a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a>
+	</li>
+	<!--{/foreach}-->
+	<li class="clear"></li>
+	</ul>
+</div>
+<!--{/php168}-->
+

@@ -1,0 +1,17 @@
+<!--{php168}-->
+<div class="head_pic line_hight">
+<!--{php $first=array_shift($list);}-->
+	<table >
+		<tr>
+			<td><img src="$first[frame]" class="hp_img" width="70" height="70"  onError="this.src='{$RESOURCE}/images/nopic.jpg'" /></td>
+			<td valign="top"><span class="hp_title"><a href="$first[url]" target="_blank">$first[title]</a></span><br /><span class="hp_summary">$first[summary]<font color="red">[<a href="$first[url]" style="color:#ff0000" target="_blank">详细</a>]</font></span></td>
+		</tr>
+	</table>	<ul>
+<!--{foreach $list $value}-->
+	<li>
+		·<a href="$value[url]" target="_blank">$value[title]</a>
+	</li>
+<!--{/foreach}-->
+	</ul>
+</div>
+<!--{/php168}-->

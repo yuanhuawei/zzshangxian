@@ -1,0 +1,24 @@
+<!--{php168}-->
+<!--{if $UID}-->
+<div class="userpanel_info">
+	<div class="icon">
+	<img border="none" width="75" height="75" src="{if !empty($this_module->icon)}{$this_module.icon}{else}{$MEMBERSKIN}/nomenpic.gif{/if}"/>
+	</div>
+	<ul class="userinfo">
+		<li class="username">{$USERNAME} </li>
+		<li>积分:{$this_module->credit_1} <a class="morecate" style="display:none" href="{$RESOURCE}/">详细>></a></li>
+		<li>类型:{$this_module.g_name}</li>
+		<li>级别:{$this_module->r_name}</li>
+		<li><a href="{$core.U_controller}" target="_blank">[会员中心]</a><a href="{$this_module.U_controller}-logout">[退出]</a></li>
+	</ul>
+</div>
+<!--{else}-->
+<form action="{$this_module.U_controller}-login" method="post">
+<ul class="userpanel_login">
+<li class="username">用户名：<input type="text" size="15" name="username" /></li>
+<li class="password">密　码：<input type="password" size="15" name="password" /></li>
+<li><input type="submit" class="loginsubmit" value="" /> <input type="button" class="loginreg" style=" cursor:pointer" value="" onclick="window.location.href='{$core.controller}/member-register'"/> <input type='hidden' name='forward' id='forward' value="$forward"> </li>
+</ul>
+</form>
+<!--{/if}-->
+<!--{/php168}-->

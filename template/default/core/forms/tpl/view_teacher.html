@@ -1,0 +1,66 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}../cms/style.css" />
+<div class="position">
+<a href="{$core.controller}">首页</a>
+&gt;&gt; 师资队伍 &gt;&gt; <a>详细内容</a>
+</div>
+<div class="container containerbg">
+	<div class="bodyLeft">
+			<div class="subMenu">
+				<ul>
+					<li class="head">$label[school_teacher_tt]</li>
+			</ul>
+			<div class="">$label[school45_teacher_navi]</div>			    
+			</div>
+			<div class="subMenubottom"></div>
+	</div>
+	<div class="bodyRight">
+		<div class="show_box_2">
+		<h3 class="content_t"><div class="bread"><a href="/">首页</a> &gt; 师资队伍 </div>师资队伍</h3>
+		<div class="sb2_main layout_txtcontent common_mbottom">
+			<div class="layout_txtcontent_content">
+				<div class="mainContent">
+					<div class="t-c"><img class="teacher border" src="{$data[image][thumb]}" /></div>
+					<h1 class="t-c"><a href="showTeacher-dcl.aspx"><strong>$data[name]</strong></a></h1>
+					<h3 class="head1"></h3>
+					<div>$data[shortdesc]</div>
+					<div class="clear"></div>
+					<h3 class="head2"></h3>
+					<div>$data[yanjiufangxiang]</div>
+					<div class="clear"></div>
+					<h3 class="head3"></h3>
+					<div>$data[keyanchengguo]</div>
+					<div class="clear"></div>
+					<h3 class="head4"></h3>
+					<div>$data[lianxiwomen]</div>
+					<div>$data[workroom]</div>
+				<div class="clear"></div>
+				<div class="tools layer" style="width:auto;"> 
+					<!--{if $manage}-->
+					【<a href="javascript:void(0)" onclick="window.open('$this_router-post?mid=$this_model[id]')">发布</a>】
+					【<a href="javascript:void(0)" onclick="setstatus()">处理</a>】
+					【<a href="javascript:void(0)"  style="color:#ba2636" onclick="message.send($data[uid])"><img src="{$RESOURCE}/skin/default/core/guestbook/56789.gif">短信</a>】
+					【<a href="{$this_router}-update?id=$id">修改</a>】 
+					【<a href="javascript:void(0)" onclick="deleteitem()">删除</a>】</td>
+					<!--{/if}--> 
+					【<a href="javascript:void(0)" onclick="javascript:window.print()">打印本文</a>】【<a href="javascript:window.external.AddFavorite(location.href,document.title)">加入收藏</a>】【<a href="javascript:window.close()">关闭窗口</a>】
+				</div>
+				</div>
+			</div>
+		</div>
+		<!--layout comment-->	
+		</div>
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+var message = new Message();
+</script>
+<!--{if $manage}-->
+<!--{template $this_module manage}-->
+<!--{/if}-->
+<div style="clear:both"></div>
+<div class="wrap container">
+<!--{template $core footer}-->
+<!--{/php168}-->

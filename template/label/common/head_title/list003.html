@@ -1,0 +1,12 @@
+<!--{php168}-->
+<!--{php $first=array_shift($list);$first_title=p8_cutstr($first['full_title'], $label['option']['top_title_length'],'');}-->
+<h3 class="label_bigsize"><a class="bold_title" target="_blank" href="{$first['url']}">{$first_title}</a></h3>
+<p class="label_summary label_indent">$first[summary] <span class="cDRed">[<a target="_blank" href="{$first['url']}">详细</a>]</span></p>
+<ul class="label_ul_b">
+<!--{foreach $list $value}-->
+	<li style="$wf;"><span class="label_datatime"><!--{php echo date('Y-m-d',$value['timestamp']);}--></span>·<a class="normal_title" target="_blank" title="{$value['full_title']}" href="{$value['url']}">{$value['title']}</a></li>
+<!--{/foreach}-->
+<li class="clear"></li>
+</ul>
+<!--{/php168}-->
+

@@ -1,0 +1,89 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td colspan="2" class="title">{$P8LANG['config']}</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['memail']['send_type']}</td>
+					<td class="tdR">
+						<select name="config[send_type]">
+							<option value="smtp"{if !empty($config['send_type']) && $config['send_type'] == 'smtp'} selected{/if}>{$P8LANG['memail']['send_smtp']}</option>
+							<option value="mail"{if !empty($config['send_type']) && $config['send_type'] == 'mail'} selected{/if}>{$P8LANG['memail']['send_mail']}</option>
+						</select>
+						<span class="help">{$P8LANG['memail']['note1']}</span>
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td class="tdL">{$P8LANG['memail']['crlf_o']}</td>
+					<td class="tdR">
+						<select name="config[CRLF]">
+							<option value="rn"{if !empty($config['CRLF']) && $config['CRLF'] == 'rn'} selected{/if}>{$P8LANG['memail']['crlf']}</option>
+							<option value="n"{if !empty($config['CRLF']) && $config['CRLF'] == 'n'} selected{/if}>{$P8LANG['memail']['lf']}</option>
+						</select>
+						<span class="help">{$P8LANG['memail']['note2']}</span>
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td class="tdL">{$P8LANG['memail']['smtp']['server']}</td>
+					<td class="tdR">
+						<input type="text" class="txt" name="config[server]" value="{if isset($config['server'])}{$config['server']}{else}smtp.163.com{/if}" />
+						<span class="help">{$P8LANG['memail']['note3']}</span>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['memail']['smtp']['port']}</td>
+					<td class="tdR">
+						<input type="text" class="txt" name="config[port]" value="{if isset($config['port'])}{$config['port']}{else}25{/if}" />
+						<span class="help">{$P8LANG['memail']['note4']}</span>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['email']}</td>
+					<td class="tdR">
+						<input type="text" class="txt" name="config[email]" value="{if isset($config['email'])}{$config['email']}{else}xxx@163.com{/if}" />
+						<span class="help">{$P8LANG['memail']['note5']}</span>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['memail']['emailpassword']}</td>
+					<td class="tdR">
+						<input type="password" class="txt" name="config[password]" value="{if isset($config['password'])}{$config['password']}{else}***{/if}" />
+						<span class="help">{$P8LANG['memail']['note6']}</span>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['log']}</td>
+					<td class="tdR">
+						<input type="radio" name="config[logged]" value="1"{if !empty($config['logged'])} checked{/if} />{$P8LANG['Y']}
+						<input type="radio" name="config[logged]" value="0"{if empty($config['logged'])} checked{/if} />{$P8LANG['N']}
+						<span class="help">{$P8LANG['memail']['note8']}</span>
+					</td>
+				</tr>
+				
+				<tr>
+				  <td class="tdL">&nbsp;</td>
+				  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+</form>
+
+
+<!--{template $core footer admin}-->
+
+<!--{/php168}-->

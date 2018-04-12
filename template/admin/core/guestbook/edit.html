@@ -1,0 +1,47 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+  <form name="form1" method="post" action="$this_url">
+<table width='100%' cellspacing='1' cellpadding='3' class="tablewidth">
+
+    <tr  class="head"> 
+      <td colspan="2"> 
+       {$P8LANG['edit']}
+      </td>
+    </tr>
+	<tr>
+			<td>{$P8LANG['title']}</td><td><input type="text" size="50" name="postdb[title]" value="{if !empty($rsdb['title'])}$rsdb[title]{/if}" /></tr>
+		</tr>
+    <tr> 
+      <td bgcolor='#FFFFFF' width="11%">{$P8LANG['content']}</td>
+      <td bgcolor='#FFFFFF' width="89%">
+        <textarea name="postdb[content]" cols="80" rows="12">$rsdb[content]</textarea>
+      </td>
+    </tr>
+		<tr>
+			<td>{$P8LANG['email']}</td><td><input type="text" name="postdb[email]" value="{if !empty($rsdb['email'])}$rsdb[email]{/if}" /></tr>
+		</tr>
+		<tr>
+			<td>{$P8LANG['guestbook']['tel']}</td><td><input type="text" name="postdb[telephone]" value="{if !empty($rsdb['telephone'])}$rsdb[telephone]{/if}" /></tr>
+		</tr>
+		<tr>
+			<td>{$P8LANG['guestbook']['ifshow']}</td><td><input name="postdb[ifhide]" type="radio" value="0" {if empty($rsdb['ifhide'])}checked{/if} />{$P8LANG['Y']} <input name="postdb[ifhide]" type="radio" value="1" {if !empty($rsdb['ifhide'])}checked{/if} />{$P8LANG['N']}</tr>
+		</tr>
+		<tr>
+			<td>{$P8LANG['guestbook']['category']}</td><td><select name="postdb[cid]">
+			<!--{foreach $category $k $v}-->
+				<option value="$v[id]" {if $rsdb['cid']==$v[id]}selected{/if}>$v[name]</option>
+			<!--{/foreach}-->
+			</select></tr>
+		</tr>
+    <tr> 
+      <td align="center" bgcolor='#FFFFFF' colspan="2"> 
+        <input  type='submit' name='w' class="submit_btn" value="{$P8LANG['submit']}">
+        <input type="hidden" name="postdb[id]" value="$id">
+				<input type="hidden" name="action" value="$job"
+      </td>
+    </tr>
+
+</table>
+  </form>
+  <!--{template $core footer admin}-->
+<!--{/php168}-->

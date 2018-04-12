@@ -1,0 +1,217 @@
+<!--{php168}-->
+<!--{php
+$TITLE = $data['title'] .' - '.$CAT['name'].' - '. $core->CONFIG['site_name'];
+$SEO_KEYWORDS =$CAT['seo_keywords'].'-'.$core->CONFIG['site_key_word'];
+$SEO_DESCRIPTION = $CAT['seo_description'].'-'.$core->CONFIG['site_description'];
+}-->
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$TITLE</title>
+<meta name="keywords" content="$SEO_KEYWORDS" />
+<meta name="description" content="$SEO_DESCRIPTION" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/head_foot.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/label/label.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/$MODULE/item.js"></script>
+</head>
+<body>
+<div class="gov_top_bar">
+	<div class="top_bar">
+		<div id="header_login">
+			<span id="login_link" style="display:none">
+			<form method="post" action="{$core.U_controller}/core/member-login">
+				<span>用户名：</span><input type="text" name="username" value="" class="input common_input_border"/> <span>密码：</span><input type="password" name="password" value="" class="input common_input_border"/> <input type="submit" name="submit" value="登录" class="submit pointer"/> <span> <a href="{$core.controller}/core/member-register">注册</a> | <a href="{$core.controller}/core/member-getpassword">忘记密码</a> </span>
+			</form>
+			</span> <span id="login_info" style="display:none"> <span style="margin-left:10px;"><a href="{$core.U_controller}"><font color="#FF7F04"><b id="username"></b></font></a> 欢迎您回来！&nbsp;&nbsp;<a href="{$core.U_controller}">会员中心</a> &nbsp;&nbsp;<a href="{$core.U_controller}/core/member-logout">安全退出</a></span> </span>
+		</div>
+		<div id="header_t">
+			<a href="javascript:void(0)" onclick="javascript:window.external.AddFavorite('{$core.controller}','{$core.CONFIG[site_name]}')" class="each_item">收藏本站</a>|<a href="javascript:void(0)" onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('{$core.controller}');" class="each_item">设为首页</a>|<a href="#" class="each_item">RSS订阅<span class="rss"></span></a>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+var USERNAME = get_cookie('USERNAME');
+var editlabel = get_cookie('IS_ADMIN');
+$(document).ready(function(){
+	//**menu**//
+	$('#topnav li>dl').hide();
+	 $("#topnav li:first").addClass('over');
+	$("#topnav li").each(function () {
+  		$(this).hover(
+			function(){
+				$('#topnav li').removeClass('over');
+				$('#topnav li>dl').hide();
+				$(this).addClass('over');
+				$(this).find('dl').show();
+				$(this).find('dl').css({left: parseInt($(this).position().left) + 'px',width:$(this).find('dt').size()*81+'px'});
+	 		},
+			function(){
+				$(this).find('dl').hide();
+				}
+  		)
+    });
+	//**login box**//
+	if(USERNAME !==undefined){
+		$('#username').html(USERNAME);
+		$('#login_info').show();
+	}else{
+		$('#login_link').show();
+	}
+	
+	//**edit_label**//
+	if(editlabel !==undefined){
+		var thisurl = '{$core.url}';
+		var thisuri = '{$LABEL_URL}';
+	
+	
+		if(thisuri.indexOf('index.php')>-1){
+			var _thisuri=thisuri.split('index.php');
+			thisurl=thisurl+'/index.php'+_thisuri['1'];
+		}else{
+			thisurl=thisurl+thisuri;
+		}
+		if(thisurl.indexOf('edit_label')==-1){
+			var ls='?';
+			if(thisurl.indexOf('?')>-1)ls='&';
+			thisurl=thisurl+ls+'edit_label=1';
+			$('#header_t').prepend('<a href='+thisurl+' id="edit_label">[显示标签]</a>');
+		}else{
+			thisurl=thisurl.replace('&edit_label=1','');
+			thisurl=thisurl.replace('edit_label=1','');
+			$('#edit_label').remove();
+			$('#header_t').prepend('<a href='+thisurl+' >[隐藏标签]</a>');
+		}
+		
+	}
+});
+</script>
+<div class=" gov_frame">
+<div class="list_baner mtop">
+	$label[company_top_ad]
+</div>
+<div class="list_nave">
+	<a href="{$core.url}">首页</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>
+</div>
+<div class="clear">
+</div>
+<div class="container mtop">
+	<div class="contain_left">
+		<div class="list_head1">
+			<span class="list_title1">$label[pr_view_title1]</span><span class="list_more1">$label[pr_view_more1]</span>
+		</div>
+		<div class="list_content1">
+			$label[pr_view_content1]
+		</div>
+		<div class="list_head1 mtop">
+			<span class="list_title1">$label[pr_view_title2]</span><span class="list_more1">$label[pr_view_more2]</span>
+		</div>
+		<div class="list_content1">
+			$label[pr_view_content2]
+		</div>
+		<div class="list_head1 mtop">
+			<span class="list_title1">$label[pr_view_title3]</span><span class="list_more1">$label[pr_view_more3]</span>
+		</div>
+		<div class="list_content1">
+			$label[pr_view_content3]
+		</div>
+		<div class="list_head1 mtop">
+			<span class="list_title1">$label[pr_view_title4]</span><span class="list_more1">$label[pr_view_more4]</span>
+		</div>
+		<div class="list_content1">
+			$label[pr_view_content4]
+		</div>
+	</div>
+	<div class="contain_right">
+		<div class="show_box_2">
+			<div class="list_head2">
+				<span id="operation" style="display: none; cursor: pointer; float: right; padding-right: 25px;">{$P8LANG['operation']}</span><span class="list_title1">$CAT[name]</span>
+			</div>
+			<div class="sb2_main">
+				<div class="show_img_title_1" >
+					$data[title]
+				</div>
+				<div class="show_img_box_1 common_mtop">
+					<div id="imgmenu" class="img_menu">
+						<!--{foreach $data['pics'] $k $v}-->
+						<span> <img src="$v[url]" title="$v[title]" alt="$v[title]" border="0"  width="80" height="70" onerror="this.src='{$core->url}/images/nopic.jpg'" /> </span>
+						<!--{/foreach}-->
+					</div>
+					<div class="img_show_box">
+						<div class="show_img">
+							<a id="imglink" target="_blank"><img src="" id="showimg" title="" width="440" height="330" /></a>
+						</div>
+					</div>
+				</div>
+				<div id="tab_1" class="img_info_box_1">
+					<div class="head">
+						<span>产品参数</span> <span >相关信息</span> <span>产品介绍</span> <span>相关下载</span>
+					</div>
+					<div class="main">
+						<span class="content"> $data[attrbutes] </span> <span class="content"> $data[aboutinfo] </span> <span class="content"> $data[content] </span> <span class="content">
+						<!--{if !empty($data['pro_down']['url'])}-->
+						<a href="{$data['pro_down']['url']}" >
+						<!--{if empty($data['pro_down']['title'])}-->
+						相关下载
+						<!--{else}-->
+						{$data[pro_down][title]}
+						<!--{/if}-->
+						</a>
+						<!--{/if}-->
+						</span>
+					</div>
+				</div>
+				<div class="back_next">
+					<span class="fleft"><strong>上一篇：</strong>
+					<!--{if !empty($prev_item['subject'])}-->
+					<a href="$prev_item[url]" title="$prev_item[title]">$prev_item[subject]</a>
+					<!--{else}-->
+					没有了
+					<!--{/if}-->
+					</span> <span class="fright"><strong>下一篇：</strong>
+					<!--{if !empty($next_item['subject'])}-->
+					<a href="$next_item[url]" title="$next_item[title]">$next_item[subject]</a>
+					<!--{else}-->
+					没有了
+					<!--{/if}-->
+					</span>
+					<div class="clear">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+				$(document).ready(function(){
+					$("#imgmenu span:first").addClass('over');
+					$("#showimg").attr("src",function(){return $("#imgmenu span:first").find("img").attr("src")});
+					$("#imglink").attr("href",function(){return $("#imgmenu span:first").find("img").attr("src")});
+					$("#imgmenu span").hover(function(){
+							$(this).siblings("span").removeClass("over").end().addClass("over");
+							$("#showimg").attr("src",$(this).find("img").attr("src"));
+							$("#imglink").attr("href",$(this).find("img").attr("src"));
+					 })	;	   
+				});
+				MoveTabs('tab_1',0,'mouseover');
+</script>
+<!--footer-->
+<!--{template $core footer}-->
+<!--{/php168}-->

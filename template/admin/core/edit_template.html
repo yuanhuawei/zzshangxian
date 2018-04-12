@@ -1,0 +1,38 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<form action="$this_url" method="POST" id="form">
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['edit_template']} $base_dir$template.html</td>
+			</tr>
+			
+			<tr>
+				<td>
+					<input type="checkbox" name="backup" id="backup" value="1" /> 
+					<label for="backup">{$P8LANG['create_template_backup']}</label>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>
+					<textarea name="content" id="content" rows="20" style="width: 100%">$content</textarea>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<script type="text/javascript">
+$('#content').textarea_tab();
+</script>
+<input type="hidden" name="base_dir" value="$base_dir" />
+<input type="hidden" name="template" value="$template" />
+<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" />
+</form>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,123 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<form action="$this_url" method="POST" onsubmit="check_privileges()">
+
+<table class="mainbox mainborder">
+	<tr><td>
+	
+	<table class="columntable formtable">
+	<tr>
+		<td class="title">权限设置</td>
+	</tr>
+	
+	<tr><td>
+		<table class="columntable formtable">
+			<tbody class="privileges">
+			<tr>
+				<td class="tdL role_name">
+					<input type="checkbox" id="server" onclick="var ___=this.checked;\$(this).parent().parent().next().find('input[type=checkbox]').each(function(){\$(this).prop('checked', ___);})" />
+					<strong><label for="server">{$P8LANG['cluster_service']['server']}</label></strong> 
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdR">
+					<table border="0" cellpadding="0" cellspacing="0" class="role_actions">
+						<tr>
+							<td class="actions_list clear_border_bottom" style="padding-left: 40px;">
+								
+								<!--{foreach $server_services $k $v}-->
+								<span><input type="checkbox" id="acl[server_service][$k]" name="acl[server_service][$k]" value="1"{if !empty($acl['server_service'][$k])} checked{/if} /><label for="acl[server_service][$k]">$v[description]</label></span>
+								<!--{/foreach}-->
+								
+							</td>
+						</tr>
+					</table>			
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		
+	</td></tr>
+	
+	<tr><td>
+		<table class="columntable formtable">
+			<tbody class="privileges">
+			<tr>
+				<td class="tdL role_name">
+					<input type="checkbox" id="server" onclick="var ___=this.checked;\$(this).parent().parent().next().find('input[type=checkbox]').each(function(){\$(this).prop('checked', ___);})" />
+					<strong><label for="server">{$P8LANG['cluster_service']['client']}</label></strong> 
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdR">
+					<table border="0" cellpadding="0" cellspacing="0" class="role_actions">
+						<tr>
+							<td class="actions_list clear_border_bottom" style="padding-left: 40px;">
+								
+								<!--{foreach $client_services $k $v}-->
+								<span><input type="checkbox" id="acl[client_service][$k]" name="acl[client_service][$k]" value="1"{if !empty($acl['client_service'][$k])} checked{/if} /><label for="acl[client_service][$k]">$v[description]</label></span>
+								<!--{/foreach}-->
+								
+							</td>
+						</tr>
+					</table>			
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		
+	</td></tr>
+	
+	<tr><td>
+		<table class="columntable formtable">
+			<tbody class="privileges">
+			<tr>
+				<td class="tdL role_name">
+					<input type="checkbox" id="clients" onclick="var ___=this.checked;\$(this).parent().parent().next().find('input[type=checkbox]').each(function(){\$(this).prop('checked', ___);})" />
+					<strong><label for="clients">{$P8LANG['cluster_client']['']}</label></strong> 
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdR">
+					<table border="0" cellpadding="0" cellspacing="0" class="role_actions">
+						<tr>
+							<td class="actions_list clear_border_bottom" style="padding-left: 40px;">
+								
+								<!--{foreach $clients $k $v}-->
+								<span><input type="checkbox" id="acl[client][$k]" name="acl[client][$k]" value="1"{if !empty($acl['client'][$k])} checked{/if} /><label for="acl[client][$k]">$v[name]</label></span>
+								<!--{/foreach}-->
+								
+							</td>
+						</tr>
+					</table>			
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		
+	</td></tr>
+	
+	</td></tr>
+	</table>
+</table>
+
+<input type="hidden" name="role_id" value="{if !empty($role_id)}$role_id{/if}" />
+<input type="submit" value="{$P8LANG['submit']}" class="submit_btn" style="margin-left:5px;margin-top:10px;" />
+</form>
+
+<script type="text/javascript">
+function check_privileges(){
+	$('.privileges input[type=checkbox]').each(function(i){
+		if(!this.checked){
+			this.checked = true;
+			this.value = 0;
+		}
+	});
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

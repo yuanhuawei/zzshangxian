@@ -1,0 +1,143 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<form action="$this_url" method="post" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="formtable hover_table">
+						<tr>
+							<td colspan="2" class="title">{$P8LANG['profile']}</td>
+						</tr>
+						
+						<!--{if $ACTION == 'update'}-->
+						<tr>
+							<td class="tdL">{$P8LANG['id']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" size="35" value="{$data['id']}" disabled />
+							</td>
+						</tr>
+						<!--{/if}-->
+						
+						<tr>
+							<td class="tdL">{$P8LANG['username']}</td>
+							<td class="tdR">
+								{$data['username']}
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['email']}</td>
+							<td class="tdR">
+								{$data['email']}
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['name']}</td>
+							<td class="tdR">
+								{$data['name']}
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['address']}</td>
+							<td class="tdR">
+								{$data['address']}
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['phone']}</td>
+							<td class="tdR">
+								{$data['phone']}
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['cell_phone']}</td>
+							<td class="tdR">
+								{$data['cell_phone']}
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['role_group']}</td>
+							<td class="tdR">
+								{$core.role_groups[$data['role_gid']]['name']}
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['role']}</td>
+							<td class="tdR">
+								{$core.roles[$data['role_id']]['name']}
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['member_status']['']}</td>
+							<td class="tdR">
+								{$P8LANG['member_status'][$data['status']]}
+							</td>
+						</tr>
+						
+						<!--{if $ACTION == 'update'}-->
+						<!--{foreach $this_model['fields'] $field $field_data}-->
+						<tr>
+							<td class="tdL">$field_data[alias]</td>
+							<td class="tdR">
+								<!--{php include template($core, 'widget/'. $field_data['widget'], 'default');}-->
+							</td>
+						</tr>
+						<!--{/foreach}-->
+						
+						<tr>
+							<td class="tdL">{$P8LANG['register_time']}</td>
+							<td class="tdR">
+								<!--{php echo date('Y-m-d H:i:s', $data['register_time']);}-->
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['last_login_time']}</td>
+							<td class="tdR">
+								<!--{php echo date('Y-m-d H:i:s', $data['last_login']);}-->
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['last_login_ip']}</td>
+							<td class="tdR">
+								{$data['last_login_ip']}
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['login_time']}</td>
+							<td class="tdR">
+								{$data['login_time']}
+							</td>
+						</tr>
+						<!--{/if}-->
+						
+						<tr>
+						  <td class="tdL">&nbsp;</td>
+						  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+						</tr>
+						
+					</table>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+	<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" />
+</form>
+
+<script type="text/javascript">
+
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,130 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module header}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<div class="panelbody">
+<div class="main">
+	
+	<div class="content msg_send">
+		
+		<div class="msg_main">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td class="msg_send_left">
+						<form action="$this_url" method="post" id="form">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" >
+							<tr>
+								<td width="10%"><strong>{$P8LANG['smessage']['sendee']}:</strong></td>
+								<td><input name="sendee" id="sendee" type="text" size="60" class="msg_sendto_input" value="{if !empty($data)}$data[username]{/if}" />
+								</td>
+							</tr>
+							<tr>
+								<td width="10%"><strong>{$P8LANG['title']}:</strong></td>
+								<td><input name="title" type="text" size="60" class="msg_sendto_input" value="{if isset($data['title'])}$data[title]{/if}" /></td>
+							</tr>
+							<tr>
+								<td valign="top" width="10%"><strong>{$P8LANG['content']}:</strong></td>
+								<td>
+									<div id="content_div">{if !empty($data['content'])}<div id="p8_content_show">$data[content]</div>{else}&nbsp; {/if}</div>
+									<textarea name="content" id="content"></textarea>
+									<script type="text/javascript">
+									P8_CKEDITOR({
+										id: 'content',
+										div: $('#content_div'),
+										config: {
+											toolbar: [
+												['Bold','Italic','Underline','Strike','Link','Image','Blockquote','Smiley','TextColor','BGColor'] 
+											],
+											height: 200
+										}
+									});
+									</script>
+								</td>
+							</tr>
+							
+							<tr>
+								<td align="right" colspan="2">
+									<span class="msg_type_box">
+									<input name="outbox" type="checkbox" id="outbox" value="1" checked="checked" /><label for="outbox">保存到发件箱</label>
+									</span>
+								</td>
+								<td align="center">&nbsp;</td>
+							</tr>
+							<tr>
+								<td align="center" colspan="2">
+									<input type="submit" value="发送信息" class="submit_btn" />
+									<input type="submit" value="保存草稿" class="submit_btn" name="draft" />
+								</td>
+							</tr>
+						</table>
+						
+						<input type="hidden" name="attachment_hash" value="<!--{php echo $attachment_hash = unique_id(16);}-->" />
+						</form>
+					</td>
+					
+				</tr>
+				
+			</table>
+		</div>
+	</div>
+</div>
+</div>
+
+<script type="text/javascript">
+var attachment_hash = '$attachment_hash';
+
+$('#form').validate({
+	rules: {
+		sendee: {
+			required: true
+		},
+		title: {
+			required: true
+		},
+		content: {
+			required: true
+		}
+	},
+	
+	messages: {
+		sendee: {
+			required: '&nbsp;'
+		},
+		title: {
+			required: '&nbsp;'
+		},
+		content: {
+			required: '&nbsp;'
+		}
+	}
+});
+
+$.getJSON(
+	P8CONFIG.U_controller +'/core/member-friend?callback=?',
+	function(json){
+		var friends = json.friends;
+		
+		for(var i = 0; i < friends.length; i++){
+			$('#friends').append(
+				$('<li>'+ friends[i].username +'</li>').
+				data('username', friends[i].username).
+				click(function(){
+					
+					var val = $('#sendee').val(),
+						username = $(this).data('username');
+					
+					if((new RegExp(username +'(?:,)?')).test(val)) return;
+					
+					if(val.length && val.substr(val.length -1, 1) != ',') val += ',';
+					$('#sendee').val(val + username +',');
+				})
+			);
+		}
+	}
+);
+</script>
+
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

@@ -1,0 +1,116 @@
+<!--{php168}-->
+
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['operation']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					<ul>
+						<li><a href="{$core.admin_controller}/core-system_list">{$P8LANG['system']}{$P8LANG['manage']}</a></li>
+						<li><a href="{$core.admin_controller}/core-module_list">{$P8LANG['module']}{$P8LANG['manage']}</a></li>
+						<li><a href="{$core.admin_controller}/core-plugin_list">{$P8LANG['plugin']}{$P8LANG['manage']}</a></li>
+						<li><a href="{$core.admin_controller}/core-cache">{$P8LANG['update_cache']}</a></li>
+					</ul>
+				</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+<form action="" method="post" id="form">
+	
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table width="100%" class="columntable formtable hover_table">
+				<tr>
+					<td colspan="10" class="title">{$P8LANG['plugin']} {$P8LANG['list']}</td>
+				</tr>
+				
+				<tr>
+					<td width="14%">{$P8LANG['plugin_name']}</td>
+					<td width="40%">{$P8LANG['plugin_alias']}</td>
+					<td width="12%">{$P8LANG['manage']}</td>
+					<td width="12%">{$P8LANG['install']}</td>
+					<td width="11%">{$P8LANG['enabled']}</td>
+					<td width="13%">{$P8LANG['uninstall']}</td>
+				</tr>
+				<script type="text/javascript">
+					var plugins = {};
+				</script>
+				
+				<!--{foreach $list $k $v}-->
+				<tr>
+					<td><a href="$this_router-plugin?plugin=$k">{$k}</a></td>
+					<td><a href="$this_router-plugin?plugin=$k">{$v['alias']}</a></td>
+					<td width="12%"><input type="button" value=" {$P8LANG['manage']} " onclick="location.href='$this_router-plugin?plugin=$k'"/></td>
+					<td>
+						<!--{if $v['installed']}-->
+						<input type="button" class="status_btn2" value="{$P8LANG['installed']}" onclick="install_plugin('$k')"/>
+						<!--{else}-->
+						<input type="button" class="status_btn" value="{$P8LANG['installplugin']}" onclick="install_plugin('$k')"/>
+						<!--{/if}-->
+					</td>
+					<td class="enables">
+						<!--{if $v['enabled']}-->
+						<img src="{$SKIN}/check_yes.gif" style="cursor: pointer;" alt="$k" title="1" />
+						<!--{else}-->
+						<img src="{$SKIN}/check_no.gif" style="cursor: pointer;" alt="$k" title="0" />
+						<!--{/if}-->
+					</td>
+					<td>
+						<img src="{$SKIN}/check_no.gif" style="cursor: pointer;" onclick="uninstall_plugin('$k')" />
+					</td>
+				</tr>
+				<script type="text/javascript">
+					plugins['$k'] = {installed: '{$v['installed']}', enabled: '{$v['enabled']}'};
+				</script>
+				<!--{/foreach}-->
+				
+			</table>
+		</div>
+	</div>
+	
+	<input type="hidden" name="plugin" value="" />
+	<input type="submit" value="{$P8LANG['refresh_plugin']}" class="submit_btn" style="margin:15px 15px 0 15px;" />
+	<div id="submits"></div>
+</form>
+
+<script type="text/javascript">
+	
+	function install_plugin(plugin){
+		if(!confirm('{$P8LANG['install_plugin?']}')) return;
+		
+		if(plugins[plugin].installed){
+			if(!confirm('{$P8LANG['plugin_installed_reinstall?']}'))
+				return;
+		}
+		
+		$('input[name=plugin]').val(plugin);
+		$('#form').attr('action', '$this_router-install_plugin').submit();
+	}
+	
+	function uninstall_plugin(plugin){
+		if(confirm('{$P8LANG['uninstall_plugin?']}')){
+			$('input[name=plugin]').val(plugin);
+			$('#form').attr('action', '$this_router-uninstall_plugin').submit();
+		}
+		return;
+	}
+	
+	$('.enables img').click(function(){
+		var plugin = this.alt;
+		var enabled = this.title;
+		
+		$(this).attr('src', enabled == 1 ? '{$SKIN}/check_no.gif' : '{$SKIN}/check_yes.gif').
+		attr('title', enabled == 1 ? 0 : 1);
+		
+		$('#submits').append('<input type="hidden" name="enables['+ plugin +']" value="'+ (enabled == 1 ? 0 : 1) +'" />');
+	});
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

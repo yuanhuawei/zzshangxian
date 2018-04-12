@@ -1,0 +1,20 @@
+<!--{php168}-->
+<!--{if $UID}-->
+<a href="{$core.U_controller}/core/member-profile" style="width:89px;height:33px;float:left;"><img src="{$RESOURCE}/skin/banshi/office/login_btn1.png"></a>
+<a href="{$this_module.U_controller}-logout" style="width:66px;height:33px;float:left;"><img src="{$RESOURCE}/skin/banshi/office/login_btn2.png"></a><br/>
+    <br/>
+    登陆名: {$USERNAME}<br/>
+    用户姓名: {$this_module.role_name}<br/>
+    邮箱地址: {$this_module.email}<br/>
+<!--{else}-->
+<form action="{$this_module.U_controller}-login" method="post">
+<ul class="userpanel_login">
+<li class="username">用户名：<input type="text" size="15" name="username" /></li>
+<li class="password">密　码：<input type="password" size="15" name="password" /></li>
+<li><input type="submit" class="loginsubmit" value="登录" />
+ <input type="button" class="loginreg" style=" cursor:pointer" value="注册" onclick="window.location.href='{$core.controller}/member-register'"/> 
+ <input type='hidden' name='forward' id='forward' value="$forward"> </li>
+</ul>
+</form>
+<!--{/if}-->
+<!--{/php168}-->

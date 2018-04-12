@@ -1,0 +1,58 @@
+<!--{php168}-->
+<!--{template $this_module header default}-->
+<body>
+<script type="text/javascript">
+function checkCode(){
+	var checkcode=$('#check_code').val();
+	var url='{$getpaswdurl}'+'?email={$passwd_data["email"]}&checkcode='+checkcode+'&check_type=checkcode&datetime='+new Date();
+	$.get(url,function(data){
+		if(data=='false'){
+			$("#message_checkcode").css('visibility','visible');
+		}else{
+			$("#message_checkcode").css('visibility','hidden');
+		}
+	});
+}
+
+function checkPasswd(){
+	var pwd1=$("#pwd1").val();
+	var pwd2=$("#pwd2").val();
+	if(pwd1.length<5&&pwd2.length<5){
+		$("#message_pw1").css('visibility','visible');
+	}else{
+		$("#message_pw1").css('visibility','hidden');
+	}
+	if(pwd1!=pwd2){
+		$("#message_pw2").css('visibility','visible');
+	}else{
+		$("#message_pw2").css('visibility','hidden');
+	}
+}
+</script>
+<div class="setpaswd_box" id="3">
+<form action="" method="post" name="third">
+	<div class="head">
+找回密码
+	</div>
+	<div class="msg">
+请重设新密码
+	</div>
+	<div class="getpaswd_input_box">
+		<dl>
+			<dt class="t">新密码</dt>
+			<dd class="t"><input name="passwd_data[passwd1]" type="password"  id="pwd1" onKeyUp="checkPasswd();"/><font color="#ff0000" style="visibility:hidden;" id="message_pw1">密码太短</font></dd>
+			<dt>重复密码</dt>
+			<dd><input name="passwd_data[passwd2]" type="password" id="pwd2" onKeyUp="checkPasswd();"/><font color="#ff0000" style="visibility:hidden;" id="message_pw2">两次输入不一致</font></dd>
+			<dt>验 证 码</dt>
+			<dd><input name="passwd_data[checkcode]" type="text" size="10" id="check_code" onKeyUp="checkCode();"/><font color="#ff0000" style="visibility:hidden;" id="message_checkcode">验证码已过期</font><span class="yzimg">(请输入邮件中的验证码)</span></dd>
+		</dl>
+		<input type="hidden" name="passwd_data[step]" value="last">
+		<input type="hidden" name="passwd_data[email]" value="{$passwd_data['email']}">
+	</div>
+	<div class="getpaswd_submit">
+		<input type="submit" value="提交" class="submit_btn""/>
+	</div>
+	</form>
+</div>
+</body>
+</html><!--{/php168}-->

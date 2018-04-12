@@ -1,0 +1,47 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+
+<div id="tab_1" class="tab_box mtop20">
+	<div class="head">
+		<span class="over"><a href="$this_router-my_resume">我的简历</a></span>
+		<a href="$this_router-add_resume?t=1" target="_blank" class="sendmsg_link_bg">创建简历</a>
+		<a href="$this_router-add_resume?t=2" target="_blank" class="sendmsg_link_bg">粘帖简历</a>
+		<label>你还可以创建<font color="red"> 2 </font>份标准简历，<font color="red"> 1 </font>份粘贴简历</label>
+	</div>
+</div>
+<div id="tab_1" class="tab_box mtop20">
+<form name="form" action="$this_url" method="post">
+			<table width="100%" border="0" class="hover_table list_table" cellspacing="1" cellpadding="5">
+				<tr class="head">
+					<td width="20%">简历名称</td>
+					<td width="10%">更新时间</td>
+					<td width="10%">创建时间</td>
+					<td width="10%">完整度</td>
+					<td width="10%">简历类型</td>
+					<td width="10%">预览</td>
+					<td width="10%">默认<input type="radio" name="default_resume" value="0"  /></td>
+					<td width="*">修改 删除</td>
+				</tr>
+				<!--{foreach $list $val}-->
+				<tr>
+					<td >$val[title]</td>
+					<td >{date('Y-m-d',$val['lastupdate'])}</td>
+					<td >{date('Y-m-d',$val['timestamp'])}</td>
+					<td >$val[complete]%</td>
+					<td ><!--{if $val['type']==2}-->粘帖简历<!--{else}-->标准简历<!--{/if}--></td>
+					<td ><a href="{$this_router}-view?id=$val[id]" target="_blank">预览</a></td>
+					<td ><input type="radio" name="default_resume" value="$val[id]" {if $val['def']}checked{/if} /></td>
+					<td ><a href="{$this_router}-update?id=$val[id]&t=$val[type]" target="_blank">修改</a> &nbsp;<a href="{$this_router}-delete?id=$val[id]" onclick="return confirm('真的删除么')">删除</a></td>
+				</tr>
+				<!--{/foreach}-->
+			</table>
+			<div class="pages"><input type="submit" class="submit_btn" value="{$P8LANG['submit']}" /></div>
+			</form>
+</div>
+<div class="clear">
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

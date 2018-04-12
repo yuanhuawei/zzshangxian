@@ -1,0 +1,15 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!--{template $core header_mobile}-->
+
+<div class="bt">$CAT[name]</div>
+<!--{php include template($TEMP_OBJ, $CAT['item_template_mobile'], 'label');}-->
+<div class="page"> $pages</div>
+
+<div class="back">
+    <p><a href="{$HTTP_REFERER}" onclick="window.history.go(-1);"><img src="{$RESOURCE}/skin/default/mobile/back.jpg" /> 返回上一页</a></p>
+    <p><a href="{$core.controller}"><img src="{$RESOURCE}/skin/default/mobile/back.jpg" /> 进入政府首页</a></p>
+</div>
+
+<!--{template $core footer_mobile}-->
+<!--{/php168}-->

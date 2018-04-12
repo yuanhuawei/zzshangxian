@@ -1,0 +1,24 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--主体内容-->
+<div class="wrapbox">
+		<!--{foreach $this_module->top_categories $value}-->
+		<!--{if $value['display']}-->
+			<div class="wrapbox category_wrap light_blue_border margin_bottom">
+				<div class="topic_title light_blue_bg"><h3><a href="{$value['url']}" target="_blank">{$value['name']}</a></h3></div>
+					<ul>
+						<!--{if isset($value['categories'])}-->
+							<!--{foreach $value['categories'] $v}-->
+								<!--{if $v['display']}-->
+									<li><a href="{$v['url']}" target="_blank">{$v['name']}</a></li>
+								<!--{/if}-->
+							<!--{/foreach}-->
+						<!--{/if}-->
+					</ul>		
+				<div class="clear"></div>
+			</div>
+		<!--{/if}-->
+		<!--{/foreach}-->
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

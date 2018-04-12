@@ -1,0 +1,28 @@
+<!--{php168}-->
+<table cellspacing="1" border="0" width="100%" id="list_table">
+	<tr class="ltbhead">
+	<td class="num">序号</td>
+	<td class="white" width="1"></td>
+	<td>索引号</td>
+	<td class="white" width="1"></td>
+	<td>信息名称</td>
+	<td class="white" width="1"></td>
+	<td>生成日期</td>
+	<td class="white" width="1"></td>
+	<td>文号</td>
+</tr>
+<!--{foreach $list $index $item}-->
+<tr>
+	<td><!--{php echo $index+1;}--></td>
+	<td class="white" width="1"></td>
+	<td><a href="{$item['url']}" target="_blank">{$item['suoyin']}</a></td>
+	<td class="white" width="1"></td>
+	<td style="text-align:left"><a href="{$item['url']}" target="_blank">{$item['title']}</a></td>
+	<td class="white" width="1"></td>
+	<td><!--{php echo date('Y-m-d',$item['timestamp']);}--></td>
+	<td class="white" width="1"></td>
+	<td>{$item['wenhao']}</td>
+</tr>
+<!--{/foreach}-->
+</table>
+<!--{/php168}-->

@@ -1,0 +1,24 @@
+
+/*paper*/
+.menuBar{  width:960px;  height:29px;  }
+.menuBar ul{  list-style:none;  text-align: center;}
+.menuBar ul li{  float:left;  line-height:25px;  }
+.menuBar ul li a{  display:block;  width:114px;  height:27px;  background:url(zx_btn2.jpg) no-repeat center;  }
+.menuBar ul .prev a, .menuBar ul .next a{  width:17px;  }
+.menuBar ul li a:hover,.menuBar ul li a.ahover{  color:white;  background:url(zx_btn1.jpg) no-repeat center;  }
+.menuBar img{  float:right;  }
+.newspaper_pane{ width:979px;overflow: hidden;background: url(zx_talent_bg2.jpg) white top left no-repeat;}
+.newspaperBody{width:988px;height:1067px;margin: auto;border-bottom: 1px solid #ddd;}
+.menuBar{*display: inline-block;padding: 5px 0 5px 5px;}
+.frame{width:900px;height:235px;padding: 3px;float: left;color:#595757; text-align: left;position: relative;margin-bottom: 22px;background: url(newspaper_frame.jpg) top left no-repeat;padding-left:12px;}
+.frame span{left:12px;height:25px;line-height:25px;}
+.frame img{border: 1px solid #e6e6e6;margin-bottom: 8px;}
+.frame .item{width:138px;   margin:4px;float: left;display:inline;text-align:center;}
+.guide{float:right;text-align: left;margin-top: 0px;width:275px;height:210px;overflow:hidden;}
+.return_btn{display: block;  width: 116px;  height:29px;  float:right;  margin:54px 44px auto auto;  background: url(zx_btn3.jpg) center no-repeat;}
+.mainText{text-align: center;  margin:auto;  margin-top: 20px;  width:826px;}
+.mainText h3{height:56px;  border-top:solid 2px #ddd;  border-bottom:solid 1px #ddd;  line-height:70px;  color:#333;  font-size:15px}
+.mainText h5{color:#898989;  line-height:30px;}
+.mainText img{clear:both;  margin:25px auto auto auto;}
+.mainText .text{width:840px;  height:auto;  margin:25px auto 35px auto;  color:#333;  text-align:left;  line-height:24px; font-size:15px;}
+.mainText .text p{text-indent:2em;}

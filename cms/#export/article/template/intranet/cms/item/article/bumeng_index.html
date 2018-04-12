@@ -1,0 +1,128 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<div class="list_nave">
+	ÄúµÄÎ»ÖÃ£º<a href="{$this_system.url}">Ê×Ò³</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>
+</div>
+<!--×ó±ß-->
+<div class="list_left">
+	<div class="gov_index_middle " id="tab_1">
+		<div class="gov_tab_head_red head">
+			<span class="over" >$label[bm_index_title01]</span> <span>$label[bm_index_title02]</span> <span>$label[bm_index_title03]</span> <div class="tab_more">$label[index_bm_more]</div>
+		</div>
+		<div class="index_cbg"></div>
+		<div class="main">
+			<div  class="gov_index_middle_content content">
+				<div class="intranet_bumeng_main_left">
+				   <div class="aleft">$label[bumeng_actical_main_01]</div>
+				   <div class="aleft mtop">$label[bumeng_actical_main_02]</div>
+				</div>
+				<div class="intranet_bumeng_main_right">
+					<p>$label[bumeng_actical_main_title]</p>
+					$label[bumeng_actical_main_03]{'i.cid' => $CATEGORY, 'model' => $MODEL}
+				</div>
+			</div>
+			<div class="gov_index_middle_content  content" style="display:none;">
+				$label[bm_index_content02]
+				<div class="gov_index_jixiao">$label[bm_index_content021]</div>
+			</div>
+			<div class="gov_index_middle_content  content" style="display:none;">
+				$label[bm_index_content03]
+				<div class="gov_index_jixiao">$label[bm_index_content031]</div>
+			</div>			
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="list_head2 mtop" >
+		<span class="list_title3">$label[bumeng_title05]</span><span class="list_more1">$label[bumeng_title051]</span>
+	</div>
+	<div class="list_content1">
+		$label[bm_big_list_05]
+	</div>
+	<div class="list_head2 mtop" >
+		<span class="list_title3">$label[bumeng_title01]</span><span class="list_more1">$label[bumeng_title011]</span>
+	</div>
+	<div class="list_content1">
+		$label[bm_big_list_01]
+	</div>
+	<div class="list_head2 mtop" >
+		<span class="list_title3">$label[bumeng_title02]</span><span class="list_more1">$label[bumeng_title021]</span>
+	</div>
+	<div class="list_content1">
+		$label[bm_big_list_02]
+	</div>
+	<div class="list_head2 mtop" >
+		<span class="list_title3">$label[bumeng_title03]</span><span class="list_more1">$label[bumeng_title031]</span>
+	</div>
+	<div class="list_content1">
+		$label[bm_big_list_03]
+	</div>
+	<div class="list_head2 mtop" >
+		<span class="list_title3">$label[bumeng_title04]</span><span class="list_more1">$label[bumeng_title041]</span>
+	</div>
+	<div class="list_content1">
+		$label[bm_big_list_04]
+	</div>
+
+
+</div>
+<!--ÓÒ±ß-->
+<div class="list_right">
+    <div class="list_head2 mtop">
+		<span class="list_title1">$label[vd_blist_title0]</span> <span class="list_more1">$label[vd_blist_more0]</span>
+	</div>
+	<div class="list_content_categories">
+		<table>
+		    <tr>
+			   <td>
+		<!--{foreach $subcategories $v}-->
+		<div class="intranet_list_nm"><a href="$v[url]">$v[name]</a></div>
+		<!--{/foreach}-->
+		</td>
+		   </tr>
+		</table>
+	</div>
+	<div class="list_head2 mtop">
+		<span class="list_title1">$label[vd_blist_title1]</span> <span class="list_more1">$label[vd_blist_more1]</span>
+	</div>
+	<div class="list_content1">
+		$label[vd_blist_content1]
+	</div>
+	<div class="list_head2 mtop">
+		<span class="list_title1">$label[vd_blist_title2]</span> <span class="list_more1">$label[vd_blist_more2]</span>
+	</div>
+	<div class="list_content1">
+		$label[vd_blist_content2]
+	</div>
+	<div class="list_head2 mtop">
+		<span class="list_title1">$label[vd_blist_title3]</span> <span class="list_more1">$label[vd_blist_more3]</span>
+	</div>
+	<div class="list_content1">
+		$label[vd_blist_content3]
+	</div>
+	<div class="list_head2 mtop">
+		<span class="list_title1">$label[vd_blist_title4]</span> <span class="list_more1">$label[vd_blist_more4]</span>
+	</div>
+	<div class="list_content1">
+		$label[vd_blist_content4]
+	</div>
+	<div class="list_head2 mtop">
+		<span class="list_title1">$label[vd_blist_title5]</span> <span class="list_more1">$label[vd_blist_more5]</span>
+	</div>
+	<div class="list_content1">
+		$label[vd_blist_content5]
+	</div>
+</div>
+<div class="clear">
+</div>
+<script language="javascript">
+$(document).ready(function(){
+MoveTabs('tab_1',0,'mouseover');
+});
+</script>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

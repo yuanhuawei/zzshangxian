@@ -1,0 +1,17 @@
+<!--{php168}-->
+<ul class="label_list">
+	<!--{foreach $list $value}-->
+	<li style="border-bottom:#cccdcf 1px dashed;margin:5px 0">
+		<h3><a class="label_12px_title" href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></h3>
+		<p class="label_summary">$value[summary]</p>
+		<p class="c666">
+			发布者：<span class="c999">$value[username]</span> 发表于：<span class="c999">
+			<!--{php echo date('Y-m-d', $value['timestamp']);}-->
+			</span> 点击：<span class="c999">$value[views]</span> 评论：<span class="c999">$value[comments]</span> <a href="$value[url]" target="_blank">查阅全文...</a>
+		</p>
+	</li>
+	<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->
+

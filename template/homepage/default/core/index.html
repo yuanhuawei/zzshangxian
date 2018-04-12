@@ -1,0 +1,32 @@
+<!--{php168}-->
+<!--{template $core header}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/core/member/friend.js"></script>
+<script type="text/javascript">
+var friend = new P8_Friend();
+</script>
+
+<div id="main">
+	<div class="layout" style="width: {$LAYOUT['left']['width']}px;{if empty($LAYOUT['left']['width'])} display: none;{/if}">
+		<!--{foreach $LEFT $b}-->
+		$b
+		<!--{/foreach}-->
+	</div>
+	
+	<div class="layout" style="width: {$LAYOUT['center']['width']}px;{if empty($LAYOUT['center']['width'])} display: none;{/if}">
+		<!--{foreach $CENTER $b}-->
+		$b
+		<!--{/foreach}-->
+	</div>
+	
+	<div class="layout" style="width: {$LAYOUT['right']['width']}px;{if empty($LAYOUT['right']['width'])} display: none;{/if}">
+		<!--{foreach $RIGHT $b}-->
+		$b
+		<!--{/foreach}-->
+	</div>
+	
+	<div style="clear: both;"></div>
+</div>
+
+<!--{template $core footer}-->
+<!--{/php168}-->

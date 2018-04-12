@@ -1,0 +1,188 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<div id="tab_1" class="tab_box mtop20">
+	<div class="head">
+		<span><a href="$this_router-demand?status=1">正常的需求</a></span> 
+		<span><a href="$this_router-demand?status=0">未审核的需求</a></span>
+		<span><a href="$this_router-demand?status=2">过期的需求</a></span>
+		<a href="$this_router-add" class="sendmsg_link_bg">新增需求</a>
+	</div>
+	<div class="main profile" style="margin-top:20px">
+	<form name="form" id="form" action="{$this_url}" method="post">
+		<table width="100%" border="0" cellspacing="0" cellpadding="5" class="">
+			<tr >
+				<td width="100">标题</td>
+				<td width="*"><input type="text" class="txt" name="title" value="{if !empty($data['title'])}$data[title]{/if}" /></td>
+			</tr>
+            <tr >
+				<td>学科门类</td>
+				<td>
+					<span id="coursename">{if !empty($data['coursename'])}$data[coursename]{/if}</span>
+					<input type="hidden" id="course" name="course_cat" value="{if !empty($data['course_cat'])}$data[course_cat]{/if}" />
+					<input type="button" onclick="course_dialog.show()" value="选择" />
+				</td>
+			</tr>
+			<tr >
+				<td>课程</td>
+				<td><input type="text" class="txt" name="course" value="{if !empty($data['course'])}$data[course]{/if}" /> </td>
+			</tr>
+			<tr >
+				<td>周期</td>
+				<td><input type="text" class="txt" name="duration" value="{if !empty($data['duration'])}$data[duration]{/if}" /></td>
+			</tr>
+			<tr >
+				<td>目标</td>
+				<td><input type="text" class="txt" name="effect" value="{if !empty($data['effect'])}$data[effect]{/if}" /></td>
+			</tr>
+			<tr >
+				<td>招聘人数</td>
+				<td><input type="text" class="txt" name="number" value="{if !empty($data['number'])}$data[number]{else}若干{/if}" /> 人</td>
+			</tr>
+			
+			<tr >
+				<td>专业要求</td>
+				<td>
+					<span id="professionname">{if !empty($data['profession'])}$data[professionname]{/if}</span>
+					<input type="hidden" id="profession" name="profession" value="{if !empty($data['profession'])}$data[profession]{/if}" />
+					<input type="button" onclick="profession_dialog.show()" value="选择" />
+				</td>
+			</tr>
+			<tr >
+				<td>地区要求</td>
+				<td>
+					<span id="cityname">{if !empty($data['city'])}$data[cityname]{/if}</span>
+					<input type="hidden" id="city" name="city" value="{if !empty($data['city'])}$data[city]{/if}" />
+					<input type="button" value="选择" onclick="city_dialog.show()" />
+				</td>
+			</tr>
+			<tr >
+				<td>性别要求</td>
+				<td><select name="gender">
+						<option value="0" >不限</option>
+						<option value="1" {if !empty($data['gender']) && $data['gender']==1} selected="selected"{/if}>男</option>
+						<option value="2" {if !empty($data['gender']) && $data['gender']==2} selected="selected"{/if}>女</option>
+					</select>
+				</td>
+			</tr>
+			<tr >
+				<td>学历要求</td>
+				<td>
+					<select name="education">
+					<!--{foreach $this_system->CONFIG['education'] $key $val}-->
+						<option value="$key" {if !empty($data['education']) && $data['education']==$key}selected{/if}>$val</option>
+					<!--{/foreach}-->	
+					</select>
+				</td>
+			</tr>
+			<tr >
+				<td>婚姻状况</td>
+				<td>
+					<select name="married">
+						<option value="0">不限</option>
+						<option value="1" {if !empty($data['married']) && $data['married']==1} selected="selected"{/if}>已婚</option>
+						<option value="2" {if !empty($data['married']) && $data['married']==2} selected="selected"{/if}>未婚</option>
+					</select>
+				</td>
+			</tr>
+			<tr >
+				<td>年龄要求</td>
+				<td>
+					<select name="agemin">
+					<option value="0">不限</option>
+					<!--{php for($i=16;$i<60;$i++){ }-->
+					<option value="$i" {if !empty($data['agemin']) && $data['agemin']==$i} selected="selected"{/if}>{$i}岁</option>
+					<!--{php } }-->
+					</select> 到 <select name="agemax">
+					<option value="0">不限</option>
+					<!--{php for($i=16;$i<60;$i++){ }-->
+					<option value="$i"  {if !empty($data['agemax']) && $data['agemax']==$i} selected="selected"{/if}>{$i}岁</option>
+					<!--{php } }-->
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>开始时间:</td>
+				<td>
+					<input type="text" class="txt" id="begintime" name="begintime" value="{if !empty($data['begintime'])}{date('Y-m-d',$data['begintime'])}{/if}" onclick="rcalendar(this, 'dateonly');" />
+				</td>
+			</tr>
+			<tr>
+				<td>有效时间:</td>
+				<td>
+					<input type="text" class="txt" id="endtime" name="endtime" value="{if !empty($data['endtime'])}{date('Y-m-d',$data['endtime'])}{/if}" onclick="rcalendar(this, 'dateonly');" />
+				</td>
+			</tr>
+			<tr >
+				<td>描述</td>
+				<td><textarea  class="txt" name="content" rows="10" cols="60">{if !empty($data['content'])}<div id="p8_content_show">$data[content]</div>{/if}</textarea></td>
+			</tr>
+		</table>
+		<div style="padding-left:150px">
+				<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+				<input type="submit" name="button2" id="button2" value="提交" class="submit_btn"/>
+			</div>
+		</form>	
+	</div>
+</div>
+<script src="{$RESOURCE}/js/recursive_selector.js" type="text/javascript"></script>
+<script type="text/javascript">
+var profession_dialog = new P8_Dialog({
+		title_text: "选择专业(最多只能选5项)",
+		button: true,
+		width: 700,
+		height: 400,
+		url: "{$this_system.modules['category']['controller']}-select?m=profession&n=5",
+		ok: function(){
+			text = [];
+			$('#selected_profession span').each(function(){
+				text.push($(this).text());
+													});
+			ids = [];
+			$('#selected_profession').find('input').each(function(){
+				ids.push($(this).val());													  
+			});
+			$('#professionname').html(text.join(' + '));
+			$('#profession').val(ids.join(','));
+		}
+	});
+var course_dialog = new P8_Dialog({
+		title_text: "选择学科(最多只能选1项)",
+		button: true,
+		width: 500,
+		height: 200,
+		url: "{$this_system.modules['category']['controller']}-select?m=course&n=1&v=1",
+		ok: function(){
+			text = [];
+			$('#selected_course span').each(function(){
+				text.push($(this).text());
+													});
+			ids = [];
+			$('#selected_course').find('input').each(function(){
+				ids.push($(this).val());													  
+			});
+			$('#coursename').html(text.join(' + '));
+			$('#course').val(ids.join(','));
+		}
+	});
+var city_dialog = new P8_Dialog({
+		title_text: "选择城市(最多只能选1项)",
+		button: true,
+		width: 500,
+		height: 400,
+		url: "{$this_system.modules['category']['controller']}-city?n=1",
+		ok: function(){
+			text = $('#selected_city').text();
+			ids = [];
+			$('#selected_city').find('input').each(function(){
+				ids.push($(this).val());													  
+			});
+			$('#cityname').html(text);
+			$('#city').val(ids.join(','));
+		}
+	});
+</script>
+<div class="clear">
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

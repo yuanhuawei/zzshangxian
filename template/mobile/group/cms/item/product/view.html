@@ -1,0 +1,56 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!--{template $core header}-->
+<div class="actnav">
+	<a class="gobk fl" href="javascript:history.go(-1);">&lt; &lt; 返回</a>
+    <span>$CAT[name]</span>
+</div>
+<div class="actcon">
+    <div class="bt">
+        <h1>$data[title]</h1>
+        <p>{date('Y-m-d', $data['timestamp'])} <span class="fontse">字体：<a href="javascript:void(0);" onclick="javascript:smallFont();">小</a><a href="javascript:void(0);" onclick="javascript:largeFont();">大</a> </span><span id="operation" style="display: none; cursor: pointer;">{$P8LANG['operation']}</span></p>
+    </div>
+    <div class="actmain"> 
+		<div class="framepic picture"><img src="$data[frame]" title="$data[full_title]" onerror="this.src='{$core.url}/images/nopic.jpg'"  /></div>
+        <div id="cptab" class="cptab">
+			<div class="hd">
+				<ul>
+					<li><span>产品介绍</span></li>
+					<li><span>产品数据</span></li>
+					<li><span>试用与预订</span></li>
+				</ul>
+			</div>
+			<div class="bd">
+				<div class="nlist fontsizebox">$data[content]</div>
+				<div class="nlist fontsizebox">$data[attrbutes]</div>
+				<div class="nlist fontsizebox">$data[aboutinfo]</div>
+			</div>
+		</div>
+		<script type="text/javascript">TouchSlide({ slideCell:"#cptab",effect:"leftLoop" }); </script>
+    </div>
+	<div class="pager">
+		<p>上一篇：> >
+		<!--{if !empty($prev_item[subject])}-->
+		<a href="$prev_item[url]" title="$prev_item[title]">$prev_item[subject]</a>
+		<!--{else}-->
+		没有了
+		<!--{/if}-->
+		</p> 
+		<p>下一篇：> >
+		<!--{if !empty($next_item[subject])}-->
+		<a href="$next_item[url]" title="$next_item[title]">$next_item[subject]</a>
+		<!--{else}-->
+		没有了
+		<!--{/if}-->
+		</p>
+	</div>
+</div>
+<div id="end_cd">
+	<ul>
+		<li class="lione"><a href="{$core.mobile_controller}">&lt; &lt; 返回首页</a></li>
+		<li class="litwo"></li>
+		<li class="lithree"></li>
+	</ul>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->

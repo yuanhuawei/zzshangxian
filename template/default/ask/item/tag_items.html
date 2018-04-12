@@ -1,0 +1,75 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--主体内容-->
+<div class="wrapbox">
+<div id="blockleft" class="float_right">
+<!--历史-->
+<div class="left_box layout_border margin_bottom">
+<div class="layout_title"><span>{$P8LANG['ask_view_history']}</span><a href="javascript:void(0);" onclick="javascript:clearHistory();">{$P8LANG['ask_clear']}</a></div>
+<div id="categoryHistory" class="layout_textlist"></div>
+</div>
+</div>
+
+<div id="blockinner" class="float_left blockleft_mleft">
+	<!--问题列表-->
+	<div class="wrapbox light_blue_border margin_bottom">
+		<div class="topic_title light_blue_bg"><h3 class="">{$P8LANG['ask_tags']}</h3></div>
+		<div class="topic_box">
+			<!--主题列表-->
+			<div class="topic_textlist">
+				<ul>
+					<li class="topic_title topic_header">{$P8LANG['ask_topic'] $count}</li><li class="topic_views topic_header">{$P8LANG['ask_reply']}/{$P8LANG['ask_view']}</li><li class="topic_status topic_header">{$P8LANG['ask_status']}</li><li class="topic_times topic_header">{$P8LANG['ask_lastpost']}</li>
+					<!--{foreach $list $value}-->
+					<li class="topic_title">
+						<h1>
+							<!--{if $value['offercredit']}--><p>{$value['credits']}</p><!--{/if}-->
+							<a href="{$this_router}-view-id-{$value['id']}" target="_blank">{$value['title']}</a>
+							[<a href="{$this_router}-list-cid-{$value['cid']}" target="_blank" class="catname">{$category.categories[$value['cid']]['name']}</a>]
+						</h1>
+						<!--{if $value['recommend']}-->&nbsp;<img src="{$SKIN}recommend.gif"/><!--{/if}-->
+						<!--{if $value['urgent']}-->&nbsp;<img src="{$SKIN}urgent.gif" class="icon_urgent"/><!--{/if}-->
+					</li>
+					<li class="topic_views topic_views_font">{$value['replies']}/{$value['views']}</li>
+					<li class="topic_status"><img src="{$SKIN}status_{$value['status']}.gif"/></li>
+					<li class="topic_times topic_times_font"><!--{php echo date('y-m-d',$value['lastpost']);}--></li>
+					<!--{/foreach}-->
+				</ul>
+			</div>
+			<!--{if $pages}-->
+			<div id="page" class="pages">{$pages}</div>
+			<!--{/if}-->
+		</div>
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+
+var categoryHistory = '';
+var categoryID = get_cookie('cid');
+var categoryName = get_cookie('catName');
+for(var i in categoryID){
+	if(categoryName[i] != ''){
+		categoryHistory += '<li><a href="{$this_router}-list-cid-' + categoryID[i] + '" target="_blank">' + categoryName[i] + '</a></li>';
+	}
+}
+
+$('#categoryHistory').html(categoryHistory);
+
+function clearHistory()
+{
+	for(var i in categoryID){
+		set_cookie('cid['+i+']', '');
+		set_cookie('catName['+i+']','');
+	}
+	$('#categoryHistory').html('');
+}
+
+function _search()
+{
+	var url = $('#topiclist_form').attr('action');
+	$('#topiclist_form').attr('action', url+'-t-'+base64_encode($('#t').attr('value')));
+	$('#topiclist_form').submit();
+}
+</script>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

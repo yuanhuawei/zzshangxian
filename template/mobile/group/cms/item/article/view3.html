@@ -1,0 +1,53 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!--{template $core header_two}-->
+<div class="show">
+    <div class="bt">
+        <h1>$data[title]</h1>
+        <p>发布：{date('Y-m-d', $data['timestamp'])}　　作者：$data[username]　　浏览:$data[views]次 <span id="operation" style="display: none; cursor: pointer;">{$P8LANG['operation']}</span></p>
+    </div>
+    <div class="Con"> 
+        <!--{foreach $this_model['fields'] $field $v}-->
+        <div> 
+            <!--<b>$v[alias]</b> :--> 
+            <!--{php 
+    	switch($v['widget']){
+		case 'text': case 'textarea': case 'editor': case 'editor_basic': case 'editor_basic':
+	}--> 
+            $data[$field] 
+            <!--{php
+		break;
+		case 'checkbox': case 'multi_select':
+		foreach($v['data'] as $value => $key){
+			if(in_array($value, $data[$field])){
+	}--> 
+            $key 
+            <!--{php
+		}}
+		break;
+		case 'radio':
+	foreach($v['data'] as $value => $key){
+		if($value == $data[$field]){
+	}--> 
+            $key 
+            <!--{php
+		break;
+		}}
+		break;
+		case 'uploader':
+	}--> 
+            <a href="{$data[$field]['url']}" target="_blank">{$data[$field]['title']}</a> 
+            <!--{php break;
+    case 'multi_uploader':
+	foreach($data[$field] as $vv){
+	}-->
+            <div><a href="$vv[url]" target="_blank">$vv[title]</a></div>
+            <!--{php } break;case 'vote':break;default:}--> 
+            $data[$field] 
+            <!--{php }}--> 
+        </div>
+        <!--{/foreach}--> 
+    </div>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->

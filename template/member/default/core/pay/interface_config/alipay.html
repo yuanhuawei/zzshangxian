@@ -1,0 +1,18 @@
+<!--{php168}-->
+<form action="$this_url" method="post" id="form">
+<ul>
+<li>账号:<input type="text" name="config[account]" value="{if !empty($config['account'])}$config[account]{/if}" /></li>
+<li>安全码:<input type="text" name="config[security_code]" value="{if !empty($config['security_code'])}$config[security_code]{/if}" /></li>
+<li>合作者ID:<input type="text" name="config[partner]" value="{if !empty($config['partner'])}$config[partner]{/if}" /></li>
+<li>
+	<select name="config[service]">
+		<option value="create_partner_trade_by_buyer"{if !empty($config['service']) && $config['service'] == 'create_partner_trade_by_buyer'} selected{/if}>纯担保交易</option>
+		<option value="trade_create_by_buyer"{if !empty($config['service']) && $config['service'] == 'trade_create_by_buyer'} selected{/if}>标准实物</option>
+		<option value="create_direct_pay_by_user"{if !empty($config['service']) && $config['service'] == 'create_direct_pay_by_user'} selected{/if}>即时到账</option>
+	</select>
+</li>
+</ul>
+<input type="hidden" name="interface" value="$interface" />
+<input type="submit" />
+</form>
+<!--{/php168}-->

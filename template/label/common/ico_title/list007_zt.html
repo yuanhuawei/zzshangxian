@@ -1,0 +1,14 @@
+<!--{php168}-->
+<style type="text/css">
+.label_icon7.zt{background:url({$RESOURCE}/skin/label/icon7.gif) left center no-repeat;border-bottom: 1px dotted #CCCCCC;line-height:34px;}
+</style>
+
+<ul class="label_ul_s">
+<!--{foreach $list $value}-->
+	<li class="label_icon7 zt" style="$wf;">
+		<span class="label_datatime">[<!--{php echo date('m-d', $value['timestamp']);}-->]</span><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a>
+	</li>
+<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->

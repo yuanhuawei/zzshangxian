@@ -1,0 +1,64 @@
+<!--{php168}-->
+<!--{template $this_module homepage_header}-->
+<div class="php_main">
+<div class="php_main_left">
+<div class="php_user_photo"><img width="192" height="192" src="{$info['photo_url']}" /></div>
+<div class="php_main_left_block">
+	<div class="php_main_left_menu"><img src="{$SKIN}/member/homepage/homepage_jiayou.gif" /> <a href="#">加我为好友</a></div>
+	<div class="php_main_left_menu"><img src="{$SKIN}/member/homepage/homepage_mail.gif" /> <a href="#">给我发消息</a></div>
+</div>
+<div class="php_main_left_block">
+	<div class="php_main_left_title"><div class="php_main_left_title_text">联系资料</div></div>
+	<div class="php_main_content">
+		<div class="php_main_content_line">电话：{$info['phone']}</div>
+		<div class="php_main_content_line">传真：{$info['fax']}</div>
+		<div class="php_main_content_line">手机：{$info['cell_phone']}</div>
+		<div class="php_main_content_line">在线QQ：{$info['qq']}</div>
+		<div class="php_main_content_line">在经MSN：{$info['msn']}</div>
+	</div>
+</div>
+<div class="php_main_left_block">
+	<div class="php_main_left_title"><div class="php_main_left_title_text">最近访客</div></div>
+	<div class="php_main_content">
+		<div class="php_main_content_line"><img width="40" height="40" src="{$SKIN}/member/homepage/homepage_head_small.gif" /> <a href="#">启锋</a></div>
+		<div class="php_main_content_line"><img width="40" height="40" src="{$SKIN}/member/homepage/homepage_head_small.gif" /> <a href="#">启锋</a> </div>	
+	</div>
+</div>
+</div>
+<div class="php_main_right">
+<div class="php_main_right_title" style="border-bottom:#9CB8CC 2px solid;"><span style="position:relative;top:-5px;font-size:16px;">{$info['username']}</span><font color="#000000" style="position:relative;top:-5px;font-weight:normal;">
+<!--{if isset($info['name']) }-->
+（姓名：{$info['name']}）
+<!--{/if}-->
+
+</font> <img src="{$SKIN}/member/homepage/homepage_video.gif" /><span style="color:#999999;position:relative;top:-5px;font-size:12px;font-weight:normal;">视频未认证</span></div>
+<div class="php_main_content">
+	<div style="width:50%;float:left;">
+		<div class="php_main_content_line" style="border:none;">创建：{$info['register_time']}</div>
+		<div class="php_main_content_line" style="border:none;">性别：{$info['gender']}</div>
+		<div class="php_main_content_line" style="border:none;">居住：{$info['address']}</div>
+	</div>
+	<div style="width:50%;float:left;">
+		<div class="php_main_content_line" style="border:none;">登录：{$info['last_login']}</div>
+		<div class="php_main_content_line" style="border:none;">生日：{$info['birthday']}</div>
+		<div class="php_main_content_line" style="border:none;">家乡：{$info['address']}</div>
+	</div>
+</div>
+<div style="clear:both;"></div>
+<div class="php_main_right_title">我的最新文章</div>
+<div class="php_main_content">
+		<div class="php_main_content_line"><a href="#">请问建站用什么软件好？</a>[<font color="#999999">互联网</font>]</div>
+		<div class="php_main_content_line"><a href="#">请问建站用什么软件好？</a>[<font color="#999999">互联网</font>]</div>
+		<div class="php_main_content_line"><a href="#">请问建站用什么软件好？</a>[<font color="#999999">互联网</font>]</div>
+		<div class="php_main_content_line"><a href="#">请问建站用什么软件好？</a>[<font color="#999999">互联网</font>]</div>
+		<div class="php_main_content_line"><a href="#">请问建站用什么软件好？</a>[<font color="#999999">互联网</font>]</div>
+		<div class="php_main_content_line"><a href="#">请问建站用什么软件好？</a>[<font color="#999999">互联网</font>]</div>
+		<div class="php_main_content_line"><a href="#">请问建站用什么软件好？</a>[<font color="#999999">互联网</font>]</div>
+		<div class="php_main_content_line"><a href="#">请问建站用什么软件好？</a>[<font color="#999999">互联网</font>]</div>
+	
+</div>
+</div>
+</div>
+<div style="clear:both;"></div>
+<!--{template $this_module homepage_footer}-->
+<!--{/php168}-->

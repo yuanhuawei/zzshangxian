@@ -1,0 +1,23 @@
+<!--{php168}-->
+<!--{php 
+$i = sizeof($CAT['parents']);
+$j = $i>1? $i-2 : 0;
+if($CAT['parents'])
+$stepcat = $category->categories[$CAT['parents'][$j]]['categories'];
+else
+$stepcat = $category->categories[$cid]['categories'];
+}-->
+<ul class="menu_list_1" id="tabs">
+	<!--{foreach $stepcat $v}-->    
+	<li class="cid_{$v['id']} <!--{if $cid == $v['id']}-->thistab<!--{/if}-->">
+		<a href="$v[url]">$v[name]</a>		
+	</li>
+	<!--{/foreach}-->
+	
+</ul>
+<script type="text/javascript">
+(function(){ $('#left_nav_url dt').click(function(){ $(this).parent().parent().find('dl').hide('normal'); if($(this).nextAll('dl').css('display') == 'none') $(this).nextAll('dl').slideDown("normal"); else $(this).nextAll('dl').slideUp("normal");});
+<!--{if !$CAT['parent']}-->$('#left_nav_url').find('dl :first').parent().show()<!--{/if}-->
+})()
+</script>
+<!--{/php168}-->

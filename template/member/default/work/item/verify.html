@@ -1,0 +1,119 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{php $CURN_TITLE='我管理的办事';}-->
+<!--{template $this_module header}-->
+<div class="wrapper">
+	<div class="list_box mtop20">
+		<div class="head">
+			<span $class[1]><a href="$this_router-verify?verified=0">待受理的办事</a></span> 
+			<span $class[2]><a href="$this_router-verify?verified=1">受理中的办事</a></span>
+			<span $class[100]><a href="$this_router-verify?verified=99">已完结的办事</a></span>
+			<span $class[98]><a href="$this_router-verify?verified=-99">退返的办事</a></span>
+		</div>
+	</div>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table">
+		<tr class="head">
+			<td width="12%">编号1</td>
+			<td width="23%">标题</td>
+			<td width="20%">栏目</td>
+			<td width="10%">发布时间</td>
+			<td width="10%">提交者</td>
+			<td width="10%">状态</td>
+			<td width="15%">操作</td>
+		</tr>
+		<!--{foreach $list $k $v}-->
+		<tr id="v_$v[id]">
+			<td><input name="id[]" type="checkbox" value="$v[id]" />$v[number]</td>
+			<td class="al"><a href="{$this_module.controller}-view-id-$v[id]?iswork=1&verified=$verified" target="_blank">$v[title]</a></td>
+			<td> <a href="{$this_url}?cid=$v[cid]&verified=$verified" >{$category.categories[$category.categories[$v['cid']]['parent']]['name']}</a> </td>
+			<td>
+				<!--{php echo date('Y-m-d', $v['timestamp']);}-->
+			</td>
+			<td>
+				$v[username]
+			</td>
+			<td class="status"><span id="prog_$v[id]">{$very_acl[$v['verified']]}</span></td>
+			<td> <a href="{$this_module.controller}-view-id-$v[id]?iswork=1&verified=$verified" target="_blank">查看 </a>
+			    |<a href="javascript:void(0)" onclick="verify_work($v[id])"> 审核</a> 
+				|<a href="javascript:void(0)"  style="color:" onclick="message.send($v[uid])"><img src="{$RESOURCE}/skin/default/core/guestbook/qyfa1.gif">短信</a>
+			</td>
+		</tr>
+		<!--{/foreach}-->
+		<tr>
+			<td align="center" colspan="6" class="pages"> $pages </td>
+		</tr>
+	</table>
+</div>
+<script type="text/javascript">
+var verified=$verified;
+var vacl = $vacl;
+var verify_item_id='';
+
+var very_dialog=new P8_Dialog({
+	title_text: '{$P8LANG['cms_item']['verify']['']}',
+	button: true,
+	width: 550,
+	height: 230	,
+	ok: function(){
+		var value = this.content.find('input[name=value]:checked').val();
+		var reason = this.content.find('textarea').val();
+		if(value==undefined){
+			alert('{$P8LANG['cms_item']['verify']['can_no_verify']}');
+			return;
+		}
+		$.ajax({
+			url: '$this_router-verify',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({id: verify_item_id, value: value, verified: verified, push_back_reason: reason}),
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				$('#prog_'+json).html(vacl[value]);
+				alert('{$P8LANG['done']}');
+			}
+		});
+	}
+							  
+});
+function verify_work(id){
+	verify_item_id=id;
+	$.ajax({
+		type:'POST',
+		dataType:'json',
+		url:'{$this_router}-checkverify',
+		data:'id='+id+'&verified='+verified,
+		beforSend:function(){
+			ajaxing({});
+		},
+		success:function(json){
+			if(json =='' || json =='[]'){
+				alert('{$P8LANG['cms_item']['verify']['can_no_verify']}');
+				return;
+			}else if(json=='error'){
+				alert('{$P8LANG['cms_item']['verify']['error']}');
+				return;
+			}else if(json=='game_over'){
+				alert('{$P8LANG['cms_item']['verify']['game_over']}');
+				return;
+			}
+			verify_html='';
+			for(i in vacl){
+				disabled=(json[i]==undefined)?'disabled':'';
+				verify_html+='<span><input type="radio" id="verify'+i+'" name="value" value="'+i+'"'+disabled+'/><label for="verify'+i+'">'+vacl[i]+'</label></span>';
+			}
+			verify_html += '<div style="padding-top:10px"><p>{$P8LANG['cms_item']['verify']['reason']}</p><textarea rows="5" cols="60"></textarea></div>';
+			very_dialog.content.html(verify_html);
+			very_dialog.show();
+			ajaxing({action: 'hide'});
+		}
+	
+	})
+
+}
+var message = new Message();
+</script>
+<!--{template $this_module footer}-->
+<!--{/php168}-->

@@ -1,0 +1,165 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<select id="collation" style="display: none;">
+<option value="">&nbsp;</option>
+<!--{foreach $collations $c $v}-->
+	<optgroup label="$c">
+	<!--{foreach $v $vv}-->
+		<option value="$vv">$vv</option>
+	<!--{/foreach}-->
+	</optgroup>
+<!--{/foreach}-->
+</select>
+
+<select id="type" style="display: none;">
+<!--{foreach $types $v}-->
+	<option value="$v">$v</option>
+<!--{/foreach}-->
+</select>
+
+<form action="$this_url" method="POST" id="form">
+<div class="mainbox mainborder">
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr><td>
+				<table class="columntable formtable hover_table">
+					<tr class="title">
+						<td class="title" width="3%"><input type="checkbox" onclick="check_all(this, 'field[]'); init_tr($('#form'));" /></td>
+						<td width="10%" class="title">字段名</td>
+						<td width="5%" class="title">类型</td>
+						<td width="5%" class="title">长度/值</td>
+						<td width="5%" class="title">属性</td>
+						<td width="3%" class="title">允许空</td>
+						<td width="8%" class="title">默认值</td>
+						<td width="6%" class="title">字符集</td>
+						<td width="6%" class="title">额外</td>
+						<td width="8%" class="title">注释说明</td>
+					</tr>
+					
+					<!--{foreach $list $value}-->
+					<tr id="field_$value[Field]">
+						<td><input type="checkbox" name="field[]" value="$value[Field]" /></td>
+						<td><input type="input" name="name[$value[Field]]" value="$value[Field]" /></td>
+						<td class="type"></td>
+						<td><input type="input" name="length[$value[Field]]" value="$value[Length]" /></td>
+						<td>
+							<select name="property[$value[Field]]">
+								<option value="">&nbsp;</option>
+								<!--{foreach $properties $v}-->
+								<option value="$v"{if $v == $value['Property']} selected{/if}>$v</option>
+								<!--{/foreach}-->
+							</select>
+						</td>
+						<td><input type="checkbox" name="null[$value[Field]]" value="1"{if $value['Null'] == 'YES'} checked{/if} /></td>
+						<td><input type="input" name="default[$value[Field]]" value="$value[Default]" /></td>
+						<td class="collation"></td>
+						<td>
+							<select name="extra[$value[Field]]">
+								<option value="">&nbsp;</option>
+								<option value="auto_increment"{if $value['Extra'] == 'auto_increment'} selected{/if}>auto_increment</option>
+							</select>
+						</td>
+						<td >$value[aliasname]</td>
+					</tr>
+					<script type="text/javascript">
+					$('#collation').clone(true).attr('id', '').show().appendTo($('#field_$value[Field] .collation')).val('$value[Collation]').attr('name', 'collation[$value[Field]]');
+					
+					$('#type').clone(true).attr('id', '').show().appendTo($('#field_$value[Field] .type')).val('$value[Type]').attr('name', 'type[$value[Field]]');
+					</script>
+					<!--{/foreach}-->
+				</table>
+			</td></tr>
+			
+			<!--
+			<tr>
+				<td colspan="3">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+						<tr>
+							<td>
+								<input type="button" class="edit_btn" value="修改" onclick="if(confirm('$P8LANG[confirm_to_do]')) _submit('repair')" />
+								<input type="button" class="edit_btn" value="删除" onclick="if(confirm('$P8LANG[confirm_to_delete]')) _submit('drop')" />
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			-->
+		</table>
+	</div>
+</div>
+
+<input type="hidden" name="act" value="" />
+<input type="hidden" name="table" value="$name" />
+</form>
+
+
+<form action="$this_url" method="POST" id="key_form">
+<div class="mainbox mainborder">
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr><td>
+				<table class="columntable formtable hover_table click_changeable">
+					<tr class="title">
+						<td class="title" width="3%"><input type="checkbox" onclick="check_all(this, 'key[]'); init_tr($('#key_form'));" /></td>
+						<td width="10%" class="title">索引名</td>
+						<td width="5%" class="title">类型</td>
+						<td width="10%" class="title">字段</td>
+					</tr>
+					
+					<!--{foreach $keys $key $value}-->
+					<tr id="key_$key">
+						<td><input type="checkbox" name="key[]" value="$key" /></td>
+						<td>
+							<!--{if $value['type'] == 'primary'}-->
+							主键
+							<!--{else}-->
+							<input type="text" name="name[$key]" value="$key" />
+							<!--{/if}-->
+						</td>
+						<td>
+							<select name="type[]">
+								<!--{foreach $key_types $v}-->
+								<option value="$v"{if $v == $value['type']} selected{/if}>$v</option>
+								<!--{/foreach}-->
+							</select>
+						</td>
+						<td>
+							<input type="text" name="field[$key]" value="$value[field]" size="40" />
+							
+						</td>
+					</tr>
+					<!--{/foreach}-->
+				</table>
+			</tr></td>
+			<!--
+			<tr>
+				<td colspan="3">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+						<tr>
+							<td>
+								<input type="button" class="edit_btn" value="修改" onclick="if(confirm('$P8LANG[confirm_to_do]')) _submit('repair')" />
+								<input type="button" class="edit_btn" value="删除" onclick="if(confirm('$P8LANG[confirm_to_delete]')) _submit('drop')" />
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			-->
+		</table>
+	</div>
+</div>
+
+<input type="hidden" name="act" value="" />
+<input type="hidden" name="table" value="$name" />
+</form>
+	
+<script type="text/javascript">
+function _submit(action){
+	$('#form input[name=act]').val(action);
+	$('#form').get(0).submit();
+}
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

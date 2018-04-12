@@ -1,0 +1,152 @@
+<!--{php168}-->
+<div class="guestbook mtop">
+	<form name="form1" id="form1" action="{$this_router}-post" method="post">
+		<table>
+			<tr>
+				<td>留言标题: </td>
+				<td><input class="txt" type="text" name="title" id="title" size="50" value="" />
+					<!--{if !$guestbook && !$UID}-->
+					请先 <a href="{$core.modules['member']['U_controller']}-login" style="color:blue" target="_blank">登录</a> | <a href="{$core.modules['member']['U_controller']}-register" style="color:blue"  target="_blank">注册</a>
+					<!--{/if}-->
+				</td>
+			</tr>
+			<tr>
+				<td valign="top"> 留言内容: </td>
+				<td>
+					<textarea rows="5" id="content" name="content" cols="60"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td> 姓名称呼:  </td>
+				<td><input type="radio"  name="niname" value="1"  onclick="_niname(this)" checked="checked" /><!--{if !empty($USERNAME)}-->$USERNAME<!--{else}-->游客<!--{/if}--><!--{if !empty($this_module->CONFIG['anonymous'])}--> <input type="radio" name="niname" value="0"  onclick="_niname(this)" /> 匿名<!--{/if}--></td>
+			</tr>
+			<tbody id="moreinfo">
+			<tr>
+				<td> 电子邮箱: </td>
+				<td><input type="text"  class="txt" id="email"  name="email" value="{if !empty($data['email'])}$data[email]{/if}"/></td>
+			</tr>
+			<tr>
+				<td> 联系电话: </td>
+				<td><input type="text"  class="txt" id="telephone"  name="telephone" value="{if !empty($data['telephone'])}$data[telephone]{/if}"/></td>
+			</tr>
+			</tbody>
+			<tr>
+				<td> 
+					是否显示: </td>
+				<td><input name="ifhide" type="radio" id="title" value="0" checked="checked" /> 是 <input name="ifhide" type="radio" value="1" /> 否</td>
+			</tr>
+			<!--{if !empty($this_module->CONFIG['captcha'])}-->
+			<tr>
+				<td>验证字符: </td>
+				<td><input type="text"  class="txt"  name="captcha" id="captcha" size="10"/> <span id="captchachr"></span>
+					<script type="text/javascript">
+					captcha($('#captchachr'), $('#form1 input[name="captcha"]'));
+			</script>
+				</td>
+			</tr>
+			<!--{/if}-->
+			<tr>
+				<td> </td>
+				<td><input type="submit" value="提交留言" /> <input type="hidden" id="cid" name="cid" value="$cid" /></td>
+			</tr>
+		</table>
+	</form>
+	<script type="text/javascript">
+
+function ajaxsubmit(){
+	var title = $('#title').val();
+	var content = $('#content').val();
+	var niname = $('#niname').val();
+	var email = $('#email').val();
+	var telephone = $('#telephone').val();
+	var ifhide = $('#ifhide').val();
+	var captcha = $('#captcha').val();
+	var cid = $('#cid').val();
+	$.ajax({
+		 url:'{$this_router}-post',
+		 dataType:'json',
+		 data:$('#form1').serialize(),
+		 type:'POST',
+		 beforeSend: function(){
+			ajaxing({'text':'正在提交数据'});
+		},
+		 success:function(json){
+			 if(json=='no_privilege'){
+				 ajaxing({'text':'不可留言',action: 'hide'});
+			 }else{
+			 msg = '<div class="border2 mtop">'+
+					'<p class="head"><span class="user">'+(json.username==''? json.ip : json.username)+':</span><span class="title">'+json.title+'</span></p>'+
+					'<div class="main" >'+json.content+' <span id="reply_'+json.id+'"></span></div>'+
+					'<div class="buttom">'+
+					'<span class="status">{$P8LANG['guestbook']['status']}：{$P8LANG['guestbook']['disreply']}</span>'+
+					<!--{if $delete}-->
+					'<a href="javascript:void(0)" class="fright" onclick="_delete_guestbook('+json.id+')">{$P8LANG['guestbook']['delete']}&nbsp; </a>'+
+					<!--{/if}-->
+					<!--{if $edit}-->
+					'<a href="javascript:void(0)" class="fright" onclick="_edit_guestbook('+json.id+')">{$P8LANG['guestbook']['edit']}&nbsp;</a>'+
+					<!--{/if}-->
+					<!--{if $reply}-->
+					'<a href="javascript:void(0)" class="fright" onclick="_reply_guestbook('+json.id+')">{$P8LANG['guestbook']['reply']}&nbsp; </a>'+
+					<!--{/if}-->
+					'<span class="datatime">{$P8LANG['guestbook']['posttime']}：'+json.timestamp+'</span>'+
+					'</div>'+
+					'</div>';
+			 
+			 $('#maincontent').prepend(msg);
+			 $('#title').val('');
+			$('#content').val('');
+			$('#captcha').val('');
+			ajaxing({'text':'留言成功',action: 'hide'});
+		 }
+		 }
+	})
+	
+}
+function _niname(obj){
+	c = $(obj).val();
+	c==1? $('#moreinfo').show() : $('#moreinfo').hide();
+}
+$(document).ready(function(){
+	jQuery.validator.addMethod("checkcount", 
+			function(value, element) {    
+		  var _min=10,_max={$this_module.CONFIG['GuestBookNum']},thiscount=value.length;    
+		  return this.optional(element) || (thiscount>_min && thiscount<_max);    
+		}, 
+		"<font color=red>字数要要在10-{$this_module.CONFIG['GuestBookNum']}之范围内</font>");
+	$('#form1').validate({
+		rules: {
+			content:{
+				required:true,
+				checkcount:true
+				}<!--{if !empty($this_module->CONFIG['captcha'])}-->,
+				captcha:{
+					required:true,
+					remote: {
+						url: '$this_router-checkcaptcha',
+						cache: false,
+						type: 'POST',
+						data: {name: 'captcha', data: function(){return $('#captcha').val();}}
+						}
+				}
+<!--{/if}-->				
+		},
+		messages: {
+			content:{
+				required:'<font color=red>内容不能为空</font>',
+				count:'<font color=red>字数要要在10-{$this_module.CONFIG['GuestBookNum']}之范围内</font>'
+				}<!--{if !empty($this_module->CONFIG['captcha'])}-->,
+				captcha:{
+				required:'<font color=red>验证码不能为空</font>',
+				remote: '<font color=red>验证码错</font>'
+				}
+<!--{/if}-->				
+		},
+		onkeyup: false,
+		submitHandler:function(){
+			ajaxsubmit();
+		}
+	})
+});
+</script>
+</div>
+<!--{/php168}-->

@@ -1,0 +1,198 @@
+<!--{php168}-->
+<!--{php 
+$TITLE=$this_module->CONFIG['name'].' -- '.$core->CONFIG['site_name'];
+$SEO_KEYWORDS = $core->CONFIG['site_key_word'];
+$SEO_DESCRIPTION = $core->CONFIG['site_description'];
+}-->
+<!--{template $core header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/css/style.css">
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/common/style.css">
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/guestbook/style.css">
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/member/default/style.css">
+<div class="breadnav">
+	<div class="container">
+		<div class="row">
+			<div class="position fr">
+				<a href="{$core.controller}">首页</a> &gt; <a href="{$this_module.controller}">{$this_module.CONFIG['name']} </a>
+				<!--{if !empty($cid)}-->
+				&gt; <a href="{$category[$cid]['url']}">{$category[$cid]['name']}</a>
+				<!--{/if}-->
+			</div>
+		</div>
+	</div>
+</div>
+<div class="maincon">
+	<div class="container">
+		<div class="row">
+			<div class="contain-left fl">
+				<div class="border1 mbottom">
+					<div class="head1">
+						<span class="title1">$label[hdjl-firstTitle]</span>
+					</div>	
+					<div class="main1">
+						$label[hdjl-leftDaohang_hudong]
+					</div>
+				</div>
+			</div>
+			<div class="contain-right fr">
+			<div class="border1">
+				<!--{foreach $category $k $v}-->
+				<span class="eachcid"><a href="{$v['url']}">$v[name]</a></span>
+				<!--{/foreach}-->
+			</div>
+			<div id="maincontent">
+			<!--{foreach $list $key $val}-->
+			<div class="border2 mtop" id="gbs_$val[id]">
+				<p class="head"><span class="user">
+					<!--{if !empty($val['username'])}-->
+					$val[username] :
+					<!--{else}-->
+					$val[sip] :
+					<!--{/if}-->
+					</span><span class="title">$val[title]</span>
+					<!--{if $reply}-->
+					<!--{/if}-->
+					<span class="fright"> 发表时间：
+					<!--{php echo date("y-m-d H:i",$val['posttime']);}--> 
+					</span>
+				</p>
+				<div class="main" >
+					<span class="content">
+							$val[content] 
+					</span>
+					<span id="reply_$val[id]">
+						<!--{if !empty($val['reply'])}-->
+						<div class="border3 mtop">
+							$val[reply]
+							<p class="replyer">回复人：$val[replyer] &nbsp;回复时间：
+								<!--{php echo date("y-m-d H:i",$val['replytime']);}-->
+							</p>
+						</div>
+						<!--{/if}-->
+					</span>
+				</div>
+				<div class="buttom">
+					<span class="status">状态：
+					<!--{if !empty($val['reply'])}-->
+					已回复
+					<!--{else}-->
+					未回复
+					<!--{/if}-->
+					</span>
+					<!--{if $delete}-->
+					<a href="javascript:void(0)" class="fright" onclick="_delete_guestbook($val[id])">删除&nbsp; </a>
+					<!--{/if}-->
+					<!--{if $edit || $UID && $UID == $val['uid']}-->
+					<a href="javascript:void(0)" class="fright" onclick="_edit_guestbook($val[id])">修改&nbsp;</a>
+					<!--{/if}-->
+					<!--{if $reply}-->
+					<a href="javascript:void(0)" class="fright" style="color:" onclick="message.send($val[uid])"><img src="{$RESOURCE}/skin/default/core/guestbook/qyfa.gif">&nbsp; </a>
+					<a href="javascript:void(0)" class="fright" style="color:blue" onclick="_reply_guestbook($val[id])">回复&nbsp; </a>
+					<!--{/if}-->
+					<!--{if $verify && !$val['verified']}-->
+					<a href="javascript:void(0)" class="fright" onclick="_verify_guestbook($val[id])">审核&nbsp; </a>
+					<!--{/if}-->
+					<a class="fright" href="javascript:void(0)" onclick="_digg($val[id],2)">反对[<span id="digg_trample_$val[id]" class="digg">$val[trample]</span>]&nbsp; </a> 
+					<a class="fright" href="javascript:void(0)" onclick="_digg($val[id],1)">支持[<span id="digg_digg_$val[id]"  class="digg">$val[digg]</span>]&nbsp; </a>
+				</div>
+			</div>
+			<!--{/foreach}-->
+			</div>
+			<div class="border1 mtop pages">
+				$pages
+			</div>
+
+			<script type="text/javascript">
+			var edit_dialog = new P8_Dialog({
+				title_text: '回复留言',
+				width: 500,
+				height: 220
+			});
+			var message = new Message();
+			var DIGG=[];
+			function _reply_guestbook(id){
+				edit_dialog.show();
+				edit_dialog.set_title('回复留言');
+				edit_dialog.content.load('{$this_router}-reply?id='+id+'&rand='+Math.random());
+				
+				return false;
+			}
+			function _edit_guestbook(id){
+				edit_dialog.show();
+				edit_dialog.set_title('编辑留言');
+				edit_dialog.content.load('{$this_router}-edit?id='+id+'&rand='+Math.random());
+				
+				return false;
+			}
+			function _delete_guestbook(id){
+				if(confirm('确定要删除么,不可逆转的哦?')){
+					$.ajax({
+						type:'POST',
+						url:'{$this_router}-delete',
+						data:'id='+id,
+						beforeSend:function(){ajaxing({'text':'正在删除'});},
+						success:function(rid){
+							if(rid){
+								$('#gbs_'+rid).remove();
+								 ajaxing({'text':'删除成功',action: 'hide'});
+							}else{ ajaxing({'text':'删除失败',action: 'hide'});}
+						}
+				});
+					
+					return false;
+				}
+				return false;
+			}
+			function _verify_guestbook(id){
+				if(confirm('确定通过审核么?')){
+					$.ajax({
+						type:'POST',
+						url:'{$this_router}-verify',
+						data:'id='+id,
+						beforeSend:function(){ajaxing({'text':'正在操作'});},
+						success:function(rid){
+							if(rid){
+								$('#gbs_'+rid).find("a").eq(3).remove();
+								 ajaxing({'text':'审核成功',action: 'hide'});
+							}else{ ajaxing({'text':'审核失败',action: 'hide'});}
+						}
+				});
+					
+					return false;
+				}
+				return false;
+				
+			}
+			function _digg(id,status){
+				if(!check_digg(id)){
+					alert('你已表过态了');return;
+				};
+				$.ajax({
+						type:'POST',
+						url:'{$this_router}-digg',
+						data:'id='+id+'&status='+status,
+						dataType:'json',
+						success:function(json){
+							$('#digg_digg_'+id).html(json.digg);
+							$('#digg_trample_'+id).html(json.trample);
+						}
+				});
+				
+			}
+			function check_digg(id){
+				if(!get_cookie(id)){
+					set_cookie(id,1,3600);
+					return true;
+				}
+				return false
+			}
+			</script>
+			<!--{template $this_module post}-->
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+<!--{template $core footer}-->
+<!--{/php168}-->

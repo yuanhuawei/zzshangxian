@@ -1,0 +1,283 @@
+<!--{php168}-->
+<!--{template $this_module $template_path/header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+
+<form action="$_this_url" method="get" id="request" onsubmit="request_item(1);return false;">
+	<input type="hidden" name="cid" value="$cid" />
+	<input type="hidden" name="client_id" value="$client_id" />
+</form>
+
+<form action="$_this_url" method="post" id="form">
+	<table width="100%" cellspacing="0" cellpadding="0"  class="zq_list" align="center">
+		<tr>
+			<td width="3%" class="list_top"><input type="checkbox" onclick="check_all(this, 'id[]');" /></td>
+			<td width="3%" class="list_top">ID</td>
+			<td width="10%" class="list_top">内容上推分站</td>
+			<td width="5%" class="list_top">模型</td>
+			<td width="5%" class="list_top">分类</td>
+			<td width="20%" class="list_top">标题</td>
+			<td width="10%" class="list_top">时间</td>
+			<td width="10%" class="list_top">操作</td>
+		</tr>
+		
+		<tbody id="list">
+		
+		</tbody>
+		
+	</table>
+	
+</form>
+	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+		<tr>
+			<td align="center">
+				<a href="javascript:void(0)" onclick="check_all(true, 'id[]')" >全选</a> / <a href="javascript:void(0)" onclick="check_all(false, 'id[]')" >反选</a>
+				<input type="button" value="推送" onclick="push_dialog.show()" class="edit_btn" />
+				<input type="button" value="删除" onclick="delete_item(checked_values('id[]', $('#form')))" class="edit_btn" />
+				<span id="pages" class="pages"></span>
+			</td>
+		</tr>
+	</table>
+
+<script type="text/javascript">
+var CATEGORY_JSON = $json[json],
+	CATEGORY_PATH = $json[path],
+	client_json = $client_json,
+	model_json = $model_json,
+	PAGE;
+
+$(function(){
+	for(var i in client_json){
+		var ck = $('<li><input type="checkbox" name="client_id[]" value="'+ client_json[i].id +'" id="clients_ck_'+ client_json[i].id +'" /><label for="clients_ck_'+ client_json[i].id +'">'+ client_json[i].name +'</label></li>');
+		ck.find('input').click(function(){
+			$('#clients_se option[value='+ this.value +']').attr('selected', this.checked);
+		});
+		$('#clients_ck').append(ck);
+		
+		var op = $('<option value="'+ client_json[i].id +'">'+ client_json[i].name +'</option>');
+		$('#clients_se').append(op);
+	}
+	
+	$('#clients_se').change(function(){
+		var ops = this.options;
+		for(var i = 0; i < ops.length; i++){
+			$('#clients_ck_'+ ops[i].value).prop('checked', ops[i].selected);
+		}
+	});
+	
+	request_item(1);
+});
+
+function push(){
+	var id = checked_values('id[]');
+	if(!id.length) return;
+	
+	var client_id = checked_values('client_id[]', $('#clients_ck'));
+	if(!client_id.length) return;
+	
+	if(!confirm('$P8LANG[confirm_to_do]')) return false;
+	
+	_push({id: id, client_id: client_id});
+}
+
+function _push(post){
+	
+	$.ajax({
+		url: '$_this_router&action=push',
+		type: 'POST',
+		cache: false,
+		dataType: 'json',
+		data: ajax_parameters(post),
+		success: function(json){
+			
+			if(json.done && json.done == 1){
+				//it's done
+				ajaxing({action: 'hide'});
+				
+				alert('{$P8LANG['cluster_cms_item']['client_pushed_success']}');
+				return;
+			}
+			
+			ajaxing({text: json.cid ? client_json[json.cid].name : ''});
+			
+			//post again
+			_push(json);
+		}
+	});
+}
+
+function all_clients(val){
+	$('#clients_se option').attr('selected', val);
+	$('#clients_ck input').prop('checked', val);
+}
+
+function request_item(page){
+	
+	$.ajax({
+		url: '$_this_url',
+		data: $('#request').serialize() +'&page='+ (page === undefined ? 1 : page),
+		dataType: 'json',
+		beforeSend: function(){
+			ajaxing({});
+		},
+		cache: false,
+		success: function(json){
+			PAGE = page;
+			
+			$('#list').empty();
+			for(var i in json.list){
+				_list_item(json.list[i]);
+			}
+			
+			$('#pages').html(json.pages);
+			
+			ajaxing({action: 'hide'});
+			
+			window.scrollTo(0,0);
+			
+			var keywords = $.trim($('#request input[name=keyword]').val());
+			if(!keywords.length) return;
+			
+			var keywords = keywords.replace(/[\+\-\*\|\!]/g, '').split(/\s+/);
+			
+			$('.list_item').each(function(){
+				for(var i = 0; i < keywords.length; i++){
+					var html = $(this).find('.item_title').get(0).innerHTML;
+					$(this).find('.item_title').get(0).innerHTML = html.replace(keywords[i], '<font color="red">'+ keywords[i] +'</font>', 'ig');
+				}
+			});
+			
+		}
+	});
+}
+
+function _list_item(json){
+	
+	var tr = 
+	'<tr>'+
+		'<td><input type="checkbox" name="id[]" value="'+ json.id +'" /></td>'+
+		'<td>'+ json.id +'</td>'+
+		'<td><a href="$_this_url&client_id='+ json.client_id +'">'+ (client_json[json.client_id] ? client_json[json.client_id].name : '未知客户端') +'</a></td>'+
+		'<td>'+
+			(model_json[json.model] ? model_json[json.model].alias : '未知模型'+ json.model) +
+		'</td>'+
+		'<td>'+ cs.get_by_id(json.cid).name +'</td>'+
+		'<td>'+ json.title +'</td>'+
+		'<td>'+ date('Y-m-d H:i:s', json.timestamp) +'</td>'+
+		'<td>'+
+			'<a href="$_this_router&action=view&id='+ json.id +'" target="_blank">查看</a> '+
+			'<!--<a href="$_this_router&action=update&id='+ json.id +'">{$P8LANG['edit']}</a>--> '+
+			'<a href="$_this_router&action=delete&id='+ json.id +'" id="delete_'+ json.id +'" onclick="return delete_item([this.id])">{$P8LANG['delete']}</a> '+
+		'</td>'+
+	'</tr>';
+	
+	$('#list').append($(tr));
+}
+
+function delete_item(obj){
+	var id = [];
+	$.each(obj, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(!id.length) return;
+	
+	if(!confirm('$P8LANG[confirm_to_delete]')) return false;
+	
+	$.ajax({
+		url: '$_this_router&action=delete',
+		type: 'POST',
+		cache: false,
+		dataType: 'json',
+		data: ajax_parameters({action: 'delete', id: id}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i in json){
+				$('#delete_'+ json[i]).parent().parent().remove();
+			}
+		}
+	});
+	return false;
+}
+
+function push_item(array){
+	
+	var id = [];
+	$.each(array, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(!id.length) return;
+	
+	var client_id = checked_values('client_id[]', $('#clients_ck'));
+	
+	if(!confirm('$P8LANG[confirm_to_do]')) return false;
+	
+	$.ajax({
+		url: '$_this_router&action=push',
+		type: 'POST',
+		cache: false,
+		dataType: 'json',
+		data: ajax_parameters({id: id, client_id: client_id}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			var length = 0;
+			for(var i = 0; i < json.length; i++){
+				if(json[i].length) length++;
+			}
+			
+			alert(lang_array('{$P8LANG['cluster_cms_item']['client_pushed']}', [length]));
+		}
+	});
+}
+
+
+
+var push_dialog = new P8_Dialog({
+	width: 700,
+	height: 400,
+	button: true,
+	ok: function(){
+		push();
+	}
+});
+
+push_dialog.content.append(
+	$('<input type="button" value="'+ P8LANG.select_all +'" onclick="all_clients(true)" />'+
+	'<div id="push_content">'+
+		'<div style="float: left; width: 300px; margin-right: 50px;">'+
+			'<ul id="clients_ck"></ul>'+
+		'</div>'+
+		'<div style="float: left; width: 300px;">'+
+			'<select size="2" style="height: 200px;" multiple id="clients_se"></select>'+
+		'</div>'+
+	'</div>')
+);
+
+var dialog = new P8_Dialog({
+	title_text: '',
+	button: true,
+	width: 700,
+	height: 300,
+	ok: function(){
+		
+	}
+});
+
+var cs = new Recursive_Selector({
+	json: CATEGORY_JSON,
+	path: CATEGORY_PATH,
+	input: $('#move_cid'),
+	dialog: dialog,
+	sub_property: 'categories'
+});
+cs.init();
+</script>
+<!--{template $this_module footer admin}-->
+<!--{/php168}-->

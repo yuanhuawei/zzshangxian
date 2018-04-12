@@ -1,0 +1,68 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$SKDIR}core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/dangwei/core/alonepage/style.css" />
+<div class="nav mtop">
+	您的位置：<a href="{$this_system.url}">首页</a>&nbsp;&gt;&nbsp;<a href="#">$data[title]</a>
+</div>
+<div class="mtop">
+	<div class="contain_left">	
+		<div class="border1">
+			<div class="head_gov">
+				<span class="title1">
+					$label[email_menu_title]
+				</span>
+			</div>	
+				<div class="main1" id='leftbox'>
+					$label[email_menu]
+				</div>
+				<div class="clear">
+				</div>
+		</div>
+		
+		<div class="border1 mtop">
+			<div class="head_gov">
+				<span class="title1">
+					$label[email_title_2]
+				</span>
+			</div>	
+				<div class="main1">
+				<div style="min-height:40px;">$label[email_content_2]</div>
+				<div style="min-height:40px;margin-top:10px;">$label[email_content_3]</div>
+				<div style="min-height:40px;margin-top:10px;">$label[email_content_4]</div>
+				</div>
+		</div>
+	</div>
+	<div class="contain_right">
+		<div class="show_box_govs">
+			<div class="ld_title">
+				<div class="title_l">$label[c333_tz]</div><div class="title_r"><ul><li>$label[gz_emailone]</li><li>$label[gz_emailtwo]</li><li>$label[gz_emailthree]</li></ul></div>
+			</div>
+			<div class="form_title">$label[c3677_tz]<span class="f_l"> $label[email_txt2]</span></div>
+			<div class="form_content">
+			   $label[ld_form_1]
+			</div>
+			<div class="show_box_c3">
+				<ul>
+					<li class="c3_1">$label[c3_tz]</li>
+					<li class="c3_2">$label[c3_yz]</li>
+					<li class="c3_3">$label[c3_mobil]</li>
+				</ul>
+			</div>
+			<div class="form_title">$label[lasbnk_tz]<span class="f_l">$label[email_txt2]</span></div>
+			<div class="form_content">
+			   $label[ld_form_2]
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clear">
+</div>
+<!--{if $addcontent}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/images/dialog.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<!--{/if}-->
+<!--{template $core footer}-->
+<!--{/php168}-->

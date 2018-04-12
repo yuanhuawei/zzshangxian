@@ -1,0 +1,25 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<table class="mainbox mainborder">
+	<tr><td>
+	<table class="formtable">
+		<tr>
+			<td class="title">操作</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				<ul>
+					<li><a href="$this_router-list">客户管理</a></li>
+					<li><a href="$this_router-list?share=1">共享客户</a></li>
+					<li><a href="$this_router-add">添加客户</a></li>
+					<!--{if $ACTION == 'log' && !empty($cid)}-->
+					<li><a href="$this_router-add_log?cid=$cid">添加日志</a></li>
+					<!--{/if}-->
+					<li><a href="$this_router-log">日志管理</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	</td></tr>
+</table>
+<!--{/php168}-->

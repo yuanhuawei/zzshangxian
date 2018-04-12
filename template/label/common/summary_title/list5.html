@@ -1,0 +1,14 @@
+<!--{php168}-->
+<ul class="label_list">
+	<!--{foreach $list $value}-->
+	<li  style="border-bottom:#cccdcf 1px dashed;margin:5px 0">
+		<h3><a class="label_12px_title" href="$value[url]" target="_blank" title="$value[full_title]" >$value[title]</a></h3>
+		<p class="label_summary">
+		$value[summary]<span class="c666">({date('Y-m-d', $value['timestamp'])})</span>
+		</p>
+	</li>
+	<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->
+

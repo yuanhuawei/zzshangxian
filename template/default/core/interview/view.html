@@ -1,0 +1,371 @@
+<!--{php168}-->
+<!--{php
+$TITLE = $subject[title];
+}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/interview/style.css" />
+<!--白色背景--->
+<div class="nav">
+	您的位置：<a href="{$this_system.url}">首页</a>&nbsp;&gt;&nbsp;<a href="#">在线访谈</a>
+</div>
+<div class="dt_left mtop">
+	<div class="border1">		
+		<div class="head6">
+			<span class="title7">	$label[firstTitle]</span>
+		</div>
+		<div class="main1">$label[leftDaohang_hudong]</div>
+	</div>
+	<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[last_news_1]</span> 
+		</div>
+		<div class="main1">
+ $label[opinion_list_1]
+		</div>
+	</div>
+		<div class="mtop">$label[letter_ads1]</div>
+		<div class="mtop">$label[letter_ads2]</div>
+</div>
+<div class="dt_right mtop">
+			<!--主题-->
+			<div class="Btrlt">
+				<div class="Gao">
+					<div class="L FT5">
+						<div class="FT_Pa">
+							第<font style="font-size:16px;">$subject[id]</font>期
+						</div>
+					</div>
+					<div class="R FT4">
+						$subject[title]
+					</div>
+				</div>
+				<div class="Car">
+					<div class="L Hdp">
+						<!--{if empty($subject[type])}-->
+						<script type="text/javascript" src="{$RESOURCE}/js/media.js"></script>
+						<script type="text/javascript">
+						showMedia({
+						url: '{$subject[video]}',
+						width: 330,
+						height: 260
+						});
+						</script>
+						<!--{else}-->
+						<img src="{$subject[picture]}" width="330" height="260"/>
+						<!--{/if}-->
+					</div>
+					<div class="R Rig">
+						<div class="Dbuom">
+							<span>$subject[title]</span><br>
+							内容简介：<br/>
+							$subject[summary]
+						</div>
+						<div class="Lin3">
+							主持人：
+							$subject[cname]<br/>
+							开始时间：
+							<!--{php echo date('Y-m-d', $subject[begintime]);}-->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--访谈实录-->
+			<div class="Btrlt TOP">
+				<div class="Gao">
+					<div class="L FT7">
+						<div class="FT_Pa">
+							访谈实录
+						</div>
+					</div>
+					<div class="R FT4">
+						
+					</div>
+				</div>
+				<div class="Car FT_zi" id="content_container" style="overflow-y:auto; overflow-x:hidden;height:250px;">
+				</div>
+			</div>
+	<!--网友留言-->
+			<div class="Btrlt TOP">
+				<div class="Gao">
+					<div class="L FT7">
+						<div class="FT_Pa">
+							网友留言
+						</div>
+					</div>
+					<div class="R FT4">
+						
+					</div>
+				</div>
+				<div class="Car FT_zi" id="ask_container" style="overflow-y:auto; overflow-x:hidden;height:250px;">
+				</div>
+			</div>
+		</div>
+			<!--发表留言-->
+			<div class="FT_er TOP">
+				<div class="Kuang">
+					<div class="L FT7">
+						<div class="FT_Pa">
+							发表留言
+						</div>
+					</div>
+					<div class="R Fr">
+					</div>
+				</div>
+				<div style="height:220px;">
+					<div class="ZB10">
+						用户名<input id="username_txt" type="text" value="网友" style="width:100px; margin-left:7px; height:13px;"/> 匿名<input id="send_type" type="checkbox" value="1" onclick="$(this).prev().val('');"/>
+					</div>
+					<div class="ZB10">
+						<textarea cols="20" rows="6" id="ask_textarea"></textarea>
+					</div>
+					<div style="text-align:center;" class="ZB10">
+						<img src="{$SKIN}interview/ft8.gif" style="cursor: pointer;" onclick="addAsk();"/> <img src="{$SKIN}interview/ft9.gif" style="margin-left:10px;cursor: pointer;" onclick="$('#ask_textarea').val('');"/>
+					</div>
+				</div>
+			</div>
+
+
+
+<div class="BAIJBAIS">
+	<div class="banner">
+		$label[iv_banner]
+	</div>
+	<div class="page" style="margin-top:10px;">
+		$label[interview_top]
+	</div>
+	<div class="page"  style="margin-top:10px;">
+		<div class="L ZUOB">
+			<!--主题-->
+			<div class="Btrlt">
+				<div class="Gao">
+					<div class="L FT5">
+						<div class="FT_Pa">
+							第<font style="font-size:16px;">$subject[id]</font>期
+						</div>
+					</div>
+					<div class="R FT4">
+						$subject[title]
+					</div>
+				</div>
+				<div class="Car">
+					<div class="L Hdp">
+						<!--{if empty($subject[type])}-->
+						<script type="text/javascript" src="{$RESOURCE}/js/media.js"></script>
+						<script type="text/javascript">
+						showMedia({
+						url: '{$subject[video]}',
+						width: 330,
+						height: 260
+						});
+						</script>
+						<!--{else}-->
+						<img src="{$subject[picture]}" width="330" height="260"/>
+						<!--{/if}-->
+					</div>
+					<div class="R Rig">
+						<div class="Dbuom">
+							<span>$subject[title]</span><br>
+							内容简介：<br/>
+							$subject[summary]
+						</div>
+						<div class="Lin3">
+							主持人：
+							$subject[cname]<br/>
+							开始时间：
+							<!--{php echo date('Y-m-d', $subject[begintime]);}-->
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--网友留言-->
+			<div class="Btrlt TOP">
+				<div class="Gao">
+					<div class="L FT7">
+						<div class="FT_Pa">
+							网友留言
+						</div>
+					</div>
+					<div class="R FT4">
+						
+					</div>
+				</div>
+				<div class="Car FT_zi" id="ask_container" style="overflow-y:auto; overflow-x:hidden;height:250px;">
+				</div>
+			</div>
+		</div>
+		<div class="R" style="width:230px;">
+			<!--嘉宾介绍-->
+			<div class="FT_er">
+				<div class="Kuang">
+					<div class="L FT7">
+						<div class="FT_Pa">
+							嘉宾介绍
+						</div>
+					</div>
+					<div class="R Fr">
+					</div>
+				</div>
+				<div>
+					<div class="ft11">
+						<div class="Pren4">
+							<img src="$subject[gpicture]" width="180" height="120"/>
+						</div>
+					</div>
+					<div class="FT_zi" style="color:#999999;">
+						嘉宾：$subject[gname]<br/>
+						嘉宾简介：<br/>
+						$subject[gintroduction]
+					</div>
+				</div>
+			</div>
+			<!--精彩瞬间-->
+			<div class="FT_er TOP">
+				<div class="Kuang">
+					<div class="L FT7">
+						<div class="FT_Pa">
+							精彩瞬间
+						</div>
+					</div>
+					<div class="R Fr">
+					</div>
+				</div>
+				<div id="picture_container">
+				</div>
+			</div>
+			<!--发表留言-->
+			<div class="FT_er TOP">
+				<div class="Kuang">
+					<div class="L FT7">
+						<div class="FT_Pa">
+							发表留言
+						</div>
+					</div>
+					<div class="R Fr">
+					</div>
+				</div>
+				<div style="height:220px;">
+					<div class="ZB10">
+						用户名<input id="username_txt" type="text" value="网友" style="width:100px; margin-left:7px; height:13px;"/> 匿名<input id="send_type" type="checkbox" value="1" onclick="$(this).prev().val('');"/>
+					</div>
+					<div class="ZB10">
+						<textarea cols="20" rows="6" id="ask_textarea"></textarea>
+					</div>
+					<div style="text-align:center;" class="ZB10">
+						<img src="{$SKIN}interview/ft8.gif" style="cursor: pointer;" onclick="addAsk();"/> <img src="{$SKIN}interview/ft9.gif" style="margin-left:10px;cursor: pointer;" onclick="$('#ask_textarea').val('');"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="page">
+	</div>
+</div>
+<script language="javascript">
+var sid = "$subject[id]";
+function getAskList(){
+	setTimeout(getAskList,50000);//时间可控   
+	$.ajax({  
+		url: P8CONFIG.URI.core['interview'].controller+'-list_ask',
+		type: 'POST',
+		dataType: 'json', 
+		data: ajax_parameters({sid:sid}),
+		cache: false,
+		success: function(json){    
+			var str = '';
+			for(var i=0; i<json.length; i++){
+				 str += '<div class="eachvi">'+
+						 '<span style="letter-spacing:2px;"><font color="blue">'+(json[i].username==''? '匿名' : json[i].username)+'</font>：</span>'+
+						 '<span class="timestamp">发表时间:'+date('Y-m-d H:i:s',json[i].posttime)+'</span>'+
+						 '<div class="vicontent">'+json[i].content+'</div>'+
+			  		 '</div>';
+			}
+			$('#ask_container').empty().append(str).animate({scrollTop: $('#ask_container')[0].scrollHeight});
+			
+		}
+	});
+}
+
+function addAsk(){
+	var content = $('#ask_textarea').val();
+	var sendtype = $('#send_type').attr('checked');
+	var username = sendtype ? '' : $('#username_txt').val();
+
+	if(content == '' ||(!sendtype && username == '')) return;
+
+	$.ajax({
+		url: P8CONFIG.URI.core['interview'].controller+'-add_ask', 
+		type: 'POST',
+		dataType: 'json',
+		data: ajax_parameters({sid: sid, username: username, content: content}),
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide',text: '发表成功！'});
+			
+			$('#ask_textarea').val('');
+			var str = '';
+			 str += '<div class="eachvi">'+
+						 '<span style="letter-spacing:2px;"><font color="blue">'+(username==''? '匿名': username)+'</font>：</span>'+
+						 '<span class="timestamp">发表时间:'+date('Y-m-d H:i:s')+'</span>'+
+						 '<div class="vicontent">'+content+'</div>'+
+			  		 '</div>';
+			
+			$('#ask_container').append(str).animate({scrollTop: $('#ask_container')[0].scrollHeight});
+		}
+	});
+}
+
+function getContentList(){
+	setTimeout(getContentList,20000);//时间可控   
+	$.ajax({  
+		url: P8CONFIG.URI.core['interview'].controller+'-list_content',
+		type: 'POST',
+		dataType: 'json', 
+		data: ajax_parameters({sid:sid}),
+		cache: false,
+		success: function(json){    
+			var str = '';
+			for(var i=0; i<json.length; i++){
+				str += '<div class="eachvi">'+
+					  '<span >'+(json[i].sender == 0 ? '<font color="red">主持人</font>':'<font color="blue">嘉宾</font>')+'：</span>'+
+					  '<span class="timestamp">发表时间:'+date('Y-m-d H:i:s',json[i].posttime)+'</span>'+
+					  '<div class="vicontent">'+json[i].content+'</div>'+
+				  '</div>';
+			}
+			$('#content_container').empty().append(str).animate({scrollTop: $('#content_container')[0].scrollHeight});
+		}
+	});
+}
+
+function getPictureList(){
+	setTimeout(getContentList,20000);//时间可控   
+	$.ajax({  
+		url: P8CONFIG.URI.core['interview'].controller+'-list_picture',
+		type: 'POST',
+		dataType: 'json', 
+		data: ajax_parameters({sid:sid}),
+		cache: false,
+		success: function(json){    
+			var str = '';
+			for(var i=0; i<json.length; i++){
+				str += '<div class="XU">'+
+					  '<div class="L"><img src="'+json[i].url+'" width="110" height="70" /></div>'+
+					  '<div class="R LIGOR">'+json[i].summary+'</div>'+
+				  '</div>';
+			}
+			$('#picture_container').empty().append(str);
+		}
+	});
+}
+
+$(document).ready(function(){
+	getAskList();
+	getContentList();
+	getPictureList();
+});
+</script>
+<!--{template $core footer}-->
+<!-- {/php168} -->

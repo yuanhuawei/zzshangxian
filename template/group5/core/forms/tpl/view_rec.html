@@ -1,0 +1,125 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/forms/style.css" />
+<style>
+td{}
+</style>
+<div class="nav">
+你的位置：<a href="{$this_system.url}">首页</a>&gt; <a href="{$this_router}-list?mid=$mid">$this_model[alias]</a> &gt; <a href="#">详细内容</a>
+</div>
+<div class="container forms_div common_mtop">
+	<div class="forms_head">$this_model[alias]</div>
+	<div class="forms_main">
+			<table width="100%" cellpadding="5" cellspacing="0" class="pop_table hover_table">
+				<!--{foreach $this_model['fields'] $field $v}-->
+				<tr>
+					<td class="tdL" valign="top"><font color="#DC8825">$v[alias] :</font></td>
+					<td class="tdR"  valign="top">
+						<!--{php
+					switch($v['widget']){
+						case 'text': case 'textarea': case 'editor': case 'editor_basic': case 'editor_basic'://字段输入方式为：输入杠、文本、编辑器
+				}-->
+						$data[$field]
+						<!--{php
+						break;
+						
+						case 'checkbox': case 'multi_select':
+							foreach($v['data'] as $value => $key){
+								if(in_array($value, $data[$field])){
+				}-->
+						$key
+						<!--{php
+								}
+							}
+						break;
+						
+						case 'select': case 'radio'://字段输入方式为：单选
+							foreach($v['data'] as $value => $key){
+								if($value == $data[$field]){
+				}-->
+						$key
+						<!--{php
+									break;
+								}
+							}
+						break;
+						
+						case 'uploader'://字段输入方式为：上传器
+				}-->
+						<a href="{$data[$field]['url']}" target="_blank">{$data[$field]['title']}</a>
+						<!--{php
+						break;
+						case 'image_uploader'://字段输入方式为：图片上传器
+				}-->
+						<span class="mbottom"> <a href="{$data[$field]['url']}" target="_blank"><img src="{$data[$field]['thumb']}" /></a> </span>
+						<!--{php
+						break;
+						
+						case 'multi_uploader'://字段输入方式为：多上传器
+						foreach($data[$field] as $vv){
+						if(preg_match("/[.+](jpg|jpeg|gif|png|bmp)$/i",$vv['url'])){
+							}-->
+						<span class="mbottom"> <a href="$vv[url]" target="_blank"><img src="$vv[thumb]" /></a> </span><br/>
+						<!--{php
+							}else{
+							}-->
+						<div class="mbottom">
+							<a href="$vv[url]" target="_blank">{$vv['title']}</a>
+						</div>
+						<!--{php
+							}
+						}	
+						break;
+						case 'video_uploader'://字段输入方式为：视频上传器
+				}-->
+						<div>
+							<script type="text/javascript" src="{$RESOURCE}/js/media.js"></script>
+							<!--{if !empty($data[$field])}-->
+							<script type="text/javascript">
+							showMedia({
+								url: '$data[video_url]',
+								width: 550,
+								height: 400
+							});
+							</script>
+							<!--{/if}-->
+						</div>
+						<!--{php
+						break;
+						
+					case 'city'://城市选择
+					
+					
+				}-->
+				$data[$field]
+						
+						<!--{php
+					break;
+					case 'link'://超链接
+				}-->
+				<a href="$data[$field]" target="{if !empty($v['data']['target'])}{$v['data']['target']}{/if}">$data[$field]</a>
+						
+						<!--{php
+					break;
+						default://其它输入方式
+				}-->
+						$data[$field]
+						<!--{php
+					}
+				}-->
+					</td>
+				</tr>
+				<!--{/foreach}-->
+				<tr>
+				<td></td>
+				<td><button class="forms_btn" onclick="window.location.href='{$this_router}-post?mid=6'">马上应聘</button></td>
+				</tr>
+			</table>
+	</div>
+</div>
+<!--{if $manage}-->
+<!--{template $this_module manage}-->
+<!--{/if}-->
+<!--{template $core footer}-->
+<!--{/php168}-->
+

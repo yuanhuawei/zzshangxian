@@ -1,0 +1,29 @@
+<!--{php168}-->
+<style type="text/css">
+.picMarquee{ overflow:hidden; position:relative;}
+.picMarquee .bd ul{ overflow:hidden; zoom:1; }
+.picMarquee .bd ul li{ margin-right:15px; float:left; _display:inline; overflow:hidden; text-align:center;  }
+.picMarquee .picList-item{position:relative;overflow:hidden;}
+.picMarquee .picList-tiem-bg{background-color:#003ea8;position:absolute;bottom: 0;left: 0;height: 42px;opacity: 0.6;filter: alpha(opacity=60);width: 100%;z-index: 1;}
+.picMarquee .picList-tiem-tit{position:absolute;bottom: 0;left: 0;height: 42px;line-height:42px;color:#fff;font-size:18px;font-weight:bold;text-align:center;width: 100%;z-index:2;}
+.picMarquee .picList-tiem-tit a{color:#fff;}
+</style>
+<div class="picMarquee">
+	<div class="bd">
+		<ul class="picList">
+			<!--{foreach $list $value}-->
+			<li>
+				<div class="picList-item">
+					<div class="picList-tiem-pic thumb hidden"><img width="370" height="270" alt="$value[full_title]"  src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></div>
+					<div class="picList-tiem-bg"></div>
+					<div class="picList-tiem-tit"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></div>
+				</div>
+			</li>
+			<!--{/foreach}-->
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+jQuery(".picMarquee").slide({mainCell:".bd ul",autoPlay:true,effect:"leftMarquee",vis:3,interTime:30,trigger:"click"});
+</script>
+<!--{/php168}-->

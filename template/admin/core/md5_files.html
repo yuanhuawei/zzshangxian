@@ -1,0 +1,80 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['operation']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					<ul>
+						<li><a href="{$core.admin_controller}/core-allow_ip">后台登陆ip限定</a></li>
+						<li><a href="{$core.admin_controller}/core-stop_ip">IP黑名单</a></li>						
+						<li><a href="{$core.admin_controller}/core-word_filter">词语过滤</a></li>
+						<li><a href="{$core.admin_controller}/core-md5_files">文件改动扫描</a></li>
+						<li><a href="{$core.admin_controller}/core-global_config">后台路径/验证码/安全码设置</a></li>
+						<li><a href="{$core.admin_controller}/core-aboutlogin">登陆失败设置</a></li>
+					</ul>
+				</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+<form action="$this_url" method="post" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				
+				<!--{if !empty($diff)}-->
+				<tr>
+					<td class="title" width="33%">{$P8LANG['file']}</td>
+					<td class="title" width="33%">{$P8LANG['operation']}</td>
+					<td class="title" width="33%">{$P8LANG['modify_time']}</td>
+				</tr>
+				<!--{foreach $diff $file $v}-->
+				<tr>
+					<td><!--{php echo str_replace(PHP168_PATH, '', $file);}--></td>
+					<td>
+						<!--{if $v['status'] == 'mod'}-->
+						{$P8LANG['status_mod']}
+						<!--{elseif $v['status'] == 'new'}-->
+						<font color="red">{$P8LANG['status_new']}</font>
+						<!--{elseif $v['status'] == 'del'}-->
+						<font color="red">{$P8LANG['status_del']}</font>
+						<!--{/if}-->
+					</td>
+					<td>
+						<!--{php echo date('Y-m-d H:i:s', $v['time']);}-->
+					</td>
+				</tr>
+				<!--{/foreach}-->
+				
+				<!--{else}-->
+				<tr>
+					<td colspan="10" class="title">{$P8LANG['md5_scan']}</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['last_scan_time']}</td>
+					<td class="tdR">
+						<!--{php if(!empty($last_time))echo date('Y-m-d H:i:s', $last_time);}-->
+					</td>
+				</tr>
+				<!--{/if}-->
+				
+				<tr>
+					<td colspan="10">
+						<input type="submit" class="submit_btn" value="{$P8LANG['scan']}" onclick="this.form.diff.value = 1; ajaxing({});" />
+						<input type="submit" class="submit_btn" value="{$P8LANG['new_scan_point']}" onclick="if(confirm('$P8LANG[confirm_to_do]')){ajaxing({}); return true;} return false;" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<input type="hidden" name="diff" value="0" />
+</form>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,170 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<table width="100%" border="0"  class="mainbox foot_negative">
+	<tr>
+		<td width="33%" class="tab_box">
+			<div class="boxmenu head">
+				<span class="$very[0]"><a href="$this_url?verified=0" >未审评论</a></span>
+				<span class="$very[1]"><a href="$this_url?verified=1" >已审评论</a></span>
+			</div>
+		</td>
+		
+	</tr>
+</table>
+
+<div class="mainbox mainborder">
+
+	<form action="" method="post" id="form">
+	<table width="100%" class="columntable formtable hover_table click_changeable">
+	
+	<tr class="title fix_head">
+		<td width="4%" align="center" class="title"><input type="checkbox" onclick="check_all(this, 'id[]');init_tr($('#form'));" /></td>
+		<td width="6%" class="title">ID</td>
+		<td width="26%" class="title">评论摘要</td>
+		<td width="26%" class="title">评论对应内容</td>
+		<td width="10%" class="title">发布者</td>
+		<td width="7%" class="title">发布IP</td>
+		<td width="4%" class="title">digg</td>
+		<td width="10%" class="title">发布时间</td>
+		<td width="6%" class="title">操作</td>
+	</tr>
+	
+	<!--{foreach $list $value}-->
+	<tr>
+		
+		<td align="center"><input type="checkbox" name="id[]" value="$value[id]" /></td>
+		<td align="center">$value[id]</td>
+		<td>
+			<div style="width: 200px; height: 20px; overflow: hidden;" class="content" id="content_$value[id]">$value[content]</div>
+		</td>
+		<td >
+			<a href="{$this_system.modules['item']['controller']}-view-id-$value[iid]" target="_blank"><!--{php echo p8_cutstr($value['title'],30);}--></a>
+		</td>
+		<td align="center">$value[username]</td>
+		<td align="center">$value[ip]</td>
+		<td align="center">$value[digg]</td>
+		<td align="center"><!--{php echo date('Y-m-d', $value['timestamp']);}--></td>
+		<td align="center">
+			<!--<a href=""><img src="{$SKIN}/button_edit.gif" border="0" /></a>-->
+			<a id="delete_$value[id]" href="###" onclick="return delete_comment(['$value[id]']);"><img src="{$SKIN}/del_icon2.gif" border="0" /></a>
+			
+			
+		</td>
+	</tr>
+	<!--{/foreach}-->
+	<!--{if empty($list)}-->
+	<tr><td colspan="9">没有未审评论</td></tr>
+	<!--{/if}-->
+	</table>
+	
+	<!--set attribute-->
+	<input type="hidden" name="act" value="" />
+	<div id="post_attributes"></div>
+	</form>
+	
+	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+	<tr>
+		<td align="center" class="pages">
+			$pages
+		</td>
+	</tr>
+	<tr>
+		<td><a  href="javascript:void(0)" onclick="check_all(true, 'id[]')">全选</a> /
+			<a  href="javascript:void(0)" onclick="check_all(false, 'id[]')">反选</a>
+			<input type="button" value="{$P8LANG['delete']}" onclick="delete_comment(checked_values('id[]', $('#form')))" class="edit_btn" />
+			<!--{if $verified == 0}-->
+			<input type="button" value="审核" onclick="verify_comment(checked_values('id[]', $('#form')))" class="edit_btn" />
+			<!--{/if}-->
+		</td>
+	</tr>
+	</table>
+	
+</div>
+
+<script type="text/javascript">
+var contents = {};
+
+var view_dialog = new P8_Dialog({
+	width: 600,
+	height: 300,
+	title_text: '查看评论',
+	button: true,
+	ok: function(){
+		
+	}
+});
+view_dialog.content.append($('<div id="view_content" style="height: 220px; overflow-y: auto;"></div>'));
+view_dialog.content.append($('<div id="verify">&nbsp;</div>'));
+
+function view_comment(id){
+	view_dialog.show();
+	$('#view_content').html(nl2br(contents[id]));
+}
+
+function verify_comment(array){
+	var id = [];
+	$.each(array, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(!id.length) return;
+	
+	if(!confirm('{$P8LANG['confirm_to_do']}')) return;
+	
+	$.ajax({
+		url: '$this_url',
+		type: 'post',
+		dataType: 'json',
+		data: ajax_parameters({action: 'verify', id: id, value: 1}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i = 0; i < json.length; i++){
+				$('#delete_'+ json[i]).parent().parent().remove();
+			}
+		}
+	});
+}
+
+function delete_comment(array){
+	var id = [];
+	$.each(array, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(!id.length) return;
+	
+	if(!confirm('{$P8LANG['confirm_to_delete']}')) return;
+	
+	$.ajax({
+		url: '$this_url',
+		type: 'post',
+		dataType: 'json',
+		data: ajax_parameters({action: 'delete', id: id, verified: $verified}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i = 0; i < json.length; i++){
+				$('#delete_'+ json[i]).parent().parent().remove();
+			}
+		}
+	});
+}
+
+$(function(){
+	$('tr .content').each(function(){
+		var id = this.id.replace(/[^0-9]/g, '');
+		contents[id] = $(this).html();
+		
+		$(this).html('<a href="###" onclick="view_comment('+ id +')">'+ contents[id].substr(0, 40) +'</a>');
+	});
+});
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

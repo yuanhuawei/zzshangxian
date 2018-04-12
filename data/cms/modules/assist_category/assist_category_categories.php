@@ -1,0 +1,1 @@
+<?php die();?>a:2:{s:10:"categories";a:0:{}s:14:"top_categories";a:0:{}}

@@ -1,0 +1,251 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $this_module header admin}-->
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<form action="$this_router-$ACTION" id="form" name="form" method="post">
+						<table class="formtable columntable hover_table click_changeable" id="list">			
+							<tr class="title">
+								<td>{$P8LANG['ask_choose']}</td>
+								<td>ID</td>
+								<td>{$P8LANG['ask_answer_content']}</td>
+								<td>{$P8LANG['ask_belong_item']}</td>
+								<td>{$P8LANG['user']}</td>
+								<td>{$P8LANG['ask_verify_title']}</td>
+								<td>{$P8LANG['ask_best_answer']}</td>
+								<td>{$P8LANG['ask_time']}</td>
+								<td class="cleartd">{$P8LANG['operation']}</td>
+							</tr>
+							<!--{if empty($list)}-->
+								<tr><td colspan="8">{$P8LANG['ask_no_records']}</td></tr>
+							<!--{else}-->
+							<!--{foreach $list $value}-->
+							<tr id="answer_{$value['id']}">
+								<td><input type="checkbox" name="ids[]" value="{$value['id']}"/></td>
+								<td>{$value['id']}</td>
+								<td class="txtlist">
+									<a href="javascript:void(0);" onclick="javascript:edit({id:{$value['id']}})" id="summary_{$value['id']}">{$value['content']}</a>
+								</td>
+								<td class="txtlist">
+									<a href="{$this_system.controller}/item-view-id-{$value['tid']}" target="_bland">{$value['title']}</a>
+								</td>
+								<td>
+									<!--{if $value['anonymous']}-->{$P8LANG['ask_anonymous']}<!--{else}--><a href="#{$value['uid']}">{$value['username']}</a><!--{/if}-->
+								</td>
+								<td>
+									<!--{if $value['verify']}--><img src="{$SKIN}/check_yes.gif" id="verify_{$value['id']}"/><!--{else}--><img src="{$SKIN}/check_no.gif" id="verify_{$value['id']}"/><!--{/if}-->
+								</td>
+								<td><!--{if $value['bestanswer']}--><img src="{$SKIN}/check_yes.gif" id="best_{$value['id']}"/><!--{else}--><img src="{$SKIN}/check_no.gif" id="best_{$value['id']}"/><!--{/if}--></td>
+								<td id="time_{$value['id']}"><!--{php echo date('Y-m-d',$value['addtime']);}--></td>
+								<td class="cleartd">
+									<a href="javascript:void(0);" onclick="javascript:edit({id:{$value['id']}});">{$P8LANG['ask_view_content']}</a> | 
+									<a href="javascript:void(0);" onclick="javascript:return delete_answer({id:{$value['id']}});">{$P8LANG['delete']}</a> | 
+									<span id="set_best_{$value['tid']}_{$value['id']}_<!--{if $value['bestanswer']}-->1<!--{else}-->0<!--{/if}-->"><!--{if $value['bestanswer']}--><a href="javascript:void(0);" onclick="javascript:set_best_answer({tid:{$value['tid']},id:{$value['id']},bestanswer:0});">{$P8LANG['ask_cancel_best_answer']}</a><!--{else}--><a href="javascript:void(0);" onclick="javascript:set_best_answer({tid:{$value['tid']},id:{$value['id']},bestanswer:1});">{$P8LANG['ask_set_best_answer']}</a><!--{/if}--></span>
+									<span id="vote_{$value['id']}">
+										<!--{if $value['bestanswer']}--> | <a href="javascript:void(0);" onclick="javascript:view_votes({id:{$value['id']}});">{$P8LANG['ask_view_vote']}</a><!--{/if}-->
+									</span>
+								</td>
+							</tr>
+							<!--{/foreach}-->
+							<!--{/if}-->
+						</table>
+					</form>
+					<!--{if $list}-->
+					<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+						<tr>
+							<td width="6%">
+								<div align="right"><input type="checkbox" id="ChkAll" onclick="check_all(this, 'ids[]', $('#list'))"/> {$P8LANG['ask_checkall']}</div>
+							</td>
+							<td width="*">
+								<input type="submit" name="Submit" value="{$P8LANG['delete']}"  class="edit_btn" onclick="javascript:delete_answer({});"/>		
+								<input type="button" name="Submit" value="{$P8LANG['ask_pass_verify']}"  class="edit_btn" onclick="javascript:verify({verify:1});"/>
+								<input type="button" name="Submit" value="{$P8LANG['ask_cancel_verify']}"  class="edit_btn" onclick="javascript:verify({verify:0});"/>
+								{if $IS_FOUNDER} <input type="button" name="Submit" value="清空所有内容" class="edit_btn" onclick="javascript:clean({closed:0});"/>{/if}
+							</td>
+						</tr>
+						<!--{if $pages}-->
+						<tr>
+						<td colspan="2" height="40" class="pages">&nbsp;&nbsp;&nbsp;{$pages}</td>
+						</tr>
+						<!--{/if}-->
+					</table>
+					<!--{/if}-->
+				</td></tr>
+			</table>
+		</div>
+	</div>
+
+<script type="text/javascript">
+var reg = /^[0-9]*$/;
+
+//删除答案
+function delete_answer(options)
+{
+	var ids = data = [];
+
+	if(options.id == undefined || !reg.test(options.id)){
+		ids = checked_values('ids[]', $('#list'));
+		var data = ajax_parameters({ids:ids});
+	}else{
+		ids = options.id;
+		var data = ajax_parameters({ids:[ids]});
+	}
+
+	if(data.length<1){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+
+	if(!confirm('{$P8LANG['ask_delete_answer_tips']}')){
+		return false;
+	}
+
+	$.ajax({
+		url: '{$this_router}-delete',
+		type: 'POST',
+		dataType: 'json',
+		data: data,
+		cache: false,
+		success: function(json){
+			if(!json.length) return;
+
+			for(var i in json){
+				$('#answer_'+ json[i]).remove();
+			}
+		}
+	});
+}
+
+//删除
+function clean(){
+	if(!confirm('确定要清空所有的内容？'))return false;
+	$.ajax({
+		url: '{$this_router}-delete',
+		type: 'POST',
+		dataType: 'json',
+		data: 'id=clean',
+		cache: false,
+		success: function(json){
+			alert('{$P8LANG['ask_success']}');
+			location.reload();
+		}
+	});
+}
+
+
+//审核答案
+function verify(options)
+{
+	if(options.verify == undefined || !reg.test(options.verify)){
+		alert('{$P8LANG['ask_error']}');
+		return false;
+	}
+	
+	var ids = checked_values('ids[]', $('#list'));
+	if(ids.length<1){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+
+	if(options.verify == 1){
+		var img = 'check_yes.gif';
+	}else{
+		var img = 'check_no.gif';
+	}
+
+	$.ajax({
+		url: '{$this_router}-verify',
+		type: 'POST',
+		dataType: 'json',
+		data: 'verify=' + options.verify + ajax_parameters({ids:ids}),
+		cache: false,
+		success: function(json){
+			for(var i in json){
+				$('#verify_' + json[i]).attr('src','{$SKIN}/' + img);
+			}
+		}
+	});
+}
+
+//设置最佳答案
+function set_best_answer(options)
+{
+	if(options.id == undefined || !reg.test(options.id) || options.bestanswer == undefined || !reg.test(options.bestanswer)){
+		alert('{$P8LANG['ask_error']}');
+		return false;
+	}
+
+	$.ajax({
+		url: '{$this_router}-set_best_answer',
+		type: 'POST',
+		dataType: 'json',
+		data: {id:options.id,tid:'{$value['tid']}', bestanswer:options.bestanswer},
+		cache: false,
+		success: function(json){
+			alert("{$P8LANG['done']}");
+			if(options.bestanswer){
+				//设置按纽
+				$("span[id^='set_best_"+options.tid+"_']").each(function(){
+					e = $(this).attr('id').split('_');
+					if(e[3] == options.id || e[4] == 1){
+						$(this).html('<a onclick="javascript:set_best_answer({tid:'+options.tid+',id:'+e[3]+',bestanswer:0});" href="javascript:void(0);">{$P8LANG['ask_cancel_best_answer']}</a>');
+						$(this).attr('id','set_best_'+options.tid+'_'+e[3]+'_1');
+						$('#best_'+options.id).attr('src','{$SKIN}/check_yes.gif');
+						$('#vote_'+options.id).html(' | <a onclick="javascript:view_votes({id:'+options.id+'});" href="javascript:void(0);">{$P8LANG['ask_view_vote']}</a>');
+					}else{
+						$(this).html('<a onclick="javascript:set_best_answer({tid:'+options.tid+',id:'+e[3]+',bestanswer:1});" href="javascript:void(0);">{$P8LANG['ask_set_best_answer']}</a>');	
+						$('#best_'+e[3]).attr('src','{$SKIN}/check_no.gif');
+						$('#vote_'+e[3]).html('');
+					}
+				});	
+			}else{
+				$('#set_best_'+options.tid+'_'+options.id+'_1').attr('id','set_best_'+options.tid+'_'+options.id+'_0');
+				$('#set_best_'+options.tid+'_'+options.id+'_0').html('<a onclick="javascript:set_best_answer({tid:'+options.tid+',id:'+options.id+',bestanswer:1});" href="javascript:void(0);">{$P8LANG['ask_set_best_answer']}</a>');
+				$('#vote_'+options.id).html('');
+				$('#best_'+options.id).attr('src','{$SKIN}/check_no.gif');
+			}
+		}
+	});
+}
+
+//查看内容
+function edit(options)
+{
+	if(options.id == undefined || !reg.test(options.id)){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+	var edit_dialog = new P8_Dialog({
+	className:'p8_edit_box php168_dialog',
+	title_text: '',
+	button: false,
+	width: 700,
+	height: 350,
+	url: '{$this_router}-edit?id='+options.id
+	});
+	edit_dialog.show();
+}
+
+//查看投票
+function view_votes(options)
+{
+	if(options.id == undefined || !reg.test(options.id)){
+		alert('{$P8LANG['ask_error']}');
+		return false;
+	}
+	var votes_dialog=new P8_Dialog({
+	title_text: '',
+	button: false,
+	width: 700,
+	height: 300,
+	url: '{$this_router}-view_votes?id='+options.id	
+	});
+	votes_dialog.show();
+
+}
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

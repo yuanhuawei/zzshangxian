@@ -1,0 +1,143 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$TITLE</title>
+<meta name="keywords" content="$SEO_KEYWORDS" />
+<meta name="description" content="$SEO_DESCRIPTION" />
+<link rel="stylesheet" type="text/css" href="{$SKDIR}core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/label/label.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/forms/style.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/forms/wage.css" />
+<link rel="Shortcut Icon" href="favicon.ico">
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+</head>
+<body>
+<div class="gov_frame">
+<div class="container common_mtop">
+	<div class="gz_search">
+		<form method="get" action="" id="request" name="request">
+			<table class="formtable">
+				<tbody>
+					<tr>
+						<td colspan=3 align="right"><div id="edit_label"><span id="header_t"></span></div></td>
+					</tr>
+					<tr>
+						<td width="305" align="right"><div class="title">请输入销售信息点名称</div></td>
+						<td class="headerbtn_list">
+							<div class="search_option">
+								<input type="hidden" name="field#[name]"><input class="serch_form" type="text" value="" name="field#[name]" id="field#[name]" class="txt">
+							</div>
+							<div style="width:112px" class="search_option">
+								<input type="submit" onclick="this.form.action='';this.form.method='get'" value="提报查询" class="gz_search_btn">
+								<input type="hidden" name="mid" value="$mid" />
+								<input type="hidden" name="accurate" value="0" />
+								<input type="hidden" name="ids" value="" />							
+							</div>							
+						</td>
+						<td>
+							<div class="gz_text">$label[dailishang_text]</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>	
+	</div>
+<!--{if $F['khqy']}-->		
+<table width="100%" cellpadding="0" cellspacing="1" class="Mtop hover_table supplierTable" bgcolor="#C1D1FF">
+	<tr align="center" height="18" class="head">
+		<!--{if $mid}-->
+		<!--{foreach $this_model['list_table_fields'] $field $field_data}-->
+		<td width="10%">$field_data[alias]</td>
+		<!--{/foreach}-->
+		<!--{/if}-->
+		<td width="6%">详情</td>
+	</tr>
+	<!--{foreach $list $key $value}-->
+	<tr id="item_$value[id]">
+		<!--{if $mid}-->
+		<!--{php $i = 1;}-->
+		<!--{foreach $this_model['list_table_fields'] $field $field_data}-->
+		
+		<td {if $i }style="font-weight:bold"{/if}>
+		<!--{php $i = 0;}-->
+		<span style="{if !empty($field_data['color'])}color:$field_data[color]{/if}">
+			<!--{if isset($value[$field]) && ($field_data['widget']=='radio' || $field_data['widget']=='select' || $field_data['widget']=='city')}-->
+			{$field_data['data'][$value[$field]]}
+			<!--{elseif isset($value[$field]) && ($field_data['widget']=='checkbox' || $field_data['widget']=='multi_select')}-->
+			<!--{foreach $value[$field] $v}-->
+			{$field_data['data'][$v]},
+			<!--{/foreach}-->
+			<!--{elseif isset($value[$field])}-->
+			$value[$field]
+			<!--{/if}-->
+			</span>
+			<!--{if !empty($field_data['units'])}-->
+				$field_data[units]
+			<!--{/if}-->
+		</td>
+		<!--{/foreach}-->
+		<!--{/if}-->
+        <td><a class="icon_view" href="$value[url]" target="_blank">查看</a> </td>			
+	</tr>
+	<!--{/foreach}-->
+</table>
+<div style="margin-top:10px;text-align:center">
+	<span class="pages">$pages</span>
+	<!--{if $manage}-->
+	<a href="{$core.U_controller}/core/forms-intranetforms?mid=$mid&se=0&ac=manage" target="_blank">【处理】</a>
+	<!--{/if}-->
+	<!--{if $download}-->
+	<span class="download"><a href="{$this_router}-download" onclick="download();return false;">【导出】</a></span>
+	<script type="text/javascript">
+	function download(){
+	$('#request').attr('action',"{$this_router}-download");
+	$('#request').attr('method',"post");
+	$('#request').submit();
+	}
+	</script>
+	<!--{/if}-->
+	<!--{if $import_list}-->
+	<span class="download"><a href="{$this_router}-import_list?mid=$mid" target="_blank">【导入】</a></span>
+	<!--{/if}-->
+</div>
+<!--{/if}-->	
+<script type="text/javascript">
+var editlabel = get_cookie('IS_ADMIN');
+if(editlabel !==undefined){
+var thisurl = '{$core.url}';
+var thisuri = '{$_SERVER['REQUEST_URI']}';
+
+if(thisuri.indexOf('index.php')>-1){
+var _thisuri=thisuri.split('index.php');
+	thisurl=thisurl+'/index.php'+_thisuri['1'];
+}else{
+	thisurl=thisurl+thisuri;
+}
+if(thisurl.indexOf('edit_label')==-1){
+var ls='?';
+if(thisurl.indexOf('?')>-1)ls='&';
+thisurl=thisurl+ls+'edit_label=1';
+}
+$('#header_t').prepend('<a href='+thisurl+' class="each_item">显示标签</a>');
+}else{
+thisurl=thisurl.replace('&edit_label=1','');
+thisurl=thisurl.replace('edit_label=1','');
+$('#edit_label').remove();
+$('#header_t').prepend('<a href='+thisurl+' >[隐藏标签]</a>');
+}
+</script>
+</body>
+</html>
+<!--{/php168}-->
+

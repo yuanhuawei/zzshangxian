@@ -1,0 +1,22 @@
+<!--{php168}-->
+<div id="schedul_box" style="line-height:180%;">
+	<p style="text-align:center;color:red">$date $w</p>
+	<!--{foreach $list $row}-->
+	<p style="border-bottom: 1px dashed #afafaf; margin:10px 0">
+		$row[name]&nbsp;
+		<!--{if $row['level']}-->$row[level]&nbsp;<!--{/if}-->
+		<!--{if isset($row['date_time'])}-->{$P8LANG['date_time_'.$row['date_time']]}&nbsp;<!--{/if}-->
+		<!--{if $row['phone']}--> $row[phone]<!--{/if}-->
+		<span class="label_datatime">$row[date]</span>
+	</p>
+	<!--{/foreach}-->
+	<p style="margin-top:20px; height:25px;color:#717171">
+	<span href="javascript:;" onclick="change_date('$predate')" class="fl" style="cursor:pointer;width:50px; height:20px; text-align:center;background-color:#EFF4F8;border:1px solid #CCCCCC;border-radius:5px;box-shadow: 2px 2px 2px #888888;">前一天</span> 
+	<span href="javascript:;" onclick="change_date('$nextdate')" class="fr" style="cursor:pointer;width:50px; height:20px; text-align:center;background-color:#EFF4F8;border:1px solid #CCCCCC;border-radius:5px;box-shadow: 2px 2px 2px #888888;">后一天</a></span>
+</div>
+<script type="text/javascript">
+function change_date(s){
+	$.get('{$url}-display?date='+s,function(result){ $('#schedul_box').html(result);});
+}
+</script>
+<!--{/php168}--> 

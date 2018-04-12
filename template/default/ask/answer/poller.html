@@ -1,0 +1,66 @@
+<!--{php168}-->
+<div class="topic_title light_blue_bg"><h3 class="float_left">{$P8LANG['ask_poller']}</h3><i class="icon_close" onclick="javascript:remove_answer_poller({id:{$id}});"></i></div>
+<div class="topicbox">
+<!--{if !$allow_anonymous_poller && empty($UID)}-->
+	{$P8LANG['ask_error_nologin']}
+<!--{else}-->
+	<!--{if !$allow_poller}-->
+		{$P8LANG['ask_error']}
+	<!--{else}-->
+		<!--{if $is_creator}-->
+			{$P8LANG['ask_error_not_allow_poller_answer_byself']}
+		<!--{else}-->
+			<form action="" name="answer_poller_form_{$id}" id="answer_poller_form_{$id}" method="post" class="expand">
+				<div class="title"><b>{$P8LANG['ask_poller_reason']}</b></div>
+				<textarea name="content" id="answer_poller_content_{$id}" class="content"></textarea>
+				<input type="hidden" name="id" id="id_{$id}" value="{$id}"/>
+				<div id="error_answer_poller_{$id}"></div>
+				<div><input type="button" value="{$P8LANG['submit']}" class="btn" onclick="javascript:submit_answer_poller({id:{$id}});"/> <input type="button" value="{$P8LANG['cancel']}" class="btn" onclick="javascript:remove_answer_poller({id:{$id}});"/></div>
+			</form>
+		<!--{/if}-->
+	<!--{/if}-->
+<!--{/if}-->
+</div>
+<script type="text/javascript">
+var poller_length = {$poller_length};
+
+function remove_answer_poller(options)
+{
+	$('#answer_poller_'+options.id).html('');
+	$('#answer_poller_'+options.id).removeClass();
+}
+
+function submit_answer_poller(options)
+{
+	var id = $('#answer_poller_form_'+options.id+' input[name=id]').val();
+	var content = $('#answer_poller_form_'+options.id+' #answer_poller_content_'+options.id).val();
+
+	if(!reg.test(options.id)){
+		hidden('error_answer_poller_'+options.id, '{$P8LANG['ask_not_chose_record']}', 'block', 'fields_error');
+		return false;
+	}else{
+		hidden('error_answer_poller_'+options.id, '', 'none', '');
+	}
+
+	if(content.length<1 || content.length>poller_length){
+		hidden('error_answer_poller_'+options.id, '{$P8LANG['ask_error_poller_content'] $poller_length}', 'block', 'fields_error');
+		return false;
+	}else{
+		hidden('error_answer_poller_'+options.id, '', 'none', '');
+	}
+
+	$.ajax({
+		url: '{$this_router}-{$ACTION}', 
+		type: 'POST',
+		dataType: 'json',
+		data: {id:id, content:content},
+		cache: false,
+		success: function(json){
+			if(!json.length) return;
+			alert('{$P8LANG['ask_success_post_poller']}');
+			remove_answer_poller({id:id});
+		}
+	});
+}
+</script>
+<!--{/php168}-->

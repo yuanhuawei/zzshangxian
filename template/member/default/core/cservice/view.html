@@ -1,0 +1,120 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<style>
+.columntable td{ padding:5px 2px}
+.columntable a.replay{color:#F00}
+</style>
+<div id="tab_1" class="tab_box mtop20">
+	<div class="head">
+		 <span ><a href="$this_router-list?state=0">未解决问题</a></span> <span ><a href="$this_router-list?state=1">已解决问题</a></span><span class='over'>查看问题</span><a href="$this_router-post?job=list&yz=0" class="sendmsg_link_bg">发布问题</a>
+	</div>
+</div>
+<table class="columntable hover_table mtop" width="99%" align="center">
+<tbody>
+	<tr>
+		<td width="16%">标题</td>
+		<td width="84%">$askdata[title]
+		
+		</td>
+	</tr>
+	<tr>
+		<td>问题类型</td>
+		<td>{$categories[$askdata['category']]}</td>
+	</tr>
+	<!--{if !empty($askdata['mobilephone'])}-->
+	<tr>
+		<td>电话</td><td>{$askdata['mobilephone']}</td>
+	</tr>
+	<!--{/if}-->
+	<tr>
+		<td>状态</td>
+		<td>
+			<!--{if $askdata['state']==1}-->
+			【<font color="blue">处理中</font>】
+			<!--{elseif $askdata['state']==2}-->
+			【<font color="blue">完成处理</font>】
+			<!--{else}-->
+			【<font color="blue">未解决</font>】
+			<!--{/if}-->
+		</td>
+	</tr>
+	<tr>
+		<td>提交时间</td>
+		<td>
+			<!--{php echo date("y-m-d H:i",$askdata['timestamp']);}-->
+		</td>
+	</tr>
+	<tr>
+		<td>解决时间</td>
+		<td>
+			<!--{if !empty($askdata['solvetime'])}-->
+			<!--{php  echo date("y-m-d H:i",$askdata['solvetime']);}-->
+			<!--{/if}-->
+		</td>
+	</tr>
+	</tbody>
+</table>
+<table class="mtop20 columntable"  width="99%" align="center">
+<!--{php $i=0;}-->
+<!--{foreach $listdb $k $v}-->
+<!--{php $i++;}-->
+	<tbody>
+		<tr>
+			<td bgcolor="#CCCCCC"><img src="{$MEMBERSKIN}/status_1.gif" align="top" /> <strong>第($i)次提问: &nbsp;$v[username] {$roles[$v['role_id']]['name']}</strong> &nbsp;<!--{php echo date("y-m-d H:i",$v['timestamp']);}--></td>
+		</tr>
+		<tr>
+			<td>标题：$v[title] &nbsp;<!--{if $repilit}--> [<a href="javascript:void(0)" onclick="showbox('$v[askid]','$v[id]','$v[replay_id]')" class="replay">回复/追问</a>]<!--{/if}-->
+		<!--{if $is_admin && $i==count($listdb)}--> 
+		<!--{if $askdata['state']==0}--> <input type="button" value="处理中" onclick="javascript:$.post('{$this_router}-reply','setstatu=1&askid=$askdata[id]&st=1',function(msg){ location.reload()})"/><!--{/if}-->
+		<!--{if $askdata['state']==1}--> <input type="button" value="完成处理" onclick="javascript:$.post('{$this_router}-reply','setstatu=1&repid=$v[id]&askid=$askdata[id]&st=2' ,function(msg){ location.reload()})"/><!--{/if}-->
+		[<a href="javascript:void(0)"  style="color:#ba2636" onclick="message.send($v[uid])" class="replay"><img src="{$RESOURCE}/skin/default/core/guestbook/qyfa1.gif">短信</a>]
+		<!--{/if}--> 
+			</td>
+		</tr>
+		<tr>
+			<td style="padding:10px">$v[content]<br>
+			<!--{if !empty($v['frame'])}-->
+				<h5 style="border-top:1px dashed  #cecece;margin:5px">[相关附件]</h5>
+				<a href="$v[frame]" target="_blank"><img src="$v[frame]"  style="max-width:500px;border:1px solid #cecece; padding:1px" /></a>
+			<!--{/if}-->
+			</td>
+		</tr>
+	</tbody>
+<!--{if !empty($v['replay'])}-->	
+	<tbody id="">
+		<tr>
+			<td bgcolor="#eeeeee"><img src="{$MEMBERSKIN}/status_3.gif" align="top" /> <strong>服务回复 ：{$v['replay']['username']} {$roles[$v['replay']['role_id']]['name']}</strong>&nbsp;<!--{php echo date("y-m-d H:i",$v['replay']['timestamp']);}-->  </td>
+		</tr>
+		<tr>
+			<td>标题：{$v['replay']['title']}<!--{if $mind}-->[<a href="javascript:void(0)" onclick="showbox($v[askid],0)"  class="replay">回复/追问</a>]<!--{/if}--></td>
+		</tr>
+		<tr>
+			<td style="padding:10px; color:#C00"> {$v['replay']['content']}</td>
+		</tr>
+	</tbody>
+<!--{/if}-->
+<!--{/foreach}-->	
+<tbody>
+<td class="pages">{$pages}【<a href="$this_router-view?act=print&id={$id}" target="_blank"/>打印</a>】</td>
+<tr>
+</tr>
+</tbody>
+</table>
+<script type="text/javascript">
+var message = new Message();
+function showbox(askid,repid,replay_id){
+
+var dialog = new P8_Dialog({
+	title_text: '回复',
+	button: false,
+	zIndex:10000,
+	width: 500,
+	height: 200,
+	url: '{$this_router}-reply?askid='+askid+'&repid='+repid+'&replay_id='+replay_id
+});
+dialog.show();
+}
+</script>
+
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

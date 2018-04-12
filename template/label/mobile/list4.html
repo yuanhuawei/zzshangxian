@@ -1,0 +1,16 @@
+<!--{php168}-->
+<ul class="dotlist4">
+<!--{foreach $list $value}-->
+	<li>
+		<a href="$value[url]"  title="$value[full_title]" target="_blank">
+			<div class="ampic"><img src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}"></div>
+			<div class="amcon">
+				<h3>$value[title]</h3>
+				<p><i>出自：$value[source]</i></p>
+				<p><i class="t"><!--{php echo date('Y-m-d', $value['timestamp']);}--></i></p>
+			</div>
+		</a>
+	</li>
+<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

@@ -1,0 +1,62 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<div class="breadbanner">
+	$label[zhuzhan-banner]
+</div>
+<div class="gp-container">
+	<div class="container">
+		<div class="breadcrumbbox">
+			<ol class="breadcrumb">
+				<li><a href="{$this_system->controller}"><i class="fa fa-home"></i>首页</a></li>
+				<!--{foreach $parent_cats $v}-->
+				<li><a href="$v[url]"><i class="fa fa-caret-right"></i>$v[name]</a></li>
+				<!--{/foreach}-->
+				<li class="active"><i class="fa fa-caret-right"></i>$CAT[name]</li>
+			</ol>
+			<div class="row-page-tabs">
+				<!--{template $this_module step_category3}-->
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row-product">
+			<div class="show-product">
+				<!--{if empty($subcategories)}-->
+				<div class="product-title2">
+					<h2>$CAT[name]</h2>
+				</div>
+				<div class="product-body">
+					<!--{php include template($TEMP_OBJ, $CAT['item_template'], 'label');}-->
+					<div class="mtop pages" id="page">{$pages}</div>
+				</div>
+				<!--{else}-->
+				<!--{foreach $subcategories $v}-->
+				<!--{php $i++;}-->
+				<!--{php if($i>5)break;}-->
+				<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+				<div class="product-box">
+					<div class="product-head3">
+						<div class="product-name3">$v[name]</div>
+						<div class="product-more" style="margin:0 10px 0;">
+							<!--{if $add_enable}-->
+							<a href="{$core.U_controller}/cms/item-add?cid=$v[id]&model=$CAT[model]" target="_blank">发表</a>
+							<!--{/if}-->&nbsp;|&nbsp;
+							<a href="$this_url-category-$v[id]">更多>></a>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="product-body">
+						<div class="row-list">$label[CMS子分类内容列表产品list3]{'i.cid' => $subcat, 'model' => $MODEL}</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<!--{/foreach}-->
+				<!--{/if}-->
+			</div>
+		</div>
+	</div>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->

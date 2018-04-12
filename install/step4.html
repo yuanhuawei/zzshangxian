@@ -1,0 +1,55 @@
+<div class="content">
+	<strong>请选择要安装的系统，模块，和插件</strong>
+	<form name="form" method="post" action="?">
+		<div class="h">
+			<table width="100%" border="0" cellpadding="5" cellspacing="5">
+				<tr>
+					<td width="13%">可安装的系统：</td>
+					<td width="87%">
+						<?php foreach($systems as $sk => $sv){
+						$state='';	$color="#000000";
+						if(in_array($sk,(array)$must_systems)){$state=' onclick="javascript:return false"'; $color="#666666";}
+						?>
+						<span class="eachmodule"><input name="system[]" id="system_<?php echo $sk; ?>" type="checkbox" value="<?php echo $sk ?>" checked  <?php echo $state; ?>/>
+						<font color="<?php echo $color ?>"><label for="system_<?php echo $sk; ?>"><?php echo $sv['alias'] ?></label></font></span>
+						<?php } ?>
+					</td>
+				</tr>
+				<tr>
+					<td> 可安装的模块：</td>
+					<td>
+						<?php if(!empty($must_modules)){
+								foreach($must_modules as $mmk){
+					?>			
+					<span class="eachmodule"><input name="module[]" id="module_<?php echo $mmk; ?>" type="checkbox" value="<?php echo $mmk ?>" checked onclick="javascript:return false"/><font color="#666666"><label for="module_<?php echo $mmk ?>"><?php echo $modules[$mmk]['alias'] ?></label></font></span>
+					<?php } }?>
+					
+						<?php foreach($modules as $mk => $mv){
+						if(in_array($mk,(array)$must_modules))continue;
+						?>
+						<span class="eachmodule"><input name="module[]" id="module_<?php echo $mk; ?>" type="checkbox" value="<?php echo $mk ?>" checked />
+						<label for="module_<?php echo $mk ?>"><?php echo $mv['alias'] ?></label></span>
+						<?php } ?>
+					</td>
+				</tr>
+				<tr>
+					<td> 可安装的插件： </td>
+					<td>
+						<?php foreach($plugins as $pk => $pv){	
+						$state='';	$color="#000000";	
+						if(in_array($pk,(array)$must_plugins)){$state=' onclick="javascript:return false"'; $color="#666666";}
+						?>
+						<span class="eachmodule"><input name="plugin[]" type="checkbox" id="plugin_<?php echo $pk;?>" value="<?php echo $pk ?>" checked <?php echo $state; ?>/>
+						<font color="<?php echo $color; ?>"><label for="plugin_<?php echo $pk;?>"><?php echo $pv['alias']; ?></label></font></span>
+						<?php } ?>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="form">
+			<input type="button" name="upstep" value="上一步" onclick="javascript:history.go(-1)" class="submit_btn">
+			<input type="submit" name="Submit" value="下一步" class="submit_btn">
+			<input type="hidden" name="step" value="step5" />
+		</div>
+	</form>
+</div>

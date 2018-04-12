@@ -1,0 +1,65 @@
+<!--{php168}-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="{$core.CONFIG['page_charset']}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>$TITLE</title>
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/mobile/school/style.css" />
+<script src="{$RESOURCE}/js/util_mobile.js"></script>
+<script src="{$RESOURCE}/skin/mobile/school/TouchSlide.1.1.js"></script>
+<!--[if IE]>
+   <script src="{$RESOURCE}/skin/mobile/school/html5.js"></script>
+<![endif]-->
+<!--[if IE 6]>
+<script type="text/javascript" src="{$RESOURCE}/skin/mobile/school/DD_belatedPNG_0.0.8a.js" ></script>
+<script>
+DD_belatedPNG.fix('.,img,background');
+</script>
+<![endif]-->
+
+</head>
+<body>
+<!--{if $IS_ADMIN}-->
+<span id="labelshow" style="top:1px;right:1px; position:absolute;">[显示标签]</span>
+<script type="text/javascript">
+LABEL_URL = location.href;
+if(LABEL_URL.indexOf('edit_label')==-1){
+	var ls='?';
+	if(LABEL_URL.indexOf('?')>-1)ls='&';
+	LABEL_URL=LABEL_URL+ls+'edit_label=1';
+	$('#labelshow').html('<a href='+LABEL_URL+' id="edit_label">[显示标签]</a>');
+}else{
+	LABEL_URL=LABEL_URL.replace('&edit_label=1','');
+	LABEL_URL=LABEL_URL.replace('edit_label=1','');
+	$('#labelshow').html('<a href='+LABEL_URL+' >[隐藏标签]</a>');
+}
+</script>
+<!--{/if}-->
+<div id="nav-over"></div>
+<div class="warmp">
+    <header class="header">
+        <section class="fix navbar">
+            <div class="top">
+                <a class="back fl" href="javascript:history.go(-1);"><img src="{$RESOURCE}/skin/mobile/school/back.png"></a>
+                <span>$CAT[name]</span>
+                <a class="menue navHome" href="#"><img src="{$RESOURCE}/skin/mobile/school/ico-nav.jpg"></a>
+            </div>
+        </section>
+    </header>
+</div>
+<nav id="nav" class="nav home">
+    <h2><img src="{$RESOURCE}/skin/mobile/school/logo1.jpg"></h2>
+    <div id="scrollerBox" class="scrollerBox">
+        <div class="scroller">
+            <ul>$label[Coray_mobile_head_1]</ul>
+        </div>
+    </div>
+</nav> 
+<script>
+function hidenav(){
+	$("#nav").hide();
+	window.location.reload();
+}
+</script>
+<!--{/php168}-->

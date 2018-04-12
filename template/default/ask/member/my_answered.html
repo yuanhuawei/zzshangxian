@@ -1,0 +1,54 @@
+<!--{php168}-->
+<!--{template $member header}-->
+<style type="text/css">
+.asklist { clear:both; display:block; }
+.asklist ul { clear:both; display:inline-block; width:100%; }
+.asklist ul li { float:left; height:20px; padding:8px 0px; border-bottom:1px dashed #ccc; }
+.asklist ul li.title { width:65%; font-size:14px; text-indent:6px; }
+<!--{if !in_array($filter,array('verify','best'))}-->
+	.asklist ul li.title { width:60%; }
+<!--{/if}-->
+.asklist ul li.title span { font-size:12px; }
+.asklist ul li.user { width:15%; }
+.asklist ul li.replies { width:10%; }
+.asklist ul li.time { width:10%; }
+.asklist ul.pages { text-align:center; }
+</style>
+<div class="table">
+	<div class="tabs">
+		<li<!--{if !in_array($filter,array('verify','best','not_verify'))}--> class="focus"<!--{/if}-->><a href="{$this_router}-{$ACTION}">{$P8LANG['ask_all_answered']}</a></li>
+		<li<!--{if $filter=='verify'}--> class="focus"<!--{/if}-->><a href="{$this_router}-{$ACTION}-filter-verify">{$P8LANG['ask_accept_answered']}</a></li>
+		<li<!--{if $filter=='best'}--> class="focus"<!--{/if}-->><a href="{$this_router}-{$ACTION}-filter-best">{$P8LANG['ask_best_answered']}</a></li>
+		<li<!--{if $filter=='not_verify'}--> class="focus"<!--{/if}-->><a href="{$this_router}-{$ACTION}-filter-not_verify">{$P8LANG['ask_unaudited']}</a></li>
+	</div>
+	<div id="list" class="asklist border">
+		<ul>
+			<li class="title"><span>{$P8LANG['ask_topic'] $count}</span></li>
+			<li class="user">{$P8LANG['ask_asker']}</li>
+			<!--{if !in_array($filter,array('verify','best'))}--><li style="width:5%">{$P8LANG['ask_status']}</li><!--{/if}-->
+			<li class="replies">{$P8LANG['ask_reply']}</li>
+			<li class="time">{$P8LANG['ask_answer_time']}</li>
+		</ul>
+		<!--{if !empty($list)}-->
+			<!--{foreach $list $k $value}-->
+			<ul id="ask_{$value['id']}">
+				<li class="title">
+					<a href="{$value['url']}" target="_blank">RE:{$value['title']}</a> 
+					<!--{php $cat = $category->fetch_one($value['cid']);}-->
+					[<a href="{$this_router}-list-cid-{$value['cid']}" target="_blank">{$cat['name']}</a>] </li>
+				<li class="user"><a href="{$value['puid']}">{$value['pusername']}</a></li>
+				<!--{if !in_array($filter,array('verify','best'))}--><li style="width:5%"><img src="{$SKIN}/status_{$value['status']}.gif"/></li><!--{/if}-->
+				<li class="replies">{$value['replies']}</li>
+				<li class="time"><!--{php echo date('Y-m-d',$value['addtime']);}--></li>
+			</ul>
+			<!--{/foreach}-->
+			<ul class="pages">
+				<!--{if !empty($pages)}-->{$pages}<!--{/if}-->
+			</ul>
+		<!--{else}-->
+			<ul class="pages">{$P8LANG['ask_no_records']}</ul>
+		<!--{/if}-->
+	</div>
+</div>
+<!--{template $member footer}-->
+<!--{/php168}-->

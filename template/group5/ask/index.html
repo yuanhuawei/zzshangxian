@@ -1,0 +1,211 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--主体内容-->
+<div class="wrapbox" style="margin-top:10px;">
+	<div id="blockleft" class="float_left blockleft_mleft">
+		<!--问题分类-->
+		<div class="left_box common_border margin_bottom">
+			<div class="left_title">
+				<h3>{$P8LANG['ask_category']}</h3>
+			</div>
+			<div class="summary">
+				<ul>
+					<li>{$P8LANG['ask_solved_items']}：<span>{$this_system.solve_item_count}</span></li>
+					<li>{$P8LANG['ask_unsolve_items']}：<span>{$this_system.unsolve_item_count}</span></li>
+				</ul>
+			</div>
+			<div class="categorylist">
+				<ul>
+					<!--{php
+function _trs($cs, $level = -1){
+global $this_router, $P8LANG;
+$level++;
+//控制一行显示的数量
+$cols=1;
+//控制总共显示的二级数量
+$rows=1;
+//控制总共显示的一级数量
+$row=1;
+}-->
+					<!--{foreach $cs $v}-->
+					<!--{if $v['display']}-->
+						<!--一级分类-->
+						<!--{if $level==0}-->
+						<!--{php $row++;}-->
+							<li class="category_name"><a href="{$v['url']}">{$v['name']}</a></li>
+							<!--{if $row>=20}-->
+							<!--{php break;}-->
+						<!--{/if}-->
+						<!--{else}-->
+							<!--{php $rows++;}-->
+							<a href="{$v['url']}">{$v['name']}</a>
+							<!--{if $cols%3==0}-->
+							<br/>
+							<!--{/if}-->
+						<!--{/if}-->
+						<!--控制只显示二级分类-->
+						<!--{if $level<1 && isset($v['categories'])}-->
+							<li>
+							<!--{php _trs($v['categories'], $level);}-->
+							</li>
+						<!--{/if}-->
+						<!--{php $cols++;}-->
+					<!--{/if}-->
+					<!--{/foreach}-->
+					<!--{php
+					}
+					}-->
+					<!--{php _trs($category->top_categories);}-->
+					<li class="category_more"><a href="{$this_router}/category">{$P8LANG['ask_more_category']}>></a></li>
+				</ul>
+			</div>
+			<div class="clear">
+			</div>
+		</div>
+		<div class="left_box margin_bottom">
+			$label[问答首页广告1]
+		</div>
+		<!--答案列表-->
+		<div class="left_box common_border margin_bottom">
+			<div class="left_title">
+				<h3>$label[问答首页标题左一]</h3>
+			</div>
+			<div class="answer_list">
+				<ul>
+					$label[问答首页内容左一]
+				</ul>
+			</div>
+		</div>
+		<div class="left_box  margin_bottom">
+			$label[问答首页广告2]
+		</div>
+		<div class="left_box common_border margin_bottom">
+			<div class="left_title">
+				<h3>$label[问答首页标题左二]</h3>
+			</div>
+			<div class="answer_list">
+				$label[问答首页内容左二]
+			</div>
+		</div>
+		<div class="left_box  margin_bottom">
+			$label[问答首页广告3]
+		</div>
+	</div>
+	<div id="blockmiddle" class="float_left">
+		
+		<div class="question_box common_border margin_bottom">
+			<div class="q_title">
+				<h3>$label[问答首页标题中三]</h3>
+				<span class="q_more">$label[问答首页更多中三]</span>
+			</div>
+			<div class="m10106">
+					$label[问答首页内容中三]
+			</div>
+			<div class="clear">
+			</div>
+		</div>
+		<div class="question_box common_border margin_bottom">
+			<div class="q_title">
+				<h3>$label[问答首页标题中四]</h3>
+				<span class="q_more">$label[问答首页更多中四]</span>
+			</div>
+			<div class="m10106">
+
+					$label[问答首页内容中四]
+
+			</div>
+			<div class="clear">
+			</div>
+		</div>
+		
+		<div class="question_box common_border margin_bottom">
+			<div class="q_title">
+				<h3>$label[问答首页标题中五]</h3>
+				<span class="q_more">$label[问答首页更多中五]</span>
+			</div>
+			<div class="m10106">
+
+					$label[问答首页内容中五]
+
+			</div>
+			<div class="clear">
+			</div>
+		</div>
+	</div>
+	<div id="blockright" class="float_left">
+		<div class="margin_bottom"><a href="{$RESOURCE}/index.php/ask/item-ask" target="_blank"><img src="{$SKIN}goto_ask.jpg" width="210" height="48" /></a></div>
+		<div class="right_box grey_border margin_bottom">
+			<div class="title">
+				<h3>$label[问答首页标题右一]</h3>
+				<span class="add">$label[问答首页更多右一]</span>
+			</div>
+			<div class="notice_text">
+				$label[问答首页内容右一]
+			</div>
+		</div>
+		<div class="right_box grey_border margin_bottom">
+			<div class="title">
+				<h3>$label[问答首页标题右二]</h3>
+				<span class="add">$label[问答首页更多右二]</span>
+			</div>
+			<div class="doctor_list">
+				$label[问答首页内容右二]
+			</div>
+		</div>
+		<div class="right_box grey_border margin_bottom" id="tab2">
+			<div class="author_list_title head">
+				<span>$label[问答首页标题右三标一]</span>
+				<span>$label[问答首页标题右三标二]</span>
+			</div>
+			<div class="tags_list main">
+				<span class="content">$label[问答首页内容右三标一]</span>
+				<span class="content">$label[问答首页内容右三标二]</span>
+			</div>
+		</div>
+		<script type="text/javascript">
+			MoveTabs('tab2',0,'mouseover');
+		</script>
+		<div class="right_box grey_border margin_bottom">
+			<div class="title">
+				<h3>$label[问答首页标题右四]</h3>
+				<span class="add">$label[问答首页更多右四]</span>
+			</div>
+			<div class="tags_list inline-block">
+				$label[问答首页内容右四]
+			</div>
+		</div>
+		<div class="left_box margin_bottom">
+			$label[问答首页首页广告78]
+		</div>
+		<div class="right_box grey_border margin_bottom">
+			<div class="title">
+				<h3>$label[问答首页标题右五]</h3>
+				<span class="add">$label[问答首页更多右五]</span>
+			</div>
+			<div class="tags_list inline-block">
+				$label[问答首页内容右五]
+			</div>
+		</div>
+		<div class="left_box margin_bottom">
+			$label[问答首页首页广告567]
+		</div>
+		<div class="right_box grey_border margin_bottom">
+			<div class="title">
+				<h3>$label[问答首页标题右六]</h3>
+				<span class="add">$label[问答首页更多右六]</span>
+			</div>
+			<div class="tags_list inline-block">
+				$label[问答首页内容右六]
+			</div>
+		</div>
+		<div class="left_box margin_bottom">
+			$label[问答首页广告54]
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div class="mtop">$label[问答首页底部广告]</div>
+</div>
+<!--底部-->
+<!--{template $this_system footer}-->
+<!--{/php168}-->
+

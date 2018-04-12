@@ -1,0 +1,32 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="columntable formtable hover_table click_changeable" width="100%" style="text-align:center" >
+			<tr bgcolor="#eeeeee" class="title">
+				<td width="9%">编号</td>
+				<td width="12%">项目</td>
+				<td width="12%">答卷时间</td>
+				<td width="10%">答卷人/IP</td>
+				<td width="8%">操作</td>
+			</tr>
+			<!--{foreach $list $k $v}-->
+			<tr>
+				<td>$v[id]</td>
+				<td align="left">$v[item_title]</td>
+				<td>
+					<!--{php echo date("Y-m-d H:i:s",$v['timestamp']);}-->
+				</td>
+				<td>$v[name] / $v[ip]</td>
+				<td><a href="{$this_router}-view?id={$v['id']}" >查看</a> | <a href="$this_router-delete?id=$v[id]" onclick="javascript:return confirm('确定了')">删除</a></td>
+			</tr>
+			<!--{/foreach}-->
+			<tr>
+				<td colspan="6" class="pages">{$pages}</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<!--{/php168}-->

@@ -1,0 +1,20 @@
+<!--{php168}-->
+<style type="text/css">
+.label_{$label['id']}{ line-height:28px}
+.label_{$label['id']} .sp_icon { float:left; clear:left;padding:10px; line-height:0}
+.label_{$label['id']} .sp_title {background:url() no-repeat; padding-left:15px}
+.label_{$label['id']} .sp_des .red{ color:#ff0000}
+</style>
+<div class="label_{$label['id']}">
+	<!--{foreach $list $value}-->
+	<!--{if $i%5==0}-->
+		<a href="$value[url]" target="_blank" class="sp_icon"><img src="$value[frame]" border="0" width="150" height="110" onError="this.src='{$RESOURCE}/images/nopic.jpg'" /></a>
+	<!--{/if}-->	
+		<p class="sp_title"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></p>
+	<!--{php $i++;}-->
+	<!--{/foreach}-->
+	<p class="clear"></p>
+</div>
+<!--{/php168}-->
+
+

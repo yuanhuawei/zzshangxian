@@ -1,0 +1,39 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $this_module menu_bar admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table width="100%">
+		  <tr> 
+			  <td> 
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="columntable formtable hover_table">
+				  <tr align="center" height="18" class="title"> 
+					<td width="5%">MID</td>
+					 <td width="30%" align="left" class="title">表单名称</td>
+					 <td width="15%" class="title">内容数据</td>
+					  <td width="10%" class="title">填写表单</td>
+					 <td width="20%" class="title">前台列表</td>
+					<td width="20%" class="title">后台列表</td>
+				  </tr>
+				  <!--{foreach $list $key $value}-->
+				  <tr align="center" class="trA" onmouseover="this.className='trB'" onmouseout="this.className='trA'"> 
+					<td >$value[id]</td>
+					<td align="left"><a href="{$this_router}-list?mid=$value[id]">$value[alias]</a></td>
+					<td ><font color="red"><b>$value[count]</b></font> 条</td>
+					<td ><a href="{$this_module->controller}-post?mid=$value[id]" target="_blank">填写</a></td>
+					<td ><a href="{$core.controller}/core/forms-list-mid-$value[id]" target="_blank">前台列表</a></td>	
+					<td ><a href="{$this_router}-list?mid=$value[id]">内容管理</a></td>	
+				  </tr>
+				  <!--{/foreach}-->
+				  
+				  <tr><td colspan="3"><span class="pages">$pages</span></td></tr>
+				</table>
+						
+				  </div>
+			  </td>
+		  </tr>
+		</table>
+	</div>
+</div>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

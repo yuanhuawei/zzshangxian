@@ -1,0 +1,15 @@
+body { margin:0px; padding:0px;}
+.gov_frame {clear: both;overflow: hidden;margin:10px auto;width: 990px;}
+.container{margin-top:220px;}
+.serch_form{line-height:34px;height:34px;border:1px #FF9966 solid;width:221px;}
+.serch_form2{line-height:34px;height:31px;border:1px #7F9DB9 solid;width:221px;}
+.gz_search .title{width:180px;float:right;line-height:40px;height:34px;color:#990000;font-size:16px;font-weight:bold;padding-left:60px;background:url(li_logo.gif) no-repeat;}
+.gz_search .title2{width:220px;float:right;line-height:40px;height:34px;color:#000000;font-size:14px;font-weight:bold;padding-left:60px;}
+.gz_search_btn {background: url("gz_btn.jpg") repeat-x;cursor: pointer;height: 34px;width: 108px;line-height:34px;border:none;font-size:15px;color:#FFF;font-weight:bold;}
+.gz_search_btn2{background: url("c2.gif") no-repeat;cursor: pointer;height: 34px;width: 108px;line-height:34px;border:none;font-size:15px;color:#000;font-weight:bold;}
+.gz_text{color:#0086E3;width:300px;float:left;height:28px;line-height:28px;font-size:13px;}
+.gz_text a{color:#0086E3;}
+.supplierTable td {background-color: #FFFFFF;padding: 5px;text-align: center;font-size:12px;}
+.supplierTable .head td {background-color: #E7F1F8;padding: 10px 5px;font-size:12px;}
+.gz_search{margin-bottom:60px;}
+#edit_label{color:#FF0000;}

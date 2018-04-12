@@ -1,0 +1,21 @@
+<!--{php168}-->
+<style type="text/css">
+.label_list_date li{width:280px; margin:0 0 0px 10px; height:61px; font-size:12px;float:left;}
+.label_list_date .date{ width:60px; height:61px; text-align:center; float:left; margin-right:10px;background: #af1912; color: #ffffff;}
+.label_list_date .date span{display:block;font-size:24px; line-height:38px;}
+.label_list_date h4{ font-size:14px; line-height:20px; display:inline;overflow: hidden;white-space: nowrap;font-weight: normal}
+.label_list_date h4 a{color:#451417;}
+.label_list_date p{ color:#777; padding-top:3px; line-height:18px;}
+</style>
+<ul class="label_list_date">
+	<!--{foreach $list $value}-->
+	<li>
+		<div class="date"><span>{date('d', $value['timestamp'])}</span>{date('Y-m', $value['timestamp'])}</div>
+	    <h4><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h4>
+	    <p>时间：{date('H:i', $value['timestamp'])}</p>
+	    <p>地点：$value[summary]</p>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->
+

@@ -1,0 +1,60 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module friend_category_header}-->
+
+<table border="1" bordercolor="#DEDEDE" style="font-size:12px; text-align:center;width:100%;line-height:25px;border-collapse:collapse;margin-top:10px">
+	<tr bgcolor="#EEEEEE">
+		<td width="3%"><input type="checkbox" /></td>
+		<td width="5%">ID</td>
+		<td width="30%">{$P8LANG['name']}</td>
+		<td width="10%">{$P8LANG['friends_of_category']}</td>
+		<td width="10%">{$P8LANG['operation']}</td>
+	</tr>
+	
+	<!--{foreach $categories $id $value}-->
+	<tr>
+		<td><input type="checkbox" name="id[]" value="$id" /></td>
+		<td>$id</td>
+		<td>$value[name]</td>
+		<td>$value[members]</td>
+		<td>
+			<a href="$this_router-update_friend_category?id=$id">{$P8LANG['edit']}</a>
+			<a href="###" id="delete_$id" onclick="delete_friend_category([$id])">{$P8LANG['delete']}</a>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+
+<script type="text/javascript">
+function delete_friend_category(array){
+	var id = [];
+	$(array).each(function(k, v){
+		v += '';
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(!id.length) return;
+	
+	if(!confirm('{$P8LANG['confirm_to_delete']}')) return;
+	
+	$.ajax({
+		url: '$this_router-delete_friend_category',
+		type: 'post',
+		dataType: 'json',
+		cache: false,
+		data: ajax_parameters({id: id}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i = 0; i < json.length; i++){
+				$('#delete_'+ json[i]).parent().parent().remove();
+			}
+		}
+	});
+}
+</script>
+
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

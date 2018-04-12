@@ -1,0 +1,189 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<div class="main profile" style="margin-top:20px">
+	<form action="$this_router-$ACTION" method="post">
+			<table width="100%" border="0" cellspacing="1" cellpadding="5">
+		<tr>
+			<td >标题</td>
+			<td >
+				<input type="text" class="txt"  name="title" value="{if !empty($data['title'])}$data[title]{/if}" />
+			</td>
+		</tr>
+		<tr>
+			<td >工作类型</td>
+			<td > <select name="kind">
+					<option value="0" {if empty($data['kind'])} selected="selected"{/if}>不限</option>
+					<option value="1" {if !empty($data['kind']) && $data['kind']==1} selected="selected"{/if}>
+					全职
+					</option>
+					<option value="2" {if !empty($data['kind']) && $data['kind']==2} selected="selected"{/if}>
+					兼职
+					</option>
+					<option value="3" {if !empty($data['kind']) && $data['kind']==3} selected="selected"{/if}>
+					实习
+					</option>
+					<option value="4" {if !empty($data['kind']) && $data['kind']==4} selected="selected"{/if}>
+					全/兼职
+					</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td >地区</td>
+			<td > <span id="cityname">
+				<!--{if !empty($data['city'])}-->
+				$data[cityname]
+				<!--{/if}-->
+				</span>
+				<input type="hidden" id="city" name="city" value="{if !empty($data['city'])}$data[city]{/if}" />
+				<input type="button" onclick="city_dialog.show()" value="选择" />
+			</td>
+			</td>
+		</tr>
+		<tr>
+			<td >行业</td>
+			<td > <span id="industryname">
+				<!--{if !empty($data['industry'])}-->
+				$data[industryname]
+				<!--{/if}-->
+				</span>
+				<input type="button" onclick="industries_dialog.show()" value="选择" />
+				<input type="hidden" name="industry"  id="industry" value="{if !empty($data['industry'])}$data[industry]{/if}" />
+				<span id="industries_path"></span> </td>
+		</tr>
+		<tr>
+			<td >职能</td>
+			<td > <span id="jobname">
+				<!--{if !empty($data['job'])}-->
+				$data[jobname]
+				<!--{/if}-->
+				</span>
+				<input type="button" onclick="job_dialog.show()" value="选择" />
+				<input type="hidden" name="job" id="job" value="{if !empty($data['job'])}$data[job]{/if}" />
+				<span id="industries_path"></span> </td>
+		</tr>
+		<tr>
+			<td >期望薪水</td>
+			<td > <select name="salary">
+					<option value="0">面议</option>
+					<option value="1" {if !empty($data['salary']) && $data['salary']==1} selected="selected"{/if}>
+					1000-2000
+					</option>
+					<option value="2" {if !empty($data['salary']) && $data['salary']==2} selected="selected"{/if}>
+					2000-3000
+					</option>
+					<option value="3" {if !empty($data['salary']) && $data['salary']==3} selected="selected"{/if}>
+					3000-4000
+					</option>
+					<option value="4" {if !empty($data['salary']) && $data['salary']==4} selected="selected"{/if}>
+					4000-5000
+					</option>
+					<option value="5" {if !empty($data['salary']) && $data['salary']==5} selected="selected"{/if}>
+					5000-6000
+					</option>
+					<option value="6" {if !empty($data['salary']) && $data['salary']==6} selected="selected"{/if}>
+					7000-8000
+					</option>
+					<option value="7" {if !empty($data['salary']) && $data['salary']==7} selected="selected"{/if}>
+					8000-9000
+					</option>
+					<option value="8" {if !empty($data['salary']) && $data['salary']==8} selected="selected"{/if}>
+					9000-10000
+					</option>
+					<option value="9" {if !empty($data['salary']) && $data['salary']==9} selected="selected"{/if}>
+					10000以上
+					</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+				<td>开始时间:</td>
+				<td>
+					<input type="text" class="txt" id="begintime" name="begintime" value="{if !empty($data['begintime'])}{date('Y-m-d',$data['begintime'])}{/if}" onclick="rcalendar(this, 'dateonly');" />
+				</td>
+			</tr>
+			<tr>
+				<td>有效时间:</td>
+				<td>
+					<input type="text" class="txt" id="endtime" name="endtime" value="{if !empty($data['endtime'])}{date('Y-m-d',$data['endtime'])}{/if}" onclick="rcalendar(this, 'dateonly');" />
+				</td>
+			</tr>
+		<tr>
+			<td >简历展示</td>
+			<td > 
+			<!--{foreach $resumes $val}-->
+				<input type="radio" name="resume" value="$val[id]" {if !empty($data['resume']) && $data['resume']==$val['id']}checked{/if} /> $val[title]<br />
+			<!--{/foreach}-->
+			<!--{if !$resumes}-->
+				<a href="">添加简历</a>
+			<!--{/if}-->
+			</td>
+		</tr>
+		<tr>
+			<td valign="top">内容</td>
+			<td >
+				<textarea name="content" rows="8" cols="80"><!--{if !empty($data['content'])}--><div id="p8_content_show">$data[content]</div><!--{/if}-->
+</textarea>
+			</td>
+		</tr>
+		
+	</table>
+	<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" />
+	<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+</form>
+<script type="text/javascript">
+var industries_dialog = new P8_Dialog({
+		title_text: "选择行业(最多只能选1项)",
+		button: true,
+		width: 650,
+		height: 550,
+		url: "{$this_system.modules['category']['controller']}-select?m=industry&n=1",
+		ok: function(){
+			text = $('#selected_industry').text();
+			ids = [];
+			$('#selected_industry').find('input').each(function(){
+				ids.push($(this).val());													  
+			});
+			$('#industryname').html(text);
+			$('#industry').val(ids.join(','));
+		}
+	});
+var job_dialog = new P8_Dialog({
+		title_text: "选择职位(最多只能选1项)",
+		button: true,
+		width: 650,
+		height: 450,
+		url: "{$this_system.modules['category']['controller']}-select?m=job&n=1",
+		ok: function(){
+			text = $('#selected_job').text();
+			ids = [];
+			$('#selected_job').find('input').each(function(){
+				ids.push($(this).val());													  
+			});
+			$('#jobname').html(text);
+			$('#job').val(ids.join(','));
+		}
+	});
+var city_dialog = new P8_Dialog({
+		title_text: "选择城市(最多只能选1项)",
+		button: true,
+		width: 500,
+		height: 400,
+		url: "{$this_system.modules['category']['controller']}-city?n=1",
+		ok: function(){
+			text = $('#selected_city').text();
+			ids = [];
+			$('#selected_city').find('input').each(function(){
+				ids.push($(this).val());													  
+			});
+			$('#cityname').html(text);
+			$('#city').val(ids.join(','));
+		}
+	});
+</script>
+
+</script>
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

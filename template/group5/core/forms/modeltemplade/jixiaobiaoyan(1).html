@@ -1,0 +1,45 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<style>
+body{font-size:12px;margin:0;padding:0;line-height:180%;color:#454545; text-align:center}
+.c900{color:#990000;}
+.red{color:#f00}
+.bbm td{border-bottom:1px dashed #cccccc}
+</style>
+</head>
+<body>
+<table width="100%">
+<tr class="bbm c900">
+	<td>姓名</td>
+	<!--{if $for=='tian'}-->
+	<td>部门</td>
+	<td>有效提案</td>
+	<td>奖励金额</td>
+	<!--{else}-->
+	<td>课时数</td>
+	<td>培训绩效</td>
+	<!--{/if}-->
+	<td>月份</td>
+</tr>
+<!--{foreach $list $key $val}-->
+<tr>
+	<td style="text-align:left;font-size:12px">·$val[name]</td>
+	<!--{if $for=='tian'}-->
+	<td>{$this_model['fields']['bumeng']['data'][$val['bumeng']]}</td>
+	<td>$val[yxtas] 个</td>
+	<td><strong class="red">$val[tajx]</strong> 元</td>
+	<!--{else}-->
+	<td>$val[shoukeshijian] 个</td>
+	<td><strong class="red">$val[shoukejixiao]</strong> 元</td>
+	<!--{/if}-->
+	<td>{$this_model['fields']['xiangxi']['data'][$val['xiangxi']]}</td>
+</tr>
+<!--{/foreach}-->
+</table>
+</body>
+</html>
+<!--{/php168}-->

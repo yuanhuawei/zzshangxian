@@ -1,0 +1,39 @@
+<!--{php168}-->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="{$core.CONFIG['page_charset']}">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>$TITLE</title>
+	<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/mobile/style.css" />
+	<script src="{$RESOURCE}/js/util_mobile.js"></script>
+	
+</head>
+<body>
+<div class="logo"><a href="{$core.controller}"><img src="{$RESOURCE}/skin/default/mobile/logo.jpg"></a></div>
+<!--{if $IS_ADMIN}-->
+<span id="labelshow" style="top:1px;right:1px; position:absolute;">[显示标签]</span>
+<script type="text/javascript">
+LABEL_URL = location.href;
+if(LABEL_URL.indexOf('edit_label')==-1){
+	var ls='?';
+	if(LABEL_URL.indexOf('?')>-1)ls='&';
+	LABEL_URL=LABEL_URL+ls+'edit_label=1';
+	$('#labelshow').html('<a href='+LABEL_URL+' id="edit_label">[显示标签]</a>');
+}else{
+	LABEL_URL=LABEL_URL.replace('&edit_label=1','');
+	LABEL_URL=LABEL_URL.replace('edit_label=1','');
+	$('#labelshow').html('<a href='+LABEL_URL+' >[隐藏标签]</a>');
+}
+</script>
+<!--{/if}-->
+<div class="local" id="divtime">今天是2012年10月28日   星期四</div>
+<script type="text/javascript">
+	function divtime() {
+		var date = new Date(),day =['日','一','二','三','四','五','六'];
+		$("#divtime").html("今天是" + date.getFullYear() + "年" + (date.getMonth()+1) + "月" + date.getDate() + "日&nbsp;星期"+ day[date.getDay()]);
+		setTimeout(divtime, 1000);
+	}
+	divtime();
+</script>
+<!--{/php168}-->

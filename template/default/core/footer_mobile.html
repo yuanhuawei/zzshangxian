@@ -1,0 +1,17 @@
+<!--{php168}-->
+<div class="foot">
+  <h1>国微市人民政府主办&nbsp;&nbsp;&nbsp;&nbsp;版权所有 <a id="pclink" href="" style="float:right; margin-right:20px; color:#ffffff; font-weight:bold">PC版</a></h1>
+  <p>国微市人民政府办公室承办 </p>
+  <p>国微市电子政务办公室&nbsp;&nbsp;&nbsp;&nbsp;建设维护</p>
+  <p>粤ICP备88888888号</p>
+  <p>Tel：020-6666666666&nbsp;&nbsp;&nbsp;&nbsp;Fax：020-66886688</p>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var l = location.href;
+		$('#pclink').attr('href',l.indexOf('ismobile')>-1?l.replace('ismobile=1','ismobile=0'):l+((l.indexOf('?')>-1?'&':'?')+'ismobile=0'));					 
+	})
+</script>
+</body>
+</html>
+<!--{/php168}-->

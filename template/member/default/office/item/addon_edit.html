@@ -1,0 +1,77 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/iColorPicker.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/swfupload/swfupload.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#form').validate({
+		errorPlacement: function(error, element) {
+			error.wrap('<div></div>').appendTo(element.parent().prev());
+		},
+		wrapper: 'div',
+		
+		onkeyup: false
+	});
+});
+</script>
+
+<form action="$this_url" method="post" id="form">
+	<table class="mainbox mainborder">
+		<tr>
+			<td>
+				<table class="columntable formtable hover_table">
+					<tr>
+						<td colspan="2" class="title">
+							<!--{if $ACTION == 'addon'}-->
+							{$P8LANG['office_item']['add']}
+							<!--{else}-->
+							{$P8LANG['office_item']['update']}
+							<!--{/if}-->
+						</td>
+					</tr>
+					<!--{foreach $this_model['fields'] $field $v}-->
+					<!--{php if($v['filterable']) continue;}-->
+					<tr>
+						<td class="tdL">{$v['alias']}</td>
+						<td class="tdR">
+							<!--{php 
+					$__name = '';
+					include template($core, 'widget/'. $v['widget'], 'default');
+					switch($v['widget']){
+					case 'checkbox': case 'multi_select': case 'multi_uploader':
+						$__name = '[]';
+					break;
+					}
+					}-->
+						</td>
+					</tr>
+					<!--{if $v['not_null']}-->
+					<script type="text/javascript">
+			$(function(){
+				$('#form *[name="field#[$field]$__name"]').rules('add', {
+					required: true
+				});
+			});
+			</script>
+					<!--{/if}-->
+					<!--{/foreach}-->
+					<tr>
+						<td class="tdL">&nbsp;</td>
+						<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<input type="hidden" name="model" value="$MODEL" /> <input type="hidden" name="iid" value="{if !empty($data['iid'])}{$data['iid']}{/if}" /> <input type="hidden" name="cid" value="{if !empty($data['cid'])}{$data['cid']}{/if}" /> <input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" /> <input type="hidden" name="action" value="$ACTION" /> <input type="hidden" name="attachment_hash" value="<!--{php echo $attachment_hash = unique_id(16);}-->" />
+</form>
+<script type="text/javascript">
+var attachment_hash = '$attachment_hash';
+$('#form input[name=sub_title]').focus();
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

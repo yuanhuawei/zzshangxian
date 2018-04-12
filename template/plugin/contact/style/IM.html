@@ -1,0 +1,81 @@
+<!--{php168}-->
+
+<div id="p8_im_1" class="p8_im_1" style="top:100px;right:2%">
+<style type="text/css">
+#p8_im_1{position:absolute;width:180px; line-height:120%}
+#p8_im_1 .p8_im_1_menu{float:right;width:26px;height:325px;overflow:hidden;padding:0px;margin:0px;}
+#p8_im_1 .p8_im_members{background-color:#EEE;float:left;width:154px;height:325px;overflow:hidden;padding:0px;margin:0px;display:none;}
+#p8_im_1 .p8_im_members .infobox{border:1px #CCC solid;padding:8px;margin:0px;width:134px;overflow:hidden;}
+#p8_im_1 .p8_im_members .infobox .ca_name{font-size:14px; font-weight:bold;color:#000000; font-family:"黑体",Verdana, Geneva, sans-serif; border-bottom:1px dashed #CCC; padding-bottom:3px;margin-top:10px}
+#p8_im_1 .p8_im_members .infobox ul{margin-top:5px}
+#p8_im_1 .p8_im_members .infobox li{margin:3px 0}
+</style>
+	
+	<div id="p8_im_1_members1" class="p8_im_members" onmouseover="show(this.id)" onmouseout="hide(this.id)">
+		<div class="infobox">
+			<h2 class="ca_name">{$config['qq']['category_1']['name']}</h2>
+				<ul>
+				<!--{foreach $config['qq']['category_1']['code'] $value}-->
+				<li>{$value}</li>
+				<!--{/foreach}-->
+				</ul>
+			<h2 class="ca_name">{$config['qq']['category_2']['name']}</h2>
+			<ul>
+			<!--{foreach $config['qq']['category_2']['code'] $value}-->
+				<li>{$value}</li>
+			<!--{/foreach}-->
+			</ul>
+		</div>
+	</div>
+	<div id="p8_im_1_members2"  class="p8_im_members" onmouseover="show(this.id)" onmouseout="hide(this.id)">
+		<div  class="infobox"> 
+			<h2 class="ca_name">{$config['qq']['category_3']['name']}</h2>
+				<ul>
+				<!--{foreach $config['qq']['category_3']['code'] $value}-->
+				<li>{$value}</li>
+				<!--{/foreach}-->
+				</ul>
+		</div>
+	</div>
+	<div id="p8_im_1_members3"  class="p8_im_members" onmouseover="show(this.id)" onmouseout="hide(this.id)">
+		<div  class="infobox">
+			<h2 class="ca_name">{$config['qq']['category_4']['name']}</h2>
+				<ul>
+				<!--{foreach $config['qq']['category_4']['code'] $value}-->
+				<li>{$value}</li>
+				<!--{/foreach}-->
+				</ul>
+		</div>
+	</div>
+	<div class="p8_im_1_menu">
+		<img border="0px" onmouseover="show('p8_im_1_members1')" onmouseout="hide('p8_im_1_members1')" style="margin:0px;cursor:pointer;" src="{$RESOURCE}/images/plugin/contact/qq_01.gif" /><br />
+		<img border="0px" onmouseover="show('p8_im_1_members2')" onmouseout="hide('p8_im_1_members2')" style="margin:0px;cursor:pointer;" src="{$RESOURCE}/images/plugin/contact/EQQ.gif" /><br />
+		<img border="0px" onmouseover="show('p8_im_1_members3')" onmouseout="hide('p8_im_1_members3')" style="margin:0px;cursor:pointer;" src="{$RESOURCE}/images/plugin/contact/complaint.gif" /><br />
+		<img border="0px" onclick="hide('p8_im_1')" style="margin:0px;cursor:pointer;" src="{$RESOURCE}/images/plugin/contact/close.gif" />
+	 </div>
+</div>
+<script language="javascript">
+function show(obj)
+{
+	$('#'+obj).show();
+}
+function hide(obj)
+{
+	$('#'+obj).hide();
+}
+last_Y=0;
+function IMBeat(){ 
+	var diffY;
+	if (document.documentElement && document.documentElement.scrollTop)
+		diffY = document.documentElement.scrollTop;
+	else if (document.body)
+		diffY = document.body.scrollTop
+	percent=.1*(diffY-last_Y); 
+	if(percent>0)percent=Math.ceil(percent); 
+	else percent=Math.floor(percent); 
+	document.getElementById("p8_im_1").style.top=parseInt(document.getElementById("p8_im_1").style.top)+percent+"px";
+	last_Y=last_Y+percent; 
+}
+window.setInterval("IMBeat()",1);
+</script>
+<!--{/php168}-->

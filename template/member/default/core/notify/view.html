@@ -1,0 +1,35 @@
+<!--{php168}-->
+<!--{php $TITLE='通知管理';}-->
+<!--{template $this_module header}-->
+
+<div class="wrap main_wrap">
+<div style="margin:20px 50px;line-height:200%">
+	<div style="background-color:#FFF; border:1px solid #cccccc;color:#0F518E; padding:5px; line-height:150%">
+		<h2 style="text-align:center; font-size:16px;font-weight:bold; margin-top:10px">$data[title]</h2>
+		<div style="margin:10px 20px; text-indent:2em"> <div id="p8_content_show">$data[content]</div> </div>
+		<p style="text-align:right; padding-right:50px">通知发布人：$data[username] 发布时间：{date('Y-m-d h:i:s',$data['timestamp'])}</p>
+	</div>
+	<div style="margin:10px 0;border:1px solid #cccccc;padding:5px">
+		<div style="margin:10px;">
+			<form id="postform" action="$this_url" method="post">
+			<p class="coni_53">请对此条通知信息进行确定性操作</p>
+				<!--{foreach $this_module->CONFIG['status'] $key $st}-->
+				<input type="radio" name="status" value="$key" {if $data['status']==$key}"checked"{/if}/>
+				$st
+				<!--{/foreach}-->
+				<p class="coni_65">操作备注:</p>
+				<!--{if empty($data['comment'])}-->
+				<textarea style="width:465px; height:100px;color:#666;font-size:12px" name="comment" onfocus="this.value=''"></textarea>
+				<!--{else}-->
+				<textarea style="width:465px; height:100px" name="comment">$data[comment]</textarea>
+				<!--{/if}-->
+				<input type="hidden" name="id" value="$data[id]"/>
+				<input type="hidden" name="hash" value="$data[hash]"/>
+				<br />
+				<input type="submit" class="forms_btn" value="提交" />
+			</form>
+		</div>
+	</div>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->

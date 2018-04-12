@@ -1,0 +1,145 @@
+<!--{php168}-->
+<table border="0" cellspacing="0" cellpadding="0" class="ajaxBox">
+	<tr>
+		<td><h3>{$P8LANG['ask_select_category']}</h3></td>
+	</tr>
+	<tr>
+		<td id="categories"></td>
+	</tr>
+	<tr>
+		<td>
+			<input type="button" value="{$P8LANG['ok']}" class="submit_btn" onclick="javascript:choose_category();"/>
+		</td>
+	</tr>
+</table>
+<script type="text/javascript">
+var reg = /^[0-9]*$/;
+
+show_category({});
+
+function show_category(options)
+{
+	var k = 0;
+	var categories;
+	var show_next = false;
+
+	if(options.id == undefined || !reg.test(options.id)){
+		options.id = 0;
+	}
+
+	var select = $('\
+		<select onchange="show_category({element:\'category_'+options.id+'\',id:this.value})" id="category_'+options.id+'"size="15" class="fleft mright" style="width:120px;">\
+		</select>').get(0);
+
+	$.ajax({
+		url: P8CONFIG.admin_controller + '/{$this_system.name}/{$category.name}-get_category',
+		type: 'POST',
+		dataType: 'json',
+		cache: false,
+		data: {id:options.id},
+		success: function(json){
+			if(options.element == undefined){
+				categories = json;
+			}else{
+				categories = json.categories;
+				if(categories == undefined){
+					$('#'+options.element).nextAll().remove();
+					return false;
+				}
+			}
+
+			for(var i in categories){
+				option = $('<option value="'+categories[i].id+'">'+categories[i].name+'</option>');
+				if(k == 0) option.get(0).setAttribute('selected', true);
+				if(categories[i].categories != undefined){
+					option.get(0).setAttribute('cat', 1);
+					if(k == 0){
+						show_next = true;
+						var id = categories[i].id;
+						var next_categories = categories[i].categories;
+					}
+				}
+				k++;
+				$(select).append(option);
+			}
+
+			if(options.element == undefined){
+				$('#categories').html($(select));
+			}else{
+				$('#'+options.element).nextAll().remove();
+				$('#'+options.element).after($(select));
+			}
+
+			if(show_next){
+				list_category({element:'category_'+options.id, id:id, categories:next_categories});
+			}
+
+		}
+	});	
+
+	element_to_center('.dialogBox');
+}
+
+function list_category(options)
+{
+	var k = 0;
+	var show_next = false;
+	if(options.categories == undefined || options.id == undefined) return false;
+
+	var categories = options.categories;
+
+	var select = $('\
+		<select onchange="show_category({element:\''+options.element+'\',id:this.value})" id="category_'+options.id+'"size="15" class="fleft mright" style="width:120px;">\
+		</select>').get(0);
+
+	for(var i in categories){
+		option = $('<option value="'+categories[i].id+'">'+categories[i].name+'</option>');
+		if(k == 0) option.get(0).setAttribute('selected', true);
+		if(categories[i].categories != undefined){
+			option.get(0).setAttribute('cat', 1);
+			if(k == 0){
+				show_next = true;
+				var id = categories[i].id;
+				var next_categories = categories[i].categories;
+			}
+		}
+		k++;
+		$(select).append(option);
+	}
+
+	$('#'+options.element).nextAll().remove();
+	$('#'+options.element).after($(select));
+
+	if(show_next){
+		list_category({element:'category_'+options.id, id:id, categories:next_categories});
+	}
+	element_to_center('.dialogBox');
+}
+
+function choose_category()
+{
+	var input = '';
+
+	if($('#categories select').length<=0){
+		alert('{$P8LANG['ask_error_not_choose_category']}');
+		return false;
+	}
+
+	var gt = '';
+	for(var i=0; i<$('#categories select').length; i++){
+		var obj = $('#categories select')[i];
+		input += gt + obj.options[obj.selectedIndex].text;
+		gt = ' &gt; ';
+	}
+
+	var cid = $('#categories select')[$('#categories select').length-1].value;
+	$('#editform').append($('<input type="hidden" name="cid" id="cid" value="'+cid+'"/>'));
+
+	$('.ajaxBox').fadeOut('slow', function(){
+		$('.dialogWrapper').remove();
+		$('#edit_category_box').jqmHide();
+		$('#category_location').html('<input type="radio" checked="checked" value="'+cid+'"/> '+input);
+	});
+}
+</script>
+<!--{/php168}-->

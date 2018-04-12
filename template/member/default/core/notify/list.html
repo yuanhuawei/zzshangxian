@@ -1,0 +1,148 @@
+<!--{php168}-->
+<!--{php $TITLE='通知管理';}-->
+<!--{template $this_module header}-->
+
+<div class="wrap main_wrap">
+	<form action="$this_url" method="POST" id="form">
+		<table width="95%" border="0" align="center" cellspacing="0" cellpadding="5" class="show_table" style="border:1px solid #cccccc">
+			<tr>
+				<td width="2%"></td>
+				<td width="18%"></td>
+				<td width="18%"></td>
+				<td width="18%"></td>
+				<td></td>
+			</tr>
+			<!--{foreach $list $value}-->
+			<tbody id="item_$value[id]">
+			<tr>
+				<td></td>
+				<td colspan='3'><b>·{date('Y-m-d H:i', $value['timestamp'])}</b><!--{if in_array($value['id'],$my_nid)}--><a href="{$this_router}-view?id=$value[id]" target="_blank" style="color:#1E50A2;font-weight:bold; text-decoration:underline;margin-left:10px;">$value[title]</a><!--{else}--> <span style="color:#1E50A2;">$value[title]</span><!--{/if}--></td>
+				<td >
+					<!--{if in_array($value['id'],$my_nid)}-->
+					<!--{if empty($value['receive'])}-->
+						<input type="button" id="sign_$value[id]" value="查收通知" style="color:#BA1C22" onclick="window.open('{$this_router}-view?id=$value[id]')" />
+					<!--{else}-->
+							<!--{if empty($value['status'])}-->
+							<input type="button" id="sign_$value[id]" value="签收通知" style="color:#ff0000" onclick="window.open('{$this_router}-view?id=$value[id]')" />
+							<!--{else}-->
+							<input type="button" id="sign_$value[id]" value="已经签收"  onclick="window.open('{$this_router}-view?id=$value[id]')" />
+							<!--{/if}-->	
+					<!--{/if}-->
+					<!--{/if}-->
+					<!--{if $view_link}-->
+					<input type="button" value="查看签收" onclick="window.open('{$this_router}-show?id=$value[id]')" />
+					<!--{/if}-->
+					<!--{if $resend_link}-->
+					<input type="button" value="编辑与重新发送" onclick="window.open('{$this_router}-resend?nid=$value[id]')" />
+					<!--{/if}-->
+					<!--{if $delete_link}-->
+					<input type="button" value="删除通知" onclick="delete_item($value[id])" />
+					<!--{/if}-->
+				</td>
+			</tr>
+			<tr class="c1e50">
+				<td></td>
+				<td>预计发送：<font color="#BA1C22">$value[send_count]</font> 人</td>
+				<td>实际签收：<font color="#BA1C22">$value[sign_in_count]</font> 人</td>
+				<td>未收到：<font color="#BA1C22">$value[no_receive]</font> 人</td>
+				<td>
+				<!--{foreach $value['status_count'] $k $st}-->
+				$st[name] <font color="#BA1C22">$st[count]</font> 人&nbsp; 
+				 <!--{/foreach}-->
+				 </td>
+			</tr>
+			</tbody>
+			<!--{/foreach}-->
+		</table>
+		<input type="hidden" name="action" value="" />
+	</form>
+<div align="center" class="mtop">$pages</div>
+<script type="text/javascript">
+
+var dialog = new P8_Dialog({
+	title_text:'查看及签收',
+	width: 500,
+	height: 300,
+	button: true,
+	ok:function(){
+		$.ajax({
+			url: '$this_url',
+			type: 'post',
+			dataType: 'json',
+			cache: false,
+			data: $('#postform').serialize()+'&action=sign',
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+					$('#sign_'+ json.id).attr({'value':'已经签收','style':''});
+					var info = $('#item_'+ json.id).find('font')
+						info.eq(0).html(json.send_count);
+						info.eq(1).html(json.sign_count);
+						info.eq(2).html(json.unsign_count);
+						
+						var status_count=json.status_count,inhtml='';
+						for(i in status_count){
+					 		inhtml += status_count[i].name+' <font color="#BA1C22">'+status_count[i].count+'</font> 人 ';
+						}
+						$('#item_'+ json.id).find('td').eq(7).html(inhtml);
+					ajaxing({action: 'hide'});
+						
+			}
+		});
+		
+	}
+});
+
+function show_notify(id){
+	$.ajax({
+		url: '$this_url',
+		type: 'post',
+		dataType: 'json',
+		cache: false,
+		data: ajax_parameters({action: 'show', id: id}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			if(json=='no_privilege'){alert('{$P8LANG['no_privilege']}');ajaxing({action: 'hide'});return}
+			var inneerhtml = '<div style="height:120px;margin:10px;border:1px solid #cccccc;padding:5px; overflow:scroll"><b>'+json.title+'</b><br>'+json.content+'</div>'+
+			'<div style="margin:10px;"><form id="postform"><p>选择操作:'+
+			<!--{foreach $this_module->CONFIG['status'] $key $st}-->
+			'<input type="radio" name="status" value="$key" '+(json.status==$key? 'checked' : '')+'/>$st'+
+			<!--{/foreach}-->
+			'<p>操作原因:</p><textarea style="width:465px;" name="comment">'+(json.comment==undefined? '': json.comment)+'</textarea><input type="hidden" name="id" value="'+json.id+'"/><input type="hidden" name="hash" value="'+json.hash+'"/></form></div>';
+			dialog.content.html(inneerhtml);
+			dialog.show();
+			json.status==0? $('#sign_'+ json.id).attr({'value':'签收通知','style':'color:#ff0000'}) : '';
+			ajaxing({action: 'hide'});
+				
+		}
+	});
+	
+}
+function delete_item(id){
+	if(!confirm('{$P8LANG['confirm_to_delete']}')) return;
+	
+	$.ajax({
+		url: '$this_url',
+		type: 'post',
+		dataType: 'json',
+		cache: false,
+		data: ajax_parameters({action: 'delete', id: id}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i in json){
+				$('#item_'+ json[i]).remove();
+			}
+		}
+	});
+}
+</script>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->

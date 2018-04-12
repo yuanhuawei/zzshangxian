@@ -1,0 +1,148 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--主体内容-->
+
+<div class="wrapbox">
+<div id="blockleft" class="float_right">
+	<!--历史-->
+	<div class="left_box layout_border margin_bottom">
+		<div class="layout_title">
+			<span>{$P8LANG['ask_view_history']}</span><a href="javascript:void(0);" onclick="javascript:clearHistory();">{$P8LANG['ask_clear']}</a>
+		</div>
+		<div id="categoryHistory" class="layout_textlist">
+		</div>
+	</div>
+	<!--专家列表-->
+	<div class="left_box layout_border margin_bottom">
+		<div class="layout_title">
+			<span>{$P8LANG['ask_expertors']}</span>
+		</div>
+		<div id="expertor" class="layout_textlist">
+			$label[主题分类列表右侧专家列表]{'E.cid' => $CATEGORY}
+		</div>
+	</div>
+	<!--公告-->
+	<div class="left_box layout_border margin_bottom">
+		<div class="layout_title">
+			<span>{$P8LANG['ask_administrator_announcement']}</span>
+		</div>
+		<div id="notice" class="layout_textlist">
+			<li>
+				<!--{if isset($CAT['announce'])}-->
+				{$CAT['announce']}
+				<!--{/if}-->
+			</li>
+		</div>
+	</div>
+</div>
+<div id="blockinner" class="float_left blockleft_mleft">
+	<!--分类列表框-->
+	<div class="wrapbox light_blue_border">
+		<div class="topic_title light_blue_bg">
+			<h3 style="float:left;">{$CAT['name']}</h3><i style="float:left;">&nbsp;|&nbsp;{$position}</i>
+		</div>
+		<div class="category_textlist">
+			<!--分类列表-->
+			<h1>{$P8LANG['ask_search_category']}</h1>
+			<ul>
+				<!--{foreach $categories $k $v}-->
+				<li><a href="{$v['url']}" {if $cid == $v['id']}style="color:red"{/if}>{$v['name']}</a><span>({$v['item_count']})</span></li>
+				<!--{/foreach}-->
+			</ul>
+			<!--关键词查找-->
+			<h1>{$P8LANG['ask_search_keywords']}</h1>
+			<ul class="keyword_textlist">
+				<form method="get" name="itemlist_form" id="itemlist_form" action="{$CAT['url']}<!--{if !empty($filter)}-->-filter-{$filter}<!--{/if}-->" onsubmit="javascript:return _search();">
+					<input type="text" name="t" id="t" value="<!--{if !empty($t)}-->{$t}<!--{/if}-->" size="30"/> <input type="submit" value="{$P8LANG['ask_search']}"/>
+				</form>
+			</ul>
+		</div>
+	</div>
+	<!--发表提问按钮-->
+	<div class="wrapbox margin_top margin_bottom">
+			<span class="post_textlist fleft">
+				$label[问签列表中部-]
+			</span>
+			<a href="{$this_router}-ask?cid={$cid}" target="_blank" class="fright"><img src="{$SKIN}post_btn.gif"/></a><a  class="fright" href="{$CAT['url']}-filter-recommend"><img src="{$SKIN}zhishi.gif"/></a>
+	</div>
+	<div class="clear">
+	</div>
+	<!--问题列表-->
+	<div class="wrapbox light_blue_border common_mtop">
+		<div class="topic_title light_blue_bg">
+			<h3 class="">{$CAT['name']}</h3>
+		</div>
+		<div class="topic_box">
+			<div class="topic_tabs">
+				<ul>
+					<li {if !in_array($filter,array('unsolved','solve','recommend','credit','week','view'))}  class="current"{/if}><span><a href="{$CAT['url']}">{$P8LANG['ask_all_topics']}</a></span></li>
+					<li {if $filter=='unsolved'}  class="current" {/if} ><span><a href="{$CAT['url']}-filter-unsolved">{$P8LANG['ask_unsolved_topics']}</a></span></li>
+					<li {if $filter=='solve'}  class="current" {/if} ><span><a href="{$CAT['url']}-filter-solve">{$P8LANG['ask_topic_solve']}</a></span></li>
+					<li {if $filter=='recommend'}  class="current" {/if} ><span><a href="{$CAT['url']}-filter-recommend">{$P8LANG['ask_classified']}</a></span></li>
+					<li {if $filter=='credit'}  class="current" {/if} ><span><a href="{$CAT['url']}-filter-credit">{$P8LANG['ask_high_topics']}</a></span></li>
+					<li {if $filter=='week'}  class="current" {/if} ><span><a href="{$CAT['url']}-filter-week">{$P8LANG['ask_week_topics']}</a></span></li>
+					<li {if $filter=='view'}  class="current" {/if} ><span><a href="{$CAT['url']}-filter-view">{$P8LANG['ask_hits_topics']}</a></span></li>
+				</ul>
+			</div>
+			<!--主题列表-->
+			<!--{php include template($this_module, $CAT['block_template']);}-->
+		</div>
+	</div>
+</div>
+</div>
+<div class="clear"></div>
+<script type="text/javascript">
+var category_id = {$CAT['id']};
+var category_name = '{$CAT['name']}';
+var category_url = '{$CAT['url']}';
+var category_history_time = {$history_expired_time};
+
+$(document).ready(function(){
+
+	set_cookie('category_id['+category_id+']', category_id, category_history_time);
+	set_cookie('category_name['+category_id+']', category_name, category_history_time);
+	set_cookie('category_url['+category_id+']', category_url, category_history_time);
+
+	var categoryHistory = '';
+	var ids = get_cookie('category_id');
+	var names = get_cookie('category_name');
+	var urls = get_cookie('category_url');
+	for(var i in ids){
+		if(ids[i]!='' && names[i] != '' && urls[i] != ''){
+			categoryHistory += '<li id="history_'+ids[i]+'"><a href="'+urls[i]+'" target="_blank">' + names[i] + '</a></li>';
+		}
+	}
+
+	$('#categoryHistory').html(categoryHistory);
+
+});
+
+function clearHistory()
+{
+	var ids = get_cookie('category_id');
+
+	for(var i in ids){
+		if(ids[i] == category_id){ continue; }
+		set_cookie('category_id['+ids[i]+']', '');
+		set_cookie('category_name['+ids[i]+']', '');
+		set_cookie('category_url['+ids[i]+']', '');
+		$('#categoryHistory').html('<li id="history_'+category_id+'"><a href="'+category_url+'" target="_blank">' + category_name + '</a></li>');
+	}
+}
+
+function _search()
+{
+	var url = $('#itemlist_form').attr('action');
+	var obj = $("#itemlist_form input[name='t']");
+	var t = obj.attr('value');
+	if(t.length <= 0){
+		alert('{$P8LANG['ask_search_keyword']}');
+		obj.focus();
+		return false;
+	}
+
+	$('#itemlist_form').submit();
+}
+</script>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

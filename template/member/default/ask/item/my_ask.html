@@ -1,0 +1,98 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module header}-->
+<div class="list_box mtop20">
+	<div class="head" id="boxhead">
+		<span id="unverified" class="$unsolve_over"><a href="$this_router-my_ask?job=unsolve">未解决的问题</a></span>
+		<span id="verified"class="$solve_over"><a href="$this_router-my_ask?job=solve">已解决的问题</a></span>
+		<span id="noverified" class="$unverify_over"><a href="$this_router-my_ask?job=unverify">未审核的提问</a></span>
+		<span id="recommend"class="$recommend_over" ><a href="$this_router-my_ask?job=recommend">我的精华提问</a></span>
+		<!--{if $is_expertor}-->
+		<span id="recommend"class="$askme_over" ><a href="$this_router-my_ask?job=askme">向我的提问</a></span>
+		<!--{/if}-->
+		<a class="sendmsg_link_bg" href="{$this_system.controller}/{$this_module.name}-ask" target="_blank">发布提问</a>
+	</div>
+</div>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table" id="list">
+	<tr class="head">
+		<td>标题</td>
+		<td>栏目</td>
+		<td>{$P8LANG['ask_post_time']}</td>
+		<td>{$P8LANG['ask_reply']}/{$P8LANG['ask_view']}</td>
+		<td>{$P8LANG['ask_status']}</td>
+		<td>操作</td>
+	</tr>
+	
+	<!--{foreach $list $k $v}-->
+	<tr id="ask_{$v['id']}">
+		<td class="al"><input type="checkbox" name="ids[]" value="{$v['id']}"/><a href="{$this_module.controller}-view-id-$v[id]" target="_blank">$v[title]</a></td>
+		<td>
+			<a href="{$this_url}?cid=$v[cid]" >{$category.categories[$v['cid']]['name']}</a>
+		</td>
+		<td><!--{php echo date('Y-m-d', $v['addtime']);}--></td>
+		<td>{$v['replies']}/{$v['views']}</td>
+		<td><!--{if $v['status']=='3' || $v['endtime'] <P8_TIME ||  $v['closed'] == 1}-->
+				已解决
+			<!--{else}-->
+				未解决
+			<!--{/if}-->
+		</td>
+		<td>
+			<a href="{$this_module.controller}-view-id-$v[id]" target="_blank">补充</a>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+	
+	<tr>
+		<td align="center" colspan="6" class="pages">
+			&nbsp;<input type="checkbox" name="ChkAll" id="ChkAll" value="1" onclick="check_all(this, 'ids[]', $('#list'))"/>{$P8LANG['ask_checkall']}
+				&nbsp;<input type="button" name="delete" value="{$P8LANG['delete']}" onclick="javascript:delete_items();"/>
+				$pages
+		</td>
+	</tr>
+</table>
+<script type="text/javascript">
+//选择ID
+function  chose_ids()
+{
+	var ids = [];
+	$("input[name='ids[]']", $('#list').parent()).each(function(){
+		if($(this).attr("checked")==true){
+			ids.push(this.value);
+		}			
+	});
+	return ids;
+}
+
+function delete_items()
+{
+	var ids = [];
+	ids = chose_ids();
+
+	if(ids.length<1){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+
+	if(!confirm('{$P8LANG['ask_delete_tips']}')){
+		return false;
+	}
+
+	$.ajax({
+		url: '{$this_router}-delete_myask',
+		type: 'POST',
+		dataType: 'json',
+		data: '_ajax_request=1'+ajax_parameters({ids:ids}),
+		cache: false,
+		success: function(json){
+			for(var i in json){
+				$('#ask_' + json[i]).remove();
+			}
+
+		}
+	});
+
+}
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

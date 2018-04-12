@@ -1,0 +1,61 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+</head>
+<body>
+
+<div id="p8_46_$data[id]" style="margin-right: {$data['data']['margin']}px; position: absolute;  bottom: {$data['data']['bottom']}px; right: 0px; width: $data[width]px; height: $data[height]px; overflow: hidden;">
+	
+	<div style="position: absolute; top: 3px; right: 3px; cursor: pointer; width: 18px; height: 18px; background: url($RESOURCE/images/close.gif) no-repeat 0 -18px;"></div>
+	
+	<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="100%" height="100%">
+		<param name="allowScriptAccess" value="sameDomain" />
+		<param name="movie" value="{$this.url}/clicker.swf" />
+		<param name="quality" value="high" />
+		<param name="scale" value="noscale" />
+		<param name="salign" value="lt" />
+		<param name="bgcolor" value="#ffffff" />
+		<param name="FlashVars" value="v_swf={$data['data']['right']}&v_url={urlencode($url)}" />
+		<param name="wmode" value="transparent" />
+		<embed src="{$this.url}/clicker.swf" wmode="transparent" quality="high" scale="noscale" salign="lt" bgcolor="#ffffff" width="100%" height="100%" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" FlashVars="v_swf={$data['data']['right']}&v_url={urlencode($url)}" />
+	</object>
+	
+</div>
+
+
+<script type="text/javascript">
+(function(){
+
+var e = document.getElementById('p8_46_$data[id]');
+e.getElementsByTagName('div')[0].onclick = function(){
+	e.style.display = 'none';
+};
+
+if(/msie 6/i.test(navigator.userAgent)){
+	//god damn ie6
+	e.style.position = 'absolute';
+	e.style.bottom = '';
+	
+	function scroll(){
+		e.style.top = (document.documentElement.scrollTop || document.body.scrollTop) +
+			(document.documentElement.offsetHeight || document.body.offsetHeight) - e.offsetHeight - 
+			{$data['data']['bottom']} +'px';
+	}
+	
+	window.attachEvent('onscroll', function(){
+		setTimeout(scroll, 200);
+	});
+	
+	scroll();
+}else{
+	e.style.position = 'fixed';
+}
+
+})();
+</script>
+
+</body>
+</html>
+<!--{/php168}-->

@@ -1,0 +1,38 @@
+body { color:#000; font-size:12px; font-family:"宋体",Arial; text-align:left; line-height:150%; background:#fff; }
+html, body, div, ul, li, dl, dt, dd, form, input, select, h1, h2, h3, h4, h5, p { margin:0px; padding:0px; }
+ul, li { list-style:none; }
+img { border:0px; margin:0px; padding:0px; }
+
+.selected{background-color: #b4d9ff;}
+
+#items a:hover { background-color: #dff1ff; }
+#items a:link, a:visited { text-decoration: none; }
+
+.item{ width: 110px; overflow: hidden; padding: 5px; text-align: center; margin: 5px; border: 1px solid #cccccc; float: left; }
+.item .icon{ width: 110px; height: 100px; position: relative; }
+.item .name{ overflow: hidden; line-height: 100%; height: 14px; }
+.item .size{ overflow: hidden; line-height: 100%; }
+.item .selected{ background-color: #b4d9ff; }
+.item .time{ position: absolute; bottom: 0px; right: 0px; background: #cccccc; color: #ffffff; width: 100%; opacity: 0.85; filter: alpha(opacity=85); }
+.item em{ display: none; }
+.item b{ display: none; }
+
+.ajaxing{
+	position: absolute;
+	width: 100px;
+	background: #EFEFEF url(../../../../images/wait-big.gif) no-repeat 2px 2px;
+	padding: 10px 0px 10px 40px;
+	border: 1px solid #AAAAAA;
+	font-weight: bold;
+}
+
+.pages{ }
+.pages .s1{width:52px; text-align:center;}
+.pages .s2{background:#1f3a87; border:1px solid #dcdddd; color:#fff; font-weight:bold; text-align:center;}
+.pages a.s2:visited {color:#fff;}
+.pages a{padding:4px 5px 0; color:#1E50A2;background:#fff; border:1px solid #dcdddd; text-align:center;}
+.pages a:visited{color:#1f3a87;} 
+.pages a:hover{color:#fff; background:#1E50A2; border:1px solid #1E50A2;}
+.pages .s3{cursor:default;padding:4px 5px 0;margin:5px 4px 0 0; color:#ccc;background:#fff; border:1px solid #ccc; text-align:center;}
+
+*{-moz-user-select:none};

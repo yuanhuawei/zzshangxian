@@ -1,0 +1,97 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/item/item.js"></script>
+<script type="text/javascript">
+var item_id = $data[id],
+	model = '$data[model]',
+	item_cid = $data[cid],
+	verified = \$_GET['verified'] !== undefined || \$_GET['verified'] == 1 ? 1 : 0;
+
+$(function(){
+	if(get_cookie('IS_ADMIN') == 1){
+		item_operation($('#operation').show());
+	}
+});
+</script>
+<div class="breadbanner">
+	$label[zhuzhan-banner]
+</div>
+<div class="gp-container">
+	<div class="container">
+		<div class="breadcrumbbox">
+			<ol class="breadcrumb">
+				<li><a href="{$this_system->controller}"><i class="fa fa-home"></i>首页</a></li>
+				<!--{foreach $parent_cats $v}-->
+				<li><a href="$v[url]"><i class="fa fa-caret-right"></i>$v[name]</a></li>
+				<!--{/foreach}-->
+				<li class="active"><i class="fa fa-caret-right"></i>$CAT[name]</li>
+			</ol>
+			<div class="row-page-tabs">
+				<!--{template $this_module step_category3}-->
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="headtitle text-center">
+				<h2>$data[title]<span id="operation" style="display:none;cursor: pointer;padding-left:25px;font-size:14px;">{$P8LANG['operation']}</span></h2>
+			</div>
+			<div class="row">
+				<div class="product-img row-ad"><img src="$data[frame]" title="$data[full_title]" onerror="this.src='{$core.url}/images/nopic.jpg'"  /></div>
+				<div class="product-info">
+					<h4>主要特征 <i></i></h4>
+					<p>$data[summary]</p>
+					<div class="product-button">
+						<!--{if !empty($data['pro_down']['url'])}-->
+						<a href="{$data['pro_down']['url']}" class="download"><!--{if empty($data['pro_down']['title'])}-->相关下载<!--{else}-->{$data[pro_down][title]}<!--{/if}--></a>
+						<!--{/if}-->
+						<a href="#" class="online">在线购买</a>
+					</div>
+				</div>
+			</div>
+			<div class="row">			
+				<div id="tab_1" class="product-tab">
+					<div class="head">
+						<span>产品介绍</span>
+						<span>产品数据</span>
+						<span>试用与预订</span>
+					</div>
+					<div class="main">
+						<div class="content">
+							$data[content]
+						</div>
+						<div class="content" style="display:none;">
+							$data[attrbutes]
+						</div>
+						<div class="content" style="display:none;">
+							$data[aboutinfo]
+						</div>
+					</div>
+				</div>
+				<script type="text/javascript">
+					MoveTabs('tab_1',0,'mouseover');
+				</script>
+				<div class="back-next">
+					<div class="row">
+						<div class="fl">
+								<div class="prev text-left">
+									<p class="s1">上一页</p>
+									<p><!--{if !empty($prev_item['subject'])}--><a href="$prev_item[url]" title="$prev_item[title]">$prev_item[subject]</a><!--{else}-->没有了<!--{/if}--></p>
+								</div>
+						</div>
+						<div class="fr">
+							<div class="next text-right">
+								<p class="s1">下一页</p>
+								<p><!--{if !empty($next_item['subject'])}--><a href="$next_item[url]" title="$next_item[title]">$next_item[subject]</a><!--{else}-->没有了<!--{/if}--></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--footer-->
+<!--{template $this_system footer}-->
+<!--{/php168}-->

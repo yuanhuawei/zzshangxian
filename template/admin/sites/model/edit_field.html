@@ -1,0 +1,306 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：
+	<a href="{$core.admin_controller}/sites/farm-index">站群系统</a> &gt; 
+	<a href="{$core.admin_controller}/sites/model-add"><!--{if !empty($data['alias'])}-->编辑<!--{else}-->	添加<!--{/if}-->字段</a></td>
+  </tr>
+</table>
+<form action="$this_url" method="post" id="form">
+	<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table">
+		<tr class="title fix_head">
+			<td width="23%"  class="list_top">{$P8LANG['config']}</td > <td width="35%" class="list_top">参数</td><td width="42%" class="list_top">备注</td>
+		</tr>
+		<tr>
+			<td class="tdL">字段名称</td>
+			<td class="tdR"> <!--{if !empty($data['name'])}-->
+						<input type="text" class="txt" value="{$data['name']}"  disabled />
+						<input type="hidden" name="name" value="{$data['name']}" />
+					<!--{else}-->
+						<input type="text" class="txt" name="name" id="name" value="" />
+					<!--{/if}-->
+					</td>
+			<td class="tdR">请添加字段名称,只能以英文数字及_组成,必须以字母开头，提交后不得修改</td>
+		</tr>
+		<tr>
+			<td class="tdL">字段别名</td>
+			<td class="tdR"> <input type="text" class="txt" name="alias" value="{if !empty($data['alias'])}$data[alias]{/if}" /> </td>
+			<td class="tdR">请添加字段别名，名称可任意填写</td>
+		</tr>
+		
+		<tr>
+			<td class="tdL">列表字段</td>
+			<td class="tdR"><!--{if $ACTION == 'update_field'}-->
+					<input type="checkbox" name="list_table" value="1"{if !empty($data['list_table'])} checked{/if} disabled />
+					<!--{else}-->
+					<input type="checkbox" name="list_table" value="1" />
+					<!--{/if}--></td>
+			<td class="tdR">存放在列表页表可以在列表页调用并且可以用来作过滤/排序,反之则存放在内容表,一经确定无法修改。列表页字段每条内容仅可以设置1次，内容页字段可以通过追加的方式设置多次。</td>
+		</tr>
+        <tr>
+			<td class="tdL">列表页的过滤字段</td>
+			<td class="tdR">
+					<input type="checkbox" name="filterable" value="1"{if !empty($data['filterable'])} checked{/if}{if $ACTION == 'update_field' && empty($data['list_table'])} disabled{/if} />
+					</td>
+			<td class="tdR">可以用于列表页的条件过滤，如果模型有一个字段是可过滤字段，那么此模型所属的分类将不能生成静态，务必注意。而且类型最好为单选,下拉框类型。记得生成模型模板</td>
+		</tr>
+         <tr>
+			<td class="tdL">列表页的排序字段</td>
+			<td class="tdR">
+				<input type="checkbox" name="orderby" value="1"{if !empty($data['orderby'])} checked{/if}{if $ACTION == 'update_field' && empty($data['list_table'])} disabled{/if} />	</td>
+			<td class="tdR"></td>
+		</tr>
+        <tr>
+			<td class="tdL">是否能编辑</td>
+			<td class="tdR"><input type="checkbox" name="editable" value="1"{if !isset($data['editable']) || !empty($data['editable'])} checked{/if} /></td>
+			<td class="tdR"></td>
+		</tr>
+         <tr>
+			<td class="tdL">字段类型</td>
+			<td class="tdR"><select name="type" onchange="on_select_type(this.value)" id="type">
+						<!--{foreach $this_module->field_types $type $lang}-->
+						<option value="$type"{if !empty($data['type']) && $data['type'] == $type} selected{/if}>{$P8LANG[$lang]}</option>
+						<!--{/foreach}-->
+					</select></td>
+			<td class="tdR"></td>
+		</tr>
+         <tr>
+			<td class="tdL">字段必须填写</td>
+			<td class="tdR"><input type="checkbox" name="not_null"  value="1"{if !empty($data['not_null']) || !isset($data['not_null'])} checked{/if} /></td>
+			<td class="tdR"></td>
+		</tr>
+         <tr>
+			<td class="tdL">字段长度</td>
+			<td class="tdR"><input type="text" class="txt" id="len" name="length"  value="{if !empty($data['length'])}{$data['length']}{/if}" size="10" /></td>
+			<td class="tdR"></td>
+		</tr>
+        <tr id="is_unsigned">
+			<td class="tdL">非负数</td>
+			<td class="tdR"><input type="checkbox" name="is_unsigned"  value="1"{if !empty($data['is_unsigned'])} checked{/if} /></td>
+			<td class="tdR"></td>
+		</tr>
+         <tr>
+			<td class="tdL">字段默认值</td>
+			<td class="tdR"><textarea name="default_value">{if !empty($data['default_value'])}{$data['default_value']}{/if}</textarea></td>
+			<td class="tdR"></td>
+		</tr>
+         <tr>
+			<td class="tdL">单位</td>
+			<td class="tdR"><input type="text" name="units" value="{if !empty($data['units'])}$data[units]{/if}" size="5" /></td>
+			<td class="tdR">一般为空</td>
+		</tr>
+		<tr>
+			<td class="tdL">表单附注文字</td>
+			<td class="tdR"><textarea name="description">{if !empty($data['description'])}$data[description]{/if}</textarea></td>
+			<td class="tdR">一般为空。若有内容则在后台以此帮助方式显示，前台则显示在右边</td>
+		</tr>
+		<tr>
+			<td class="tdL">字段输入方式</td>
+			<td class="tdR"><select name="widget" id="widget" onchange="on_select_widget(this.value)">
+						<!--{foreach $this_module->widgets $type $lang}-->
+						<option value="$type"{if !empty($data['widget']) && $data['widget'] == $type} selected{/if}>{$P8LANG[$lang]}</option>
+						<!--{/foreach}-->
+					</select></td>
+			<td class="tdR">一般为空</td>
+		</tr>
+        
+			<tr id="widget_data" style="display: none;">
+				<td class="tdL">字段输入数据</td>
+				<td class="tdR">
+					<div id="data_copy" style="display: none;" class="data">
+						<b style="cursor: move; background: url({$RESOURCE}/images/draggable.png) no-repeat 0px -20px;">&nbsp;&nbsp;</b>
+						值<input type="text" class="txt" value="" size="10" />
+						显示文字<input type="text" class="txt" value="" />
+						<input type="button" value="{$P8LANG['delete']}" />
+					</div>
+					<input type="button" value="{$P8LANG['add']}" onclick="_copy_data()" />
+					
+					<script type="text/javascript" src="{$RESOURCE}/js/sortable.js"></script>
+					<script type="text/javascript">
+					function _copy_data(key, value){
+						var copy = $('#data_copy').clone().show().attr('id', '');
+						
+						$('input:eq(0)', copy).attr('name', 'data_key[]').val(key === undefined ? '' : key);
+						$('input:eq(1)', copy).attr('name', 'data_value[]').val(value === undefined ? '' : value);
+						
+						copy.find('input[type=button]').attr('onclick', '').
+						click(function(){
+							$(this).parent().remove();
+						});
+						
+						$('#widget_data div:last').after(copy);
+						
+						sortable.refresh();
+					}
+					
+					var sortable = new $.p8_sortable({
+						selector: {
+							range: '.data',
+							drag: 'b'
+						},
+						type: 'y'
+					});
+					
+					$(document).ready(function(){
+						<!--{foreach $widget_data $key $value}-->
+						_copy_data('$key', '$value');
+						<!--{/foreach}-->
+					});
+					</script>
+				</td>
+                <td class="tdR"></td>
+			</tr>
+        <tr>
+			<td class="tdL">输入容器附加属性</td>
+			<td class="tdR"><textarea id="widget_addon_attr" name="widget_addon_attr" rows="3" cols="60">{if !empty($data['widget_addon_attr'])}<!--{php echo html_entities($data['widget_addon_attr']);}-->{/if}</textarea></td>
+			<td class="tdR">如 style="color: red;" onclick="alert(1)"</td>
+		</tr>
+        <tr>
+			<td class="tdL">额外配置</td>
+			<td class="tdR" id="extra_config">
+					<div id="config_clone" style="display: none;">
+						键名<input type="text" />
+						值<input type="text" />
+						<input type="button" value="删除" />
+					</div>
+					<input type="button" value="添加" onclick="add_config()" />
+					
+					<script type="text/javascript">
+					function add_config(key, value){
+						var copy = $('#config_clone').clone().show();
+						
+						copy.find('input:eq(0)').change(function(){
+							copy.find('input:eq(1)').attr('name', 'config['+ this.value +']');
+						}).
+						val(key === undefined ? '' : key);
+						
+						copy.find('input:eq(1)').attr('name', 'config['+ (key === undefined ? '' : key) +']').
+						val(value === undefined ? '' : value);
+						
+						copy.find('input:eq(2)').click(function(){
+							$(this).parent().remove();
+						});
+						
+						$('#extra_config div:last').after(copy);
+					}
+					
+					<!--{foreach $data['config'] $k $v}-->
+					add_config('$k', '<!--{php echo addslashes($v);}-->');
+					<!--{/foreach}-->
+					</script>
+				</td>
+			<td class="tdR">一般为空</td>
+		</tr>
+		<tr>
+			<td colspan="3" class="text-center"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		</tr>
+	</table>
+	<input type="hidden" name="model" value="{if !empty($data['model'])}{$data['model']}{/if}" />
+	<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" />
+	<input type="hidden" name="display_order" value="{if !empty($data['display_order'])}{$data['display_order']}{/if}" />
+</form>
+
+<script type="text/javascript">
+$('#widget_addon_attr').textarea_tab();
+
+var type_length = {
+	tinyint: 3,
+	smallint: 5,
+	mediumint: 5,
+	int: 10,
+	bigint: 20,
+	'float': '',
+	'double': '',
+	decimal: '10,2',
+	char: 100,
+	varchar: 255,
+	tinytext: '',
+	text: '',
+	mediumtext: '',
+	longtext: ''
+};
+
+
+
+function on_select_type(type){
+	switch(type){
+		case 'tinyint': case 'smallint': case 'mediumint': case 'int': case 'bigint': case 'decimal':
+			$('#is_unsigned').show();
+			$('#length').show();
+		break;
+		
+		case 'text': case 'mediumtext': case 'longtext':
+			$('#length').hide();
+			$('#is_unsigned').hide();
+		break;
+		
+		default:
+			$('#is_unsigned').hide();
+		break;
+	}
+	
+	$('#len').val(type_length[type]);
+}
+
+function on_select_widget(type){
+	switch(type){
+		case 'checkbox': case 'radio': case 'select': case 'multi_select':
+			$('#widget_data').show();
+		break;
+		
+		default:
+			$('#widget_data').hide();
+	}
+}
+on_select_type($('#type').val());
+on_select_widget($('#widget').val());
+$.validator.addMethod('valid_field', function(value, element){
+	return /^[a-zA-Z]/.test(value) && !/[^0-9a-zA-Z_]/.test(value);
+});
+
+$('#form').validate({
+	rules: {
+		name: {
+			required: true<!--{if $ACTION == 'add_field'}-->,
+			valid_field: true,
+			
+			remote: {
+				url: '$this_router-check_field_name',
+				cache: false,
+				type: 'post',
+				data: {model: '$model', name: function(){return $('#name').val();}},
+				beforeSend: function(){
+					ajaxing({});
+				},
+				complete: function(){
+					ajaxing({action: 'hide'});
+				}
+			}
+			<!--{/if}-->
+		}
+	},
+	
+	messages: {
+		
+		name: {
+			required: '字段名称不能为空'<!--{if $ACTION == 'add_field'}-->,
+			valid_field: '字段名称包含不允许的字符',
+			remote: '字段名称重复'
+			<!--{/if}-->
+		}
+	},
+	
+	onkeyup: false
+});
+
+<!--{if $ACTION == 'add'}-->
+$('#name').get(0).focus();
+<!--{/if}-->
+
+</script>
+
+
+<!--{template $this_system footer admin}-->
+<!--{/php168}-->

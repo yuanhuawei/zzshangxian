@@ -1,0 +1,15 @@
+/* CSS Document */
+@import url(../../style.css); /* 引用cms公共样式 */
+.down_left{width:290px; float:left}
+.down_right{width:690px; float:right}
+.half{width:49%}
+.dow_head1{; border:1px solid #dedede;border-bottom:none;background-color:#F6F6F6; height:30px;}
+.dow_head1 .dow_title1{color:333333; font-weight:bold; margin:5px 0 0 10px; float:left}
+.down_content1{border:1px solid #dedede; border-top:none;padding:15px;font-size:12px; background-color:#FFF; line-height:200%}
+.down_content1 .down_frame{float:right; width:200px; height:150px; background-color:#ffffff; text-align:center;overflow:hidden}
+.down_content1 .bg{ background-color:#f1f1f1}
+.down_content1 .keyname{width:100px;  font-weight:bold; color:#333333; clear:left}
+.down_content1 .dow_url{ background:url(down_ico.gif) no-repeat;padding-left:25px; margin:0 10px}
+.down_content1 .down_thunder{ background:url(down_thunder.gif) no-repeat;padding-left:25px; margin:0 10px}
+.down_content1 .down_flashget{ background:url(down_flashget.gif) no-repeat;padding-left:25px; margin:0 10px}
+.gov_article_content2 {background-color: #F7FCFF;border: 1px solid #D1E3F4;margin-top: 10px;overflow: hidden; padding: 15px;}

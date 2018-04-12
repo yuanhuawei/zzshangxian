@@ -1,0 +1,185 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/group1/core/forms/style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/css/service.css"/>
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/item/item.js"></script>
+<script type="text/javascript">
+var item_id = $data[id],
+	model = '$data[model]',
+	item_cid = $data[cid],
+	verified = \$_GET['verified'] !== undefined || \$_GET['verified'] == 1 ? 1 : 0;
+
+$(function(){
+	if(get_cookie('IS_ADMIN') == 1){
+		item_operation($('#operation').show());
+	}
+});
+</script>
+<div>
+	<div class="dt_left">	
+		<div class="show_leftbox_nav gov18">
+			<!--{php $parent = end($parent_cats);$parent_name = $parent ? $parent[name]:$CAT[name];$parent_url = $parent ? $parent[url] : $CAT[url];}-->
+			<div class="sl1_head">
+				$label[group1_left_img]
+			</div>
+			<div class="sl1_main" id='leftbox'>
+				$label[group1_left_nav]
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="adv_box mtop">
+		$label[ny3_let_ad1]
+		</div>
+	</div>
+   <div class="dt_right">
+		<div class="nav">
+			你的位置：<a href="{$this_system.url}">首页</a> &gt; <a href="#">$this_model[alias]</a>
+		</div>
+		<div class="show_rightbox">
+			<div class="show_main">
+				<div style="line-height:30px;font-size:14px;">
+					<div class="intro">
+						<div class="poshead">
+							<div class="title">{$data[name]}</div>
+							<div class="date">发布时间：<!--{php echo date("Y-m-d",$data['timestamp']);}--></div>				
+							<div class="resume"><a href="{$core.controller}/forms-post?mid=77">填写简历</a></div>
+						</div>
+						<div class="posinfo">				
+							<div class="operation" style="font-size:16px;"><span id="operation" style="display: none; cursor: pointer;color:#087cf3">{$P8LANG['operation']}>></span></div>	
+						</div>
+					</div>
+					<div class="clear"></div>
+					<div class="layer">		
+						<b class="part_name Mtop">招聘详细要求</b>
+						<table width="100%" cellpadding="0" cellspacing="0" class="hover_table print_table">					
+						<!--{foreach $this_model['fields'] $field $v}-->
+							<tr>
+								<td class="tdL">$v[alias] :</td>
+								<td class="tdR">
+									<!--{php
+									switch($v['widget']){
+										case 'text': case 'textarea': case 'editor': case 'editor_basic': case 'editor_basic'://字段输入方式为：输入杠、文本、编辑器
+								}-->
+									$data[$field]
+									<!--{php
+										break;
+										
+										case 'checkbox': case 'multi_select':
+											foreach($v['data'] as $value => $key){
+												if(in_array($value, $data[$field])){
+								}-->
+									$key
+									<!--{php
+												}
+											}
+										break;
+										
+										case 'select': case 'radio'://字段输入方式为：单选
+											foreach($v['data'] as $value => $key){
+												if($value == $data[$field]){
+								}-->
+									$key
+									<!--{php
+													break;
+												}
+											}
+										break;
+										
+										case 'uploader'://字段输入方式为：上传器
+								}-->
+									<a href="{$data[$field]['url']}" target="_blank">{$data[$field]['title']}</a>
+									<!--{php
+										break;
+										case 'image_uploader'://字段输入方式为：图片上传器
+								}-->
+									<span class="mbottom"> <a href="{$data[$field]['url']}" target="_blank"><img src="{$data[$field]['thumb']}" /></a> </span>
+									<!--{php
+										break;
+										
+										case 'multi_uploader'://字段输入方式为：多上传器
+										foreach($data[$field] as $vv){
+										if(preg_match("/[.+](jpg|jpeg|gif|png|bmp)$/i",$vv['url'])){
+											}-->
+									<span class="mbottom"> <a href="$vv[url]" target="_blank"><img src="$vv[thumb]" /></a> </span><br/>
+									<!--{php
+											}else{
+											}-->
+									<div class="mbottom">
+										<a href="$vv[url]" target="_blank">{$vv['title']}</a>
+									</div>
+									<!--{php
+											}
+										}	
+										break;
+										case 'video_uploader'://字段输入方式为：视频上传器
+								}-->
+									<div>
+										<script type="text/javascript" src="{$RESOURCE}/js/media.js"></script>
+										<!--{if !empty($data[$field])}-->
+										<script type="text/javascript">
+											showMedia({
+												url: '$data[video_url]',
+												width: 550,
+												height: 400
+											});
+											</script>
+										<!--{/if}-->
+									</div>
+									<!--{php
+										break;
+										
+									case 'city'://城市选择
+									
+									
+								}-->
+									$data[$field]
+									<!--{php
+									break;
+										case 'link'://超链接
+								}-->
+								<a href="$data[$field]" target="{if !empty($v['data']['target'])}{$v['data']['target']}{/if}">$data[$field]</a>
+										
+										<!--{php
+									break;
+										default://其它输入方式
+								}-->
+									$data[$field]
+									<!--{php
+									}
+								}-->
+								<!--{if !empty($v['units'])}-->
+								$v[units]
+								<!--{/if}-->
+								</td>
+							</tr>
+							<!--{/foreach}-->
+						</table>
+						<b class="part_name Mtop">处理意见</b>
+						<!--{if !empty($data['reply'])}-->
+						<p style="text-indent:2em;" class="Mtop"  id="reply_$id">$data[reply]</p>
+						<p align="right"  class="Mtop">---- <span  id="manager_$id">$data[replyer]</span> <span  id="rptime_$id">{date('Y-m-d h:i:s',$data['reply_time'])}</span></p>
+						<!--{else}-->	
+							<p align="right">{$status[$data['status']]}	</p>
+						<!--{/if}-->
+					</div>
+					<div class="tools layer">
+						<!--{if $manage}-->
+						【<a href="javascript:void(0)" onclick="setstatus()">处理</a>】
+						【<a href="{$this_router}-update?id=$id">修改</a>】 
+						【<a href="javascript:void(0)" onclick="deleteitem()">删除</a>】</td>
+						<!--{/if}--> 
+						【<a href="javascript:void(0)" onclick="javascript:window.print()">打印本文</a>】
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript" src="$this_router-count?id=$data[id]"></script>
+</div>
+<!--{if $manage}-->
+<!--{template $this_module manage}-->
+<!--{/if}-->
+<!--{template $this_system footer}-->
+<!--{/php168}-->

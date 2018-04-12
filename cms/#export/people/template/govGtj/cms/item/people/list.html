@@ -1,0 +1,86 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/alonepage/style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<div class="nav mtop">您的位置：
+<a href="{$core.controller}">首页</a>
+<!--{foreach $parent_cats $v}-->
+&gt;&gt; <a href="$v[url]">$v[name]</a>
+<!--{/foreach}-->
+&gt;&gt; <a href="$CAT[url]">$CAT[name]</a> 
+</div>
+<div>
+	<div class="contain_left">	
+		<div class="border1 gov18">
+			<div class="head1"><!--{php $parent = end($parent_cats);$parent_name = $parent ? $parent[name]:$CAT[name];$parent_url = $parent ? $parent[url] : $CAT[url];}-->
+				<span class="title1">
+					<a href="$parent_url">$parent_name</a>
+				</span>
+			</div>	
+				<div class="main1" id='leftbox'>
+					<!--{template $this_module step_category_jx}-->
+				</div>
+				<div class="clear">
+				</div>
+		</div>
+		
+		<div class="border1 mtop">
+			<div class="head1 gov18">
+				<span class="title1">
+					$label[ny3_tongzhi_title_2]
+				</span>
+			</div>	
+				<div class="main1">
+				<div style="min-height:40px;">$label[ny3_tongzhi_content_2]</div>
+                                </div>
+		</div>
+		<div class="mtop">
+		$label[ny3_let_ad1]
+		</div>
+	</div>
+	<div class="contain_right">
+	<!--{if empty($subcategories)}-->
+		<div class="border1">
+		<div class="gov_tab_head head">
+			<div class="bigtitle">$CAT[name]</div>
+			<!--{if $add_enable}-->
+				<div class="more1"> 
+				    <a href="{$core.U_controller}/cms/item-add?cid=$cid&model=$CAT[model]" target="_blank">发表</a>
+				</div>
+				<!--{/if}-->
+		</div>
+		<div class="main">
+               		<!--{php include template($TEMP_OBJ, $CAT['item_template'], 'label');}-->
+			<div class="mtop pages" id="page">{$pages}</div>
+		</div>
+	</div>
+	<!--{else}-->
+	<!--{foreach $subcategories $v}-->
+	<!--{php $i++;}-->
+	<!--{php if($i>5)break;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+    		<div class="border1 mbottom">
+		<div class="gov_tab_head head">
+			<div class="bigtitle"><a href="$this_url-category-$v[id]">$v[name]</a></div>
+			<div class="more1" style="float:right;border:none;width:94px;"> 
+				<!--{if $add_enable}-->
+				<a style="display:inline;" href="{$core.U_controller}/cms/item-add?cid=$v[id]&model=$CAT[model]" target="_blank">发表</a> | 
+				<!--{/if}-->
+				<a style="display:inline;" href="$this_url-category-$v[id]">More</a></div>
+		</div>
+		<div class="main">
+			<div  class="gov_index_middle_content content">
+                		$label[vd_sm_list]{'i.cid' => $subcat, 'model' => $MODEL}
+				<div class="clear"></div>
+			</div>
+		</div>
+		</div>
+	<!--{/foreach}-->
+	<!--{/if}-->
+	</div>
+</div>
+<div class="clear"></div>
+<!--{template $core foot_pre}-->
+<!--{template $core footer}-->
+<!--{/php168}-->

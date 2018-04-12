@@ -1,0 +1,17 @@
+<!--{php168}-->
+<!--{php $list_count = count($list);}-->
+<!--{php $list_i = 0;}-->
+<ul class="label_pic_ul28">
+	<!--{foreach $list $value}-->
+	<!--{php $list_i ++;}-->
+		<!--{if $list_i == $list_count}-->
+		<li style="margin-right:0;">
+			<a href="$value[url]" target="_blank" title="$value[full_title]"><img width="162" height="87" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a>
+		</li>
+		<!--{else}-->	
+		<li>
+			<a href="$value[url]" target="_blank" title="$value[full_title]"><img width="162" height="87" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a>
+		</li>
+		<!--{/if}-->	   
+	<!--{/foreach}-->
+<!--{/php168}-->

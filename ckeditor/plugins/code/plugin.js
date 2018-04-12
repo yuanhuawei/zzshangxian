@@ -1,0 +1,1 @@
+﻿CKEDITOR.plugins.add('code',{init:function(a){a.addCommand('code',CKEDITOR.plugins.code);a.ui.addButton('code',{label:a.lang.code,command:'code'});},requires:['forms']});CKEDITOR.plugins.code={exec:function(a){a.openDialog('textarea',function(b){b._code_mode=true;});}};

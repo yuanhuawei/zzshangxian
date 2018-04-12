@@ -1,0 +1,18 @@
+<!--{php168}-->
+<form id="block_form_$name">
+<div>
+	<ul>
+		<li>{$P8LANG['homepage']['block_alias']}<input type="text" name="block[$name][alias]" value="{if isset($data['alias'])}$data[alias]{/if}" /></li>
+		<li>
+			{$P8LANG['content']}
+			<textarea id="block[$name][content]" name="block[$name][content]">{if isset($data['content'])}<!--{php echo html_entities($data['content']);}-->{/if}</textarea>
+			<script type="text/javascript">
+				P8_CKEDITOR({
+					id: 'block[$block[name]][content]'
+				});
+			</script>
+		</li>
+	</ul>
+</div>
+</form>
+<!--{/php168}-->

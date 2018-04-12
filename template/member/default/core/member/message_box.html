@@ -1,0 +1,56 @@
+<div id="message_remind" style="width:272px;padding:0px;font-size:12px;overflow-x:hidden;position:fixed !important;position:absolute;right:0px;bottom:0px;display:none;">
+<div style="background:url({$SKIN}message_remind_title.gif);width:272px;height:24px;padding:0px;overflow:hidden;">
+	<img style="position:relative;top:5px;left:10px;" border="0" src="{$SKIN}message_remind_tips.gif" />
+    <span style="position:relative;top:3px;left:10px;font-weight:bolder;">短消息</span>
+    <span style="position:relative;top:4px;left:120px;color:#FF0000;"><a href="###" id="message_inbox_url" target="wrapright" onclick="closeMessage();">未读消息<font id="message_count"></font>条</a></span>
+	<img style="position:relative;top:5px;left:120px;cursor:pointer;" border="0" onclick="closeMessage();" src="{$SKIN}message_remind_close.gif"/>
+</div>
+<div style="width:250px;*width:272px;padding:7px 10px 0px 10px;border-bottom:#CCCCCC 1px solid;border-left:#CCCCCC 1px solid;border-right:#CCCCCC 1px solid;background:#ffffff;overflow:hidden;">
+	<div>
+	<span style="color:#020711;font-size:18px;">$USERNAME</span>
+	<span style="color:#999999;margin-left:40px;">From:<font id="message_from"></font></span>
+    </div>
+    <div style="color:#993333;margin-top:10px;">标题：<font id="message_title"></font></div>
+    <div style="color:blue;margin-top:10px;">内容：<font id="message_content"></font></div>
+    <div style="color:#999999;margin-top:10px;text-align:right;padding-right:10px;">
+    	<span style="position:relative;top:-2px;margin-right:10px;"><a href="" target="wrapright" id="message_read_url" onclick="closeMessage();" style="background:#ededed;padding:2px 5px;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;">阅读</a></span>
+        <span style="position:relative;top:-2px;margin-right:10px;"><a href="###" id="message_refuse" onclick="closeMessage();" style="background:#ededed;padding:2px 5px;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;">拒绝</a></span>
+        <span style="position:relative;top:-2px;"><a id="message_find_url" href="" target="wrapright" onclick="closeMessage();" style="background:#ededed;padding:2px 5px;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;">查看</a></span>
+    </div>
+</div>
+</div>
+
+<style type="text/css">
+.mymesg{ display: inline-block;    line-height: 22px;    width: 120px;}
+.mymesg a{color:#993333; text-decoration:underline}
+</style>
+<div id="message_manager" style="width:272px;padding:0px;font-size:12px;overflow-x:hidden;position:fixed !important;position:absolute;right:0px;bottom:135px;display:none;">
+<div style="background:url({$SKIN}message_remind_title.gif);width:272px;height:24px;padding:0px;overflow:hidden;">
+	<img style="position:relative;top:5px;left:10px;" border="0" src="{$SKIN}message_remind_tips.gif" />
+    <span style="position:relative;top:3px;left:10px;font-weight:bolder;">管理信息</span>
+	<img style="position:relative;top:5px;left:165px;cursor:pointer;" border="0" onclick="closeManageMessage();" src="{$SKIN}message_remind_close.gif"/>
+</div>
+<div style="width:250px;*width:272px;padding:7px 10px 0px 10px;border-bottom:#CCCCCC 1px solid;border-left:#CCCCCC 1px solid;border-right:#CCCCCC 1px solid;background:#ffffff;overflow:hidden;">
+	<div class="more_info">
+	<span class="mymesg" style="display:none">邮件：<a href="" class="mail" target="_blank"></a> 条</span>
+	<span class="mymesg" style="display:none">积分：<a href="" class="credit" target="_blank"></a> 个</span>
+	<span class="mymesg" style="display:none">通知：<a class="notify "  target="_blank"></a> 条</span>
+	<span class="mymesg" style="display:none">我的办事：<a class="work" target="_blank"></a> 条</span>
+	
+	<span class="mymesg" style="display:none">待办表单：<a class="forms" target="_blank"></a> 条</span>
+	<span class="mymesg" style="display:none">管理表单：<a href="" class="froms_manage" target="_blank"></a> 条</span>	
+	<span class="mymesg" style="display:none">待答提问：<a href="" class="ask"></a> 条</span>
+	<span class="mymesg" style="display:none">管理提问：<a href="" class="ask_manage"></a> 条</span>		
+	<span class="mymesg" style="display:none">管理办事：<a class="verify" target="_blank"></a> 条</span>
+	<span class="mymesg" style="display:none">待审文章：<a class="cms"></a> 条</span>
+	</div>
+</div>
+</div>
+<script language="javascript">
+var messageBox=$("#message_remind");
+$(window).scroll( function() {
+	messageBox.css("bottom","1px");
+	messageBox.css("bottom","0px");
+});
+
+</script>

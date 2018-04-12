@@ -1,0 +1,15 @@
+<!--{php168}-->
+<style type="text/css">
+.expertor_tb td{text-align:left}
+.expertor_tb .expername{color:#2A6CD9;font-size:14px; text-decoration:underline}
+.expertor_tb .cname{color:#666666;font-size:12px; text-decoration:underline}
+</style>
+<table class="expertor_tb">
+<!--{foreach $list $i $value}-->
+<tr>
+<td><a href="#"><img src="{$SKIN}/nomenpic.gif" width="56" /></a><br /></td>
+<td><a class="expername">$value[username]</a><br /><a href="javascript:void(0)" title="{$value['allcnames']}" class="cname">{$value['cnames']}>></a><br /><a href="$value[ask_url]" class="doctor_contact">向我咨询</a></td>
+</tr>
+<!--{/foreach}-->
+</table>
+<!--{/php168}-->

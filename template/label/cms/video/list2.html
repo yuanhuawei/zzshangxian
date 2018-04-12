@@ -1,0 +1,18 @@
+<!--{php168}-->
+<ul class="label_pic_ul label_pic_border2">
+	<!--{foreach $list $value}-->
+	<li>
+		<a href="$value[url]" target="_blank" title="$value[full_title]"><img alt="$value[full_title]" width="117" height="90" src="$value[frame]" /></a>
+		<div class="label_pic_title" style="width:117px;height:54px">
+			<a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a>
+		
+		<p class="label_pic_title2 c999">
+			播放:<span class="cBA2636">$value[views]</span>  评论<span class="cBA2636">:$value[comments]条</span> 
+		</p>
+		</div>
+	</li>
+	<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->
+

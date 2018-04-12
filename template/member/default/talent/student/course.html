@@ -1,0 +1,41 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+
+<div id="tab_1" class="tab_box mtop20">
+	<div class="head">
+		<span {if $status==1}class="over"{/if}><a href="$this_url?status=1">正在进行</a></span>
+		<span {if $status==0}class="over"{/if}><a href="$this_url?status=0">已申请的</a></span>
+		<span {if $status==2}class="over"{/if}><a href="$this_url?status=2">已结束的</a></span>
+	</div>
+	<div class="main profile" style="margin-top:20px">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table">
+			<tr class="head">
+				<td width="20">
+					<input type="checkbox" name="id[]" />
+				</td>
+				<td width="200">课程</td>
+				<td width="200">老师名称</td>
+				<td width="100">状态</td>
+				<td width="200">操作</td>
+			</tr>
+			<!--{foreach $list $key $val}-->
+			<tr>
+				<td>
+					<input type="checkbox" name="id[]" value="$val[id]" />
+				</td>
+				<td>$val[title]</td>
+				<td>$val[name]</td>
+				<td>$val[status]</td>
+				<td>删除</td>
+			</tr>
+			<!--{/foreach}-->
+			<tr>
+				<td align="center" colspan="5" class="pages"> $pages </td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="clear">
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

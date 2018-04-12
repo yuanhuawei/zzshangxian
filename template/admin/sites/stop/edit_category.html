@@ -1,0 +1,99 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<link rel="stylesheet" href="{$SKIN}/{$SYSTEM}/category_selector.css" type="text/css" />
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 
+    您现在的位置：<a href="{$core.admin_controller}/sites/farm-index">站群系统</a> &gt; 
+    <a href="{$core.admin_controller}/sites/stop-category"><!--{if empty($data['name'])}-->添加<!--{else}-->编辑<!--{/if}-->公共栏目</a></td>
+  </tr>
+</table>
+
+<form action="$this_url?action=$action" method="post" id="_form">
+<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table">
+	<tr>
+		<td colspan="2" class="list_top"></td>
+	</tr>
+	
+	<tr>
+		<td class="tdL">分类名称</td>
+		<td class="tdR">
+			<!--{if !empty($data['name'])}-->
+			<input  type="text" class="txt" name="name" value="{if !empty($data['name'])}{$data['name']}{/if}" />
+			<!--{else}-->
+			<textarea name="name" rows="5" cols="30"></textarea>
+			<!--{/if}-->
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="tdL">父分类</td>
+		<td class="tdR">
+			<span id="parents"></span>
+			<input type="hidden" name="parent" id="parent" value="{if !empty($data['parent'])}{$data['parent']}{/if}" />
+			<input type="button" value="选择" onclick="dialog.show()" />
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="tdL">&nbsp;</td>
+		<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+	</tr>
+</table>
+<input type="hidden" name="id" value="{if !empty($data['id'])}$data[id]{/if}" />
+</form>
+
+<iframe style="display: none;" name="poster"></iframe>
+
+<script type="text/javascript">
+var _CATEGORY_JSON = $json[json];
+var _CATEGORY_PATH = $json[path];
+
+var dialog = new P8_Dialog({
+	title_text: '请选择上级栏目',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		parent_path();
+	},
+	show: function(){
+		cs.init();
+	}
+});
+
+function parent_path(){
+	var val = $('#parent').val();
+	$('#_form input[name=parent]').val(val);
+	
+	$('#parents').empty();
+	
+	var path = _CATEGORY_PATH[val];
+	if(!path) return;
+	for(var i = 0; i < path.length; i++){
+		var cat = cs.get_by_id(path[i]);
+		$('#parents').append($('<span>'+ cat.name +' &gt; </span>'));
+	}
+}
+
+var cs = new Recursive_Selector({
+	json: _CATEGORY_JSON,
+	path: _CATEGORY_PATH,
+	input: $('#parent'),
+	dialog: dialog,
+	sub_property: 'categories',
+	item_callback: function(cat, item){
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	},
+	parents: <!--{if !empty($data['parent'])}-->clone(_CATEGORY_PATH[$data[parent]])<!--{else}-->null<!--{/if}-->
+});
+
+parent_path();
+</script>
+<!--{template $this_system footer admin}-->
+<!--{/php168}-->

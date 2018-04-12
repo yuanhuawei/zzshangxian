@@ -1,0 +1,22 @@
+<!--{php168}-->
+<!--{php $swidth = strpos($swidth, '%')!==false?$swidth:$swidth.'px';}-->
+<style type="text/css">
+@media (min-width:1200px) {
+#carousel-example-generic{$label['id']}{width:{$swidth};height:{$sheight}px;margin:0 auto;}
+.carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img {display: block;max-width: 100%;height:{$sheight}px;}
+}    
+</style>
+<div id="carousel-example-generic{$label['id']}" class="full-width carousel slide" data-ride="carousel">
+	<!-- Wrapper for slides -->
+	<div class="carousel-inner" role="listbox">
+		<!--{foreach $list $value}-->
+		<div class="item"><a href="{$value['url']}"><img src="{$value['frame']}" width="$swidth" height="$sheight" alt="" class="img-responsive"></a></div>
+		<!--{/foreach}-->
+	</div>
+</div>
+<script type="text/javascript">
+(function () {
+	$("#carousel-example-generic{$label['id']} .carousel-inner .item:first,#carousel-example-generic{$label['id']} .carousel-indicators .pagination:first").addClass("active");
+})()
+</script>
+<!--{/php168}-->

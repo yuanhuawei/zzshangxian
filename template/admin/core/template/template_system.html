@@ -1,0 +1,106 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['operation']}</td>
+			</tr>
+			<tr><td class="headerbtn_list">
+				<ul>
+					<li class="li1">
+						<a href="$this_url">网站模板</a>
+					</li>
+					<li><a href="{$core.admin_controller}/core-template_mobile">移动模板</a></li>
+					<li><a href="{$core.admin_controller}/core-navigation_menu_list">前台导航管理</a></li>
+					<li><a href="{$core.admin_controller}/core-menu_list">后台菜单管理</a></li>
+					<li><a href="{$core.admin_controller}/core-member_menu_list">会员中心菜单管理</a></li>
+					<li class="li5"><a href="$this_router-cache">{$P8LANG['update_cache']}</a></li>
+				</ul>
+			</td></tr>
+			
+		  </table>
+	</div>
+</div>
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<form action="$this_url" method="post">
+			<table class="formtable template_box">
+				<tr>
+					<td  class="title">模板选择</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="max_title">
+							<span class="min_title">当前系统模板选择</span>&nbsp;&nbsp;&nbsp;
+							<!--{if file_exists(CACHE_PATH.'deny_edit_template')}-->
+							<input type="button" value="查看模板" onclick="dialog.show(0, 0);" />
+							当前禁止编辑模板，需要开启时请手动删除 data/目录下的'deny_edit_template'文件
+							<!--{else}-->
+							<input type="button" value="编辑模板" onclick="dialog.show(0, 0);" />
+							
+							<input type="button" value="禁止编辑模板" id="deny_edit" onclick="if(confirm('确定禁止编辑模板？'))$.get('{$this_router}-deny_edit',function(){ alert('操作成功'); $('#deny_edit').hide();});" />
+							<!--{/if}-->
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="list_template">
+						<!--{foreach $core->CONFIG['templates'] $name $alias}-->
+						<!--{if is_dir(TEMPLATE_PATH . $name .'/'. $system)}-->
+						<div class="each_template">
+							<img src="{$RESOURCE}/{$core.CONFIG['template_dir']}$name/$system/preview.jpg" border="0" width="150" height="180" onclick="" onerror="this.src='{$RESOURCE}/images/nopic.jpg'" /><br />
+							$alias<br>
+							<input type="radio" name="template" id="template_$name" value="$name"{if !empty($config['template']) && $config['template'] == $name} checked{/if} /><input type="hidden" name="system" value="{if empty($system)}core{else}$system{/if}" /><label for="template_$name"> 设置为当前模板</label>
+						</div>
+						<!--{/if}-->
+						<!--{/foreach}-->
+						
+					</td>
+				</tr>
+				<tr><td align="center">
+				<p><input type="submit" value="提交" class="submit_btn"/></p>
+				</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['help_about']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					
+	你可以优先选择系统方案模板，如企业方案或政府方案，则此方案下属所有系统、模块风格都采用此方案模板。<br>
+
+	如果你觉得所选择的方案模板里面的某个系统模板不好看，那么你可以单独为那个系统模块更换模板
+				</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+
+<script type="text/javascript">
+var dialog = new P8_Dialog({
+	width: 1000,
+	height: 350,
+	show: function(){
+		template_selector.init();
+	}
+});
+
+var template_selector = new Template_Selector({
+	base_dir: '/',
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: dialog
+});
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

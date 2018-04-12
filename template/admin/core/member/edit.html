@@ -1,0 +1,319 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['operation']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					<ul>
+						<li><a href="{$core.admin_controller}/core/member-add">添加会员</a></li>
+						<li><a href="{$core.admin_controller}/core/member-import">批量添加会员</a></li>
+					</ul>
+				</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+<form action="$this_url" method="post" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="formtable hover_table">
+						<tr>
+							<td colspan="2" class="title">{$P8LANG['profile']}</td>
+						</tr>
+						
+						<!--{if $ACTION == 'update'}-->
+						<tr>
+							<td class="tdL">{$P8LANG['id']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" size="35" value="{$data['id']}" disabled />
+							</td>
+						</tr>
+						<!--{/if}-->
+						
+						<tr>
+							<td class="tdL">{$P8LANG['username']} <font color="red">*</font></td>
+							<td class="tdR">
+								<!--{if $ACTION == 'update'}-->
+									<input type="text" class="txt" size="35"  value="{$data['username']}" disabled />
+									<input type="hidden" name="username" size="35"  value="{$data['username']}" />
+								<!--{else}-->
+									<input type="text" class="txt" size="35"  name="username" id="username" />
+								<!--{/if}-->
+								<span class="point">请填入用户相关姓名或账号，企业内网方案直接填入员工姓名。</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['password']} <font color="red">*</font></td>
+							<td class="tdR">
+								<input type="password" id="passwordinput"  style="width:218px"  class="txt" name="password" /><span class="point">请输入相应密码。</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['email']} <font color="red">*</font></td>
+							<td class="tdR">
+								<input type="text" class="txt" name="email" size="35"  id="email" value="{if !empty($data['email'])}{$data['email']}{/if}" />
+								<span class="point">请输入相应电子邮箱。</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['number']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="number" size="35"  value="{if !empty($data['number'])}{$data['number']}{/if}" />
+								<span class="point">请输入员工工号，没有则不填</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['name']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="name" size="35"  value="{if !empty($data['name'])}{$data['name']}{/if}" />
+								<span class="point">用户真实姓名；内网方案一般不填</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['address']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="address" size="35"  value="{if !empty($data['address'])}{$data['address']}{/if}" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['phone']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="phone" size="35"  value="{if !empty($data['phone'])}{$data['phone']}{/if}" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['cell_phone']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="cell_phone" size="35"  value="{if !empty($data['cell_phone'])}{$data['cell_phone']}{/if}" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['role_group']}</td>
+							<td class="tdR">
+								<select name="role_gid" onchange="change_group(this.value)" id="role_group">
+								
+								</select>
+								<span class="point">选择此用户属于哪个角色组</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['role']}</td>
+							<td class="tdR">
+								<select name="role_id" id="role">
+								</select>
+								<span class="point">选择此用户属于哪个角色</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['member_status']['']}</td>
+							<td class="tdR">
+								<select name="status">
+									<!--{foreach $this_module->status $status $lang}-->
+									<option value="$status"{if isset($data['status']) && $data['status'] == $status} selected{/if}>{$P8LANG['member_status'][$lang]}</option>
+									<!--{/foreach}-->
+								</select>
+							</td>
+						</tr>
+						
+						<!--{if $IS_FOUNDER || $FORCE}-->
+						<tr>
+							<td class="tdL">管理员</td>
+							<td class="tdR">
+								<input type="checkbox" name="is_admin" value="1"{if !empty($data['is_admin'])} checked{/if} />
+								<span class="point">此身份之人可登录后台。</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">创始人</td>
+							<td class="tdR">
+								<input type="checkbox" name="is_founder" value="1"{if !empty($data['is_founder'])} checked{/if} />
+								<span class="point">此身份之人不受任何权限控制，慎用。</span>
+							</td>
+						</tr>
+						<!--{/if}-->
+						
+						<!--{if $ACTION == 'update'}-->
+						<!--{foreach $this_model['fields'] $field $field_data}-->
+						<tr>
+							<td class="tdL">$field_data[alias]</td>
+							<td class="tdR">
+								<!--{php include template($core, 'widget/'. $field_data['widget'], 'default');}-->
+							</td>
+						</tr>
+						<!--{/foreach}-->
+						
+						<tr>
+							<td class="tdL">{$P8LANG['register_time']}</td>
+							<td class="tdR">
+								<!--{php echo date('Y-m-d H:i:s', $data['register_time']);}-->
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['last_login_time']}</td>
+							<td class="tdR">
+								<!--{php echo date('Y-m-d H:i:s', $data['last_login']);}-->
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['last_login_ip']}</td>
+							<td class="tdR">
+								{$data['last_login_ip']}
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['login_time']}</td>
+							<td class="tdR">
+								{$data['login_time']}
+							</td>
+						</tr>
+						<!--{/if}-->
+						
+						<tr>
+						  <td class="tdL">&nbsp;</td>
+						  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+						</tr>
+						
+					</table>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+	<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" />
+</form>
+
+<script type="text/javascript">
+
+var ROLE_GROUP_JSON = $role_group_json;
+var ROLE_JSON = $role_json;
+
+function change_group(gid, selected){
+	$('#role').empty();
+	for(var i in ROLE_JSON){
+		if(ROLE_JSON[i].gid == gid)
+			$('#role').append($('<option value="'+ ROLE_JSON[i].id +'">'+ ROLE_JSON[i].name +'</option>').attr('selected', selected == ROLE_JSON[i].id ? true : false));
+	}
+}
+
+
+$.validator.addMethod('valid_passwd', function(value, element){
+	return /^(?![^a-zA-Z]+$)(?!\D+$).{8,20}$/.test(value);
+});
+<!--{if $ACTION == 'add'}-->
+
+$.validator.addMethod('valid_username', function(value, element){
+	//return /^[a-zA-Z]\w{3,}/.test(value);
+	return !/{$this_module.username_reg}/.test(value);
+});
+
+$.validator.addMethod('valid_email', function(value, element){
+	return value.length > 2 && /^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/.test(value);
+});
+
+$('#form').validate({
+	rules: {
+		username: {
+			required: true,
+			rangelength: [2, 20],
+			valid_username: true
+		},
+		
+		email: {
+			required: true,
+			valid_email: true
+		},
+		
+		password: {
+			required: true,
+			rangelength: [8, 20],
+			valid_passwd: true
+		}
+	},
+	
+	messages: {
+		username: {
+			required: '$P8LANG[username_required]',
+			rangelength: '$P8LANG[username_length_range]',
+			valid_username: '$P8LANG[username_hint]',
+			remote: '$P8LANG[username_exists_or_denied]'
+		},
+		
+		password: {
+			required: '$P8LANG[password_required]',
+			rangelength: '$P8LANG[password_length_range]',
+			valid_passwd: '$P8LANG[password_strong]'
+		},
+		
+		email: {
+			required: '$P8LANG[email_required]',
+			valid_email: '$P8LANG[email_invalid]',
+			remote: '$P8LANG[email_registerd]'
+		}
+	},
+	
+	onkeyup: false
+});
+
+init_group(2);
+change_group($('#role_group').val());
+<!--{else}-->
+
+$('#passwordinput').focus(function(){
+$('#form').validate({
+	rules: {
+		
+		password: {
+			rangelength: [8, 20],
+			valid_passwd: true
+		}
+	},
+	
+	messages: {
+		
+		password: {
+			required: '$P8LANG[password_required]',
+			rangelength: '$P8LANG[password_length_range]',
+			valid_passwd: '$P8LANG[password_strong]'
+		}
+	},
+	
+	onkeyup: false
+});
+});
+init_group($data[role_gid]);
+change_group($('#role_group').val(), $data[role_id]);
+
+<!--{/if}-->
+
+function init_group(selected){
+	for(var i in ROLE_GROUP_JSON){
+		$('<option value="'+ ROLE_GROUP_JSON[i].id +'">'+ ROLE_GROUP_JSON[i].name +'</option>').appendTo($('#role_group')).attr('selected', selected == ROLE_GROUP_JSON[i].id ? true : false);
+	}
+}
+
+$('#username').focus();
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

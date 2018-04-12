@@ -1,0 +1,82 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/autocomplete.js"></script>
+
+<div style="display:none">
+	<input type="text" id="srh" />
+</div>
+<form action="$this_url" method="post" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table width="1093" class="columntable formtable hover_table click_changeable">
+				<tr class="title fix_head">
+					<td width="8%" class="title">ID</td>
+					<td width="29%">{$P8LANG['name']}</td>
+					<td width="21%" class="title">{$P8LANG['guestbook']['num']}</td>
+					<td width="42%" class="title">{$P8LANG['operation']}</td>
+				</tr>
+				<!--{foreach $list $key $val}-->
+				<tr class="">
+					<td>$val[id]</td>
+					<td>$val[name]</td>
+					<td><!--{if !empty($val['num'])}-->$val[num]<!--{/if}--></td>
+					<td><a href="$this_url?job=edit&id=$val[id]"  onclick="return _edit_category($val[id])">[{$P8LANG['edit']}]</a>  <a href="$this_url?job=delete&id=$val[id]" onclick="return confirm('{$P8LANG['confirm_to_delete']}')">{$P8LANG['delete']}</a></td>
+				</tr>
+				<!--{/foreach}-->
+			</table>
+			<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+				<tr>
+					<td>
+						<input type="submit" value="{$P8LANG['update_cache']}" class="edit_btn" /><input type="button" value="{$P8LANG['add']}" class="edit_btn" onclick="_add_category()" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+function delete_category(id){
+	if(confirm('{$P8LANG['confirm_to_delete']}')){
+		$.ajax({
+			url: '$this_router-delete',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({model: 'ca', id: id}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				
+				ajaxing({action: 'hide'});
+				
+				for(var i in json){alert(json[i]);
+					$('#category_'+ json[i]).remove();
+				}
+			}
+		});
+	}
+	
+	return false;
+}
+var edit_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['edit']}',
+	width: 800,
+	height: 400
+});
+
+function _edit_category(id){
+	edit_dialog.show();
+	edit_dialog.content.load('{$this_url}?job=edit&id='+id);
+	
+	return false;
+}
+function _add_category(){
+	edit_dialog.show();
+	edit_dialog.content.load('{$this_url}?job=add');
+	
+	return false;
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

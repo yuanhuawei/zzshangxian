@@ -1,0 +1,17 @@
+<!--{php168}-->
+<table width="100%" border="0" cellpadding="3" cellspacing="0" class="label_table">
+	<tr class="label_tr_head">
+		<td width="70%">标题</td>
+		<td width="15%" >咨询人</td>
+		<td width="15%" >解决人</td>
+	</tr>
+	<!--{foreach $list $value}-->
+	<tr class="label_tr_list">
+		<td>·<a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a> <a href="$value[category_url]" target="_blank" class="question_category">[{$value['category_name']}]</a></td>
+		<td>$value[username]</td>
+		<td>$value[bestanswer_username]</td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+<!--{/php168}-->
+

@@ -1,0 +1,195 @@
+<!--{php168}-->
+<!--{if $inajax}-->
+	<div style="width:690px;">
+<!--{else}-->
+	<!--{template $this_system header}-->
+	<div class="wrapbox light_blue_border">
+<!--{/if}-->
+<link rel="stylesheet" href="{$RESOURCE}/images/category_selector.css" type="text/css">
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+   <div class="topic_title<!--{if !$inajax}--> light_blue_bg<!--{/if}-->"><h3 class="mark">{$P8LANG['ask_edit']}</h3></div>
+   <div class="postbox">
+     <form  action="{$this_router}-post_edit" name="AskForm" id="AskForm" method="post">
+	    <ul>
+		   <li class="grey_dash_bg">
+		     <dl>
+			     <dt>
+				 <div class="itemform_con">
+				 	<div class="tips">{$P8LANG['ask_title']}：</div>
+				 	<div class="con">
+				 		<input type="text" name="title" id="title" value="{$data['title']}" class="input topic_input_text"/>
+				 	</div>
+				 </div>
+				 <div class="itemform_con">
+					 <div class="tips" style="height:240px;">{$P8LANG['ask_content']}：</div>
+					<div class="con">
+						
+						<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+							<textarea name="content" id="content">{$data['content']}</textarea>
+							<script text="text/javascript">
+								var toolbar= [
+									['Undo','Redo','Bold','Italic','Underline','NumberedList','BulletedList','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','FontSize','TextColor','BGColor','Image']
+								];
+								P8_CKEDITOR({id:'content', config:{toolbar:toolbar, height:250, resize_enabled:false}})
+							</script>	
+					</div>
+				 </div>
+				 <div class="itemform_con setting">
+				 	<input type="checkbox" name="offercredit" id="offercredit" value="1"<!--{if $data['offercredit']}--> checked<!--{/if}-->/> {$P8LANG['ask_reward']} 
+				 	<select name="credits" id="credits">
+				 		<!--{foreach $reward $v}-->
+				 		<option value="{$v}"<!--{if $data['offercredit'] && $v==$data['credits']}--> selected<!--{/if}-->>{$v}{$P8LANG['ask_credit_unit']}</option>
+				 		<!--{/foreach}-->
+				 	</select>&nbsp;
+				 	<input type="checkbox" name="urgent" id="urgent" value="1"<!--{if $data['urgent']}--> checked<!--{/if}-->/> {$P8LANG['ask_urgent']} <input type="checkbox" name="anonymous" id="anonymous" value="1"<!--{if $data['anonymous']}--> checked<!--{/if}-->/> {$P8LANG['ask_anonymous']}
+				   <span id="Content_error_msg"></span>
+				</div>
+				 </dt>
+				 <!--{if !$inajax}-->
+				 <dd>
+				   <div class="notice_tips_title">平均<span>4分59秒</span>得到回答</div>
+				   <div class="notice_tips_content">
+				      <ul>
+					    {$P8LANG['ask_question_post_li'] $urgent_credit}
+					  </ul>
+				   </div>
+				 </dd>
+				 <!--{/if}-->
+			  </dl>
+		   </li>
+		   <li class="grey_dash_bg" style="display:none">
+		      <div class="tips">{$P8LANG['ask_additional_info']}：</div>{$P8LANG['ask_additional_email']}&nbsp;<input type="text" name="info" id="info" class="input" size="25" value="{$data['info']}"/>&nbsp;&nbsp;&nbsp;&nbsp;{$P8LANG['ask_telephone']}&nbsp;<input type="text" class="input" name="tel" id="tel" size="25" value="{$data['tel']}"/>
+		   </li>
+		   <li class="grey_dash_bg">
+		      <div class="tips">{$P8LANG['ask_topic_tags']}：</div>
+			  <input type="text" name="tags" id="tags" value="{$data['tags']}" style="width: 300px;" class="input topic_input_text"/> {$P8LANG['ask_tags_tips']}
+		   </li>
+		    <li class="grey_dash_bg">
+		   	  		<div class="tips">{$P8LANG['ask_category']}：</div>
+		   	  		<div class="setting" style="padding-top:3px;*padding-top:6px;">
+		   	  			<span id="categoryList"></span>
+						<a href="javascript:void(0);" onclick="dialog.show()"><span class="u">自选分类</span></a>
+						<input type="hidden" name="cid" value="{if !empty($data['cid'])}$data[cid]{/if}"/>
+						<input type="hidden" id="cid" value="{if !empty($data['cid'])}$data[cid]{/if}" />
+	         		</div>
+		   </li>
+		   <li class="postbtn_li">
+		   <input type="submit" value="{$P8LANG['ask_submit_topic']}" class="postbtn"/>
+		   <input type="hidden" name="id" value="{$id}"/>
+		   <input type="hidden" name="inajax" value="<!--{if $inajax}-->1<!--{else}-->0<!--{/if}-->"/>
+		   </li>
+		</ul>
+	 </form>
+	 <div class="clear"></div>
+   </div>
+   <div class="clear"></div>
+</div>
+<script type="text/javascript">
+var title_error = '{$P8LANG['ask_error_title']  $this_system->CONFIG['title_length']}';
+var content_error ='{$P8LANG['ask_error_content'] $this_system->CONFIG['content_min_length'],$this_system->CONFIG['content_max_length']}';
+var category_error = '{$P8LANG['ask_error_not_choose_category']}';
+
+
+$('#AskForm').validate({
+	rules: {
+		title: {
+			required: true,
+			rangelength: [{$this_system.CONFIG['title_length']}, 80]
+		},		
+		content: {
+			required: true,
+			rangelength: [{$this_system.CONFIG['content_min_length']}, {$this_system.CONFIG['content_max_length']}]
+		}
+	},
+	
+	messages: {
+		title: {
+			required: title_error,
+			rangelength: title_error
+		},		
+		content: {
+			required: content_error,
+			rangelength: content_error
+		}
+	},
+	
+	errorPlacement: function(error, element) {
+		if(element.attr('name') == 'content'){
+			error.insertAfter(element.next());
+		}else{
+			error.insertAfter(element);
+		}
+	},
+	
+	onkeyup: false
+	
+});
+
+var dialog = new P8_Dialog({
+	title_text: '选择分类',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20002,
+	ok: function(){
+		var values = cs.get_value();
+		$('#AskForm input[name=cid]').val(values);
+		
+		parent_path(values);
+	},
+	show: function(){
+		cs.init();
+	}
+});
+var cs = new Recursive_Selector({
+	input: $('#cid'),
+	dialog: dialog,
+	url: '{$this_system.controller}/category-json',
+	value: $('#AskForm input[name=cid]').val(),
+	sub_property: 'categories',
+	
+	init_callback: function(){
+		parent_path(this.get_value());
+	},
+	item_callback: function(cat, item){
+		if(cat.type == 1){
+			item.find('span').addClass('frame_category');
+			item.find('input[type=checkbox]').attr('disabled', true);
+		}
+		if(cat.categories)
+			item.addClass('sub_category');
+	}
+});
+function parent_path(cid){
+
+	if(!cid){
+		$('#cids').html('');
+		return;
+	}
+	
+	var tmp = cs.get_by_id(cid);
+	var html = '';
+	
+	while(true){
+		html = tmp.name +' &gt; '+ html;
+		if(tmp.parent == 0) break;
+		
+		tmp = cs.get_by_id(tmp.parent);
+	}
+	
+	$('#cids').html(html);
+	
+	$('#categoryList').html(html);
+}
+$(document).ready(function(){
+cs.init();
+ })
+</script>
+<!--{if $inajax}-->
+<!--{else}-->
+	<!--{template $this_system footer}-->
+	</body>
+	</html>
+<!--{/if}-->
+<!--{/php168}-->

@@ -1,0 +1,153 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<script type="text/javascript">
+
+var label_type = 'html';
+var action = '$ACTION';
+
+var _system;
+var _module;
+
+
+</script>
+
+<form action="$this_url" method="POST" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable ">
+				<tr>
+					<td colspan="2" class="title">{$P8LANG['label_scope']}</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<div id="tabs"  class="tab_box mtop">
+							<div class="head">
+								<span><a>风格样式</a></span>
+								<span><a>其它设置</a></span>
+							</div>
+							<div class="main">
+								
+								<div class="content">
+									<table width="100%" class="hover_table">
+										
+										<tr>
+											<td colspan="2">
+												<textarea name="content" id="content" rows="20" style="width: 100%">{if !empty($data['content'])}{$data['content']}{else}&nbsp;{/if}</textarea>
+											<script type="text/javascript">
+											
+											function _mode(mode){
+												mode == 'editor' ? 
+													P8_CKEDITOR({
+														id: 'content',
+														config: {
+															enterMode: 2,		//<br />
+															shiftEnterMode: 3	//<div>
+														}
+													}) :
+													P8_CKEDITOR({id: 'content', action: 'destroy'});
+											}
+											</script>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<input type="button" value="编辑器模式" class="submit_btn" onclick="_mode('editor')" />
+												<input type="button" value="文本模式" class="submit_btn" onclick="_mode('')" />
+												<input type="button" value="{$P8LANG['preview']}" class="submit_btn" onclick="preview()" />
+												<input type="hidden" name="verify" value="0" />
+												{$P8LANG['label_submit_fail_note']}
+											</td>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+											<td id="explain"></td>
+										</tr>
+									</table>
+								</div>
+								<div class="content">
+									<!--{template $this_module other_set admin}-->
+								</div>
+							</div>
+						</div>
+						<script type="text/javascript">
+						MoveTabs("tabs",0);
+					</script>
+					</td>
+				</tr>
+			</table>
+			<div align="center"> 
+				<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" />
+			</div>
+		</div>
+	</div>
+	
+</form>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['help_about']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+			  <p>1, 在此加入的HTML代码必须保证符合W3C标准，最基本的是HTML标签必须要有闭合，如前面有&lt;div&gt;后必有一个&lt;/div&gt;闭合，否则页面会错乱。</p>
+			  <p>2, 在加入视频代码时要注意，&lt;embed&gt;标签中必须加上一个属性 wmode=&quot;transparent&quot; ，否则在页面编辑标签时就会看不到标签的蓝色块。</p>
+			  <p>3, 在加入javascript时必须要闭合，且其语法必须符合ECMA标准</p>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+$('#content').change(function(){
+	$('#form input[name=verify]').val(Math.random());
+}).textarea_tab();
+	
+function preview(){
+	$.ajax({
+		url: '$this_router-preview',
+		type: 'post',
+		cache: false,
+		data: $('#form').serialize() +'&option[tplcode]='+ encodeURIComponent('<!-'+'-{'+'php168}-'+'->'+ $('#content').val() +'<!-'+'-{/'+'php168}-'+'->'),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(data){
+			ajaxing({action: 'hide'});
+			$('#explain').html(data);
+		}
+	});
+}
+
+$(function(){
+	$('#form input[name=verify]').rules('add', {
+		remote: function(){
+			
+			return {
+				url: '$this_router-preview?_verify=1',
+				type: 'post',
+				cache: false,
+				data: $('#form').serialize() +'&option[tplcode]='+ encodeURIComponent('<!-'+'-{'+'php168}-'+'->'+ $('#content').val() +'<!-'+'-{/'+'php168}-'+'->'),
+				beforeSend: function(){
+					ajaxing({});
+				},
+				complete: function(){
+					ajaxing({action: 'hide'});
+				}
+			}
+		},
+		messages: {
+			remote: '{$P8LANG['label_template_syntax_error']}'
+		}
+	});
+});
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

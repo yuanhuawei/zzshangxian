@@ -1,0 +1,30 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<table class="mainbox mainborder">
+	<tr><td>
+	<table class="formtable">
+		<tr>
+			<td class="title">{$P8LANG['operation']}</td>
+		</tr>
+		<tr><td class="headerbtn_list">
+		    <ul>
+				<li><a href="$this_router-add">{$P8LANG['add_cms_model']}</a></li>
+				<li><a href="$this_router-list">{$P8LANG['cms_model_list']}</a></li>
+				<!--{if !empty($model)}-->
+				<li><a href="$this_router-list_field?model=$model">字段管理</a></li>
+				<!--{/if}-->
+				<!--{if $ACTION == 'list_field' || $ACTION == 'add_field' || $ACTION == 'update_field'}-->
+				<li><a href="$this_router-add_field?model=$model">{$P8LANG['add_cms_model_field']}</a></li>
+				<li><a href="$this_router-list_field?model=$model">{$P8LANG['cms_model_field_list']}</a></li>
+				<!--{/if}-->
+				
+			</ul>
+		</td>
+		</tr>
+	</table>
+	
+	</td></tr>
+</table>
+
+<!--{/php168}-->

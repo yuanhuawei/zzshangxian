@@ -1,0 +1,46 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$TITLE</title>
+<meta name="keywords" content="$SEO_KEYWORDS" />
+<meta name="description" content="$SEO_DESCRIPTION" />
+<link rel="stylesheet" type="text/css" href="{$SKDIR}core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/label/label.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/alonepage/style.css" />
+<link rel="Shortcut Icon" href="favicon.ico">
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/intranet/work/onlinework/style.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+</head>
+<body>
+
+	<div class="olw_search" style="width:650px;margin:0 auto;margin-top:200px;">
+		<div class="search_1">
+		<form action="{$core.controller}/work/item-search" method="get" target="_blank">
+			办事查询
+			<input class="s_input" size="25" name="keyword" value="请输入关键字" onclick="this.value=''" type="text"/>
+			<select class="s_input2" name="type">
+				<option value="number">办事编号</option>
+				<option value="title">标题</option>
+			</select>
+			<input name="" class="s_button" value="提交查询" type="submit" />
+			</form>
+		</div>
+		<div style="float: left;margin-left: 15px;color:#3c9dff;font-size:12px;">
+		$label[办事查询]
+		</div>
+	</div>
+
+
+</body>
+</html>
+<!--{/php168}-->

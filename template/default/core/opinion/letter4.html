@@ -1,0 +1,206 @@
+<!--{php168}-->
+<!--{php $TITLE = '领导信箱  - ';}-->
+<!--{template $this_module header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/{$this_module.name}/letter.css">
+<div id="breadcrumb">
+<p>您现在的位置：<a href="{$core.url}">首页</a>&gt;&gt; <a href="{$this_router}-main">网络问政</a>&gt;&gt; <span class="current">领导信箱</span></p>
+</div>
+<div class="mainCol_01">
+<div class="leftCol">
+<div class="hd"><span class="title">凤翔镇</span></div>
+<div class="con">
+<table width="300" cellspacing="0" cellpadding="0" >
+  <tr>
+    <th scope="col">姓名</th>
+    <th scope="col">分工</th>
+    <th scope="col">职务</th>
+    <th scope="col">办公电话</th>
+  </tr>
+  <tr>
+    <td>111</td>
+    <td>111</td>
+    <td>111</td>
+    <td>111</td>
+  </tr>
+  <tr>
+    <td>222</td>
+    <td>222</td>
+    <td>222</td>
+    <td>222</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="300" cellspacing="0" cellpadding="0" >
+  <tr>
+    <th width="102" scope="col">网络发言人</th>
+    <td width="208" >2222</td>
+  </tr>
+</table>
+
+
+
+</div>
+</div>
+<div class="midCol">
+<div class="hd"><span class="title">基本情况</span></div>
+<div class="con">
+<div class="rightTxt">
+      <div class="time">今天是：<span id="nowDate">2013-09-22</span>
+<span id="nowTime"> 星期天</span></div>
+      <div class="yesterday">昨日来信<span>
+0      </span>件<br>
+        昨日受理<span>
+0        </span>件<br>
+        昨日办结<span>
+0        </span>件 </div>
+      <div class="today">今日来信<span>
+0      </span>件<br>
+        今日受理<span>
+0</span>件<br>
+        今日办结<span>
+0        </span>件 </div>
+      <div class="clear"></div>
+    </div>
+
+</div>
+</div>
+<div class="rightCol">
+<div class="hd"><span class="title">基本情况</span></div>
+<div class="con">
+制定组织经济制定组织经济制定组织经济制定组织经济制定组织经济制定组织经济制定组织经济
+</div>
+</div>
+</div>
+<div class="clear"></div>
+<div class="mainSearchBox">
+    <form action="/post.php" method="post" name="form_post" id="form_post">
+     
+      <input type="text" style="height:23px; width:270px; line-height:25px; font-size:14px; color:#0066FF" id="textfield" name="textfield">
+     
+        <select style="line-height:25px; font-size:14px; font-weight:700; color:#666; height:25px; width:103px;" id="select" name="select">
+  <option value="paixu_id">来信编号</option>
+  <option value="newstime">来信时间</option>
+  <option value="title">来信主题</option>
+  <option value="yjlx">来信类型</option>
+                </select>
+
+      <select style="line-height:25px; font-size:14px; font-weight:700; color:#666; text-align:center; height:25px; width:115px;" id="classid" name="classid">
+<option value="">按受理单位</option>
+<option value="150">政协办</option>
+<option value="170">人武部</option>
+<option value="169">人寿保险</option>
+<option value="168">信用联社</option>
+      </select>
+        <input type="image" align="middle" src="{$RESOURCE}/skin/default/core/{$this_module.name}/saarch_tj.gif" name="img">
+    </form>
+</div>
+<div class="clear"></div>
+<div class="mainCol_02" id="tab_1">
+		<div class="head">
+			<span class="over"><a>$label[tab_1_tt1]已受理问题</a></span><span><a>$label[tab_1_tt2]已办结问题</a></span><span><a>$label[tab_1_tt3]已办结问题</a></span><span class="over"><a>$label[tab_1_tt4]问题</a></span><span><a>$label[tab_1_tt5]55</a></span><span><a>$label[tab_1_tt6]66</a></span><span><a>$label[tab_1_tt7]77</a></span><span><a>$label[tab_1_tt8]88</a></span>
+			<div style="float:right;margin:0px;width:auto;padding-right:35px; height:30px; padding-top:0px;">
+                  <div  style="display: block;"><a target="_blank" href="#"><img border="0" src="{$RESOURCE}/skin/default/core/{$this_module.name}/wytw.gif"></a></div>
+             </div>
+		</div>
+		<div class="main">
+			<div  class=" content">
+              <div id="Tab1_Content1_table" style="display: block;">
+                      <div id="mail_k"></div>
+               	      <div id="mail_title">
+                      <ul>
+                      <li class="num">编&#12288;号</li>
+                      <li class="type">类&#12288;型</li>
+                      <li class="title">主&#12288;题</li>
+                      <li class="name">来信人</li>
+                      <li class="lxtime">来信时间</li>
+                      <li class="branch">受理部门</li>
+                      <li class="sltime">受理时间</li>
+                      <li class="status">状&#12288;态</li>
+                      <li class="clicks">点击数</li>
+                      <li class="caution">预警</li>
+                      </ul>
+                      </div>
+               	      <div id="mail_con">
+                      
+                       <ul>
+                       <li class="num">SJX000098</li><li class="type">咨询</li><li class="title"><a title="幼儿园换老师是不是家常便饭？？？" href="#1024">幼儿园换老师是不是家常便饭？？？</a></li><li class="name">哈啾</li><li class="lxtime">2012-09-24</li><li class="branch">教育局</li><li class="sltime"></li><li class="status1">已办理</li><li class="clicks">831</li><li class="caution"><font color="#FFFFFF">0</font><img width="14" height="24" src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp1.gif"></li><div class="clear"></div>
+                      </ul>
+                      
+                       <ul>
+                       <li class="num">ZF000056</li><li class="type">咨询</li><li class="title"><a title="咨询" href="#986">咨询</a></li><li class="name">1141750265</li><li class="lxtime">2012-08-30</li><li class="branch">教育局</li><li class="sltime">2012-08-31 09:32:09</li><li class="status1">已办理</li><li class="clicks">450</li><li class="caution"><font color="#FFFFFF">0</font><img width="14" height="24" src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp1.gif"></li><div class="clear"></div>
+                      </ul>
+                      
+                       <ul>
+                       <li class="num">JYJ000064</li><li class="type">咨询</li><li class="title"><a title="农民工子女回本省高考的事" href="#966">农民工子女回本省高考的事</a></li><li class="name">hb2827</li><li class="lxtime">2012-08-23</li><li class="branch">教育局</li><li class="sltime">2012-08-23 15:02:45</li><li class="status1">已办理</li><li class="clicks">472</li><li class="caution"><font color="#FFFFFF">0</font><img width="14" height="24" src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp1.gif"></li><div class="clear"></div>
+                      </ul>
+                      
+                       <ul>
+                       <li class="num">JYJ000063</li><li class="type">咨询</li><li class="title"><a title="外地生在本地借读" href="#911">外地生在本地借读</a></li><li class="name">webquestion</li><li class="lxtime">2012-08-07</li><li class="branch">教育局</li><li class="sltime">2012-08-08 11:58:07</li><li class="status1">已办理</li><li class="clicks">506</li><li class="caution"><font color="#FFFFFF">0</font><img width="14" height="24" src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp1.gif"></li><div class="clear"></div>
+                      </ul>
+                      
+                       <ul>
+                       <li class="num">ZX000005</li><li class="type">求决</li><li class="title"><a title="关于2012生源地贷款的问题" href="#867">关于2012生源地贷款的问题</a></li><li class="name">646092059</li><li class="lxtime">2012-07-26</li><li class="branch">教育局</li><li class="sltime">2012-07-27 09:55:53</li><li class="status1">已办理</li><li class="clicks">1024</li><li class="caution"><font color="#FFFFFF">0</font><img width="14" height="24" src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp1.gif"></li><div class="clear"></div>
+                      </ul>
+                      
+                       <ul>
+                       <li class="num">SJX000063</li><li class="type">咨询</li><li class="title"><a title="来凤中考全州倒数第一，不知道领导们作何感想？" href="#791">来凤中考全州倒数第一，不知道领导们作何感想？</a></li><li class="name">凤城说事</li><li class="lxtime">2012-07-09</li><li class="branch">教育局</li><li class="sltime"></li><li class="status1">已办理</li><li class="clicks">1199</li><li class="caution"><font color="#FFFFFF">0</font><img width="14" height="24" src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp1.gif"></li><div class="clear"></div>
+                      </ul>
+                      
+                       <ul>
+                       <li class="num">JYJ000061</li><li class="type">咨询</li><li class="title"><a title="小孩上学问题" href="#786">小孩上学问题</a></li><li class="name">123</li><li class="lxtime">2012-07-05</li><li class="branch">教育局</li><li class="sltime">2012-07-05 15:04:50</li><li class="status1">已办理</li><li class="clicks">629</li><li class="caution"><font color="#FFFFFF">0</font><img width="14" height="24" src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp1.gif"></li><div class="clear"></div>
+                      </ul>
+                      
+                       <ul>
+                       <li class="num">SJX000060</li><li class="type">建议</li><li class="title"><a title="关于建教育城的一些个人建议" href="#774">关于建教育城的一些个人建议</a></li><li class="name">lmleg</li><li class="lxtime">2012-07-02</li><li class="branch">教育局</li><li class="sltime"></li><li class="status1">已办理</li><li class="clicks">1306</li><li class="caution"><font color="#FFFFFF">0</font><img width="14" height="24" src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp1.gif"></li><div class="clear"></div>
+                      </ul>
+                      
+                       <ul>
+                       <li class="num">JYJ000037</li><li class="type">咨询</li><li class="title"><a title="生源地助学贷款" href="#700">生源地助学贷款</a></li><li class="name">xiaoxiao</li><li class="lxtime">2012-06-13</li><li class="branch">教育局</li><li class="sltime">2012-06-14 10:56:22</li><li class="status1">已办理</li><li class="clicks">442</li><li class="caution"><font color="#FFFFFF">0</font><img width="14" height="24" src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp1.gif"></li><div class="clear"></div>
+                      </ul>
+                      
+                       <ul>
+                       <li class="num">SJX000033</li><li class="type">求决</li><li class="title"><a title="解决运输问题" href="#609">解决运输问题</a></li><li class="name">参与网络问政</li><li class="lxtime">2012-06-04</li><li class="branch">教育局</li><li class="sltime"></li><li class="status1">已办理</li><li class="clicks">481</li><li class="caution"><font color="#FFFFFF">0</font><img width="14" height="24" src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp1.gif"></li><div class="clear"></div>
+                      </ul>
+                      
+               	      </div>
+                      <div class="pages"></div>
+               	  </div>
+			</div>
+			<div class="  content" style="display:none;">
+				$label[tab_1_con2]22
+			</div>
+			<div class="  content" style="display:none;">
+				$label[tab_1_con3]33
+			</div>
+			<div  class=" content" style="display:none;">
+                 $label[tab_1_con4]44
+			</div>
+			<div class="  content" style="display:none;">
+				$label[tab_1_con5]55
+			</div>
+			<div class="  content" style="display:none;">
+				$label[tab_1_con6]66
+			</div>
+			<div  class=" content" style="display:none;">
+                 $label[tab_1_con7]77
+			</div>
+			<div class="  content" style="display:none;">
+				$label[tab_1_con8]88
+			</div>
+		</div>
+
+</div>
+
+
+<div class="clear"></div>
+<script language="javascript">
+$(document).ready(function(){
+MoveTabs('tab_1',0,'mouseover');
+MoveTabs('tab_2',0,'mouseover');
+MoveTabs('tab_3',0,'mouseover');
+MoveTabs('tab_4',0,'mouseover');
+MoveTabs('tab_5',0,'mouseover');
+});
+</script>
+<!--{template $this_module footer}-->
+<!--{/php168}-->

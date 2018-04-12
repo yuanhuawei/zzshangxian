@@ -1,0 +1,32 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="POST">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+						<tr class="title">
+						  <td colspan="3" class="title">添加分类</td>
+						</tr>
+						<tr> 
+						  <td class="tdL">分类名称：<font color="red">*</font></td>
+						  <td class="tdL"><input class="txt" type="text" name="sort[name]" value="<!--{if !empty($sort['name'])}-->$sort[name]<!--{/if}-->"/></td>
+						  <td class="tdR">&nbsp;</td>
+						 </tr>
+						 <tr> 
+						  <td class="tdL">排序值：</td>
+						  <td class="tdL"><input class="txt" type="text" name="sort[list]" value="<!--{if !empty($sort['list'])}-->$sort[list]<!--{/if}-->"/></td>
+						  <td class="tdR">(数值越大.排在越前) </td>
+						 </tr>
+					</table>
+				</td></tr>
+				<tr><td colspan="3" class="footer" align="center"><input type="submit" class="submit_btn" value="提交数据" /></td></tr>
+			</table>
+		</div>
+	</div>
+	<input type="hidden" name="sort[fid]" value="<!--{if !empty($sort['fid'])}-->$sort[fid]<!--{/if}-->"/>
+</form>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

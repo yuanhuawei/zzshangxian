@@ -1,0 +1,269 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<link rel="stylesheet" href="{$SKIN}/cms/category_selector.css" type="text/css" />
+<style type="text/css">
+.formtable td a.over{color:red};
+</style>
+<div class="mainbox mainborder">
+	<div class="section">
+	<table width="100%" border="0" cellspacing="3">
+	<tr><td rowspan="2" valign="top">
+		<div style="border:1px solid #BDD9F4">
+		<table class="formtable">
+		<tr path="0" title="1" level="0">
+			<td class="title" colspan="2">部门列表</td>
+		</tr>
+		<tr id="category_0" path="0" title="1" level="0">
+			<td>&nbsp;</td>
+			<td class="c_name" model="0"><a class="over" href="javascript:;" onclick="aover(this);get_data(0,0)">所有</a></td>
+		</tr>
+		<tbody id="__">
+		<!--{foreach $groups $group}-->
+		<tr class="group" group="{$group['id']}">
+			<td>&nbsp;</td>
+			<td class="c_name" >
+				<span style="cursor: pointer;"><img src="{$SKIN}/show.gif" /></span>
+				<a href="javascript:;" onclick="aover(this);get_data({$group['id']},0);">{$group['name']}</a>
+			</td>
+		</tr>
+		<!--{if !empty($group['roles'])}-->
+		<!--{php $c=count($group['roles']);$i=0;}-->
+		<!--{foreach $group['roles'] $role}-->
+		<!--{php $i++;}-->
+		<tr class="role_{$group['id']}" style="display:none">
+			<td>&nbsp;</td>
+			<td class="c_name" >
+				│&nbsp;&nbsp;
+				<!--{if $i==$c}-->└<!--{else}-->├<!--{/if}-->
+				<a href="javascript:;" onclick="aover(this);get_data({$group['id']},{$role['id']});">{$role['name']}</a>
+			</td>
+		</tr>
+		<!--{/foreach}-->
+		<!--{/foreach}-->
+		<!--{/if}-->
+		</tbody>
+		</table>
+		</div>
+	</td><td height="50">
+	<form id="form" target="iframe" action="{$this_url}" method="post">
+	&nbsp;&nbsp;年份：<select id="year" name="year"><option value="0" selected>全部</option>
+		<!--{foreach $years $year}-->
+		<option value="{$year}">{$year}</option>
+		<!--{/foreach}-->
+		</select> 
+	月份：<select id="month" name="month"><option value="0" selected>全部</option>
+			<!--{foreach $months $month}-->
+			<option value="{$month}">{$month}</option>
+			<!--{/foreach}-->
+		</select> 
+	模型：<select id="model" name="model"><option value="0" selected>全部</option>
+		<!--{foreach $models $model}-->
+		<option value="{$model['name']}">{$model['alias']}</option><
+		<!--{/foreach}-->
+		</select>
+	栏目：<input type="text" name="cid" value=""/>
+			<input type="hidden" id="categories" />
+			<input type="hidden" name="gid" id="gid" value="0" />
+			<input type="hidden" name="rid" id="rid" value="0" />
+			<input type="hidden" name="step" id="step" value="0" />
+			<input type="hidden" name="page" id="page" value="1" />
+			<input type="hidden" name="act" id="act" value="stat"/>
+			<input type="hidden" name="uids" id="uids" value=""/>
+			<input type="button" value="选择" class="submit_btn" onclick="dialog.show()"/>
+			&nbsp;
+			<input type="button" class="submit_btn" value="查询" onclick="get_data()">
+			&nbsp;
+			<input type="button" value="导出Excel"  class="submit_btn" onclick="download()"/>
+	</form>
+	</td>
+	<td align="right">统计时间：<span id="statis_time">2012-05-01 </span> <a href="javascript:;" class="submit_btn" onclick="statistic('0')" style="color:#fff;">重新统计</a></td>
+	</tr>
+	<tr><td valign="top" colspan="2">
+		<table  class="columntable formtable hover_table click_changeable" align="center" style="text-align:center">
+		<tr><td width="20" class="title">&nbsp;</td><td width="30%" class="title">相关人员</td><td width="20%" class="title">发稿量</td><td width="20%" class="title">评论数</td><td width="*" class="title">操作</td></tr>
+		<tbody id="data_list">
+					
+		</tbody>
+		<tr><td colspan="5">&nbsp;</td></tr>
+		<tr><td colspan="2">
+		<a href="javascript:void(0)" onclick="check_all(true, 'uid[]');init_tr($('#data_list'));">全选</a> /
+		<a href="javascript:void(0)" onclick="check_all(false, 'uid[]');init_tr($('#data_list'));">反选</a>
+		<input type="button" value="导出Excel" onclick="download(1)"/>
+		</td>
+		<td class="pages" id="pages" colspan="3" align="center"></td></tr>
+		</table>
+	</td></tr>
+	</table>
+	</div>
+</div>
+<form name="form2" id="form2" method="post"  action="{$this_url}" target="iframe">
+	<input type="hidden" name="year" id="s_year" value="" />
+	<input type="hidden" name="month" id="s_month" value="" />
+	<input type="hidden" name="gid" id="s_gid" value="" />
+	<input type="hidden" name="rid" id="s_rid"  value="" />
+	<input type="hidden" name="model" id="s_model" value="" />
+	<input type="hidden" name="cid" id="s_cid"  value="" />
+	<input type="hidden" name="step" id="s_step" value=""  />
+</form>
+<iframe id="iframe" name="iframe" src="" width="800" height="200" style="display: none;"></iframe>
+<script type="text/javascript">
+
+
+var dialog = new P8_Dialog({
+	title_text: '选择栏目',
+	button: true,
+	width: 700,
+	height: 300,
+	ok: function(){
+		var values = cs.get_value();
+		$('#form input[name=cid]').val(values.join(','));
+		
+		category_path(values);
+	},
+	show: function(){
+		cs.init();
+	}
+});
+dialog.content.height(240);
+
+var cs = new Recursive_Selector({
+	multiple: true,
+	input: $('#categories'),
+	dialog: dialog,
+	url: '{$this_system.controller}/category-json',
+	values: $('#form input[name=cid]').val(),
+	sub_property: 'categories',
+	init_callback: function(){
+		category_path(this.get_value());
+	},
+	item_callback: function(cat, item){
+		if(cat.type == 1){
+			item.find('span').addClass('frame_category');
+			//item.find('input[type=checkbox]').attr('disabled', true);
+		}
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	}
+});
+
+function category_path(cids){
+	$('#category_path').empty();
+	
+	cids = array_filter(cids);
+	
+	var html = '';
+	for(var i in cids){
+		
+		cs.get_by_id(cids[i], function(json){
+			if(!json) return;
+			
+			var p = [];
+			while(true){
+				p.unshift(json.name);
+				if(json.parent == 0) break;
+				
+				json = cs.get_by_id(json.parent);
+			}
+			html += '<div>'+ p.join(' &gt; ') +'</div>';
+		});
+	}
+	
+	$('#category_path').html(html);
+}
+
+$(function(){
+	cs.init();
+});
+
+</script>
+<script type="text/javascript">
+$(function(){
+$('.group').find('span').each(function(){
+	var gid =$(this).parent().parent().attr('group');
+	$(this).toggle(function(){
+		$('#__').find('tr[class=role_'+gid+']').show();
+		$(this).html('<img src="{$SKIN}/hide.gif" />');
+		},
+		function(){
+		$('#__').find('tr[class=role_'+gid+']').hide();
+		$(this).html('<img src="{$SKIN}/show.gif" />');
+		}
+	);}); 
+	get_data();
+})
+
+
+function get_data(gid,rid){
+	if(gid!=undefined){ $('#gid').val(gid);$('#page').val(1) }
+	if(rid!=undefined){ $('#rid').val(rid);$('#page').val(1) }
+	$('#act').val('query');
+	
+	var year=$('#year').val();
+	var month=$('#month').val();
+	var model=$('#model').val();
+	ajaxing({});
+	$.ajax({
+		url:'{$this_url}',
+		data: $('#form').serialize(),
+		dataType: 'json',
+		type: 'POST',
+		success: function(msg){
+			if(msg!=''){
+				var shtml = '';
+				dataList = msg.list;
+				var statis_time = '';
+				for(var i in dataList){
+					shtml +=  '<tr><td><input type="checkbox" name="uid[]" value="'+dataList[i].id+'"/></td><td>'+dataList[i].username+(dataList[i].name? ' ('+dataList[i].name+')':'')+'</td><td>'+(dataList[i].post?dataList[i].post:0)+'</td><td>'+(dataList[i].comment?dataList[i].comment:0)+'</td></tr>';
+					statis_time=dataList[i].timestamp;
+				}
+				$('#statis_time').html(statis_time);
+				$('#pages').html(msg.page);
+				$('#data_list').html(shtml);
+				
+			}else{
+				$('#data_list').html('<tr><td colspan="4" align="center">没有相关数据</td></tr>');
+			}
+			ajaxing({action: 'hide'});
+		}
+	});
+}
+function request_item(page){
+	$('#page').val(page);
+	get_data();
+}
+function statistic(step){
+	if($('#year').val()==0){
+		alert('请选择至少一个年份');
+		return false
+	}
+	$('#act').val('stat');
+	ajaxing({text:'统计中['+step+']'});
+	$('#form').attr('target','iframe');
+	$('#form').submit();
+}
+function aover(obj){
+$('#__ a').removeClass('over');
+$('#category_0 a').removeClass('over');
+$(obj).addClass('over');
+}
+function download(style){
+	var uids = '';
+	if(style==1){
+		$('#data_list input:checked').each(function(){ uids +=','+$(this).val(); })
+		if(uids==''){
+			alert('请选择要导出的会员');
+			return false;
+		}
+	}
+	$('#uids').val(uids);
+	$('#act').val('download');
+	$('#form').attr('target','_parent');
+	$('#form').submit();
+
+}
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,28 @@
+<div class="content">
+	<form action="" method="POST">
+	<div class="h">
+		<strong>网站地址设置</strong>
+			
+				<?php
+if(empty($core_table_prefix)){
+?>
+				<div class="b mtop20">
+					访问地址: <input type="text" name="url" size="60" value="http://<?php echo $_SERVER['HTTP_HOST'] . $path;?>" /> <input type="hidden" name="step" value="step3" />
+				</div>
+				<?php
+}else{
+?>
+				<input type="hidden" name="step" value="finish" />
+				<?php
+}
+?>
+				<div class="b mtop20" style="display:none">
+				&nbsp;&nbsp;序列号:  <input type="text" name="serial_number" size="30" value="ET47A-TN003-PO3DH-BYH7P-79E11"/>
+				</div>
+			</div>
+		
+		<div class="form">
+			<input type="button" name="upstep" value="上一步" onclick="javascript:history.go(-1)" class="submit_btn"> <input type="submit" name="Submit" value="下一步" class="submit_btn">
+		</div>
+	</form>
+</div>

@@ -1,0 +1,69 @@
+
+<div class="tree_menu" style="border:none">
+	<ul id="TreeMenu_0" style="border:none">
+		<li> 管理员: $USERNAME<br/>
+			用户级别: {$core.roles[$core.ROLE]['name']}<br/>
+			<a href="javascript:show_map();">后台地图</a> <a href="{$core.admin_controller}/core-logout">安全退出</a><br/>
+			今天日期:<!--{php echo date('Y-m-d', $timestamp);}--><br />
+			Build：{$core.CONFIG['build']}
+		</li>
+	</ul>
+</div>
+<div class="tree_menu">
+	<h1 class="show_tree_menu" onclick="show_tree_menu('TreeMenu_1',this);">内容管理</h1>
+	<ul id="TreeMenu_1" style="display:" class="menu_icon">
+		<li><a href="{$core.controller}?edit_label=1" target="_blank">首页标签</a> </li>
+		<li><a href="{$core.admin_controller}/cms/item-add" target="main">发布内容</a> </li>
+		<li><a href="{$core.admin_controller}/cms/item-list" target="main">文章内容管理</a></li>
+		<li><a href="{$core.admin_controller}/cms/category-add" target="main">创建栏目</a> </li>
+		<li><a href="{$core.admin_controller}/cms/category-list" target="main">栏目管理</a></li>
+		<li><a href="{$core.admin_controller}/core/special-list" target="main">系统专题</a> </li>
+		<li><a href="{$core.admin_controller}/core/forms-model" target="main">表单内容管理</a></li>
+		<li><a href="{$core.admin_controller}/cms/statistic-statistic_member" target="main">内容统计</a></li>
+		<li><a href="{$core.admin_controller}/cms-html_all" target="main">一键静态</a> </li>
+		<li><a href="{$core.admin_controller}/core-cache" target="main">一键缓存</a> </li>
+		<li><a href="{$core.admin_controller}/core/friendlink-link" target="main">友情链接</a> </li>
+	</ul>
+</div>
+<div class="tree_menu">
+	<h1 onclick="show_tree_menu('TreeMenu_2',this);">用户管理</h1>
+	<ul id="TreeMenu_2" style="display:none"  class="menu_icon">
+		<li><a href="{$core.admin_controller}/core/member-add" target="main">添加会员/管理员</a> </li>
+		<li><a href="{$core.admin_controller}/core/member-list" target="main">会员管理</a></li>
+		<li><a href="{$core.admin_controller}/core/role-list" target="main">角色/权限管理</a></li>
+		<li><a href="{$core.admin_controller}/core/role-list_group" target="main">角色组管理</a></li>
+		<li><a href="{$core.admin_controller}/core/member-integrate" target="main">系统整合管理</a></li>
+	</ul>
+</div>
+<div class="tree_menu">
+	<h1 onclick="show_tree_menu('TreeMenu_3',this);">模板界面</h1>
+	<ul id="TreeMenu_3" style="display:none"  class="menu_icon">
+		<li><a href="{$core.admin_controller}/core-template_system" target="main">网站模板</a></li>
+		<li><a href="{$core.admin_controller}/core-template_user_center" target="main">会员中心模板</a></li>
+		<li><a href="{$core.admin_controller}/core/page-list" target="main">独立页模板</a></li>
+		<li><a href="{$core.admin_controller}/core/label-list" target="main">标签管理</a></li>
+	</ul>
+</div>
+<div class="tree_menu">
+	<h1 onclick="show_tree_menu('TreeMenu_4',this);">模块扩展</h1>
+	<ul id="TreeMenu_4" style="display:none"  class="menu_icon">
+		<li><a href="{$core.admin_controller}/core-system_list" target="main">系统列表</a></li>
+		<li><a href="{$core.admin_controller}/core-module_list" target="main">模块列表</a></li>
+		<li><a href="{$core.admin_controller}/core-plugin_list" target="main">插件列表</a></li>
+	</ul>
+</div>
+<div class="tree_menu">
+	<h1 onclick="show_tree_menu('TreeMenu_5',this);">系统设置</h1>
+	<ul id="TreeMenu_5" style="display:none"  class="menu_icon">
+		<li><a href="{$core.admin_controller}/core-base_config" target="main">基本设置</a></li>
+		<li><a href="{$core.admin_controller}/core-reg_config" target="main">注册设置</a></li>
+		<li><a href="{$core.admin_controller}/cms/item-config" target="main">内容与评论设置</a></li>
+		<li><a href="{$core.admin_controller}/core/pay-interface" target="main">支付工具</a></li>
+		<li><a href="{$core.admin_controller}/core/member-config" target="main">预充值设置/会员升级</a></li>
+		<li><a href="{$core.admin_controller}/core/crontab-list" target="main">计划任务</a></li>
+		<li><a href="{$core.admin_controller}/core-navigation_menu_list" target="main">菜单管理</a></li>
+		<li><a href="{$core.admin_controller}/core/sms-list_interface" target="main">手机短信设置</a></li>
+		<li><a href="{$core.admin_controller}/core/mail-config" target="main">发邮件设置</a></li>
+	</ul>
+</div>
+

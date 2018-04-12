@@ -1,0 +1,59 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<div id="tab_1" class="tab_box mtop20">
+	<div class="head">
+		<span {$sta[0]}><a href="$this_router-list?state=0">未解决问题</a></span>
+		<span {$sta[1]}><a href="$this_router-list?state=1">已解决问题</a></span>
+		<a href="$this_router-post?job=list&yz=0" class="sendmsg_link_bg">发布问题</a>
+	
+	</div>
+</div>
+<form name="form" id="searchFrom" action="" method="post" target="_self">
+<div class="mtop">
+    类别: <select name="catid">
+			<option value="">所有</option>
+			<!--{foreach $category $key $val}-->
+			<option value="$key" {if !empty($catid) && $catid == $key}selected{/if}>$val</option>
+			<!--{/foreach}-->
+		</select> 
+	问题编号：<input name="num" type="text" value="$num" size="10"/> 
+	关键词：<input name="keyword" type="text" value="$keyword" size="15"/> 
+	解决人：<input name="adminname" type="text" value="$adminname" size="10"/> 
+	<input type="hidden" name="act" value="search"/>
+	<input type="button" value="搜索" onclick="searchthis()"/>
+</div>
+</form>
+ <table width='99%' align="center" cellspacing='1' cellpadding='3' class="formtable columntable hover_table mtop20">
+	<tr class="head">
+		<td width="25">编号</td>
+		<td width="50">状态</td>
+		<td width="*">标题</td>
+		<td width="90">提问时间</td>
+		<td width="100"><!--{if isset($sta[1])}-->解决时间<!--{else}-->提交人<!--{/if}--></td>
+		<td width="100">操作</td>
+	</tr>
+<!--{foreach $list $k $v}-->	
+	<tr>
+		<td>$v[num]</td>
+		<td style="color:#009900"><!--{if $v['state']==1}-->处理中<!--{elseif $v['state']==2}-->完成处理<!--{else}-->未解决<!--{/if}--></td>
+		<td><font color="#bb9900">[{$category[$v['category']]}]</font> $v[title]</td>
+		<td><!--{php echo date("y-m-d H:i",$v['timestamp']);}--></td>
+		<td><!--{if isset($sta[1])}-->{date('y-m-d H:i',$v['timestamp'])}<!--{else}--><font color="#009900">$v[username]</font><!--{/if}--></td>
+		<td><a  href="$this_router-view?id={$v['id']}" >查看</a> <a  href="$this_router-update?id={$v['id']}" >编辑</a> <a  href="$this_router-delete?id={$v['id']}" >删除</a> </td>
+	</tr>
+<!--{/foreach}-->	
+	
+	<tr><td colspan="6" align="center" class="pages">{$pages}【<a href="javascript:;" onclick="printthis()"/>打印</a>】</td></tr>
+</table>		
+<script type="text/javascript">
+function printthis(){
+	$('#searchFrom input[name="act"]').val('print');
+	$('#searchFrom').attr('target','_blank').submit();
+}
+function searchthis(){
+	$('#searchFrom input[name="act"]').val('search');
+	$('#searchFrom').attr('target','_self').submit();
+}
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

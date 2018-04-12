@@ -1,0 +1,36 @@
+<!--{php168}-->
+<style type="text/css">
+.label_list17_{$label['id']} { text-align:left;border:none; font-size:14px; color:#454545 }
+.label_list17_{$label['id']} .list17table{ border-bottom:1px dashed #cccccc; margin-bottom:3px}
+.label_list17_{$label['id']} .label_list17_pic_case{ width:%99; overflow:hidden}
+.label_list17_{$label['id']} .title_div{padding:3px 0}
+.label_list17_{$label['id']} .label_list17_date{ float:right; font-size:12px}
+.label_list17_{$label['id']} .label_list17_img_title{ height:20px;overflow:hidden; font-size:12px; padding-top:4px}
+</style>
+<div class = "label_list17_{$label['id']}">
+	<!--{php $first = array_splice($list,0,4);}-->
+	<table cellpadding="3" cellspacing="3" class="list17table" width="100%">
+		<tr>
+		<!--{foreach $first $val}-->
+	<td width="25%">
+		<div class="label_list17_pic_case">
+			<a href="$val[url]" target="_blank" title="$val[full_title]"><img width="100" height="80" src="{if !empty($val['frame'])}$val[frame]{else}{$RESOURCE}/images/nopic.jpg{/if}" /></a>
+		</div>
+		<div class="label_list17_img_title">
+			<a href="$val[url]" class="label_list17_title" target="_blank" title="$val[full_title]">$val[title]</a>
+		</div>
+	</td>
+		<!--{/foreach}-->
+		</tr>
+	</table>
+	<!--{foreach $list $value}-->
+	<div class="title_div">
+		<span class="label_list17_date">
+		<!--{php echo date('Y-m-d', $value['timestamp']);}-->
+		</span>·<a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a>
+	</div>
+	<!--{/foreach}-->
+	<div class="clear"></div>
+</div>
+<!--{/php168}-->
+

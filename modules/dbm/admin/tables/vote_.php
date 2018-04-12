@@ -1,0 +1,20 @@
+<?php
+return array(
+	'id' => '',
+	'name' => '',
+	'frame' => '',
+	'template' => '',
+	'label_template' => '',
+	'content' => '',
+	'enabled' => '',
+	'multi' => '',
+	'page_size' => '',
+	'roles' => '',
+	'viewable' => '',
+	'vote_to_view' => '',
+	'view_voter' => '',
+	'vote_interval' => '',
+	'votes' => '',
+	'timestamp' => '',
+	'expire' => '',
+);?>

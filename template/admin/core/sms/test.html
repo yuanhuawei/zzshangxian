@@ -1,0 +1,53 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td colspan="2" class="title">{$P8LANG['config']}</td>
+				</tr>
+				
+				<tr class="tdL">
+					<td class="tdL">选择接口：</td>
+					<td class="tdR">
+						<select name="interface">
+							<!--{foreach $list $name $value}-->
+								<!--{if $value['enabled']}-->
+								<option value="{$name}" {if !empty($value['enabled'])}selected{/if}>{$value['alias']}</option>
+								<!--{/if}-->
+							<!--{/foreach}-->
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">手机号码：<br /></td>
+					<td class="tdR">
+						<input type="text" class="txt" name="send_to" value="" />
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td class="tdL">短信内容：</td>
+					<td class="tdR">
+						<textarea name="message" cols="30" rows="5"> </textarea>
+					</td>
+				</tr>
+				
+				<tr>
+				  <td class="tdL">&nbsp;</td>
+				  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+</form>
+
+
+<!--{template $core footer admin}-->
+
+<!--{/php168}-->

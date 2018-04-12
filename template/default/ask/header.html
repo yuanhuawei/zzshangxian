@@ -1,0 +1,79 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+
+<!--搜索-->
+<div class="search margin_top margin_bottom">
+	<div class="ask_search_form">
+		<form action="{$this_system.controller}/item" name="Search" id="Search" method="get" onsubmit="javascript:return searchAsk({type:'s'});">
+			<b><input type="text" name="keyword" id="keyword" value="" class="search_txt"/></b> <input type="button" value="{$P8LANG['ask_search_answer']}" class="search_btn" onClick="javascript:return searchAsk({type:'s'});"/> <input type="button" value="{$P8LANG['ask_search_question']}" class="search_btn" onClick="javascript:location.href='{$this_system.controller}/item-ask'"/>
+		</form>
+	</div>
+	<div class="ask_search_text">
+		$label[ask_search_text]
+	</div>
+</div>
+<script type="text/javascript">
+//搜索
+function searchAsk(options)
+{
+	var element = $('#Search #keyword');
+	var keyword = element.attr('value');
+	var url = $('#Search').attr('action');
+	if(options.type == undefined){
+		option.type = 's';
+	}
+
+	if(keyword.length<=0){
+		alert('{$P8LANG['ask_search_keyword']}');
+		element.focus();
+		return false;
+	}
+
+	if(options.type == 'q'){
+		url += '-confirm';
+	}else{
+		url += '-search';
+	}
+
+	$('#Search').attr('action',  url+'?keyword=');
+	$('#Search').submit();
+}
+	
+})
+</script>
+<div>
+	$label[ask_top_ad]
+</div>
+<!--用户信息-->
+<!--{if empty($UID)}-->
+<div id="UserPanel" class="user_panel margin_top margin_bottom">
+	<ul>
+		<li class="hello">欢迎进入问答平台</li>
+		<li>[ <a href="{$this_system.controller}/item-ask"> 发布提问</a> ｜ <a href="{$core.U_controller}" target="_blank">我的提问</a> ｜ <a href="{$core.U_controller}" target="_blank">我的回答</a> ｜ <a href="{$core.U_controller}" target="_blank">申请专家</a> ｜ <a href="">帮助</a> ] </li>
+		<li class="topic">我的提问数：0</li>
+		<li class="answer">我的回答数：0</li>
+	</ul>
+</div>
+<!--{else}-->
+<!--{php $member =$this_system->load_module('member');$my_info=$member->get_member_info(); $my_credit=$core->get_credit($UID);}-->
+<div id="UserPanel" class="user_panel margin_top margin_bottom">
+	<ul>
+		<li class="hello">欢迎进入问答平台</li>
+		<li>[ <a href="{$this_system.controller}/item-ask"> 发布提问</a> ｜ <a href="{$core.U_controller}" target="_blank">我的提问</a> ｜ <a href="{$core.U_controller}" target="_blank">我的回答</a> ｜ <a href="{$core.U_controller}" target="_blank">申请专家</a> ｜ <a href="">帮助</a> ] </li>
+		<li class="credit">积分：{$my_credit[1]}</li>
+		<li class="topic">我的提问数：{$my_info['item_count']}</li>
+		<li class="answer">我的回答数：{$my_info['reply_count']}</li>
+	</ul>
+</div>
+<!--{/if}-->
+<!--{if !empty($position)}-->
+<!--位置导航-->
+<div id="position">
+	<ul>
+		<li> {$position} </li>
+	</ul>
+</div>
+<!--{/if}-->
+<!--{/php168}-->

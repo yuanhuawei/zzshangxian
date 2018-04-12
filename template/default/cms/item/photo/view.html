@@ -1,0 +1,210 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$TITLE</title>
+<link rel="stylesheet" type="text/css" href="{$SKIN}common.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/photo/style.css" />
+<meta name="keywords" content="$SEO_KEYWORDS" />
+<meta name="description" content="$SEO_DESCRIPTION" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/item/item.js"></script>
+<script type="text/javascript">
+var item_id = $data[id],
+	model = '$data[model]',
+	item_cid = $data[cid],
+	verified = \$_GET['verified'] !== undefined || \$_GET['verified'] == 1 ? 1 : 0;
+
+$(function(){
+	if(get_cookie('IS_ADMIN') == 1){
+		item_operation($('#operation').show());
+	}
+});
+</script>
+</head>
+<body>
+<div id="ph_header">
+	<div class="head_top ph_960">
+		<div class="small_logo">
+			<img src="{$SKIN}item/photo/ph_logo.gif"  />
+		</div>
+		<div class="menu">
+			<a href="#">体育</a> | <a href="#">女性</a> | <a href="#">科技频道</a> | <a href="#">社会新闻</a> | <a href="#">显示标签</a> | <a href="#">收藏本页</a> | <a href="#">帮助中心</a> | <a href="#">RSS订阅</a> | <a href="#">登录</a>
+		</div>
+		<div class="clear">
+		</div>
+		<div class="head_ad">
+			$label[图片头部广告]
+		</div>
+	</div>
+</div>
+<div class="clear">
+</div>
+<div id="navigation_div" class="ph_960 ph_mtop">
+	<a href="{$core.url}">首页</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>
+</div>
+<!--content-->
+<div id="ph_wrap">
+		<div id="photo_wrap" class="ph_960 ">
+			<div class="head">
+				<div class="net_back">
+					<a href="javascript:void(0)" onclick="imgshow('1')" class="back"></a> <a href="javascript:void(0)" onclick="imgshow('2')" class="next"></a> <a href="#" class="all"></a>
+				</div>
+			</div>
+			<div class="box_middle">
+				<div class="box_title">
+					<div class="title">
+						$data[title]
+						<span class="cimg">(
+						<label id='cimg'>1</label>
+						/$jsoncount)</span>
+						<span class="datetime">
+						<!--{php echo date("Y-m-d H:i:s",$data['timestamp']);}-->
+						</span>
+						<span id="operation" style="display: none; cursor: pointer;">{$P8LANG['operation']}</span>
+					</div>
+					<div class="nextimg">
+						下一组：546355463456
+					</div>
+				</div>
+				<!--{if $pay_check}-->
+				<div class="box_img" id="box_img">
+					
+					<div class="img_box">
+						<img id="showimg" src="{$core.url}/images/nopic.jpg" onload="if(this.width>900)this.width=900;setpoterheight()" onmouseover="if(this.width>900)this.width=900" border="0" />
+					</div>
+					<div id="cursor1" href="javascript:void(0)" onclick="imgshow(1)">
+					</div>
+					<div id="cursor2" href="javascript:void(0)" onclick="imgshow(2)" >
+					</div>
+				</div>
+				<div id="imgtitle">
+				</div>
+				<div class="ph_summary">
+					$data[content]
+				</div>
+				<!--{else}-->
+				<!--{php include template($this_module, 'pay');}-->
+				<!--{/if}-->
+			</div>
+			<div class="box_more">
+				<div class="more_left" style="width:30px;float:left">
+					<a href="javascript:void(0)" onmousedown="moveimg('L')" onmouseup="moveimg('Lo')" onmouseout="moveimg('Lo')" id="more_left"></a>
+				</div>
+				<div class="more_middle" id="divmov">
+					<table cellspacing="5" cellpadding="0">
+						<tr id="imgs"> </tr>
+					</table>
+				</div>
+				<div  class="more_right" style="width:30px;float:right">
+					<a href="javascript:void(0)" onmousedown="moveimg('R')" onmouseup="moveimg('Ro')" onmouseout="moveimg('Ro')" id="more_right"></a>
+				</div>
+			</div>
+		</div>
+	<script type="text/javascript">
+	var s=109;
+	var IMGDB=$photojson;
+	var i=0;
+	var u='$jsoncount';
+	var c=u-1;
+	function imgshow(t){
+		if(t=='1')i--;
+		if(t=='2')i++;
+		if(i<0){alert('已经是第一张');i=0;return;}
+		if(i>c){alert('已经是第最后一张');i=c;return;}
+		$('#cimg').html(i+1);
+		$('#showimg').attr({'src':IMGDB[i]['url']});
+		$('#imgtitle').html(IMGDB[i]['title']);
+		$('#imgs td').each( function(){ $(this).removeClass('imgbox'); });
+		$('#imgs td[id=img_'+i+']').addClass('imgbox');
+		document.getElementById('divmov').scrollLeft=(i-3)*s;
+		
+	}
+	function _showimg(d){
+		$('#imgs td').each( function(){ $(this).removeClass('imgbox'); });
+		$('#'+d).addClass('imgbox');
+		var k=d.split('_');
+		var p=k['1'];
+		$('#cimg').html(parseInt(p)+1);
+		$('#showimg').attr({'src':IMGDB[p]['url']});
+		$('#imgtitle').html(IMGDB[p]['title']);
+	}
+		
+	var MyMar;
+	var MyMar2;
+	function moveimg(k){
+		 if(k=='Lo'){clearInterval(MyMar);}
+		 if(k=='Ro'){clearInterval(MyMar2);}
+		if(k=='L'){MyMar= setInterval(Marquee, 1)}
+		if(k=='R'){MyMar2= setInterval(Marquee2, 1)}
+		
+	}
+	function setpoterheight(){
+		$('#cursor1').css({'height':$('#showimg').height()});
+		$('#cursor2').css({'height':$('#showimg').height()});
+	}
+	function Marquee(){
+			document.getElementById('divmov').scrollLeft-=5;
+	}
+	function Marquee2(){
+			document.getElementById('divmov').scrollLeft+=5;
+	}
+	$(document).ready(function(){
+		$('#showimg').attr({'src':IMGDB[0]['url']});
+		$('#imgtitle').html(IMGDB[0]['title']);
+		for(var i = 0; i < IMGDB.length; i++){ $('#imgs').append("<td id='img_"+i+"'><img src="+IMGDB[i]['url']+" /></td>");}
+		$('#imgs td[id=img_0]').addClass('imgbox');
+		
+		$('#imgs td').each(function(){ 
+			$(this).hover( 
+				function(){ $(this).addClass('imgbox2');},
+				function(){ $(this).removeClass('imgbox2');
+			});
+			$(this).click(function(){_showimg($(this).attr('id'))});
+		});
+		
+		$('#imgs').width(s*u);
+	});
+</script>
+	<div id="subcate" class="ph_960 ph_mtop">
+		<div class="more_list">
+			其它图片
+		</div>
+		<!--{foreach $listdb $k $v}-->
+		<div class="ml_box">
+			<a href="$v[url]" class="ml_img"><img src="$v[frame]" title="$v[full_title]" width="110" height="100" onerror="this.src='{$core.url}/images/nopic.jpg'"  /></a> <a href="$v[url]" class="ml_title">$v[title]</a>
+		</div>
+		<!--{/foreach}-->
+		<div class="clear">
+		</div>
+	</div>
+	<div class="ph_960 ph_mtop">
+		<a name="top"></a>
+		<!--{if !empty($this_module->CONFIG['comment']['enabled']) && !empty($data['allow_comment'])}-->
+		<!--{template $this_module view_comment}-->
+		<!--{/if}-->
+	</div>
+</div>
+<div class="clear">
+</div>
+<!--footer-->
+<script type="text/javascript" src="$this_router-count?id=$data[id]"></script>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

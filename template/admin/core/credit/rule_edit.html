@@ -1,0 +1,215 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<script type="text/javascript">
+var _system;
+var _module = '';
+var _action;
+var _modules_inited = false;
+var role_json = <!--{if empty($role_json)}-->{}<!--{else}-->$role_json<!--{/if}-->;
+</script>
+
+<form action="$this_url" method="post" id="form">
+	<table class="mainbox mainborder">
+	<tr><td>
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td colspan="2" class="title"><!--{if $ACTION == 'update'}-->{$P8LANG['mcredit']['update_rule']}<!--{else}-->{$P8LANG['mcredit']['add_rule']}<!--{/if}--></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['mcredit']['rule']['system']}</td>
+				<td class="tdR">
+					<!--core roles only or not-->
+					<select name="system" id="system" onchange="if(this.value) _get_modules(this.value); change_role({if empty($core->CONFIG['use_core_roles_only'])}this.value{else}'core'{/if});">
+						<option value="" class="_top_option">--{$P8LANG['chose']}{$P8LANG['system']}--</option>
+						<option value="core"{if !empty($data) && $data['system'] == 'core'} selected{/if}>{$P8LANG['mcredit']['systemcore']}</option>
+						<!--{foreach $systems $k $v}-->
+						<option value="$k"{if !empty($data) && $data['system'] == $k} selected{/if}>{$v['alias']}</option>
+						<!--{/foreach}-->
+					</select> <span class="point">{$P8LANG['mcredit']['note6']}</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['mcredit']['rule']['module']}</td>
+				<td class="tdR">
+					<select name="module" id="module" onchange="_module=this.value;_get_actions('credit_rule_actions');">
+						<option value="" class="_top_option">--{$P8LANG['chose']}{$P8LANG['module']}--</option>
+					</select><span class="point">{$P8LANG['mcredit']['note7']}</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['mcredit']['rule']['action']}</td>
+				<td class="tdR">
+					<select name="action" id="action">
+						<option value="" class="_top_option">--{$P8LANG['chose']}{$P8LANG['mcredit']['rule']['action']}--</option>
+					</select><span class="point">{$P8LANG['mcredit']['note8']}</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['mcredit']['rule']['role']}</td>
+				<td class="tdR">
+					<select name="role_id" id="role_id">
+						<option value="" class="_top_option">--{$P8LANG['all']}{$P8LANG['role']}--</option>
+					</select><span class="point">{$P8LANG['mcredit']['note9']}</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['mcredit']['name']}</td>
+				<td class="tdR">
+					<select name="credit_id">
+					<option value="" class="_top_option">--{$P8LANG['chose']}--</option>
+					<!--{foreach $credits $v}-->
+						<option value="{$v['id']}"{if !empty($data['credit_id']) && $data['credit_id'] == $v['id']} selected{/if}>{$v['name']}</option>
+					<!--{/foreach}-->
+					</select><span class="point">{$P8LANG['mcredit']['note10']}</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['mcredit']['rule']['credit']}</td>
+				<td class="tdR"><input type="text" class="txt" name="credit" size="30"  value="{if !empty($data['mcredit'])}{$data['mcredit']}{/if}" /><span class="point">{$P8LANG['mcredit']['note11']}</span></td>
+			</tr>
+			
+						
+			<tr>
+				<td class="tdL">{$P8LANG['mcredit']['rule']['interval']}</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="interval" value="{if !empty($data['interval'])}{$data['interval']}{/if}" />({$P8LANG['second']} )
+					<span class="point">{$P8LANG['mcredit']['note12']}</span></a>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdL">{$P8LANG['mcredit']['rule']['times']}</td>
+				<td class="tdR"><input type="text" class="txt" name="times"  value="{if !empty($data['times'])}{$data['times']}{/if}" /><span class="point">{$P8LANG['mcredit']['note13']}</span></td>
+			</tr>
+			<tr>
+				<td class="tdL">{$P8LANG['mcredit']['rule']['postfix']}</td>
+				<td class="tdR"><input type="text" class="txt" name="postfix" value="{if !empty($data['postfix'])}{$data['postfix']}{/if}" /><span class="point">{$P8LANG['mcredit']['note14']}</span></td>
+			</tr>
+			
+			<tr>
+			  <td class="tdL">&nbsp;</td>
+			  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		  </tr>
+	    </table>
+	</td></tr>
+    </table>
+	<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" />
+</form>
+<div class="mainbox mainborder">
+	<table class="formtable">
+		<tr>
+			<td class="title">{$P8LANG['help_about']}</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				...
+			</td>
+		</tr>
+		
+	</table>
+</div>
+
+<script type="text/javascript">
+_system = '<!--{if !empty($data['system'])}-->{$data['system']}<!--{/if}-->';
+_module = '<!--{if !empty($data['module'])}-->{$data['module']}<!--{/if}-->';
+_action = '<!--{if !empty($data['action'])}-->{$data['action']}<!--{/if}-->';
+
+_get_modules(_system, _module);
+
+<!--{if !empty($data['role_id'])}-->
+	change_role('{$data['system']}', '{$data['role_id']}');
+<!--{elseif !empty($data['system'])}-->
+	change_role('{$data['system']}');
+<!--{else}-->
+	change_role('core');
+<!--{/if}-->
+
+function change_role(system, selected){
+	<!--{if !empty($core->CONFIG['use_core_roles_only'])}-->system = 'core';<!--{/if}-->
+	var tmp_json = role_json[system];
+	$('#role_id').attr('length', 1);
+	for(var j in tmp_json.system){
+		$('#role_id').append($('<option value="'+ tmp_json.system[j].id +'"'+ (tmp_json.system[j].id == selected ? ' selected' : '') +'>'+ tmp_json.system[j].name +'</option>'));
+	}
+	for(var j in tmp_json.normal){
+		$('#role_id').append($('<option value="'+ tmp_json.normal[j].id +'"'+ (tmp_json.normal[j].id == selected ? ' selected' : '') +'>'+ tmp_json.normal[j].name +'</option>'));
+	}
+}
+
+function _get_modules(s, selected){
+	_system = s;
+	
+	if(s)
+		ajaxing({});
+	
+	get_modules(s, function(json){
+	
+		ajaxing({action: 'hide'});
+		
+		$('#module').attr('length', 1);
+		
+		for(var i = 0; i < json.length; i++){
+			$('#module').append($('<option value="'+ json[i].name +'"'+ (selected == json[i].name ? ' selected' : '') +'>'+ json[i].alias +'</option>'));
+		}
+		
+		if(!_modules_inited){
+			_get_actions('credit_rule_actions', _action);
+		}else{
+			if(!selected)
+				_get_actions('credit_rule_actions');
+		}
+		
+		_modules_inited = true;
+	});
+}
+
+function _get_actions(type, selected){
+	
+	ajaxing({});
+	
+	get_actions(_system, _module, type, function(json){
+		
+		ajaxing({action: 'hide'});
+		
+		if(json){
+			$('#action').attr('length', 1);
+			
+			for(var i in json){
+				$('#action').append($('<option value="'+ i +'"'+ (selected == i ? ' selected' : '') +'>'+ json[i] +'</option>'));
+			}
+		}
+		
+	});
+}
+
+$('#form').validate({
+	rules: {
+		system: 'required',
+		action: 'required',
+		credit: {
+			required: true
+		}
+	},
+	
+	messages: {
+		system: {
+			required: '{$P8LANG['mcredit']['rule']['system_required']}'
+		},
+		action: {
+			required: '{$P8LANG['mcredit']['rule']['action_required']}'
+		},
+		credit: {
+			required: '{$P8LANG['mcredit']['rule']['credit_required']}'
+		}
+	}
+});
+	
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

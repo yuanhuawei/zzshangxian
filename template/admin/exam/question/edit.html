@@ -1,0 +1,79 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/ueditor/ueditor.all.min.js"></script>
+<form action="$this_url" method="post" id="form">
+	<table class="mainbox mainborder">
+	<tr><td>
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td colspan="2" class="title"><!--{if $ACTION == 'add'}-->{$P8LANG['add_exam_question']}<!--{else}-->{$P8LANG['update_exam_question']}<!--{/if}--></td>
+			</tr>
+			
+			<!--{if empty($data['type'])}-->
+			<tr>
+				<td colspan="2" class="headerbtn_list">
+					<ul>
+						<!--{foreach $this_module->types $v}-->
+						<li><a href="$this_url?type=$v">{$P8LANG['exam_question_type'][$v]}</a></li>
+						<!--{/foreach}-->
+					</ul>
+				</td>
+			</tr>
+			<!--{else}-->
+			
+			<tr>
+				<td class="tdL">{$P8LANG['exam_question_name']}</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="name" value="{if isset($data['name'])}{$data['name']}{/if}" size="60" />
+				</td>
+			</tr>
+				
+				<!--{if $data['type'] == 'choice'}-->
+					<!--{template $this_module choice admin}-->
+				<!--{elseif $data['type'] == 'multi_choice'}-->
+					<!--{template $this_module multi_choice admin}-->
+				<!--{elseif $data['type'] == 'fill_blank'}-->
+					<!--{template $this_module fill_blank admin}-->
+				<!--{/if}-->
+			
+			<tr>
+			  <td class="tdL">&nbsp;</td>
+			  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+			</tr>
+			<!--{/if}-->
+	    </table>
+	</td></tr>
+    </table>
+	<input type="hidden" name="type" value="$data[type]" />
+	<input type="hidden" name="id" value="{if isset($data['id'])}$data[id]{/if}" />
+</form>
+
+<script type="text/javascript">
+$('#form').validate({
+	rules: {
+		name: {
+			required: true,
+			maxlength: 30
+		}
+	},
+	
+	messages: {
+		name: {
+			required: '&nbsp;'
+		}
+	},
+	
+	errorPlacement: function(error, element) {
+		error.wrap('<div></div>').appendTo(element.parent().prev());
+	},
+	wrapper: 'div',
+	
+	onkeyup: false
+});
+
+$('input[name=name]').focus();
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

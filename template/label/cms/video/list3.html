@@ -1,0 +1,36 @@
+<!--{php168}-->
+<!--{php $qy_count = count($list);}-->
+<!--{php $qy_i = 0;}-->
+<ul class="label_vd_ul">
+	<!--{foreach $list $value}-->
+	<!--{php $qy_i ++;}-->
+	<!--{if $qy_i == $qy_count}-->
+	<li style="margin-bottom:0px;">
+		<div class="label_vd_frame">
+			<a href="$value[url]" target="_blank"><img class="vd_play" src="{$RESOURCE}/skin/label/video004.png" /></a>
+			<a href="$value[url]" target="_blank" title="$value[full_title]"><img alt="$value[full_title]" width="100" height="70" src="$value[frame]" /></a>
+		</div>
+		<div class="label_vd_title">
+			<h3><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]...</a></h3>
+			<p class="label_summary">$value[summary]</p>
+			<p class="clear"></p>
+		</div>
+	</li>
+	<!--{else}-->	
+	<li>
+		<div class="label_vd_frame">
+			<a href="$value[url]" target="_blank"><img class="vd_play" src="{$RESOURCE}/skin/label/video004.png" /></a>
+			<a href="$value[url]" target="_blank" title="$value[full_title]"><img alt="$value[full_title]" width="100" height="70" src="$value[frame]" /></a>
+		</div>
+		<div class="label_vd_title">
+			<h3><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]...</a></h3>
+			<p class="label_summary">$value[summary]</p>
+			<p class="clear"></p>
+		</div>
+	</li>
+	<!--{/if}-->
+	<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->
+

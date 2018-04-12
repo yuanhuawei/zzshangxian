@@ -1,0 +1,140 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="GET">
+<div class="mainbox mainborder">
+	<table class="columntable formtable hover_table">
+		<tr>
+			<td class="title">{$P8LANG['search']}</td>
+		</tr>
+		
+		<tr>
+			<td>
+				这里的订单是所有模块所汇聚的订单，其它模块都应该有自己的订单存根。非不得已时不要动这里的订单。
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				{$P8LANG['order']['NO']}<input type="text" class="txt" name="NO" value="$NO" size="40" /> 
+				<input type="submit" class="submit_btn" value="{$P8LANG['search']}" />
+			</td>
+		</tr>
+	</table>
+</div>
+</form>
+
+<form action="$this_url" method="POST" id="form">
+<div class="mainbox mainborder">
+	
+	<table class="columntable formtable hover_table click_changeable">
+	<tr class="title fix_head">
+		<td width="3%" class="title"><input type="checkbox" onclick="check_all(this, 'id[]');init_tr($('#form'));" /></td>
+		<td width="5%" class="title">ID</td>
+		<td width="10%" class="title">{$P8LANG['order']['NO']}</td>
+		<td width="10%" class="title">{$P8LANG['order']['interface_NO']}</td>
+		<td width="10%" class="title">{$P8LANG['order']['buyer']}</td>
+		<td width="10%" class="title">{$P8LANG['order']['seller']}</td>
+		<td width="10%" class="title">{$P8LANG['order']['name']}</td>
+		<td width="5%" class="title">{$P8LANG['pay_interface']}</td>
+		<td width="8%" class="title">{$P8LANG['order']['status']['']}</td>
+		<td width="10%" class="title">{$P8LANG['order']['time']}</td>
+		<td width="10%">{$P8LANG['operation']}</td>
+	</tr>
+	
+	<!--{foreach $list $value}-->
+	<tr>
+		<td><input type="checkbox" name="id[]" value="{$value['id']}" /></td>
+		<td>{$value['id']}</td>
+		<td>{$value['NO']}</td>
+		<td>{$value['interface_NO']}</td>
+		<td>{$value['buyer_username']}</td>
+		<td>{$value['seller_username']}</td>
+		<td>{$value['name']}</td>
+		<td><!--{if isset($this_module->CONFIG['interfaces'][$value['interface']])}-->{$this_module.CONFIG['interfaces'][$value['interface']]['alias']}<!--{/if}--></td>
+		<td id="status_$value[NO]" title="$value[status]">
+			{$P8LANG['order']['status'][$value['status']]}
+		</td>
+		<td>{date('Y-m-d H:i:s', $value['timestamp'])}</td>
+		<td>
+			<a href="$this_router-view_order?id=$value[id]" target="_blank">{$P8LANG['order']['detail']}</a>
+			<a href="###" id="order_$value[NO]" onclick="update_status(this.id)">{$P8LANG['order']['update_status']}</a>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+	
+	</table>
+</div>
+</form>
+
+<div align="center" class="pages">$pages</div>
+
+<script type="text/javascript">
+
+var order_NO;
+
+var order_status = {
+	0: '{$P8LANG['wait_buyer_pay']}',
+	1: '{$P8LANG['buyer_paid']}',
+	2: '{$P8LANG['seller_sent_goods']}',
+	3: '{$P8LANG['trade_finish']}',
+	'-1': '{$P8LANG['trade_close']}'
+};
+
+var dialog = new P8_Dialog({
+	title_text: '{$P8LANG['order']['update_status']}',
+	button: true,
+	ok: function(){
+		update_status(order_NO, $('input[type=radio][name=___]:checked').val());
+	}
+});
+
+function update_status(NO, o_status){
+
+	var NO = NO.replace(/^order_/g, '');
+	order_NO = NO;
+	
+	if(o_status === undefined){
+		
+		dialog.content.empty();
+		dialog.show();
+		for(var i in order_status){
+			var item = $('<input type="radio" name="___" value="'+ i +'" id="_status_'+ i +'" />\
+			<label for="_status_'+ i +'">'+ order_status[i] +'</label><br />');
+			
+			dialog.content.append(item);
+			
+			if($('#status_'+ NO).attr('title') == i){
+				item.get(0).checked = true;
+			}
+		}
+		
+		return;
+	}
+	
+	if(confirm('{$P8LANG['confirm_to_do']}')){
+		if(o_status == $('#status_'+ NO).attr('title')){
+			//not modified
+			return;
+		}
+		
+		$.ajax({
+			url: '$this_router-update_order_status',
+			type: 'post',
+			data: {NO: NO, status: o_status},
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(status){
+				
+				ajaxing({action: 'hide'});
+				
+				$('#status_'+ NO).attr('title', status).html(order_status[o_status]);
+			}
+		});
+	}
+}
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

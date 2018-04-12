@@ -1,0 +1,20 @@
+<!--{php168}-->
+
+<tr>
+  <td class="tdL">下载文件是隐藏真实地址:</td>
+  <td class="tdR"><input type="radio" name="config[hidedownurl]" value="0"{if empty($config['hidedownurl'])} checked{/if} />
+    {$P8LANG['N']}
+    <input type="radio" name="config[hidedownurl]" value="1"{if !empty($config['hidedownurl'])} checked{/if} />
+    {$P8LANG['Y']}<span class="point">(推荐隐藏,但如果隐藏导致无法正常下载,就取消隐藏,因为有少数服务器不支持隐藏)</span></td>
+</tr>
+<tr>
+  <td class="tdL">迅雷联盟ID</td>
+  <td class="tdR"><input type="text" class="txt" name="config[thunderid]" size="10"  value="{if !empty($config['thunderid'])}{$config['thunderid']}{else}08311{/if}" />
+    <span class="point"> (如果你没有申请联盟,请点击<a href="http://union.xunlei.com/" target="_blank" style="color:red">申请</a> ,申请联盟就有利润分成.)</span></td>
+</tr>
+<tr>
+  <td class="tdL">快车联盟ID</td>
+  <td class="tdR"><input type="text" class="txt" name="config[flashgetid]" size="10"  value="{if !empty($config['flashgetid'])}{$config['flashgetid']}{else}6370{/if}" />
+    <span class="point"> (如果你没有申请联盟,请点击<a href="http://union.flashget.com/" target="_blank" style="color:red">申请</a> ,申请联盟就有利润分成.)</span></td>
+</tr>
+<!--{/php168}-->

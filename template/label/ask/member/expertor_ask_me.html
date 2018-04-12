@@ -1,0 +1,11 @@
+<!--{php168}-->
+<!--专家问答之向我提问-->
+<table class="expertor_tb">
+<!--{foreach $list $i $value}-->
+<tr>
+<td><a href="#"><img src="{$SKIN}nomenpic.gif" width="56" /></a><br /><a>$value[username]</a><br /><a href="$value[ask_url]" class="doctor_contact">向我咨询</a></td>
+<td><a href="javascript:void(0)" title="{$value['allcnames']}">{$value['cnames']}</a></td>
+</tr>
+<!--{/foreach}-->
+</table>
+<!--{/php168}-->

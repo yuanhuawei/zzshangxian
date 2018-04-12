@@ -1,0 +1,113 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="POST">
+<div class="mainbox mainborder">
+
+	<table class="columntable formtable hover_table">
+	<tr>
+		<td class="title"> </td>
+	</tr>
+	<tr>
+	<td class="headerbtn_list">
+		<ul>
+			<li>
+				<a href="$this_url?system=core&all=$all">
+				<!--{if $system == 'core'}-->
+				<b>{$P8LANG['core']}</b>
+				<!--{else}-->
+				{$P8LANG['core']}
+				<!--{/if}-->
+				</a>
+			</li>
+		<!--{foreach $systems $k $v}-->	
+			<li>
+				<a href="$this_url?system=$k&all=$all">
+				<!--{if $system == $k}-->
+				<b>{$v['alias']}</b>
+				<!--{else}-->
+				{$v['alias']}
+				<!--{/if}-->
+				</a>
+			</li>
+		<!--{/foreach}-->
+		</ul>
+	</td>
+	</tr>
+	
+	<tr>
+	<td class="headerbtn_list">
+		<ul>
+		<!--{foreach $modules $k $v}-->	
+			<li class="crdlist">
+				<a href="$this_url?system=$system&module={$v['name']}&all=$all">
+				<!--{if $module == $k}-->
+				<b>{$v['alias']}</b>
+				<!--{else}-->
+				{$v['alias']}
+				<!--{/if}-->
+				</a>
+			</li>
+		<!--{/foreach}-->
+		</ul>
+	</td>
+	</tr>
+	</table>
+	
+	<table class="columntable formtable hover_table">
+	<tr class="title">
+		<td width="5%" class="title">ID</td>
+		<td width="10%" class="title">{$P8LANG['mcredit']['rule']['action']}</td>
+		<td width="10%" class="title">{$P8LANG['mcredit']['name']}</td>
+		<td width="10%" class="title">{$P8LANG['mcredit']['rule']['credit']}</td>
+		<td width="10%" class="title">{$P8LANG['mcredit']['rule']['role']}</td>
+		<td width="10%" class="title">{$P8LANG['mcredit']['rule']['times']}</td>
+		<td width="15%" class="title">{$P8LANG['mcredit']['rule']['interval']}</td>
+		<td width="10%" class="title">{$P8LANG['mcredit']['rule']['postfix']}</td>
+		<td class="title">{$P8LANG['operation']}</td>
+	</tr>
+	
+	<!--{foreach $list $value}-->
+	<tr>
+		<td>{$value['id']}</td>
+		<td>{$value['action']}</td>
+		<td>{$value['credit_id']}</td>
+		<td>{$value['credit']}</td>
+		<td><!--{if isset($core->roles[$value['role_id']])}-->{$core.roles[$value['role_id']]['name']}<!--{else}-->{$P8LANG['default']}<!--{/if}--></td>
+		<td>{$value['times']}</td>
+		<td>{$value['interval']}</td>
+		<td>{$value['postfix']}</td>
+		<td>
+			<a href="$this_router-update_rule?id={$value['id']}">{$P8LANG['edit']}</a>
+			<a href="$this_router-delete_rule?id={$value['id']}" id="{$value['id']}" onclick="return _delete_credit_rule(this)">{$P8LANG['delete']}</a>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+	
+	</table>
+</div>
+</form>
+
+<script type="text/javascript">
+function _delete_credit_rule(obj){
+	if(!confirm('$P8LANG[confirm_to_delete]')) return false;
+	
+	var id = $(obj).attr('id').replace(/[^0-9]/g, '');
+	
+	$.ajax({
+		url: '$this_router-delete_rule',
+		type: 'POST',
+		cache: false,
+		data: {id: id},
+		success: function(status){
+			if(status == 0) return false;
+			
+			$(obj).parent().parent().remove();
+		}
+	});
+	return false;
+}
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

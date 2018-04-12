@@ -1,0 +1,153 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/ueditor/ueditor.all.min.js"></script>
+
+<form action="$this_url" method="POST" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+						<tr class="title">
+							<td colspan="3" class="title">通知</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL" width="15%">通知标题</td>
+							<td class="tdR" width="85%">
+								<input class="txt" type="text" name="title" value="{if isset($data['title'])}$data[title]{/if}" size="40" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">发送方式</td>
+							<td class="tdR">
+								<input type="checkbox" name="send_pm" id="pm" value="1"{if !empty($data['send_pm'])} checked{/if} /><label for="pm">站内短信</label>
+								<input type="checkbox" name="send_mail" id="mail" value="1"{if !empty($data['send_mail'])} checked{/if} /><label for="mail">电子邮件</label>
+								<input type="checkbox" name="send_sms" onclick="javascript:$('#sms_back').toggle()" id="sms" value="1"{if !empty($data['send_sms'])} checked{/if} /><label for="sms">手机短信</label>
+								<span id="sms_back" {if $ACTION=='add'}style="display:none"{/if}><input type="checkbox" name="sms_back"  value="1"{if !empty($data['sms_back'])} checked{/if} />要求回执</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">选择接收人</td>
+							<td class="tdR">
+								<textarea id="data" name="data" readonly cols="100" rows="5">{if isset($data['data'])}$data[data]{/if}</textarea>
+								<input type="button" value="选择" onclick="show_dialog();" />
+								<input type="button" value="清除" onclick="_clear();" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">通知内容</td>
+							<td class="tdR"><div style="width:83.5%">
+							<script name="content" id="content" type="text/plain">{if isset($data['content'])}{html_entities($data['content'])}{/if}</script>
+							<script type="text/javascript">UE.getEditor('content',{toolbars: [['fullscreen', 'source','|', 'undo', 'redo','|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'fontfamily','fontsize', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']]
+			,allowDivTransToP: false,initialFrameHeight: 350});</script>
+							</div>
+							</td>
+						</tr>
+						
+					</table>
+				</td></tr>
+				<tr>
+					<td colspan="3" class="footer" align="center">
+						<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" onclick="this.form.send_at_once.value = 0;" />
+						<input type="submit" class="submit_btn" value="提交并发送" onclick="this.form.send_at_once.value = 1;" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+<input type="hidden" name="id" value="{if isset($data['id'])}$data[id]{/if}" />
+<input type="hidden" name="where" value="" />
+<input type="hidden" name="send_at_once" value="0" />
+<input type="hidden" name="attachment_hash" value="<!--{php echo $attachment_hash = unique_id(16);}-->" />
+</form>
+
+<script type="text/javascript">
+var attachment_hash = '$attachment_hash';
+var check_uids = {};
+
+$(function(){
+	var data = $('#data').val().split(',');
+	for(var i = 0; i < data.length; i++){
+		if(data[i] == '') continue;
+		
+		var uid = data[i].split('(')[1].split('|')[0];
+		check_uids[uid] = uid;
+	}
+});
+
+
+function _clear(){
+	check_uids = {};
+	$('#data').val('');
+}
+
+function member_single_select_callback(checked, json){
+	
+	var s = $('#data').val(), rep, reg = new RegExp(',+'+ json.username +'\\([^\\)]*\\),+', 'i');
+	
+	rep = ','+ json.username +'('+ json.id +'|'+ json.role +'),';
+	
+	if(!checked){
+		s = s.replace(reg, ',');
+		delete check_uids[json.id];
+	}
+	
+	if(checked && !reg.test(s)){
+		s += (s.length ? '' : ',') + json.username +'('+ json.id +'|'+ json.role +'),';
+		check_uids[json.id] = json.id;
+	}
+	
+	$('#data').val(s);
+}
+
+var dialog = new P8_Dialog({
+	width: 800,
+	height: 400
+});
+dialog.content.append($('<iframe width="100%" height="360" frameborder="0" border="0" marginwidth="0" marginheight="0"></iframe>'));
+
+function show_dialog(){
+	dialog.show();
+	
+	var ifr = dialog.content.find('iframe');
+	
+	ifr.attr('src', '{$core.admin_controller}/core/member-list?_dialog=1'+ ajax_parameters({'checked_ids': check_uids}));
+}
+
+$('#data').val();
+
+$('#form').validate({
+	rules: {
+		title: {
+			required: true
+		},
+		
+		content: {
+			required: true
+		}
+	},
+	
+	messages: {
+		title: {
+			required: '&nbsp;'
+		},
+		content: {
+			required: '&nbsp;'
+		}
+	},
+	
+	submitHandler: function(form){
+		form.submit();
+	}
+});
+
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

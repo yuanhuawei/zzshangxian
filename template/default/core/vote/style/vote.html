@@ -1,0 +1,80 @@
+<!--{php168}-->
+<!--{php
+$i_type = $data['multi'] == 1 ? 'radio' : 'checkbox';
+
+$TITLE = $data['name'] .'_'. $core->CONFIG['site_name'];
+$SEO_KEYWORDS = $data['name'];
+$SEO_DESCRIPTION = $data['content'];
+}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/vote/style.css" />
+
+<form method="post" action="{$this_module.controller}-vote" id="p8_vote_$data[id]">
+
+<div class="vote_wrap common_top">
+	<div class="vote_head_1 "><span class="vote_head_icon1">$data[name] 投票结果</span></div>
+	
+	<table width="100%" cellspacing="0" cellpadding="0" id="hot" style="border:1px solid #CEE7FF;border-top:none;border-bottom:none; visibility: visible;">
+		<tr>
+			<td>&nbsp;</td>
+			<td width="50" id="border"><nobr><b>总票数:</b><span id="hot_value">$data[votes]</span></nobr></td>
+		</tr>
+	</table>
+	
+	
+	<div id="vote_main">
+		<div class="title f16px">
+			$data[content]
+		</div>
+		<div class="content">
+			<table border="0" width="100%" class="common_top">
+				<!--{php $i = 0;}-->
+				<!--{foreach $options $v}-->
+				<tr>
+					<!--{php
+						$ipercent = intval($percent = $data['votes'] ? round($v['votes']*100/$data['votes'], 1) : 0);
+						$j = ++$i%9;
+					}-->
+					<td width="430" style="padding-right: 20px;">
+						<!--{if !$expire}-->
+						<input type="$i_type" name="oid[]" id="p8_v_o_$data[id]_$v[id]" value="$v[id]" />
+						<!--{/if}-->
+						<label for="p8_v_o_$data[id]_$v[id]">{if $v['url']}<a href="$v[url]" target="_blank">$i. $v[name]</a>{else}$i. $v[name]{/if}</label>
+					</td>
+					<td width="170">
+						<!--{if $viewable}-->
+							<div style="display: block;" class="process"><div style="width: $ipercent%;" class="style$j"></div></div>
+						<!--{/if}-->
+					</td>
+					<td width="110" style="display: block;">
+						<!--{if $viewable}-->
+							<nobr><a href="{if $view_voter}$this_router-voter?id=$data[id]&oid=$v[id]{else}###{/if}">$v[votes]票 ($percent%)</a></nobr>
+						<!--{/if}-->
+					</td>
+				</tr>
+				<!--{/foreach}-->
+			</table>
+			<!--{if $expire}-->
+				投票已经于{date('Y-m-d H:i:s', $data['expire'])}过期
+			<!--{elseif !$viewable}-->
+			投票后才可以看到结果<br />
+			<!--{/if}-->
+			<!--{if $data['captcha']}-->
+			验证码:<input type="text"  class="txt"  name="captcha" id="captcha" size="10"/> <span id="captchachr"></span>
+			<script type="text/javascript">	captcha($('#captchachr'), $('#p8_vote_{$data['id']} input[name="captcha"]'));</script><br/>
+			<!--{/if}-->
+			<input type="submit" value="提交" />
+			<div align="center" class="pages">$pages</div>
+		</div>
+	</div>
+</div>
+
+<input type="hidden" name="id" value="$data[id]" />
+</form>
+
+<script type="text/javascript">
+$('#p8_vote_$data[id] input').attr('checked', false);
+</script>
+
+<!--{template $core footer}-->
+<!--{/php168}-->

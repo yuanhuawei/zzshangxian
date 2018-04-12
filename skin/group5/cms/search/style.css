@@ -1,0 +1,23 @@
+/***/
+body{font-size:12px}
+.search_div{width:100%}
+.head {padding-top:20px; padding-left:20px}
+.head .logo{width:280px; float:left; margin-top:15px}
+.head .search_box{float:left}
+.head .search_box .search_top{height:30px; font-size:16px}
+.head .search_box .search_top span{color:#0033CC; text-decoration:underline; margin:5px;cursor:pointer}
+.head .search_box .search_top span.over{color:#333; text-decoration:none; font-weight:bold; margin:5px 4px;}
+.head .search_box .search_buttom .search_input{ width:300px; height:25px; font-size:16px; line-height:30px;;float:left}
+.head .search_box .search_buttom .search_bottom{margin-left:10px; float:left}
+.head .search_box .search_buttom .search_checkbox{margin-left:15px; margin-top:15px;float:left; line-height:12px}
+.head .search_box .search_more{ margin-top:8px}
+.search_info{ background-color:#F4F4F4; margin-top:10px; line-height:20px; height:18px}
+.search_content{padding:20px; width:700px;}
+.search_content .search_result{margin-top:15px;}
+.search_content .search_result .title a{font-size:16px;}
+.search_content .search_result .title a:link,.search_content .search_result .title a:visited {color:#0033CC; text-decoration:underline;}
+.search_content .search_result .title a:hover{color:#ff0000;}
+.search_content .search_result .item_summary{padding:6px 0 0 6px; color:#1E1E1E; line-height:20px}
+.search_content .search_result .suctime{color:#008000}
+.search_content .search_result .suctime a{color:#008000}
+.footer{ text-align:center; border-top:1px solid #E0E0E0; padding-top:5px}

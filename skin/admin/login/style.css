@@ -1,0 +1,28 @@
+﻿*{ word-break:break-all }
+body{ color:#000; font-size:12px; font-family:"微软雅黑","宋体", Arial, Times; text-align:left; line-height:120%; background:url(loginbg.png) repeat; }
+body, ul, li, h3 { margin:0px; padding:0px; }
+ul, li { list-style:none; }
+
+a:link, a:visited { color:#1E62B0; text-decoration:none; }
+a:hover { color:#ff0000; text-decoration:underline; }
+.center{text-align:center}
+.left{float:left}
+.right{float:right}
+
+.login{width:407px;height:407px;margin:0 auto;background:#fff;border-radius:3px;padding-top:30px;position: absolute;}
+.login .logo{width:197px;height:50px;margin:0 auto;background:url(logo.png) center center no-repeat;}
+.login h3{color: #3e77ab;font-size: 14px;padding: 6px 0;letter-spacing: 1px;text-align: center;font-weight:500;}
+.loginbar{width:287px;padding-top:10px;padding-left: 60px;font-size: 14px;}
+.loginbar .formWrap {padding-top: 4px;}
+.formWrap {text-align: left;height: 30px;padding: 3px 0 2px;width: auto;margin-top: 12px;overflow: hidden;border: 1px solid #ddd;border-radius: 3px;box-shadow: inset 0 1px 5px rgba(0, 0, 0, .1);}
+.formWrap .lable {border-right: 1px solid #ddd;height: 20px;width: 30px;margin: 3px 10px 0 3px;text-indent: -99em;padding-top: 3px;float: left;color: #333333;font-size: 14px;overflow: hidden;}
+.formWrap .user{background:url(icon_user.png) center center no-repeat;}
+.formWrap .pwd{background:url(icon_pwd.png) center center no-repeat;}
+.formWrap .code{background:url(icon_code.png) center center no-repeat;}
+.formWrap .captcha{background:url(icon_captcha.png) center center no-repeat;}
+.forminput {background: #fff none;line-height: 16px;border: none; width: 230px;float: left;}
+.forminput .txt {width:224px;height:20px;line-height:20px;border:0;color:#6b6b6b;font-size: 14px;padding:4px 6px;font-family:"微软雅黑";}
+.forminput .txt2 {width:160px;height:20px;line-height:20px;border:0;color:#6b6b6b;font-size: 14px;padding:4px 6px;font-family:"微软雅黑";}
+.forminput span{padding:3px;}
+.loginbtn{margin:24px 14px;}
+.loginbtn .submit{background: #2a87d3;border-radius: 3px;width: 260px;height: 38px;color: #fff;font-family:"微软雅黑";font-size: 14px;line-height: 38px;text-align: center;word-spacing: 1px;letter-spacing: 6px;border:0;}

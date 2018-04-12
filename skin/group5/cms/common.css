@@ -1,0 +1,20 @@
+body { font-size:12px; font-family:Arial, Helvetica, sans-serif; color:#000; background-color:#FFFFFF; margin: 0px; padding: 0px;}
+img { border:0; vertical-align:middle; }
+body, html, h1, h2, h3, h4, h5, h6, div, ul, li, p, span, input, dl, dt, dd, label, table, th, td, tr, radio, select { margin:0; padding:0; }
+ul, li { list-style:none; }
+a:link, a:visited { color:#305F96; text-decoration:none; }
+a:hover { color:#305F96; text-decoration: underline; }
+.clear { clear:both; line-height:0; height:0; font-size:0; overflow:hidden; }
+.none { display:none; }
+.fl { float:left; }
+.fr { float:right; }
+.mtop{margin-top:10px;}
+.mbottom{margin-bottom:10px;}
+.ml10{margin-left: 10px;}
+.adbox{margin-top:8px; display:block; overflow:hidden}
+.layout_wrap { width:958px; overflow-x:hidden; }
+.label { position: absolute; top: 0px; left: 0px; border: 1px solid #ff0000; z-index: 9999; background-color: #0000ff;color:#000; text-align:left;text-size:14px;text-weight:normal}
+.label span{display:none}
+.label div { position: absolute; width: 15px; height: 15px; background-color: #000000; right: 0px; bottom: 0px; clear: both;cursor:se-resize ;font-size:1px;line-height:0%}
+#container { width:960px; text-align: left; position: relative; vertical-align: bottom; margin:0px auto 0px auto; }
+

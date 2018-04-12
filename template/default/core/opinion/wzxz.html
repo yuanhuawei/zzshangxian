@@ -1,0 +1,118 @@
+<!--{php168}-->
+<!--{php $TITLE = '领导信箱  - ';}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/{$this_module.name}/letter.css">
+<div class="nav mtop">
+  <p>您现在的位置：<a href="{$core.url}">首页</a>&gt;&gt; <a href="{$this_router}-main">网络问政</a>&gt;&gt; <span class="current">领导信箱</span></p>
+</div>
+<div class="mainCol_01">
+  <div class="leftCol">
+    <div class="hd"><span class="title">{$cates['department'][$department]['name']}</span></div>
+    <div class="con">
+     $label[dep_1]
+    </div>
+  </div>
+  <div class="midCol">
+    <div class="hd"><span class="title">统计数据</span></div>
+    <div class="con">
+      <div class="rightTxt">
+        <div class="time">今天是：<span id="nowDate"><!--{php echo date('Y-m-d');}--></span> <span id="nowTime"> 星期<!--{php $xq=array('天','一','二','三','四','五','六'); $w=date('w');echo $xq[$w];}--></span></div>
+        <div class="yesterday">
+		  来信总数<span> $alldata[0] </span>件<br>
+          受理总数<span> $alldata[1] </span>件<br>
+          办结总数<span> $alldata[2] </span>件 <br>
+          待办总数<span> $alldata[3] </span>件 </div>
+        <div class="today">
+		  本周来信<span> $today[0] </span>件<br>
+          本周受理<span> $today[1]</span>件<br>
+          本周办结<span> $today[2] </span>件 <br>
+          本周待办<span> $today[3] </span>件 </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+  <div class="rightCol">
+    <div class="hd"><span class="title">基本情况</span></div>
+    <div class="con"> $label[dep_10] </div>
+  </div>
+</div>
+<div class="clear"></div>
+<div class="mainSearchBox">
+  <form action="{$this_url}?department={$department}" method="post" name="form_post" id="form_post">
+    <input type="text" style="height:23px; width:270px; line-height:25px; font-size:14px; color:#0066FF" id="textfield" name="keyword">
+    <select style="line-height:25px; font-size:14px; font-weight:700; color:#666; height:25px; width:103px;" id="select" name="keytype">
+      <option value="number">来信编号</option>
+      <option value="create_time">来信时间</option>
+      <option value="title">来信主题</option>
+      <option value="type">来信类型</option>
+    </select>
+    <select style="line-height:25px; font-size:14px; font-weight:700; color:#666; text-align:center; height:25px; width:115px;"  name="classid" onchange="changedep(this)">
+      <option value="department">按受理单位</option>
+      <!--{foreach $cates['department'] $drow}-->
+      <option value="$drow[id]">$drow[name]</option>
+		<!--{/foreach}-->
+    </select>
+    <input type="image" align="middle" src="{$RESOURCE}/skin/default/core/{$this_module.name}/saarch_tj.gif" name="img">
+  </form>
+</div>
+<div class="clear"></div>
+<a name="ld"></a>
+<div class="mainCol_02" id="tab_1">
+  <div class="head"> 
+  <span {if !$status && !$type}class="over"{/if}><a href="$this_url?department={$department}#ld">全部话题</a></span>
+  <span {if $status==1}class="over"{/if}><a href="{$this_url}?department={$department}&status=1#ld">已受理问题</a></span>
+  <span {if $status==3}class="over"{/if}><a href="{$this_url}?department={$department}&status=3#ld">已办结问题</a></span>
+<!--{foreach $cates['type'] $trow}-->
+  <span {if $type==$trow['id']}class="over"{/if}><a href="{$this_url}?department={$department}&type={$trow['id']}#ld">$trow[name]</a></span>
+<!--{/foreach}-->
+    <div style="float:right;margin:0px;width:auto;padding-right:35px; height:30px; padding-top:0px;">
+      <div  style="display: block;"><a target="_blank" href="{$Letter.controller}-post?department=$department"><img border="0" src="{$RESOURCE}/skin/default/core/{$this_module.name}/wytw.gif"></a></div>
+    </div>
+  </div>
+  <div class="main">
+    <div  class=" content">
+      <div id="Tab1_Content1_table" style="display: block;">
+        <div id="mail_k"></div>
+        <div id="mail_title">
+          <ul>
+            <li class="num">编&#12288;号</li>
+            <li class="type">类&#12288;型</li>
+            <li class="title">主&#12288;题</li>
+            <li class="name">来信人</li>
+            <li class="lxtime">来信时间</li>
+            <li class="branch">受理部门</li>
+            <li class="sltime">受理时间</li>
+            <li class="status">状&#12288;态</li>
+            <li class="caution">预警</li>
+          </ul>
+        </div>
+        <div id="mail_con">
+        <!--{foreach $list $key $row}-->
+          <ul>
+            <li class="num"><a href="$row[url]" title="$row[title]" target="_blank">{$row['number']}</a></li>
+            <li class="type"><a href="{$Letter.controller}-list?type=$row[type]" title="$row[type_name]" target="_blank">$row[type_name]</a></li>
+            <li class="title"><a href="$row[url]" title="$row[title]" target="_blank">$row[title_s]</a></li>
+            <li class="name"><a href="$row[url]" title="$row[title]" target="_blank">$row[username]</a></li>
+            <li class="lxtime"><!--{php echo date('Y-m-d',$row['create_time']);}--></li>
+            <li class="branch"><a href="{$Letter.controller}-list?department=$row[department]" title="$row[department_name]" target="_blank">$row[department_name]</a></li>
+            <li class="sltime"><!--{php echo $row['status_change_time']?date('Y-m-d',$row['status_change_time']):'';}--></li>
+            <li class="status1"><a href="{$Letter.controller}-list?status=$row[status]" title="$row[title]" target="_blank">$row[status_name]</a></li>
+            <li class="caution"><img width="14" height="24" src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp{$row['dp']}.gif"></li>
+            <div class="clear"></div>
+          </ul>
+          <!--{/foreach}-->
+        </div>
+        <div class="pages"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
+<script type="text/javascript">
+function changedep(obj){
+	var dep = $(obj).val();
+	$('#form_post').attr('action','{$this_url}?department='+dep);
+}
+</script>
+<!--{template $core footer}-->
+<!--{/php168}-->

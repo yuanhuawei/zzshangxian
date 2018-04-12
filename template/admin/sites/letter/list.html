@@ -1,0 +1,103 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/sortable.js"></script>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：
+	<a href="{$core.admin_controller}/sites/farm-index">站群系统</a> &gt; 
+	<a href="{$core.admin_controller}/sites/farm-add">站点信箱内容管理</a></td>
+  </tr>
+</table>
+<form name="form" id="searchFrom" action="" method="post">
+<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table">
+<tr>
+	<td>
+	<input type="hidden" name="status" value="$status"/>
+	信件来源： <select name="source">
+	<option value="">全部</option>
+	<option value="1" {if $source==1}selected{/if}>在线</option>
+	<option value="2" {if $source==2}selected{/if}>邮箱</option>
+	<option value="3" {if $source==3}selected{/if}>电话</option>
+	</select>
+	部门: <select name="department">
+			<option value="">所有</option>
+			<!--{foreach $departments $key $val}-->
+			<option value="$val[id]" {if !empty($department) && $department == $val['id']}selected{/if}>$val[name]</option>
+			<!--{/foreach}-->
+		</select> 
+    类别: <select name="type">
+			<option value="">所有</option>
+			<!--{foreach $types $key $val}-->
+			<option value="$val[id]" {if !empty($type) && $type == $val['id']}selected{/if}>$val[name]</option>
+			<!--{/foreach}-->
+		</select> 
+	
+	问题编号：<input name="number" value="$number" type="text" /> 关键词：<input name="keyword" value="$keyword" type="text" /> 解决人：<input name="solve_name" value="$solve_name" type="text" /> <input type="hidden" name="act" value="search"/><input type="submit" value="搜索" />
+	</td>
+</tr>
+</table>
+</form>
+<ul class="boxmenu">
+<li class="{if $status=='0'}bm_over{else}bm_out{/if}"><a class="bm_l" href="$this_url?status=0">处理中</a></li>
+<li class="{if $status=='3'}bm_over{else}bm_out{/if}"><a class="bm_l"  href="$this_url?status=3">已处理</a></li>
+</ul>
+<form action="$this_url" method="post" id="form">
+<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table">
+	<tr bgcolor="#eeeeee" class="title fix_head list_top">
+		<td width="9%" class="list_top title">编号</td>
+		<td width="25%" class="list_top title">标题</td>
+		<td width="8%" class="list_top title">部门</td>
+		<td width="8%" class="list_top title">类型</td>
+		<td width="8%" class="list_top title">来源</td>
+		<td width="8%" class="list_top title">状态</td>
+		<td width="8%" class="list_top title">显示</td>
+		<td width="10%" class="list_top title">提问时间</td>
+		<td width="10%" class="list_top title">解决时间</td>
+		<td width="8%" class="list_top title">操作</td>
+	</tr>
+	<!--{foreach $list $k $v}-->
+	<tr>
+		<td><a href="{$this_module.controller}-view-id-{$v['id']}" target="_blank">$v[number]</a></td>
+		<td style="text-align:left"><a href="{$this_module.controller}-view-id-{$v['id']}" target="_blank">$v[title]</a></td>
+		<td>{$departments[$v['department']]['name']}</td>
+		<td>{$types[$v['type']]['name']}</td>
+		<td>{$P8LANG['source_'.$v['source']]}</td>
+		<td>
+			<!--{if $v['status']==0}-->
+			未受理 
+			<!--{elseif $v['status']==3}-->
+			已解决
+			<!--{else}-->
+			处理中
+			<!--{/if}-->
+		</td>
+		<td>
+			<!--{if $v['visual']==0}-->	不公开<!--{else}-->公开<!--{/if}-->,
+			<!--{if $v['undisplay']==0}-->显示<!--{else}-->不显示<!--{/if}-->
+		</td>
+		<td>
+			<!--{php echo date("Y-m-d H:i",$v['create_time']);}-->
+		</td>
+		<td>
+			<!--{php  if($v['solve_time']) echo date("Y-m-d H:i",$v['solve_time']);}-->
+		</td>
+		<td><a href="{$this_module.controller}-view-id-{$v['id']}" target="_blank">查看</a> / <a href="$this_router-delete?id=$v[id]" onclick="javascript:return confirm('确定了')">删除</a></td>
+	</tr>
+	<!--{/foreach}-->
+	<tr>
+		<td colspan="10" class="pages">{$pages}</td>
+	</tr>
+</table>
+
+
+<script type="text/javascript">
+function printthis(){
+	$('#searchFrom input[name="act"]').val('print');
+	$('#searchFrom').attr('target','_blank').submit();
+}
+function searchthis(){
+	$('#searchFrom input[name="act"]').val('search');
+	$('#searchFrom').attr('target','_self').submit();
+}
+</script>
+<!--{/php168}-->

@@ -1,0 +1,10 @@
+<!--{php168}-->
+<ul class="label_ul_buy">
+<!--{foreach $list $k $value}-->
+	<li style="$wf;">
+		<span class="label_datatime">[<!--{php echo date('Y-m-d', $value['timestamp']);}-->]</span>·<span style="color:#0000FF">[供应]</span> <a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a>
+	</li>
+<!--{/foreach}-->
+	<div class="clear"></div>
+</ul>
+<!--{/php168}-->

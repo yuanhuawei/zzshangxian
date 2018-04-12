@@ -1,0 +1,66 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="POST" id="form">
+
+<table class="mainbox mainborder">
+	<tr><td>
+		
+		<table class="columntable formtable hover_table">
+		<tr class="title">
+			<td class="title" colspan="2">{$P8LANG['alipay']['config']}</td>
+		</tr>
+		
+		<tr>
+			<td width="10%">{$P8LANG['alipay']['account']}<p class="help">请输入你的支付宝账号。如没有请登录支付宝官方站申请。</p></td>
+			<td><input type="text" class="txt" name="config[account]" value="{if isset($config['account'])}{$config['account']}{/if}" size="60" /></td>
+		</tr>
+		
+		<tr>
+			<td>{$P8LANG['alipay']['security_code']}<p class="help">交易安全校验码(key)： 和支付宝签约后获得。   </p></td>
+			<td><input type="password" class="txt" name="config[security_code]" value="{if isset($config['security_code'])}{$config['security_code']}{/if}" size="60" /></td>
+		</tr>
+		
+		<tr>
+			<td>{$P8LANG['alipay']['partner']}<p class="help">合作者身份（partID）：和支付宝签约后获得。 </p></td>
+			<td><input type="text" class="txt" name="config[partner]" value="{if isset($config['partner'])}{$config['partner']}{/if}" size="60" /> <a href="https://www.alipay.com/himalayas/practicality_customer.htm?customer_external_id=C4393304112338100117&market_type=from_agent_contract&pro_codes=9951DA19E303A141" target="_blank">免费申请支付宝接口<img src="http://192.168.0.107/65media/skin/admin/jj.png"/></a></td>
+		</tr>
+		
+		<tr>
+			<td>{$P8LANG['alipay']['service']['']}<p class="help">根据与支付宝签约的接口类型， 一般选择纯担保交易</p></td>
+			<td>
+				<select name="config[service]">
+					<option value="create_partner_trade_by_buyer"{if !empty($config['service']) && $config['service'] == 'create_partner_trade_by_buyer'} selected{/if}>{$P8LANG['alipay']['service']['create_partner_trade_by_buyer']}</option>
+					<option value="trade_create_by_buyer"{if !empty($config['service']) && $config['service'] == 'trade_create_by_buyer'} selected{/if}>{$P8LANG['alipay']['service']['trade_create_by_buyer']}</option>
+					<option value="create_direct_pay_by_user"{if !empty($config['service']) && $config['service'] == 'create_direct_pay_by_user'} selected{/if}>{$P8LANG['alipay']['service']['create_direct_pay_by_user']}</option>
+				</select> 
+			</td>	
+		</tr>
+		
+		<tr>
+			<td>{$P8LANG['alipay']['transport']}<p class="help">一般选择https方式，这种提交方式更安全</p></td>
+			<td>
+				<select name="config[transport]">
+					<option value="https"{if !empty($config['transport']) && $config['transport'] == 'https'} selected{/if}>https</option>
+					<option value="http"{if !empty($config['transport']) && $config['transport'] == 'http'} selected{/if}>http</option>
+				</select>
+			</td>	
+		</tr>
+		
+		<tr>
+			<td class="tdL">&nbsp;</td>
+			<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		</tr>
+		
+		</table>
+		
+	</td></tr>
+</table>
+<input type="hidden" name="name" value="{if isset($interface)}{$interface}{/if}" />
+</form>
+
+<script type="text/javascript">
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

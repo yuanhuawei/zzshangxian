@@ -1,0 +1,23 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td class="title">{$this_model['alias']} {$P8LANG['cms_item_manage']}</td>
+			</tr>
+			<tr><td class="headerbtn_list">
+				<ul>
+					<li><a href="{$core.admin_controller}/$SYSTEM/item-add?model=$model">{$P8LANG['add_cms_item']}</a></li>
+					<li><a href="{$core.admin_controller}/$SYSTEM/item-list?model=$model">{$P8LANG['cms_item_list']}</a></li>
+					<li><a href="{$core.admin_controller}/core/credit-add_rule?system={$this_system.name}&module=item&postfix=$model">{$P8LANG['set_credit_rule']}</a></li>
+					<li><a href="{$core.admin_controller}/$SYSTEM/item-category_credit_rule?model=$model">{$P8LANG['set_category_credit_rule']}</a></li>
+				</ul>
+			</td></tr>
+		</table>
+	</div>
+</div>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

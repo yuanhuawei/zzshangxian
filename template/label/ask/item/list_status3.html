@@ -1,0 +1,19 @@
+<!--{php168}-->
+<table class="label_ul_s label_table" width="100%" cellpadding="3" cellspacing="0"  border="0">
+<tr class="label_tr_head">
+		<td width="65%" >提问标题</td>
+		<td width="10%" >状态</td>
+		<td width="10%" >咨询人</td>
+		<td width="10%" >时间</td>
+	</tr>
+	<!--{foreach $list $value}-->
+	<tr >
+		<td>·<a href="$value[url]" target="_blank" title="$value[full_title]" style="color:#00f; text-decoration:underline; font-size:14px">$value[title]</a><span style="color:#999999">[<a href="$value[category_url]" target="_blank" style="color:#999999">{$value['category_name']}</a>]</span> </td>
+		<td><img align="middle" src="$RESOURCE/skin/label/status_{if $value['recommend']==1}6{else}4{/if}.gif" /></td>
+		<td> $value[username]</td>
+		<td>{date('m/d',$value['addtime'])}</td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+<!--{/php168}-->
+

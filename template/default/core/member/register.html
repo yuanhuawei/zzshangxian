@@ -1,0 +1,306 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<meta name="renderer" content="webkit"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+<title>{$P8LANG['member_register']}_{$core.CONFIG['site_name']}</title>
+<link type="text/css" rel="stylesheet" href="{$SKIN}member/register.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/member_common.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+</head>
+<body>
+<!--页头-->
+<script type="text/javascript">
+$(function(){
+	$('#form').validate({
+		rules: {
+			
+			username: {
+				required: true,
+				rangelength: [2, 20],
+				valid_username: true,
+				remote: {
+					url: '$this_router-verify',
+					cache: false,
+					data: {name: 'username', data: function(){return $('#username').val();}},
+					beforeSend: function(){
+						ajaxing({});
+					},
+					complete: function(){
+						ajaxing({action: 'hide'});
+					}
+				}
+			},
+			
+			password: {
+				required: true,
+				rangelength: [6, 20]
+			},
+			
+			confirm_password: {
+				required: true,
+				equalTo: '#password'
+			},
+			
+			email: {
+				required: true,
+				valid_email: true,
+				remote: {
+					url: '$this_router-verify',
+					cache: false,
+					data: {name: 'email', data: function(){return $('#email').val();}},
+					beforeSend: function(){
+						ajaxing({});
+					},
+					complete: function(){
+						ajaxing({action: 'hide'});
+					}
+				}
+			},
+			cell_phone: {
+				number: true,
+				maxlength: 11
+			},
+			
+			<!--{if isset($question)}-->
+			register_question: {
+				required: true,
+				remote: {
+					url: '$this_router-verify',
+					cache: false,
+					data: {name: 'register_question', data: function(){return $('#register_question').val();}},
+					beforeSend: function(){
+						ajaxing({});
+					},
+					complete: function(){
+						ajaxing({action: 'hide'});
+					}
+				}
+			},
+			<!--{/if}-->
+			
+			agree: {
+				required: true
+			}
+		},
+		
+		messages: {
+			username: {
+				required: '$P8LANG[username_required]',
+				valid_username: '$P8LANG[username_invalid]',
+				rangelength: '$P8LANG[username_length_range]',
+				remote: '$P8LANG[username_exists_or_denied]'
+			},
+			
+			password: {
+				required: '$P8LANG[password_required]',
+				rangelength: '$P8LANG[password_length_range]'
+			},
+			
+			confirm_password: {
+				required: '$P8LANG[password_required]',
+				equalTo: '$P8LANG[password_not_match]'
+			},
+			
+			email: {
+				required: '$P8LANG[email_required]',
+				valid_email: '$P8LANG[email_invalid]',
+				remote: '$P8LANG[email_registerd]'
+			},
+			
+			cell_phone: {
+				number: '$P8LANG[phone_invalid]',
+				maxlength: '$P8LANG[phone_too_long]'
+			},
+			<!--{if isset($question)}-->
+			register_question: {
+				required: '$P8LANG[verify_question_required]',
+				remote: '$P8LANG[verify_question_incorrect]'
+			},
+			<!--{/if}-->
+			
+			agree: {
+				required: function(){alert('$P8LANG[agreement_required]');}
+			}
+		},
+		
+		errorPlacement: function(error, element) {
+			if(element.attr('name') == 'register_question'){
+				error.appendTo(element.parent().parent().next().empty());
+			}else if(element.attr('name') == 'agree'){
+				//
+			}else{
+				error.appendTo(element.parent().next().empty());
+			}
+		},
+		
+		success: function(e){
+			e.html('&nbsp;').removeClass('no').addClass('yes');
+		},
+		
+		validClass: 'yes',
+		errorClass: 'no',
+		
+		onkeyup: false
+		
+	});
+});
+</script>
+<div class="regmain">
+	<div class="regbox">
+		<div class="reghead"></div>
+		<div class="regmodule clear">
+			<div class="regside">
+				<h3>欢迎注册！</h3>
+				<p>已经是会员？ <a style="color: #ba0600" href="{$core.U_controller}/../u.php">立即登录</a></p>
+			</div>
+			<div class="regform">
+				<form method="post" id="form" action="$this_url" >
+					<!--{if empty($gid)}-->
+					<div class="chose">
+						<h3>{$P8LANG['choose_role_group']}：</span></h3>
+						<p><!--{foreach $groups $id $v}-->
+						<!--{php if(!$v['registrable']) continue;}-->
+						<a href="$this_url?gid=$v[id]&{$_SERVER['QUERY_STRING']}">$v[name]</a> &nbsp;
+						<!--{/foreach}--></p>
+					</div>
+					<!--{else}-->
+					<div class="formrow">
+						<div class="name">{$P8LANG['username']} <span class="start">*</span></div>
+						<div class="input"><input type="text" name="username" id="username" class="textinput" onfocus="checkUsername(this);"/></div>
+						<div class="tishi">
+							<div id="username_hint" class="hint" style="display:none;line-height:18px;font-size:12px; color:#0066CC">
+								{$P8LANG['username_hint']}
+							</div>
+						</div>
+					</div>
+					<div class="formrow">
+						<div class="name">{$P8LANG['password']} <span class="start">*</span></div>
+						<div class="input"><input name="password" type="password" id="password" class="textinput" /></div>
+						<div class="tishi"></div>
+					</div>
+					<div class="formrow">
+						<div class="name">{$P8LANG['confirm_password']} <span class="start">*</span></div>
+						<div class="input"><input type="password" name="confirm_password" id="confirm_password" class="textinput" /></div>
+						<div class="tishi"></div>
+					</div>
+					<div class="formrow">
+						<div class="name">{$P8LANG['email']} <span class="start">*</span></div>
+						<div class="input"><input type="text" name="email" id="email" class="textinput" /></div>
+						<div class="tishi"></div>
+					</div>
+					<div class="formrow">
+						<div class="name">{$P8LANG['cell_phone']}</div>
+						<div class="input"><input type="text" name="cell_phone" id="cell_phone" class="textinput" onfocus="$('#cell_phone_hint').show();"/></div>
+						<div class="tishi">
+							<div id="cell_phone_hint" class="hint" style="display: none;line-height:18px;font-size:12px; color:#0066CC">
+								{$P8LANG['cell_phone_hint']}
+							</div>
+						</div>
+					</div>
+					<!--{foreach $this_model['fields'] $field $field_data}-->
+					<div class="formrow">
+						<div class="name">$field_data[alias]{if $field_data['not_null']} <span class="start">*</span>{/if}</div>
+						<div class="input">
+							<!--{php include template($core, 'widget/'. $field_data['widget'], 'default');}-->
+							<script type="text/javascript">
+								$(function(){
+									$('#form *[name="field#[$field]"]').rules('add', {
+										required: true,
+										messages: { required: '{$P8LANG['role_group_field_required']}'}
+									});
+								});
+							</script>
+						</div>
+						<div class="tishi"></div>
+					</div>
+					<!--{/foreach}-->
+					<!--{if isset($question)}-->
+					<div class="formrow">
+						<div class="name">{$P8LANG['verify_question']}<font color="#FF0000" size="2">*</font></div>
+						<div class="input">
+							<div style="position: relative;">
+								<input type="text" name="register_question" id="register_question" onfocus="$('#question').show()" onclick="$('#question').show('slow')" onblur="$('#question').fadeOut()" class="input" /> <span class="question" style="display: none;" id="question">$question</span>
+							</div>
+						</div>
+						<div class="tishi"></div>
+					</div>
+					<!--{/if}-->
+					<!--{if !empty($this_module->CONFIG['register']['captcha'])}-->
+					<div class="formrow">
+						<div class="name">{$P8LANG['captcha']}<font color="#FF0000" size="2">*</font></div>
+						<div class="captcha"><input type="text" name="captcha"/></div>
+						<div class="tishi" style="width:auto;">
+							<div id="captcha"></div>
+						</div>
+						<script type="text/javascript">
+							captcha($('#captcha'), $('#form input[name="captcha"]'));
+						</script>
+					</div>
+					<!--{/if}-->
+					<div class="formrow">
+						<div class="input" style="margin-left:170px;"><input type="checkbox" name="agree" id="agree" value="1" onclick="_agree(this.checked)"/> <label for="agree">{$P8LANG['accept_argument']}</label> <a href="{$core.controller}/core/page-view-id-2" target="_blank">{$P8LANG['view']}</a></div>
+					</div>
+					<div class="formrow">
+						<div class="name"></div>
+						<div class="submit"><input type="submit" value="{$P8LANG['submit']}"/></div>
+					</div>
+					<!--{/if}-->
+					<input type="hidden" name="gid" value="$gid" />
+					<input type="hidden" name="forward" value="{if isset($_GET['forward'])}$_GET[forward]{/if}" />
+					<input type="hidden" name="_referer" value="{if isset($_GET['forward'])}$_GET[forward]{/if}" />
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="footbar">
+	<div class="footer">
+		<div class="copyright">
+			<ul>
+				<li>{$core.CONFIG['copyright']}</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+function checkUsername(obj){
+	if(!/^[A-Za-z]\w{2,}/.test(obj.value)){
+		$("#username_hint").css("display","block");
+	}else{
+		$("#username_hint").css("display","none");
+	}
+}
+
+function _agree(checked){
+	if(checked){
+		$('\x3c\x69\x6e\x70\x75\x74 \x74\x79\x70\x65\x3d\x22\x68\x69\x64\x64\x65\x6e\x22 \x69\x64\x3d\x22\x5f\x5f\x61\x67\x72\x65\x65\x22 \x6e\x61\x6d\x65\x3d\x22\x5f\x5f\x61\x67\x72\x65\x65\x6d\x65\x6e\x74\x22 \x76\x61\x6c\x75\x65\x3d\x22\x31\x22 \x2f\x3e')['\x61\x70\x70\x65\x6e\x64\x54\x6f']($('\x23\x66\x6f\x72\x6d'));
+	}else{
+		$('\x23\x5f\x5f\x61\x67\x72\x65\x65')['\x72\x65\x6d\x6f\x76\x65']();
+	}
+}
+
+$.validator.addMethod('valid_username', function(value, element){
+	//return /^[A-Za-z]\w{2,}/.test(value);
+	return !/{$this_module.username_reg}/.test(value);
+});
+
+$.validator.addMethod('valid_email', function(value, element){
+	return value.length > 3 && /^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/.test(value);
+});
+
+
+
+$('#username').focus();
+</script>
+</body>
+</html>
+<!--{/php168}-->

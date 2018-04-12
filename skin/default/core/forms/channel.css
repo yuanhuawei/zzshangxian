@@ -1,0 +1,29 @@
+/* CSS Document */
+
+body { background:url(channel_head_bg1.gif) repeat-x; text-align:center; margin:0px; padding:0px; font-family:"宋体"; font-size:14px; }
+.channel_frame { border:none; width:1000px; overflow:hidden; margin:0px auto; }
+.channel_head_frame { border:none; width:1000px; height:330px; overflow:hidden; margin:0px auto; background:url(channel_head_bg2.gif) repeat-x;margin-top:20px;}
+.channel_head_box { border:none; width:822px; height:320px; margin:10px auto 0px auto; padding:20px 74px; background-color:#ffffff; text-align:left; }
+.channel_main_frame { width:1000px; overflow:hidden; margin:0px auto; background-color:#bee1f4; }
+.channel_main_box { border:none; width:822px; margin:0px auto 10px auto; padding:20px 74px; background-color:#ffffff; text-align:left; }
+.channel_logo { float:left; border:none; }
+.channel_logo_right { float:left; padding-top:35px; padding-left:30px; border:none; }
+.channel_head_banner { padding:10px 0px; clear:both; }
+.channel_banner { margin:0px 0px 30px 0px; clear:both; }
+.channel_content { border-bottom:#d0d0d0 dashed 1px; padding:10px 0px; line-height:200%; }
+.channel_title { }
+.channel_item { padding:5px; clear:both;  font-size:14px;color:#333333; }
+.channel_item_title { width:180px; overflow:hidden; text-align:right; float:left; }
+.channel_item_text { width:400px;height:30px;background:url(c21.gif) no-repeat ;padding-left:25px;}
+.channel_item_input { float:left; padding-top:3px; }
+.channel_item_input input { border:#9b9b9b solid 1px; height:18px;width:225px; }
+.channel_item_input textarea { border:#9b9b9b solid 1px; }
+.channel_item_input select { border:#9b9b9b solid 1px; }
+.channel_item_tip { color:#999999; }
+.title_jian{ background:url(box1bg.gif) no-repeat left -180px; padding-left:30px; font-weight:normal}
+.title_icon_5{background:url(icon.gif) no-repeat left -127px; padding-left:15px;}
+.title_icon_4{background:url(box1bg.gif) no-repeat left -178px; padding-left:40px;}
+.title_icon_3{background:url(box1bg.gif) no-repeat left -145px; padding-left:40px;}
+.title_icon_2{background:url(box1bg.gif) no-repeat left -38px; padding-left:40px;}
+.title_icon_1{background:url(box1bg.gif) no-repeat left -5px; height:20px; padding-left:40px;}
+.channel_btn{background:url(channel_submit_button.gif) no-repeat;height:36px;width:109px;border:none;}

@@ -1,0 +1,40 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>后台管理 powerby www.php168.net</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="{$RESOURCE}/skin/admin/style.css" type="text/css">
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/jquery.boxy.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/admin.js"></script>
+<script type="text/javascript">
+P8CONFIG.admin_controller = '{$core.admin_controller}';
+var P8_ROOT = '$P8_ROOT';
+</script>
+</head>
+<body>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr><td>
+				<table class="formtable">
+					<tr>
+						<td class="title">问答系统&gt;问答核心设置</td>
+					</tr>
+					<tr><td class="headerbtn_list">
+						 <ul>
+							<li><a href="{$this_router}-config">{$P8LANG['ask_config_core']}</a></li>
+							<li><a href="{$this_router}-config_list">{$P8LANG['ask_config_list']}</a></li>
+						 </ul>
+					</td></tr>
+					
+				  </table>
+					</td>
+			  </tr>
+		</table>
+	</div>
+</div>
+<!--{/php168}-->

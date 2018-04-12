@@ -1,0 +1,136 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable columntable">
+			<tr class="title">
+				<td>&nbsp;数据库操作导航</td>
+			</tr>
+			<tr>
+				<td style="padding-left:40px;">
+					<input type="button" value="备份所有系统数据" onclick="backup(false)" />
+					<input type="button" value="仅备份本系统的数据" onclick="backup(true)" />
+					<input type="button" value="一键还原数据" onclick="backup(true)" />
+					<input type="button" value="优化数据" onclick="backup(true)" />
+					<input type="button" value="解除锁定" onclick="_submit('unlock')" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<form action="$this_router-restore" method="post">
+<div class="mainbox mainborder">
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr><td>
+			<table class="formtable">
+				<tr>
+					<td class="title">操作管理</td>
+				</tr>
+				<tr>
+					<td class="headerbtn_list">
+						<select name="name">
+							<option value="">选择还原点</option>
+							<!--{foreach $list $value}-->
+							<option value="$value">$value</option>
+							<!--{/foreach}-->
+						</select>				
+						<input type="submit" value="$P8LANG[submit]" onclick="return confirm('$P8LANG[confirm_to_do]');" />				
+					</td>
+				</tr>
+			</table>
+			
+			</td></tr>
+		</table>
+	</div>
+</div>
+
+</form>
+<form action="$this_url" method="POST" id="form" style="display: none;">
+<div class="mainbox mainborder">
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr><td>
+				<table class="columntable formtable hover_table click_changeable">
+					<tr class="title">
+						<td class="title" width="3%"><input type="checkbox" onclick="check_all(this, 'name[]'); init_tr($('#form'));" /></td>
+						<td width="20%" class="title">表名</td>
+						<td width="5%" class="title">行数</td>
+						<td width="5%" class="title">大小</td>
+						<td width="6%" class="title">字符集</td>
+						<td width="8%" class="title">创建时间</td>
+						<td width="8%" class="title">最后修改</td>
+						<td width="5%" class="title">引擎</td>
+					</tr>
+					
+					<!--{foreach $list $value}-->
+					<tr id="$value[Name]">
+						<td><input type="checkbox" name="name[]" value="$value[Name]" /></td>
+						<td><a href="$this_router-struct?name=$value[Name]" target="_blank">$value[Name]</a> <font color="#cccccc">$value[alias]</font></td>
+						<td>$value[Rows]</td>
+						<td>
+							<!--{if ($tmp = round($value['Data_length'] / pow(1024, 3))) > 1}-->
+							$tmp GB
+							<!--{elseif ($tmp = round($value['Data_length'] / pow(1024, 2))) > 0}-->
+							$tmp MB
+							<!--{elseif ($tmp = round($value['Data_length'] / pow(1024, 1))) > 0}-->
+							$tmp KB
+							<!--{else}-->
+							$value[Data_length] B
+							<!--{/if}-->
+						</td>
+						<td>$value[Collation]</td>
+						<td>$value[Create_time]</td>
+						<td>$value[Update_time]</td>
+						<td>$value[Engine]</td>
+					</tr>
+					<!--{/foreach}-->
+				</table>
+			</td></tr>
+			
+			<tr>
+				<td colspan="3">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+						<tr>
+							<td>
+								<input type="button" class="edit_btn" value="优化" onclick="_submit('optimize')" />
+								<input type="button" class="edit_btn" value="修复" onclick="_submit('repair')" />
+								<input type="button" class="edit_btn" value="清空数据" onclick="if(confirm('$P8LANG[confirm_to_delete]')) _submit('truncate')" />
+								<input type="button" class="edit_btn" value="删除" onclick="if(confirm('$P8LANG[confirm_to_delete]')) _submit('drop')" />
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<input type="hidden" name="act" value="" />
+<input type="hidden" name="ours" value="" />
+</form>
+
+	
+<script type="text/javascript">
+function _submit(action){
+	ajaxing({});
+	$('#form input[name=act]').val(action);
+	$('#form').get(0).submit();
+}
+
+function backup(ours){
+	if(!confirm('$P8LANG[confirm_to_do]')) return;
+	
+	var charset = $('#charset').val();
+	var rows = $('#rows').val();
+	
+	$('#form').append($('<input type="hidden" name="charset" value="'+ charset +'" />'));
+	$('#form').append($('<input type="hidden" name="rows" value="'+ rows +'" />'));
+	
+	$('#form input[name=ours]').val(ours ? 1 : 0);
+	$('#form').attr('action', '$this_router-backup').attr('target', '_blank').get(0).submit();
+	$('#form').attr('action', '$this_url').attr('target', '');
+}
+</script>
+<!--{/php168}-->

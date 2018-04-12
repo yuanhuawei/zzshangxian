@@ -1,0 +1,28 @@
+<!--{php168}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['quest_do']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					<ul>
+						<li class="li1"><a href="{$core.admin_controller}/$SYSTEM/item-add" class="btn1">{$P8LANG['cms_add']}</a></li>
+						<li class="li2"><a href="{$core.admin_controller}/$SYSTEM/item-list" class="btn2">{$P8LANG['cms_manage']}</a></li>
+						<li class="li3"><a href="{$core.admin_controller}/$SYSTEM/category-add" class="btn3">{$P8LANG['cms_list_add']}</a></li>
+						<li class="li4"><a href="{$core.admin_controller}/$SYSTEM/category-list" class="btn4">{$P8LANG['cms_list_manage']}</a></li>
+						<!--{if $ACTION == 'list_addon'}-->
+							<li><a href="$this_router-addon?model=$MODEL&iid=$data[id]{if isset($verified)}&verified=$verified{/if}">{$P8LANG['cms_item']['addon']}</a></li>
+						<!--{/if}-->
+						
+						<!--{if $ACTION == 'update' || $ACTION == 'addon' || $ACTION == 'update_addon'}-->
+							<li><a href="$this_router-list_addon?model=$MODEL&iid=$data[iid]{if isset($verified)}&verified=$verified{/if}">{$P8LANG['cms_item']['addon']}</a></li>
+						<!--{/if}-->
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<!--{/php168}-->

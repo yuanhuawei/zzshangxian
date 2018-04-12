@@ -1,0 +1,69 @@
+<!--{php168}-->
+<!--{template $this_module header default}-->
+<body>
+<div class="getpaswd_box" id="1">
+	<div class="head">
+		找回密码
+	</div>
+	<div class="msg">
+		请填写注册时的邮箱，密码找回信息将发至邮箱
+	</div>
+	<div class="getpaswd_input_box">
+		<div class="each_input">
+			邮箱地址 <input name="" type="text" /> <font color="#ff0000">您填写的信息有误</font>
+		</div>
+		<div class="each_input">
+			验 证 码 <input name="" type="text" size="10" /><font color="#ff0000">验证码错误</font><span class="yzimg"><img src="" width="30" height="18" border="0" title="点击更新" /></span>
+		</div>
+	</div>
+	<div class="getpaswd_submit">
+		<input name="" type="button" value="提交" onClick="shownex(2)"/> <input type="button" value="关闭窗口" />
+	</div>
+</div>
+<div class="setpaswd_box" style="display:none" id="2">
+	<div class="head">
+		找回密码
+	</div>
+	<div class="sen_sucess">
+		成功
+	</div>
+	<div class="msg">
+		·Admin 你好，密码重设信息已经发送到你的邮箱啦，请注意查收
+	</div>
+	
+	<div class="getpaswd_submit">
+		<input name="" type="button" value="下一步" class="submit_btn" onClick="shownex(3)"/>
+	</div>
+</div>
+</body>
+<div class="setpaswd_box" style="display:none" id="3">
+	<div class="head">
+找回密码
+	</div>
+	<div class="msg">
+请重设新密码
+	</div>
+	<div class="getpaswd_input_box">
+		<dl>
+			<dt class="t">新密码</dt>
+			<dd class="t"><input name="" type="text" /><font color="#ff0000">密码太短</font></dd>
+			<dt>重复密码</dt>
+			<dd><input name="" type="text" /><font color="#ff0000">两次输入不一致</font></dd>
+			<dt>验 证 码</dt>
+			<dd><input name="" type="text" size="10" /><font color="#ff0000">验证码已过期</font><span class="yzimg">(请输入邮件中的验证码)</span></dd>
+		</dl>
+	</div>
+	<div class="getpaswd_submit">
+		<input name="" type="button" value="提交" class="submit_btn" onClick="shownex(2)"/>
+	</div>
+</div>
+<script type="text/javascript">
+function shownex(id){
+	for(i=1;i<3;i++){
+		$('#'+i).hide();
+	}
+	$('#'+id).show();
+}
+</script>
+</body>
+</html><!--{/php168}-->

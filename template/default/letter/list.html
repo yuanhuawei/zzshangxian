@@ -1,0 +1,106 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/{$this_module.name}/style.css">
+<div class="nav">
+	您的位置：<a href="{$this_system.url}">首页</a>&nbsp;&gt;&nbsp;<a href="#">领导信箱</a>
+</div>
+<div class="mtop">
+	<div class="contain_left" style="width:245px;">	
+		<div class="border1">
+			<div class="head_gov">
+				<span class="title1">
+					$label[email_menu_title]
+				</span>
+			</div>	
+				<div class="main1" id='leftbox'>
+					$label[email_menu]
+				</div>
+				<div class="clear">
+				</div>
+		</div>
+		
+		<div class="border1 mtop">
+			<div class="head_gov">
+				<span class="title1">
+					$label[email_title_2]
+				</span>
+			</div>	
+				<div class="main1 bg_grey">
+				<table width="100%" class="lettertb" cellspacing="0" cellpadding="0">
+				<tr><td align="center"><b>信件类型</b></td><td align="center"><b>回复总数</b></td></tr>
+				<!--{foreach $cates['type'] $key $row}-->
+				<tr><td align="center">{$row['name']}</td><td align="center"><span style="color:#4d3739"><!--{if !empty($tatistics[$row['id']]['total'])}-->{$tatistics[$row['id']]['solve']}/{$tatistics[$row['id']]['total']}<!--{else}-->0/0<!--{/if}--></span></td></tr>
+				<!--{/foreach}-->
+				</table>
+				</div>
+		</div>
+		<div class="mtop">$label[letter_ads1]</div>
+		<div class="mtop">$label[letter_ads2]</div>
+	</div>
+	<div class="contain_right" style="width:735px;">
+        <div class="quicknav mbottom">
+		<div class="fl">$label[letter_imads]</div>
+		<div class="fr">$label[letter_imads2]</div>
+		</div>
+       <div class="clear"></div>
+		<div class="show_box_govs">
+			<div class="form_title"><span class="f_l"> $label[email_txt2]</span><span class="more2">
+			<form action="" method="get" name="form1" id="form1">
+			<input type="text" value="$keyword" class="keyword" id="keyword" name="keyword" style="margin-right:0px">
+			<input type="submit" class="submitbtn" value="搜索" id="button" name="button">
+			</form></span><span class="more1" id="editcontent"></span></div>
+			<div class="form_content">
+			<table width="100%" class="letter_list_table">
+			<tr><th width="45">编号</th><th width="330">标题</th><th width="80">类型</th><th width="70">来信日期</th><th width="80">办理状态</th><th width="*">承办单位</th><th width="30">预警</th></tr>
+			  <!--{foreach $list $key $row}-->
+			  <!--{php $k=$key%2;}-->
+			  <tr class="trc_{$k}">
+				  <td class="no_right">$row[id]</td>
+				  <td class="ltitle"><a href="$row[url]" title="$row[title]" target="_blank">$row[title_s]</a></td>
+				  <td>$row[type_name]</td>
+				  <td><!--{php echo date('Y-m-d',$row['create_time']);}--></td>
+				  <td><span style="color:{if $row[status]==3}#0F96E5{else}#F27D03{/if}">{if $row[status]==3}√{else}＝{/if}$row[status_name]</span></td>
+				  <td>$row[department_name]</td>
+				  <td><img src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp{$row['dp']}.gif"/></td>
+			  </tr>
+			  <!--{/foreach}-->
+			  <tr>
+			  <td class="pages no_right" colspan="6"> {$pages}  </td>
+			  </tr>
+			 </table> 
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clear">
+</div>
+<div class="foot_two">
+<table width="85%" align="center" class="con">
+<tbody><tr>
+<td width="200" height="26"><select name="select">
+<option>国家各部门网站</option>
+<option>中华人民共和国</option>
+</select></td>
+<td width="200"><select name="select2">
+<option>国家各部门网站</option>
+<option>中华人民共和国</option>
+</select></td>
+<td width="200"><select name="select3">
+<option>国家各部门网站</option>
+<option>中华人民共和国</option>
+</select></td>
+<td width="200"><select name="select4">
+<option>国家各部门网站</option>
+<option>中华人民共和国</option>
+</select></td>
+</tr>
+</tbody></table>
+</div>
+<!--{if $addcontent}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/images/dialog.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<!--{/if}-->
+<!--{template $core footer}-->
+<!--{/php168}-->

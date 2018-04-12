@@ -1,0 +1,29 @@
+<!--{php168}-->
+<style type="text/css">
+.label_list13_case { text-align:left;border:none;}
+.label_list13_item {text-align:left; height:64px;overflow: hidden;padding:15px 0px;border-bottom:1px dotted #c1c1c1;}
+.date{width:62px;height:64px;background:url({$RESOURCE}/skin/label/date_bg.png) no-repeat;float: left;}
+.date span{height:32px; width:62px; line-height:32px; display:block; text-align:center;}
+.notop{color:#ffffff;font-size:14px;}
+.nobtm{color:#333333;font-size:18px;font-weight:bold;}
+.text{margin-left:10px;text-align: left;width:384px;height:64px;float: left;}
+.label_list13_item h3 a{font-size:16px;color:#881313;font-weight: normal;}
+.label_list13_summary{color: #646464;padding-top: 5px;}
+.label_list13_summary a{ color:#646464; line-height:20px; font-size:12px;text-decoration:none;}
+</style>
+<ul class="label_list13_case">
+	<!--{foreach $list $value}-->
+	<li class="label_list13_item">
+		<div class="date">
+            <span class="notop"><!--{php echo date('m月', $value['timestamp']);}--></span>
+            <span class="nobtm"><!--{php echo date('d',$value['timestamp']);}--></span>
+		</div>
+		<div class="text">
+			<h3><a href="$value[url]"  target="_blank" title="$value[full_title]">$value[title]</a></h3>
+			<div class="label_list13_summary"><a href="$value[url]">$value[summary]</a></div>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->
+

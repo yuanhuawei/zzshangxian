@@ -1,0 +1,11 @@
+<!--{php168}-->
+<ul class="label_ul_s">
+	<!--{foreach $list $value}-->
+	<li class="c00f">
+		<span class="label_datatime"><img src="$RESOURCE/skin/label/status_{if $value['status']==3 }5{else}4{/if}.gif" /></span>·<a href="$value[url]" target="_blank" title="$value[full_title]" style="color:#00f; text-decoration:underline">$value[title]</a> <span style="color:#999999">
+	</li>
+	<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->
+

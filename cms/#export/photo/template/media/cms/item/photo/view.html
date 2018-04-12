@@ -1,0 +1,176 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$TITLE</title>
+<meta name="keywords" content="$SEO_KEYWORDS" />
+<meta name="description" content="$SEO_DESCRIPTION" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/head_foot.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/label/label.css" />
+<!--{if !empty($LINKRSS)}-->
+<link rel="alternate" type="application/rss+xml" title="$LINKRSS[title]" href="$LINKRSS[url]" />
+<!--{/if}-->
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+
+<script type="text/javascript" src="{$this_router}-check_verify_action?cid=$cid"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+
+<script type="text/javascript">
+<!--{template_init_js}-->
+
+<!--{template $this_module item_js}-->
+</script>
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/$MODULE/item.js"></script>
+</head>
+<body>
+
+<!--{template $core top_header}-->
+
+<script type="text/javascript" src="{$RESOURCE}/skin/media/core/media.js"></script>
+<script type="text/javascript">
+var multi_page = {if $multi_page}true{else}false{/if};
+</script>
+<div class=" ph990">
+<div class="list_nave">
+	<a href="{$core.url}">首页</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>
+</div>
+</div>
+<!--content-->
+<div id="ph_wrap">
+		<div id="photo_wrap" class="ph990 ">
+			<div class="head">
+				<div class="net_back">
+					<a href="{if $multi_page}$prev_page{else}javascript:JQPho.imgshow('1');{/if}" class="back"></a>
+					<a href="{if $multi_page}$next_page{else}javascript:JQPho.imgshow('2');{/if}" class="next"></a>
+					<a href="javascript:;" onclick="JQPho.showall()" class="all"></a>
+				</div>
+			</div>
+			<div class="box_middle">
+				<div class="box_title">
+					<div class="title">
+						$data[title]
+						<span class="cimg">(
+						<!--{if $multi_page}-->
+						<label class="cout">$real_page</label>/<label class="cout">$page_count</label>
+						<!--{else}-->
+						<label class="cout" id="cimg">1</label>/<label class="cout" id="aimg">1</label>
+						<!--{/if}-->
+						)</span>
+						<span class="datetime">
+						{date('Y-m-d H:i:s', $data['timestamp'])}
+						</span>
+						<span id="operation" style="display: none; cursor: pointer;">{$P8LANG['operation']}</span>
+					</div>
+					<div class="nextimg">
+						下一组：<!--{if !empty($next_item['subject'])}--><a href="$next_item[url]" class="">$next_item[subject]</a><!--{else}-->没有了<!--{/if}-->
+					</div>
+				</div>
+				
+				<!--{if $pay_check}-->
+				<div class="box_img" id="box_img">
+					<div class="img_box">
+						<!--{if $multi_page}-->
+						<a href="$next_page" title="$photo[title]"><img id="showimg" onload="if(this.width>900)this.width=900; $(function(){ $('#photoloading').hide(); });" src="$photo[url]" alt="$photo[title]" /></a>
+						<!--{else}-->
+						<img id="showimg" src="{$RESOURCE}/images/nopic.jpg" onload="if(this.width>900)this.width=900;JQPho.setpoterheight()" border="0"  />
+						<!--{/if}-->
+					</div>
+					
+					<!--{if !$multi_page}-->
+					<div id="cursor1" href="javascript:void(0)" onclick="JQPho.imgshow(1)"></div>
+					<div id="cursor2" href="javascript:void(0)" onclick="JQPho.imgshow(2)" ></div>
+					<!--{/if}-->
+					
+					<div id="photoloading"></div>
+				</div>
+				
+				<div class="box_img" id="all_img"></div>
+				<div class="clear"></div>
+				<div class="real_link">
+					<a class="link" id="real_link" href="{if $multi_page}$photo[url]{/if}" target="_blank">查看原图</a>
+					<a href="javascript:void(0)" onclick="JQPho.showall()" class="all" >全部图片</a>
+				</div>
+				
+				<div id="imgtitle">
+					<!--{if $multi_page}-->$photo[title]<!--{/if}-->
+				</div>
+				<div class="ph_summary">
+					$data[content]
+				</div>
+				
+			</div>
+			
+			
+			<!--{if !$multi_page}-->
+			<div class="box_more">
+				<div class="more_left" style="width:30px;float:left">
+					<a href="javascript:void(0)" onmousedown="JQPho.moveimg('L')" onmouseup="JQPho.moveimg('Lo')" onmouseout="JQPho.moveimg('Lo')" id="more_left"></a>
+				</div>
+				<div class="more_middle" id="divmov">
+					<table cellspacing="5" cellpadding="0">
+						<tr id="imgs"> </tr>
+					</table>
+				</div>
+				<div  class="more_right" style="width:30px;float:right">
+					<a href="javascript:void(0)" onmousedown="JQPho.moveimg('R')" onmouseup="JQPho.moveimg('Ro')" onmouseout="JQPho.moveimg('Ro')" id="more_right"></a>
+				</div>
+			</div>
+			<!--{/if}-->
+			
+			<div id="photolist" style="display:none">
+				<!--{foreach $data['photourl'] $key $rs}-->
+				<li>
+				<h2>$rs[title]</h2>
+				<a href="#p=$key"><img src="$rs[thumb]" alt="$rs[title]"/></a>
+				<i title="img">$rs[url]</i>
+				</li>
+				<!--{/foreach}-->
+			</div>
+			<script type="text/javascript" src="{$SKIN}item/photo/photo.js"></script>
+			
+			<!--{else}-->
+			<!--{php include template($this_module, 'pay');}-->
+			<!--{/if}-->
+		</div>
+	<div id="subcate" class="ph990">
+		<div class="more_list">
+			其它图片
+		</div>
+		<!--{foreach $listdb $k $v}-->
+		<div class="ml_box">
+			<a href="$v[url]" class="ml_img"><img src="$v[frame]" title="$v[full_title]" width="110" height="100" onerror="this.src='{$core.url}/images/nopic.jpg'"  /></a> <a href="$v[url]" class="ml_title">$v[title]</a>
+		</div>
+		<!--{/foreach}-->
+		<div class="clear">
+		</div>
+	</div>
+	<div id="ph_comment" class="ph990">
+	<div style="padding:15px">
+		<a name="top"></a>
+		<!--{if !empty($this_module->CONFIG['comment']['enabled']) && !empty($data['allow_comment'])}-->
+		<!--{template $this_module view_comment}-->
+		<!--{/if}-->
+		</div>
+	</div>
+</div>
+<div class="clear">
+</div>
+<!--footer-->
+<script type="text/javascript" src="$this_router-count?id=$data[id]"></script>
+
+<script type="text/javascript" src="http://v2.jiathis.com/code/jiathis_r.js?move=0" charset="utf-8"></script>
+
+<!--{template $this_system footer}-->
+<!--{/php168}-->

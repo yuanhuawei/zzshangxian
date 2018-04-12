@@ -1,0 +1,53 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>修改留言</title>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}">
+</head>
+<body>
+ <form name="form2" onsubmit="return postedit()" method="post" action="$this_url">
+<table width='95%' cellspacing='1' cellpadding='3' class="tablewidth">
+    <tr> 
+      <td bgcolor='#FFFFFF' width="11%">标题</td>
+      <td bgcolor='#FFFFFF' width="89%">
+        <input type="text" class="txt" id="e_title" name="postdb[title]" value="$rsdb[title]">
+      </td>
+    </tr>
+    <tr> 
+      <td bgcolor='#FFFFFF' width="11%">内容</td>
+      <td bgcolor='#FFFFFF' width="89%">
+        <textarea name="postdb[content]" id="e_content"  cols="63" rows="6" style="font-size:12px">$rsdb[content]</textarea>
+      </td>
+    </tr>
+    <tr> 
+      <td align="center" bgcolor='#FFFFFF' colspan="2"> 
+        <input  class="submit_btn"  type='submit' name='w' value='保存'>
+        <input type="hidden" name="id" value="$id">
+      </td>
+    </tr></table>
+  </form>
+  <script type="text/javascript">
+  function postedit(){
+	  var title=$('#e_title').val();
+	  var content=$('#e_content').val();
+	  var id='{$id}';
+	  $.ajax({
+			type:'POST',
+			url:'$this_url',
+			dataType:'json',
+			data:"title="+title+'&content='+content+'&id='+id,
+			beforeSend:function(){edit_dialog.hide();ajaxing({'text':'正在提交修改'});},
+			success:function(json){
+				$('#gbs_'+id+' .title').html(json.title);
+				$('#gbs_'+id+' .content').html(json.content);
+				 ajaxing({'text':'修改成功',action: 'hide'});
+			}
+	});
+	  return false;
+	  
+  }
+  </script>
+  </body>
+  </html>
+<!--{/php168}-->

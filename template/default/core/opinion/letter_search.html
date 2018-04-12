@@ -1,0 +1,97 @@
+<!--{php168}-->
+<!--{php $TITLE = '领导信箱  - ';}-->
+<!--{template $this_module header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/{$this_module.name}/letter.css">
+<div id="main_ft">
+<div id="breadcrumb">
+<p>您现在的位置：<a href="{$core.url}">首页</a>&gt;&gt; <a href="{$this_router}-main">网络问政</a>&gt;&gt; <span class="current">领导信箱</span> &gt;&gt; <span class="current">搜索</span></p>
+</div>
+        <div class="mbottom form_content" style="min-height:25px">
+		<form action="" method="get" name="form1" id="form1">
+			<select style="line-height:20px; font-size:12px;  color:#666; text-align:center; height:20px; width:105px "   name="department" style="float:left">
+			 <option value="">选择受理单位</option>
+				  <!--{foreach $cates['department'] $drow}-->
+				  <option value="$drow[id]" {if $department==$drow['id']}selected{/if}>$drow[name]</option>
+					<!--{/foreach}-->
+			</select>
+			<select style="line-height:20px; font-size:12px;  color:#666; text-align:center; height:20px; width:105px " id="select" name="keytype">
+				<option value="number" {if $keytype=='number'}selected{/if}>来信编号</option>
+				  <option value="create_time" {if $keytype=='create_time'}selected{/if}>来信时间</option>
+				  <option value="title" {if $keytype=='title'}selected{/if}>来信主题</option>
+				  <option value="type" {if $keytype=='type'}selected{/if}>来信类型</option>
+			</select>
+			<input type="text" value="$keyword" class="keyword" id="keyword" name="keyword" style="margin-right:0px">
+			<input type="image" align="middle" width="75" height="20" style="margin-bottom:5px;padding:0" src="{$RESOURCE}/skin/default/core/{$this_module.name}/search_tj_mail.gif" name="img">
+			</form>
+		</div>
+       <div class="clear"></div>
+		<div class="show_box_govs">
+			<div class="form_title"><span class="f_l"> 搜索结果</span><span class="more2">
+			
+			</span><span class="more1" id="editcontent"></span></div>
+			<div class="form_content">
+			<table width="100%" class="letter_list_table">
+			<tr><th width="45">编号</th><th width="330">标题</th><th width="80">类型</th><th width="70">来信日期</th><th width="70">办理状态</th><th width="*">承办单位</th><th width="30">预警</th></tr>
+			  <!--{foreach $list $key $row}-->
+			  <!--{php $k=$key%2;}-->
+			  <tr class="trc_{$k}">
+				  <td class="no_right">$row[id]</td>
+				  <td class="ltitle"><a href="$row[url]" title="$row[title]" target="_blank">$row[title_s]</a></td>
+				  <td>$row[type_name]</td>
+				  <td><!--{php echo date('Y-m-d',$row['create_time']);}--></td>
+				  <td><span style="color:{if $row[status]==3}#0F96E5{else}#F27D03{/if}">{if $row[status]==3}√{else}＝{/if}$row[status_name]</span></td>
+				  <td>$row[department_name]</td>
+				  <td><img src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp{$row['dp']}.gif"/></td>
+			  </tr>
+			  <!--{/foreach}-->
+			  <tr>
+			  <td class="pages no_right" colspan="6"> {$pages}  </td>
+			  </tr>
+			 </table> 
+			</div>
+		</div>
+
+
+</div>
+<div id="aside_second_ft">
+  <div class="add-inner">
+      <div class="aside-block" style="height:50px;background-color: #F4F4F4;">
+      <div class="block-bd">&nbsp;</div>
+    </div>
+    <div class="aside-block"  style="height:auto;min-height:50px;background-color: #F4F4F4;">
+      <div class="block-bd">
+       $label[rtbox_con1]
+      </div>
+    </div>
+    <div class="others-block">
+      <div class="aside-block pt5" id="block_today_news">
+        <div class="block-hd bar-hd">
+          <h3>$label[last_news_1]</h3>
+        </div>
+        <div class="block-bd">
+           $label[survey_list_1]
+        </div>
+      </div>
+      <div class="aside-block pt5" id="block_hot_news">
+        <div class="block-hd bar-hd">
+          <h3>$label[host_news_2]</h3>
+        </div>
+        <div class="block-bd">
+           $label[survey_list_2]
+        </div>
+      </div>
+      <div class="aside-block pt5" id="block_hot_news">
+        <div class="block-hd bar-hd">
+          <h3>$label[host_news_3]</h3>
+        </div>
+        <div class="block-bd">
+           $label[survey_list_3]
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
+
+<!--{template $this_module footer}-->
+<!--{/php168}-->

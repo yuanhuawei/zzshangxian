@@ -1,0 +1,110 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--主体内容-->
+<div class="wrapbox">
+<div id="blockleft" class="float_right">
+<!--历史-->
+<div class="left_box layout_border margin_bottom">
+<div class="layout_title"><span>{$P8LANG['ask_view_history']}</span><a href="javascript:void(0);" onclick="javascript:clearHistory();">{$P8LANG['ask_clear']}</a></div>
+<div id="categoryHistory" class="layout_textlist"></div>
+</div>
+</div>
+
+<div id="blockinner" class="float_left blockleft_mleft">
+<!--分类列表框-->
+<div class="wrapbox light_blue_border">
+<div class="topic_title light_blue_bg"><h3><a href="{$this_system.controller}/category" target="_blank">{$P8LANG['ask_all_category']}</a></h3></div>
+<div class="category_textlist">
+<!--分类查找-->
+ <h1>{$P8LANG['ask_search_category']}</h1>
+ <ul>
+	<!--{foreach $category->top_categories $value}-->
+		<li><a href="{$this_router}-list-cid-{$value['id']}">{$value['name']}</a><span>({$value['items']})</span></li>
+	<!--{/foreach}-->
+ </ul>
+ <!--关键词查找-->
+ <h1>{$P8LANG['ask_search_keywords']}</h1>
+ <ul class="keyword_textlist">
+	<form method="get" name="topiclist_form" id="topiclist_form" action="{$this_router}-{$ACTION}<!--{if !empty($filter)}-->-filter-{$filter}<!--{/if}-->">
+		<input type="text" name="t" id="t" value="<!--{if !empty($title)}-->{$title}<!--{/if}-->" size="30"/> 
+		<input type="button" value="{$P8LANG['ask_search']}" onClick="javascript:return _search()"/>
+	</form>
+ </ul>
+</div>
+</div>
+
+<!--问题列表-->
+<div class="wrapbox light_blue_border margin_top">
+<div class="topic_title light_blue_bg"><h3 class="">{$P8LANG['ask_topics_list']}</h3></div>
+<div class="topic_box">
+<div class="topic_tabs">
+<ul>
+<li<!--{if !in_array($filter, array('unsolved','solve','recommend','credit','view'))}--> class="current"<!--{/if}-->><span><a href="{$this_router}-{$ACTION}">{$P8LANG['ask_all_topics']}</a></span></li>
+<li<!--{if $filter=='unsolved'}--> class="current"<!--{/if}-->><span><a href="{$this_router}-{$ACTION}-filter-unsolved">{$P8LANG['ask_unsolved_topics']}</a></span></li>
+<li<!--{if $filter=='solve'}--> class="current"<!--{/if}-->><span><a href="{$this_router}-{$ACTION}-filter-solve">{$P8LANG['ask_topic_solve']}</a></span></li>
+<li<!--{if $filter=='recommend'}--> class="current"<!--{/if}-->><span><a href="{$this_router}-{$ACTION}-filter-recommend">{$P8LANG['ask_recommend_topics']}</a></span></li>
+<li<!--{if $filter=='credit'}--> class="current"<!--{/if}-->><span><a href="{$this_router}-{$ACTION}-filter-credit">{$P8LANG['ask_high_topics']}</a></span></li>
+<li<!--{if $filter=='view'}--> class="current"<!--{/if}-->><span><a href="{$this_router}-{$ACTION}-filter-view">{$P8LANG['ask_hits_topics']}</a></span></li>
+</ul>
+</div>
+<!--主题列表-->
+<div class="topic_textlist">
+<ul>
+<li class="topic_title topic_header">{$P8LANG['ask_topic'] $count}</li><li class="topic_views topic_header">{$P8LANG['ask_reply']}/{$P8LANG['ask_view']}</li><li class="topic_status topic_header">{$P8LANG['ask_status']}</li><li class="topic_times topic_header">{$P8LANG['ask_lastpost']}</li>
+
+<!--{foreach $list $value}-->
+	<li class="topic_title">
+		<h1>
+			<!--{if $value['offercredit']}--><p>{$value['credits']}</p><!--{/if}-->
+			<a href="{$this_router}-view-id-{$value['id']}" target="_blank">{$value['title']}</a>
+			[<a href="{$this_router}-list-cid-{$value['cid']}" target="_blank" class="catname">{$category.categories[$value['cid']]['name']}</a>]
+		</h1>
+		<!--{if $value['recommend']}-->&nbsp;<img src="{$SKIN}recommend.gif"/><!--{/if}-->
+		<!--{if $value['urgent']}-->&nbsp;<img src="{$SKIN}urgent.gif" class="icon_urgent"/><!--{/if}-->
+	</li>
+	<li class="topic_views topic_views_font">{$value['replies']}/{$value['views']}</li>
+	<li class="topic_status"><img src="{$SKIN}status_{$value['status']}.gif"/></li>
+	<li class="topic_times topic_times_font"><!--{php echo date('y-m-d',$value['lastpost']);}--></li>
+<!--{/foreach}-->
+</ul>
+</div>
+<!--{if $pages}-->
+<div id="page" class="pages">
+{$pages}
+</div>
+<!--{/if}-->
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+
+var categoryHistory = '';
+var categoryID = get_cookie('cid');
+var categoryName = get_cookie('catName');
+for(var i in categoryID){
+	if(categoryName[i] != ''){
+		categoryHistory += '<li><a href="{$this_router}-list-cid-' + categoryID[i] + '" target="_blank">' + categoryName[i] + '</a></li>';
+	}
+}
+
+$('#categoryHistory').html(categoryHistory);
+
+function clearHistory()
+{
+	for(var i in categoryID){
+		set_cookie('cid['+i+']', '');
+		set_cookie('catName['+i+']','');
+	}
+	$('#categoryHistory').html('');
+}
+
+function _search()
+{
+	var url = $('#topiclist_form').attr('action');
+	$('#topiclist_form').attr('action', url+'-t-'+base64_encode($('#t').attr('value')));
+	$('#topiclist_form').submit();
+}
+</script>
+<!--{template $this_system foot}-->
+<!--{/php168}-->

@@ -1,0 +1,24 @@
+<!--{php168}-->
+<style type="text/css">
+.label_list26_date li{margin-top:16px;overflow:hidden;}
+.label_list26_date .time{width:58px;height:55px;float:left;text-align:center;background:url({$RESOURCE}/skin/label/date_bg4.png) no-repeat;}
+.label_list26_date .time span{display:block;text-align:center;font-size:16px;}
+.label_list26_date .time .date{color:#fff;line-height:22px;font-size:12px;}
+.label_list26_date .time .year{color:#0d5bac;line-height:33px;}
+.label_list26_date .info{margin-left:17px;width:265px;float:left;}
+.label_list26_date .info h3{font-size:14px;font-weight:normal;margin:0;line-height:27px;}
+</style>
+<ul class="label_list26_date">
+	<!--{foreach $list $value}-->
+	<li>
+		<div class="time">
+			<span class="date"><!--{php echo date('Y-m', $value['timestamp']);}--></span>
+			<span class="year"><!--{php echo date('d', $value['timestamp']);}--></span>
+		</div>
+		<div class="info">
+			<h3><a href="$value[url]" target="_blank">$value[title]</a></h3>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

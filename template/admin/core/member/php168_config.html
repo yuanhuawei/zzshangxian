@@ -1,0 +1,63 @@
+<!--{php168}-->
+<!--php168 config-->
+<tbody id="p8" style="display: none;">
+<th colspan="2">{$P8LANG['php168']['config']}</th>
+
+<tr>
+	<td class="tdL">{$P8LANG['php168']['p8_key']}</td>
+	<td class="tdR">
+		<input type="text" class="txt" name="config[php168_config][p8_key]" value="<!--{if !empty($config['php168_config']['p8_key'])}-->{$config['php168_config']['p8_key']}<!--{/if}-->" size="32" />
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL">{$P8LANG['php168']['api']}</td>
+	<td class="tdR">
+		<input type="text" class="txt" name="config[php168_config][api]" value="<!--{if !empty($config['php168_config']['api'])}-->{$config['php168_config']['api']}<!--{else}-->http://www.***.com/api/p8.php<!--{/if}-->" size="60" />
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL">{$P8LANG['php168']['ip']}</td>
+	<td class="tdR">
+		<input type="text" class="txt" name="config[php168_config][ip]" value="<!--{if !empty($config['php168_config']['ip'])}-->{$config['php168_config']['ip']}<!--{/if}-->" size="60" />
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL">{$P8LANG['php168']['charset']}</td>
+	<td class="tdR">
+		<input type="text" class="txt" name="config[php168_config][charset]" value="<!--{if !empty($config['php168_config']['charset'])}-->{$config['php168_config']['charset']}<!--{/if}-->" />
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL"><input type="button" value="{$P8LANG['php168']['test_api']}" onclick="test_php168_api()" /></td>
+	<td class="tdR" id="php168_test_result">
+		
+	</td>
+</tr>
+
+</tbody>
+<script type="text/javascript">
+function test_php168_api(){
+	$.ajax({
+		url: '$this_router-test_php168_api',
+		type: 'POST',
+		data: {
+			api: $('input[name=\'config[php168_config][api]\']').val(),
+			ip: $('input[name=\'config[php168_config][ip]\']').val(),
+			api_data_name: $('input[name=\'config[php168_config][api_data_name]\']').val(),
+			key: $('input[name=\'config[php168_config][p8_key]\']').val()
+		},
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(v){
+			ajaxing({action: 'hide'});
+			$('#php168_test_result').html(v == 1 ? '{$P8LANG['Y']}' : '{$P8LANG['N']}');
+		}
+	});
+}
+</script>
+<!--{/php168}-->

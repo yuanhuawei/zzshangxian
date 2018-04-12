@@ -1,0 +1,51 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<table class="mainbox mainborder">
+	<tr><td>
+		<table class="columntable formtable hover_table">
+			<tr class="title">
+				<td colspan="3" class="title">日志</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">客户</td>
+				<td class="tdR">
+					<a href="$this_router-view?id=$data[cid]" target="_blank">$data[client_name]</a>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">标题</td>
+				<td class="tdR">
+					$data[title]
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">创建人</td>
+				<td class="tdR">
+					$data[username]
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">日志类型</td>
+				<td class="tdR">
+					{$this_module.CONFIG['log_type'][$data['type']]}
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">日志内容</td>
+				<td class="tdR">
+					$data[content]
+				</td>
+			</tr>
+			
+		</table>
+	</td></tr>
+</table>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

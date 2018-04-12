@@ -1,0 +1,120 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<form action="$this_router-$ACTION?action=$action" id="form" method="post" onsubmit="return verify_label();">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<table class="columntable formtable ">
+							<tr>
+								<td colspan="2" class="title">添加访谈</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div id="tabs"  class="tab_box mtop">
+										<div class="head">
+											<span><a>基本信息</a></span> <span><a>嘉宾信息</a></span> <span><a>主持人信息</a></span><font color="red" id="message" style="visibility:hidden;">内容不能为空,或格式不正确!</font>
+										</div>
+										<div class="main">
+											<div class="content">
+												<table width="100%" class="hover_table">
+													<tr>
+														<td class="tdL">访谈主题:</td>
+														<td class="tdR"><input type="text" name="title" style="width:400px;"/></td>	
+													</tr>
+													<tr>
+														<td class="tdL">访谈摘要:</td>
+														<td class="tdR"><textarea name="summary" cols="80" rows="15"></textarea></td>	
+													</tr>
+													<tr>
+														<td class="tdL">标题图片</td>
+														<td><input type="text" name="picture" value="$subject[picture]"  style="width:400px;"/><input type="button" value="选择图片" onclick="uploaddialog.element.src=$(this).prev();uploaddialog.choseup();"/></td>
+													</tr>
+													<tr>
+														<td class="tdL">视频</td>
+														<td><input type="text" name="video"  style="width:400px;"/><input type="button" value="选择视频" onclick="uploaddialog.element.src=$(this).prev();uploaddialog.choseup();"/></td>
+													</tr>
+													<tr>
+														<td class="tdL">访谈类型:</td>
+														<td class="tdR"><input type="radio" name="type" value="1" checked/>图文<input type="radio" name="type" value="0"/>视频</td>	
+													</tr>
+													<tr>
+														<td class="tdL">开始时间:</td>
+														<td class="tdR"><input type="text" name="begintime" onclick="rcalendar(this);"/></td>	
+													</tr>
+													<tr>
+														<td class="tdL">结束时间:</td>
+														<td class="tdR"><input type="text" name="endtime" onclick="rcalendar(this);"/></td>	
+													</tr>
+													<tr>
+														<td class="tdL">状态:</td>
+														<td class="tdR"><input type="radio" name="status" value="0" checked/>待审核<input type="radio" name="status" value="1"/>待开始<input type="radio" name="status" value="2"/>访谈中<input type="radio" name="status" value="3"/>结束</td>	
+													</tr>
+													<tr>
+														<td colspan="2">&nbsp;</td>
+													</tr>
+												</table>
+											</div>
+											<div class="content">
+												<table width="100%" class="hover_table">
+													<tr>
+														<td class="tdL">嘉宾</td>
+														<td>
+															头像:<input type="text" name="gpicture"  style="width:400px;"/><input type="button" value="选择图片" onclick="uploaddialog.element.src=$(this).prev();uploaddialog.choseup();"/><br/>
+															姓名:<input type="text" name="gname"/><br/>
+															简介:<textarea name="gintroduction"  cols="60" rows="10"></textarea><br/>
+														</td>
+														<td>&nbsp;</td>
+													</tr>
+													<tr>
+														<td colspan="3">&nbsp;</td>
+													</tr>
+												</table>
+											</div>
+											<div class="content">
+												<table width="100%" class="hover_table">
+													<tr>
+														<td class="tdL">主持人</td>
+														<td>
+															头像:<input type="text" name="cpicture"  style="width:400px;"/><input type="button" value="选择图片" onclick="uploaddialog.element.src=$(this).prev();uploaddialog.choseup();"/><br/>
+															姓名:<input type="text" name="cname"/><br/>
+															简介:<textarea name="cintroduction"  cols="60" rows="10"></textarea><br/>
+														</td>
+														<td>&nbsp;</td>
+													</tr>
+													<tr>
+														<td colspan="3">&nbsp;</td>
+													</tr>
+												</table>
+											</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td align="center">
+						<input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+$(document).ready(function(){
+	MoveTabs("tabs",0);
+});
+var uploaddialog = new P8_Upload({
+	element: {
+		attribute: 'value'
+	}
+});
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

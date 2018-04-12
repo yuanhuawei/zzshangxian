@@ -1,0 +1,96 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+		<table class="columntable formtable hover_table padding_table">
+			<tr>
+				<td colspan="2" class="title">
+					添加辅栏目
+				</td>
+			</tr>
+			<tr>
+				<td class="tdL">分类名称<br/>
+					注:要想一次批量创建多个栏目,每个栏目名称换一行.</td>
+				<td class="tdR"><textarea id="name" name="name"  cols="30" rows="5"></textarea>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">所属类型</td>
+				<td class="tdR">
+					<input name="type" id="type_1" type="radio" value="1"{if empty($data['type']) || $data['type'] == 1} checked{/if} />
+					<label for="type_1">大分类(不可发布内容)</label>
+					<input name="type" id="type_2" type="radio" value="2"{if !empty($data['type']) && $data['type'] == 2} checked{/if} />
+					<label for="type_2">栏目</label>
+				</td>
+			</tr>
+		
+			<tr>
+				<td class="tdL">所属分类</td>
+				<td class="tdR">
+					<select name="parent" id="options">
+						<option value="0">现有分类</option>
+					</select>
+					<span>(不选择将成为一级分类)</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL" colspan="2"><input type="submit" value="提交" class="submit_btn"/></td>
+			</tr>
+		</table>
+		
+		<table class="columntable formtable hover_table padding_table">
+			<tr>
+				<td colspan="2" class="title">
+					说明:
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1、大分类不能有文章内容，大分类下需要再继续创建小栏目，大分类下，可以再创建大分类。 <br/>
+					2、小栏目下面不可再创建大分类，也不可以创建小栏目。 
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+<script type="text/javascript">
+
+<!--
+
+var CATEGORY_JSON = $json;
+
+function ___(json, l, p){
+	l = l === undefined ? 0 : l;
+	p = p === undefined ? 0 : p;
+	
+	var j = 0, k = count(json);
+	for(var i in json){
+		var html = '';
+		j++;
+		var c = '';
+		if(l != 0){
+			c += str_repeat('│&nbsp;&nbsp;', l - p) + str_repeat('&nbsp;&nbsp;&nbsp;', p);
+			if(j == k){
+				p++;
+				c += '└';
+			}else{
+				c += '├';
+			}
+		}
+		
+		var sub = json[i].childs ? true: false;
+		html = '<option value="'+json[i].id+'">'+c+json[i].name+'</option>';
+		if(json[i].type == 1)$('#options').append(html);
+		if(sub){
+			___(json[i].childs, l +1, p);
+		}
+	}
+}
+
+___(CATEGORY_JSON);
+//-->
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

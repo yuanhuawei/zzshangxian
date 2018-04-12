@@ -1,0 +1,102 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：<a href="{$core.admin_controller}/sites/farm-index">分站系统</a> &gt; <a href="#">数据库</a></td>
+  </tr>
+</table>
+<div class="mainbox mainborder">
+	<table class="zq_list" width="100%" style="text-align:center">
+		<tr>
+			<td class="headerbtn_list">
+				<input type="button" value="备份数据" onclick="backup('backup')" />
+				<input type="button" value="还原数据" onclick="backup('restore')" />
+				<input type="button" value="解除锁定" onclick="_submit('unlock')" />
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="dobox" id="backup">
+<form action="$this_url" method="post">
+	<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table">
+		<tr class="title fix_head">
+			<td width="23%"  class="list_top">{$P8LANG['config']}</td > <td width="35%" class="list_top">参数</td><td width="42%" class="list_top">备注</td>
+		</tr>
+			<tr>
+				<td>导出编码</td>
+				<td>
+					<input type="text" id="charset" size="10" name="charset" value="" />
+					</td>
+			<td class="tdR">留空为当前字符集，可以导出UTF-8等其它编码</td>
+			</tr>
+			<tr>
+				<td> 每次导出条数</td>
+				<td>
+					<input type="text" size="10" id="rows" name="rows" value="1" />
+					<td class="tdR">条数越多越快</td>
+				</td>
+			</tr>
+		
+			
+			<tr>
+				<td></td>
+				<td>
+					<input type="submit" class="submit_btn" value="备份" />
+					<input type="hidden" name="act" value="backup"/>
+				</td>
+				<td class="tdR"></td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+<div class="dobox"  id="restore" style="display:none">
+<form action="$this_url" method="post" id="form">
+	<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table">
+		<tr class="title fix_head">
+			<td width="23%"  class="list_top">{$P8LANG['config']}</td > <td width="35%" class="list_top">参数</td><td width="42%" class="list_top">备注</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				选择还原点
+							
+				
+			</td>
+			<td><select name="name">
+					<option value=""></option>
+					<!--{foreach $list $value}-->
+					<option value="$value">$value</option>
+					<!--{/foreach}-->
+				</select>	</td>
+			<td></td>
+
+		</tr>
+		
+		<tr>
+				<td></td>
+				<td>
+					<input type="submit" class="submit_btn" value="还原" />
+					<input type="hidden" name="act" value="restore"/>
+				</td>
+				<td class="tdR"></td>
+			</tr>
+	</table>
+</form>
+</div>
+
+	
+<script type="text/javascript">
+function _submit(action){
+	ajaxing({});
+	$('#form input[name=act]').val(action);
+	$('#form').get(0).submit();
+}
+
+function backup(ours){
+	$('.dobox').hide();$('#'+ours).show();
+	
+}
+</script>
+<!--{template $this_system footer admin}-->
+<!--{/php168}-->

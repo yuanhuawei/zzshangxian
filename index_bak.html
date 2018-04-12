@@ -1,0 +1,655 @@
+﻿ <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta name ="renderer" content="webkit">
+<meta http-equiv="Content-Type" content="charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>国微集团方案----领先的集团站群系统</title>
+<meta name="keywords" content="国微CMS,政府方案,站群方案,学校方案" />
+<meta name="description" content="国微企业级CMS为中国领先的开源CMS平台，专注提供媒学校、企业、局级政府、站群系统等中高端平台" />
+<link rel="stylesheet" type="text/css" href="http://localhost:8080/jt/skin/group5/cms/../core/common.css" />
+<link rel="stylesheet" type="text/css" href="http://localhost:8080/jt/skin/group5/cms/../core/head_foot/style.css" />
+<link rel="stylesheet" type="text/css" href="http://localhost:8080/jt/skin/label/label.css" />
+<link rel="Shortcut Icon" href="favicon.ico">
+<!--[if lt IE 9]>
+<script src="http://localhost:8080/jt/js/html5shiv.min.js"></script>
+<script src="http://localhost:8080/jt/js/respond.min.js"></script>
+<![endif]-->
+<script src="//cdn.bootcss.com/jquery/1.12.3/jquery.min.js"></script>
+<script type="text/javascript" src="http://localhost:8080/jt/plus/layer/layer.js"></script>
+<script src='//player.polyv.net/script/polyvplayer.min.js'></script>
+<script type="text/javascript" src="http://localhost:8080/jt/js/config.js"></script>
+<script type="text/javascript" src="http://localhost:8080/jt/js/util.js"></script>
+<script type="text/javascript" src="http://localhost:8080/jt/js/lang/core/zh-cn.js"></script>
+<script type="text/javascript" src="http://localhost:8080/jt/js/lang/cms/zh-cn.js"></script>
+<script type="text/javascript">
+P8CONFIG.RESOURCE = 'http://localhost:8080/jt';
+var SYSTEM = 'cms',
+MODULE = '',
+ACTION = 'main',
+LABEL_URL = 'http://localhost:8080/jt/index.php/cms-main?',
+$this_router = P8CONFIG.URI[SYSTEM][MODULE].controller,
+$this_url = $this_router +'-'+ ACTION,
+SKIN = 'http://localhost:8080/jt/skin/group5/cms/',
+TEMPLATE = 'group5';
+mobile_status= '1',
+mobile_auto_jump='1',
+mobile_url = 'http://localhost:8080/jt/m';
+if(mobile_status=='1' && SYSTEM!='sites'){
+if(browser.versions.android || browser.versions.iPhone || browser.versions.iPad){
+if(mobile_auto_jump=='1' && mobile_url!=P8CONFIG.RESOURCE){
+var this_url = location.href,_pul=P8CONFIG.RESOURCE;
+if(this_url.indexOf(mobile_url)==-1 && this_url.indexOf('s.php')==-1 && this_url.indexOf('u.php')==-1 && this_url.indexOf('admin.php')==-1 && SYSTEM!='sites'){
+if(this_url.indexOf(P8CONFIG.RESOURCE+'/html')!=-1)_pul+='/html';
+this_url = this_url.replace(_pul, mobile_url);
+location.href = this_url;
+}
+}
+}
+}document.base_domain = '';
+</script>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+var qcloud={};
+$('[_t_nav]').hover(function(){
+var _nav = $(this).attr('_t_nav');
+clearTimeout( qcloud[ _nav + '_timer' ] );
+qcloud[ _nav + '_timer' ] = setTimeout(function(){
+$('[_t_nav]').each(function(){
+$(this)[ _nav == $(this).attr('_t_nav') ? 'addClass':'removeClass' ]('nav-up-selected');
+});
+$('#'+_nav).stop(true,true).slideDown(200);
+}, 150);
+},function(){
+var _nav = $(this).attr('_t_nav');
+clearTimeout( qcloud[ _nav + '_timer' ] );
+qcloud[ _nav + '_timer' ] = setTimeout(function(){
+$('[_t_nav]').removeClass('nav-up-selected');
+$('#'+_nav).stop(true,true).slideUp(200);
+}, 150);
+});
+});
+</script>
+</head>
+<body>
+<div class="header">
+<div class="topbox">
+<div class="top">
+<div class="zuo">欢迎您访问国微科技集团</div>
+<div class="you">
+<div class="toplogin">
+<div id="header_t">
+<span id="header_login" class="user-login"><script type="text/javascript" src="http://localhost:8080/jt/u.php/member-login?style=com&id=header_login"></script></span>   
+</div>
+</div>
+<div class="topscan">
+<ul>
+<li class="toggleCode">
+<span class="phone" href="javascript:void(0)">手机版</span>
+<div class="codeDiv" style="display: none;"><a href="#" target="_blank" title="" style="text-decoration:none;"><img width="100" height="100" border="none" alt="" src="http://localhost:8080/jt/attachment/core/label/2018_03/19_10/bba868de0b5c33a4.png" /></a></div>
+</li>
+<li class="toggleCode">
+<span class="wechat" href="javascript:void(0)">微信</span>
+<div class="codeDiv" style="display: none;"><a href="#" target="_blank" title="" style="text-decoration:none;"><img width="100" height="100" border="none" alt="" src="http://localhost:8080/jt/attachment/core/label/2018_03/19_10/bba868de0b5c33a4.png" /></a></div>
+</li>
+</ul>
+</div>
+</div>  
+<div class="fir">
+<div class="dropdown">
+<a class="white" href="javascript:;">集团下属事业部</a>
+<ul class="list" style="display: none;">
+<li><a href="/s.php/gp01/" target="_blank">集团子站一</a></li>
+<li><a href="/s.php/gp02/" target="_blank">集团子站二</a></li>
+<li><a href="/s.php/gp03/" target="_blank">集团子站三</a></li>
+<li><a href="/s.php/gp04/" target="_blank">集团子站四</a></li>
+<li><a href="/s.php/gp05/" target="_blank">集团子站五</a></li>
+<li><a href="/s.php/gp06/" target="_blank">集团子站六</a></li>
+<li><a href="/s.php/gp07/" target="_blank">集团子站七</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="head-v3">
+<div class="navigation-up">
+<div class="navigation-inner">
+<div class="navigation-v3">
+<div class="logo_fl"><a href="http://localhost:8080/jt/index.php"><img src="http://localhost:8080/jt/skin/group5/cms/../core/head_foot/logo.png" /></a></div>
+<ul>
+<li class="nav-up-selected-inpage" _t_nav="home">
+<h2> <a href="http://localhost:8080/jt/index.php">首页</a> </h2>
+</li>
+<li class="" _t_nav="tab1">
+<h2> <a href="http://localhost:8080/jt/index.php/cms/item-list-category-781.shtml">关于集团</a> </h2>
+</li>
+<li class="" _t_nav="tab2">
+<h2> <a href="http://localhost:8080/jt/index.php/cms/item-list-category-68.html">解决方案</a> </h2>
+</li>
+<li class="" _t_nav="tab3">
+<h2> <a href="http://localhost:8080/jt/index.php/cms/item-list-category-67.shtml">产品服务</a> </h2>
+</li>
+<li class="" _t_nav="tab4">
+<h2> <a href="http://localhost:8080/jt/index.php/cms/item-list-category-1.shtml">新闻中心</a> </h2>
+</li>
+<li class="" _t_nav="tab5">
+<h2> <a href="http://localhost:8080/jt/index.php/cms/item-list-category-818.shtml">招商合作</a> </h2>
+</li>
+<li class="" _t_nav="tab6">
+<h2> <a href="http://localhost:8080/jt/index.php/cms/item-list-category-796.shtml">人力资源</a> </h2>
+</li> 
+</ul>
+</div>
+</div>
+</div>
+<div class="navigation-down" style="z-index:1111">
+<div id="tab1" class="nav-down-menu menu-3 menu-1" style="display: none;" _t_nav="tab1">
+<div class="navigation-down-inner">
+<div class="xiala">
+<div class="mklist">
+<ul>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-781.shtml">集团简介</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-810.shtml">董事长致辞</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-779.shtml">领导介绍</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-780.shtml">发展历程</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-815.shtml">厂房设备</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-778.shtml">荣誉展示</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-777.shtml">企业文化</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-812.shtml">员工风采</a></li>
+</ul>   
+</div>
+<div  class="gaikuang"> <img src="http://localhost:8080/jt/skin/group5/cms/../core/head_foot/11_03.jpg"/> </div>
+<div class="ggk">
+<p>国微科技集团公司是经党中央、国务院批准，由中国电力投资集团公司与国家核电技术公司合并重新组建的大型国有企业，注册资本金450亿元，资产总额7223亿元。</p>
+</div>
+</div>
+</div>
+</div>
+<div id="tab2" class="nav-down-menu menu-3 menu-1" style="display: none;" _t_nav="tab2">
+<div class="navigation-down-inner">
+<div class="xiala">
+<div class="mklist">
+<ul>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-68.html">自动化解决方案</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-792.html">系统管理解决方案</a></li>
+</ul>   
+</div>
+<div  class="gaikuang"> <img src="http://localhost:8080/jt/skin/group5/cms/../core/head_foot/11_03.jpg"/> </div>
+<div class="ggk">
+<p>国微科技集团公司是经党中央、国务院批准，由中国电力投资集团公司与国家核电技术公司合并重新组建的大型国有企业，注册资本金450亿元，资产总额7223亿元。</p>
+</div>
+</div>
+</div>
+</div>
+<div id="tab3" class="nav-down-menu menu-3 menu-1" style="display: none;" _t_nav="tab3">
+<div class="navigation-down-inner">
+<div class="xiala">
+<div class="mklist">
+<ul>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-55.shtml">在线产品展厅</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-94.shtml">产品展示</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-93.shtml">进出口业务</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-68.shtml">客户服务</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-793.shtml">客户案例</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-792.shtml">服务网络</a></li>
+</ul>   
+</div>
+<div  class="gaikuang"> <img src="http://localhost:8080/jt/skin/group5/cms/../core/head_foot/11_03.jpg"/> </div>
+<div class="ggk">
+<p>国微科技集团公司是经党中央、国务院批准，由中国电力投资集团公司与国家核电技术公司合并重新组建的大型国有企业，注册资本金450亿元，资产总额7223亿元。</p>
+</div>
+</div>
+</div>
+</div>
+<div id="tab4" class="nav-down-menu menu-3 menu-1" style="display: none;" _t_nav="tab4">
+<div class="navigation-down-inner">
+<div class="xiala">
+<div class="mklist">
+<ul>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-34.shtml">集团新闻</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-809.shtml">通知公告</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-128.shtml">媒体聚焦</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-44.shtml">专题活动</a></li>
+</ul>   
+</div>
+<div  class="gaikuang"> <img src="http://localhost:8080/jt/skin/group5/cms/../core/head_foot/11_03.jpg"/> </div>
+<div class="ggk">
+<p>国微科技集团公司是经党中央、国务院批准，由中国电力投资集团公司与国家核电技术公司合并重新组建的大型国有企业，注册资本金450亿元，资产总额7223亿元。</p>
+</div>
+</div>
+</div>
+</div>
+<div id="tab6" class="nav-down-menu menu-3 menu-1" style="display: none;" _t_nav="tab6">
+<div class="navigation-down-inner">
+<div class="xiala">
+<div class="mklist">
+<ul>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-796.shtml">人才政策</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/core/forms-list-mid-78">招聘信息</a></li>
+<li class="ahover"><a href="http://localhost:8080/jt/index.php/cms/item-list-category-798.shtml">我要应聘</a></li>
+</ul>   
+</div>
+<div  class="gaikuang"> <img src="http://localhost:8080/jt/skin/group5/cms/../core/head_foot/11_03.jpg"/> </div>
+<div class="ggk">
+<p>国微科技集团公司是经党中央、国务院批准，由中国电力投资集团公司与国家核电技术公司合并重新组建的大型国有企业，注册资本金450亿元，资产总额7223亿元。</p>
+</div>
+</div>
+</div>
+</div> 
+</div>
+</div>
+</div>
+<script type="text/javascript">
+var USERNAME = get_username();
+$(document).ready(function(){
+//**show_edit**//					   
+init_labelshows('header_t');
+$('.fir .dropdown').hover(function(){
+$(this).addClass('s'); 
+$(this).find('ul.list').slideDown(180);
+},function(){
+$(this).removeClass('s');
+$(this).find('ul.list').slideUp(80);
+})
+})
+</script>
+<script type="text/javascript">
+$(".toggleCode").each(function(){
+var code = $(this).find('.codeDiv');
+$(this).hover(function() {
+code.show();
+}, function() {
+code.hide();
+});
+})
+</script>
+<div id="content">
+<link href="http://localhost:8080/jt/skin/group5/cms/index/index.css" type="text/css" rel="stylesheet">
+<div class="banner">
+<style type="text/css">
+#slide14342{width:100%;height:500px;position: relative; height: 500px; overflow: hidden; background: url(http://localhost:8080/jt/skin/label/slide15/loading.gif) 50% no-repeat;}
+#slide14342 img{width:100%;height:500px;}
+#slide14342 li { list-style-type: none; }
+#slide14342 .slides { position: relative; z-index: 1; }
+#slide14342 .slides li { width:100%; height: 500px; position:absolute;	top:0px;	left:0px;	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";	-moz-opacity:0;	filter:alpha(opacity=0);	opacity:0}
+#slide14342 .flex-control-nav { position: absolute; bottom: 35px; z-index: 2; width: 100%; text-align: center; }
+#slide14342 .flex-control-nav li { display: inline-block; width: 14px; height: 14px; margin: 0 5px; *display:inline;zoom: 1; }
+#slide14342 .flex-control-nav a { display: inline-block; width: 14px; height: 14px; line-height: 40px; overflow: hidden; background: url(http://localhost:8080/jt/skin/label/slide15/dot.png) right 0 no-repeat; cursor: pointer; }
+#slide14342 .flex-control-nav .active { background-position: 2px 0; }
+#slide14342 .flex-direction-nav { position: absolute; z-index: 3; width: 100%; top: 45%; }
+#slide14342 .flex-direction-nav li a { display: block; width: 50px; height: 50px; overflow: hidden; cursor: pointer; position: absolute; }
+#slide14342 .flex-direction-nav li a.prev { left: 40px; background: url(http://localhost:8080/jt/skin/label/slide15/prev.png) center center no-repeat; }
+#slide14342 .flex-direction-nav li a.next { right: 40px; background: url(http://localhost:8080/jt/skin/label/slide15/next.png) center center no-repeat; }
+</style>
+<div id="slide14342" class="flexslider">
+<ul class="slides">
+<li><a href="" target="_blank" title=""><img src="http://localhost:8080/jt/attachment/core/label/2016_03/12_14/3e67153a7c836361.jpg" alt=""/></a></li>
+</ul>
+<ol class="flex-control-nav">
+<li><a class="">0</a></li>
+</ol>
+<ul class="flex-direction-nav">
+<li><a class="prev" alt="prev" href="#"></a>
+<li><a class="next" alt="next" href="#"></a>
+</ul>
+</div>
+<script type="text/javascript">
+(function () {
+var num = $("#slide14342 .slides li").length,	now = 0;	$('#slide14342 .slides li:first').css({"z-index":"2","opacity":"1"});	$("#slide14342 .flex-control-nav li:first a").addClass("active");
+function next() {	now = (++now) % num;	return now;	}
+function callback() {		$("#slide14342 .flex-control-nav li").find('a').removeClass('active');		$("#slide14342 .slides").find('li').css('z-index', '1');		$("#slide14342 .flex-control-nav").find('li:eq(' + now + ')').find('a').addClass('active');$("#slide14342 .slides").find('li:eq(' + now + ')').css('z-index', '2');};
+function animagea() {		$("#slide14342 .slides").find('li:eq(' + now + ')').animate({opacity : 0}, 1500);		$("#slide14342 .slides").find('li:eq(' + next() + ')').animate({	opacity : 1	}, 1500, callback);}
+var timer =  setInterval(animagea, 5000);
+$("#slide14342 .flex-direction-nav li").find('a').click(function(){ clearInterval(timer);		if($(this).attr('alt')=='prev'){			$("#slide14342 .slides").find('li:eq(' + now + ')').animate({opacity : 0}, 500);			now = now-2;			if(now<0){				now = num+now;			}			$("#slide14342 .slides").find('li:eq(' + next() + ')').animate({	opacity : 1	}, 500, callback);}else{			$("#slide14342 .slides").find('li:eq(' + now + ')').animate({opacity : 0}, 100);			$("#slide14342 .slides").find('li:eq(' + next() + ')').animate({	opacity : 1	}, 500, callback);} timer =  setInterval(animagea, 5000);});
+})()
+</script></div>
+<div class="content_1">
+<div class="tab_new" id="tab_1">
+<div class="head">
+<span class="over">集团新闻</span>
+<span>行业新闻</span>
+<span>领导关怀</span>
+</div>
+<div class="main">
+<div class="content" style="display:block;">
+<div class="focusNews">
+<style type="text/css">
+#play_14352{margin:0;float:left;width:378px;height:263px; overflow:hidden; border:#ccc 1px solid;}
+#play_14352 .playShow{height:263px;}
+#play_14352 .playBg{margin:0;float:left;margin-top:-30px;z-index:1;filter:alpha(opacity=70);opacity:0.7;width:378px;position:absolute;height:30px;background:#000;}
+#play_14352 .playText{ margin:0;float:left;text-indent:10px;width:378px;margin-top:-30px;z-index:2;overflow:hidden;font-size:14px;font-weight:bold;color:#fff;line-height:30px; overflow:hidden;position:absolute;cursor:pointer;}
+#play_14352 .playNum{width:378px;overflow:hidden;margin:-30px 5px 0 0px;z-index:3; text-align:right;position:absolute;height:25px;}
+#play_14352 .playNum a{margin:5px 2px;width:15px;height:15px;font-size:14px; display:inline-block;  font-weight:bold;line-height:15px;cursor:pointer;color:#000;background:#D7D6D7;text-align:center; }
+#play_14352 .playShow img{width:378px;height:263px;}
+</style>
+<div id="play_14352">
+<ul>
+<li class="playShow">
+<a href="http://localhost:8080/jt/index.php/cms/item-view-id-1143.shtml" target="_blank"><img src="http://localhost:8080/jt/attachment/cms/item/2016_05/12_10/97e2e2bacae3ab08.jpg" alt="王野平出席广州国际投资年会并会见广东省、广州市领导"></a> 
+</li>
+<li class="playBg"></li>
+<li class="playText"></li>
+<li class="playNum"></li>
+</ul>
+</div>
+<script type=text/javascript>
+(function(){
+var playdiv = $('#play_14352');
+var t = i = 0, c = clas("playShow").find('a').size();
+for(ii=1;ii<=c;ii++){
+clas("playNum").append('<a>'+ii+'</a>');
+}
+showImg();
+clas('playNum').find('a').click(function(){
+i =   clas('playNum').find('a').index(this);
+showImg();									 									 
+});
+t = setInterval(showImg, 5000);
+playdiv.hover( function(){ clearInterval(t);}, function(){ t = setInterval(showImg, 5000);});
+function clas(className){
+return playdiv.find('.'+className);
+}
+function showImg(){
+clas('playNum').find('a').eq(i).siblings().css({"background":"#D7D6D7",'color':'#000'}).end().css({"background":"#FFD116",'color':'#A8471C'});
+clas("playText").html(clas("playShow").find('a').eq(i).find('img').attr('alt'));
+clas("playShow").find('a').eq(i).siblings().hide().end().fadeIn(1200);
+
+i++;
+if(i==c){i =0;}
+}
+
+})();
+</script></div>
+<div class="flashnews"><ul class="infolist1" style="color:#ac0000;font-size:14px;">
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2016/04/14</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1142.shtml" target="_blank" title="陈进行出席博鳌论坛并参加B20专题研讨会">陈进行出席博鳌论坛并参加B20专题研讨会</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2016/04/14</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1143.shtml" target="_blank" title="王野平出席广州国际投资年会并会见广东省、广州市领导">王野平出席广州国际投资年会并会见广东省、</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2016/03/18</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1141.shtml" target="_blank" title="市属高校三年规划建设项目开展专项稽察">市属高校三年规划建设项目开展专项稽察</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2016/03/18</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1140.shtml" target="_blank" title="专家上海研讨大城市规划 绿色可持续城市仍为热点">专家上海研讨大城市规划 绿色可持续城市仍</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2016/03/18</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1135.shtml" target="_blank" title="人民日报评论员：以“三种意识”推进全面深化改革">人民日报评论员：以“三种意识”推进全面深</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2016/03/18</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1134.shtml" target="_blank" title="教育部关于切实加强和改学风建设的实施意见">教育部关于切实加强和改学风建设的实施意见</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2014/09/10</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1065.shtml" target="_blank" title="“24字”核心价值观具有强大认同力和凝聚力">“24字”核心价值观具有强大认同力和凝聚力</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2014/09/10</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1062.shtml" target="_blank" title="人民日报评论员：以“三种意识”推进全面深化改革">人民日报评论员：以“三种意识”推进全面深</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2014/09/10</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1060.shtml" target="_blank" title="中秋送欢乐 有爱更温暖">中秋送欢乐 有爱更温暖</a>
+</li>
+<li class="clear"></li>
+</ul></div>
+</div>
+<div class="content" style="display:none;">
+<div class="focusNews">
+<style type="text/css">
+#play_14355{margin:0;float:left;width:378px;height:263px; overflow:hidden; border:#ccc 1px solid;}
+#play_14355 .playShow{height:263px;}
+#play_14355 .playBg{margin:0;float:left;margin-top:-30px;z-index:1;filter:alpha(opacity=70);opacity:0.7;width:378px;position:absolute;height:30px;background:#000;}
+#play_14355 .playText{ margin:0;float:left;text-indent:10px;width:378px;margin-top:-30px;z-index:2;overflow:hidden;font-size:14px;font-weight:bold;color:#fff;line-height:30px; overflow:hidden;position:absolute;cursor:pointer;}
+#play_14355 .playNum{width:378px;overflow:hidden;margin:-30px 5px 0 0px;z-index:3; text-align:right;position:absolute;height:25px;}
+#play_14355 .playNum a{margin:5px 2px;width:15px;height:15px;font-size:14px; display:inline-block;  font-weight:bold;line-height:15px;cursor:pointer;color:#000;background:#D7D6D7;text-align:center; }
+#play_14355 .playShow img{width:378px;height:263px;}
+</style>
+<div id="play_14355">
+<ul>
+<li class="playShow">
+<a href="http://localhost:8080/jt/index.php/cms/item-view-id-1143.shtml" target="_blank"><img src="http://localhost:8080/jt/attachment/cms/item/2016_05/12_10/97e2e2bacae3ab08.jpg" alt="王野平出席广州国际投资年会并会见广东省、广州市领导"></a> 
+</li>
+<li class="playBg"></li>
+<li class="playText"></li>
+<li class="playNum"></li>
+</ul>
+</div>
+<script type=text/javascript>
+(function(){
+var playdiv = $('#play_14355');
+var t = i = 0, c = clas("playShow").find('a').size();
+for(ii=1;ii<=c;ii++){
+clas("playNum").append('<a>'+ii+'</a>');
+}
+showImg();
+clas('playNum').find('a').click(function(){
+i =   clas('playNum').find('a').index(this);
+showImg();									 									 
+});
+t = setInterval(showImg, 5000);
+playdiv.hover( function(){ clearInterval(t);}, function(){ t = setInterval(showImg, 5000);});
+function clas(className){
+return playdiv.find('.'+className);
+}
+function showImg(){
+clas('playNum').find('a').eq(i).siblings().css({"background":"#D7D6D7",'color':'#000'}).end().css({"background":"#FFD116",'color':'#A8471C'});
+clas("playText").html(clas("playShow").find('a').eq(i).find('img').attr('alt'));
+clas("playShow").find('a').eq(i).siblings().hide().end().fadeIn(1200);
+
+i++;
+if(i==c){i =0;}
+}
+
+})();
+</script></div>
+<div class="flashnews"><ul class="infolist1" style="color:#ac0000;font-size:14px;">
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2016/04/14</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1142.shtml" target="_blank" title="陈进行出席博鳌论坛并参加B20专题研讨会">陈进行出席博鳌论坛并参加B20专题研讨会</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2016/04/14</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1143.shtml" target="_blank" title="王野平出席广州国际投资年会并会见广东省、广州市领导">王野平出席广州国际投资年会并会见广东省、广州市领导</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2016/03/18</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1141.shtml" target="_blank" title="市属高校三年规划建设项目开展专项稽察">市属高校三年规划建设项目开展专项稽察</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2016/03/18</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1140.shtml" target="_blank" title="专家上海研讨大城市规划 绿色可持续城市仍为热点">专家上海研讨大城市规划 绿色可持续城市仍为热点</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2016/03/18</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1135.shtml" target="_blank" title="人民日报评论员：以“三种意识”推进全面深化改革">人民日报评论员：以“三种意识”推进全面深化改革</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2016/03/18</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1134.shtml" target="_blank" title="教育部关于切实加强和改学风建设的实施意见">教育部关于切实加强和改学风建设的实施意见</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2014/09/10</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1065.shtml" target="_blank" title="“24字”核心价值观具有强大认同力和凝聚力">“24字”核心价值观具有强大认同力和凝聚力</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2014/09/10</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1062.shtml" target="_blank" title="人民日报评论员：以“三种意识”推进全面深化改革">人民日报评论员：以“三种意识”推进全面深化改革</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2014/09/10</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1060.shtml" target="_blank" title="中秋送欢乐 有爱更温暖">中秋送欢乐 有爱更温暖</a>
+</li>
+<li class="clear"></li>
+</ul></div>
+</div>
+<div class="content" style="display:none;">
+<div class="focusNews">
+<style type="text/css">
+#play_14356{margin:0;float:left;width:378px;height:263px; overflow:hidden; border:#ccc 1px solid;}
+#play_14356 .playShow{height:263px;}
+#play_14356 .playBg{margin:0;float:left;margin-top:-30px;z-index:1;filter:alpha(opacity=70);opacity:0.7;width:378px;position:absolute;height:30px;background:#000;}
+#play_14356 .playText{ margin:0;float:left;text-indent:10px;width:378px;margin-top:-30px;z-index:2;overflow:hidden;font-size:14px;font-weight:bold;color:#fff;line-height:30px; overflow:hidden;position:absolute;cursor:pointer;}
+#play_14356 .playNum{width:378px;overflow:hidden;margin:-30px 5px 0 0px;z-index:3; text-align:right;position:absolute;height:25px;}
+#play_14356 .playNum a{margin:5px 2px;width:15px;height:15px;font-size:14px; display:inline-block;  font-weight:bold;line-height:15px;cursor:pointer;color:#000;background:#D7D6D7;text-align:center; }
+#play_14356 .playShow img{width:378px;height:263px;}
+</style>
+<div id="play_14356">
+<ul>
+<li class="playShow">
+<a href="http://localhost:8080/jt/index.php/cms/item-view-id-1143.shtml" target="_blank"><img src="http://localhost:8080/jt/attachment/cms/item/2016_05/12_10/97e2e2bacae3ab08.jpg" alt="王野平出席广州国际投资年会并会见广东省、广州市领导"></a> 
+</li>
+<li class="playBg"></li>
+<li class="playText"></li>
+<li class="playNum"></li>
+</ul>
+</div>
+<script type=text/javascript>
+(function(){
+var playdiv = $('#play_14356');
+var t = i = 0, c = clas("playShow").find('a').size();
+for(ii=1;ii<=c;ii++){
+clas("playNum").append('<a>'+ii+'</a>');
+}
+showImg();
+clas('playNum').find('a').click(function(){
+i =   clas('playNum').find('a').index(this);
+showImg();									 									 
+});
+t = setInterval(showImg, 5000);
+playdiv.hover( function(){ clearInterval(t);}, function(){ t = setInterval(showImg, 5000);});
+function clas(className){
+return playdiv.find('.'+className);
+}
+function showImg(){
+clas('playNum').find('a').eq(i).siblings().css({"background":"#D7D6D7",'color':'#000'}).end().css({"background":"#FFD116",'color':'#A8471C'});
+clas("playText").html(clas("playShow").find('a').eq(i).find('img').attr('alt'));
+clas("playShow").find('a').eq(i).siblings().hide().end().fadeIn(1200);
+
+i++;
+if(i==c){i =0;}
+}
+
+})();
+</script></div>
+<div class="flashnews"><ul class="infolist1" style="color:#ac0000;font-size:14px;">
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2018/03/02</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1174.shtml" target="_blank" title="儿童手表">儿童手表</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2017/10/11</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1172.shtml" target="_blank" title="视频直播服务器3">视频直播服务器3</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2017/10/11</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1171.shtml" target="_blank" title="视频直播服务2">视频直播服务2</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2017/10/11</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1170.shtml" target="_blank" title="视频直博服务">视频直博服务</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2017/09/30</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1169.shtml" target="_blank" title="中国工商银行">中国工商银行</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2017/09/30</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1166.shtml" target="_blank" title="交通银行">交通银行</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2017/09/30</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1163.shtml" target="_blank" title="产品1">产品1</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2017/09/30</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1165.shtml" target="_blank" title="演出舞台烟机">演出舞台烟机</a>
+</li>
+<li style=";">
+<span class="label_datatime" style="color:#909090;font-size:12px;">2017/09/29</span><a href="http://localhost:8080/jt/index.php/cms/item-view-id-1162.shtml" target="_blank" title="活动2014">活动2014</a>
+</li>
+<li class="clear"></li>
+</ul></div>
+</div>
+</div>
+</div>
+<div class="show">
+<div class="sh_top">
+<div class="shbox"><a href="/index.php/cms/item-list-category-781.shtml" target="_blank" title="" style="text-decoration:none;"><img width="150" height="130" border="none" alt="" src="http://localhost:8080/jt/attachment/core/label/2016_03/12_14/adc69ac5bb7a8eec.jpg" /></a></div>
+<div class="shbox"><a href="/index.php/cms/item-list-category-780.shtml" target="_blank" title="" style="text-decoration:none;"><img width="150" height="130" border="none" alt="" src="http://localhost:8080/jt/attachment/core/label/2016_03/12_14/7be1aae15c685be8.jpg" /></a></div>
+<div class="shbox"><a href="javascript:video();"><img width="150" height="130" border="none" alt="" src="http://jt.php168.net/attachment/core/label/2016_03/12_14/24ca3a799593c79d.jpg"></a></div>
+<div class="shbox"><a href="/index.php/cms/item-list-category-815.shtml" target="_blank" title="" style="text-decoration:none;"><img width="150" height="130" border="none" alt="" src="http://localhost:8080/jt/attachment/core/label/2016_03/12_14/29090929f9352ba2.jpg" /></a></div>
+</div>
+<div class="sh_down mtop">
+<a class="btn_a fl" href="http://localhost:8080/jt/index.php/cms/item-list-category-1.shtml" target="_blank">集团新闻</a> <a class="btn_b fr" href="http://localhost:8080/jt/index.php/cms/item-list-category-781.shtml" target="_blank">集团视频</a>
+</div>
+</div>
+</div>
+<div class="content_2">
+<div class="main">
+<ul>            
+<li><a class="pro1" href="http://localhost:8080/jt/index.php/cms/item-list-category-68.shtml" target="_blank"></a><h5>快递</h5><p>中国-美国及其世界各国的快递物业</p></li>
+<li><a class="pro2" href="http://localhost:8080/jt/index.php/cms/item-list-category-792.shtml" target="_blank"></a><h5>空运</h5><p>中国-美国及其世界各国的空运物业</p></li>
+<li><a class="pro3" href="http://localhost:8080/jt/index.php/cms/item-list-category-825.shtml" target="_blank"></a><h5>陆运</h5><p>中国-美国及其世界各国的陆运物业</p></li>
+<li><a class="pro4" href="http://localhost:8080/jt/index.php/cms/item-list-category-93.shtml" target="_blank"></a><h5>海运</h5><p>中国-美国及其世界各国的海运物业</p></li>
+<li><a class="pro5" href="http://localhost:8080/jt/index.php/cms/item-list-category-824.shtml" target="_blank"></a><h5>国际贸易</h5><p>中国-美国及其世界各国的国际贸易物业</p></li>
+<li class="last"><a class="pro6" href="http://localhost:8080/jt/index.php/cms/item-list-category-793.shtml" target="_blank"></a><h5>保险业务</h5><p>中国-美国及其世界各国的保险物业</p></li>
+</ul>
+
+</div>
+</div>
+<script type="text/javascript">
+function video() {
+layer.open({
+type: 1,
+title: false,
+closeBtn: 1,
+area: ['800px', '400px'],
+shadeClose: true,
+content: '<div id=\'plv_5ebeaeac266d928f4c1ce7da3d07c090_5\' style=\'width:800px;height:400px;overflow:hidden;\'></div>'
+});
+var player = polyvObject('#plv_5ebeaeac266d928f4c1ce7da3d07c090_5').videoPlayer({
+'width':'800',
+'height':'400',
+'vid' : '5ebeaeac266d928f4c1ce7da3d07c090_5',
+});
+
+} 
+</script>
+<script language="javascript">
+$(document).ready(function(){
+MoveTabs('tab_1',0,'mouseover');
+MoveTabs('tab_2',0,'mouseover');
+MoveTabs('tab_3',0,'mouseover');
+MoveTabs('tab_4',0,'mouseover');
+MoveTabs('tab_5',0,'mouseover');
+MoveTabs('tab_6',0,'mouseover');
+});
+</script>
+</div>
+<div class="foot_fl">
+<div class="con">
+<div class="zuo">
+<ul>
+<li class="tit">站群子站</li>
+<li><a href="http://jt.php168.net/s.php/gp02/" target="_blank">集团站群子站1</a></li>
+<li><a href="http://jt.php168.net/s.php/gp04/" target="_blank">集团站群子站2</a></li>
+<li><a href="http://jt.php168.net/s.php/gp03/" target="_blank">集团站群子站3</a></li>
+<li><a href="http://jt.php168.net/s.php/gp01/" target="_blank">集团站群子站4</a></li>
+<li><a href="http://jt.php168.net/s.php/gp02/" target="_blank">集团站群子站5</a></li>
+<li><a href="http://jt.php168.net/s.php/gp04/" target="_blank">集团站群子站6</a></li>
+<li><a href="http://jt.php168.net/s.php/gp03/" target="_blank">集团站群子站7</a></li>
+<li><a href="http://jt.php168.net/s.php/gp02/item-list-category-10991.html" target="_blank">关于我们</a></li>
+<li><a href="http://jt.php168.net/s.php/gp02/item-list-category-11010.html" target="_blank">领导介绍</a></li>
+<li><a href="http://jt.php168.net/s.php/gp02/item-list-category-11012.html" target="_blank">厂房设备</a></li>
+<li><a href="http://jt.php168.net/s.php/gp02/item-list-category-10991.html" target="_blank">新闻中心</a></li>
+<li><a href="http://jt.php168.net/s.php/gp02/item-list-category-10994.html" target="_blank">产品中心</a></li>
+</ul>
+</div>
+<div class="zhong">
+<p>国微科技集团公司 版权所有 翻版必究</p>
+
+<p class="add">地址：广东省广州市天河区麓谷</p>
+
+<p class="call">办公室电话：020-86868888</p>
+
+<p class="fax">传真：0731-86868888</p>
+
+<h3 class="kftel">客服电话：400-888-8888</h3>
+<div id="footer_login"><script type="text/javascript" src="http://localhost:8080/jt/u.php/member-login?style=admin_main&id=footer_login"></script></div>			
+</div>
+<div class="you">
+<div class="tp">
+<a href="#" target="_blank" title="" style="text-decoration:none;"><img width="175" height="175" border="none" alt="" src="http://localhost:8080/jt/attachment/core/label/2018_03/02_15/251fc2744a145704.jpg" /></a>
+</div>
+<span>国微集团公账号</span>
+</div> 
+</div> 
+<div class="xia">
+<div class="wd">
+联系方式: MSN: 88888@hotmail.com 邮箱:setpoterheight QQ：888888888 电话：020-8888888 传真：020-88888888
+</div>
+</div>       
+</div>
+</body>
+</html>

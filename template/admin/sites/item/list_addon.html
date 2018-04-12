@@ -1,0 +1,87 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="post" id="form">
+	<table class="mainbox mainborder">
+	<tr><td>
+		
+		<table class="columntable formtable hover_table click_changeable">
+		
+		<tr class="title">
+			<td width="1%" class="title"><input type="checkbox" name="checkall" /></td>
+			<td width="40%" class="title">{$P8LANG['sites_item']['addon_title']}</td>
+			<td width="8%" class="title">{$P8LANG['sites_item']['page']}</td>
+			<td width="10%" class="title">{$P8LANG['operation']}</td>
+		</tr>
+		
+		<!--{php $i = 1;}-->
+		<!--{foreach $list $value}-->
+		<!--{php $i++;}-->
+		<tr>
+			<td><input type="checkbox" name="id[]" value="{$value['id']}" /></td>
+			<td><a href="{$this_module.controller}-view-id-{$value['iid']}-page-$value[page]?verified=$verified" target="_blank">$value[addon_title]</a></td>
+			<td><input type="text" class="txt" name="new_page[{$value['id']}]" value="{$value['page']}" size="4" /></td>
+			<td>
+				<a href="{$this_module.controller}-view-id-{$value['iid']}-page-$value[page]?verified=$verified" target="_blank">{$P8LANG['preview']}</a>
+				<a href="$this_router-update_addon?model=$MODEL&iid={$data['id']}&id={$value['id']}&page=$i&verified=$verified">{$P8LANG['edit']}</a>
+				<a id="addon_{$value['id']}" href="$this_router-delete_addon?model=$MODEL&iid={$data['id']}&id={$value['id']}" onclick="return delete_addon([$value[id]])">{$P8LANG['delete']}</a>
+			</td>
+		</tr>
+		<!--{/foreach}-->
+		
+		</table>
+		
+	</td></tr>
+
+	<tr>
+		<td colspan="4">
+			<input type="submit" value="{$P8LANG['submit']}" class="submit_btn" />
+			<input type="button" value="{$P8LANG['delete']}" onclick="delete_addon(checked_values('id[]', $('#form')))" class="submit_btn" />
+		</td>
+	</tr>
+	
+	</table>
+	
+	<input type="hidden" name="iid" value="$iid" />
+	<input type="hidden" name="model" value="$MODEL" />
+</form>
+
+
+<script type="text/javascript">
+	
+function delete_addon(id){
+	if(!id.length) return;
+	
+	if(!confirm('{$P8LANG['confirm_to_delete']}')) return;
+	
+	$.ajax({
+		url: '$this_router-delete_addon',
+		type: 'POST',
+		dataType: 'json',
+		data: ajax_parameters({verified: '$verified', iid: $data[id], id: id}),
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i in json){
+				$('#addon_'+ json[i]).parent().parent().remove();
+			}
+		}
+	});
+	
+	return false;
+}
+
+$('form input[name^=new_page]').change(function(){
+	this.value = this.value.replace(/[^0-9]/g, '') || 0;
+	if(this.value < 2) this.value = 2;
+	$('#form').append('<input type="hidden" name="_new_page['+ this.name.replace(/[^0-9]/g, '') +']" value="'+ this.value +'" />');
+	$(this).css({border: '1px solid #ff0000'});
+});
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,29 @@
+<!--{php168}-->
+<style>
+.label_pic_ul{$label['id']} li{width:{$swidth}px;height:{$sheight}px;float:left;margin-right:12px;position:relative;overflow:hidden;}
+.label_pic_ul{$label['id']} li p{width:{$swidth}px;height:24px;background: #000;position: absolute;left: 0;bottom: 0;opacity: 0.3;filter: alpha(opacity=30);}
+.label_pic_ul{$label['id']} .label_pic_title{width:{$swidth}px;position: absolute;left: 0;bottom: 0;color: #fff;line-height:24px}
+.label_pic_ul{$label['id']} .label_pic_title a{display:block;color:#fff;text-decoration:none;}
+
+</style>
+<!--{php $list_count = count($list);}-->
+<!--{php $list_i = 0;}-->
+<ul class="label_pic_ul{$label['id']}">
+	<!--{foreach $list $value}-->
+	<!--{php $list_i ++;}-->
+	<!--{if $list_i == $list_count}-->
+	<li style="margin-right:0;">
+		<a href="$value[url]" target="_blank" title="$value[full_title]"><img width="{$swidth}" height="{$sheight}" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a>
+		<p></p>
+		<div class="label_pic_title"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></div>
+	</li>
+	<!--{else}-->	
+	<li>
+		<a href="$value[url]" target="_blank" title="$value[full_title]"><img width="{$swidth}" height="{$sheight}" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a>
+		<p></p>
+		<div class="label_pic_title"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></div>
+	</li>
+		<!--{/if}-->
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

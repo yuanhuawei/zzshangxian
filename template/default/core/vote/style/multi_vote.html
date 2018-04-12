@@ -1,0 +1,107 @@
+<!--{php168}-->
+<!--{php
+$i_type = $data['multi'] == 1 ? 'radio' : 'checkbox';
+
+$TITLE = $data['name'] .'_'. $core->CONFIG['site_name'];
+$SEO_KEYWORDS = $data['name'];
+$SEO_DESCRIPTION = $data['content'];
+}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/vote/style.css" />
+<div class="page list_nave">
+	<a href="{$core.controller}">首页</a> > <a href="{$this_module.controller}">投票</a>
+</div>
+<div class="container gov_frame" >
+<div class="mv_top">
+	<div class="roundhead">
+		<span class="rh_l"></span><span class="rh_r"></span><p class="rh_m"></p>
+	</div>
+	<div class="mv_con">
+		<div class="mv_con_l" ><img src="{if !empty($data['frame_url'])}$data[frame_url]{else}{$RESOURCE}/skin/default/core/vote/nopic.jpg{/if}" width="270" height="200"/></div>
+		<div class="mv_con_r">
+			<p class="titlestart">$data[name]</p>
+			<div class="mtop10 textindend">$data[content]</div>
+			<div class="clear"></div>
+			<div class="title_vote_top">$label[title_vote_top]</div>
+			<div class="mtop10"> $label[lists_vote_top]</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="roundfoot"><span class="rf_l"></span><span class="rf_r"></span><p class="rf_m"></p></div>
+</div>
+<form method="post" action="{$this_module.controller}-vote" id="p8_vote_$data[id]">
+
+<div style="background-color:#E2F4FA; margin-top:10px">
+	<div class="roundhead">
+		<span class="rh_l"></span><span class="rh_r"></span><p class="rh_m"></p>
+	</div>
+	<div class="mv_con" style="background-color:#E2F4FA">
+		<div class="fleft" style="width:700px">
+		<p class="titlestart">候选人</p>
+			<ul class="mtop10">
+				<!--{foreach $options $v}-->
+				<li class="each_option">
+					<div style="height:132px;overflow:hidden">
+					{if $v['url']}<a href="$v[url]" target="_blank"><img src="$v[frame]" width="100" height="110" style="float:left; margin-right:10px" /></a>{else}
+					<img src="$v[frame]" width="100" height="110" style="float:left; margin-right:10px" />{/if}
+					<p>编号: <i style="font-size:18px">$v[display_order]</i></p>
+					<p class="name"><b>{if $v['url']}<a href="$v[url]" target="_blank">$v[name]</a>{else} $v[name]{/if}</b></p>
+					<p class="description"><a href="$v[url]" target="_blank">$v[description]</a></p>
+					</div>
+					<p class="vote"><input type="$i_type" name="oid[]" value="$v[id]" id="p8_v_o_$data[id]_$v[id]"/> 
+						<label for="p8_v_o_$data[id]_$v[id]">投票</label></p>
+				</li>
+				<!--{/foreach}-->
+				<li class="clear"></li>
+			</ul>
+			<!--{if $data['captcha']}-->
+			<p>
+			验证码:<input type="text"  class="txt"  name="captcha" id="captcha" size="10"/> <span id="captchachr"></span>
+			<script type="text/javascript">	captcha($('#captchachr'), $('#p8_vote_{$data['id']} input[name="captcha"]'));</script>
+			</p>
+			<!--{/if}-->
+			<p style="margin:10px"><input type="submit" value="提 交" /></p>
+			<p class="pages" id="pages">$pages</p>
+		</div>
+		
+		<div class="fright" style=" width:268px; margin-right:10px">
+			<p class="titlestart">选票排行</p>
+			<div id="vote_main" style="background-color:#ffffff;padding:10px; line-height:25px; margin-top:10px">
+			<!--{if !$viewable}-->你还没投票，不可看结果。或者投票不允许查看结果。<!--{/if}-->
+				<ul >
+				<!--{php $i = 0;}-->
+				<!--{foreach $rank $v}-->
+					<!--{php
+						$ipercent = intval($percent = $data['votes'] ? round($v['votes']*100/$data['votes'], 1) : 0);
+						$j = ++$i%9;
+					}-->
+					<li style="clear:both">
+						<p><font color="#666666">NO.$i</font> $v[name] <!--{if $viewable}--><a href="$this_router-voter?id=$data[id]&oid=$v[id]" target="_blank" style="color:#990000">$v[votes] 票</a><!--{/if}--></p>
+						<div>
+							<div style="display: block;float:left;margin-top:5px" class="process">
+								<!--{if $viewable}--><div style="width: $ipercent%;" class="style$j"></div><!--{/if}-->
+							</div>
+							<!--{if $viewable}--> $ipercent%<!--{/if}-->
+						</div>
+					</li>
+				
+				<!--{/foreach}-->
+					<li class="clear"></li>
+				</ul>
+				
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="roundfoot"><span class="rf_l"></span><span class="rf_r"></span><p class="rf_m"></p></div>
+</div>
+
+<input type="hidden" name="id" value="$data[id]" />
+</form>
+
+<script type="text/javascript">
+$('#p8_vote_$data[id] input').attr('checked', false);
+</script>
+
+<!--{template $core footer}-->
+<!--{/php168}-->

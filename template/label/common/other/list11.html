@@ -1,0 +1,42 @@
+<!--{php168}-->
+<!--!! modified by admin at 2010-06-08 17_27_25 !!-->
+<style type="text/css">
+.label_list11_case { text-align:left; line-height:180%; border:none; }
+.label_list11_item { margin-top:10px; text-align:left; padding-bottom:8px; border-bottom:#cccccc dashed 1px; }
+.label_list11_item_left { float:left; width:50px; height:41px; padding-bottom:8px; overflow:hidden; background:url($RESOURCE/template/label/cms/list/list11_prefix.gif) no-repeat; }
+.label_list11_views { width:50px; height:18px; overflow:hidden; color:#015885; text-align:center; font-weight:bolder; }
+.label_list11_digg { width:50px; height:23px; overflow:hidden; }
+.label_list11_item_right { float:left; height:48px; overflow:hidden; padding:1px 0px 1px 10px; }
+.label_list11_title { text-align:left; }
+.label_list11_title a:hover, .label_list11_title a:active, .label_list11_title a:link, .label_list11_title a:visited { font-weight:bolder; text-decoration:none; color:#073c72; }
+.label_list11_summary { margin-top:5px; font-size:12px; color:#535456; }
+.label_list11_summary a:hover, .label_list11_summary a:active, .label_list11_summary a:link, .label_list11_summary a:visited { font-size:12px; color:#535456; }
+</style>
+<div class="label_list11_case">
+	<!--{foreach $list $value}-->
+	<div class="label_list11_item">
+		<div style="clear:both;">
+		</div>
+		<div class="label_list11_item_left">
+			<div class="label_list11_views">
+				$value[views]
+			</div>
+			<a href="#" target="_blank">
+			<div class="label_list11_digg">
+				&nbsp;
+			</div>
+			</a>
+		</div>
+		<div class="label_list11_item_right">
+			<div class="label_list11_title">
+				<a href="$value[url]"  target="_blank" title="$value[full_title]">$value[title]</a>
+			</div>
+			<span class="label_list11_summary">&nbsp;&nbsp;&nbsp;&nbsp;$value[summary]</span>
+		</div>
+		<div style="clear:both;">
+		</div>
+	</div>
+	<!--{/foreach}-->
+</div>
+<!--{/php168}-->
+

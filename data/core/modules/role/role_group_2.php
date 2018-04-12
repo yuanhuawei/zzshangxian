@@ -1,0 +1,1 @@
+<?php die();?>a:7:{s:2:"id";s:1:"2";s:4:"name";s:6:"个人";s:11:"registrable";s:1:"1";s:12:"default_role";s:1:"2";s:11:"description";s:0:"";s:13:"display_order";s:1:"0";s:6:"fields";a:0:{}}

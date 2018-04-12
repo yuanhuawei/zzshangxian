@@ -1,0 +1,30 @@
+<!--{php168}-->
+<!--{php
+
+if(empty($TITLE)){
+	$TITLE = (empty($data['title']) ? '' : $data['title'] .'_').
+		(empty($CAT['name']) ? $core->CONFIG['site_name'] : $CAT['name']);
+}
+
+if(empty($SEO_KEYWORDS)){
+	if(!empty($data['seo_keywords'])){
+		$SEO_KEYWORDS = $data['seo_keywords'];
+	}else if(!empty($CAT['seo_keywords'])){
+		$SEO_KEYWORDS = $CAT['seo_keywords'];
+	}else{
+		$SEO_KEYWORDS = $core->CONFIG['site_key_word'];
+	}
+}
+
+if(empty($SEO_DESCRIPTION)){
+	if(!empty($data['seo_description'])){
+		$SEO_DESCRIPTION = $data['seo_description'];
+	}else if(!empty($CAT['seo_description'])){
+		$SEO_DESCRIPTION = $CAT['seo_description'];
+	}else{
+		$SEO_DESCRIPTION = $core->CONFIG['site_description'];
+	}
+}
+
+}-->
+<!--{/php168}-->

@@ -1,0 +1,29 @@
+<!--{php168}-->
+<input type="hidden" name="#field_{$field}_posted" />
+<textarea name="field#[$field]" id="field#[$field]" style="display: none;">{if isset($data[$field])}{html_entities($data[$field])}{/if}</textarea>
+<script type="text/javascript">
+$(function(){
+	P8_CKEDITOR({
+		id: 'field#[$field]',
+		config: {
+			toolbar:
+			[
+				['Source','-','Preview'],
+				['PasteText','PasteFromWord'],
+				['Undo','Redo'],
+				['Link','Unlink'],
+				['Image','Flash','Table','Smiley'],
+				'/',
+				['Font','FontSize'],
+				['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
+				['TextColor','BGColor'],
+				['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
+				['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock']
+			],
+			contentsCss: ['{$RESOURCE}/skin/{$this_module.CONFIG['template']}/{$SYSTEM}/common.css', '{$RESOURCE}/skin/{$this_module.CONFIG['template']}/{$SYSTEM}/style.css']
+		},
+		height: 300
+	});
+});
+</script>
+<!--{/php168}-->

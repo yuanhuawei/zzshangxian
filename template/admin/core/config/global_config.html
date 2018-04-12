@@ -1,0 +1,284 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $core config/menu_bar admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript">
+var SYSTEM = 'core';
+var MODULE = '';
+</script>
+
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td colspan="2" class="title">全局设置</td>
+				</tr>
+				<tr>
+					<td class="tdL">开启调试模式 <span class="help">一般不开启，如网站出现问题时候，可开启查看错误提示。</span></td>
+					<td class="tdR">
+						<input type="radio" name="config[debug]" value="1"{if !empty($config['debug'])} checked{/if} />{$P8LANG['Y']}
+						<input type="radio" name="config[debug]" value="0"{if empty($config['debug'])} checked{/if} />{$P8LANG['N']}
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['admin_controller']}</td>
+					<td class="tdR"> <input type="text" class="txt" name="config[admin_controller]" size="38"  value="{if !empty($config['admin_controller'])}{$config['admin_controller']}{/if}" /> </td>
+				</tr>
+
+				<tr>
+					<td class="tdL">后台登录安全码 <span class="help">输入安全码后，每次登录后台需输入此安全码才能进入。</span></td>
+					<td class="tdR"> <input type="text" name="config[admin_login_code]" value="{if !empty($config['admin_login_code'])}$config[admin_login_code]{/if}" /> </td>
+				</tr>
+				<tr>
+					<td class="tdL">后台登录验证码</td>
+					<td class="tdR"> <input type="radio" name="config[admin_login_with_captcha]" value="1"{if !empty($config['admin_login_with_captcha'])} checked{/if} />{$P8LANG['Y']} <input type="radio" name="config[admin_login_with_captcha]" value="0"{if empty($config['admin_login_with_captcha'])} checked{/if} />{$P8LANG['N']} </td>
+				</tr>
+				<tr>
+					<td class="tdL">自动退出登陆时间<span class="help">登录多久后不操作自动退出，0为浏览器时间。</span></td>
+					<td class="tdR"><input type="text" class="txt" name="config[expire]" size="12"  value="{if !empty($config['expire'])}{$config['expire']}{else}0{/if}" />分钟
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">附件出入库是否处理</td>
+					<td class="tdR"> <input type="radio" name="config[attachment][confuse]" value="1"{if !empty($config['attachment']['confuse'])} checked{/if} />{$P8LANG['Y']} <input type="radio" name="config[attachment][confuse]" value="0"{if empty($config['attachment']['confuse'])} checked{/if} />{$P8LANG['N']} </td>
+				</tr>
+				<tr>
+					<td class="tdL">附件存放地址</td>
+					<td class="tdR"><input type="text" class="txt" name="config[attachment][path]" size="60"  value="{if !empty($config['attachment']['path'])}{$config['attachment']['path']}{/if}" /></td>
+				</tr>
+				<tr>
+					<td class="tdL">远程附件地址</td>
+					<td class="tdR">
+						<div id="ratt_clone" style="display: none;">
+							序号<input type="text" size="3" />
+							地址<input type="text" size="60" />
+							使用<input type="checkbox" name="config[attachment][remote][current]" value="" />
+							<input type="button" value="删除" onclick="$(this).parent().remove()" />
+						</div>
+						
+						<div id="remotes"></div>
+						
+						<input type="button" value="添加附件地址" onclick="add_remote_attachment()" />
+						<span class="help">多服务器才做设置，一般用默认，序号一旦确定，千万不要修改</span>
+						
+					</td>
+				</tr>
+				<!--
+				<tr>
+					<td class="tdL">会员上传头像是否自动裁剪</td>
+					<td class="tdR"> <input name="config[upload_if_cut]" type="radio" value="0"  /> 手动载剪 <input name="config[upload_if_cut]" type="radio" value="1" onclick="$('#upload_is_cut').show()" /> 自动载剪 &nbsp;<span id="upload_is_cut" style="display:none"> 长：<input  type="text" class="txt" name="config[icon_long]" size="5" /> 宽：<input  type="text" class="txt" name="config[icon_width]" size="5" /></span> </td>
+				</tr>
+				-->
+				
+				<tr>
+					<td class="tdL">是否开启rewrite隐藏index.php</td>
+					<td class="tdR"> <input type="radio" name="config[url_rewrite_enabled]" value="1"{if !empty($config['url_rewrite_enabled'])} checked{/if} />{$P8LANG['Y']} <input type="radio" name="config[url_rewrite_enabled]" value="0"{if empty($config['url_rewrite_enabled'])} checked{/if} />{$P8LANG['N']}
+					<span class="help">http://www.***.com/index.php/cms/item-view,隐藏后http://www.***.com/cms/item-view,需要服务器编写规则。</span>
+					<a href="###" onclick="rwrule_dialog.show()">查看规则</a>
+					<div id="rewrite" style="display: none;">
+					<textarea cols="80" rows="20">
+					APACHE
+					--------------------------------------
+					RewriteEngine off
+					
+					<Location />
+						RewriteEngine On
+						RewriteCond %{REQUEST_FILENAME} -s [OR]
+						RewriteCond %{REQUEST_FILENAME} -l [OR]
+						RewriteCond %{REQUEST_FILENAME} -d
+						RewriteRule ^.*$ - [NC,L]
+						RewriteRule ^.*$ /index.php [NC,L]
+					</Location>
+					
+					NGINX
+					---------------------------------------
+					location /里面,自己结合一下配置修改
+					location / {
+						if (!-e \$request_filename) {
+							rewrite ^(.*)$ /index.php$1 last;
+							break;
+						}
+					}
+					</textarea>
+					</div>
+					<script type="text/javascript">
+					var rwrule_dialog = new P8_Dialog({
+						width: 600,
+						height: 400,
+						show: function(){
+							this.content.html($('#rewrite').html());
+						}
+					});
+					</script>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">是否开启gzip压缩页面</td>
+					<td class="tdR">
+						<input type="radio" name="config[gzip]" value="1"{if !empty($config['gzip'])} checked{/if}{if !function_exists('ob_gzhandler')} disabled{/if} />{$P8LANG['Y']}
+						<input type="radio" name="config[gzip]" value="0"{if empty($config['gzip'])} checked{/if} />{$P8LANG['N']}
+						<span class="help">可节省带宽。使用程序压缩,如果服务器(apache, IIS等)开启有压缩功能请关闭此选项。</span>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['template_dir']}</td>
+					<td class="tdR"><input type="text" class="txt" name="config[template_dir]" size="60"  value="{if !empty($config['template_dir'])}{$config['template_dir']}{/if}" /><span class="point">(一般默认)</span></td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['language']}</td>
+					<td class="tdR">
+						<select name="config[lang]">
+							<!--{foreach $core->CONFIG['language'] $k $v}-->
+							<option value="$k"{if !empty($core->CONFIG['lang']) && $k == $core->CONFIG['lang']} selected{/if}>$v</option>
+							<!--{/foreach}-->
+						</select><span class="point">(一般默认中文)</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['page_charset']} <span class="help">如转为UTF8或其他语言，请安装的时候选择相关操作。</span></td>
+					<td class="tdR"> <input type="text" class="txt" name="config[page_charset]" size="38"  value="{if !empty($config['page_charset'])}{$config['page_charset']}{/if}" /> </td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['mysql_connect_type']} <span class="help">一般默认为P8_mysql,如果服务器支持mysqli，可以选择P8_mysqli</span></td>
+					<td class="tdR">
+						<select name="config[mysql_connect_type]">
+							<!--{foreach $info['mysql_connect_types'] $k $v}-->
+							<option value="$k"{if !empty($config['mysql_connect_type']) && $config['mysql_connect_type'] == $k} selected{/if}>$v</option>
+							<!--{/foreach}-->
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['mysql_charset']}</td>
+					<td class="tdR"> <input type="text" class="txt" name="config[mysql_charset]" size="38"  value="{if !empty($config['mysql_charset'])}{$config['mysql_charset']}{/if}" /> </td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['encode']} {$P8LANG['function']}</td>
+					<td class="tdR">
+						<select name="config[encode_conv_func]">
+							<!--{foreach $info['encode_conv_functions'] $k $v}-->
+							<option value="$v"{if !empty($config['encode_conv_func']) && $config['encode_conv_func'] == $v} selected{/if}>$k</option>
+							<!--{/foreach}-->
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['cookie_prefix']}</td>
+					<td class="tdR"><input type="text" class="txt" name="config[cookie][prefix]" size="30"  value="{if !empty($config['cookie']['prefix'])}{$config['cookie']['prefix']}{/if}" /><span class="point">(一般不用修改)</span></td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['cookie_path']}</td>
+					<td class="tdR"><input type="text" class="txt" name="config[cookie][path]" size="30"  value="{if !empty($config['cookie']['path'])}{$config['cookie']['path']}{/if}" /><span class="point">(一般不用修改)</span></td>
+				</tr>
+					
+				<tr>
+					<td class="tdL">{$P8LANG['resource_url']}</td>
+					<td class="tdR"> <input type="text" class="txt" name="config[resource_url]" size="38"  value="{if !empty($config['resource_url'])}{$config['resource_url']}{/if}" /><span class="point"> (用于高端应用，一般不设置)</span></td>
+				</tr>
+				
+				
+				<tr style="display:none">
+					<td class="tdL">关闭模板缓存 <span class="help">可让模板修改马上呈现。</span></td>
+					<td class="tdR">
+						<input type="radio" name="config[templatecache]" value="1"{if !empty($config['templatecache'])} checked{/if} />{$P8LANG['Y']}
+						<input type="radio" name="config[templatecache]" value="0"{if empty($config['templatecache'])} checked{/if} />{$P8LANG['N']}
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">搜索引擎日志 <span class="help">记录搜索引擎爬过的记录</span></td>
+					<td class="tdR">
+						<input type="radio" name="config[robot_log]" value="1"{if !empty($config['robot_log'])} checked{/if} />{$P8LANG['Y']}
+						<input type="radio" name="config[robot_log]" value="0"{if empty($config['robot_log'])} checked{/if} />{$P8LANG['N']}
+					</td>
+				</tr>
+
+				<tr>
+					<td class="tdL">SESSION跨域域名列表 <span class="help">启用多个一级域名时候才启用，一般不用设置。</span></td>
+					<td class="tdR">
+						<div id="scd_clone" style="display: none;">
+							域名<input type="text" size="20" /> 同步文件<input type="text" size="60" /> <input type="button" value="删除" />
+						</div>
+						<div id="scds">
+						</div>
+						<input type="button" value="添加" onclick="add_scd()" />
+						<script type="text/javascript">
+						function add_scd(domain, url){
+							var copy = $('#scd_clone').clone().show().attr('id', '');
+							
+							domain = domain === undefined ? '' : domain;
+							copy.find('input:eq(0)').val(domain).
+							change(function(){
+								copy.find('input:eq(1)').
+								attr('name', 'config[session_cross_domains]['+ this.value +']');							
+							});
+							
+							copy.find('input:eq(1)').
+							attr('name', 'config[session_cross_domains]['+ domain +']').
+							val(url === undefined ? '' : url);
+							
+							copy.find('input:eq(2)').click(function(){
+								$(this).parent().remove();
+							});
+							
+							$('#scds').append(copy);
+						}
+						
+						<!--{foreach $config['session_cross_domains'] $k $v}-->
+						add_scd('$k', '$v');
+						<!--{/foreach}-->
+						</script>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">sphinx前缀</td>
+					<td class="tdR"><input type="text" class="txt" name="config[sphinx_prefix]" size="32"  value="{if !empty($config['sphinx_prefix'])}{$config['sphinx_prefix']}{/if}" /><span class="point"> (用于高端应用，一般不设置)</span></td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">hash名称</td>
+					<td class="tdR"><input type="text" class="txt" name="config[hash_name]" size="12"  value="{if !empty($config['hash_name'])}{$config['hash_name']}{/if}" /></td>
+				</tr>				
+	
+				<tr>
+					<td colspan="2">&nbsp;</td>
+				</tr>
+				<tr>
+					<td class="tdL">&nbsp;</td>
+					<td class="tdR"> <input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/> </td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+				function add_remote_attachment(id, url){
+					var copy = $('#ratt_clone').clone().attr('id', '').show().appendTo($('#remotes'));
+					
+					copy.find('input:eq(0)').val(id === undefined ? '' : id).
+						change(function(){
+							$(this).parent().find('input[type=checkbox]').val(this.value);
+							
+							copy.find('input:eq(1)').attr('name', 'config[attachment][remote][server]['+ this.value +']');
+						});
+					
+					copy.find('input:eq(1)').val(url === undefined ? '' : url).
+						attr('name', 'config[attachment][remote][server]['+ id +']');
+					
+					copy.find('input:eq(2)').prop('checked', '{if !empty($config['attachment']['remote']['current'])}{$config['attachment']['remote']['current']}{/if}' == id ? true : false).val(id == undefined ? '' : id);
+				}
+				
+				$(function(){
+					<!--{foreach $config['attachment']['remote']['server'] $id $url}-->
+					add_remote_attachment('$id', '$url');
+					<!--{/foreach}-->
+				});
+				</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,69 @@
+<?php
+defined('PHP168_PATH') or die();
+?>
+<?php
+$mtop=-30;
+print <<<EOT
+
+<style type="text/css">
+#play_{$label['id']}{margin:0;float:left;width:{$swidth}px;height:{$sheight}px; overflow:hidden; border:#ccc 1px solid;}
+#play_{$label['id']} .playShow{height:{$sheight}px;}
+#play_{$label['id']} .playBg{margin:0;float:left;margin-top:{$mtop}px;z-index:1;filter:alpha(opacity=70);opacity:0.7;width:{$swidth}px;position:absolute;height:30px;background:#000;}
+#play_{$label['id']} .playText{ margin:0;float:left;text-indent:10px;width:{$swidth}px;margin-top:{$mtop}px;z-index:2;overflow:hidden;font-size:14px;font-weight:bold;color:#fff;line-height:30px; overflow:hidden;position:absolute;cursor:pointer;}
+#play_{$label['id']} .playNum{width:{$swidth}px;overflow:hidden;margin:{$mtop}px 5px 0 0px;z-index:3; text-align:right;position:absolute;height:25px;}
+#play_{$label['id']} .playNum a{margin:5px 2px;width:15px;height:15px;font-size:14px; display:inline-block;  font-weight:bold;line-height:15px;cursor:pointer;color:#000;background:#D7D6D7;text-align:center; }
+#play_{$label['id']} .playShow img{width:{$swidth}px;height:{$sheight}px;}
+</style>
+<div id="play_{$label['id']}">
+<ul>
+<li class="playShow">
+EOT;
+$__t_foreach = @$list;
+if(!empty($__t_foreach)){
+foreach($__t_foreach as $value){
+$value['title']=strip_tags($value['title']);
+print <<<EOT
+
+<a href="$value[url]" target="_blank"><img src="$value[frame]" alt="$value[title]"></a> 
+EOT;
+}
+}
+
+print <<<EOT
+
+</li>
+<li class="playBg"></li>
+<li class="playText"></li>
+<li class="playNum"></li>
+</ul>
+</div>
+<script type=text/javascript>
+(function(){
+var playdiv = $('#play_{$label['id']}');
+var t = i = 0, c = clas("playShow").find('a').size();
+for(ii=1;ii<=c;ii++){
+clas("playNum").append('<a>'+ii+'</a>');
+}
+showImg();
+clas('playNum').find('a').click(function(){
+i =   clas('playNum').find('a').index(this);
+showImg();									 									 
+});
+t = setInterval(showImg, 5000);
+playdiv.hover( function(){ clearInterval(t);}, function(){ t = setInterval(showImg, 5000);});
+function clas(className){
+return playdiv.find('.'+className);
+}
+function showImg(){
+clas('playNum').find('a').eq(i).siblings().css({"background":"#D7D6D7",'color':'#000'}).end().css({"background":"#FFD116",'color':'#A8471C'});
+clas("playText").html(clas("playShow").find('a').eq(i).find('img').attr('alt'));
+clas("playShow").find('a').eq(i).siblings().hide().end().fadeIn(1200);
+
+i++;
+if(i==c){i =0;}
+}
+
+})();
+</script>
+EOT;
+?>

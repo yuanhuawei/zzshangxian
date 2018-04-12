@@ -1,0 +1,26 @@
+<!--{php168}-->
+<style type="text/css">
+.list_adap_date5 .item{margin-top:25px;}
+.list_adap_date5 .time{width:62px;height:63px;float:left;background:#014fa1;;text-align: center;margin-right: 20px;}
+.list_adap_date5 .time span{display:block;text-align:center;font-size:14px;color:#fff;}
+.list_adap_date5 .time span.day{font-size:24px;padding-top:2px;}
+.list_adap_date5 .info h4{font-size:15px;font-weight:normal;margin:0;line-height:25px;}
+.list_adap_date5 .info h4 a{font-size:15px;}
+</style>
+<ul class="list_adap_date5">
+	<!--{foreach $list $value}-->
+	<li>
+		<div class="media item">
+			<div class="time">
+				<span class="day"><!--{php echo date('d', $value['timestamp']);}--></span>
+				<span class="month"><!--{php echo date('m月', $value['timestamp']);}--></span>
+			</div>
+			<div class="media-body info">
+				<h4 class="item-tit"><a href="$value[url]" target="_blank">$value[title]<span class="cDBlue">【详细】</span></a></h4>
+			</div>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->
+

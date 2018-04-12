@@ -1,0 +1,71 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module header}-->
+<div class="mainfluid">
+	<div class="mtab">
+		<div class="list_box">
+			<div class="head">
+				<span class="over"><a href="$this_router-favory">我的文章收藏</a></span>
+			</div>
+		</div>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table">
+			<tr class="head">
+				<td>标题</td>
+				<td>发布时间</td>
+				<td>收藏时间</td>
+				<td>操作</td>
+			</tr>
+			
+			<!--{foreach $list $k $v}-->
+			<tr>
+				<td class="al"><a href="{$this_module.controller}-view-id-$v[id]" target="_blank">$v[title]</a></td>
+				<td><!--{php echo date('Y-m-d', $v['timestamp']);}--></td>
+				<td><!--{php echo date('Y-m-d', $v['cts']);}--></td>
+				<td>
+					<a href="###" id="item_$v[id]" onclick="delete_message([this.id])">删除</a>
+				</td>
+			</tr>
+			<!--{/foreach}-->
+			
+			<tr>
+				<td align="center" colspan="6" class="pages">
+					$pages
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+<!--
+function delete_message(array){
+	var id = [];
+	$.each(array, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	
+	if(!id.length) return false;
+	
+	if(confirm('{$P8LANG['confirm_to_delete']}')){
+		$.ajax({
+			url: '$this_router-favory',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({request_type: 'del', id: id}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				
+				for(var i in json){
+					$('#item_'+ json[i]).parent().parent().remove();
+				}
+			}
+		});
+	}
+}
+//-->
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

@@ -1,0 +1,311 @@
+<!--{php168}-->
+<table width="100%" class="hover_table">
+	<tr>
+		<td class="tdL">{$P8LANG['system']}</td>
+		<td class="tdR">
+			<select name="system" id="system" onchange="if(this.value){ _get_modules(this.value); _change_roles(this.value);}">
+				<option value="core"{if !empty($data['system']) && $data['system'] == 'core'} selected{/if}>{$P8LANG['core']}</option>
+				</option>
+				<!--{foreach $core->systems $k $v}-->
+				<option value="$k"{if !empty($data['system']) && $data['system'] == $k} selected{/if}>{$v['alias']}</option>
+				<!--{/foreach}-->
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="tdL">{$P8LANG['module']}</td>
+		<td class="tdR">
+			<select name="module" id="module" onchange="_module=this.value;">
+				<option value="" class="_top_option">{$P8LANG['null']}</option>
+			</select>
+			<span class="help">{$P8LANG['label_scope_note']}</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="tdL">{$P8LANG['label_postfix']}</td>
+		<td class="tdR"> <input type="text" class="txt" name="postfix" id="postfix" value="{if !empty($data['postfix'])}{$data['postfix']}{/if}" /> {$P8LANG['label_postfix_note']} </td>
+	</tr>
+	<tr>
+		<td class="tdL">{$P8LANG['label_name']}</td>
+		<td class="tdR">
+			<!--{if empty($data['name'])}-->
+			<input type="text" class="txt" name="name" id="name" value="{if !empty($name)}$name{/if}" size="30" />
+			<!--{else}-->
+			<input type="text" class="txt" name="name" value="{$data['name']}" size="30" readonly="readonly" />
+			<!--{/if}-->
+		</td>
+	</tr>
+	<tr>
+		<td class="tdL"> {$P8LANG['label_ttl']} </td>
+		<td class="tdR">
+			<input type="text" class="txt" id="ttl" name="ttl" value="{if isset($data['ttl'])}{$data['ttl']}{else}300{/if}" size="8" />
+			<input type="button" value="5分钟" onclick="$('#ttl').val(300)" />
+			<input type="button" value="1小时" onclick="$('#ttl').val(3600)" />
+			<input type="button" value="1天" onclick="$('#ttl').val(86400)" /> 
+			<input type="button" value="即时" onclick="$('#ttl').val(-1)" />
+			<span class="help">{$P8LANG['label_ttl_note']}</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="tdL"> {$P8LANG['label_allowed_roles']} </td>
+		<td class="tdR">
+			<script type="text/javascript">
+				var roles_json = <!--{php
+				$core->get_cache('role');
+				echo jsonencode($core->roles);
+				}-->;
+				var allowed_roles_json = <!--{if !empty($data['option']['allowed_roles'])}-->{jsonencode($data['option']['allowed_roles'])}<!--{else}-->{}<!--{/if}-->;
+			</script>
+			<select name="option[allowed_roles][]" id="allowed_roles" style="height: 100px;" multiple onclick="if(this.value == 0) this.selectedIndex = -1;">
+				<option value="0">-----</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="tdL">{$P8LANG['label_bgcolor']}</td>
+		<td class="tdR">
+			<input type="text" name="option[bgcolor]" size="6" value="{if !empty($option['bgcolor'])}$option[bgcolor]{/if}" id="bgcolor" class="iColorPicker" onclick="iColorShow('bgcolor','bgcolor', function(v){ $('#titlecolor').val(v);})"/>
+		</td>
+	</tr>
+	<tr>
+		<td class="tdL">包含子分类<span class="help">一般不选，只埴写大栏目ID并勾选等效于选择大栏目下的所有子栏目</span></td>
+		<td class="tdR">
+			<input type="checkbox" name="option[include_sub_category]" value="1"{if !empty($option['include_sub_category'])} checked{/if} />
+		</td>
+	</tr>
+	<tr>
+		<td class="tdL">{$P8LANG['label_hide']}</td>
+		<td class="tdR">
+			<input type="checkbox" name="option[hide]" value="1"{if !empty($option['hide'])} checked{/if} />
+		</td>
+	</tr>
+	<tr>
+		<td class="tdL">{$P8LANG['label_ssi']}</td>
+		<td class="tdR">
+			<input type="checkbox" name="option[ssi]" value="1"{if !empty($option['ssi'])} checked{/if}{if empty($core->CONFIG['ssi'])} disabled{/if} />
+			<span class="help">{$P8LANG['label_ssi_note']}</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="tdL">{$P8LANG['label_env']}</td>
+		<td class="tdR">
+			<input type="checkbox" name="env" value="mobile" {if !empty($data['env']) && $data['env']=='mobile'} checked{/if} />{$P8LANG['label_mobile']}
+		</td>
+	</tr>
+	<!--{if !empty($data['site'])}-->
+	<tr>
+		<td class="tdL">站点</td>
+		<td class="tdR">
+			<input type="text" readonly name="site" value="{if !empty($data['site'])}{$data['site']}{elseif isset($_GET['site'])}{$_GET['site']}{/if}" />
+		</td>
+	</tr>
+	<!--{/if}-->
+</table>
+
+<input type="hidden" name="_referer" value="$HTTP_REFERER" />
+<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" />
+<input type="hidden" name="place_holder_width" value="{if isset($_GET['place_holder_width'])}{$_GET['place_holder_width']}{elseif !empty($data['option']['place_holder_width'])}{$data['option']['place_holder_width']}{/if}" />
+
+<input type="hidden" name="place_holder_height" value="{if isset($_GET['place_holder_height'])}{$_GET['place_holder_height']}{elseif !empty($data['option']['place_holder_height'])}{$data['option']['place_holder_height']}{/if}" />
+
+<input type="hidden" name="verify" value="0" />
+
+
+<script type="text/javascript">
+var attachment_hash = '<!--{php echo $attachment_hash = unique_id(16);}-->';
+var use_core_roles_only = <!--{if !empty($core->CONFIG['use_core_roles_only'])}-->true<!--{else}-->false<!--{/if}-->;
+
+var form_submit = false;
+var template_dialog;
+var template_selector;
+$(function(){
+	
+	$('#form').validate({
+		rules: {
+			name: {
+				required: true,
+				valid_name: true,
+				remote: {
+					url: P8CONFIG.admin_controller +'/core/label-check',
+					type: 'post',
+					data: {
+						system: function(){return $('#system').val();},
+						module: function(){return $('#module').val();},
+						postfix: function(){return $('#postfix').val();},
+						env: function(){return $('#env').val();},
+						name: function(){return $('#name').val();}
+					},
+					beforeSend: function(){
+						ajaxing({});
+					},
+					complete: function(){
+						ajaxing({action: 'hide'});
+					}
+				}
+			}<!--{if $data['type'] == 'sql' || $data['type'] == 'module_data'}-->,
+			'option[template]': {
+				required: true
+			}
+			<!--{/if}-->
+		},
+		
+		messages: {
+			name: {
+				required: '$P8LANG[label_name_can_not_be_empty]',
+				remote: '$P8LANG[label_duplicate]',
+				valid_name: ''
+			}<!--{if $data['type'] == 'sql' || $data['type'] == 'module_data'}-->,
+			'option[template]': {
+				required: '$P8LANG[label_template_can_not_be_empty]'
+			}
+			<!--{/if}-->
+		},
+		
+		submitHandler: function(){
+			form_submit = true;
+			$('#form').get(0).submit();
+		},
+		
+		onkeyup: false
+	});
+	
+	$.validator.addMethod('valid_name', function(value, element){
+		return !/'/g.test(value);
+	});
+	
+	<!--{if !empty($data['system'])}-->
+	_get_modules('{$data['system']}', '{$data['module']}');
+	<!--{else}-->
+	_get_modules('core');
+	<!--{/if}-->
+	
+	<!--{if $data['type'] == 'module_data' || $data['type'] == 'sql'}-->
+	$('#form input[name=verify]').rules('add', {
+		remote: function(){
+			
+			return {
+				url: '$this_url?action=preview&_verify=1',
+				type: 'post',
+				data: $('#form').serialize(),
+				beforeSend: function(){
+					ajaxing({});
+				},
+				complete: function(){
+					ajaxing({action: 'hide'});
+				}
+			}
+		},
+		messages: {
+			remote: '{$P8LANG['label_template_syntax_error']}'
+		}
+	});
+	
+	$('#form #tplcode').change(function(){
+		$('#form input[name=verify]').val(Math.random());
+	}).textarea_tab();
+	
+	<!--{/if}-->
+	
+template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 350,
+	ok: function(){
+		$('#template').val(template_selector.value);
+		$('#templateshowimg').attr('src', P8CONFIG.RESOURCE +'/{$core.CONFIG['template_dir']}label/'+ template_selector.value +'.jpg');
+		$('#tplcode').val('');
+		$('#form input[name=verify]').val(Math.random());
+	},
+	show: function(){
+		template_selector.init();
+	}
+});
+
+template_selector = new Template_Selector({
+	base_dir: 'label/',
+	template_dir: '{$core.CONFIG['template_dir']}',
+	selected: $('#template').val(),
+	dialog: template_dialog
+});
+});
+
+function _get_modules(s, selected){
+	_system = s;
+	ajaxing({});
+	
+	get_modules(s, function(json){
+		ajaxing({action: 'hide'});
+		$('#module').attr('length', 1);
+		
+		for(var i = 0; i < json.length; i++){
+			$('#module').append($('<option value="'+ json[i].name +'"'+ (selected == json[i].name ? ' selected' : '') +'>'+ json[i].alias +'</option>'));
+		}
+	});
+}
+
+
+function explain_sql(){
+	$.ajax({
+		url: '$this_url?action=explain',
+		type: 'post',
+		cache: false,
+		data: $('#form').serialize(),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(data){
+			ajaxing({action: 'hide'});
+			$('#explain').html(data);
+		}
+	});
+}
+
+function preview(){
+	$.ajax({
+		url: '$this_url?action=preview',
+		type: 'post',
+		cache: false,
+		data: $('#form').serialize(),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(data){
+			ajaxing({action: 'hide'});
+			$('#explain').html(data);
+		}
+	});
+}
+
+
+function useThisTpl(){
+	var tpl=$('#template').val();
+	$('#tplcode').show();
+	$('#toshow').hide();
+	
+	$.ajax({
+		type:'POST',
+		url:'{$core.admin_controller}/core/label-edit_template',
+		datatype: 'html',
+		cache: false,
+		data:'bdir=label/&tpl='+tpl,
+		success:function(mesg){
+			$('#tplcode').val(mesg); 
+		}
+	});
+}
+
+<!--{if !empty($data['system']) && empty($core->CONFIG['use_core_roles_only'])}-->
+	_change_roles({$data['system']});
+<!--{else}-->
+	_change_roles('core');
+<!--{/if}-->
+
+
+window.onbeforeunload = function(){
+	P8_Upload.del(form_submit);
+};
+</script>
+
+<input type="hidden" name="attachment_hash" value="$attachment_hash" />
+<!--{/php168}-->

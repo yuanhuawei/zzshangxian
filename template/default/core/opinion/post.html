@@ -1,0 +1,293 @@
+<!--{php168}-->
+<!--{php $TITLE = '意见征集  - ';}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/css/style.css">
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/css/style_opinion.css">
+<div class="maincon">
+	<div class="container">
+		<div id="main2">
+			<div class="add-inner">
+				<div id="breadcrumb">
+					<p>您现在的位置：<a href="{$core.url}">首页</a>&gt;&gt; <span class="current"> <a href="{$this_router}-list">网络问政</a>&gt;&gt; <a>意见征集</a></span></p>
+				</div>
+				<div id="page_recommendation_proposal">
+					<div class="article">
+						<h1 class="article-title">{$data['title']}</h1>
+						<div class="article-header">
+							<p style="margin:0;"><span>发布时间：<!--{php echo date('Y年m月d日',$data['timestamp']);}--></span> 
+								<span style="color:#C3010A">截止时间：<!--{php echo date('Y年m月d日',$data['endtime']);}--></span>
+								<span class="text-size">【字体：<i id="small-font" onclick="$('#article-content').css({'font-size':'10px'})">小</i> <i id="large-font"  onclick="$('#article-content').css({'font-size':'16px'})">大</i>】</span>
+								<!--{if $manager}-->
+									<span style="cursor: pointer;" id="operation">操作</span>
+									<script type="text/javascript">
+										init_operation(
+												   {'编辑':"{$core.admin_controller}/core/{$this_module.name}-update?id={$data['id']}",
+													'删除':"{$core.admin_controller}/core/{$this_module.name}-delete?id={$data['id']}",
+													'更多': "{$core.admin_controller}/core/{$this_module.name}-item"
+													},'operation');
+									</script>
+								<!--{/if}-->
+							</p>
+						</div>
+						<div class="article-content" id="article-content"> {$data['content']} </div>
+					</div>
+					<!--{if !empty($data['endtime']) && $data['endtime']>P8_TIME}-->
+					<div class="section-block" id="section_myadvice">
+						<h2 class="tabs-nav tabs-border"><span class="active first">我的意见建议</span></h2>
+						<div class="section-bd content-border">
+							<form id="theForm" name="theForm" action="{$this_url}" class="form comment-form form-horizontal" method="post">
+								<div class="form-item inline-item">
+									<label for="yourname">您的姓名&nbsp;&nbsp;</label>
+									<div class="form-filed">
+										<input type="text" class="yourname form-text" id="commentUsername" name="commentUsername">
+									</div>
+								</div>
+								<div class="form-item inline-item">
+									<label for="commentEmail">电子邮箱&nbsp;&nbsp;</label>
+									<div class="form-filed">
+									<input type="text" class="yourname form-text" id="commentEmail" name="commentEmail">
+								</div>
+								</div>
+								<div class="form-item inline-item">
+									<label for="cotact-way">联系电话&nbsp;&nbsp;</label>
+									<div class="form-field">
+										<input type="text" class="cotact-way form-text" id="mobile" name="mobile">
+									</div>
+								</div>
+								<div class="form-item">
+									<label for="comment-mes"><span class="icon-required">*</span>内&nbsp;&nbsp;&nbsp;&nbsp;容&nbsp;&nbsp;</label>
+									<div class="form-field">
+										<textarea rows="10" cols="30" class="comment-mes" id="commentContnet" name="commentContnet"></textarea>
+									</div>
+								</div>
+								<!--{if $data['captcha']}-->
+								<div class="form-item">
+									<label for="codetext"><span class="icon-required">*</span>验&nbsp;证&nbsp;码&nbsp;&nbsp;</label>
+									<div class="form-field form-code-text-wrap">
+										<input type="text" name="captcha" class="codetext form-text" id="commentValidCode" />
+										&nbsp;<span id="captcha"></span>
+										<script type="text/javascript">
+											captcha($('#captcha'), $('#form input[name="captcha"]'));
+										</script>
+									</div>
+								</div>
+								<!--{/if}-->
+								<div class="form-action action-left clearfix">
+									<input type="hidden" name="iid" value="{$data['id']}" />
+									<input type="button" value="提 交" onclick="addComment()" class="inputbtn p-redbtn">
+									<p>注：请务必提交完整材料以及联系方式。带<span class="icon-required">*</span>为必填项</p>
+								</div>
+							</form>
+						</div>
+					</div>
+					<!--{/if}-->
+					<div class="section-block" id="section_comment">
+						<h2 class="tabs-nav tabs-border"><span class="active first">意见建议列表</span></h2>
+						<div class="section-bd">
+							<div class="pager-content">
+								<!--{if empty($dataList)}-->
+								没有相关数据
+								<!--{else}-->
+								<ul class="comment-list" id="comment-list">
+								  <!--{foreach $dataList $list}-->
+								  <li id="gbs_$list[id]">
+									<p class="ads">作者：<span>{if empty($list['name'])}游客{else}$list[name]{/if}</span> 发布时间：<span>
+									  <!--{php echo date('Y-m-d H:i',$list['timestamp']);}-->
+									  </span>
+									  <!--{if $manager}-->
+									  <span>邮箱：$list[email]</span>
+									  <span>联系电话：$list[mobile]</span>
+									  状态：<span class="verify_status"><span class="status_{$list['status']}">{$P8LANG['status_'.$list['status']]}</span>
+									  </span>
+									  <!--{/if}-->
+									  <!--{if $list['accept']}-->&nbsp;<span class="accet_status" id="accept_status_{$list['id']}">采纳建议</span><!--{/if}-->
+									  <span class="fr">
+									  <!--{if $manager}-->
+									  
+										<a href="javascript:;" onclick="_verify_data($list[id],$list[status])">审核</a>&nbsp;
+										<a href="javascript:;" onclick="_accept_data($list[id],$list[accept])" ><!--{if $list['accept']}-->已采纳<!--{else}-->采纳<!--{/if}--></a>
+										<a href="javascript:;" onclick="_edit_data($list[id])">编辑</a>&nbsp;
+										<a href="javascript:;" onclick="_delete_data($list[id])">删除</a>&nbsp;
+										<!--{/if}-->
+									 </span>
+									 
+									</p>
+									<p class="ads-content">$list[content]</p>
+									<p class="bds">
+										<span class="accept_desc" id="accept_desc_{$list['id']}">
+										<!--{if $list['accept']}-->					
+										<strong>采纳原因：</strong><!--{$list['accept_desc']}-->
+										<!--{else}-->
+										<strong>&nbsp;</strong>
+										 <!--{/if}-->
+										 </span>
+										<a href="javascript:;" onclick="_comment_data($list[id])" style="display:none">评论</a>
+										<a href="javascript:;" onclick="setup(this,$list[id],'up')">支持<span>{if $list['up']}($list[up]){/if}</span></a>&nbsp;
+										<a href="javascript:;" onclick="setup(this,$list[id],'down')">反对<span>{if $list['down']}($list[down]){/if}</span></a>&nbsp;</p>
+								  <!--{if !empty($comments[$list['id']])}-->
+									<div class="comment_box" id="comment_box_4"><p>你的评论：<input type="text" id="comment_4" name="" style="width:600px"> <input type="button" onclick="_comment_post(4)" value="发布"> &nbsp;<a onclick="$('#comment_box_4').hide();" href="javascript:;">取消</a></p>
+										<!--{foreach $comments[$list['id']] $com}-->
+										<p>$com[content]<p>
+										<!--{/foreach}-->
+									</div>
+								  <!--{/if}-->
+								  </li>
+								  <!--{/foreach}-->
+								</ul>
+								<!--{/if}-->
+							</div>
+							<div class="pages pagecss">$pages</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		 </div>
+	</div>
+</div>
+<script type="text/javascript">
+	var VSTATUS = {'0':'未审核','1':'审核通过 ','2':'审核不通过 '};
+	var p = 0;
+	function addComment(){
+		if(p){alert('你已发布过，请不要提交太频繁');return;}
+		if($('#commentEmail').val().length<5){
+			//alert('标题必须大于5个字符');	return false;
+		}
+		if($('#commentUsername').val().length<1){
+			//alert('姓名必填');	return false;
+		}
+		if($('#commentContnet').val().length<10){
+			alert('内容必须大于10个字符');	return false;
+		}
+		 <!--{if $data['captcha']}-->
+		if($('#commentValidCode').val()==''){
+			alert('验证码必填');	return false;
+		}
+		 <!--{/if}-->
+		 $.ajax({
+			url: '{$this_url}',
+			data:$('#theForm').serialize(),
+			type: 'post',
+			dataType: 'json',
+			success: function(result){ 
+				if(!result.error){ 
+					shtml = '<li id="gbs_'+result.data.id+'"><p class="ads">作者：<span>'+result.data.name+'</span> 发布时间：<span>'+result.data.time+'</span>{if $manager} 状态：<span class="verify_status"><span class="status_'+result.data.status+'">'+VSTATUS[result.data.status]+'</span></span> <span class="fr"><a href="javascript:;" onclick="_verify_data('+result.data.id+','+result.data.status+')">审核</a>&nbsp;<a href="javascript:;" onclick="_edit_data('+result.data.id+')">编辑</a>&nbsp;<a href="javascript:;" onclick="_delete_data('+result.data.id+')">删除</a></span>{/if}</p><p class="ads-content">'+result.data.content+'</p>  </li>';
+					$(shtml).prependTo($('#comment-list'));
+					theForm.reset();
+					p=1;
+					alert('发布成功');
+					}else{ 
+					alert(result.error);
+				} 
+			}
+		})
+	}
+	 <!--{if $manager}-->
+	 var verify_dialog = new P8_Dialog({
+		title_text: '审核建议',
+		width: 250,
+		height: 150
+	});
+	function _verify_data(id,st){
+		verify_dialog.show();
+		verify_dialog.set_title('审核建议');
+		verify_dialog.content.html('<form id="verify_form"><p><input type="radio" name="status" value="1" '+(st==1?'checked':'')+'>通过审核 <input type="radio" name="status" value="2" '+(st==2?'checked':'')+'>不通过审核</p><p style="text-align:center;margin-top:20px"><input type="button" value=" 确定 " onclick="exec_verify()"/> <input type="button" value=" 取消 " onclick="verify_dialog.close()"/><input type="hidden" name="id" value="'+id+'"/></p></form>');
+		
+		return false;
+	}
+	function exec_verify(){
+		
+		status = $('#verify_form').find('input:checked').val();
+		id = $('#verify_form').find('input[name=id]').val();
+		$.ajax({
+			url: '{$this_router}-verify',
+			data:$('#verify_form').serialize()+"&act=verify",
+			type: 'post',
+			dataType: 'json',
+			success: function(result){ 
+				if(!result.error){ 
+					verify_dialog.close();
+					$('#gbs_'+id+' .verify_status').html('<span class="status_'+status+'">'+VSTATUS[status]+'</span>')
+					$('#gbs_'+id+' .fr').find('a').eq(0).click(function(){ _verify_data(id,status);});
+					alert('审核成功');
+				} 
+			}
+		})
+	}
+	 var edit_dialog = new P8_Dialog({
+		title_text: '编辑建议',
+		width: 820,
+		height: 380
+	});
+	function _edit_data(id){
+		edit_dialog.show();
+		edit_dialog.set_title('编辑建议');
+		edit_dialog.content.load('{$this_router}-edit?id='+id+'&rand='+Math.random());
+		
+		return false;
+	}
+	function _delete_data(id){
+	if(confirm('确定要删除么,不可逆转的哦?')){
+		$.ajax({
+			type:'POST',
+			url:'{$this_router}-delete',
+			data:'id='+id,
+			beforeSend:function(){ajaxing({'text':'正在删除'});},
+			success:function(rid){
+				if(rid){
+					$('#gbs_'+rid).remove();
+					 ajaxing({'text':'删除成功',action: 'hide'});
+				}else{ ajaxing({'text':'删除失败',action: 'hide'});}
+			}
+	});
+		
+		return false;
+	}
+	return false;
+}
+var acced = [];
+function _accept_data(did,a){
+	if(a || acced[did]!=undefined){
+		if(!confirm('此意见已经采纳，确定要取消采纳么？'))return false;
+		$.post('{$this_router}-verify',{id:did,act:'accept',accept:-1},function(ret){ $('#accept_desc_'+did).remove();$('#accept_status_'+did).remove();acced[did]=0;alert('取消采纳成功');});
+	}else{
+		var shtml='<p id="accept_box_'+did+'">采纳原因：<input type="text" style="width:500px" name="" id="accept_desc_'+did+'"/> <input type="button" value="确定" onclick="_accept_post('+did+')"/> &nbsp;<a href="javascript:;" onclick="$(\'#accept_box_'+did+'\').remove();">取消</a></p>';
+		$('#accept_box_'+did).remove();
+		$('#gbs_'+did).append(shtml);
+	}
+}
+function _accept_post(did){
+	$.post('{$this_router}-verify',{id:did,act:'accept',accept:$('#accept_desc_'+did).val()},function(ret){ 
+		$('#gbs_'+did).find('.verify_status').after('<span class="accet_status" id="accept_status_'+did+'">采纳建议</span>');$('#accept_box_'+did).remove();acced[did]=1;alert('采纳成功');});
+}
+	 <!--{/if}-->
+function _comment_data(did){
+	if(!$('#comment_box_'+did).length){
+		$('#gbs_'+did).append('<div id="comment_box_'+did+'" class="comment_box"><p>你的评论：<input type="text" style="width:600px" name="" id="comment_'+did+'"/> <input type="button" value="发布" onclick="_comment_post('+did+')"/> &nbsp;<a href="javascript:;" onclick="$(\'#comment_box_'+did+'\').hide();">取消</a></p></div>');	
+	}
+	else{
+		$('#comment_box_'+did).show();
+	}
+}
+function _comment_post(did){
+	if($('#comment_'+did).val()==''){alert('评论内容不能为空');return false;}
+	$.post('{$this_router}-comment',{id:did,act:'com',content:$('#comment_'+did).val()},function(ret){ alert('评论成功');$('#comment_box_'+did).append('<p>'+$('#comment_'+did).val()+'</p>');$('#comment_'+did).val('')});
+}
+var sup=[];
+function setup(obj,did,t){
+	if(sup[did]!=undefined){alert('你已经表态过了!');return false;};
+	
+	$.post('{$this_router}-comment',{act:t,id:did},function(result){ 
+		if(!result.error){
+			var dd = $(obj).find('span').text().replace(/[^\d]/,'');
+			dd = dd?parseInt(dd)+1:1;
+			$(obj).find('span').html('('+dd+')');
+			sup[did]=1;
+		}else{
+			alert('你已经表态过了');
+		}
+	},'json');
+	
+}
+</script>
+<!--{template $core footer}-->  
+<!--{/php168}-->

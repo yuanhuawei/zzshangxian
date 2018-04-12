@@ -1,0 +1,30 @@
+<!--{php168}-->
+<style type="text/css">
+.list_adap_date9 li{margin-bottom:15px;}
+.list_adap_date9 .datelist{padding:25px;background:#f4f2f4;}
+.list_adap_date9 .datelist .time{width:100px;height:50px;float:left;padding-right:20px;border-right:1px solid #000;text-align:center;}
+.list_adap_date9 .datelist .time span{display:block;font-size:16px;color:#666;}
+.list_adap_date9 .datelist .dinfo{padding-left:30px;}
+.list_adap_date9 .datelist .dinfo h5{font-size:16px;margin:0 0 10px 0;}
+.list_adap_date9 .datelist .dinfo h5 a{color:#666;}
+.list_adap_date9 .datelist .dinfo h5 a:hover{color:#0584D1;}
+.list_adap_date9 .datelist .dinfo .text-grey{font-size:12px;color:#999;}
+</style>
+<ul class="list_adap_date9">
+	<!--{foreach $list $value}-->
+	<li>
+		<div class="media datelist">
+	        <div class="time">
+	            <span class="year"><!--{php echo date('Y年', $value['timestamp']);}--></span>
+	            <span class="date"><!--{php echo date('m月d日', $value['timestamp']);}--></span>
+	        </div>
+			<div class="media-body dinfo">
+				<h5><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h5>
+				<p class="text-grey">$value[summary]</p>
+			</div>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->
+

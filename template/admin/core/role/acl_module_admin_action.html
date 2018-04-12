@@ -1,0 +1,31 @@
+<!--{php168}-->
+<!--{if !empty($infos[$module]['admin_actions'])}-->
+	
+	<tr>
+		<td class="tdL role_name">
+			<input type="checkbox" id="module_$module" onclick="var ___=this.checked;\$(this).parent().parent().next().find('input[type=checkbox]').each(function(){\$(this).prop('checked', ___);})" />
+			<strong><label for="module_$module">{$infos[$module]['alias']}</label></strong> 
+			
+			<!--{if file_exists($this_system->path .'modules/'. $module .'/admin/set_admin_acl.php')}-->
+			<a href="$this_router/$module-set_admin_acl?role_id=$role_id" target="_blank" style="color: #ff0000;">【点击设置详细后台权限】</a>
+			<!--{/if}-->
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="tdR">
+			<table border="0" cellpadding="0" cellspacing="0" class="role_actions">
+				<tr>
+					<td class="actions_list clear_border_bottom" style="padding-left: 40px;">
+						
+						<!--{foreach $infos[$module]['admin_actions'] $k $v}-->
+						<span><input type="checkbox" id="acls[$module][admin_actions][$k]" name="acls[$module][admin_actions][$k]" value="1"{if !empty($acls[$module]['admin_actions'][$k])} checked{/if} /><label for="acls[$module][admin_actions][$k]">$v</label></span>
+						<!--{/foreach}-->
+						
+					</td>
+				</tr>
+			</table>			
+		</td>
+	</tr>
+<!--{/if}-->
+<!--{/php168}-->

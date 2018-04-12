@@ -1,0 +1,229 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+
+<div id="tab_1" class="tab_box mtop20">
+	<div class="head">
+		<span>基本资料</span> <span>LOGO</span>
+	</div>
+	<div class="main profile" style="margin-top:20px">
+		<form action="$this_router-$ACTION" method="post">
+			<div class="content">
+				<table width="100%" border="0" cellspacing="1" cellpadding="5">
+					<tr>
+						<td width="12%"><font color="red">*</font>企业全称:</td>
+						<td width="88%">
+							<input type="text" class="txt" name="name" id="name" value="{$data['name']}" />
+						</td>
+					</tr>
+					
+					<tr>
+						<td><font color="red">*</font>企业性质:</td>
+						<td> <select name="properties">
+								<option value="1" {if !empty($data['properties']) && $data['properties']==1} selected="selected"{/if}>
+								外资(欧美)
+								</option>
+								<option value="2" {if !empty($data['properties']) && $data['properties']==2} selected="selected"{/if}>
+								外资(非欧美)
+								</option>
+								<option value="3" {if !empty($data['properties']) && $data['properties']==3} selected="selected"{/if}>
+								合资(欧美)
+								</option>
+								<option value="4" {if !empty($data['properties']) && $data['properties']==4} selected="selected"{/if}>
+								合资(非欧美)
+								</option>
+								<option value="5" {if !empty($data['properties']) && $data['properties']==5} selected="selected"{/if}>
+								国企
+							</option>
+								<option value="6" {if !empty($data['properties']) && $data['properties']==6} selected="selected"{/if}>
+								民营公司
+							</option>
+								<option value="7" {if !empty($data['properties']) && $data['properties']==7} selected="selected"{/if}>
+								外企代表处
+							</option>
+								<option value="8" {if !empty($data['properties']) && $data['properties']==8} selected="selected"{/if}>
+								政府机关
+							</option>
+								<option value="9" {if !empty($data['properties']) && $data['properties']==9} selected="selected"{/if}>
+									事业单位
+							</option>
+								<option value="10" {if !empty($data['properties']) && $data['properties']==10} selected="selected"{/if}>
+								非盈利机构</option>
+								<option value="11" {if !empty($data['properties']) && $data['properties']==11} selected="selected"{/if}>
+								其它性质</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><font color="red">*</font>从事行业:</td>
+						<td>
+							<span id="industryname">{$data['industryname']}</span>
+							<input type="hidden" id="industry" name="industry" value="{if !empty($data['industry'])}$data[industry]{/if}" />
+							<input type="button" onclick="industries_dialog.show()" value="选择" />
+						</td>
+					</tr>
+					<tr>
+						<td><font color="red">*</font>企业所在地:</td>
+						<td>
+							<span id="cityname">{$data['cityname']}</span>
+							<input type="hidden" id="city" name="city" value="{if isset($data[city])}$data[city]{/if}" />
+							<input type="button" value="选择" onclick="city_dialog.show()" />
+						</td>
+					</tr>
+					<tr>
+						<td>详细地址:</td>
+						<td>
+							<input type="text" class="txt" name="address" id="address" value="{$data['address']}" />
+						</td>
+					</tr>
+					<tr>
+						<td>公司规模:</td>
+						<td>
+							<select name="size">
+									<option value="1" {if !empty($data['size']) && $data['size']==1} selected="selected"{/if}>少于10人</option>
+									<option value="2" {if !empty($data['size']) && $data['size']==2} selected="selected"{/if}>10-50人</option>
+									<option value="3" {if !empty($data['size']) && $data['size']==3} selected="selected"{/if}>50-100人</option>
+									<option value="4" {if !empty($data['size']) && $data['size']==4} selected="selected"{/if}>100-500人</option>
+									<option value="5" {if !empty($data['size']) && $data['size']==5} selected="selected"{/if}>500人以上</option>
+								</select>人
+						</td>
+					</tr>
+					<tr>
+						<td><font color="red">*</font>创办时间:</td>
+						<td>
+							<input type="text" class="txt" id="foundtime" name="foundtime" value="{if !empty($data['foundtime'])}{date('Y-m-d',$data['foundtime'])}{/if}" onclick="rcalendar(this, 'dateonly');" />
+						</td>
+					</tr>
+					<tr>
+						<td>注册资金:</td>
+						<td>
+							<input type="text" class="txt" name="money" id="money" value="{$data['money']}" />
+							万元 </td>
+					</tr>
+					<tr>
+						<td><font color="red">*</font>邮编:</td>
+						<td>
+							<input type="text" class="txt" name="postalcode" id="postalcode" value="{$data['postalcode']}" />
+						</td>
+					</tr>
+					<tr>
+						<td><font color="red">*</font>联系人:</td>
+						<td>
+							<input type="text" class="txt" name="contact" id="contact" value="{$data['contact']}" />
+						</td>
+					</tr>
+					<tr>
+						<td>电话:</td>
+						<td>
+							<input type="text" class="txt" name="telephone" id="telephone" value="{$data['telephone']}" />
+						</td>
+					</tr>
+					<tr>
+						<td>电子邮箱:</td>
+						<td>
+							<input type="text" class="txt" name="email" id="email" value="{$data['email']}" />
+						</td>
+					</tr>
+					<tr>
+						<td><font color="red">*</font>官方网址:</td>
+						<td>
+							<input type="text" class="txt" name="website" id="website" value="{$data['website']}" />
+						</td>
+					</tr>
+					<tr>
+						<td>企业介绍:</td>
+						<td>
+							<textarea class="txt" rows="5" cols="50" name="introduction"><!--{if !empty($data['introduction'])}-->$data[introduction]<!--{/if}--></textarea>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="content">
+				<table width="100%" border="0" cellspacing="1" cellpadding="5">
+					<tr>
+						<td width="20%"><img src="$data[logo]" id="icon_img" width="100" height="120" onerror="this.src='{$MEMBERSKIN}/nomenpic.gif'"/><br />
+							<input type="text" name="logo" id="icon" value="{$data['logo']}" size="35" onchange="$('#icon_img').attr('src', this.value)" />
+							&nbsp;
+							<input type="button" value="上传" onclick="icon_uploader.choseup()"  />
+							<a href="###" onclick="icon_uploader.image_cut()">[$P8LANG[image_cut]]</a><br />
+							注：允许上传格式为.jpg .gif，图片大小不可超过500k
+							<input type="hidden" name="attachment_hash" value="<!--{php echo $attachment_hash = unique_id(16);}-->" />
+							<script type="text/javascript">
+						var attachment_hash = '$attachment_hash';
+						var icon_uploader;
+						
+						$(function(){
+							
+							icon_uploader = new P8_Upload({
+								element: {
+									src: $('#icon'),
+									attribute: 'value'
+								},
+								param: {
+									return_thumb: true
+								},
+								callback: function(json){
+									$('#icon').attr('src', json.attachments[0].file);
+								}
+							});
+						});
+						</script>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div style="padding-left:150px">
+				<input type="hidden" name="ac" value="$ac" />
+				<input type="submit" name="button2" id="button2" value="提交" class="submit_btn"/>
+			</div>
+		</form>
+	</div>
+</div>
+<script src="{$RESOURCE}/js/recursive_selector.js" type="text/javascript"></script>
+<script type="text/javascript">
+// 选项卡
+
+
+		   
+	MoveTabs("tab_1");
+
+
+	var industries_dialog = new P8_Dialog({
+		title_text: "选择行业(最多只能选1项)",
+		button: true,
+		width: 700,
+		height: 550,
+		url: "{$this_system.modules['category']['controller']}-select?m=industry&n=1",
+		ok: function(){
+			text = $('#selected_industry').text();
+			ids = [];
+			$('#selected_industry').find('input').each(function(){
+				ids.push($(this).val());													  
+			});
+			$('#industryname').html(text);
+			$('#industry').val(ids.join(','));
+		}
+	});
+	
+	var city_dialog = new P8_Dialog({
+		title_text: "选择城市(最多只能选1项)",
+		button: true,
+		width: 500,
+		height: 400,
+		url: "{$this_system.modules['category']['controller']}-city?n=1",
+		ok: function(){
+			text = $('#selected_city').text();
+			ids = [];
+			$('#selected_city').find('input').each(function(){
+				ids.push($(this).val());													  
+			});
+			$('#cityname').html(text);
+			$('#city').val(ids.join(','));
+		}
+	});
+</script>
+<div class="clear">
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

@@ -1,0 +1,12 @@
+<?php
+defined('PHP168_PATH') or die();
+
+/**
+* Ä£ÐÍÖ÷Ò³
+**/
+
+/**
+* your code
+**/
+
+include template($this_module, $MODEL .'_index.php');

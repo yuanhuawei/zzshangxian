@@ -1,0 +1,39 @@
+<!--{php168}-->
+<table width="100%" border="0" cellspacing="1" cellpadding="0" class="label_ul_b" bgcolor="#ffffff" style="text-align:center;font-size:12px">
+	<tr  height="18" class="head title" style="color:#996706">	
+		<!--{foreach $option['fields'] $field}-->
+		<td bgcolor="#E7D7BD" align="center">{$this_model['fields'][$field]['alias']}</td>
+		<!--{/foreach}-->
+		<td bgcolor="#E7D7BD" align="center">来信时间</td>
+		<td bgcolor="#E7D7BD" align="center">状态</td>
+		<td bgcolor="#E7D7BD" align="center">详细情况</td>
+	</tr>
+	<!--{foreach $list $key $value}-->
+	<tr id="item_$value[id]" {if $key%2}style="background-color:#F5F5F5"{/if}>
+		
+		<!--{foreach $option['fields'] $field}-->
+		<td>
+			<!--{if !empty($value[$field]) && ($this_model['fields'][$field]['widget']=='radio' || $this_model['fields'][$field]['widget']=='select' || $this_model['fields'][$field]['widget']=='city')}-->
+						{$this_model['fields'][$field]['data'][$value[$field]]}
+			<!--{elseif !empty($value[$field]) && ($this_model['fields'][$field]['widget']=='checkbox' || $this_model['fields'][$field]['widget']=='multi_select')}-->
+				<!--{foreach $value[$field] $v}-->
+							{$this_model['fields'][$field]['data'][$v]}, 
+				<!--{/foreach}-->
+			<!--{elseif !empty($value[$field]) && $this_model['fields'][$field]['widget']=='link'}-->
+				<a href="{$value[$field]}" target="{if !empty($this_model['fields'][$field]['widget']['data']['target'])}{$this_model['fields'][$field]['widget']['data']['target']}{/if}">{$this_model['fields'][$field]['alias']}</a>
+			<!--{elseif isset($value[$field])}-->
+				{$value[$field]}
+			<!--{/if}-->
+			<!--{if !empty($this_model['fields'][$field]['units'])}-->
+			{$this_model['fields'][$field]['units']}
+			<!--{/if}-->
+		</td>
+		<!--{/foreach}-->
+		<td align="center">{date('Y-m-d',$value['timestamp'])}</td>
+		<td style="color:#990000;text-align:center">{$this_module.CONFIG['status'][$value[status]]}</td>
+		<td align="center"><a href="$value[url]" target="_blank">更多&gt;&gt;</a></td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+<!--{/php168}-->
+

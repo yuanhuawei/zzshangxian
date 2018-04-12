@@ -1,0 +1,160 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['operation']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					<ul>
+						<li><a href="{$core.admin_controller}/core-allow_ip">后台登陆ip限定</a></li>
+						<li><a href="{$core.admin_controller}/core-stop_ip">IP黑名单</a></li>
+						<li><a href="{$core.admin_controller}/core-word_filter">词语过滤</a></li>
+						<li><a href="{$core.admin_controller}/core-md5_files">文件改动扫描</a></li>
+						<li><a href="{$core.admin_controller}/core-global_config">后台路径/验证码/安全码设置</a></li>
+						<li><a href="{$core.admin_controller}/core-aboutlogin">登陆失败设置</a></li>
+					</ul>
+				</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td colspan="5" class="title">敏感词搜索</td>
+			</tr>
+			
+			<tr>
+				<td colspan="5">
+				<form action="$this_url" method="get">
+					<input type="text" class="txt" size = "38" name="keyword" value="{if !empty($keyword)}$keyword{/if}" />
+					<input type="submit" value="搜索" class="submit_btn"/>
+				</form>				
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<form action="$this_url" method="post" id="form">
+			<table class="columntable formtable hover_table click_changeable">
+				<tr class="title">
+					<td class="title" width="5%"><input type="checkbox" onclick="check_all(this,'id[]');init_tr($('#form'));" /></td>
+					<td class="title">敏感词</td>
+				</tr>
+				
+				<!--{foreach $filter_words $v}-->
+				<tr id="word_$v[id]">
+					<td><input type="checkbox" name="id[]" value="$v[id]" /></td>
+					<td>
+						<input type="text" class="new_name" name="$v[id]" value="$v[filter_word]" />
+					</td>
+				</tr>
+				<!--{/foreach}-->
+				
+				<tr id="clone">
+					<td></td>
+					<td>
+						<input type="text" name="word[]" value="" />
+					</td>
+				</tr>
+				
+				<tr id="add">
+					<td></td>
+					<td>
+						<input type="button" value="{$P8LANG['add']}" class="submit_btn" onclick="add()" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="5" align="center">
+						<input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/>
+						<input type="button" value="删除选中" onclick="deleteAll();" class="submit_btn"/>
+						<input type="button" value="导出词库" onclick="window.location='$this_url?type=export'" class="submit_btn"/>
+						<input type="button" value="导入词库" onclick="window.location='$this_url?type=import'" class="submit_btn"/>
+					</td>
+				</tr>
+			</table>
+			<div id="new_word"></div>
+		</form>
+		<div id="page" class="pages">$pages</div>
+	</div>
+</div>
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['help_about']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					一行一个关键字。中间如要匹配，可以写 “和.{0,3}谐”,这样就会把“和谐”中间包含的3个字一起过滤。
+				</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+function add(){
+	var copy = $('#clone').clone(true).show();
+	
+	copy.insertBefore($('#add')).find('input').val('');
+}
+
+function _delete(array){
+	var id = [];
+	$.each(array, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	
+	if(!id.length) return false;
+	
+	if(confirm('{$P8LANG['confirm_to_delete']}')){
+		$.ajax({
+			url: '$this_url',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({type: 'del', id: id}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				
+				for(var i in json){
+					$('#word_'+ json[i]).remove();
+				}
+			}
+		});
+	}
+}
+
+function deleteAll(){
+	var inputs = $("input[name='id[]']:checked");
+	var ids = new Array();
+	for(var i=0;i<inputs.length;i++){
+		ids[i]=$(inputs[i]).attr("value");
+	}
+	_delete(ids);
+}
+
+$('#form input.new_name').change(function(){
+	$(this).css({border: '1px solid #ff0000'});
+	
+	$('#new_word').append($('<input type="hidden" name="new_name['+ $(this).attr('name') +']" value="'+ $(this).val() +'" />'));
+});
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

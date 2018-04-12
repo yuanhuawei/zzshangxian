@@ -1,0 +1,95 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<div class="nav mtop">您的位置：
+<a href="{$core.controller}">首页</a>
+<!--{foreach $parent_cats $v}-->
+&gt;&gt; <a href="$v[url]">$v[name]</a>
+<!--{/foreach}-->
+&gt;&gt; <a href="$CAT[url]">$CAT[name]</a> 
+</div>
+<div class="dt_left">
+<!--{if !empty($subcategories)}-->
+	<div class="border1">
+		<div class="head6">
+			<span class="title7">$label[gov_ar_list_caidang_0001]</span>
+		</div>
+		<div class="main1">$label[ar_list_content_0100]</div>
+	</div>
+	<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[ar_list_title_0100]</span> <span class="more3">$label[gov_ar_list_more_0100]</span>
+		</div>
+		<div class="main1">
+			$label[ar_list_content_0100]
+		</div>
+	</div>
+	<!--{else}-->
+	<div class="border1">
+		<div class="head6">
+			<span class="title7">$label[ar_list_title_01]</span> <span class="more3">$label[gov_ar_list_more_01]</span>
+		</div>
+		<div class="main1">
+			$label[ar_list_content_01]
+		</div>
+	</div>
+	<!--{/if}-->
+	<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[ar_list_title_2]</span> <span class="more3">$label[gov_ar_list_more_2]</span>
+		</div>
+		<div class="main1">
+			$label[ar_list_content_2]
+		</div>
+	</div>
+	<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[ar_list_title_3]</span> <span class="more3">$label[gov_ar_list_more_3]</span>
+		</div>
+		<div class="main1">
+			<div>$label[ar_list_content_3]</div>
+			<div class="mtop6">$label[ar_list_ad_1]</div>
+			<div class="mtop6">$label[ar_list_ad_2]</div>			
+		</div>
+	</div>
+	<div class="mtop6">
+		$label[ar_list_ad_3]
+	</div>
+	<p class="pic_ny">&nbsp;</p>
+</div>
+<div class="dt_right">
+	<!--{if empty($subcategories)}-->
+	<div class="border1">
+		<div class="head5">
+			<strong class="title6">$CAT[name]</strong>
+		</div>
+		<div class="main">
+			<!--{php include template($TEMP_OBJ, $CAT['item_template'], 'label');}-->
+			<div class="mtop pages" id="page">
+				{$pages}
+			</div>
+		</div>
+	</div>
+	<!--{else}-->
+	<!--{foreach $subcategories $v}-->
+	<!--{php $i++;}-->
+	<!--{php if($i>4)break;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+	<div class="border1 mbottom">
+		<div class="head5">
+			<a class="title6" href="$this_url-category-$v[id]">$v[name]</a><a class="more1" href="$this_url-category-$v[id]">More</a>
+		</div>
+		<div class="main">
+			$label[CMS子分类内容列表]{'i.cid' => $subcat, 'model' => $MODEL}
+			<div class="clear"></div>
+		</div>
+	</div>
+	<!--{/foreach}-->
+	<!--{/if}-->
+</div>
+<div class="clear">
+</div>
+<!--{template $core foot_pre}-->
+<!--{template $this_system footer}-->
+<!--{/php168}-->

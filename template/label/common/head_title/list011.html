@@ -1,0 +1,12 @@
+<!--{php168}-->
+<ul class="label_ul_s label_li_first">
+<!--{foreach $list $k $value}-->
+	<!--{if $k==0}-->
+	<li style="font-weight:bold; margin:0 0 5px 5px"><a class="normal_title" target="_blank" title="{$value['full_title']}" href="{$value['url']}">{$value['title']}</a></li>
+	<!--{/if}-->
+	<li>·<a class="normal_title" target="_blank" title="{$value['full_title']}" href="{$value['url']}">{$value['title']}</a></li>
+<!--{/foreach}-->
+<li class="clear"></li>
+</ul>
+<!--{/php168}-->
+

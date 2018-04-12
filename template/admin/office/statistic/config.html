@@ -1,0 +1,32 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<div class="mainbox mainborder">
+<form name="form" id="form" method="post">
+<table width="100%" border="0" cellspacing="1" cellpadding="3" class="columntable formtable click_changeable">
+	<tr class="title">
+		<td colspan="2">设置</td>
+	</tr>
+
+	<tr>
+		<td width="100">警示设置</td>
+		<td>
+		黄灯<input type="text" name="config[huan]" value="{if !empty($config['huan'])}$config[huan]{else}3{/if}"/> <span class="help">N天没处理完毕，黄灯警示。</span><br/>
+		红灯<input type="text" name="config[hong]" value="{if !empty($config['hong'])}$config[hong]{else}7{/if}"/> <span class="help">N天没处理完毕，红灯警示。</span><br/>
+		</td>
+	</tr>
+	
+	<tr>
+	<td></td><td><input type="submit" value="确定" class="submit_btn" /></td>
+	</tr>
+</table>
+<script type="text/javascript">
+function addmore(kind){
+	$('#more_'+kind).append('<p><input name=\"'+kind+'[new][]\" type=\"text\" /><input type="button" value="移除" onclick="removeItem(this)"/></p>');
+}
+function removeItem(obj){
+	$(obj).parent().remove();
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

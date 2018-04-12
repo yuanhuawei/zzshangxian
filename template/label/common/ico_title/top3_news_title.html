@@ -1,0 +1,10 @@
+<!--{php168}-->
+<ul class="infolist18">
+<!--{foreach $list $k $value}-->
+	<li style="$wf;">
+		<span class="label_datatime" style="color:#a4a4a4;"><!--{php echo date('Y-m-d', $value['timestamp']);}--></span><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]<!--{if $k<3}--><img src="{$RESOURCE}/images/top3_news.png"><!--{/if}--></a>
+	</li>
+<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->

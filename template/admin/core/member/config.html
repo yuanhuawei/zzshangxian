@@ -1,0 +1,161 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['operation']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					<ul>
+						<li><a href="{$core.admin_controller}/core-base_config">基本配置</a></li>
+						<li><a href="{$core.admin_controller}/core-global_config">全局配置</a></li>
+						<li><a href="{$core.admin_controller}/core-mobile_config">移动版</a></li>
+						<li><a href="{$core.admin_controller}/core-aboutlogin">后台登陆设置</a></li>
+						<li><a href="{$core.admin_controller}/core-reg_config">注册配置</a></li>
+						<li><a href="{$core.admin_controller}/cms/item-config ">静态与内容设置</a></li>
+						<li><a href="{$core.admin_controller}/core/member-config">会员登陆验证码</a></li>
+						<li><a href="{$core.admin_controller}/core-word_filter">安全设置</a></li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<form action="$this_router-$ACTION" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="formtable hover_table">
+						<tr>
+							<td colspan="2" class="title">会员模块设置</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">会员登陆开启验证码</td>
+							<td class="tdR">
+								<input name="config[login_with_captcha]" type="radio" value="1" {if !empty($config['login_with_captcha'])} checked{/if}/> 开启  <input name="config[login_with_captcha]" type="radio" value="0" {if empty($config['login_with_captcha'])} checked{/if}/> 关闭   
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">充值币种类型<p class="help">用户充值后获得的币种形式</p></td>
+							<td class="tdR">
+								<select name="config[recharge][credit_type]">
+								<!--{foreach $core->credits $id $v}-->
+								<option value="$id"{if !empty($config['recharge']['credit_type']) && $config['recharge']['credit_type'] == $id} selected{/if}>$v[name]</option>
+								<!--{/foreach}-->
+								</select>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">充值金额与币种转化<p class="help">用户充值时，可以快捷选择的默认充值套餐</p></td>
+							<td class="tdR" id="recharge_q">
+								<div id="clone" style="display: none;">
+									金额 <input type="text" value="" size="5" /> 元,&nbsp; 
+									 可获取 <input type="text" value="" size="5" /> 个当前币种&nbsp;&nbsp;
+									<input type="button" value="{$P8LANG['delete']}" />
+								</div>
+								<p class="mtop" >
+								<input type="button" value="{$P8LANG['add']}" onclick="_copy()" />
+								</p>
+								<script type="text/javascript">
+								function _copy(money, credit){
+									var copy = $('#clone').clone().show().attr('id', '');
+									
+									copy.find('input[type=text]:eq(0)').
+									attr('name', 'config[recharge][quantity][money][]').val(money === undefined ? '' : money);
+									
+									copy.find('input[type=text]:eq(1)').
+									attr('name', 'config[recharge][quantity][credit][]').val(credit === undefined ? '' : credit);
+									
+									copy.find('input[type=button]').click(function(){
+										$(this).parent().remove();
+									});
+									
+									$('#recharge_q div:last').after(copy);
+								}
+								
+								$(document).ready(function(){
+									<!--{if !empty($config['recharge']['quantity'])}-->
+									<!--{foreach $config['recharge']['quantity'] $money $credit}-->
+									_copy($money, $credit);
+									<!--{/foreach}-->
+									<!--{/if}-->
+								});
+								</script>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">会员升级</td>
+							<td class="tdR" id="buy_role">
+								<div id="buy_role_clone" style="display: none;">
+								选择付费角色: <select>
+								<!--{foreach $core->roles $id $v}-->
+									<option value="$id">$v[name]</option>
+								<!--{/foreach}-->
+								</select>
+								支付金额: 
+								<input type="text" time="30" value="" size="6" />/1月
+								<input type="text" time="90" value="" size="6" />/3月
+								<input type="text" time="180" value="" size="6" />/6月
+								<input type="text" time="365" value="" size="6" />/1年
+								<input type="button" value="{$P8LANG['delete']}" />
+								</div>
+								<p>
+								<input type="button" value="{$P8LANG['add']}" onclick="_copy_buy_role()" />
+								</p>
+								<script type="text/javascript">
+								function _copy_buy_role(role_id, m1, m3, m6, y1){
+									var copy = $('#buy_role_clone').clone(true).show().attr('id', '');
+									
+									if(role_id !== undefined)
+										copy.find('select').val(role_id);
+									
+									copy.find('select').change(function(){
+										var val = $(this).val();
+										if(val){
+											$(this).attr('name', 'config[buy_role]['+ val +']').
+												parent().find('input[type=text]').attr('name', function(){ return 'config[buy_role]['+ val +']['+ $(this).attr('time') +']'});
+										}else{
+											$(this).attr('name', '').
+												parent().find('input[type=text]').attr('name', '');
+										}
+									}).change();
+									
+									copy.find('input[type=text]:eq(0)').val(m1 === undefined ? '' : m1);
+									copy.find('input[type=text]:eq(1)').val(m3 === undefined ? '' : m3);
+									copy.find('input[type=text]:eq(2)').val(m6 === undefined ? '' : m6);
+									copy.find('input[type=text]:eq(3)').val(y1 === undefined ? '' : y1);
+									
+									copy.find('input[type=button]').click(function(){ $(this).parent().remove();});
+									copy.insertAfter($('#buy_role div:last'));
+								}
+								
+								$(function(){
+									<!--{foreach $config['buy_role'] $role_id $v}-->
+									_copy_buy_role($role_id, '$v[30]', '$v[90]', '$v[180]', '$v[365]');
+									<!--{/foreach}-->
+								});
+								</script>
+							</td>
+						</tr>
+						
+						<tr>
+						  <td class="tdL">&nbsp;</td>
+						  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+						</tr>
+					  
+					</table>
+					  </td>
+				  </tr>
+			</table>
+		</div>
+	</div>
+</form>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

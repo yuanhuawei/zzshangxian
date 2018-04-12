@@ -1,0 +1,12 @@
+<!--{php168}-->
+<ul class="label_pic_ul label_pic_border">
+	<!--{foreach $list $value}-->
+	<li style="padding:7px 10px 0;width:110px;text-align:center">
+		<a href="$value[url]" target="_self" title="$value[full_title]"><img width="110" height="142" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a>
+		<p class="label_pic_title2" style="width:110px;text-align:center;padding-top:10px;"><a  style="center;color:#092a9d;font-weight:bold;" href="$value[url]" target="_self" title="$value[full_title]">$value[name]</a></p>
+		<p style="text-align:center; font-size:12px;width:110px;height:64px;text-align:center;">$value[zhiwu]</p>
+	</li>
+	<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->

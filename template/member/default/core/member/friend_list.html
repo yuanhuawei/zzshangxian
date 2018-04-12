@@ -1,0 +1,143 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+
+<div class="tab_box mtop20">
+	<div class="head">
+		<span class="{if $verified}over{else}out{/if}"><a href="$this_url">我的好友</a></span>
+		<span class="{if $verified}out{else}over{/if}"><a href="$this_url?verified=0">未验证的</a></span>
+		<!--<a class="sendmsg_link_bg" href="javascript:void(0)" onclick="add_friend()">添加好友</a>-->
+	</div>
+</div>
+
+<form method="post" action="" id="form">
+
+<div style="font-size:12px; font-weight:bolder; color:#F00;border-bottom:#EEEEEE 1px solid;padding:0px 0px 10px 0px; margin-top:10px">&rarr; 好友管理</div>
+<table border="1" bordercolor="#DEDEDE" style="font-size:12px; text-align:center;width:100%;line-height:25px;border-collapse:collapse;">
+	<tr bgcolor="#EEEEEE">
+		<td width="3%"><input type="checkbox" onclick="check_all(this, 'fuid[]')" /></td>
+		<td width="10%">用户名</td>
+		<td width="10%">分组</td>
+		<td width="20%">描述</td>
+		<td width="10%">时间</td>
+		<td width="10%">操作</td>
+	</tr>
+	
+	<!--{foreach $list $value}-->
+	<tr id="friend_$value[fuid]">
+		<td><input type="checkbox" name="fuid[]" value="$value[fuid]" /></td>
+		<td>$value[username]</td>
+		<td><!--{if isset($categories[$value['cid']])}-->{$categories[$value['cid']]['name']}<!--{/if}--></td>
+		<td><input type="text" name="name_$value[fuid]" value="$value[description]" /></td>
+		<td>{date('Y-m-d H:i:s', $value['timestamp'])}</td>
+		<td><a href="###" onclick="delete_friend([$value[fuid]])">删除</td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+
+</form>
+
+<div class="edit_box common_mtop" style="margin-top:15px">
+<!--{if $verified}-->
+<select name="cid">
+<option value="0">{$P8LANG['default']}</option>
+<!--{foreach $categories $id $v}-->
+<option value="$id">$v[name]</option>
+<!--{/foreach}-->
+</select>
+<input type="button" value="移动好友" onclick="move_friend(checked_values('fuid[]'))" />
+<!--{else}-->
+<input type="button" value="验证" onclick="verify_friend(checked_values('fuid[]'))" />
+<!--{/if}-->
+<input type="button" value="{$P8LANG['delete']}" onclick="delete_friend(checked_values('fuid[]'));" />
+</div>
+
+<script type="text/javascript">
+function delete_friend(array){
+	var id = [];
+	$(array).each(function(k, v){
+		v += '';
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(!id.length) return;
+	
+	if(!confirm('{$P8LANG['confirm_to_delete']}')) return;
+	
+	$.ajax({
+		url: '$this_router-delete_friend',
+		type: 'post',
+		dataType: 'json',
+		cache: false,
+		data: ajax_parameters({fuid: id, verified: $verified}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i = 0; i < json.length; i++){
+				$('#friend_'+ json[i]).remove();
+			}
+		}
+	});
+}
+
+function verify_friend(array){
+	var id = [];
+	$(array).each(function(k, v){
+		v += '';
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(!id.length) return;
+	
+	if(!confirm('{$P8LANG['confirm_to_do']}')) return;
+	
+	$.ajax({
+		url: '$this_router-friend_verify',
+		type: 'post',
+		dataType: 'json',
+		cache: false,
+		data: ajax_parameters({id: id, value: 1}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i = 0; i < json.length; i++){
+				$('#friend_'+ json[i]).remove();
+			}
+		}
+	});
+}
+
+function move_friend(array){
+	var id = [];
+	$(array).each(function(k, v){
+		v += '';
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(!id.length) return;
+	
+	var cid = $('select[name=cid]').val();
+	
+	$.ajax({
+		url: '$this_router-move_friend',
+		type: 'post',
+		dataType: 'json',
+		cache: false,
+		data: ajax_parameters({fuid: id, cid: cid}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i = 0; i < json.length; i++){
+				$('#friend_'+ json[i]).remove();
+			}
+		}
+	});
+}
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

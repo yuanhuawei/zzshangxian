@@ -1,0 +1,20 @@
+<?php
+return array(
+	'id' => 'ID',
+	'uid' => '用户ID',
+	'username' => '用户名',
+	'name' => '客户类型',
+	'type' => '客户类型',
+	'property' => '客户性质',
+	'content' => '客户说明',
+	'website' => '网址',
+	'address' => '地址',
+	'zipcode' => '邮政编码',
+	'contact' => '联系人',
+	'phone' => '联系电话',
+	'fax' => '传真',
+	'cell_phone' => '手机',
+	'email' => '邮箱',
+	'im' => '即时通讯工具',
+	'timestamp' => '时间',
+);?>

@@ -1,0 +1,59 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+
+<!--content-->
+
+<div class="container">
+
+		$label[content_top_ad]
+</div>
+<div class="container common_mtop">
+	<div class="contain_left">
+		<div class="show_box_1">
+			<div class="sb1_head">
+				<a href="">产品中心</a>
+			</div>
+			<div class="sb1_main">
+				1111111111111<br />
+				1111111111111<br />
+				1111111111111<br />1111111111111<br />
+			</div>
+		</div>
+	
+	</div>
+	<div class="contain_right">	
+	<!--{foreach $subcategories $v}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+		<div class="show_box_2">
+			<div class="sb2_head">
+				<a class="title" href="$this_url-category-$v[id]">$v[name]</a>
+				<a class="more" href="">More</a>
+			</div>
+			<div class="sb2_main">
+				$label[CMS子分类内容列表]{'i.cid' => $subcat, 'model' => $MODEL}
+			</div>
+		</div>
+		<!--{/foreach}-->
+		<!--{if empty($subcategories)}-->
+		<div class="show_box_2">
+			<div class="sb2_head">
+				<a class="title" href="">$v[name]</a>
+				<a class="more" href="">More</a>
+			</div>
+			<div class="sb2_main">
+				<!--{php include template(new stdClass,$CAT['item_template'], 'label');}-->
+				<div id="page">
+					$pages
+				</div>
+			</div>
+		</div>
+		<!--{/if}-->
+	</div>
+
+</div>	
+<div style="clear:both">
+		$label[testlabel]
+		</div>
+
+<!--{template $this_system footer}-->
+<!--{/php168}-->

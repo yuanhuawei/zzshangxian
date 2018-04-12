@@ -1,0 +1,45 @@
+<!--{php168}-->
+<!--{template $this_module header default}-->
+<body>
+<script type="text/javascript">
+<!--
+function check_email(){
+	var email=$('#email_text').val();
+	var captcha=$('#captcha_input').val();
+	var url='{$getpaswdurl}'+'?email='+email+'&captcha='+captcha+'&check_type=email&datetime='+new Date();
+	$.get(url,function(data){
+		if(data=='captcha'){
+			$("#captcha_email").css('visibility','visible');
+		}else if(data=='false'){
+			$("#captcha_email").css('visibility','hidden');
+			$("#message_email").css('visibility','visible');
+		}else{
+			$("#captcha_email").css('visibility','hidden');
+			$("#message_email").css('visibility','hidden');
+		}
+	});
+}
+-->
+</script>
+<form action="" method="post" id="form">
+<div class="getpaswd_box" id="1">
+<div class="head">找回密码</div>
+<div class="msg">请填写注册时的邮箱，密码找回信息将发至邮箱</div>
+<div class="getpaswd_input_box">
+<input type="hidden" name="passwd_data[step]" value="second">
+<div class="each_input">邮箱地址 <input name="email" type="text" id="email_text" /> <font color="#ff0000" id="message_email" style="visibility:hidden;">邮箱不存在</font></div>
+<div class="each_input">验 证 码 <input name="captcha" id="captcha_input" type="text" size="10" /><font color="#ff0000" id="captcha_email"  style="visibility:hidden;">验证码错误</font><span class="right" id="captcha"></span>
+<script type="text/javascript">
+	$(function(){
+		captcha($('#captcha'));
+	});
+</script>
+</div>
+</div>
+<div class="getpaswd_submit"><input name="" type="submit" value="提交"/> <input type="button" value="关闭窗口" onClick="window.close();"/>
+</div>
+</div>
+</form>
+</body>
+</html>
+<!--{/php168}-->

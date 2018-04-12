@@ -1,0 +1,132 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$TITLE</title>
+<meta name="keywords" content="$SEO_KEYWORDS" />
+<meta name="description" content="$SEO_DESCRIPTION" />
+<link rel="stylesheet" type="text/css" href="{$SKDIR}core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/label/label.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/alonepage/style.css" />
+<link rel="Shortcut Icon" href="favicon.ico">
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+</head>
+<body>
+
+<div class="email_frame2">
+	<div class="title"><span class="txt">$label[guanli]</span><span id="header_t"></span><span class="x"><a href=javascript:window.opener=null;window.close()>&nbsp;&nbsp;</a></span>
+	</div>
+	<div class="content">
+		<div class="head_margin">
+			<span class="jixiao">$label[guanli01]</span>
+			<span class="enter1">$label[guanlikan01]</span>
+			<span class="enter1">$label[guanlikan11]</span>
+		</div>
+		<div class="head_margin">
+			<span class="jixiao">$label[guanli02]</span>
+			<span class="enter1">$label[guanlikan02]</span>
+			<span class="enter1">$label[guanlikan22]</span>
+		</div>
+		<div class="head_margin">
+			<span class="jixiao">$label[guanli03]</span>
+			<span class="enter1">$label[guanlikan03]</span>
+			<span class="enter1">$label[guanlikan33]</span>
+		</div>
+		<div class="head_margin">
+			<span class="jixiao">$label[guanli10]</span>
+			<span class="enter1">$label[guanlikan10]</span>
+			<span class="enter1">$label[guanlikan101]</span>
+		</div>
+		<div class="text_tittle">$label[guanli_text_tittle01]</div>
+		<div class="dash2"></div>
+		<div class="head_margin">
+			<span class="jixiao">$label[guanli04]</span>
+			<span class="enter1">$label[guanlikan04]</span>
+			<span class="enter1">$label[guanlikan44]</span>
+		</div>
+		<div class="head_margin">
+			<span class="jixiao">$label[guanli05]</span>
+			<span class="enter1">$label[guanlikan05]</span>
+			<span class="enter1">$label[guanlikan55]</span>
+		</div>
+		<div class="head_margin">
+			<span class="jixiao">$label[guanli06]</span>
+			<span class="enter1">$label[guanlikan06]</span>
+			<span class="enter1">$label[guanlikan66]</span>
+		</div>
+		<div class="head_margin">
+			<span class="jixiao">$label[guanli11]</span>
+			<span class="enter1">$label[guanlikan011]</span>
+			<span class="enter1">$label[guanlikan111]</span>
+		</div>
+		<div class="text_tittle">$label[guanli_text_tittle02]</div>
+		<div class="dash2"></div>
+		<div class="head_margin">
+			<span class="jixiao">$label[guanli07]</span>
+			<span class="enter1">$label[guanlikan07]</span>
+			<span class="enter1">$label[guanlikan77]</span>
+		</div>
+		<div class="head_margin">
+			<span class="jixiao">$label[guanli08]</span>
+			<span class="enter1">$label[guanlikan08]</span>
+			<span class="enter1">$label[guanlikan88]</span>
+		</div>
+		<div class="head_margin">
+			<span class="jixiao">$label[guanli09]</span>
+			<span class="enter1">$label[guanlikan09]</span>
+			<span class="enter1">$label[guanlikan99]</span>
+		</div>
+		<div class="head_margin">
+			<span class="jixiao">$label[guanli12]</span>
+			<span class="enter1">$label[guanlikan12]</span>
+			<span class="enter1">$label[guanlikan121]</span>
+		</div>
+		<div class="clear"></div>
+		<div class="text">
+		   <div class="text_tittle">$label[guanli_text_tittle]</div>
+		   <div class="dash2"></div>
+		   <div class="text_content">$label[guanli_text_content]</div>
+		</div>
+		<div class="text">
+		   $label[guanli_ad]
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+var editlabel = get_cookie('IS_ADMIN');
+if(editlabel !==undefined){
+var thisurl = '{$core.url}';
+var thisuri = '{$LABEL_URL}';
+
+if(thisuri.indexOf('index.php')>-1){
+var _thisuri=thisuri.split('index.php');
+	thisurl=thisurl+'/index.php'+_thisuri['1'];
+}else{
+	thisurl=thisurl+thisuri;
+}
+if(thisurl.indexOf('edit_label')==-1){
+var ls='?';
+if(thisurl.indexOf('?')>-1)ls='&';
+thisurl=thisurl+ls+'edit_label=1';
+}
+$('#header_t').prepend('<a href='+thisurl+' class="each_item">ÏÔÊ¾±êÇ©</a>');
+}else{
+thisurl=thisurl.replace('&edit_label=1','');
+thisurl=thisurl.replace('edit_label=1','');
+$('#edit_label').remove();
+$('#header_t').prepend('<a href='+thisurl+' >[Òş²Ø±êÇ©]</a>');
+}
+</script>
+
+</body>
+</html>
+<!--{/php168}-->

@@ -1,0 +1,8 @@
+升级密码访问：
+如安装后再升级的，请执行http://你的网站域名/upgrade/category_password.php
+如有错误，请忽略。
+
+
+admin
+
+admin123456

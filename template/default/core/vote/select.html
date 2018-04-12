@@ -1,0 +1,83 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$TITLE</title>
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/common.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq.js"></script>
+<style>
+td{background-color:#ffffff; text-align:center; font-size:12px}
+.mtop{margin-top:10px;}
+.title td{background-color:#6799B8}
+</style>
+</head>
+<body>
+<form action="$this_url" method="get" id="request">
+	<table border="0" cellpadding="5" cellspacing="1" bgcolor="#cccccc" width="100%">
+		<tr class="title">
+			<td>$P8LANG[search]</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<input type="text" class="txt" size="60" name="keyword" value="{html_entities($keyword)}" />
+				
+				<input type="submit" value="$P8LANG[search]" class="submit_btn" />
+			</td>
+		</tr>
+</table>
+</form>
+
+<form action="$this_url" method="POST" id="form">
+<table border="0" cellpadding="5" cellspacing="1" bgcolor="#cccccc" width="100%" class="mtop">
+			<tr class="title">
+				<td width="3%"><input type="checkbox" onclick="check_all(this, 'id[]'); init_tr($('#form'));" /></td>
+				<td width="5%" >ID</td>
+				<td width="20%" >标题</td>
+				<td width="6%" >投票总量</td>
+				<td width="8%" >时间间隔(天)</td>
+				<td width="8%" >最大投票选项</td>
+				<td width="10%" >时间</td>
+			</tr>
+			
+			<!--{foreach $list $value}-->
+			<tr id="item_$value[id]">
+				<td><input type="checkbox" name="id[]" value="$value[id]" /></td>
+				<td>$value[id]</td>
+				<td><a href="{$this_module.controller}-vote?id=$value[id]" target="_blank">$value[name]</a></td>
+				<td class="votes">$value[votes]</td>
+				<td>$value[vote_interval]</td>
+				<td>$value[multi]</td>
+				<td>{date('Y-m-d H:i', $value['timestamp'])}</td>
+			</tr>
+			<!--{/foreach}-->
+	
+				<tr>
+					<td align="center" id="pages" colspan="7">$pages</td>
+				</tr>
+			</table>
+
+<input type="hidden" name="action" value="" />
+</form>
+
+<script type="text/javascript">
+
+if(window.parent){
+	var ids = {};
+	$('input[name="id[]"]').click(function(){
+		if(this.checked){
+			ids[this.value] = this.value;
+		}else{
+			delete ids[this.value];
+		}
+	});
+	
+	function select_callback(){
+		return ids;
+	}
+}
+</script>
+</body>
+</html>
+<!--{/php168}-->

@@ -1,0 +1,26 @@
+<!--{php168}-->
+<form method="post" action="$this_router-pay">
+	查看此篇内容需要 $pay_credit {$credit['unit']} {$credit['name']}<br />
+	<!--{if $UID}-->
+		你的{$credit['name']}余额为{$credits[$data['credit_type']]}<br />
+		<!--{if $data['credit'] <= $credits[$data['credit_type']]}-->
+		<input type="submit" value="确定" />
+		<!--{else}-->
+		你余额不足！
+		<!--{/if}-->
+	<!--{else}-->
+		如果你没有付费,请点击"确定"付费查看内容,如果你已经付了费,那么点击"确定"不会再扣除余额<br />
+		<p align="center"><input type="submit" value="确定" /></p>
+	<!--{/if}-->
+	<input type="hidden" name="id" value="$id" />
+</form>
+<script type="text/javascript">
+$(function(){
+	<!--{if defined('P8_GENERATE_HTML')}-->
+	if(get_cookie('IS_ADMIN') == 1 || get_cookie('UID') == item_uid){
+		window.location.href = '$this_url-id-$id';
+	}
+	<!--{/if}-->
+});
+</script>
+<!--{/php168}-->

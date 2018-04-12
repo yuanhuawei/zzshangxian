@@ -1,0 +1,54 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td colspan="2" class="title">{$P8LANG['profile']}</td>
+			</tr>
+			<tr>
+				<td><strong> 操作步骤</strong><br />
+					1、请先下载下方系统提供的“通讯录样式”表，并按格式填写用户资料相关信息<br />
+					2、填写好，让用户资料表格另存为“CSV”样式，步骤：EXCEL表格--另存为--选择“CSV”格式<br />
+					3、将“CSV”格式的文件上传至系统即可，完成批量导入会员工作。 </td>
+			</tr>
+		</table>
+	</div>
+</div>
+<form action="$this_url" method="post" id="form" enctype="multipart/form-data">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<table class="formtable hover_table">
+							<tr>
+								<td colspan="2" class="title">{$P8LANG['profile']}</td>
+							</tr>
+							
+							<tr>
+								<td class="tdL">上传通讯录附件</td>
+								<td class="tdR"> <input type="file" name="csv_file" /> </td>
+							</tr>
+							
+							<tr>
+								<td class="tdL">通讯录样式下载</td>
+								<td class="tdR"><a href="http://bbs.php168.net/job.php?action=download&pid=&tid=318122&aid=63018" target="_blank" class="downloadicon">通讯录样式</a></td>
+							</tr>
+							<tr>
+							  <td class="tdL">&nbsp;</td>
+							  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

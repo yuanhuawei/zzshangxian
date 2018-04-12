@@ -1,0 +1,15 @@
+<!--{php168}-->
+<ul class="dotlist8">
+	<!--{foreach $list $value}-->
+	<li>
+		<div class="media">
+             <div class="thumbnail fl"><a href="$value[url]"  title="$value[full_title]" target="_blank"><img src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}"></a></div>
+             <div class="mbody">
+               <h3><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h3>
+			   <p><span class="date"><!--{php echo date('Y-m-d', $value['timestamp']);}--></span><span class="views">$value[views]</span></p>
+             </div>
+        </div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

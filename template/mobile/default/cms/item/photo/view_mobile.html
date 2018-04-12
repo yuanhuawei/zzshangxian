@@ -1,0 +1,18 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!--{template $core header_mobile_1}-->
+<div class="show">
+    <div class="bt">
+        <h1>$data[title]</h1>
+        <p>发布：{date('Y-m-d', $data['timestamp'])}　　作者：$data[username]　　浏览:$data[views]次 <span id="operation" style="display: none; cursor: pointer;">{$P8LANG['operation']}</span></p>
+    </div>
+    <div class="Con">
+	    
+		<!--{foreach $data['photourl'] $key $rs}-->
+		<img src="$rs[thumb]" alt="$rs[title]"/ width="100%"><br>
+		<!--{/foreach}-->
+		$data[content]
+	</div>
+</div>
+<!--{template $core footer_mobile}-->
+<!--{/php168}-->

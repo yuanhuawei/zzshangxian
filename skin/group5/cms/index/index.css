@@ -1,0 +1,39 @@
+/*首页主体样式*/
+.content_1{ width:1140px;height:auto; margin:0 auto;padding:20px 0 10px;background:#ffffff;overflow:hidden;}
+.content_1 .tab_new{width:820px;float:left;}
+.content_1 .tab_new .head{height:36px;background:#dadada;}
+.content_1 .tab_new .head span{width:272px;border-left:1px solid #ffffff;float:left;height:36px;line-height:36px;text-align:center;font-size:16px;}
+.content_1 .tab_new .head span.over{background:#057dd4;color:#fff;}
+.content_1 .tab_new .main{padding:12px 0px;overflow:hidden;}
+.focusNews{width:380px;min-height:280px;float:left;}
+.flashnews {width:420px;display: inline;float:right;height:auto;min-height:150px; overflow: hidden;}
+
+.content_1 .show{width:300px;height:auto;float: right;}
+.sh_top{width:300px;height:260px;}
+.shbox{width:150px;height:130px;float:left;}
+.sh_down{height:50px;overflow:hidden;}
+.sh_down a{display:block;width:145px;height:50px;line-height:50px;text-align:center;font-size:16px;}
+.sh_down .btn_a{background-color:#f4cf5a;color:#333;}
+.sh_down .btn_b{background-color:#53a4d9;color:#fff;}
+
+.content_2{width: 100%;height:300px;background: url(bg3.png) no-repeat center top;overflow:hidden;}
+.content_2 .main{width: 1140px;height:230px;margin: 70px auto 0;}
+.content_2 .main li{width:145px;float:left;text-align:center;margin:20px 54px 0 0;}
+.content_2 .main li.last{margin-right:0px;}
+.content_2 .main li a{width:145px;height:100px;display:block;margin-bottom:10px;}
+.content_2 .main li .pro1{background:url(pro1.png) top center no-repeat;}
+.content_2 .main li .pro2{background:url(pro2.png) top center no-repeat;}
+.content_2 .main li .pro3{background:url(pro3.png) top center no-repeat;}
+.content_2 .main li .pro4{background:url(pro4.png) top center no-repeat;}
+.content_2 .main li .pro5{background:url(pro5.png) top center no-repeat;}
+.content_2 .main li .pro6{background:url(pro6.png) top center no-repeat;}
+
+.content_2 .main li .pro1:hover{background:url(pro_1.png) top center no-repeat;}
+.content_2 .main li .pro2:hover{background:url(pro_2.png) top center no-repeat;}
+.content_2 .main li .pro3:hover{background:url(pro_3.png) top center no-repeat;}
+.content_2 .main li .pro4:hover{background:url(pro_4.png) top center no-repeat;}
+.content_2 .main li .pro5:hover{background:url(pro_5.png) top center no-repeat;}
+.content_2 .main li .pro6:hover{background:url(pro_6.png) top center no-repeat;}
+
+.content_2 .main li h5{font-size:16px;font-weight:normal;padding:10px 0px;color: #0072c9;}
+.content_2 .main li p{font-size:13px;color:#999999;line-height:150%;}

@@ -1,0 +1,35 @@
+<!--{php168}-->
+<ul class="label_pic_ul_19">
+<!--{foreach $list $value}-->
+	<li>
+		<a href="$value[url]" target="_blank" title="$value[full_title]">
+			<span class="pic"><img class="conimg" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" width="316" height="358" alt="$value[title]" /></span>
+			<div>
+				<p>
+					<span class="t1">$value[title]</span>
+					<span>+ 更多详情</span>
+				</p>
+			</div>
+		</a>
+	</li>
+<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<script>
+$(function(){
+	$(".label_pic_ul_19 li").hover(function() {
+			$(this).find(".conimg").stop().animate({"width":318,"height":360});
+		}, function() {
+			$(this).find(".conimg").stop().animate({"width":316,"height":358});
+	});
+	$(".label_pic_ul_19 li div").hover(function() {
+			$(this).addClass("on");
+		}, function() {
+			$(this).removeClass("on");
+	});
+});
+</script>
+<!--{/php168}-->
+
+
+

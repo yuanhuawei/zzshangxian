@@ -1,0 +1,17 @@
+<!--{php168}-->
+<tbody>
+<!--{foreach $list $key $row}-->
+<tr {if $key%2==0}class="even"{/if}>
+  <td><a href="$row[url]" title="$row[full_title]" target="_blank">$row[id]</a></td>
+  <td><a href="$row[url]" title="$row[full_title]" target="_blank">$row[title]</a></td>
+  <td><a href="$row[url]" title="$row[full_title]" target="_blank">$row[type_name]</a></td>
+  <td><a href="$row[url]" title="$row[full_title]" target="_blank">$row[status_name]</a></td>
+  <td><span class="political-action-letter"><a href="$row[url]" title="$row[full_title]" target="_blank">$row[username]</a></span></td>
+  <td><a href="$row[url]" title="$row[full_title]" target="_blank"><!--{php echo date('Y-m-d',$row['create_time']);}--></a></td>
+  <td><span><a href="$row[url]" title="$row[full_title]" target="_blank">$row[department_name]</a></span></td>
+<td><a href="$row[url]" title="$row[full_title]" target="_blank"><img src="{$SKIN}letter/dp{$row['dp']}.gif"/></a></td>
+</tr>
+<!--{/foreach}-->
+</tbody>
+<!--{/php168}-->
+

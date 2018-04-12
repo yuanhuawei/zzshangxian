@@ -1,0 +1,82 @@
+/*支付样式*/
+body
+{
+	text-align:center;
+}
+
+img
+{
+	border:none;
+}
+
+.pay_case
+{
+	width:554px;
+	height:382px;
+	border:#000000 1px solid;
+	overflow:hidden;
+	margin:auto;
+	font-size:12px;
+}
+
+.pay_close
+{
+	float:right;
+	margin:5px 10px 0px 0px;
+	cursor:pointer;
+}
+
+.pay_title
+{
+	float:left;
+	margin:20px 0px 0px 26px;
+	font-weight:bolder;
+	border:none;
+}
+
+.pay_content
+{
+	margin:25px 20px 0px 20px;
+	border:none;
+	line-height:180%;
+	text-align:left;
+}
+
+.pay_type_case
+{
+	margin:50px 20px 0px 20px;
+	padding:0px;
+}
+
+.pay_type
+{
+	text-align:center;
+	float:left;	
+}
+
+.pay_type_separator
+{
+	width:37px;
+	height:100px;
+	float:left;
+}
+
+.pay_how_much
+{
+	margin:50px 20px 0px 20px;
+	padding:0px;
+}
+
+.pay_how_much_option
+{
+	text-align:left;
+	float:left;
+	width:40%;
+	margin:0px 1%;
+}
+
+.pay_submit_button
+{
+	float:right;
+	margin:10px 38px 18px auto;
+}

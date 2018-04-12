@@ -1,0 +1,707 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<link type="text/css" rel="stylesheet" href="{$MEMBERSKIN}/talent/style.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<div class="tab_box mtop20">
+	<div class="head">
+		<span {if $step=='base'}class="over"{/if}><a href="$this_url?t=$type&id=$id">基本资料</a></span> 
+		<span {if $step=='info'}class="over"{/if}><a href="$this_url?s=info&t=$type&id=$id">求职意向</a></span> 
+		<!--{if $type==1}-->
+		<span {if $step=='edu'}class="over"{/if}><a href="$this_url?s=edu&id=$id">教育经历</a></span> 
+		<span {if $step=='work'}class="over"{/if}><a href="$this_url?s=work&id=$id">工作经验</a></span> 
+		<span {if $step=='train'}class="over"{/if}><a href="$this_url?s=train&id=$id">培训经历</a></span> 
+		<span {if $step=='project'}class="over"{/if}><a href="$this_url?s=project&id=$id">项目经验</a></span> 
+		<span {if $step=='skill'}class="over"{/if}><a href="$this_url?s=skill&id=$id">技能特长</a></span> 
+		<span {if $step=='cer'}class="over"{/if}><a href="$this_url?s=cer&id=$id">资格证书</a></span> 
+		<span {if $step=='other'}class="over"{/if}><a href="$this_url?s=other&id=$id">其它</a></span>
+	<!--{/if}-->
+	</div>
+	<div class="main profile" style="margin-top:20px">
+		<div class="left">
+			<div style="border:1px solid #cccccc; padding:10px">
+				简历完整度 <br />
+				<div style="border:1px solid #cccccc; width:100px; height:10px"><div style="background:#00F; width:{$complete['total']}px; height:10px"></div></div>$complete[total]%
+				<ul>
+					<li>基本资料 <!--{if $complete['base']}-->√<!--{/if}--></li>
+					<li>求职意向 <!--{if $complete['base']}-->√<!--{/if}--></li>
+					<li>教育经历 <!--{if $complete['edu']}-->√<!--{/if}--></li>
+					<li>工作经验 <!--{if $complete['work']}-->√<!--{/if}--></li>
+					<li>项目经验 <!--{if $complete['project']}-->√<!--{/if}--></li>
+					<li>培训经历 <!--{if $complete['train']}-->√<!--{/if}--></li>
+					<li>资格证书 <!--{if $complete['cer']}-->√<!--{/if}--></li>
+					<li>技能特长 <!--{if $complete['skill']}-->√<!--{/if}--></li>
+					<li>其它 <!--{if $complete['other']}-->√<!--{/if}--></li>
+				</ul>
+			</div>
+		</div>
+		<div class="right">
+			<!--{if $step=='base'}-->
+			<div class="content">
+				<form action="$this_router-$ACTION" method="post">
+					<table width="100%" border="1" cellspacing="1" cellpadding="5">
+						<tr>
+							<td width="9%">姓名</td>
+							<td width="30%">$info[name]</td>
+							<td width="9%">性别</td>
+							<td width="34%">
+								<!--{if $info['gender']==1}-->
+								男
+								<!--{else}-->
+								女
+								<!--{/if}-->
+							</td>
+							<td width="18%" rowspan="4"><img width="120" height="150" src="{if !empty($info['photo'])}$info[photo]{else}$RESOURCE/images/nopic.jpg{/if}"/></td>
+						</tr>
+						<tr>
+							<td >出生日期</td>
+							<td >{date('Y 年 m 月d 日')}</td>
+							<td >工作年限</td>
+							<td >{$this_system.CONFIG['worktime'][$info['worktime']]}</td>
+						</tr>
+						<tr>
+							<td >教育程度</td>
+							<td >{$this_system.CONFIG['education'][$info['education']]}</td>
+							<td >婚姻状况</td>
+							<td >
+								<!--{if $info['married']==1}-->
+								已婚
+								<!--{else}-->
+								未婚
+								<!--{/if}-->
+							</td>
+						</tr>
+						<tr>
+							<td >户籍</td>
+							<td >广东</td>
+							<td >求职状态</td>
+							<td >{$this_system.CONFIG['situation'][$info['situation']]}</td>
+						</tr>
+						<tr>
+							<td >证件类型</td>
+							<td >身份证</td>
+							<td >证件号码</td>
+							<td colspan="2">$info[idcard]</td>
+						</tr>
+						<tr>
+							<td >手机号码</td>
+							<td >$info[mobile]</td>
+							<td >电子邮箱</td>
+							<td colspan="2">$info[email]</td>
+						</tr>
+					</table>
+					<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" />
+				</form>
+			</div>
+			<!--{/if}-->
+			
+			<!--{if $step=='info'}-->
+			<div class="content">
+				<form id="form2" action="$this_router-$ACTION" method="post">
+					<table width="100%" border="1" cellspacing="1" cellpadding="5">
+						<tr>
+							<td >简历名称</td>
+							<td >
+								<input type="text" name="title" value="{if !empty($data['title'])}$data[title]{/if}" />
+							</td>
+						</tr>
+						<tr>
+							<td >工作类型</td>
+							<td >
+								<select name="kind">
+									<option value="0" {if empty($data['kind'])} selected="selected"{/if}>不限</option>
+									<option value="1" {if !empty($data['kind']) && $data['kind']==1} selected="selected"{/if}>全职</option>
+									<option value="2" {if !empty($data['kind']) && $data['kind']==2} selected="selected"{/if}>兼职</option>
+									<option value="3" {if !empty($data['kind']) && $data['kind']==3} selected="selected"{/if}>实习</option>
+									<option value="4" {if !empty($data['kind']) && $data['kind']==4} selected="selected"{/if}>全/兼职</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td >地区</td>
+							<td > <span id="cityname">
+								<!--{if !empty($data['city'])}-->
+								$data[city_checkbox]
+								<!--{/if}-->
+								</span>
+								<input type="hidden" id="city" value="{if !empty($data['city'])}$data[city]{/if}" />
+								<input type="button" onclick="city_dialog.show()" value="选择" />
+							</td>
+							</td>
+						</tr>
+						<tr>
+							<td >行业</td>
+							<td > <span id="industryname">
+								<!--{if !empty($data['industry'])}-->
+								$data[industry_checkbox]
+								<!--{/if}-->
+								</span>
+								<input type="button" onclick="industries_dialog.show()" value="选择" />
+								<input type="hidden" id="industry" value="{if !empty($data['industry'])}$data[industry]{/if}" />
+								<span id="industries_path"></span> </td>
+						</tr>
+						<tr>
+							<td >职能</td>
+							<td > <span id="jobname">
+								<!--{if !empty($data['job'])}-->
+								$data[job_checkbox]
+								<!--{/if}-->
+								</span>
+								<input type="button" onclick="jobs_dialog.show()" value="选择" />
+								<input type="hidden" id="job" value="{if !empty($data['job'])}$data[job]{/if}" />
+								<span id="industries_path"></span> </td>
+						</tr>
+						<tr>
+							<td >期望薪水</td>
+							<td >
+								<select name="salary">
+									<option value="0">面议</option>
+									<option value="1" {if !empty($data['salary']) && $data['salary']==1} selected="selected"{/if}>1000-2000</option>
+									<option value="2" {if !empty($data['salary']) && $data['salary']==2} selected="selected"{/if}>2000-3000</option>
+									<option value="3" {if !empty($data['salary']) && $data['salary']==3} selected="selected"{/if}>3000-4000</option>
+									<option value="4" {if !empty($data['salary']) && $data['salary']==4} selected="selected"{/if}>4000-5000</option>
+									<option value="5" {if !empty($data['salary']) && $data['salary']==5} selected="selected"{/if}>5000-6000</option>
+									<option value="6" {if !empty($data['salary']) && $data['salary']==6} selected="selected"{/if}>7000-8000</option>
+									<option value="7" {if !empty($data['salary']) && $data['salary']==7} selected="selected"{/if}>8000-9000</option>
+									<option value="8" {if !empty($data['salary']) && $data['salary']==8} selected="selected"{/if}>9000-10000</option>
+									<option value="9" {if !empty($data['salary']) && $data['salary']==9} selected="selected"{/if}>10000以上</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td >到岗时间</td>
+							<td >
+								<select name="entrytime">
+									<option value="0">随时到岗</option>
+									<option value="1" {if !empty($data['entrytime']) && $data['entrytime']==1} selected="selected"{/if}>一星期内</option>
+									<option value="2" {if !empty($data['entrytime']) && $data['entrytime']==2} selected="selected"{/if}>三星期内</option>
+									<option value="3" {if !empty($data['entrytime']) && $data['entrytime']==3} selected="selected"{/if}>一个月内</option>
+									<option value="4" {if !empty($data['entrytime']) && $data['entrytime']==4} selected="selected"{/if}>三个月内</option>
+									<option value="5" {if !empty($data['entrytime']) && $data['entrytime']==5} selected="selected"{/if}>不确定</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td >自我评价</td>
+							<td >
+								<textarea name="introduction" rows="5" cols="80"><!--{if !empty($data['introduction'])}-->$data[introduction]<!--{/if}-->
+</textarea>
+							</td>
+						</tr>
+						<tr>
+							<td >关键词</td>
+							<td >
+								<input type="text" name="keyword" value="{if !empty($data['keyword'])}$data[keyword]{/if}" />
+							</td>
+						</tr>
+						<!--{if $type==2}-->
+						<tr>
+							<td >粘帖简历</td>
+							<td >
+								<textarea name="content" rows="10" cols="80"><!--{if !empty($data['content'])}--><div id="p8_content_show">$data[content]</div><!--{/if}-->
+</textarea>
+							</td>
+						</tr>
+						<!--{/if}-->
+					</table>
+					<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" />
+					<input type="hidden" name="id" value="$id" />
+					<input type="hidden" name="type" value="{if !empty($type)}$type{/if}" />
+					<input type="hidden" name="step" value="$step" />
+				</form>
+				<script type="text/javascript">
+var industries_dialog = new P8_Dialog({
+	title_text: "选择行业(最多只能选五项)",
+	button: true,
+	width: 700,
+	height: 550,
+	url: "{$this_system.modules['category']['controller']}-select?m=industry&n={$this_system.CONFIG['industry_count']}",
+	ok: function(){
+		text = $('#selected_industry').clone();
+		ids = [];
+		$('#selected_industry').find('input').each(function(){
+			ids.push($(this).val());													  
+		});
+		$('#industryname').html(text);
+		$('#industry').val(ids.join(','));
+	}
+});
+var jobs_dialog = new P8_Dialog({
+	title_text: "选择职能(最多只能选五项)",
+	button: true,
+	width: 700,
+	height: 500,
+	url: "{$this_system.modules['category']['controller']}-select?m=job&n={$this_system.CONFIG['job_count']}",
+	ok: function(){
+		text = $('#selected_job').clone();
+		ids = [];
+		$('#selected_job').find('input').each(function(){
+			ids.push($(this).val());													  
+		});
+		$('#jobname').html(text);
+		$('#job').val(ids.join(','));
+	}
+});
+var city_dialog = new P8_Dialog({
+	title_text: "选择城市(最多只能选五项)",
+	button: true,
+	width: 500,
+	height: 400,
+	url: "{$this_system.modules['category']['controller']}-city?n={$this_system.CONFIG['city_count']}",
+	ok: function(){
+		text = $('#selected_city').clone();
+		ids = [];
+		$('#selected_city').find('input').each(function(){
+			ids.push($(this).val());													  
+		});
+		$('#cityname').html(text);
+		$('#city').val(ids.join(','));
+	}
+});
+
+</script>
+			</div>
+			<!--{/if}-->
+			<!--{if $step=='edu'}-->
+			<div class="content">
+				<table width="100%" border="1" cellspacing="1" cellpadding="5">
+					<tr>
+						<th>学校名称</th>
+						<th>在校时间</th>
+						<th>专业</th>
+						<th>操作</th>
+					</tr>
+					<!--{foreach $list $val}-->
+					<tr>
+						<td>$val[school]</td>
+						<td>{date('Y-m-d',$val['begintime'])} 到 {date('Y-m-d',$val['endtime'])}</td>
+						<td>$val[major]</td>
+						<td><a href="{$this_router}-update?s=$step&id=$id&sid=$val[id]">编辑</a> <a href="{$this_router}-delete?s=$step&id=$id&sid=$val[id]">删除</a></td>
+					</tr>
+					<!--{/foreach}-->
+				</table>
+				<br />
+				<form action="$this_router-$ACTION" method="post">
+					<table width="100%" border="1" cellspacing="1" cellpadding="5">
+						<tr>
+							<td >时间</td>
+							<td >
+								<input type="text" class="txt" id="" name="begintime" value="{if !empty($data['begintime'])}{date('Y-m-d',$data['begintime'])}{/if}" onclick="rcalendar(this, 'dateonly');" />
+								到
+								<input type="text" class="txt" name="endtime" value="{if !empty($data['endtime'])}{date('Y-m-d',$data['endtime'])}{/if}" onclick="rcalendar(this, 'dateonly');" />
+							</td>
+						</tr>
+						<tr>
+							<td >学校</td>
+							<td >
+								<input type="text" class="txt" name="school" value="{if !empty($data['school'])}$data[school]{/if}"  />
+							</td>
+						</tr>
+						<tr>
+							<td >职位</td>
+							<td >
+								<input type="text" class="txt" name="post" value="{if !empty($data['post'])}$data[post]{/if}"/>
+							</td>
+						</tr>
+						<tr>
+							<td >专业</td>
+							<td >
+								<input type="text" class="txt" name="major" value="{if !empty($data['major'])}$data[major]{/if}"/>
+							</td>
+						</tr>
+						<tr>
+							<td >专业描述</td>
+							<td >
+								<textarea class="txt" rows="5" cols="80" name="content">{if !empty($data['content'])}<div id="p8_content_show">$data[content]</div>{/if}</textarea>
+							</td>
+						</tr>
+					</table>
+					<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" />
+					<input type="hidden" name="sid" value="{if !empty($sid)}$sid{/if}" />
+					<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+					<input type="hidden" name="step" value="$step" />
+				</form>
+			</div>
+			<!--{/if}-->
+			<!--{if $step=='work'}-->
+			<div class="content">
+				<table width="100%" border="1" cellspacing="1" cellpadding="5">
+					<tr>
+						<th>企业名称</th>
+						<th>工作时间</th>
+						<th>部门</th>
+						<th>职位</th>
+						<th>操作</th>
+					</tr>
+					<!--{foreach $list $val}-->
+					<tr>
+						<td>$val[company]</td>
+						<td>{date('Y-m-d',$val['begintime'])} 到 {date('Y-m-d',$val['endtime'])}</td>
+						<td>$val[division]</td>
+						<td>$val[post]</td>
+						<td><a href="{$this_router}-update?s=$step&id=$id&sid=$val[id]">编辑</a> <a href="#">删除</a></td>
+					</tr>
+					<!--{/foreach}-->
+				</table>
+				<br />
+				<form action="$this_router-$ACTION" method="post">
+					<table width="100%" border="1" cellspacing="1" cellpadding="5">
+						<tr>
+							<td >时间</td>
+							<td colspan="3" >
+								<input type="text" name="begintime" value="{if !empty($data['begintime'])}{date('Y-m-d',$data['begintime'])}{/if}" onclick="rcalendar(this, 'dateonly');"/>
+								到
+								<input type="text" name="endtime" value="{if !empty($data['endtime'])}{date('Y-m-d',$data['endtime'])}{/if}" onclick="rcalendar(this, 'dateonly');"/>
+							</td>
+						</tr>
+						<tr>
+							<td >企业</td>
+							<td >
+								<input type="text" name="company" value="{if !empty($data['company'])}$data[company]{/if}"  />
+							</td>
+							<td >行业</td>
+							<td >
+								<input type="text" name="industry" id="industry" value="{if !empty($data['industry'])}$data[industry]{/if}"  />
+								<input type="button" onclick="industries_dialog.show()" value="选择" />
+							</td>
+						</tr>
+						<tr>
+							<td >规模</td>
+							<td >
+								<select name="size">
+									<option value="1" {if !empty($data['size']) && $data['size']==1} selected="selected"{/if}>少于10人</option>
+									<option value="2" {if !empty($data['size']) && $data['size']==2} selected="selected"{/if}>10-50人</option>
+									<option value="3" {if !empty($data['size']) && $data['size']==3} selected="selected"{/if}>50-100人</option>
+									<option value="4" {if !empty($data['size']) && $data['size']==4} selected="selected"{/if}>100-500人</option>
+									<option value="5" {if !empty($data['size']) && $data['size']==5} selected="selected"{/if}>500人以上</option>
+								</select>
+							</td>
+							<td >性质</td>
+							<td >
+								<select name="type">
+									<option value="1" {if !empty($data['type']) && $data['type']==1} selected="selected"{/if}>外资(欧美)</option>
+									<option value="2" {if !empty($data['type']) && $data['type']==2} selected="selected"{/if}>外资(非欧美)</option>
+									<option value="3" {if !empty($data['type']) && $data['type']==3} selected="selected"{/if}>合资(欧美)</option>
+									<option value="4" {if !empty($data['type']) && $data['type']==4} selected="selected"{/if}>合资(非欧美)</option>
+									<option value="5" {if !empty($data['type']) && $data['type']==5} selected="selected"{/if}>国企</option>
+									<option value="6" {if !empty($data['type']) && $data['type']==6} selected="selected"{/if}>民营公司</option>
+									<option value="7" {if !empty($data['type']) && $data['type']==7} selected="selected"{/if}>外企代表处</option>
+									<option value="8" {if !empty($data['type']) && $data['type']==8} selected="selected"{/if}>政府机关</option>
+									<option value="9" {if !empty($data['type']) && $data['type']==9} selected="selected"{/if}>事业单位</option>
+									<option value="10" {if !empty($data['type']) && $data['type']==10} selected="selected"{/if}>非盈利机构</option>
+									<option value="11" {if !empty($data['type']) && $data['type']==11} selected="selected"{/if}>其它性质</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td >部门</td>
+							<td >
+								<input type="text" name="division" value="{if !empty($data['division'])}$data[division]{/if}"  />
+							</td>
+							<td >职位</td>
+							<td >
+								<input type="text" name="post" value="{if !empty($data['post'])}$data[post]{/if}"  />
+							</td>
+						</tr>
+						<tr>
+							<td >工作描述</td>
+							<td colspan="3">
+								<textarea name="content" rows="5" cols="80">{if !empty($data['content'])}<div id="p8_content_show">$data[content]</div>{/if}</textarea>
+							</td>
+						</tr>
+					</table>
+					<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" />
+					<input type="hidden" name="sid" value="{if !empty($sid)}$sid{/if}" />
+					<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+					<input type="hidden" name="step" value="$step" />
+				</form>
+			</div>
+			<script type="text/javascript">
+				var industries_dialog = new P8_Dialog({
+					title_text: "选择行业",
+					button: true,
+					width: 700,
+					height: 550,
+					url: "{$this_system.modules['category']['controller']}-select?m=industry",
+					ok: function(){
+						v = $('#selected_industry span').text();
+						$('#industry').val(v);
+					}
+				});
+				</script>
+			<!--{/if}-->
+			<!--{if $step=='train'}-->
+			<div class="content">
+			
+				<table width="100%" border="1" cellspacing="1" cellpadding="5">
+					<tr>
+						<th>培训机构</th>
+						<th>培训时间</th>
+						<th>培训方向</th>
+						<th>证书</th>
+						<th>操作</th>
+					</tr>
+					<!--{foreach $list $val}-->
+					<tr>
+						<td>$val[institution]</td>
+						<td>{date('Y-m-d',$val['begintime'])} 到 {date('Y-m-d',$val['endtime'])}</td>
+						<td>$val[course]</td>
+						<td>$val[certification]</td>
+						<td><a href="{$this_router}-update?s=$step&id=$id&sid=$val[id]">编辑</a> <a href="#">删除</a></td>
+					</tr>
+					<!--{/foreach}-->
+				</table>
+				<br />
+				<form action="$this_router-$ACTION" method="post">
+					<table width="100%" border="1" cellspacing="1" cellpadding="5">
+						<tr>
+							<td >时间</td>
+							<td colspan="3" >
+								<input type="text" name="begintime" value="{if !empty($data['begintime'])}{date('Y-m-d',$data['begintime'])}{/if}" onclick="rcalendar(this, 'dateonly');"/>
+								到
+								<input type="text" name="endtime" value="{if !empty($data['endtime'])}{date('Y-m-d',$data['endtime'])}{/if}" onclick="rcalendar(this, 'dateonly');"/>
+							</td>
+						</tr>
+						<tr>
+							<td >机构</td>
+							<td >
+								<input type="text" name="institution" value="{if !empty($data['institution'])}$data[institution]{/if}"  />
+							</td>
+						</tr>
+						<tr>
+							<td >地点</td>
+							<td >
+								<input type="text" name="address" value="{if !empty($data['address'])}$data[address]{/if}"  />
+							</td>
+						</tr>
+						<tr>
+							<td >课程</td>
+							<td >
+								<input type="text" name="course" value="{if !empty($data['course'])}$data[course]{/if}"  />
+							</td>
+						</tr>
+						<tr>
+							<td >证书</td>
+							<td >
+								<input type="text" name="certification" value="{if !empty($data['certification'])}$data[certification]{/if}"  />
+							</td>
+						</tr>
+						<tr>
+							<td >描述</td>
+							<td >
+								<textarea name="content" rows="5" cols="80">{if !empty($data['content'])}<div id="p8_content_show">$data[content]</div>{/if}</textarea>
+							</td>
+						</tr>
+					</table>
+					<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" />
+					<input type="hidden" name="sid" value="{if !empty($sid)}$sid{/if}" />
+					<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+					<input type="hidden" name="step" value="$step" />
+				</form>
+			</div>
+			<!--{/if}-->
+			<!--{if $step=='project'}-->
+			<div class="content">
+				<table width="100%" border="1" cellspacing="1" cellpadding="5">
+					<tr>
+						<th>项目名称</th>
+						<th>开发时间</th>
+						<th>开发环境</th>
+						<th>担负角色</th>
+						<th>操作</th>
+					</tr>
+					<!--{foreach $list $val}-->
+					<tr>
+						<td>$val[project]</td>
+						<td>{date('Y-m-d',$val['begintime'])} 到 {date('Y-m-d',$val['endtime'])}</td>
+						<td>$val[ware]</td>
+						<td>$val[responsibility]</td>
+						<td><a href="{$this_router}-update?s=$step&id=$id&sid=$val[id]">编辑</a> <a href="#">删除</a></td>
+					</tr>
+					<!--{/foreach}-->
+				</table>
+				<br />
+				<form action="$this_router-$ACTION" method="post">
+					<table width="100%" border="1" cellspacing="1" cellpadding="5">
+						<tr>
+							<td >开发时间</td>
+							<td colspan="3" >
+								<input type="text" name="begintime" value="{if !empty($data['begintime'])}{date('Y-m-d',$data['begintime'])}{/if}" onclick="rcalendar(this, 'dateonly');"/>
+								到
+								<input type="text" name="endtime" value="{if !empty($data['endtime'])}{date('Y-m-d',$data['endtime'])}{/if}" onclick="rcalendar(this, 'dateonly');"/>
+							</td>
+						</tr>
+						<tr>
+							<td >项目名称</td>
+							<td colspan="3">
+								<input type="text" name="project" value="{if !empty($data['project'])}$data[project]{/if}"  />
+							</td>
+						</tr>
+						<tr>
+							<td >开发环境</td>
+							<td >
+								<input type="text" name="ware" value="{if !empty($data['ware'])}$data[ware]{/if}"  />
+							</td>
+							<td >开发工具</td>
+							<td >
+								<input type="text" name="tool" value="{if !empty($data['tool'])}$data[tool]{/if}"  />
+							</td>
+						</tr>
+						<tr>
+							<td >担任角色</td>
+							<td  colspan="3">
+								<input type="text" name="responsibility" value="{if !empty($data['responsibility'])}$data[responsibility]{/if}"  />
+							</td>
+						</tr>
+						<tr>
+							<td >项目描述</td>
+							<td  colspan="3">
+								<textarea name="content" rows="5" cols="80">{if !empty($data['content'])}<div id="p8_content_show">$data[content]</div>{/if}</textarea>
+							</td>
+						</tr>
+					</table>
+					<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" />
+					<input type="hidden" name="sid" value="{if !empty($sid)}$sid{/if}" />
+					<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+					<input type="hidden" name="step" value="$step" />
+				</form>
+			</div>
+			<!--{/if}-->
+			<!--{if $step=='skill'}-->
+			<div class="content">
+				<table width="100%" border="1" cellspacing="1" cellpadding="5">
+					<tr>
+						<th>技能</th>
+						<th>水平</th>
+						<th>操作</th>
+					</tr>
+					<!--{foreach $list $val}-->
+					<tr>
+						<td>$val[name]</td>
+						<td><!--{if $val['level']==1}-->了解<!--{elseif $val['level']==2}-->熟练<!--{elseif $val['level']==3}-->精通<!--{/if}--></td>
+						<td><a href="{$this_router}-update?s=$step&id=$id&sid=$val[id]">编辑</a> <a href="#">删除</a></td>
+					</tr>
+					<!--{/foreach}-->
+				</table>
+				<br/>
+				<form action="$this_router-$ACTION" method="post">
+					<table width="100%" border="1" cellspacing="1" cellpadding="5">
+						<tr>
+							<td >技能</td>
+							<td >
+								<input type="text" name="name" value="{if !empty($data['name'])}$data[name]{/if}"  />
+							</td>
+							<td >水平</td>
+							<td >
+								<select name="level">
+									<option value="1" {if !empty($data['level']) && $data['level']==1} selected="selected"{/if}>了解</option>
+									<option value="2" {if !empty($data['level']) && $data['level']==2} selected="selected"{/if}>一般</option>
+									<option value="3" {if !empty($data['level']) && $data['level']==3} selected="selected"{/if}>熟练</option>
+									<option value="4" {if !empty($data['level']) && $data['level']==4} selected="selected"{/if}>精通</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+					<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" />
+					<input type="hidden" name="sid" value="{if !empty($sid)}$sid{/if}" />
+					<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+					<input type="hidden" name="step" value="$step" />
+				</form>
+			</div>
+			<!--{/if}-->
+			<!--{if $step=='cer'}-->
+			<div class="content">
+			
+				<table width="100%" border="1" cellspacing="1" cellpadding="5">
+					<tr>
+						<th>证书名称</th>
+						<th>颁发时间</th>
+						<th>颁发单位</th>
+						<th>操作</th>
+					</tr>
+					<!--{foreach $list $val}-->
+					<tr>
+						<td>$val[name]</td>
+						<td>{date('Y-m-d',$val['issuetime'])}</td>
+						<td>$val[issuer]</td>
+						<td><a href="{$this_router}-update?s=$step&id=$id&sid=$val[id]">编辑</a> <a href="#">删除</a></td>
+					</tr>
+					<!--{/foreach}-->
+				</table>
+				<br />
+				<form action="$this_router-$ACTION" method="post">
+					<table width="100%" border="1" cellspacing="1" cellpadding="5">
+						
+						<tr>
+							<td >证书全称</td>
+							<td >
+								<input type="text" name="name" value="{if !empty($data['name'])}$data[name]{/if}"  />
+							</td>
+						</tr>
+						<tr>
+							<td >颁发时间</td>
+							<td colspan="3" >
+								<input type="text" name="issuetime" value="{if !empty($data['issuetime'])}{date('Y-m-d',$data['issuetime'])}{/if}" onclick="rcalendar(this, 'dateonly');"/>
+								
+						</tr>
+						<tr>
+							<td >颁发单位</td>
+							<td >
+								<input type="text" name="issuer" value="{if !empty($data['issuer'])}$data[issuer]{/if}"  />
+							</td>
+						</tr>
+					</table>
+					<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" />
+					<input type="hidden" name="sid" value="{if !empty($sid)}$sid{/if}" />
+					<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+					<input type="hidden" name="step" value="$step" />
+				</form>
+			</div>
+			<!--{/if}-->
+			
+			<!--{if $step=='other'}-->
+			<div class="content">
+				<table width="100%" border="1" cellspacing="1" cellpadding="5">
+					<tr>
+						<th>标题</th>
+						<th>内容</th>
+						<th>操作</th>
+					</tr>
+					<!--{foreach $list $val}-->
+					<tr>
+						<td>$val[name]</td>
+						<td>$val[content]</td>
+						<td><a href="{$this_router}-update?s=$step&id=$id&sid=$val[id]">编辑</a> <a href="#">删除</a></td>
+					</tr>
+					<!--{/foreach}-->
+				</table>
+				<br/>
+				<form action="$this_router-$ACTION" method="post">
+					<table width="100%" border="1" cellspacing="1" cellpadding="5">
+						<tr>
+							<td >标题</td>
+							<td >
+								<input type="text" name="name" value="{if !empty($data['name'])}$data[name]{/if}"  />
+							</td>
+						<tr>
+							<td >描述</td>
+							<td >
+								<textarea name="content"></textarea>
+							</td>
+						</tr>
+					</table>
+					<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" />
+					<input type="hidden" name="sid" value="{if !empty($sid)}$sid{/if}" />
+					<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+					<input type="hidden" name="step" value="$step" />
+				</form>
+			</div>
+			<!--{/if}-->
+		</div>
+	</div>
+</div>
+<div class="clear">
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

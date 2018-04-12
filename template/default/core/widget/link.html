@@ -1,0 +1,5 @@
+<!--{php168}-->
+<input type="hidden" name="#field_{$field}_posted" />
+<!--{php if(is_array($data[$field]))$data[$field]=implode('|',$data[$field]);}-->
+<input type="text" id="field#[$field]" name="field#[$field]" value="{if isset($data[$field])}$data[$field]{else}{$field_data['default_value']}{/if}" {$field_data['widget_addon_attr']} size="60" /><span class="help">{$P8LANG['cms_item']['link_note']}</span>
+<!--{/php168}-->

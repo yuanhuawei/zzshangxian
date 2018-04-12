@@ -1,0 +1,161 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<link rel="stylesheet" href="{$SKIN}/{$SYSTEM}/category_selector.css" type="text/css" />
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 
+    您现在的位置：<a href="{$core.admin_controller}/sites-index">站群系统</a> &gt; 
+    <a href="{$core.admin_controller}/sites/stop-add_category">推送内容管理</a></td>
+  </tr>
+</table>
+
+<ul class="boxmenu">
+	<li class="{if $sc=='c'}bm_over{else}bm_out{/if}"><a class="bm_l" href="$this_url?sc=c">推送内容</a></li>
+	<li class="{if $sc=='t'}bm_over{else}bm_out{/if}"><a class="bm_l" href="$this_url?sc=t">推送被退稿内容</a></li>
+	<li class="{if $sc=='s'}bm_over{else}bm_out{/if}"><a class="bm_l"  href="$this_url?sc=s">接收内容</a></li>
+</ul>
+<form action="$this_url" method="post" id="form">
+	<table width="100%" cellspacing="0" cellpadding="0"  class="zq_list hover_table" align="center">
+		<tr class="title fix_head">
+			<td width="3%" class="list_top"><input type="checkbox" onclick="check_all(this, 'id[]');init_tr($('#form'));" /></td>
+			<td width="3%" class="list_top">ID</td>
+			<td width="5%" class="list_top">模型</td>
+			<td width="5%" class="list_top">分类</td>
+			<td width="20%" class="list_top">标题</td>
+			<td width="10%" class="list_top">时间</td>
+            <td width="5%" class="list_top">状态</td>
+			<td width="10%" class="list_top">操作</td>
+		</tr>
+		
+		<tbody id="list">
+        <!--{foreach $list $data}-->
+        <tr id="list_{$data['id']}">
+		<td><input type="checkbox" name="id[]" value="{$data['id']}" /></td>
+        <td>$data[id]</td>
+        <td><a href="{$this_url}?sc=$sc&model={$data['model']}">$data[model_alias]</a></td>
+        <td><a href="{$this_url}?sc=$sc&cid={$data['cid']}">{if $sc=='s'}{$this_module.categories[$data['cid']]['name']}{else}$data[cname]{/if}</a></td>
+        <td align="left"><a href="{if $data['link']}{$data['link']}{else}{$this_router}-view?id={$data['id']}{/if}" target="_blank">$data[title]</a></td>
+        <td>{date('Y-m-d H:i',$data['timestamp'])}</td>
+        <td>
+		<!--{if $sc=='s'}-->
+		<!--{php $site_status = explode(',',$data['site_status']);}-->
+		{if in_array($this_system->SITE,$site_status)}<span style="color:#000;font-weight:bold;">已接收</span>{else}<span style="color:#c00;font-weight:bold;">未接收</span>{/if}
+		<!--{else}-->
+		{if $data['status']==-99}初退稿{else}{if $data['status']==1}<span style="color:#000;font-weight:bold;">已接收</span>{else}<span style="color:#c00;font-weight:bold;">未接收</span>{/if}{/if}
+		<!--{/if}-->
+		</td>
+        <td>
+		<a href="{if $data['link']}{$data['link']}{else}{$this_router}-view?id={$data['id']}{/if}" target="_blank">查看</a>
+		<a href="{$this_router}-delete&id={$data['id']}" id="delete_{$data['id']}" onclick="return delete_item([this.id])">{$P8LANG['delete']}</a>
+		</td>
+        </tr>
+        <!--{/foreach}-->
+		</tbody>
+		<tr>
+			<td colspan="1">
+			<!--{if $sc=='s'}-->
+			<input type="button" onclick="category_dialog.show()" value=" 接收 " />
+			<!--{else}-->
+			<input type="button" onclick="delete_item(checked_values('id[]', $('#form')))" value=" 删除 " />
+			<!--{/if}--></td>
+			<td colspan="7" class="pages">{$pages}</td>
+		</tr>
+	</table>
+	<input type="hidden" name="act" value="receive"/>
+</form>
+
+<script type="text/javascript">
+var CATEGORY_JSON = $category_json[json],
+	CATEGORY_PATH = $category_json[path];
+	
+var category_dialog = new P8_Dialog({
+	button: true,
+	width: 700,
+	height: 300,
+	title_text: '选择要接收到的分类',
+	ok: function(){
+		
+		var id = [];
+		var array = checked_values('id[]', $('#form'));
+			$.each(array, function(k, v){
+			id.push(v.replace(/[^0-9]/, ''));
+		});
+		if(!id.length) return false;
+		
+		var cid = cs.get_value();
+		if(cs.get_by_id(cid).type == 1){
+			alert('这分类不能选喔');
+			return false;
+		}
+		
+		fetch_item(id, cid);
+	}
+});
+
+var cs = new Recursive_Selector({
+	json: CATEGORY_JSON,
+	path: CATEGORY_PATH,
+	dialog: category_dialog,
+	sub_property: 'categories',
+	item_callback: function(cat, item){
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	},
+});	
+
+function fetch_item(id, cid){
+	$.ajax({
+		url: '{$this_router}-fetch',
+		type: 'post',
+		dataType: 'json',
+		cache: false,
+		data: ajax_parameters({id: id, cid: cid}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			for(i in json)
+				$('#list_'+json[i]).find('td').eq(6).html('已接收');
+			alert(json.length +'条内容被采集');
+		}
+	});
+}
+function delete_item(obj){
+	var id = [];
+	$.each(obj, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(!id.length) return;
+	
+	if(!confirm('$P8LANG[confirm_to_delete]')) return false;
+	
+	$.ajax({
+		url: '{$this_router}-delete',
+		type: 'POST',
+		cache: false,
+		dataType: 'json',
+		data: ajax_parameters({action: 'delete', id: id}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i in json){
+				$('#delete_'+ json[i]).parent().parent().remove();
+			}
+			alert('操作成功');
+		}
+	});
+	return false;
+}
+cs.init();
+</script>
+<!--{template $this_system footer admin}-->
+<!--{/php168}-->

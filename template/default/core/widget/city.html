@@ -1,0 +1,75 @@
+<!--{php168}-->
+<span id="{$field}_path"></span>
+<input type="hidden" name="#field_{$field}_posted" />
+<input type="hidden" id="field#[$field]" name="field#[$field]" value="{if isset($data[$field])}$data[$field]{else}{$field_data['default_value']}{/if}" {$field_data['widget_addon_attr']} />
+<input type="button" value="选择" id="{$field}_button" />
+
+<script type="text/javascript">
+$(function(){
+	var dialog = new P8_Dialog({
+		width: 700,
+		height: 300,
+		button: true,
+		show: function(){
+			selector.init();
+		},
+		ok: function(){
+			var v = selector.get_value();
+			
+			$('#field#[{$field}]').val(v);
+			
+			path(v);
+		}
+	});
+	
+	var selector;
+	include_once('{$RESOURCE}/js/recursive_selector.js', function(){
+		selector = new Recursive_Selector({
+			dialog: dialog,
+			sub_property: 'areas',
+			input: $('input[name="#field_{$field}_posted"]'),
+			value: $('#field#[{$field}]').val(),
+			url: P8CONFIG.url +'/api/city.php',
+			item_callback: function(area, item){
+				
+				if(area.areas){
+					item.addClass('sub_category');
+				}
+			},
+			init_callback: function(){
+				var id = this.get_value();
+				
+				path(id);
+			}
+		});
+		
+		if($('#field#[$field]').val()){
+			selector.init();
+		}
+	});
+	
+	function path(id){
+		if(id == 0){
+			$('#{$field}_path').html('');
+			return;
+		}
+		
+		var tmp = selector.get_by_id(id);
+		var html = '';
+		
+		while(true){
+			html = tmp.name +' &gt; '+ html;
+			if(tmp.parent == 0) break;
+			
+			tmp = selector.get_by_id(tmp.parent);
+		}
+		
+		$('#{$field}_path').html(html);
+	}
+	
+	$('#{$field}_button').click(function(){
+		dialog.show();
+	});
+});
+</script>
+<!--{/php168}-->

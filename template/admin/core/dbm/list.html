@@ -1,0 +1,268 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['operation']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					<ul>
+						<li><a href="{$this_url}?job=backup">备份数据</a></li>
+						<li><a href="{$this_url}?job=restore">还原数据</a></li>
+						<li><a href="{$this_url}?job=optimize">优化数据</a></li>
+						<li style="display:none"><a href="{$this_url}?job=query">SQL查询</a></li>
+					</ul>
+					<input type="button" value="解除锁定" onclick="javascript:$.post( '$this_url',{ act:'unlock' },function(ret){ alert('数据库解锁成功') });" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<!--{if $job=='backup'}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<form  action="$this_router-backup" target="_blank" method="post">
+			<table class="formtable columntable">
+				<tr class="title">
+					<td colspan="2">&nbsp;数据库操作导航</td>
+				</tr>
+				<tr>
+					<td>导出编码</td>
+					<td>
+						<input type="text" id="charset" size="10" name="charset" value="" />
+						<span class="pointer" >默认留空即可</span></td>
+				</tr>
+				<tr>
+					<td> 每次导出条数</td>
+					<td>
+						<input type="text" size="10" id="rows" name="rows" value="1" />
+						默认为1条，一般不做修改
+					</td>
+				</tr>
+				<tr>
+					<td> 数据类型</td>
+					<td>
+						<input type="radio" name="ours" value="0" />
+						备份所有系统数据
+						<input type="radio" name="ours" value="1" checked="checked" />
+						仅备份本系统的数据
+						<!--{if $sitesd}--><input type="radio" name="ours" value="2" />
+						仅备份主站的数据<!--{/if}--></td>
+				</tr>
+				<tr>
+					<td>数据大小:</td>
+					<td>
+						<!--{if ($tmp = round($size / pow(1024, 3))) > 1}-->
+						$tmp GB
+						<!--{elseif ($tmp = round($size / pow(1024, 2))) > 0}-->
+						$tmp MB
+						<!--{elseif ($tmp = round($size / pow(1024, 1))) > 0}-->
+						$tmp KB
+						<!--{else}-->
+						$size B
+						<!--{/if}-->
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<input type="submit" class="submit_btn" value="备份" />
+						
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['operation']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list"> &nbsp;如果有独立服务器，而且不转换编码的话，数据太大还是请用mysqldump之类的工具。<br />
+					&nbsp;备份完成之后，如果要迁移数据，必须先在新服务器上安装好系统。再上传备份文件再还原即可。<br />
+					&nbsp;你也可以导出UTF-8格式。将新服务器安装之前UTF-8化，再还原数据，即可把整个站转成UTF-8站。在更新缓存之前，必须把配置中的页面编码以及MYSQL编码改过来。否则会乱码。最后再更新缓存。<br />
+					&nbsp;备份的文件保存在<font color="#0033ff">data/db_backup</font>目录。使用的是php文件格式保存，头部添加有-- &lt;?exit;?&gt;，数据不会泄露。备份完成之后最好同时转移到其它地方，不仅仅是留在服务器。<br />
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<!--{/if}-->
+<!--{if $job=='optimize'}-->
+<form action="$this_router-manage" method="POST" id="form" style="display:;">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<table class="columntable formtable hover_table click_changeable">
+							<tr class="title">
+								<td class="title" width="3%">
+									<input type="checkbox" onclick="check_all(this, 'name[]'); init_tr($('#form'));" />
+								</td>
+								<td width="20%" class="title">表名</td>
+								<td width="5%" class="title">行数</td>
+								<td width="5%" class="title">大小</td>
+								<td width="6%" class="title">字符集</td>
+								<td width="8%" class="title">创建时间</td>
+								<td width="8%" class="title">最后修改</td>
+								<td width="5%" class="title">引擎</td>
+								<td width="6%" class="title">字段字典</td>
+							</tr>
+							<!--{foreach $list $value}-->
+							<tr id="$value[Name]">
+								<td>
+									<input type="checkbox" name="name[]" value="$value[Name]" />
+								</td>
+								<td>$value[Name] <font color="#cccccc">$value[alias]</font></td>
+								<td>$value[Rows]</td>
+								<td>
+									<!--{if ($tmp = round($value['Data_length'] / pow(1024, 3))) > 1}-->
+									$tmp GB
+									<!--{elseif ($tmp = round($value['Data_length'] / pow(1024, 2))) > 0}-->
+									$tmp MB
+									<!--{elseif ($tmp = round($value['Data_length'] / pow(1024, 1))) > 0}-->
+									$tmp KB
+									<!--{else}-->
+									$value[Data_length] B
+									<!--{/if}-->
+								</td>
+								<td>$value[Collation]</td>
+								<td>$value[Create_time]</td>
+								<td>$value[Update_time]</td>
+								<td>$value[Engine]</td>
+								<td><a href="$this_router-struct?name=$value[Name]" target="_blank">字典</a></td>
+							</tr>
+							<!--{/foreach}-->
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+							<tr>
+								<td>
+									<input type="button" class="edit_btn" value="优化" onclick="_submit('optimize')" />
+									<input type="button" class="edit_btn" value="修复" onclick="_submit('repair')" />
+									<input type="button" class="edit_btn" value="清空数据" onclick="if(confirm('$P8LANG[confirm_to_delete]')) _submit('truncate')" />
+									<input type="button" class="edit_btn" value="删除" onclick="if(confirm('$P8LANG[confirm_to_delete]')) _submit('drop')" />
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<input type="hidden" name="act" value="" />
+	<input type="hidden" name="ours" value="" />
+</form>
+<script type="text/javascript">
+function _submit(action){
+	ajaxing({});
+	$('#form input[name=act]').val(action);
+	$('#form').get(0).submit();
+}
+
+</script>
+<!--{/if}-->
+<!--{if $job=='restore'}-->
+<form action="$this_router-restore" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<table class="formtable">
+							<tr>
+								<td class="title">操作管理</td>
+							</tr>
+							<tr>
+								<td class="headerbtn_list">
+									<select name="name">
+										<option value="">选择还原点</option>
+										<!--{foreach $list $value}-->
+										<option value="$value">$value</option>
+										<!--{/foreach}-->
+									</select>
+									<input type="submit" value="$P8LANG[submit]" onclick="return confirm('$P8LANG[confirm_to_do]');" />
+									
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+<!--{/if}-->
+<!--{if $job=='query'}-->
+<form action="$this_url" method="POST" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<table class="columntable formtable hover_table click_changeable">
+							<tr class="title">
+								<td class="title" colspan="100">sql</td>
+							</tr>
+							<tr>
+								<td colspan="100">
+									<textarea name="sql" style="width: 100%;">{if isset($sql)}$sql{/if}</textarea>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+							<tr>
+								<td>
+									<input type="submit" class="edit_btn" value="提交" />
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<table class="columntable formtable hover_table click_changeable">
+							<tr class="title">
+								<td class="title" colspan="100">sql</td>
+							</tr>
+							<tr class="title">
+								<!--{foreach $fields $v}-->
+								<td class="title">$v</td>
+								<!--{/foreach}-->
+							</tr>
+							<!--{foreach $list $v}-->
+							<tr>
+								<!--{foreach $v $vv}-->
+								<td>$vv</td>
+								<!--{/foreach}-->
+							</tr>
+							<!--{/foreach}-->
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<input type="hidden" name="act" value="sql" />
+</form>
+<!--{/if}-->
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,84 @@
+<!--{php168}-->
+<style type="text/css">
+#js_allBtm2{position:relative;height:240px;}
+.mainCont2{ width:966px;overflow:hidden; position:absolute; left:18px;}
+.mainCont2 ul{ word-wrap:normal; width:1200px;}
+#js_allBtm2 li{width:300px;height:240px;overflow:hidden;margin:0 11px;float:left;display:inline;position:relative;}
+#js_allBtm2 .js_pic_title{font-size: 16px; margin: 15px 0 7px 5px;color: #333;}
+#js_allBtm2 .js_pic_time{font-size:12px;margin-left: 5px;color: #666;}
+#js_allBtm2 .leftBtn{position:absolute;top:35%;left:0px;}
+#js_allBtm2 .leftBtn a{ background:url({$RESOURCE}/skin/label/left_btn3.png) no-repeat; width:17px; height:31px; display:inline-block}
+#js_allBtm2 .rightBtn{position:absolute;top:35%;right:0px;}
+#js_allBtm2 .rightBtn a{ background:url({$RESOURCE}/skin/label/right_btn3.png) no-repeat; width:17px; height:31px; display:inline-block}
+</style>
+<div class="homebtm layout" id="js_allBtm2">
+    <div class="leftBtn" id="js_prevImg"><a href="javascript:void(0);"></a></div>
+    <div class="rightBtn" id="js_nextImg"><a href="javascript:void(0);"></a></div>
+	<div class="mainCont2" id="js_scrollBox2">        
+        <ul>
+			<!--{foreach $list $value}-->
+			<li>
+				<a href="$value[url]" target="_blank" title="$value[full_title]"><img width="300" height="180" alt="$value[full_title]" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a>
+				<p class="js_pic_title"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></p>
+				<span class="js_pic_time"><!--{php echo date('Y-m-d', $value['timestamp']);}--></span>
+			</li>
+			<!--{/foreach}-->
+		</ul>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+		var speed=2500;
+		var liWidth=322;
+		var move=322;
+		var obj=$("#js_scrollBox2 ul");
+		var allLi=obj.html();
+		var liLen=$("#js_scrollBox2 ul li").length;
+		var yd=liWidth*liLen;
+		obj.width(liWidth*liLen*3+"px");
+		obj.append(allLi);
+		obj.prepend(allLi);
+		obj.css({"margin-left":-yd+"px"});
+
+		function oneMove(style){
+			if(style=="left"){
+				var moveWidth=move;
+				}else{
+					var moveWidth=-move;
+					}
+			var leftPos=obj.css("margin-left").replace('px', '');
+			leftPos=parseInt(leftPos);
+			obj.stop(true,false).animate(
+			{marginLeft:leftPos+moveWidth},
+			500,
+			function(){
+				var now=parseInt(obj.css("margin-left").replace('px', ''));
+				if(now>=0){
+				obj.css("marginLeft",-yd+"px");
+				}
+				if(now<=-2*yd){
+				obj.css("marginLeft",-yd+"px");
+				}
+		}
+			)
+			
+			}
+		$("#js_nextImg").click(function(){
+			if(!obj.is(":animated")){oneMove();}
+			
+			});
+		$("#js_prevImg").click(function(){
+			if(!obj.is(":animated")){oneMove("left");}
+			});
+
+
+		var liTimer=setInterval(oneMove,speed);
+		$("#js_allBtm2").mouseenter(function(){
+			clearInterval(liTimer);
+			});
+		$("#js_allBtm2").mouseleave(function(){
+		liTimer=setInterval(oneMove,speed);
+			});
+});
+</script>
+<!--{/php168}-->

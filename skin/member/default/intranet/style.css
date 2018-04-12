@@ -1,0 +1,64 @@
+* { word-break:break-all; }
+body { color:#000; font-size:12px; font-family:"宋体", Arial Narrow,arial,serif; text-align:left; line-height:120%; background:#fff; }
+html, body, div, ul, li, dl, dt, dd, form, input, select, h1, h2, h3, h4, h5, p { margin:0px; padding:0px; }
+ul, li { list-style:none;}
+img { border:0px; margin:0px; padding:0px; }
+input, select { font-size:12px; }
+a:link, a:visited { color:#454545; text-decoration:none; }
+a:hover { color:#bd0a01; text-decoration:underline; }
+.clear { clear:both; height:1px; margin-top:-1px; overflow:hidden; font-size:0}
+.wrap{ width:990px; border:none; clear:both; overflow:hidden; margin:0px auto; }
+.mtop10{margin-top:10px}
+.c1e50 td{color:#1E50A2}.cba1c{#BA1C22}
+.top_head{height:33px}
+.top_head .top_head_link{float:right; height:30px; line-height:30px;padding:0 20px;margin-right:50px; background:url(coni_04.gif) repeat-x;border:1px solid #E9E9E9;}
+.top_head .top_head_link a{margin:0 5px;font-size:12px}
+.head_middle{height:18px; _height:18px}
+.head_bottom{height:40px;_margin-bottom:-1px}
+.head_bottom .logo{width:300px; height:40px;background:url(coni_10.gif) no-repeat;float:left; overflow:hidden}
+.tap{color:#999;margin-left:5px}
+
+.head_bottom .menu{float:right; margin: 11px 70px 0 0;}
+.head_bottom .menu li{float:left;display:inline-block;background:url(coni_btn.png) no-repeat left 2px;width:110px; height:29px;margin:0 3px; text-align:center;}
+.head_bottom .menu li.over{ background-position:left -48px}
+.head_bottom .menu li,.head_bottom .menu li a,.head_bottom .menu li.over a{line-height:30px; color:#ffffff; font-weight:bold; text-decoration:none}
+
+
+.head_bottom .usr_info{float:right; margin:18px 10px 0 0; line-height:22px}
+.head_bottom .usr_info .loing_link{margin-right:10px}
+.head_bottom .usr_info .link_btn{width:132px; background:url(coni_btn.png) no-repeat left -100px;float:right; display:inline-block; text-align:center;font-size:12px; line-height:22px;}
+.colorline{width:100%; background-color:#A92025; height:3px;font-size:0px}
+
+.head_search{border:1px solid #9BCBF6; background-color:#ECF7FF; height:75px; margin-top:10px}
+.head_search .search_box{float:left; width:630px;padding:10px 0 10px 20px}
+.head_search .search_box .search_wrap{font-size:14px; line-height:30px; height:30px;}
+.head_search .search_box .search_wrap .sear_input{width:423px; height:30px; border:none;line-height:30px; background:url(coni_31.gif) no-repeat; font-size:16px;padding-left:5px }
+.head_search .search_box .search_type{padding:10px 0 0 70px}
+.head_search .search_info{float: right;font-size: 12px;line-height: 21px;padding: 10px 20px 10px 2px;width: 294px;}
+.head_search .search_info a{color:#003278;}
+.head_search .search_info span{float:right;}
+.head_search .search_info span a {color:red;}
+
+.intra_btn{border:1px solid #999999; background-color:#FFFF99; padding:2px 5px;_padding:4px 2px 0 2px; font-weight:bold; font-size:12px;cursor:pointer}
+.forms_btn{background:url(forms_btn.gif) no-repeat; text-align:center; height:23px; width:71px;border:none; font-weight:bold; font-size:12px;cursor:pointer}
+
+.main_wrap{background:url(coni_35.gif) repeat-x ; margin-top:10px; min-height:300px}
+.main_left{width:165px;float:left; margin:10px 5px 0 20px;display:inline}
+.main_left .left_menu{padding-top:10px}
+.main_left .left_menu li{height:46px; background:url(coni_btn.png) no-repeat left -145px;padding-right:30px; cursor:pointer; line-height:46px; text-align:right;border-right:1px solid #009900; }
+.main_left .left_menu li.over{background-position:left -215px;border:none;}
+.main_left .left_menu li,.main_left .left_menu li a,.main_left .left_menu li.over a,.main_left .left_menu li.over{font-weight:bold; color:#333333;font-size:14px}
+.main_right{width:780px; float:right; margin-top:10px; margin-right:10px;display:inline}
+.main_right .main_right_head{height:25px; line-height:30px; border-bottom:1px solid #cccccc}
+.show_table{background-color:#cccccc; margin-top:10px}
+.show_table td{ background-color:#ffffff; height:30px; line-height:30px; padding-left: 5px; }
+.show_table .tablehead td{background:url(coni_43.gif) repeat-x; height:25px; line-height:21px;font-weight:bold}
+.footer{text-align:center; margin-top:10px; border-top:1px solid #cccccc;padding-top:10px}
+.message { color:#ff0000; padding:0 5px; }
+.ajaxing { position: absolute; width: 100px; background: #EFEFEF url(../../../images/wait-big.gif) no-repeat 2px 2px; padding: 10px 0px 10px 40px; border: 1px solid #AAAAAA; font-weight: bold; }
+.txt { height:18px; line-height:18px}
+.txt { height:18px; line-height:18px}
+.tdL{text-align:right;padding-right:5px}
+
+.coni_53{background:url(coni_53.gif) no-repeat;padding-left:35px;line-height:34px;font-weight:bold}
+.coni_65{background:url(coni_65.gif) no-repeat;padding-left:35px;line-height:40px;font-weight:bold;margin-bottom:10px}

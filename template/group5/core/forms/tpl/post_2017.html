@@ -1,0 +1,255 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/group5/core/forms/style.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/images/category_selector.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<script type="text/javascript">
+var MODEL = '$MODEL';
+var attachment_hash = '$attachment_hash';
+var form_submit = false;
+{if !empty($this_model['CONFIG']['content_thumb_width'])}P8CONFIG.cthumb_width = {$this_model['CONFIG']['content_thumb_width']};{/if}
+{if !empty($this_model['CONFIG']['content_thumb_height'])}P8CONFIG.cthumb_height = {$this_model['CONFIG']['content_thumb_height']};{/if}
+
+window.onbeforeunload = function(){
+	P8_Upload.del(form_submit);
+};
+$(function(){
+
+$.validator.addMethod('jsreg',function(value, element, params){
+	return this.optional(element) || params.test(value);
+});
+
+$('#form').validate({
+	rules: { },
+	messages: { },
+	
+	errorPlacement: function(error, element) {
+			element.siblings(".jsregmsg").html(error);	
+	},
+	submitHandler: function(form){
+		form_submit = true;		
+		form.submit();
+	},		
+	onkeyup: false
+});
+
+});
+</script>
+<div class="breadbanner">
+	$label[zhuzhan-banner]
+</div>
+<div class="gp-container">
+	<div class="container">
+		<div class="breadcrumbbox">
+			<ol class="breadcrumb">
+				<li><a href="{$this_system->controller}"><i class="fa fa-home"></i>首页</a></li>
+				<li class="active"><i class="fa fa-caret-right"></i>$this_model[alias]</li>
+			</ol>
+			<div class="row-page-tabs">
+				$label[list_forms_nav]
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="recruit-forms">
+			<form name="form" id="form" action="$this_url" method="post">
+				<table width="100%" cellpadding="5" cellspacing="0" class="pop_table2">
+						<!--{if empty($this_model['CONFIG']['parts'])}-->
+						<!--简单布局开始-->
+						<!--{foreach $this_model['fields'] $field $field_data}-->
+						<!--{php
+							if(!$field_data['editable']) continue;
+							
+							$__name = '';
+							
+							switch($field_data['widget']){
+							
+							case 'checkbox': case 'multi_select':case 'linkage':
+								$__name = '[]';
+							break;
+							case 'uploader': case 'image_uploader':
+								$__name = '[url]';
+							break;
+							case 'multi_uploader':
+								$__name = '[url][]';
+							break;
+							
+							}
+						}-->
+						<tr class="form_tr">
+							<td class="tdL2" valign="top">{$field_data['alias']}:
+								<!--{if $field_data['not_null']}-->
+								<font color="red">*</font>
+								<!--{/if}-->
+							</td>
+							<td class="tdR2">
+								<!--{php include template($core, 'widget/'. $field_data['widget'], 'default');}-->
+								<!--{if !empty($field_data['units'])}-->
+								$field_data[units]
+								<!--{/if}-->
+								<!--{if !empty($field_data['description'])}-->
+								<span class="description">$field_data[description]</span>
+								<!--{/if}-->
+								<span class="jsregmsg"></span>
+							</td>
+						</tr>
+							<!--{if $field_data['not_null']}-->
+							<script type="text/javascript">
+							$(document).ready(function(){
+								$('#form *[name="field#[$field]$__name"]').rules('add', {
+									required: true,
+									messages: { required: "{$P8LANG['forms_field_required']}"}
+								});
+							});
+							</script>
+							<!--{/if}-->
+							<!--{if $field_data['jsreg']}-->
+							<script type="text/javascript">
+								$(document).ready(function(){
+									$('#form *[name="field#[$field]$__name"]').rules('add', {
+										jsreg: {$field_data['jsreg']},
+										messages: {jsreg:'{$field_data['jsregmsg']}'}
+									});
+								});
+								</script>
+							<!--{/if}-->
+						<!--{/foreach}-->
+						<!--{if $this_model['CONFIG']['captcha']}-->
+						<tr class="form_tr">
+							<td class="tdL2">
+							验证码：
+							</td>
+							<td><input type="text" name="captcha" style="border:#7F9DB9 1px solid;width:206px;height:17px;" /> <span id="captcha"></span>
+							<script type="text/javascript">
+							captcha($('#captcha'), $('#form input[name="captcha"]'));
+							</script>
+							
+							</td>
+						</tr>
+						<!--{/if}-->
+						<!--{else}-->
+						
+						<!--复杂布局开始-->
+						<!--{foreach $this_model['CONFIG']['parts'] $pk $pd}-->
+						<tr class="form_tr">
+							<td><b class="part_name">$pd[name]</b></td>
+						</tr>
+						<tr class="form_tr">
+							<td>
+								<table width="100%"  cellpadding="0" cellspacing="0">
+									<tr>
+										<!--{php $tdwidth = 100/$pd['row'].'%'; for($i=1;$i<=$pd['row'];$i++){ $tdid = "$pk-$i";}-->
+										<td id="$pk-$i" width="$tdwidth" valign="top">
+											<table width="100%" border="0"  cellpadding="5" cellspacing="0">
+												<!--{foreach $this_model['parts'][$tdid] $fid $field}-->
+												<!--{php
+													$field_data = $this_model['fields'][$field];
+													
+													if(!$field_data['editable']) continue;
+													
+													$__name = '';
+													
+													switch($field_data['widget']){
+													
+													case 'checkbox': case 'multi_select':
+														$__name = '[]';
+													break;
+													case 'uploader': case 'image_uploader':
+														$__name = '[url]';
+													break;
+													case 'multi_uploader':
+														$__name = '[url][]';
+													break;
+													
+													}
+												}-->
+												<tr>
+													<td class="tdL2">{$field_data['alias']}:
+														<!--{if $field_data['not_null']}-->
+														<font color="red">*</font>
+														<!--{/if}-->
+														</td>
+													<td class="tdR2">
+														<!--{php include template($core, 'widget/'. $field_data['widget'], 'default');}-->
+														<!--{if !empty($field_data['units'])}-->
+														$field_data[units]
+														<!--{/if}-->
+														<!--{if !empty($field_data['description'])}-->
+														<span class="description">$field_data[description]</span>
+														<!--{/if}-->
+														<span class="jsregmsg"></span>
+													</td>
+												</tr>
+												
+												<!--{if $field_data['not_null']}-->
+												<script type="text/javascript">
+													$(document).ready(function(){
+														$('#form *[name="field#[$field]$__name"]').rules('add', {
+															required: true,
+															messages: { required: "{$P8LANG['forms_field_required']}"}
+														});
+													});
+													</script>
+												<!--{/if}-->
+												<!--{if $field_data['jsreg']}-->
+												<script type="text/javascript">
+													$(document).ready(function(){
+														$('#form *[name="field#[$field]$__name"]').rules('add', {
+															jsreg: {$field_data['jsreg']},
+															messages: {jsreg:'{$field_data['jsregmsg']}'}
+														});
+													});
+													</script>
+												<!--{/if}-->
+												<!--{/foreach}-->
+											</table>
+										</td>
+										<!--{php }}-->
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<!--{/foreach}-->
+						<!--{if $this_model['CONFIG']['captcha']}-->
+						<tr class="form_tr">
+							<td>
+								<table>
+									<tr>
+										<td class="tdL2">
+									验证码：
+										</td>
+										<td><input type="text" name="captcha" style="border:#7F9DB9 1px solid;width:206px;height:17px;" /> <span id="captcha"></span>
+										<script type="text/javascript">
+										captcha($('#captcha'), $('#form input[name="captcha"]'));
+										</script>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<!--{/if}-->
+						<!--{/if}-->
+					</table>
+					<div style="padding-left:100px">
+							<input type="submit" name="" class="forms_sub" value="提 交" />
+							<input type="reset" name="" class="forms_btn2" value="重 置" />
+							<input type="hidden" name="mid" value="$mid" />
+							<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+							<input type="hidden" name="attachment_hash" value="{$attachment_hash}" />
+					</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(function(){
+	<!--{if empty($this_model['CONFIG']['parts'])}-->	   
+	$('.pop_table tr:even').addClass('pop_tr');	
+	<!--{/if}-->
+})
+</script>
+<!--{template $core footer}-->
+<!--{/php168}-->
+

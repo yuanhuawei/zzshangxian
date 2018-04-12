@@ -1,0 +1,28 @@
+<!--{php168}-->
+<!--!! modified by admin at 2010-06-08 17_33_05 !!-->
+<!--{foreach $list $i $value}-->
+<li>
+<a href="{$value['url']}" target="_blank" title="{$value['full_title']}" class="u">{$value['title']}</a>
+<b>
+<!--{if !empty($value['bestanswer'])}-->
+<!--{php 
+/*
+$aid:最佳答案ID
+$content:最佳答案内容摘要
+$addtime:最佳答案添加时间
+$uid:最佳答案添加用户ID
+$username:最佳答案添加用户名称
+*/
+	$data = explode(' ', $value['bestanswer']);
+	$aid = $data[0];
+	$content = $data[1];
+	$addtime = $data[2];
+	$uid = $data[3];
+	$username = !empty($data[4]) ? $data[4] : '';
+}-->
+{$content}
+<!--{/if}-->
+</b>
+</li>
+<!--{/foreach}-->
+<!--{/php168}-->

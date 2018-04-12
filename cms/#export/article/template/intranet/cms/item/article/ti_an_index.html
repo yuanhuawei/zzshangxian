@@ -1,0 +1,191 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<div class="list_nave">
+	您的位置：<a href="{$this_system.url}">首页</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>
+</div>
+<!--左边-->
+<div class="intranet_bglist_down_left">
+	<div class="peixun_content_l mtop">
+			$label[tian_content_c00]
+		</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[tian_blist_more7]</span> <span class="list_title1">$label[tian_blist_title7]</span>
+	</div>
+	<div class="list_content_categories">
+	    <table>
+		    <tr>
+			   <td>
+		<!--{foreach $subcategories $v}-->
+		<div class="intranet_list_nm"><a href="$v[url]">$v[name]</a></div>
+		<!--{/foreach}-->
+		</td>
+	   </tr>
+	</table>
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[tian_blist_more1]</span> <span class="list_title1">$label[tian_blist_title1]</span>
+	</div>
+	<div class="list_content1">
+		$label[tian_blist_content1]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[tian_blist_more2]</span> <span class="list_title1">$label[tian_blist_title2]</span>
+	</div>
+	<div class="list_content1">
+		$label[tian_blist_content2]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[tian_blist_more3]</span> <span class="list_title1">$label[tian_blist_title3]</span>
+	</div>
+	<div class="list_content1" style="padding:2px 0">
+		$label[tian_blist_content3]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[tian_blist_more4]</span> <span class="list_title1">$label[tian_blist_title4]</span>
+	</div>
+	<div class="list_content1" style="padding:2px 0">
+		$label[tian_blist_content4]
+	</div>
+	<div class="mtop">
+	    $label[tian_blist_artical_ads]
+	</div>
+</div>
+
+<div class="intranet_bglist_down_right">
+	<!--中间-->
+	<div class="intranet_tian_index_center">
+		<div class="tian_content_c mtop">
+			$label[tian_content_c01]
+		</div>
+		<div class="tian_index_middle " id="tab_1">
+			<div class="gov_tab_head_red head">
+				<span class="over" >$label[tian_index_title01]</span> <span>$label[tian_index_title02]</span> <span>$label[tian_index_title03]</span> <div class="tab_more">$label[index_bm_more]</div>
+			</div>
+			<div class="index_tian_cbg"></div>
+			<div class="main">
+				<div  class="tian_index_middle_content content">
+					$label[tian_index_content01]
+					<div class="gov_index_jixiao">$label[bm_index_content011]</div>
+				</div>
+				<div class="tian_index_middle_content  content" style="display:none;">
+					$label[tian_index_content02]
+					<div class="gov_index_jixiao">$label[bm_index_content021]</div>
+				</div>
+				<div class="tian_index_middle_content  content" style="display:none;">
+					$label[tian_index_content03]
+					<div class="gov_index_jixiao">$label[bm_index_content031]</div>
+				</div>			
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="clear"></div>
+		
+		<div class="list_head1">
+			<span class="list_more1">$label[tian_title_more_c01]</span> <span class="list_title2">$label[tian_title_c01]</span> 
+		</div>
+		<div class="list_content1 main">
+			$label[tian_big_list_c01]
+		</div>
+
+		<div class="list_head1 mtop">
+			<span class="list_more1">$label[tian_title_more_c04]</span> <span class="list_title2">$label[tian_title_c04]</span>
+		</div>
+		<div class="list_content1 main">
+			$label[tian_big_list_c04]
+		</div>
+
+		<div class="list_head1 mtop">
+			<span class="list_more1">$label[tian_title_more_c02]</span> <span class="list_title2">$label[tian_title_c02]</span>
+		</div>
+		<div class="list_content1 main">
+			$label[tian_big_list_c02]
+		</div>
+
+
+		<div class="list_head1 mtop head">
+			<span class="list_more1">$label[tian_title_more_c03]</span><span class="list_title2">$label[tian_title_c03]</span>
+		</div>
+		<div class="list_content1 main">
+			$label[tian_big_list_c03]
+		</div>
+	</div>
+	
+	<!--右边-->
+
+	<div class="list_tian_right">
+		<div class="tian_right_top  mtop">
+			<div class="tian_right_img">$label[tian_post]</div>
+		</div>
+		
+		<div class="tian_right_top mtop">
+			<div class="tian_right_img">$label[tian_search]</div>	
+		</div>
+		
+		<div class="peixun_right_top mtop">
+			<div class="list_head6">
+				<span class="list_more">$label[tian_list_title1]</span>
+				<span class="list_more3">$label[tian_list_title10]</span>
+			</div>
+			<div class="list_content1">
+				$label[tian_list_content1]
+			</div>
+		</div>
+	
+		<div class="peixun_right_top mtop">
+			<div class="list_head6">
+				<span class="list_more">$label[tian_list_title2]</span>
+				<span class="list_more3">$label[tian_list_title20]</span>
+			</div> 
+			<div class="list_content1">
+				$label[tian_list_content2]
+			</div>
+		</div>
+		<div class="peixun_right_top mtop">
+			<div class="list_head6">
+				<span class="list_more">$label[tian_list_title3]</span>
+				<span class="list_more3">$label[tian_list_title30]</span>
+			</div> 
+			<div class="list_content1">
+				$label[tian_list_content3]
+			</div>
+		</div>
+		<div class="peixun_right_top mtop">
+			<div class="list_head6">
+				<span class="list_more">$label[tian_list_title4]</span>
+				<span class="list_more3">$label[tian_list_title40]</span>
+			</div> 
+			<div class="list_content1">
+				$label[tian_list_content4]
+			</div>
+		</div>
+		<div class="peixun_right_top mtop">
+			<div class="list_head6">
+				<span class="list_more">$label[tian_list_title5]</span>
+				<span class="list_more3">$label[tian_list_title50]</span>
+			</div> 
+			<div class="list_content1">
+				$label[tian_list_content5]
+			</div>
+		</div>
+		<div class="mtop">
+		       $label[tian_blist_artical_ads2] 
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+<div class="clear"></div>
+<div class="mtop">$label[tian_bottom_01]</div> 
+<div class="clear"></div>
+<script language="javascript">
+$(document).ready(function(){
+MoveTabs('tab_1',0,'mouseover');
+});
+</script>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

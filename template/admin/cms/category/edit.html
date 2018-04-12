@@ -1,0 +1,767 @@
+<!--{php168}-->
+<!--{if !P8_AJAX_REQUEST}-->
+<!--{template $this_module header admin}-->
+<!--{/if}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/jq_ui.core.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_tabs.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<link rel="stylesheet" href="{$SKIN}/{$SYSTEM}/category_selector.css" type="text/css" />
+
+<form action="$this_url" method="post" id="form"{if P8_AJAX_REQUEST} target="poster"{/if}>
+<div class="mainbox mainborder">
+	<div class="section">
+	<table border="0" cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+			<td class="title">{$P8LANG['update_cms_category']}</td>
+		</tr>
+		<tr>
+			<td id="tabs">
+				<ul>
+					<li><a href="#tabs-1"> <span>{$P8LANG['cms_config']}</span> </a></li>
+					<li><a href="#tabs-2"> <span>{$P8LANG['cms_config_style']}</span> </a></li>
+					<li><a href="#tabs-3"> <span>{$P8LANG['cms_config_other']}</span> </a></li>
+				</ul>
+				
+				<div id="tabs-1">
+					<table class="columntable formtable hover_table">
+						<tr>
+							<td class="tdL">{$P8LANG['cms_category_name']}</td>
+							<td class="tdR">
+								<!--{if $ACTION == 'update'}-->
+									<input type="text" class="txt" id="name" name="name" value="{if isset($data['name'])}$data[name]{/if}" />
+								<!--{else}-->
+									<textarea id="name" name="name"  cols="30" rows="5"></textarea>
+									<span class="help">{$P8LANG['top_cms_notes_2']}</span>
+								<!--{/if}-->
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['cms_category_type']}</td>
+							<td class="tdR">
+								<input name="type" id="type_1" type="radio" value="1"{if !empty($data['type']) && $data['type'] == 1} checked{/if}  onclick="showoutlink(1)"/>
+								<label for="type_1">{$P8LANG['cms_category_type_1']}</label>
+								<input name="type" id="type_2" type="radio" value="2"{if !empty($data['type']) && $data['type'] == 2} checked{/if}  onclick="showoutlink(2)"/>
+								<label for="type_2">{$P8LANG['cms_category_type_2']}</label>
+								<input name="type" id="type_3" type="radio" value="3"{if !empty($data['type']) && $data['type'] == 3} checked{/if} onclick="showoutlink(3)"/>
+								<label for="type_3">{$P8LANG['cms_category_type_3']}</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['cms_parent_category']}</td>
+							<td class="tdR">
+								<span id="parents"></span>
+								<input type="button" value="选择栏目.." onclick="dialog.show()" />
+								<input type="hidden" name="parent" value="{if isset($data['parent'])}$data[parent]{/if}" />
+								<input type="hidden" id="parent" />
+							</td>
+						</tr>
+						<tr id="category_outlink">
+										<td class="tdL">{$P8LANG['cms_category_outlink']}</td>
+										<td class="tdR">
+											<input type="text" class="txt" name="url" id="outlink" value="{if !empty($data['url'])}$data[url]{/if}" size="50"/>
+											打开窗口:
+											<input type="radio" name="config[target]" value="_self" {if !empty($config['target']) && $config['target']=='_self'} checked{/if}/> 本窗口
+											<input type="radio" name="config[target]" value="_blank" {if empty($config['target']) || $config['target']=='_blank'} checked{/if}/> 新开窗口
+										</td>
+						</tr>
+						<tbody id="category_model">			
+						<tr>
+							<td class="tdL">{$P8LANG['cms_category_model']}</td>
+							<td class="tdR">
+								<select name="model" id="model" onchange="change_model(this.value)">
+									<!--{foreach $models $mod $v}-->
+									<option value="$mod"{if !empty($data['model']) && $data['model'] == $mod}selected{/if}>$v[alias]
+									</option>
+									<!--{/foreach}-->
+								</select>
+							</td>
+						</tr>
+						<tr id="all_model">
+							<td class="tdL">列表页是否显示所有内容</td>
+							<td class="tdR"><input type="radio"  name="list_all_model" value="0" {if empty($data['list_all_model'])}checked{/if}/> 否 <input type="radio"  name="list_all_model" value="1" {if !empty($data['list_all_model'])}checked{/if}/> 是<span class="help">实现大分类可分页，要配合模板使用</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">每页内容数量</td>
+							<td class="tdR"><input type="text" class="txt" name="page_size"  value="{if !empty($data['page_size'])}{$data['page_size']}{else}30{/if}" size="4" /> 条
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">排序</td>
+							<td class="tdR"><input type="text" class="txt" name="display_order"  value="{if !empty($data['display_order'])}{$data['display_order']}{else}0{/if}" size="4" /> 
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">是否显示</td>
+							<td class="tdR">
+								<input name="config[enable_show]" type="radio" value="0"{if empty($config['enable_show'])} checked{/if}/>
+								<label for="enable_show_1">显示</label>
+								<input name="config[enable_show]" type="radio" value="1"{if !empty($config['enable_show'])} checked{/if}/>
+								<label for="enable_show_2">不显示</label>
+							</td>
+						</tr>
+						<!--{if $ACTION == 'update'}-->
+						<tr>
+							<td class="tdL">{$P8LANG['cms_category_content_orderby']}</td>
+							<td class="tdR">
+								<select name="config[orderby]">
+									<!--{foreach $order_fields $name $v}-->
+									<option value="$name"{if !empty($config['orderby']) && $config['orderby'] == $name} selected{/if}>$v</option>
+									<!--{/foreach}-->
+								</select>
+								<input type="radio" name="config[orderby_desc]" value="0"{if empty($config['orderby_desc'])} checked{/if} />降序
+								<input type="radio" name="config[orderby_desc]" value="1"{if !empty($config['orderby_desc'])} checked{/if} />升序
+							</td>
+						</tr>
+						<!--{/if}-->
+						
+						<!--
+						<tr>
+							<td class="tdL">栏目管理员</td>
+							<td class="tdR">
+								<input type="text" name="config[administrator]" value="{if !empty($config['administrator'])}$config[administrator]{/if}" size="80" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['cms_category_Commentable']}</td>
+							<td class="tdR"><input name="allowcomment" type="radio" value="1" checked="checked"/>
+								{$P8LANG['cms_category_Comments_open']}
+								<input name="allowcomment" type="radio" value="0" />
+								{$P8LANG['cms_category_Comments_close']} </td>
+						</tr>
+						-->
+						</tbody>
+					</table>
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				<div id="tabs-2">
+					<table class="columntable formtable hover_table">
+						<tr>
+							<th class="tdL">&nbsp;&nbsp;项目</th>
+							<th class="tdR" style="width:40%">个人电脑</th>
+							<th class="tdR" style="width:40%">移动设备</th>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['cms_category_list_template']}</td>
+							<td class="tdR" style="width:40%">
+								<input type="text" class="txt" name="list_template" id="lt" value="{if !empty($data['list_template'])}$data[list_template]{/if}" size="30" />
+								<input type="button" value="{$P8LANG['select_template']}" onclick="list_template_dialog.show()" />
+							</td>
+							<td class="tdR" style="width:40%">
+								<input type="text" class="txt" name="list_template_mobile" id="ltm" value="{if !empty($data['list_template_mobile'])}$data[list_template_mobile]{/if}" size="30" />
+								<input type="button" value="{$P8LANG['select_template']}" onclick="list_template_dialog_mobile.show()" />
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['cms_category_view_template']}</td>
+							<td class="tdR" style="width:40%">
+								<input type="text" class="txt" name="view_template" id="vt" value="{if !empty($data['view_template'])}$data[view_template]{/if}" size="30" />
+								<input type="button" value="{$P8LANG['select_template']}" onclick="view_template_dialog.show()" />
+							</td>
+							<td class="tdR" style="width:40%">
+								<input type="text" class="txt" name="view_template_mobile" id="vtm" value="{if !empty($data['view_template_mobile'])}$data[view_template_mobile]{/if}" size="30" />
+								<input type="button" value="{$P8LANG['select_template']}" onclick="view_template_dialog_mobile.show()" />
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['cms_category_item_template']}</td>
+							<td class="tdR" style="width:40%">
+								<input type="text" class="txt" name="item_template" id="it" value="{if !empty($data['item_template'])}$data[item_template]{/if}" size="30" />
+								<input type="button" value="{$P8LANG['select_template']}" onclick="item_template_dialog.show()" />
+							</td>
+							<td class="tdR" style="width:40%">
+								<input type="text" class="txt" name="item_template_mobile" id="itm" value="{if !empty($data['item_template_mobile'])}$data[item_template_mobile]{else}mobile/list{/if}" size="30" />
+								<input type="button" value="{$P8LANG['select_template']}" onclick="item_template_dialog_mobile.show()" />
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['cms_category_list_title_length']}</td>
+							<td class="tdR" style="width:40%">
+								<input type="text" class="txt" name="config[list_title_length]" value="{if !empty($config['list_title_length'])}$config[list_title_length]{else}{/if}" size="5" />
+							</td>
+                            <td class="tdR" style="width:40%">
+								<input type="text" class="txt" name="config[list_title_length_mobile]" value="{if !empty($config['list_title_length_mobile'])}$config[list_title_length_mobile]{else}40{/if}" size="5" />
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['cms_category_list_title_dot']}</td>
+							<td class="tdR" style="width:40%">
+								<input type="radio" name="config[list_title_length_dot]" value="1" {if !empty($config['list_title_length_dot'])}checked{/if}/>{$P8LANG['Y']}
+								<input type="radio" name="config[list_title_length_dot]" value="0" {if empty($config['list_title_length_dot'])}checked{/if}/>{$P8LANG['N']}
+							</td>
+                            <td class="tdR" style="width:40%">
+								<input type="radio" name="config[list_title_length_mobile_dot]" value="1" {if !empty($config['list_title_length_mobile_dot'])}checked{/if}/>{$P8LANG['Y']}
+								<input type="radio" name="config[list_title_length_mobile_dot]" value="0" {if empty($config['list_title_length_mobile_dot'])}checked{/if}/>{$P8LANG['N']}
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['cms_category_list_pages_template']}</td>
+							<td class="tdR" style="width:40%">
+								<input type="text" class="txt" name="config[list_pages_template]" value="{if !empty($config['list_pages_template'])}$config[list_pages_template]{/if}" size="30" />
+								<span class="help">{$P8LANG['cms_category_pages_template_note']}</span>
+							</td>
+                            <td class="tdR" style="width:40%">
+								<input type="text" class="txt" name="config[list_pages_template_mobile]" value="{if !empty($config['list_pages_template_mobile'])}$config[list_pages_template_mobile]{else}page_template_mobile{/if}" size="30" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['cms_category_view_pages_template']}</td>
+							<td class="tdR" colspan="2">
+								<input type="text" class="txt" name="config[view_pages_template]" value="{if !empty($config['view_pages_template'])}$config[view_pages_template]{else}base_page_template{/if}" size="30" />
+								<span class="help">{$P8LANG['cms_category_pages_template_note']}</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['cms_category_frame']}</td>
+							<td class="tdR" colspan="2">
+								<input type="text" class="txt" name="frame" id="frame"  value="{if !empty($data['frame'])}{$data['frame']}{/if}" size="50" />
+								<input type="button" onclick="uploader.choseup();" value="{$P8LANG['upload']}" />
+								<input type="button" id="frame_toggle" onclick="" value="" style="display: none;" />
+								<a href="###" onclick="uploader.image_cut()">[$P8LANG[image_cut]]</a><br />
+								
+								<script type="text/javascript">
+								var uploader;
+								$(function(){
+									uploader = new P8_Upload({
+										element: {
+											src: $('#frame'),
+											attribute: 'value'
+										},
+										param: {
+											return_thumb: true<!--{if !empty($this_model['CONFIG']['frame_thumb_width']) && !empty($this_model['CONFIG']['frame_thumb_height'])}-->,
+											thumb_width: {$this_model['CONFIG']['frame_thumb_width']},
+											thumb_height: {$this_model['CONFIG']['frame_thumb_height']}
+											<!--{/if}-->
+										}
+									});
+								});
+								</script>
+							</td>
+						</tr>
+						
+					</table>
+				</div>
+
+				
+				<div id="tabs-3">
+					<table class="columntable formtable hover_table">
+					<!--{if $ACTION == 'update'}-->
+						<tr>
+							<td class="tdL">{$P8LANG['bind_domain']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="domain"  value="{if !empty($data['domain'])}{$data['domain']}{/if}" size="60" />
+								<span class="help">{$P8LANG['cms_category_domain_note']}</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['htmlize']}</td>
+							<td class="tdR">
+								<input type="radio" name="htmlize" value="1"{if !empty($data['htmlize']) && $data['htmlize'] == 1} checked{/if} />全部静态
+								<input type="radio" name="htmlize" value="2"{if !empty($data['htmlize']) && $data['htmlize'] == 2} checked{/if} />仅内容页静态
+								<input type="radio" name="htmlize" value="0"{if empty($data['htmlize'])} checked{/if} />不静态
+								<input type="checkbox" name="htmlize_apply_category" value="1" id="apply" /><label for="apply">{$P8LANG['cms_category_apply_to_sub_categories']}</label>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['cms_category_html_path']}</td>
+							<td class="tdR"><!--{if !empty($data['path'])}-->
+								<input type="text" class="txt" name="path"  value="<!--{php echo basename($data['path']);}-->" size="60" /> {\$DOCUMENT_ROOT}<!--{php echo str_replace(PHP168_PATH, '', $this_system->path . $data['path']);}-->
+								<!--{else}-->
+								<input type="text" class="txt" name="path"  value="" size="60" />
+								<!--{/if}-->
+								<span class="help">{$P8LANG['cms_category_html_path_note']}</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['html_list_url_rule']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="html_list_url_rule"  value="{if !empty($data['html_list_url_rule'])}{$data['html_list_url_rule']}{else}{\$category_url}/#list-{\$page}.html#{/if}" size="70" />
+								<input type="checkbox" name="list_rule_apply_category" value="1" />{$P8LANG['cms_category_apply_to_sub_categories']}
+								<span class="help">{$P8LANG['cms_category_html_list_rule_note']}</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['html_view_url_rule']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="html_view_url_rule"  value="{if !empty($data['html_view_url_rule'])}{$data['html_view_url_rule']}{else}{\$category_url}/{\$Y}_{\$m}/{\$d}_{\$H}/content-{\$id}#-{\$page}#.html{/if}" size="70" />
+								<input type="checkbox" name="view_rule_apply_category" value="1" />{$P8LANG['cms_category_apply_to_sub_categories']}
+								<span class="help">{$P8LANG['cms_category_html_view_rule_note']}</span>
+							</td>
+						</tr>
+                        
+                        <tr>
+							<td class="tdL">{$P8LANG['html_list_url_rule_mobile']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="html_list_url_rule_mobile"  value="{if !empty($data['html_list_url_rule_mobile'])}{$data['html_list_url_rule_mobile']}{else}{\$core_url}/m/{\$id}/#list-{\$page}.html#{/if}" size="70" />
+								<input type="checkbox" name="list_rule_apply_category" value="1" />{$P8LANG['cms_category_apply_to_sub_categories']}
+								<span class="help">{$P8LANG['cms_category_html_list_rule_note']}</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['html_view_url_rule_mobile']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="html_view_url_rule_mobile"  value="{if !empty($data['html_view_url_rule_mobile'])}{$data['html_view_url_rule_mobile']}{else}{\$core_url}/m/{\$cid}/{\$Y}-{\$m}-{\$d}/content-{\$id}#-{\$page}#.html{/if}" size="70" />
+								<input type="checkbox" name="view_rule_apply_category" value="1" />{$P8LANG['cms_category_apply_to_sub_categories']}
+								<span class="help">{$P8LANG['cms_category_html_view_rule_note']}</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">栏目收费</td>
+							<td class="tdR">
+								<input type="radio" name="config[fee][credit_type]" id="credit_0" value="0" /><label for="credit_0">不收费</label>
+								<!--{foreach $core->credits $id $v}-->
+								<input type="radio" name="config[fee][credit_type]" id="credit_$id" value="$id"{if !empty($config['fee']['credit_type']) && $config['fee']['credit_type'] == $id} checked{/if} /><label for="credit_$id">$v[name]</label>
+								<!--{/foreach}-->
+								<input type="text" name="config[fee][credit]" size="4" value="{if !empty($config['fee']['credit'])}{$config['fee']['credit']}{/if}" />
+								<br />
+								忽略收费的会员组: 
+								<!--{foreach $core->roles $id $v}-->
+								<!--{php if($v['gid'] == $core->CONFIG['administrator_role_group']) continue;}-->
+								<input type="checkbox" name="config[fee][ignore_roles][$id]" id="gid_$id" value="1"{if !empty($config['fee']['ignore_roles'][$id])} checked{/if} /><label for="gid_$id">$v[name]</label>
+								<!--{/foreach}-->
+							</td>
+						</tr>
+						<!--{/if}-->
+						<tr>
+							<td class="tdL">{$P8LANG['seo_keywords']}</td>
+							<td class="tdR">
+								<input type="text" name="seo_keywords" value="{if !empty($data['seo_keywords'])}$data[seo_keywords]{/if}" size="80" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['seo_description']}</td>
+							<td class="tdR">
+								<input type="text" name="seo_description" value="{if !empty($data['seo_description'])}$data[seo_description]{/if}" size="80" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">标题样式</td>
+							<td class="tdR">
+								<input type="radio" name="config[title_style]" id="tt_1" value="1"{if !empty($config['title_style']) && $config['title_style'] == 1}checked{/if} /><label for="tt_1">标题_网站名称</label><br />
+								<input type="radio" name="config[title_style]" id="tt_2" value="2"{if !empty($config['title_style']) && $config['title_style'] == 2}checked{/if} /><label for="tt_2">标题_栏目名称</label><br />
+								<input type="radio" name="config[title_style]" id="tt_3" value="3"{if !empty($config['title_style']) && $config['title_style'] == 3}checked{/if} /><label for="tt_3">标题_栏目名称_网站名称</label>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['cms_category_label_postfix']}</td>
+							<td class="tdR">
+								<input type="text" name="label_postfix" value="{if !empty($data['label_postfix'])}$data[label_postfix]{/if}" size="15" />
+								<!--{if $ACTION == 'update'}--><input type="button" value="填充后缀" onclick="$(this).prev().val('category_$data[id]')" />
+								<!--{else}-->
+								<input type="button" value="填充后缀" onclick="get_auto_label_postfix(this)" />
+								<input type="hidden" id="auto_label_postfix" name="auto_label_postfix" value="0"/>
+								<!--{/if}-->
+								<span class="help">{$P8LANG['cms_category_label_postfix_note']}</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">栏目是否启用密码访问</td>
+							<td class="tdR"><input type="radio" name="need_password" value="0" {if empty($data['need_password'])}checked{/if}/> 否 <input type="radio"  name="need_password" value="1" {if !empty($data['need_password'])}checked{/if}/> 是 
+							<input type="checkbox" name="password_rule_apply_category" value="1" />{$P8LANG['cms_category_apply_to_sub_categories']}
+							<span class="help">
+							<br />默认不启用。
+							<br />建议勾选"应用到子分类"选项，设置子分类应用相同设置和密码。
+							<br />一旦启用，则访问分类和子分类时，仅需一次密码验证。
+							<br />如果网站中有设置不同分类使用不同密码的，则访问不同分类时，都必须输入一次密码。
+							</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">栏目访问密码</td>
+							<td class="tdR"><input type="text" class="txt" name="category_password"  value="{$data['category_password']}" size="30" /> <span class="help">启用栏目密码访问时的访问密码，不启用则设置无效</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">是否启用IP允许</td>
+							<td class="tdR">
+								<input type="radio" name="config[allow_ip][enabled]" value="1" {if !empty($config['allow_ip']['enabled'])} checked{/if}/>开启
+								<input type="radio" name="config[allow_ip][enabled]" value="0" {if empty($config['allow_ip']['enabled'])} checked{/if}/>不开启
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">允许IP</td>
+							<td class="tdR">
+								<textarea cols="30" rows="8" name="config[allow_ip][collectip]" style="float:left;width:208px;margin-right:10px;">
+								<!-- {if !empty($config['allow_ip']['collectip'])} -->
+									<!-- {foreach $config['allow_ip']['collectip'] $key $value} -->
+										{$value}*
+									<!-- {/foreach} -->
+								<!-- {/if} -->
+								</textarea><div style="float;margin-left:10px;">访问的客户端必须是固定IP或者在固定的IP段内<br/>
+								否则很有可能导致客户端无法正常访问<br/>
+								书写格式每行一个IP，行尾后以*结束,示例如下：<br/>
+								12.34.56.78*<br/>
+								12.34.56.79*</div>					
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">允许IP段</td>
+							<td class="tdR">
+								<input name="config[allow_ip][beginip]" type="text" class="txt" id="" value="{if !empty($config['allow_ip']['beginip'])}{$config['allow_ip']['beginip']}{/if}" size="33" />							
+								 -- <input id="" type="text" class="txt" name="config[allow_ip][endip]" value="{if !empty($config['allow_ip']['endip'])}{$config['allow_ip']['endip']}{/if}" /> 
+								<span class="point">例如：192.168.0.2-192.168.0.111</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">允许IP段内例外IP</td>
+							<td class="tdR">
+								<textarea cols="30" rows="6" name="config[allow_ip][ruleoutip]" style="float:left;width:208px;margin-right:10px;">
+								<!-- {if !empty($config['allow_ip']['ruleoutip'])} -->
+									<!-- {foreach $config['allow_ip']['ruleoutip'] $key $value} -->
+										{$value}*
+									<!-- {/foreach} -->
+								<!-- {/if} -->
+								</textarea>
+								<div style="float;margin-left:10px;">在允许IP段内，可以限制例外的IP地址<br/>
+								书写格式每行一个IP，行尾后以*结束,示例如下：<br/>
+								12.34.56.78*<br/>
+								12.34.56.79*</div>															
+							</td>
+						</tr>
+						
+					</table>
+				</div>
+				
+				
+			</td>
+		</tr>
+		<tr>
+			<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		</tr>
+	</table>
+	</div>
+</div>
+<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" />
+<!--{if P8_AJAX_REQUEST}-->
+<input type="hidden" name="_ajax_request" value="1" />
+<!--{/if}-->
+</form>
+
+<script type="text/javascript">
+function change_model(name){
+	var catype = $('input[name=type]:checked').val();
+	var listtpl = catype==1?'big_list':'list';
+	$('#lt').val(name ? name +'/'+listtpl : listtpl);
+	$('#ltm').val(name ? name +'/'+listtpl : listtpl);
+	$('#vt').val(name ? name +'/view' : 'view');
+	$('#vtm').val(name ? name +'/view' : 'view');
+	$('#it').val(name ? 'cms/'+name +'/list' : 'common/ico_title/list');
+	$('#itm').val('mobile/list');
+	
+}
+
+$('#form').validate({
+	rules: {
+		name: {
+			required: true
+		}<!--{if $ACTION == 'update'}-->,
+		
+		parent: {
+			remote: {
+				url: '$this_router-verify',
+				data: {
+					data: 'parent',
+					id: function(){return $('#form input[name=id]').val();},
+					parent: function(){return $('#form input[name=parent]').val();}
+				},
+				beforeSend: function(){
+					ajaxing({});
+				},
+				complete: function(){
+					ajaxing({action: 'hide'});
+				}
+			}
+		},
+		path: {
+			required: function(){return parseInt($('#form input[name=htmlize]:checked').val()) ? true : false},
+			remote: {
+				url: '$this_router-verify',
+				data: {
+					id: $('#form input[name=id]').val(),
+					data: 'path',
+					parent: function(){return $('#form input[name=parent]').val();},
+					path: function(){return $('#form input[name=path]').val();}
+				},
+				beforeSend: function(){
+					ajaxing({});
+				},
+				complete: function(){
+					ajaxing({action: 'hide'});
+				}
+			}
+		}
+		<!--{/if}-->
+
+	},
+	
+	messages: {
+		name: {
+			required: '{$P8LANG['cms_category_name_can_not_be_empty']}'
+		},
+		parent: {
+			remote: '{$P8LANG['cms_parent_category_error']}'
+		},
+		path: {
+			required: 'path',
+			remote: '{$P8LANG['cms_category_html_path_exists']}'
+		}
+	},
+	
+	errorPlacement: function(error, element) {
+		error.wrap('<div></div>').appendTo(element.parent().prev());
+	},
+	wrapper: 'div',
+	
+	onkeyup: false
+});
+
+$('#name').focus();
+
+var dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_parent_category']}',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		var id = cs.get_value();
+		$('#form input[name=parent]').val(id);
+		parent_path(id);
+	},
+	show: function(){
+		cs.init();
+	}
+});
+
+var cs = new Recursive_Selector({
+	input: $('#parent'),
+	dialog: dialog,
+	sub_property: 'categories',
+	url: '{$this_system.controller}/category-json',
+	value: $('#form input[name=parent]').val(),
+	init_callback: function(){
+		parent_path(this.get_value());
+	},
+	item_callback: function(cat, item){
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	}
+});
+
+function parent_path(cid){
+	if(cid == 0){
+		$('#parents').html('');
+		return;
+	}
+	
+	var tmp = cs.get_by_id(cid);
+	var html = '';
+	
+	while(true){
+		html = tmp.name +' &gt; '+ html;
+		if(tmp.parent == 0) break;
+		
+		tmp = cs.get_by_id(tmp.parent);
+	}
+	
+	$('#parents').html(html);
+}
+
+function showoutlink(f,i){
+	if(f=='3'){
+		$('#category_outlink').show(); $('#category_model').hide();
+		$('#all_model').hide();
+		$('#form *[name="model"]').rules('remove', {
+			required: true,
+			messages: { required: '{$P8LANG['cms_category_model_can_not_be_empty']}'}
+		});
+	}else{
+		$('#category_outlink').hide(); $('#category_model').show();
+		$('#form *[name="model"]').rules('add', {
+			required: true,
+			messages: { required: '{$P8LANG['cms_category_model_can_not_be_empty']}'}
+		});
+		if(f=='2')
+			$('#all_model').hide();
+		else
+			$('#all_model').show();
+	}
+	if(!i){
+	change_model($('#model').val());
+	}
+}
+
+var list_template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#lt').val(list_template_selector.value);
+	},
+	show: function(){
+		list_template_selector.init();
+	}
+});
+var list_template_selector = new Template_Selector({
+	base_dir: '{$this_system.CONFIG['template']}/{$this_system.name}/item/',
+	selected: $('#lt').val(),
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: list_template_dialog
+});
+
+var view_template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#vt').val(view_template_selector.value);
+	},
+	show: function(){
+		view_template_selector.init();
+	}
+});
+var view_template_selector = new Template_Selector({
+	base_dir: '{$this_system.CONFIG['template']}/{$this_system.name}/item/',
+	selected: $('#vt').val(),
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: view_template_dialog
+});
+
+var item_template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#it').val(item_template_selector.value);
+	},
+	show: function(){
+		item_template_selector.init();
+	}
+});
+var item_template_selector = new Template_Selector({
+	base_dir: 'label/',
+	selected: $('#it').val(),
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: item_template_dialog
+});
+
+//-----------
+
+var list_template_dialog_mobile = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#ltm').val(list_template_selector_mobile.value);
+	},
+	show: function(){
+		list_template_selector_mobile.init();
+	}
+});
+var list_template_selector_mobile = new Template_Selector({
+	base_dir: '{$this_system.CONFIG['mobile_template']}/{$this_system.name}/item/',
+	selected: $('#ltm').val(),
+	dialog: list_template_dialog_mobile
+});
+
+var view_template_dialog_mobile = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#vtm').val(view_template_selector_mobile.value);
+	},
+	show: function(){
+		view_template_selector_mobile.init();
+	}
+});
+var view_template_selector_mobile = new Template_Selector({
+	base_dir: '{$this_system.CONFIG['mobile_template']}/{$this_system.name}/item/',
+	selected: $('#vtm').val(),
+	dialog: view_template_dialog_mobile
+});
+
+var item_template_dialog_mobile = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#itm').val(item_template_selector_mobile.value);
+	},
+	show: function(){
+		item_template_selector_mobile.init();
+	}
+});
+var item_template_selector_mobile = new Template_Selector({
+	base_dir: 'label/',
+	selected: $('#itm').val(),
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: item_template_dialog_mobile
+});
+
+//----------
+function get_auto_label_postfix(obj){
+	$.get('{$this_router}-auto_label_postfix',function(result){ $(obj).prev().val('category_'+result); $(obj).next().val(1) });
+}
+$(function() {
+	$("#tabs").tabs();
+	
+	showoutlink('{$data['type']}',1);
+	
+	cs.init();
+});
+
+</script>
+<!--{if !P8_AJAX_REQUEST}-->
+<!--{template $core footer admin}-->
+<!--{/if}-->
+<!--{/php168}-->

@@ -1,0 +1,62 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>签到</title>
+<style>
+body { color:#000; font-size:12px; font-family:"宋体",Arial; text-align:center; line-height:150%; background:#fff; }
+.input{width:180px; height:18px}
+</style>
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+</head>
+<body>
+<form method="post" id="form" action="$this_url" >
+	<table id="login" align="center" cellpadding="8" cellspacing="5" style="width:500px;border:5px solid #48AEE0;padding:3px;margin-top:10%">
+		<tr>
+			<td colspan="3" align ="left" style="font-size:18px;font-weight:bolder;">$signin[title]</td>
+		</tr>
+		
+		<tr>
+			<td>&nbsp;</td>
+			<td class="td_left" align="right" valign="top">状态</td>
+			<td class="td_right" align="left">
+				<select name="status">
+					<!--{foreach $this_module->CONFIG['status'] $id $v}-->
+					<option value="$id">$v</option>
+					<!--{/foreach}-->
+				</select>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>&nbsp;</td>
+			<td class="td_left" align="right" valign="top">备注</td>
+			<td class="td_right" align="left">
+				<textarea name="comment" cols="20" rows="5"></textarea>
+			</td>
+		</tr>
+		
+		<tr>
+			<td colspan="3" align="center">
+				<input type="submit" value="{$P8LANG['submit']}" tabindex="3" class="submit"/>
+			</td>
+		</tr>
+	</table>
+	
+	<input type="hidden" name="id" value="$data[id]" />
+	<input type="hidden" name="uid" value="$data[uid]" />
+	<input type="hidden" name="hash" value="$data[hash]" />
+</form>
+<script type="text/javascript">
+
+$('textarea[name=comment]').get(0).focus();
+</script>
+
+</body>
+</html>
+<!--{/php168}-->

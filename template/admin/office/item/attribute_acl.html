@@ -1,0 +1,90 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+	
+<form action="$this_url" method="post" id="form">
+	<div class="mainbox mainborder">
+		<table class="columntable formtable">
+			<tr>
+				<td colspan="2" class="title">属性权限</td>
+			</tr>
+			
+			<!--{foreach $this_module->attributes $aid $l}-->
+			<tr>
+				<td class="tdL" width="3%">
+					<input type="checkbox" onclick="$(this).parent().next().find('input[type=checkbox]').prop('checked', this.checked);" />{$P8LANG['office_item']['attribute'][$aid]}
+				</td>
+				<td class="tdR">
+					<!--{foreach $roles $rid $v}-->
+					<input type="checkbox" name="attribute_acl[$aid][$rid]" id="attribute_acl[$aid][$rid]" value="1"{if !empty($config[$aid][$rid])} checked{/if} /><label for="attribute_acl[$aid][$rid]">$v[name]</label> 
+					<!--{/foreach}-->
+				</td>
+			</tr>
+			<!--{/foreach}-->
+			
+			<tr>
+				<td class="tdR" colspan="2"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+			</tr>
+	    </table>
+	</div>
+</form>
+
+<script type="text/javascript" src="{$RESOURCE}/js/sortable.js"></script>
+<script type="text/javascript">
+
+var role_json = $role_json,
+	acl_json = $acl_json;
+
+var offset = count(acl_json);
+
+function copy(json){
+	json = json === undefined ? {status: 'none', role: {}} : json;
+	
+	var sys_default = $.inArray(json.status, [0, 1, -99]) != -1;
+	
+	var _offset = sys_default ? json.status : 'offset'+ offset;
+	var copy = $('#clone').clone(true).show().attr('id', '').
+		attr('class', 'item').insertAfter($('#clone'));
+	
+	copy.find('input[type=text]').
+		attr('name', function(){return this.name.replace('*', _offset);}).
+		val(json.name);
+	
+	copy.find('input[type=checkbox]').each(function(i){
+		$(this).attr('name', this.name.replace('*', _offset)).
+			attr('id', this.id.replace('*', _offset)).
+			prop('checked', json.role[this.value] ? true : false);
+		
+		copy.find('label').eq(i).
+			attr('for', function(){return $(this).attr('for').replace('*', _offset);});
+	});
+	
+	copy.find('input[type=button]').click(function(){
+		$(this).parent().remove();
+	});
+	
+	if(sys_default){
+		copy.attr('class', '').find('input[type=text]').attr('disabled', true);
+		copy.find('b').css({background: 'url({$RESOURCE}/images/draggable.png) no-repeat 0px 0px'});;
+		copy.find('input[type=button]').remove();
+		copy.insertBefore($('#clone'));
+	}
+	
+	offset--;
+	
+	sortable.refresh();
+}
+
+var sortable = new $.p8_sortable({
+	selector: {
+		range: '.item',
+		drag: 'b'
+	},
+	type: 'y'
+});
+
+<!--{foreach $config $status $v}-->
+copy($.extend(acl_json[$status], {status: $status}));
+<!--{/foreach}-->
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

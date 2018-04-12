@@ -1,0 +1,22 @@
+<!--{php168}-->
+<div class="wrapper">
+	<div class="nav">
+		<span>办事中心</span>
+		<!--{foreach $parent_cats $v}-->
+		<span>$v[name]</span>
+		<!--{/foreach}-->
+		<a>$CAT[name]</a>
+	</div>
+
+	<p class="main_24">
+		<!--{foreach $subcategories $k $v}-->
+		<!--{php $v['url']=($v['iswork'])? ($this_router.'-add?cid='.$k.'&model='.$v['model']) : (3==$v['type']? $v['url'].'" target="_blank"' : $this_router.'-list?cid='.$k.'&model='.$v['model']); }-->
+		
+		<span class="jian"><a href="$v[url]">$v[name]</a></span>
+		<!--{/foreach}-->
+	</p>
+	<div class="head_tab head">
+			<span class="over">$CAT[name]</span>
+	</div>
+</div>
+<!--{/php168}-->

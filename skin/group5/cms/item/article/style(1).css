@@ -1,0 +1,56 @@
+/* CSS Document */
+@import url(../../style.css); /* 引用cms公共样式 */
+/* 文章内容页 */
+.gov_article_frame { width:992px; border:none; background-color:#FFFFFF; overflow:hidden; margin:0px auto; text-align:left; }
+.gov_article_frame2{border:2px solid #666666;width:770px;background-color:#ffffff;overflow:hidden;margin:50px auto;margin-top:50px;padding:15px;}
+.gov_article_banner {height:104px; padding:5px; _height:114px; _padding:5px; margin:10px auto 0px auto; border:#ebebeb 1px solid;background-color:#FAFAFA; overflow:hidden; }
+.gov_article_banner .banner_left{width:68%; overflow:hidden; float:left}
+.gov_article_banner .banner_right{width:31%;float:right; overflow:hidden}
+.gov_article_nav { background:url(articleico.gif) no-repeat; padding-left:135px; height:25px; border:none; overflow:hidden; margin-top:10px;  font-size:12px ;padding-top:3px}
+.gov_article_nav2 { background:url(articleico.gif) no-repeat; padding-left:135px; height:25px; border:none; overflow:hidden; margin-top:10px;margin-left:15px;font-size:12px ;padding-top:3px}
+.gov_article_nav a:hover, .gov_article_nav a:active, .gov_article_nav a:link, .gov_article_nav a:visited { font-size:12px; color:#05529A; text-decoration:none; }
+.gov_article_nav_right { height:28px; border:none; overflow:hidden; float:right; font-size:12px; text-align:right; margin-right:8px; position:relative; }
+.gov_article_left { width:68%; border:none; overflow:hidden; float:left; }
+.gov_article_right { width:31%; border:none; overflow:hidden;  float:right; }
+.gov_article_title1 { background:url(gov_article_title1.gif) no-repeat; overflow:hidden; font-size:14px; width:296px;  height:21px; margin:10px 0px 0px 0px; padding:5px 0px 0px 10px; _width:306px; _height:19px; }
+.gov_article_title2 {background:url(gov_article_title2.gif) repeat-x; overflow:hidden; border:1px solid #CEE0F1; border-bottom:none; margin:10px 0px 0px 0px; padding:5px 0px 0px 10px; font-size:12px; font-weight:bolder; }
+.gov_article_title3 {background-position:0% 50%; padding:8px 0px 0px 20px; margin:0px 23px; font-weight:bolder; color:#CC0000;  overflow:hidden; }
+.gov_article_title4 {height:24px; padding:8px 0px 0px 20px; _height:26px; _padding:6px 0px 0px 20px; background:url(gov_article_title_prefix2.gif) no-repeat; background-position:0% 50%; font-weight:bolder; font-size:14px; overflow:hidden; }
+.gov_article_title5 {background:url(gov_article_title5.gif) repeat-x;padding:3px 0px 0px 10px; font-size:14px; height:20px;_height:19px;  border:1px solid #DBDBDB; margin:10px 0px 0px 0px; } 
+.gov_article_article_title { font-size:24px; font-weight:bolder; color:#2B2B2B; margin:20px 0px 15px 0px; text-align:center; }
+.gov_article_article_info { font-size:12px; color:#2B2B2B; text-align:center; }
+.gov_article_article_pagelist { text-align:center; margin:20px 0px; }
+.gov_article_article_pagelist span{ padding:3px 8px; margin:0; text-decoration:none; border:#dddddd 1px solid; font-size:12px; color:#ffffff; background:#1E50A2 }
+.gov_article_article_pagelist a{ padding:3px 8px; margin:0; text-decoration:none; border:#dddddd 1px solid; font-size:12px; color:#454545; }
+.gov_article_article_pagelist a:hover{border:#1E50A2 1px solid; text-decoration:none ;color:#454545;}
+.gov_article_pl_current { width:20px; height:20px; background:url(gov_article_pagelist_btn_bg.gif) no-repeat; text-align:center; _position:relative; _top:3px; overflow:hidden; }
+.gov_article_pl_current a:hover, .gov_article_pl_current a:active, .gov_article_pl_current a:link, .gov_article_pl_current a:visited { width:20px; height:20px; font-weight:bolder; font-size:12px; border:none; position:relative; _top:2px; left:-4px; color:#FFFFFF; }
+#maincontent{margin:10px 15px 10px;overflow:hidden;line-height:180%}
+#maincontent p{line-height:23px; text-indent:2em;margin:14px 0;}
+.summary{margin:10px 15px 10px;text-indent:2em;overflow:hidden;border-top:1px solid #EDE9E9;border-bottom:1px solid #EDE9E9;padding:10px; background-color:#ffffff}
+.common_digg{margin:20px}
+.common_digg .gov_article_comment_total{float:right}
+.morecom_rap{margin-left:20px;margin-right:20px;}
+.morecom_rap .head{ background:#F5F8FD url(dashed.gif) repeat-x left 8px; height:25px;}
+.morecom_rap .head .title{background: #F5F8FD url(ar_ico.gif) no-repeat left 3px; padding: 0 8px 0 25px; display:block; float:left; color:#2B65B4}
+.dashed{border-top:#DEDEDE 1px dashed; height:1px; font-size:0px}
+.solid{border-top:#DEDEDE 1px solid; height:1px; font-size:0px;width:740px;margin: 10px 15px;}
+.backnext{line-height:200%; margin:10px 20px;color:#333333}
+.backnext strong{ color:#3165AD}
+.gov_article_content1 { border:#d1e3f4 1px solid; background-color:#f5f8fd;   overflow:hidden; }
+.gov_article_content_2 {background-color:#ffffff;   overflow:hidden; }
+.gov_article_content2 { border:#d1e3f4 1px solid; background-color:#f7fcff; margin-top:10px;  padding:15px; overflow:hidden; }
+.gov_article_content3 { border:#d1e3f4 1px solid; border-top:0 solid #ffffff; padding:5px; overflow:hidden;}
+.gov_article_content4 { border:#d1e3f4 1px solid; border-top:none; background-color:#f4f9ff; overflow:hidden; }
+.gov_article_content5 { border:#DBDBDB 1px solid; border-top:0 solid #ffffff; padding:5px; overflow:hidden;}
+.article_p19{padding:10px 15px 10px 19px; }
+.gov_article_ad1 { overflow:hidden; }
+.gov_article_ad2 { width:306px; height:261px; overflow:hidden; }
+.gov_article_foot { border-top:#999999 1px solid; text-align:center; margin:10px auto; padding:15px; }
+.gov_article_foot a:hover, .gov_article_foot a:active, .gov_article_foot a:link, .gov_article_foot a:visited { text-decoration:none; color:#000000; }
+.gov_article_right .gov_article_right_search{position:relative;top:-3px;margin:10px 0px 0px 0px;padding:0px;}
+.gov_article_ad { border:#d1e3f4 1px solid; width:294px; padding:5px; overflow:hidden;}
+.gov_article_ad3 { border:#d1e3f4 0px solid; width:294px; padding:5px; overflow:hidden;}
+.tools{text-align:right;background:url(toolsbg.gif) repeat-x;height:26px;line-height:26px;padding-right:10px; margin:0px auto;margin-bottom:15px;margin-top:50px;width:730px;overflow:hidden;}
+
+

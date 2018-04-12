@@ -1,0 +1,122 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link rel="stylesheet" href="{$RESOURCE}/skin/admin/style.css" type="text/css">
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+</head>
+<body>
+<style>
+.handle{
+	border: 1px solid #000000;
+	background: #99D3FB;
+	opacity: 0.6; filter: alpha(opacity=60);
+	width: 100px; height: 100px;
+	cursor: move;
+	position: absolute;
+}
+
+.handle .title{
+	opacity: 1; filter: alpha(opacity=100);
+}
+
+.handle span{
+	position: absolute;
+	display: block;
+	right: 0px;
+	bottom: 0px;
+	width: 20px;
+	height: 20px;
+	cursor: se-resize;
+	background: url({$RESOURCE}/images/se-resize.png) no-repeat -6px -6px;
+}
+</style>
+
+<div id="clone" class="handle">
+	<div class="title"></div>
+	<span></span>
+</div>
+
+<div id="summary" style="float: left; width: 200px;">
+	<ul>
+		
+	</ul>
+</div>
+
+<div id="map" style="margin-left: 100px; border: 2px solid #000000; float: left; padding: 10px;">
+	<img src="$thumb" />
+</div>
+
+<div id="edit">
+	<table>
+		<tr>
+			<td width="10%">标题</td>
+			<td width="90%"><input type="text" name="title" size="80" /></td>
+		</tr>
+		<tr>
+			<td>内容</td>
+			<td>
+				<textarea id="editor"></textarea>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="debug" style="clear: both;"></div>
+
+<script type="text/javascript">
+var json = [],
+	current_cursor;
+
+var dialog = new P8_Dialog({
+	width: 900,
+	height: 500,
+	button: true,
+	overlay: false,
+	ok: function(){
+		var title = $('#edit input[name=title]').val();
+		var data = {
+			title: title,
+			content: CKEDITOR.instances['editor'].getData()
+		};
+		
+		json.push(data);
+		$('#summary ul').append($('<li>'+ title +'</li>'));
+	}
+});
+P8_CKEDITOR({id: 'editor', config: {height: 310}, callback: function(){
+	dialog.content.append($('#edit'));
+}});
+
+
+$(function(){
+	$('#clone').jqDrag(
+		null,
+		{
+			containment: '#map img'
+		}
+	).jqResize($('#clone span'),{containment: '#map img'}).dblclick(function(){
+		dialog.show();
+		
+		CKEDITOR.instances['editor'].setData('');
+	});
+	
+	function copy(){
+		
+	}
+});
+</script>
+</body>
+</html>
+<!--{/php168}-->

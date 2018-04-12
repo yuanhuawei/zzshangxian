@@ -1,0 +1,99 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+</head>
+<body>
+<p></p>
+<!--{foreach $list $value}-->
+<div id="p8_46_$data[id]" style="width: {$data['width']}px; height: {$data['height']}px; overflow: hidden;">
+	
+	<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="100%" height="100%">
+		<param name="allowScriptAccess" value="sameDomain" />
+		<param name="movie" value="{$this.url}/clicker.swf" />
+		<param name="quality" value="high" />
+		<param name="scale" value="noscale" />
+		<param name="salign" value="lt" />
+		<param name="bgcolor" value="#ffffff" />
+		<param name="FlashVars" value="v_swf={$value['media']}&v_url={urlencode($value['url'])}" />
+		<param name="wmode" value="transparent" />
+		<embed src="{$this.url}/clicker.swf" wmode="transparent" quality="high" scale="noscale" salign="lt" bgcolor="#ffffff" width="100%" height="100%" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" FlashVars="v_swf={$value['media']}&v_url={urlencode($value['url'])}" />
+	</object>
+	
+</div>
+<!--{/foreach}-->
+
+<script type="text/javascript">
+(function(){
+
+var cookies = document.cookie.split('; ');
+for(var i = 0; i < cookies.length; i++){
+	var tmp = cookies[i].split('=');
+	//not expired
+	if(tmp[0] == 'p8_46_shwon_$data[id]' && parseInt(tmp[1]) == $timestamp) return;
+}
+
+function setcookie( name, value, expires, path, domain, secure ) {
+	var today = new Date();
+	
+	today.setTime( today.getTime() );
+	if ( expires ) {
+		expires = expires * 1000;
+	}
+	var expires_date = new Date( today.getTime() + expires );
+	var str = name +'='+ escape( value ) +
+		(expires ? ';expires='+ expires_date.toGMTString() : '' ) + 
+		(path ? ';path=' + path : '' ) +
+		(domain ? ';domain=' + domain : '' ) +
+		(secure ? ';secure' : '' );
+	document.cookie = str;
+}
+
+setcookie('p8_46_shwon_$data[id]', $timestamp, 8640000);
+
+var div = document.getElementById('p8_46_$data[id]'), height = $data[height], interval;
+
+function slide(type, step, callback){
+	var _height = parseInt(div.style.height.replace(/[^0-9\-]/g, ''));
+	step += 10;
+	var val = (type == 'show' ? _height + step : _height - step);
+	if(type == 'show' && val >= height){
+		div.style.height = height +'px';
+		
+		if(callback) callback();
+		return;
+	}else if(type == 'hide' && val <= 0){
+		div.style.height = '0px';
+		div.style.display = 'none';
+		
+		if(callback) callback();
+		return;
+	}
+	
+	div.style.height = val +'px';
+	
+	interval = setTimeout(function(){ slide(type, step, callback); }, 150);
+}
+
+document.body.insertBefore(div, document.body.firstChild);
+div.style.display = '';
+
+var timeout = setTimeout(function(){ slide('hide', 20); }, 10000);
+
+slide('show', 20, function(){
+	div.onmouseover = function(){
+		clearTimeout(timeout);
+	};
+	
+	div.onmouseout = function(){
+		timeout = setTimeout(function(){ slide('hide', 20); }, 1000);
+	};
+});
+
+})();
+</script>
+
+</body>
+</html>
+<!--{/php168}-->

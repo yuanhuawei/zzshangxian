@@ -1,0 +1,14 @@
+User-agent: *
+Disallow: /data/
+Disallow: /install/
+Disallow: /api/
+Disallow: /js/
+Disallow: /skin/
+Disallow: /images/
+Disallow: /inc/
+Disallow: /ckeditor/
+Disallow: /lang/
+Disallow: /admin/
+Disallow: /u.php
+Disallow: /sync_session.php
+Disallow: /get_admin_controller.php

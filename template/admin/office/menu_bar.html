@@ -1,0 +1,27 @@
+<!--{php168}-->
+<div class="mainbox mainborder">
+	<table class="formtable">
+		<tr>
+			<td class="title">{$P8LANG['quest_do']}</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				<ul>
+					<li><a href="{$core.admin_controller}/$SYSTEM/item-add">{$P8LANG['office_add']}</a></li>
+					<li><a href="{$core.admin_controller}/$SYSTEM/item-list">{$P8LANG['office_manage']}</a></li>
+					<li><a href="{$core.admin_controller}/$SYSTEM/category-add">{$P8LANG['office_list_add']}</a></li>
+					<li><a href="{$core.admin_controller}/$SYSTEM/category-list">{$P8LANG['office_list_manage']}</a></li>
+					<!--{if $ACTION == 'list_addon'}-->
+						<li><a href="$this_router-addon?model=$MODEL&iid=$data[id]{if isset($verified)}&verified=$verified{/if}">{$P8LANG['office_item']['addon']}</a></li>
+					<!--{/if}-->
+					
+					<!--{if $ACTION == 'update' || $ACTION == 'addon' || $ACTION == 'update_addon'}-->
+						<li><a href="$this_router-list_addon?model=$MODEL&iid=$data[iid]{if isset($verified)}&verified=$verified{/if}">{$P8LANG['office_item']['addon']}</a></li>
+					<!--{/if}-->
+				</ul>
+			</td>
+		</tr>
+		
+	</table>
+</div>
+<!--{/php168}-->

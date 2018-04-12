@@ -1,0 +1,26 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<table class="mainbox mainborder">
+	<tr><td>
+	<table class="formtable">
+		<tr>
+			<td class="title">{$P8LANG['operation']}</td>
+		</tr>
+		<tr><td class="headerbtn_list">
+		    <ul>
+				<li><a href="$this_router-add">{$P8LANG['mcredit']['add']}</a></li>
+				<li><a href="$this_router-list">{$P8LANG['mcredit']['list']}</a></li>
+				<li><a href="$this_router-add_rule?{if !empty($system)}&system=$system{/if}{if !empty($module)}&module=$module{/if}{if !empty($postfix)}&postfix=$postfix{/if}">{$P8LANG['mcredit']['add_rule']}</a></li>
+				<li><a href="$this_router-list_rule">{$P8LANG['mcredit']['rule']['list']}</a></li>
+				<li><a href="$this_router-list_rule?all=1{if !empty($system)}&system=$system{/if}{if !empty($module)}&module=$module{/if}{if !empty($postfix)}&postfix=$postfix{/if}">{$P8LANG['mcredit']['rule']['all']}</a></li>
+				<li><a href="$this_router-cache">{$P8LANG['update_cache']}</a></li>
+			</ul>
+		</td>
+		</tr>
+	</table>
+	
+	</td></tr>
+</table>
+
+<!--{/php168}-->

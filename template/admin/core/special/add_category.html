@@ -1,0 +1,100 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+
+<link rel="stylesheet" href="{$RESOURCE}/skin/admin/cms/category_selector.css" type="text/css">
+<div class="mainbox mainborder">
+	<div class="section">
+		<form name="form1" id="form1" action="" method="post">
+			<table class="columntable formtable hover_table padding_table">
+				<tr class="title">
+					<td colspan="2">{$P8LANG['special']['category']}</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['special']['category_name']}</td><td class="tdR"><textarea name="name" id="name" cols="30" rows="3"></textarea></td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['special']['type']}</td><td class="tdR"><input name="type" type="radio" value="1" id="type_1" checked="checked" />{$P8LANG['special']['great_category']} <input name="type" type="radio" value="2"  id="type_2"/>{$P8LANG['special']['columns']}</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['special']['attributes']}</td><td class="tdR">
+					<span id="parents"></span>
+					<input name="" type="button" value="{$P8LANG['chose']}" onclick="dialog.show()"/>
+					<input type="hidden" name="parent" />
+					<input type="hidden" id="parent" value="{if !empty($data['parent'])}$data[parent]{/if}" /></td>
+				</tr>
+				<tr>
+					<td class="tdL"></td><td class="tdR"><input name="" type="submit" value="{$P8LANG['submit']}" class="submit_btn" /></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+$('#form1').validate({
+	rules: {
+		name: {
+			required: true
+		}
+	},
+	
+	messages: {
+		name: {
+			required: '{$P8LANG['special']['category_name_need']}'
+		}
+	},
+	onkeyup: false
+});
+
+
+var _CATEGORY_JSON = $json[json];
+var _CATEGORY_PATH = $json[path];
+
+var dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_parent_category']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		parent_path();
+	},
+	show: function(){
+		cs.init();
+	}
+});
+
+function parent_path(){
+	var val = $('#parent').val();
+	$('#form1 input[name=parent]').val(val);
+	
+	$('#parents').empty();
+	
+	var path = _CATEGORY_PATH[val];
+	if(!path) return;
+	for(var i = 0; i < path.length; i++){
+		var cat = cs.get_by_id(path[i]);
+		$('#parents').append($('<span>'+ cat.name +' &gt; </span>'));
+	}
+}
+
+var cs = new Recursive_Selector({
+	json: _CATEGORY_JSON,
+	path: _CATEGORY_PATH,
+	input: $('#parent'),
+	dialog: dialog,
+	sub_property: 'categories',
+	item_callback: function(cat, item){
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	},
+	parents: <!--{if !empty($data['parent'])}-->clone(_CATEGORY_PATH[$data[parent]])<!--{else}-->null<!--{/if}-->
+});
+
+parent_path();
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

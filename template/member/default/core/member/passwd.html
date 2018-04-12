@@ -1,0 +1,48 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module header}-->
+<form action="$this_router-$ACTION" method="post">
+			<table width="100%" border="0" cellspacing="1" cellpadding="5" class="mtop20">
+				<tr>
+					<td width="20%">输入旧密码</td>
+					<td width="80%"><input type="text" name="old_password"  /></td>
+				</tr>
+				<tr>
+					<td>输入新密码</td>
+					<td><input type="text" name="new_password" /></td>
+				</tr>
+				<tr>
+					<td>重新输入新密码</td>
+					<td><input type="text" name="confirm_password" /></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>
+                    <input type="submit" name="button4" id="button4" value="提交" class="submit_btn"/>
+                    <input type="hidden" name="job" value="passwd" /></td>
+				</tr>
+			</table>
+			</form>
+<script type="text/javascript">
+$('#form').validate({
+	rules: {
+		
+		password: {
+			required: true,
+			rangelength: [6, 20]
+		}
+	},
+	
+	messages: {
+		
+		password: {
+			required: '$P8LANG[password_required]',
+			rangelength: '$P8LANG[password_length_range]'
+		}
+	},
+	
+	onkeyup: false
+});
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

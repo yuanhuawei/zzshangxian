@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="gbk">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>“校园杯”篮球联赛圆满落幕_新闻聚焦_国微学校方案----领先的学校内容管理系统</title>
+<link rel="stylesheet" type="text/css" href="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/style.css" />
+<script src="http://120.26.77.20/yanshi/schoolzhanqun/js/util_mobile.js"></script>
+<script src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/TouchSlide.1.1.js"></script>
+<!--[if IE]>
+<script src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/html5.js"></script>
+<![endif]-->
+<!--[if IE 6]>
+<script type="text/javascript" src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/DD_belatedPNG_0.0.8a.js" ></script>
+<script>
+DD_belatedPNG.fix('.,img,background');
+</script>
+<![endif]-->
+
+</head>
+<body>
+<div id="nav-over"></div>
+<div class="warmp">
+<header class="header">
+<section class="fix navbar">
+<div class="top">
+<a class="back fl" href="javascript:history.go(-1);"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/back.png"></a>
+<span>新闻聚焦</span>
+<a class="menue navHome" href="#"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/ico-nav.jpg"></a>
+</div>
+</section>
+</header>
+</div>
+<nav id="nav" class="nav home">
+<h2><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/logo1.jpg"></h2>
+<div id="scrollerBox" class="scrollerBox">
+<div class="scroller">
+<ul><li><a href="/" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/home.png"> 首页</a> </li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-view-id-1053.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/gk.png"> 学校概况</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-view-id-1055.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/sz.png"> 机构设置</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-729.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/rc.png"> 人才培养</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-55.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/yj.png"> 科学研究</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-61.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/xk.png"> 学科建设</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-724.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/dw.png"> 队伍建设</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-76.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/jl.png"> 合作交流</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-27.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/zs.png"> 招生就业</a></li></ul>
+</div>
+</div>
+</nav> 
+<script>
+function hidenav(){
+$("#nav").hide();
+window.location.reload();
+}
+</script>
+<div class="show">
+<div class="bt">
+<h1>“校园杯”篮球联赛圆满落幕</h1>
+<p>发布：2014-05-03　　作者：admin　　浏览:16次 <span id="operation" style="display: none; cursor: pointer;">操作</span></p>
+</div>
+<div class="Con"> 
+<div> 
+<!--<b>内容</b> :-->  
+<div align="left" style="line-height: 24pt; text-indent: 24pt;">
+	<span id="ctl00_ContentArea_gvList_ctl02_Label2" style="LINE-HEIGHT: 30px"><span style="FONT-SIZE: 12pt">4</span><span style="FONT-SIZE: 12pt">月25日</span><span style="FONT-SIZE: 12pt">下午，历时10天的2014年河北大学&ldquo;校园杯&rdquo;篮球赛落下帷幕。</span></span></div>
+<div align="left" style="line-height: 24pt; text-indent: 24pt;">
+	<span id="ctl00_ContentArea_gvList_ctl02_Label2" style="LINE-HEIGHT: 30px"><span style="FONT-SIZE: 12pt">本次比赛有23支代表队345名运动员参加，共举行85场比赛。比赛采用男女生混合组队的形式。经过激烈角逐，工商学院、电子信息工程学院、政法学院、经济学院、新闻传播学院、质量技术监督学院、生命科学学院代表队获得甲组前七名；管理学院、中医学院、物理科学与技术学院、艺术学院、建筑工程学院、基础医学院、国际交流与教育学院、化学与环境科学学院代表队获得乙组前八名。 </span></span></div>
+<div style="TEXT-ALIGN: right; LINE-HEIGHT: 24pt; TEXT-INDENT: 24pt">
+	<span id="ctl00_ContentArea_gvList_ctl02_Label2" style="LINE-HEIGHT: 30px"><span style="FONT-SIZE: 12pt">（体育教研部供稿）</span></span></div>
+  
+</div> 
+</div>
+</div><div class="foot">
+<h1>广州国微大学主办    版权所有 <a id="pclink" href="" style="float:right; margin-right:20px; color:#ffffff; font-weight:bold">PC版</a></h1>
+<p>广州国微大学信息办公室承办 </p>
+<p>广州国微大学信息办公室    建设维护</p>
+<p>粤ICP备11023858号</p>
+<p>Tel：020-5688888    Fax：020-5288888</p>
+
+</div>
+<script type="text/javascript">
+$(function(){
+var l = location.href;
+$('#pclink').attr('href',l.indexOf('ismobile')>-1?l.replace('ismobile=1','ismobile=0'):l+((l.indexOf('?')>-1?'&':'?')+'ismobile=0'));					 
+})
+</script>
+<script src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/index.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<div class="nav mtop">您的位置：
+<a href="{$core.controller}">首页</a>
+<!--{foreach $parent_cats $v}-->
+&gt;&gt; <a href="$v[url]">$v[name]</a>
+<!--{/foreach}-->
+&gt;&gt; <a href="$CAT[url]">$CAT[name]</a> 
+</div>
+<div class="dt_left">
+<!--{if !empty($subcategories)}-->
+	<div class="border1">		
+		<div class="head6"><!--{php $parent = end($parent_cats);$parent_name = $parent ? $parent[name]:$CAT[name];$parent_url = $parent ? $parent[url] : $CAT[url];}-->
+			<span class="title7"><a href="$parent_url">$parent_name</a></span>
+		</div>
+		<div class="main1"><!--{template $this_module step_category}--></div>
+	</div>
+	<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[downloads_list_title_0100]</span> <span class="more3">$label[downloads_list_more_0100]</span>
+		</div>
+		<div class="main1">
+			$label[downloads_list_content_0100]
+		</div>
+	</div>
+	<!--{else}-->
+	<div class="border1">		
+		<div class="head6"><!--{php $parent = end($parent_cats);$parent_name = $parent ? $parent[name]:$CAT[name];$parent_url = $parent ? $parent[url] : $CAT[url];}-->
+			<span class="title7"><a href="$parent_url">$parent_name</a></span>
+		</div>
+		<div class="main1"><!--{template $this_module step_category}--></div>
+	</div>
+	<!--{/if}-->
+	
+	<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[downloads_list_title_3]</span> <span class="more3">$label[downloads_list_more_3]</span>
+		</div>
+		<div class="main1">
+			<div>$label[downloads_list_content_3]</div>
+			<div class="mtop6">$label[downloads_list_ad_1]</div>
+			<div class="mtop6">$label[downloads_list_ad_2]</div>			
+		</div>
+	</div>
+	<div class="mtop6">
+		$label[downloads_list_ad_3]
+	</div>
+	<p class="pic_ny">&nbsp;</p>
+</div>
+<div class="dt_right">
+	<div class="border1 mbottom">
+		<div class="head9">
+			$label[downloads_toptitle]
+		</div>
+		<div class="main">
+			$label[downloads_main_images]
+			<div class="clear"></div>
+		</div>
+	</div>
+	<!--{foreach $subcategories $v}-->
+	<!--{php $i++;}-->
+	<!--{php if($i>4)break;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+	<div class="border1 mbottom">
+		<div class="head5">
+			<a class="title6" href="$this_url-category-$v[id]">$v[name]</a><a class="more1" href="$this_url-category-$v[id]">More</a>
+		</div>
+		<div class="main">
+			$label[CMS子分类内容列表]{'i.cid' => $subcat, 'model' => $MODEL}
+			<div class="clear"></div>
+		</div>
+	</div>
+	<!--{/foreach}-->
+</div>
+<div class="clear">
+</div>
+<!--{template $core foot_pre}-->
+<!--{template $this_system footer}-->
+<!--{/php168}-->

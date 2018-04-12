@@ -1,0 +1,111 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<form name="form" id="searchFrom" action="" method="post" target="_self">
+<div class="search_box"> 
+	 部门: <select name="department">
+			<option value="">所有</option>
+			<!--{foreach $cates['department'] $key $val}-->
+			<option value="$val[id]" {if !empty($department) && $department == $val['id']}selected{/if}>$val[name]</option>
+			<!--{/foreach}-->
+		</select>
+    类别: <select name="type">
+			<option value="">所有</option>
+			<!--{foreach $cates['type'] $key $val}-->
+			<option value="$val[id]" {if !empty($type) && $type == $val['id']}selected{/if}>$val[name]</option>
+			<!--{/foreach}-->
+		</select> 
+	办理状态：<select name="status">
+				<option value="-1">所有</option>
+				<option value="0"{if isset($status) && $status == 0}selected{/if}>{$P8LANG['status_0']}</option>
+				<option value="2" {if !empty($status) && $status == 2}selected{/if}>{$P8LANG['status_2']}</option>
+				<option value="3" {if !empty($status) && $status == 3}selected{/if}>{$P8LANG['status_3']}</option>
+				</select>
+     分发状态：<select name="fengfa">
+				<option value="-1">所有</option>
+				<option value="0"{if isset($fengfa) && $fengfa == 0}selected{/if}>未分发</option>
+				<option value="1" {if !empty($fengfa) && $fengfa == 1}selected{/if}>已分发</option>
+				</select>           
+	<!--{if $display}-->	
+	显示状态：<select name="undisplay">
+				<option value="-1">所有</option>
+				<option value="0"{if isset($undisplay) && $undisplay == 0}selected{/if}>显示</option>
+				<option value="1" {if !empty($undisplay) && $undisplay == 1}selected{/if}>不显示</option>
+				</select>	
+	<!--{/if}-->				
+	提交时间：<input name="begin" value="" size="10" autocomplete="off" onclick="rcalendar(this, 'date')" />-<input name="end" value="" size="10" autocomplete="off" onclick="rcalendar(this, 'date')" />
+	查找类型：<select name="key_type">
+		<option value="title" {if !empty($key_type) && $key_type == 'title'}selected{/if}>标题</option>
+		<option value="solve_name" {if !empty($key_type) && $key_type == 'solve_name'}selected{/if}>处理人</option>
+		<option value="username" {if !empty($key_type) && $key_type == 'username'}selected{/if}>提交人</option>
+		<option value="number" {if !empty($key_type) && $key_type == 'number'}selected{/if}>问题编号</option>
+	</select>
+	<input name="keyword" type="text" value="$keyword" size="10"/> 
+	<input type="hidden" name="act" value="search"/>
+	<input type="image" src="{$MEMBERSKIN}/letter/search_btn.gif" onclick="searchthis()" align="top"/>
+</div>
+</form>
+<form id="list_form" action="" method="post">
+ <table width="100%" align="center" cellspacing='1' cellpadding='3' class="formtable columntable hover_table letter_list_table">
+	<tr class="head">
+		<th width="50" style="border-left:1px solid #dedede">序号</th>
+		<th width="100">编号</th>
+		<th width="90">提交人</th>
+		<th width="*">标题</th>
+		<th width="90">类型</th>
+		<th width="90">来信时间</th>
+		<th width="90">办理状态</th>
+		<!--{if $display}-->
+		<th width="90">显示状态</th>
+		<!--{/if}-->	
+		<th width="90">受理部门</th>
+		<th width="90">受理人</th>
+		<th width="60">操作</th>
+	</tr>
+<!--{foreach $list $k $v}-->	
+	<tr>
+		<td><input type="checkbox" name="id[]" value="{$v['id']}"/>{$v['id']}</td>
+		<td><a href="{$this_module.controller}-view?id={$v['id']}" target="_blank">$v[number]</a></td>
+		<td><font color="#009900">$v[username]</font></td>
+		<td  style="text-align:left"><img src="{$MEMBERSKIN}/letter/letter.jpg"/> <a href="{$this_module.controller}-view?id={$v['id']}" target="_blank">$v[title]</a></td>
+		<td><a href="{$this_url}?type={$v['type']}" onclick="dosearch('type','{$v['type']}');return false;">{$cates['type'][$v['type']]['name']}</a></td>
+		<td><!--{php echo date("y-m-d H:i",$v['create_time']);}--></td>
+		<td><span class="status_$v[status]">{if $v['status']==3}√{else}＝{/if}{$P8LANG['status_'.$v['status']]}</span></td>
+		<!--{if $display}-->
+		<td width="90"><a href="{$this_url}?undisplay={$v['undisplay']}" onclick="dosearch('undisplay','{$v['undisplay']}');return false;">{if $v['undisplay']}不显示{else}显示{/if}</a></td>
+		<!--{/if}-->
+		<td><a href="{$this_url}?department={$v['department']}" onclick="dosearch('department','{$v['department']}');return false;">{$cates['department'][$v['department']]['name']}</a></td>
+		<td>{$v['solve_name']}</td>
+		<td><a  href="{$this_module.controller}-reply?id={$v['id']}" target="_blank">管理</a> 
+		<a  href="{$this_url}?act=del&id={$v['id']}" onclick="javascript:if(!confirm('确定要删？'))return false;" target="_blank">删除</a> </td>
+	</tr>
+<!--{/foreach}-->	
+	
+	<tr></td><td colspan="10" align="center" class="pages">
+	<a href="javascript:void(0)" onclick="check_all(true, 'id[]')">全选</a> /
+	<a href="javascript:void(0)" onclick="check_all(false, 'id[]')">反选</a>
+	{$pages} 【<a href="javascript:;" onclick="doItem('delete')">删除</a>】</td></tr>
+</table>	
+</form>	
+<script type="text/javascript">
+function printthis(){
+	$('#searchFrom input[name="act"]').val('print');
+	$('#searchFrom').attr('target','_blank').submit();
+}
+function searchthis(){
+	$('#searchFrom input[name="act"]').val('search');
+	$('#searchFrom').attr('target','_self').submit();
+}
+function doItem(act){
+	if(!confirm('确定要'+(act=='delete'?'删除':'受理')))return false;
+	$('#list_form').attr('action','{$this_url}?act='+act).submit();
+}
+
+function dosearch(item,value){
+	$('#searchFrom select[name="'+item+'"]').val(value);
+	$('#searchFrom').submit();
+}
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

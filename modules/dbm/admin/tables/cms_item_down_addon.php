@@ -1,0 +1,20 @@
+<?php
+return array(
+	'id' => 'ID',
+	'iid' => 'IID',
+	'page' => '页数',
+	'addon_title' => '追加标题',
+	'addon_frame' => '追加封面',
+	'addon_summary' => '追加摘要',
+	'ip' => 'IP',
+	'last_update_ip' => '最后更新IP',
+	'timestamp' => '追加时间',
+	'content' => '追加内容',
+	'copyright' => '授权形式',
+	'demo' => '演示地址',
+	'operatingsystem' => '运行环境',
+	'softlanguage' => '资源语言',
+	'softsize' => '资源大小',
+	'softurl' => '资源大小',
+	'totaldown' => '总下载量',
+);?>

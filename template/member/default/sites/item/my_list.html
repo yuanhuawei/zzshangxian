@@ -1,0 +1,86 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module header}-->
+<div class="mainfluid">
+	<div class="mtab">
+		<div class="list_box mtop10">
+			<div class="head" id="boxhead">
+				<span id="verified" $class[1]><a href="$this_router-my_list?verified=1&site={$this_system.SITE}">已审核的文章</a></span>
+				<span id="unverified" $class[0]><a href="$this_router-my_list?verified=0&site={$this_system.SITE}">待审核的文章</a></span>
+				<span $class[99]><a href="$this_router-my_list?verified=-99&site={$this_system.SITE}">审核未通过的文章</a></span>
+				<a class="sendmsg_link_bg" href="$this_router-add?site={$this_system.SITE}">发布文章</a>
+			</div>
+		</div>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table">
+			<tr class="head">
+				<td>ID</td>
+				<td>标题</td>
+				<td>栏目</td>
+				<td>发布时间</td>
+				<td>评论</td>
+				<td>状态</td>
+				<td>操作</td>
+			</tr>
+			
+			<!--{foreach $list $k $v}-->
+			<tr id="v_$v[id]"><td>$v[id]</td>
+				<td class="al"><a href="$v[url]" target="_blank">$v[title]</a></td>
+				<td>
+					<a href="{$this_url}?cid=$v[cid]&site={$this_system.SITE}" >{$category.categories[$v['cid']]['name']}</a>
+				</td>
+				<td>{date('Y-m-d', $v['timestamp'])}</td>
+				<td>$v[comments]</td>
+				<td><!--{if $v['verified'] == 1}-->
+						已审
+					<!--{elseif $v['verified'] == -99}-->
+						退稿
+					<!--{else}-->
+						未审
+					<!--{/if}-->
+				</td>
+				<td>
+					<a href="$this_router-update?model=$v[model]&id=$v[id]&verified=$verified&site={$this_system.SITE}" target="_blank">修改</a>
+					<!--{if $verified == 1}--> / <a href="$this_router-addon?model=$v[model]&iid=$v[id]&verified=$verified&site={$this_system.SITE}">追加</a> <!--{/if}-->
+					<!--{if $verified != 1}-->/ <a href="$this_router-delete?model=$v[model]&iid=$v[id]&verified=$verified&site={$this_system.SITE}" onclick="delete_item($v[id]);return false;">删除</a><!--{/if}-->
+				</td>
+			</tr>
+			<!--{/foreach}-->
+			
+			<tr>
+				<td align="center" colspan="6" class="pages">
+					$pages
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+
+function delete_item(id){
+if(confirm('确定操作？')){
+var verified=$verified;
+$.ajax({
+	type:'POST',
+	url	: '{$this_router}-delete?&site={$this_system.SITE}',
+	dataType: 'json',
+	data :ajax_parameters({id: id,verified:verified}),
+	beforeSend: function(){
+				ajaxing({});
+			},
+	success:function(json){
+		ajaxing({action: 'hide'});
+		if(json == 'no_category_privilege'){alert('你没进行对当前分类操作的权限');return false}
+		
+		if(json){
+			alert('操作成功,ID:'+json);
+			for(var i in json){
+					$('#v_'+ json[i]).remove();
+				}
+		}
+		else{ alert('操作失败');}
+	}
+})}
+}
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

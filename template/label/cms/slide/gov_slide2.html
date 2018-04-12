@@ -1,0 +1,54 @@
+<!--{php168}-->
+<div class="imgplay" id="slide_{$label['id']}">
+<script type="text/javascript" src="{$RESOURCE}/js/swfobject.js"></script>
+<script type='text/javascript'>
+(function(){
+var imgUrl = [];
+var imgtext = [];
+var imgLink = [];
+<!--{php $slide_num=0;}-->
+<!--{foreach $list $value}-->
+<!--{php if($slide_num > 5) break;}-->
+imgUrl.push('$value[frame]');
+imgLink.push('$value[url]');
+imgtext.push('$value[title]');
+
+<!--{/foreach}-->
+
+var pics = imgUrl.join('|');
+var links = imgLink.join('|');
+var texts = imgtext.join('|');
+var pw={$swidth};
+var ph={$sheight};
+
+
+
+var sizes = 12;
+var Times = 4000;
+var umcolor = 0xFFFFFF;//数字颜色
+var btnbg =0x386DB3;//数字背景
+var txtcolor =0xFFFFFF;//字体颜色
+var txtoutcolor = 0x000000;
+var flash = new SWFObject('{$core->url}/images/focus1.swf', 'mymovie', pw, ph, '7', '');
+flash.addParam('allowFullScreen', 'true');
+flash.addParam('allowScriptAccess', 'always');
+flash.addParam('quality', 'high');
+flash.addParam('wmode', 'Transparent');
+//flash.addParam('wmode', 'opaque');
+flash.addVariable('pw', pw);
+flash.addVariable('ph', ph);
+flash.addVariable('sizes', sizes);
+flash.addVariable('umcolor', umcolor);
+flash.addVariable('btnbg', btnbg);
+flash.addVariable('txtcolor', txtcolor);
+flash.addVariable('txtoutcolor', txtoutcolor);
+flash.addVariable('urls', links);
+flash.addVariable('Times', Times);
+flash.addVariable('titles', texts);
+flash.addVariable('imgs', pics);
+flash.write('slide_{$label['id']}');
+document.write('<style type="text/css">\#slide_{$label['id']}\{background:none repeat scroll 0 0 #F0F0F0;float:left;height:'+ph+';width:'+pw+';\}</style>');
+})();
+</script>
+</div>
+<!--{/php168}-->

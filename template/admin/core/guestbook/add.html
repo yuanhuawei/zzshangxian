@@ -1,0 +1,55 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<form name="form1" action="$this_url" id="form1" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table padding_table">
+				<tr class="title">
+					<td colspan="2">{$P8LANG['edit']}</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['name']}</td>
+					<td class="tdR"><input type="text" class="txt" name="name" size="30"  value="{if !empty($data['name'])}$data[name]{/if}" /></td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['guestbook']['ifopen']}</td>
+					<td class="tdR"> <input type="radio" name="ifclose" value="1" {if !empty($data['ifclose'])}checked{/if}>
+				{$P8LANG['Y']}
+				<input type="radio" name="ifclose" value="0" {if empty($data['ifclose'])}checked{/if}>
+				{$P8LANG['N']}</td>
+				</tr>
+				<tr style="display:none">
+					<td class="tdL">{$P8LANG['guestbook']['captcha']}</td>
+					<td class="tdR"><input type="radio" name="ifcaptcha" value="1" {if !empty($data['ifcaptcha'])}checked{/if}>
+				{$P8LANG['Y']}
+				<input type="radio" name="ifcaptcha" value="0" {if empty($data['ifcaptcha'])}checked{/if}>
+				{$P8LANG['N']}</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td><td><input type="submit" value="{$P8LANG['submit']}" class="submit_btn" />
+					<input type="hidden" name="id" value="{if !empty($data['id'])}$data[id]{/if}" />
+					<input type="hidden" name="job" value="{if !empty($job)}$job{/if}" /></td>
+				</tr>	
+			</table>
+		</div>
+	</div>	
+</form>
+<script type="text/javascript">
+$('#form1').validate({
+	rules: {
+		name: {
+			required: true
+		}
+	},
+	
+	messages: {
+		name: {
+			required: '{$P8LANG['guestbook']['categorycanotempty']}'
+		}
+	},
+	onkeyup: false
+});
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

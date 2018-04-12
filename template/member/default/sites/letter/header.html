@@ -1,0 +1,26 @@
+<!--{php168}-->
+<!--{php $baner = 'qiyetongzhi';$navgation = array(array('url'=>$this_router.'-list','title'=>'通知管理'),array('url'=>$this_router.'-add','title'=>'发布通知'));}-->
+<link type="text/css" rel="stylesheet" href="{$MEMBERSKIN}/letter/style.css" />
+<div class="letter_main">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td colspan="4">&nbsp;</td>
+</tr>
+<tr>
+<td rowspan="2" width="300"><img src="{$MEMBERSKIN}/letter/logo.png"></td><td width="*">&nbsp;</td><td width="100" style="color:#97050F;font-weight:bold">我管理的信件</td>
+<td width="300">
+{$P8LANG['status_0']}<a href="{$this_router}-manager?status=0" class="red">{$mana_message['mana'][0]}</a>条 
+{$P8LANG['status_1']}<a href="{$this_router}-manager?status=1"  class="red">{$mana_message['mana'][1]}</a>条 
+{$P8LANG['status_2']}<a href="{$this_router}-manager?status=2"  class="red">{$mana_message['mana'][2]}</a>条 
+{$P8LANG['status_3']}<a href="{$this_router}-manager?status=3"  class="red">{$mana_message['mana'][3]}</a>条</td>
+</tr>
+<tr>
+<td>&nbsp;</td><td style="color:#97050F;font-weight:bold">信件回复评价</td><td>
+{$P8LANG['comments_0']}<a href="{$this_router}-manager?comment=0"  class="red">{$mana_message['comm'][0]}</a>条 
+{$P8LANG['comments_1']}<a href="{$this_router}-manager?comment=1" class="red">{$mana_message['comm'][1]}</a>条 
+{$P8LANG['comments_2']}<a href="{$this_router}-manager?comment=2" class="red">{$mana_message['comm'][2]}</a>条 
+{$P8LANG['comments_3']}<a href="{$this_router}-manager?comment=3" class="red">{$mana_message['comm'][3]}</a>条</td>
+</tr>
+<tr class="headerbar"><td class="nav_name">&nbsp;&nbsp;<img src="{$MEMBERSKIN}/letter/email4_ttbg.gif" />&nbsp;{$ptitle}</td><td>&nbsp;</td><td>&nbsp;</td><td style="text-align:right; padding-right:10px">你的位置：<a href="{$core.url}">首页</a> &gt; <a href="{$this_module.controller}-list">领导信息</a> &gt; {$ptitle}</td></tr>
+</table>
+<!--{/php168}-->

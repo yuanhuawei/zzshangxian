@@ -1,0 +1,58 @@
+<!--{php168}-->
+<style style="text/css">
+<!--{php $swidth = strpos($swidth, '%')!==false?$swidth:$swidth.'px';}-->
+#play_slide_{$label['id']} { width:{$swidth};	height:{$sheight}px;    position: relative;}
+#play_slide_{$label['id']} .clearfix li {  display: none;    position: absolute;   overflow: hidden;    width:{$swidth};	height:{$sheight}px;}
+#play_slide_{$label['id']} .clearfix li img {margin: auto; width:{$swidth};	height:{$sheight}px;    overflow: hidden; }
+#play_slide_{$label['id']} .jsNav { position:absolute;right:700px;bottom:240px;z-index:999;display:none;}
+#play_slide_{$label['id']} .jsNav li { background-color:#b8eff4;cursor:pointer;    display: inline-block;    float: left;    height: 10px;    line-height: 0;    margin-left: 5px;    text-indent: -9999px;    width: 40px;   z-index: 999; }
+#play_slide_{$label['id']} .jsNav li.over { background-color:#FFF; z-index: 999;}
+</style>
+<div id="play_slide_{$label['id']}">
+	<ul class="clearfix">
+	<!--{foreach $list $value}-->
+		<li><a href="{$value['url']}"><img src="{$value['frame']}" width="$swidth" height="$sheight"></a></li>
+	<!--{/foreach}-->
+	</ul>
+	<ul class="jsNav" id="jsNav_slide_{$label['id']}">
+	<!--{foreach $list $key $value}-->
+		<li><!--{php echo  $key+1;}--></li>
+	<!--{/foreach}-->
+	</ul>
+</div>
+<script type="text/javascript">
+(function () {
+	var num = $("#jsNav_slide_{$label['id']} li").length;
+	$("#play_slide_{$label['id']} ul li:first").css("display", "block");
+	$("#jsNav_slide_{$label['id']} li:first").addClass("over");
+	var curr = 0;
+	$("#jsNav_slide_{$label['id']} li").each(function (i) {
+		$(this).click(function () {
+			curr = i;
+			$("#play_slide_{$label['id']} ul li").eq(i).css("z-index", "10").siblings("li").css("z-index", "1");
+			$("#play_slide_{$label['id']} ul li").eq(i).fadeIn(1500).siblings("li").fadeOut(1500);
+			$(this).siblings("li").removeClass("over").end().addClass("over");
+			return false;
+		});
+	});
+	//自动翻
+	var timer = setInterval(function () {
+			todo = (curr + 1) % num;
+			$("#jsNav_slide_{$label['id']} li").eq(todo).click();
+		}, 9000);
+
+	//鼠标悬停在触发器上时停止自动翻
+	$("#jsNav_slide_{$label['id']} li").hover(
+		function () {
+			clearInterval(timer);
+		},
+		function () {
+			timer = setInterval(function () {
+				todo = (curr + 1) % num;
+				$("#jsNav_slide_{$label['id']} li").eq(todo).click();
+			}, 5000);
+		}
+	);
+})();
+</script>
+<!--{/php168}-->

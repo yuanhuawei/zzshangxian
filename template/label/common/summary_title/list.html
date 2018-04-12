@@ -1,0 +1,15 @@
+<!--{php168}-->
+<div class="label_list">
+	<!--{foreach $list $value}-->
+	<div style="border-bottom:#cccdcf 1px dashed;margin:5px 0">
+		<div style="font-size:18px;margin:10px 5px;color:#505050;font-weight:bold;"><a  href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></div>
+		<div style="color:#e73434;margin:10px 5px;font-size:12px;"><!--{php echo date('Y年m月d日', $value['timestamp']);}--></div>
+		<div style="font-size:12px;color:#505050;margin:10px 5px;">$value[summary]</div>
+		<div class="label_red_right"><a href="$value[url]" target="_blank"><font color="#e73434">阅读全文</font></a></div>
+		<div class="clear"></div>
+	</div>
+	<!--{/foreach}-->
+	<div class="clear"></div>
+</div>
+<!--{/php168}-->
+

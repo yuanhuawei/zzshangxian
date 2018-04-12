@@ -1,0 +1,7 @@
+<!--{php168}-->
+<input type="hidden" name="#field_{$field}_posted" />
+<!--{foreach $field_data['data'] $value $key}-->
+<input type="checkbox" name="field#[$field][]" id="field#[$field][$value]" value="$value"{if isset($data[$field]) && in_array($value, $data[$field])} checked{elseif !isset($data[$field]) && isset($field_data['default_value'][$value])} checked{/if} {$field_data['widget_addon_attr']} />
+<label for="field#[$field][$value]">$key</label> 
+<!--{/foreach}-->
+<!--{/php168}-->

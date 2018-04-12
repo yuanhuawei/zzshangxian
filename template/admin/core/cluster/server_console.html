@@ -1,0 +1,27 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/$MODULE/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：<a href="{$core.admin_controller}/core/cluster-index">PHP168站群系统</a> &gt; <a href="#">服务端控制台</a></td>
+  </tr>
+</table>
+<table width="100%" cellspacing="0" cellpadding="0" class="zq_list" align="center">
+<tr>
+		<td width="12%" class="list_top">服务</td>
+		<td width="17%" class="list_top list_right">{$P8LANG['operation']}</td>
+	</tr>
+	<!--{foreach $services $name $v}-->
+	<!--{php if(!$v['server_console']) continue;}-->
+		<tr>
+			<td class="headerbtn_list">$v[name]</td>
+			<td><a href="$this_url?service=$name">$v[description]</a></td>
+		</tr>
+		<!--{/foreach}-->
+	</table>
+</div>
+
+<script type="text/javascript">
+</script>
+
+<!--{template $this_module footer admin}-->
+<!--{/php168}-->

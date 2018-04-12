@@ -1,0 +1,55 @@
+/* CSS Document */
+/**guestbook**/
+.siderCol{float:left;width:280px;overflow:hidden}
+.mainBody{background:#fff;float:right;width:672px;overflow:hidden}
+.fright{float:right}
+.border1 .eachcid{background:url(005.gif) no-repeat right top; padding-right:20px;padding-top:8px; display:inline-block; height:20px; margin:0 10px;}
+.border1 .eachcid a{ color:#000000;font-weight:bold}
+.border1 .over a{ color:#990000;font-weight:bold}
+.border2{border:1px solid #C0CADA;font-size:12px;}
+.border2 .head{ background-color:#f1f1f1; padding:5px 10px; height:20px;font-size:12px; line-height:150%}
+.border2 .head .user{color:#990000; font-weight:bold; font-size:12px;background:url(by.gif) no-repeat left 1px; padding-left:15px; float:left}
+.border2 .head .title{padding-left:10px;float:left;font-weight:bold}
+.border2 .main{ padding:15px;}
+.border2 .buttom{ height:20px;padding:0 10px}
+.border2 .buttom .datatime{float:right; color:#333;margin:0 15px; }
+.border2 .buttom .status{float:right; background:url(status.gif) no-repeat left 3px; padding-left:18px; margin:0 15px; color:#F6760C; font-weight:bold}
+.border3{ border:1px solid #FC0; padding:5px 10px 3px 10px;font-size:12px;}
+.border3 .replyer{color:#008000; margin-top:10px}
+.guestbook{border:1px solid #cccccc; background-color:#F7FCFF; padding:10px; font-size:12px}
+.Lujing {background:url(nav.gif) no-repeat left center;color:#06529A;padding-left:20px;line-height:32px }
+.border_dashed{ border:1px dashed #666; padding:10px;}
+.mtop{margin-top:10px}
+.txt{ height:20px; line-height:16px;}
+.digg{color:#BA2636; font-weight:bold}
+
+
+/**siderCol**/
+.clearfix:before, ul.inline-float:before, .section-hd:before, .block-hd:before, .rate-list:before, .imgtext-h-block:before, .img-title:before, .tags-filter-list .tags-filter-item:before, .tabs-banshi .tabs-content:before, #block_nav_quick:before, .zfxf-links:before, #block_bsfw .links-content:before, #block_nav_xxgk .sub-menu:before, #block_nav_xxgk .sub2-menu:before, .clearfix:after, ul.inline-float:after, .section-hd:after, .block-hd:after, .rate-list:after, .imgtext-h-block:after, .img-title:after, .tags-filter-list .tags-filter-item:after, .tabs-banshi .tabs-content:after, #block_nav_quick:after, .zfxf-links:after, #block_bsfw .links-content:after, #block_nav_xxgk .sub-menu:after, #block_nav_xxgk .sub2-menu:after {
+	content: "";
+	display: table;
+	font: 0px/0 a;
+}
+.clearfix:after, ul.inline-float:after, .section-hd:after, .block-hd:after, .rate-list:after, .imgtext-h-block:after, .img-title:after, .tags-filter-list .tags-filter-item:after, .tabs-banshi .tabs-content:after, #block_nav_quick:after, .zfxf-links:after, #block_bsfw .links-content:after, #block_nav_xxgk .sub-menu:after, #block_nav_xxgk .sub2-menu:after {
+	clear: both;
+}
+#block_nav_quick .block-bd {margin: 0;}
+.aside-block {font-size: 12px;}
+#block_nav_quick {background-color: #F4F4F4;border-radius: 4px 0 0 4px;padding-bottom: 5px;}
+#block_nav_quick li {background: url("icon-nav.gif") no-repeat scroll 20px 14px transparent;display: inline;float: left;width: 100%;}
+#block_nav_quick a {border-bottom: 1px solid #CCCCCC;color: #E34723;display: block;font-size: 20px;line-height: 50px;padding-left: 75px;}
+#block_nav_quick li.link-xinxiang {background-position: 20px -36px;}
+#block_nav_quick li.link-xinfang {	background-position: 20px -83px;}
+#block_nav_quick li.link-chaxun {	background-position: 20px -134px;}
+#block_nav_quick li.firstTitle{background:url(firstTitleBg.jpg) left center;height:39px;}
+#block_nav_quick li.firstTitle a{line-height:39px;color:#10509d;font-weight:bold;font-size:14px;padding-left:95px}
+.others-block {background-color: #F4F4F4;border-top-left-radius: 4px;}
+.others-block .aside-block {margin-bottom: 0;padding-bottom: 10px;}
+.aside-block {font-size: 12px;margin-bottom: 15px;}
+.pt5 {padding-top: 5px;}
+.bar-hd {	background-color: #D9D9D9;border-left: 10px solid #C3010A;	height: 10px;	margin: 10px 0;position: relative;}
+.block-hd {	line-height: 30px;}
+.block-hd h3 {display: inline;float: left;line-height: 30px;}
+.bar-hd h3 {background-color: #F4F4F4;color: #C3010A;line-height: 20px;padding: 0 10px;position: absolute;top: -5px;}
+.block-bd {margin: 0 10px;}
+.aside-block {font-size: 12px;}

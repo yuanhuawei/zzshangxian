@@ -1,0 +1,201 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+
+<h2 style="text-align:center">$data[title]</h2>
+<table width="900" align="center" border="1" cellspacing="1" cellpadding="5">
+	<tr>
+		<td width="9%">姓名</td>
+		<td width="30%">$info[name]</td>
+		<td width="9%">性别</td>
+		<td width="34%">
+			<!--{if $info['gender']==1}-->
+			男
+			<!--{else}-->
+			女
+			<!--{/if}-->
+		</td>
+		<td width="18%" rowspan="4"><img width="120" height="150" src="{if !empty($info['photo'])}$info[photo]{else}$RESOURCE/images/nopic.jpg{/if}"/></td>
+	</tr>
+	<tr>
+		<td >出生日期</td>
+		<td >{date('Y 年 m 月d 日')}</td>
+		<td >工作年限</td>
+		<td >{$this_system.CONFIG['worktime'][$info['worktime']]}</td>
+	</tr>
+	<tr>
+		<td >教育程度</td>
+		<td >{$this_system.CONFIG['education'][$info['education']]}</td>
+		<td >婚姻状况</td>
+		<td >
+			<!--{if $info['married']==1}-->
+			已婚
+			<!--{else}-->
+			未婚
+			<!--{/if}-->
+		</td>
+	</tr>
+	<tr>
+		<td >户籍</td>
+		<td >广东</td>
+		<td >求职状态</td>
+		<td >{$this_system.CONFIG['situation'][$info['situation']]}</td>
+	</tr>
+	<tr>
+		<td >证件类型</td>
+		<td >身份证</td>
+		<td >证件号码</td>
+		<td colspan="2">$info[idcard]</td>
+	</tr>
+	<tr>
+		<td >手机号码</td>
+		<td >$info[mobile]</td>
+		<td >电子邮箱</td>
+		<td colspan="2">$info[email]</td>
+	</tr>
+	<tr>
+		<td>自我评价</td>
+		<td colspan="4">$data[introduction]</td>
+	</tr>
+	<tr>
+		<td>求职意向</td>
+		<td colspan="4"> 工作类型：{$this_system.CONFIG['kind'][$data[kind]]}<br />
+			薪水范围：{$this_system.CONFIG['salary'][$data[salary]]}<br />
+			工作地区：$data[city]<br />
+			希望行业：$data[industry]<br />
+			目标职能：$data[job]<br />
+			到岗时间：{$this_system.CONFIG['entrytime'][$data[entrytime]]}<br />
+		</td>
+	</tr>
+	<!--{if $data['type']==2}-->
+	<tr>
+		<td>粘帖部分</td>
+		<td colspan="4">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="5"><!--{php echo nl2br($data['content']);}--></td>
+	</tr>
+	<!--{else}-->
+	<tr>
+		<td>工作经验</td>
+		<td colspan="4">
+			<table width="100%">
+				<!--{foreach $list_work $val}-->
+				<tr>
+					<td>时间</td>
+					<td>{date('Y-m-d',$val['begintime'])} 到 {date('Y-m-d',$val['endtime'])}</td>
+					<td>公司</td>
+					<td>$val[company]</td>
+				</tr>
+				<tr>
+					<td>部门</td>
+					<td>$val[division]</td>
+					<td>职位</td>
+					<td>$val[post]</td>
+				</tr>
+				<tr>
+					<td>工作描述</td>
+					<td colspan="3">$val[content]</td>
+				</tr>
+				<!--{/foreach}-->
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>项目经验</td>
+		<td colspan="4">
+			<table width="100%">
+				<!--{foreach $list_project $val}-->
+				<tr>
+					<td>时间</td>
+					<td>{date('Y-m-d',$val['begintime'])} 到 {date('Y-m-d',$val['endtime'])}</td>
+					<td>项目</td>
+					<td>$val[project]</td>
+				</tr>
+				<tr>
+					<td>环境</td>
+					<td>$val[ware]</td>
+					<td>工具</td>
+					<td>$val[tool]</td>
+				</tr>
+				<tr>
+					<td>担任角色</td>
+					<td colspan="3">$val[responsibility]</td>
+				</tr>
+				<tr>
+					<td>项目描述</td>
+					<td colspan="3">$val[content]</td>
+				</tr>
+				<!--{/foreach}-->
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>教育经历</td>
+		<td colspan="4">
+			<table width="100%">
+				<!--{foreach $list_edu $val}-->
+				<tr>
+					<td>时间</td>
+					<td>{date('Y-m-d',$val['begintime'])} 到 {date('Y-m-d',$val['endtime'])}</td>
+					<td>学校</td>
+					<td>$val[school]</td>
+				</tr>
+				<tr>
+					<td>专业</td>
+					<td>$val[major]</td>
+					<td>职位</td>
+					<td>$val[post]</td>
+				</tr>
+				<tr>
+					<td>专业描述</td>
+					<td colspan="3">$val[content]</td>
+				</tr>
+				<!--{/foreach}-->
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>培训经历</td>
+		<td colspan="4">
+			<table width="100%">
+				<!--{foreach $list_train $val}-->
+				<tr>
+					<td>时间</td>
+					<td>{date('Y-m-d',$val['begintime'])} 到 {date('Y-m-d',$val['endtime'])}</td>
+					<td>学校</td>
+					<td>$val[institution]</td>
+				</tr>
+				<tr>
+					<td>方向</td>
+					<td>$val[course]</td>
+					<td>证书</td>
+					<td>$val[certification]</td>
+				</tr>
+				<tr>
+					<td>培训描述</td>
+					<td colspan="3">$val[content]</td>
+				</tr>
+				<!--{/foreach}-->
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>技能水平</td>
+		<td colspan="4">
+			<table width="100%">
+				<!--{foreach $list_skill $val}-->
+				<tr>
+					<td>技能</td>
+					<td>$val[name]</td>
+					<td>掌握程度</td>
+					<td>$val[level]</td>
+				</tr>
+
+				<!--{/foreach}-->
+			</table>
+		</td>
+	</tr>
+	<!--{/if}-->
+</table>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

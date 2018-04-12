@@ -1,0 +1,159 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$TITLE</title>
+<meta name="keywords" content="$SEO_KEYWORDS" />
+<meta name="description" content="$SEO_DESCRIPTION" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/survey/style.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+</head>
+<body id="survey_body">
+<div id="main3">
+  <div class="add-inner">
+    <div id="page_wzym">
+	<!--{if $IS_ADMIN}-->
+	<span id="labelshow" style="top:1px;right:1px; position:absolute;">[显示标签]</span>
+	<script type="text/javascript">
+	LABEL_URL = location.href;
+	if(LABEL_URL.indexOf('edit_label')==-1){
+		var ls='?';
+		if(LABEL_URL.indexOf('?')>-1)ls='&';
+		LABEL_URL=LABEL_URL+ls+'edit_label=1';
+		$('#labelshow').html('<a href='+LABEL_URL+' id="edit_label">[显示标签]</a>');
+	}else{
+		LABEL_URL=LABEL_URL.replace('&edit_label=1','');
+		LABEL_URL=LABEL_URL.replace('edit_label=1','');
+		$('#labelshow').html('<a href='+LABEL_URL+' >[隐藏标签]</a>');
+	}
+	</script>
+	<!--{/if}-->
+       <div class="hdline" ><span style="float:right;margin-right:20px; line-height:35px">本调查截止至<!--{php echo date('Y-m-d H:i',$data['endtime']);}--></span>$label[survey_view_banner] </div>
+      <div class="section">
+        <div class="hd">
+           <!--{if $manager}-->
+		 <span style="cursor: pointer;" id="operation">操作</span>
+          <script type="text/javascript">
+		  	init_operation(
+						   {'编辑':"{$core.admin_controller}/core/{$this_module.name}-update?id={$data['id']}",
+						   	'删除':"{$core.admin_controller}/core/{$this_module.name}-delete?id={$data['id']}",
+							'更多': "{$core.admin_controller}/core/{$this_module.name}-item"
+							},'operation');
+		  </script>
+		  <!--{/if}-->
+        </div>
+        <p align="center"  class="page-title-green" id="SurveyTitle" style="color: #1b6102;font-size:24px; font-family:"微软雅黑"">$data[title]</p>
+        <!--{if !empty($data['content'])}-->
+        <div class="article-content" id="article-content"> {$data['content']} </div>
+        <!--{/if}-->
+        <div class="bd">
+        <script type="text/javascript">
+			var verifys = {};
+		</script>
+          <form id="myform" name="myform" action="{$this_url}" method="post">
+            <dl class="Survey_Box" id="SurveyBox">
+            <!--{foreach $titles $title}-->
+              <dt class="dl_Title_box" id="Q1Title">$title[display_order]、$title[tittle]</dt>
+              <dd class="dl_Content_box" id="Q1Content">
+              <!--{if $title['type']=='radio'}-->
+                    <!--{foreach $title['data'] $key $val}-->
+                    <input type="radio" name="title[{$title['id']}]" value="$key"/> $val
+                    <!--{/foreach}-->
+                <!--{elseif $title['type']=='checkbox'}-->
+                    <!--{foreach $title['data'] $key $val}-->
+                    <input type="checkbox" name="title[{$title['id']}][]" value="$key"/> $val
+                    <!--{/foreach}-->
+                <!--{elseif $title['type']=='select'}-->
+                    <select name="title[{$title['id']}]">
+                    	<option value=""/>--请选择--</option>
+                        <!--{foreach $title['data'] $key $val}-->
+                        <option value="$key"/> $val</option>
+                        <!--{/foreach}-->
+                    </select>
+                <!--{elseif $title['type']=='text'}-->
+                    <input type="text" name="title[{$title['id']}]" value="" size="70"/>
+                <!--{elseif $title['type']=='area'}-->
+                    <textarea name="title[{$title['id']}]" rows="5" cols="85"></textarea>	
+                <!--{/if}-->
+                    
+                <!--{if $title['other']}-->
+               	<br/> 	<br/>其它<textarea rows="2" cols="80" name="other[{$title['id']}]"></textarea>
+                <!--{/if}-->
+                <br />
+                <!--{if $title['not_null']}-->
+               	<script type="text/javascript">verifys[{$title['id']}] = {tid:'{$title['id']}',oid:'{$title['display_order']}',other:'{$title['other']}',ty:'{$title['type']}'};</script>
+                <!--{/if}-->
+                <br />
+                </dd>
+            <!--{/foreach}-->
+
+             <dt class="dl_Title_box" id="Q1Title"></dt>
+              <dd class="dl_Content_box" id="Q1Content">
+             	<strong style="float:left">验证码</strong></strong><input type="text" name="captcha" class="codetext form-text" id="validCode" />
+                &nbsp;<span id="captcha"></span>
+                <script type="text/javascript">
+					captcha($('#captcha'), $('#form input[name="captcha"]'));
+					verifys[0] = {ty:'captcha'};
+				</script>
+              <br />
+              <br />
+                </dd>
+               </dd>  
+ 
+            </dl>
+			
+            <div class="submit">
+			<!--{if !empty($data['endtime']) && $data['endtime']>P8_TIME }-->
+             <input type="hidden" name="iid" value="{$data['id']}" />
+              <input type="button" name="Submit" value="提交问卷" onclick="check()"/>
+			 &nbsp;&nbsp;<a href="{$this_router}-view-id-$id">查看结果>></a>
+			<!--{else}--> 
+			 <a href="{$this_router}-view-id-$id"><strong>本问卷调查已经结束,点击查看结果</strong></a>
+			<!--{/if}--> 
+            </div>
+			
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+function check(){
+		
+	var ts = "";	
+	
+	for(var i in verifys){
+		if(verifys[i].ty=='text')
+			if(($('input[name="title['+verifys[i].tid+']"]').val()=='' && verifys[i].other=='0') || ($('input[name="title['+verifys[i].tid+']"]').val()=='' && verifys[i].other=='1' && $('textarea[name="other['+verifys[i].tid+']"]').val()==''))
+				ts += '请回答第'+verifys[i].oid+"题\r\n";
+		
+		if(verifys[i].ty=='area')
+			if(($('textarea[name="title['+verifys[i].tid+']"]').val()=='' && verifys[i].other=='0') || ($('textarea[name="title['+verifys[i].tid+']"]').val()=='' && verifys[i].other=='1' && $('textarea[name="other['+verifys[i].tid+']"]').val()==''))
+				ts += '请回答第'+verifys[i].oid+"题\r\n";
+		
+		if(verifys[i].ty=='radio' || verifys[i].ty=='checkbox')
+			if((!$('input:checked[name^="title['+verifys[i].tid+']"]').length && verifys[i].other=='0') || (!$('input:checked[name^="title['+verifys[i].tid+']"]').length && verifys[i].other=='1' && $('textarea[name="other['+verifys[i].tid+']"]').val()==''))
+				ts += '请回答第'+verifys[i].oid+"题\r\n";	
+			
+		if(verifys[i].ty=='select')
+			if(($('select[name="title['+verifys[i].tid+']"]').val()=='' && verifys[i].other=='0') || ($('select[name="title['+verifys[i].tid+']"]').val()=='' && verifys[i].other=='1' && $('textarea[name="other['+verifys[i].tid+']"]').val()==''))
+				ts += '请回答第'+verifys[i].oid+"题\r\n";		
+		if(verifys[i].ty=='captcha' && $('#validCode').val()=='')	
+			ts += "验证码必填\r\n";		
+	}
+	
+	if(ts){
+		alert(ts);
+		return;
+	}
+	
+	$('#myform').submit();
+}
+
+</script>
+</body>
+</html>
+<!--{/php168}-->

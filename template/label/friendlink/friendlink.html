@@ -1,0 +1,26 @@
+<!--{php168}-->
+<style type="text/css">
+#friend_wre{ margin-top:10px; border:1px solid #E4E4E4}
+#friend_wre .fri_head{ text-align:left font-weight:bold; font-size:12px;padding:5px 0 0 10px;}
+#friend_wre .friend_layer {border-top:1px dashed #dedede;margin:0 10px}
+#friend_wre .friend_layer .each{float:left; padding:5px 10px; line-height:150%}
+</style>
+<div id="friend_wre">
+<div class="fri_head">友情链接</div>
+		<!--{foreach $list $k $v}-->
+		<div class="friend_layer">
+			<!--{foreach $v['link'] $k2 $v2}-->
+				<div class="each">
+				<!--{if $v2['logo']}-->
+				<a href="$v2[url]" target="_blank"><img src="$v2[logo]" width="80" height="30" title="$v2[name]" /></a>
+				<!--{else}-->
+				<a href="$v2[url]" target="_blank">$v2[name]</a>
+				<!--{/if}-->
+				</div>
+			<!--{/foreach}-->
+			<div class="clear"></div>
+			</div>
+		<!--{/foreach}-->
+</div>
+<!--{/php168}-->
+

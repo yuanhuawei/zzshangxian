@@ -1,0 +1,32 @@
+<!--{php168}-->
+<!--{template $core header}-->
+$data[content]
+<!--{if $addcontent}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/images/dialog.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<script type="text/javascript">
+<!--{template_init_js}-->
+
+var \$id='$id';
+var editlabel = get_cookie('IS_ADMIN');
+var dialog
+$(document).ready(function(){
+dialog = new P8_Dialog({
+	title_text: '编辑内容',
+	button: false,
+	zIndex:10000,
+	width: 750,
+	height: 500,
+	url: \$this_router+'-addcontent?id='+\$id
+});
+if(editlabel !==undefined){
+$("#editcontent").html("<a href='javascript:void(0)' onClick='dialog.show()'>编辑</a>");
+}
+						   })
+</script>
+<!--{/if}-->
+<!--{template $core footer}-->
+<!--{/php168}-->
+

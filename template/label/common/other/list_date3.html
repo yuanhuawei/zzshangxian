@@ -1,0 +1,23 @@
+<!--{php168}-->
+<style type="text/css">
+.label_list3_date li{ padding-bottom:10px;margin-top:10px;border-bottom: 1px dashed #aaaaaa; height:54px; font-size:12px;*float:left}
+.label_list3_date .date3{ width:60px; height:54px; text-align:center; float:left;color: #ffffff;}
+.label_list3_date .date3 .ny{display: block;height:25px;line-height:25px;background:#6b292b;text-align: center;color:#fff;font-size:12px;}
+.label_list3_date .date3 .rq{display: block;height:29px;line-height:29px;background:#ffffff;text-align: center;color:#6b292b;font-size:16px;}
+.label_list3_date .text3{width:207px;float:right;}
+.label_list3_date h4{ font-size:14px; line-height:25px;overflow: hidden;font-weight:normal;}
+.label_list3_date h4 a{color:#404040;}
+</style>
+<ul class="label_list3_date">
+	<!--{foreach $list $value}-->
+	<li>
+		<div class="date3">
+			<span class="ny">{date('Y-m', $value['timestamp'])}</span>
+			<span class="rq">{date('d', $value['timestamp'])}</span>
+		</div>
+	    <div class="text3"><h4><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h4></div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->
+

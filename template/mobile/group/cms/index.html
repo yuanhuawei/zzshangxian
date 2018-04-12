@@ -1,0 +1,76 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!--{template $core header}-->
+<div class="navbox">
+	$label[group_mobile_index_1]
+</div>
+<div id="slideBox" class="slideBox">$label[group_mobile_index_2]</div>
+<script type="text/javascript">
+TouchSlide({
+	slideCell:"#slideBox",
+    titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+    mainCell:".bd ul", 
+    effect:"leftLoop", 
+    autoPage:true,//自动分页
+    autoPlay:true //自动播放
+});
+</script>
+<div id="tab-iteam1" class="tab-iteam">
+	<div class="tab-iteam-con" id="tabBox1-bd">
+		<div class="con active">
+			$label[group_mobile_index_3]
+		</div>
+	</div>
+</div>
+<div class="module">
+	<div class="title">
+		$label[group_mobile_index_4]
+	</div>
+	<div id="TabBox1" class="tabBox3">
+		<div class="hd">
+			<ul>
+				<li>$label[group_mobile_index_5]</li>
+				<li>$label[group_mobile_index_6]</li>
+				<li>$label[group_mobile_index_7]</li>
+			</ul>
+		</div>
+		<div class="bd">
+			<div class="nlist">$label[group_mobile_index_8]</div>
+			<div class="nlist">$label[group_mobile_index_9]</div>
+			<div class="nlist">$label[group_mobile_index_10]</div>
+		</div>
+	</div>
+	<div class="more center">$label[group_mobile_index_11]</div>
+</div>
+<div class="module">
+	<div class="hd">
+		$label[group_mobile_index_12]
+	</div>
+	<div class="plane">$label[group_mobile_index_13]</div>
+	<div class="more center">$label[group_mobile_index_14]</div>
+</div>
+<div class="module">
+	<div class="hd">
+		$label[group_mobile_index_15]
+	</div>
+	<div class="intro">
+		<div class="pic center">$label[group_mobile_index_16]</div>
+		<div class="text">$label[group_mobile_index_17]</div>
+	</div>
+	<div class="more center">$label[group_mobile_index_18]</div>
+</div>
+<div id="TabBox2" class="tabBox">
+    <div class="hd">
+        <ul>
+            <li>$label[group_mobile_index_19]</li>
+        </ul>
+    </div>
+    <div class="bd">
+        <div class="nlist">$label[group_mobile_index_20]</div>
+    </div>
+	<div class="more center">$label[group_mobile_index_21]</div>
+</div>
+<script type="text/javascript">TouchSlide({ slideCell:"#TabBox1",effect:"leftLoop" }); </script>
+<script type="text/javascript">TouchSlide({ slideCell:"#TabBox2",effect:"leftLoop" }); </script>
+<!--{template $core footer}-->
+<!--{/php168}-->

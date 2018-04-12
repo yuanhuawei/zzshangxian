@@ -1,0 +1,10 @@
+<!--{php168}-->
+<form id="block_form_$name">
+<div>
+	<ul>
+		<li>名称<input type="text" name="block[$name][alias]" value="{if isset($data['alias'])}$data[alias]{/if}" /></li>
+		<li>条目<input type="text" name="block[$name][item_count]" value="{if isset($data['item_count'])}$data[item_count]{else}10{/if}" /></li>
+	</ul>
+</div>
+</form>
+<!--{/php168}-->

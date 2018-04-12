@@ -1,0 +1,222 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：
+	<a href="{$core.admin_controller}/sites/farm-index">站群系统</a> &gt; 
+	<a href="{$core.admin_controller}/sites/farm-add">
+	<!--{if !empty($data['alias'])}-->编辑<!--{else}-->	添加<!--{/if}-->站点</a></td>
+  </tr>
+</table>
+<form action="$this_url" method="post" id="form">
+	<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table">
+		<tr class="title fix_head">
+			<td width="23%"  class="list_top">{$P8LANG['config']}</td > <td width="35%" class="list_top">参数</td><td width="42%" class="list_top">备注</td>
+		</tr>
+		<tr>
+			<td class="tdL">站点名称</td>
+			<td class="tdR"> <input type="text" class="txt" name="sitename" value="{if !empty($data['sitename'])}$data[sitename]{/if}" /> </td>
+			<td class="tdR">请添加站点名称，名称可任意填写</td>
+		</tr>
+		<tr>
+			<td class="tdL">站点别名</td>
+			<td class="tdR"> 
+			<!--{if !empty($data['alias'])}-->
+			{$data['alias']}
+			<input type="hidden" id="alias" name="alias" value="{if !empty($data['alias'])}$data[alias]{/if}" />
+			<!--{else}-->
+			<input type="text" class="txt" id="alias" name="alias" value="{if !empty($data['alias'])}$data[alias]{/if}" /> 
+			<!--{/if}-->
+			</td>
+			<td class="tdR">请添加站点别名，只能是数字或字母的组合，提交后不得修改</td>
+		</tr>
+		<tr>
+			<td class="tdL">绑定域名</td>
+			<td  class="tdR"> <input type="text" class="txt" name="domain" value="{if !empty($data['domain'])}$data[domain]{/if}" size="60" /> </td>
+			<td class="tdR">请填写站点的网站，格式：http://www.xxx.com 或 http://xxx.com</td>
+		</tr>
+		<tr>
+			<td class="tdL">启用地址</td>
+			<td class="tdR">
+			<input name="ipordomain" value="1" type="radio" {if !empty($data['ipordomain'])}checked{/if}/>使用绑定域名
+			<!--{if !empty($data['domain'])}-->
+			{$data['domain']}
+			<!--{/if}-->
+			<br/><br/>
+			<input name="ipordomain" value="0" type="radio" {if empty($data['ipordomain'])}checked{/if}/>使用默认地址
+			<!--{if !empty($data['alias'])}-->
+			{$core->CONFIG['url']}/s.php/{$data['alias']}/
+			<!--{/if}-->
+			</td>
+			<td class="tdR">选择访问地址格式<br/>
+           <!--{if !empty($data['alias'])}--> 当用绑定域名时，需要域名指向本站所在目录:<font color="#FF0000"> <!--{php echo PHP168_PATH;}-->{$this_system.name}/html/$data[alias]</font><!--{/if}--></td>
+		</tr>
+		<tr>
+			<td class="tdL">站点状态</td>
+			<td class="tdR">
+            <input name="status" value="1" type="radio" {if !empty($data['status'])}checked{/if}/>启用 
+			<input name="status" value="0" type="radio" {if empty($data['status'])}checked{/if}/>关闭
+			</td>
+			<td class="tdR">将站点真实网址填入按格式填入即可</td>
+		</tr>
+		<tr>
+			<td class="tdL">首页静态</td>
+			<td class="tdR">
+            自动静态<input name="config[indexhtml]" value="1" type="checkbox" {if !empty($data['config']['indexhtml'])}checked{/if}/> 
+			执行间隔<input name="config[indexhtml_ex]" size="6" value="{if isset($data['config']['indexhtml_ex'])}{$data['config']['indexhtml_ex']}{else}60{/if}" type="text"/>分钟
+			</td>
+			<td class="tdR">首页自动静态化，仅当绑定域名时有效</td>
+		</tr>
+        <tr>
+			<td class="tdL">列表静态</td>
+			<td class="tdR">
+            <input name="config[html_list_size]" type="input" size="5" value="{if isset($config['html_list_size'])}{$config['html_list_size']}{else}5{/if}" />页
+			</td>
+			<td class="tdR">当发布内容时自动静态最低一级的栏目</td>
+		</tr>
+		<tr>
+			<td class="tdL">风格模板</td>
+			<td class="tdR" ><span id="template_name">{$templates[$data['template']]['name']}</span>
+			<input type="hidden" name="template" id="template" value="$data[template]" readonly/>
+			</select><input type="button" value="选择模板" onclick="dialog.show()"/>
+			</td>
+			<td class="tdR">请设定该站点风格模板。</td>
+		</tr>	
+		
+		<tr>
+				<td class="tdL">{$P8LANG['logo']}</td>
+				<td class="tdR" id="up">
+				  <span id="u">
+						<input type="text" class="txt" name="config[logo]" id="logo_img" size="38"  value="{if !empty($data['config']['logo'])}{$data['config']['logo']}{/if}" />
+						<input type="button" onclick="imgupload.choseup()" value="{$P8LANG['upload']}" class="u" />
+				  </span>
+					<a href="http://www.55.la" target="_blank" style="padding-left:20px; text-decoration:underline">在线制作Logo</a>
+					
+				</td>
+                <td class="tdR">请上传分站logo，将在前台显示。</td>
+		</tr>
+		
+		<tr>
+			<td class="tdL">站点标题</td>
+			<td class="tdR"> <input type="text" class="txt" name="config[title]" value="{if !empty($data['config']['title'])}{$data['config']['title']}{/if}" size="60" /> </td>
+			<td class="tdR">请设定该站点标题Title。</td>
+		</tr>
+		<tr>
+			<td class="tdL">站点关键字</td>
+			<td class="tdR"> <input type="text" class="txt" name="config[keyword]" value="{if !empty($data['config']['keyword'])}{$data['config']['keyword']}{/if}" size="60" /> </td>
+			<td class="tdR">请设定该站点关键字Keyword。</td>
+		</tr>
+		<tr>
+			<td class="tdL">站点描述</td>
+			<td class="tdR"> <textarea cols="57" rows="3" name="config[description]">{if !empty($data['config']['description'])}{$data['config']['description']}{/if}</textarea> </td>
+			<td class="tdR">请设定该站点描述Description。</td>
+		</tr>
+		<tr>
+			<td class="tdL">站点版权</td>
+			<td class="tdR"> <textarea cols="57" rows="3" name="config[copyright]">{if !empty($data['config']['copyright'])}{$data['config']['copyright']}{/if}</textarea> </td>
+			<td class="tdR">请设定该站点copyright。</td>
+		</tr>
+		<tr>
+			<td class="tdL">站点统计</td>
+			<td class="tdR"> <textarea cols="57" rows="3" name="config[statistics]">{if !empty($data['config']['statistics'])}{$data['config']['statistics']}{/if}</textarea> </td>
+			<td class="tdR">请设定该站点站点统计代码,如CNZZ。</td>
+		</tr>
+        <!--{if $ACTION=='add'}-->
+		<tr>
+			<td class="tdL">初始化内容</td>
+			<td class="tdR">
+			<select name="init">
+			<option value="">空白站点</option>
+			<!--{foreach $allsites $tname $tdata}-->
+			<option value="$tname">$tdata[sitename]</option>
+			<!--{/foreach}-->
+			</select>
+			</td>
+			<td class="tdR">若选择了某一站点，则会复制其的配置，栏目及内容</td>
+		</tr>
+        <!--{/if}-->
+		<tr>
+			<td colspan="3" class="text-center"><input type="submit" value=" {$P8LANG['submit']} " class="submit_btn"/></td>
+		</tr>
+	</table>
+	<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+</form>
+<div style="display:none; height:350px; overflow-y:auto" id="forcolone">
+<ul>
+<style>
+.tpl_li{width:100px; height:160px; overflow:hidden;margin:10px; float:left}
+</style>
+<!--{foreach $templates $tname $tdata}-->
+<li class="tpl_li"><img src="{$RESOURCE}/{$core.CONFIG['template_dir']}sites/$tname/preview.jpg" border="0" width="100" height="130" onclick="" onerror="this.src='{$RESOURCE}/images/nopic.jpg'" /><br />
+	<input type="radio" name="template" id="template_$tname" value="$tname" {if !empty($data['template']) && $data['template']==$tname}checked{/if} />
+	$tdata[name] 
+</li>
+<!--{/foreach}-->
+</ul>
+</div>
+<script type="text/javascript">
+var imgupload = new P8_Upload({
+	element: {
+		src: $('#logo_img'),
+		attribute: 'value'
+	},
+	param: {
+		filter: {
+			gif: 1024000,
+			jpg: 1024000,
+            jpeg: 1024000,
+            png: 1024000,
+            bmp: 1024000
+		}
+	}
+});
+$.validator.addMethod('valid_alias', function(value, element){
+	return /^(\w*[a-zA-Z]+\w*){1,}$/.test(value);
+});
+
+$('#form').validate({
+	rules: {
+		sitename: {required: true},
+		alias: { required: true<!--{if empty($data['alias'])}-->,
+			valid_alias:true,
+			remote: {
+				url: '$this_router-check_alias',
+				cache: false,
+				type: 'post',
+				data: {name: function(){return $('#alias').val();}},
+				beforeSend: function(){
+					ajaxing({});
+				},
+				complete: function(){
+					ajaxing({action: 'hide'});
+				}
+			}<!--{/if}-->
+		}
+	},
+	
+	messages: {
+		sitename: {	required: '站点名必填'	},
+		alias: {	required: '别名必填',
+		valid_alias:'格式错误',
+		remote: '别名已存在，请另填一个'	
+		}
+	}
+});
+
+var dialog = new P8_Dialog({
+	title_text:'选择风格模板',
+	width: 650,
+	height: 420,
+	button: true,
+	ok:function(){
+		$('#template').val(dialog.content.find('input:checked').val())
+		$('#template_name').html(dialog.content.find('input:checked').parent().text())
+	}
+});
+dialog.content.html($('#forcolone').clone().show());
+
+</script>
+
+<!--{template $this_system footer admin}-->
+<!--{/php168}-->

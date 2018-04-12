@@ -1,0 +1,78 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<div class="list_banner">
+	$label[gov_list_ad1]
+</div>
+<div class="list_nave">
+	<a href="{$core.controller}">Ê×Ò³</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>
+</div>
+<!--×ó±ß-->
+<div class="list_left">
+	<!--{php $i = 0;}-->
+	<!--{foreach $subcategories $v}-->
+	<!--{php if($i > 5) break; $i++;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+	<div class="list_head1 mtop">
+		<a class="list_more1" href="$v[url]">¸ü¶à>>></a> <span class="list_title2">$v[name]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_big_list]{'i.cid' => $subcat, 'model' => $MODEL}
+	</div>
+	<!--{/foreach}-->
+	<!--{if empty($subcategories)}-->
+	<div>
+		<div class="list_head1" >
+			<span class="title_5">$CAT[name]</span>
+		</div>
+		<div class="list_head1">
+			<!--{php include template($TEMP_OBJ, $CAT['item_template'], 'label');}-->
+			<div id="page">
+				{$pages}
+			</div>
+		</div>
+	</div>
+	<!--{/if}-->
+</div>
+<!--ÓÒ±ß-->
+<div class="list_right">
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[gov_blist_more5]</span> <span class="list_title1">$label[gov_blist_title5]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_blist_content5]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[gov_blist_more6]</span> <span class="list_title1">$label[gov_blist_title6]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_blist_content6]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[gov_blist_more7]</span> <span class="list_title1">$label[gov_blist_title7]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_blist_content7]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[gov_blist_more8]</span> <span class="list_title1">$label[gov_blist_title8]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_blist_content8]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[gov_blist_more9]</span> <span class="list_title1">$label[gov_blist_title9]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_blist_content9]
+	</div>
+</div>
+
+<script type="text/javascript" src="http://v2.jiathis.com/code/jiathis_r.js?move=0" charset="utf-8"></script>
+
+<!--{template $this_system footer}-->
+<!--{/php168}-->

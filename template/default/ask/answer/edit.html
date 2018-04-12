@@ -1,0 +1,58 @@
+<!--{php168}-->
+<!--{if $inajax}-->
+	<div style="width:690px;">
+<!--{else}-->
+	<!--{template $this_system header}-->
+	<div class="wrapbox light_blue_border">
+<!--{/if}-->
+<link rel="stylesheet" href="{$RESOURCE}/images/category_selector.css" type="text/css">
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+   <div class="topic_title<!--{if !$inajax}--> light_blue_bg<!--{/if}-->"><h3 class="mark">{$P8LANG['ask_edit_answer']}</h3></div>
+   <div class="postbox">
+     <form  action="{$this_url}" name="AskForm" id="AskForm" method="post">
+	    <ul>
+		   <li class="grey_dash_bg">
+				<div class="itemform_con">
+				 	<div class="tips">{$P8LANG['ask_title']}：</div>
+				 	<div >
+				 		$data[title]
+				 	</div>
+				 </div>
+			</li>
+			<li>
+				 <div class="itemform_con">
+					 <div class="tips" style="height:240px;">{$P8LANG['ask_answer_content']}：</div>
+					<div class="con">
+						
+						<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+							<textarea name="content" id="content">{$data['content']}</textarea>
+							<script text="text/javascript">
+								var toolbar= [
+									['Undo','Redo','Bold','Italic','Underline','NumberedList','BulletedList','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','FontSize','TextColor','BGColor','Image']
+								];
+								P8_CKEDITOR({id:'content', config:{toolbar:toolbar, height:250, resize_enabled:false}})
+							</script>	
+					</div>
+				 </div> 
+		   </li>
+		  
+		   <li class="postbtn_li">
+		   <input type="submit" value="{$P8LANG['submit']}" class="postbtn"/>
+		   <input type="hidden" name="id" value="{$data['id']}"/>
+		    <input type="hidden" name="cid" value="{$data['cid']}"/>
+		   </li>
+		</ul>
+	 </form>
+	 <div class="clear"></div>
+   </div>
+   <div class="clear"></div>
+</div>
+
+<!--{if $inajax}-->
+<!--{else}-->
+	<!--{template $this_system footer}-->
+	</body>
+	</html>
+<!--{/if}-->
+<!--{/php168}-->

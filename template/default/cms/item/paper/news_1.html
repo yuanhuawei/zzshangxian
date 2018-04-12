@@ -1,0 +1,84 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--content-->
+<script language="javascript" type="text/javascript">
+	//num表示当前总的个数,type1表示当前大的分类，id表示当前的模
+	function switchmodSTag(num,type1,id)
+	{
+		for(i=1; i <num; i++) 
+		{
+			if (i==id) 
+			{
+				document.getElementById("paper_"+type1+"_"+i).style.display="block";
+			}
+			else 
+			{
+				document.getElementById("paper_"+type1+"_"+i).style.display="none";
+			}
+		}
+	}
+</script>
+<div class="mainheader w_978">
+  <div class="mainMenuSub">
+    <ul>
+      <li>$label[submenu_1]</li>
+      <li>$label[submenu_2]</li>
+      <li>$label[submenu_3]</li>
+      <li>$label[submenu_4]</li>
+      <li>$label[submenu_5]</li>
+    </ul>
+    <div class="clear"></div>
+  </div>
+  <div class="crumbs">
+    <h2>超威报</h2>
+    <p>您当前位置:<a href="{$this_system.controller}">首页</a>
+      <!--{foreach $parent_cats $v}-->
+      &gt; <a href="$v[url]">$v[name]</a>
+      <!--{/foreach}-->
+    <ul>
+      <li>$label[qlink_1]</li>
+      <li>$label[qlink_2]</li>
+      <li>$label[qlink_3]</li>
+    </ul>
+  </div>
+</div>
+<div class="clear"> </div>
+<div class="Container w_978">
+  <div class="newspaper_pane">
+    <div class="menuBar">
+      <ul>
+        <li class="prev"><a href="{$navs['pre']['url']}">&lt;</a></li>
+        <!--{foreach $navs['mid'] $row}-->
+        <li><a href="{$row['url']}" {if $cid==$row['id']}class="ahover"{/if}>{$row['name']}</a></li>
+        <!--{/foreach}-->
+        <li class="next"><a href="{$navs['aft']['url']}">&gt;</a></li>
+      </ul>
+    </div>
+    <div class="newspaperBody">
+	<!--{php $r=0;}-->
+    <!--{foreach $subcategories $row}-->
+<!--{php $r++;}-->
+      <div class="frame"> <span style="text-align: left;">{$row['name']}</span><br />
+      <!--{php $i=0;}-->
+      <!--{foreach $row['categories'] $srow}-->
+      <!--{php $i++;}-->
+         <div class="item">
+		 <a href="javascript:;" onclick="return switchmodSTag(5,$r,$i) "><img src="{$srow['frame']}" width="115" height="171" /></a>
+          <div style="clear:both"></div>
+          [ {$srow['name']} ]
+		 </div>
+        <div class="guide" {if $i!=1}style="display:none"{/if} id="paper_{$r}_{$i}"> 
+        <h2 style="font-size: 16px; width:255px; overflow:hidden">＞本版导读
+          </h2>
+	<!--{php $subcat=array($srow['id']);}-->
+	$label[news_1]{'i.cid' => $subcat, 'model' => $MODEL}
+        </div>
+      <!--{/foreach}-->
+      </div>
+	<!--{/foreach}-->
+    </div>
+  </div>
+  <div id="pages"><ul>{$pages}</ul></div>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->

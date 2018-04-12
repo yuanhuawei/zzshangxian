@@ -1,0 +1,278 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $this_module header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr><td>
+			<table class="formtable">
+				<tr>
+					<td class="title">{$P8LANG['search']}</td>
+				</tr>
+				<tr><td class="headerbtn_list" style="text-align:center">
+				<form name="form" method="post" action="">
+					<select name="search_type"><option value="keyword">{$P8LANG['title']}</option><option value="id">ID</option></select> <input type="text" name="keyword" size="30" value="{if !empty($keyword)}$keyword{/if}"> <input type="submit" class="submit_btn" value="{$P8LANG['submit']}">
+				</form>
+				</td></tr>		
+			  </table>
+				</td>
+		  </tr>
+		</table>
+	</div>
+
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr><td>
+				<form action="$this_router-$ACTION" id="form" name="form" method="post">
+					<table class="formtable columntable hover_table click_changeable" id="list">			
+						<tr class="title" id="title">
+							<td>{$P8LANG['ask_choose']}</td>
+							<td>{$P8LANG['title']}</td>
+							<td>{$P8LANG['category']}</td>
+							<td>{$P8LANG['user']}</td>
+							<td>{$P8LANG['ask_views']}</td>
+							<td>{$P8LANG['ask_topic_solve_title']}</td>
+							<td>{$P8LANG['ask_verify_title']}</td>
+							<td>{$P8LANG['ask_closed']}</td>
+							<td>{$P8LANG['ask_top']}</td>
+							<td>{$P8LANG['ask_recommend']}</td>
+							<td>{$P8LANG['ask_urgent']}</td>
+							<td>{$P8LANG['ask_time']}</td>
+							<td class="cleartd">{$P8LANG['operation']}</td>
+						</tr>
+						<!--{if empty($list)}-->
+							<tr><td colspan="12">{$P8LANG['ask_no_records']}</td></tr>
+						<!--{else}-->
+						<!--{foreach $list $value}-->
+						<tr id="item_{$value['id']}">
+							<td><input type="checkbox" name="ids[]" value="{$value['id']}"/> {$value['id']}</td>
+							<td class="txtlist"><a href="{$value['url']}" target="_blank">{$value['title']}</a></div></td>
+							<td>{$cdata[$value['cid']]['name']}</td>
+							<td><!--{if $value['anonymous'] && empty($value['username'])}-->{$P8LANG['ask_anonymous']}<!--{else}--><a href="#{$value['uid']}">{$value['username']}</a><!--{/if}--></td>
+							<td>{$value['views']}</td>
+							<td><!--{if $value['status']}--><font color="#FF0000">{$P8LANG['Y']}</font><!--{else}-->{$P8LANG['N']}<!--{/if}--></td>
+							<td>
+								<!--{if $value['verify']}--><img src="{$RESOURCE}/skin/admin/check_yes.gif" id="verify_{$value['id']}"/><!--{else}--><img src="{$RESOURCE}/skin/admin/check_no.gif" id="verify_{$value['id']}"/><!--{/if}-->
+							</td>
+							<td id="closed_{$value['id']}"><!--{if $value['closed']}--><font color="#FF0000">{$P8LANG['Y']}</font><!--{else}-->{$P8LANG['N']}<!--{/if}--></td>
+							<td id="display_order_{$value['id']}">
+								<!--{if $value['display_order']==3}--><font color="#FF0000">{$P8LANG['ask_display_top']}</font><!--{elseif $value['display_order']==2}--><font color="#FF6868">{$P8LANG['ask_display_column']}</font><!--{elseif $value['display_order']==1}--><font color="#FF9999">{$P8LANG['ask_display_category']}</font><!--{else}-->{$P8LANG['N']}<!--{/if}-->
+							</td>
+							<td id="recommend_{$value['id']}"><!--{if $value['recommend']}--><font color="#FF0000">{$P8LANG['Y']}</font><!--{else}-->{$P8LANG['N']}<!--{/if}--></td>
+							<td><!--{if $value['urgent']}--><font color="#FF0000">{$P8LANG['Y']}</font><!--{else}-->{$P8LANG['N']}<!--{/if}--></td>
+							<td><!--{php echo date('Y-m-d',$value['addtime']);}--></td>
+							<td class="cleartd">
+								<a href="{$core.admin_controller}/{$this_system.name}/{$answer.name}-list?tid={$value['id']}">{$P8LANG['ask_answer']}</a> | <a href="{$this_router}-edit?id={$value['id']}&page={$page}">{$P8LANG['edit']}</a> | <a href="#" onclick="javascript:return delete_items({id:{$value['id']}});">{$P8LANG['delete']}</a>
+							</td>
+						</tr>
+						<!--{/foreach}-->
+						<!--{/if}-->
+					</table>
+				</form>
+				<!--{if $list}-->
+				<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+					<tr>
+						<td width="6%">
+							<div align="right"><input type="checkbox" id="ChkAll" onclick="check_all(this, 'ids[]', $('#list'))"/> {$P8LANG['ask_checkall']}</div>
+						</td>
+						<td width="*">
+							<input type="button" name="Submit" value="{$P8LANG['delete']}" class="edit_btn" onclick="javascript:delete_items({});"/>
+							<input type="button" name="Submit" value="{$P8LANG['ask_pass_verify']}"  class="edit_btn" onclick="javascript:verify({verify:1});"/>
+							<input type="button" name="Submit" value="{$P8LANG['ask_cancel_verify']}"  class="edit_btn" onclick="javascript:verify({verify:0});"/>
+							<input type="button" name="Submit" value="{$P8LANG['ask_recommend']}"  class="edit_btn" onclick="javascript:recommend({recommend:1});"/>
+							<input type="button" name="Submit" value="{$P8LANG['ask_recommend_n']}"  class="edit_btn" onclick="javascript:recommend({recommend:0});"/>
+							<input type="button" name="Submit" value="{$P8LANG['ask_top']}"  class="edit_btn" onclick="javascript:display_order();"/>
+							<input type="button" name="Submit" value="{$P8LANG['ask_close']}" class="edit_btn" onclick="javascript:closed({closed:1});"/>
+							<input type="button" name="Submit" value="{$P8LANG['ask_open']}" class="edit_btn" onclick="javascript:closed({closed:0});"/>
+							{if $IS_FOUNDER} <input type="button" name="Submit" value="{$P8LANG['clean']}" class="edit_btn" onclick="javascript:clean({closed:0});"/>{/if}
+						</td>
+					</tr>
+					<!--{if $pages}-->
+					<tr>
+					<td colspan="2" height="40" class="pages">&nbsp;&nbsp;&nbsp;{$pages}</td>
+					</tr>
+					<!--{/if}-->
+				</table>
+				<!--{/if}-->
+			</td></tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+
+var reg = /^[0-9]*$/;
+var errormsg = '{$P8LANG['ask_error']}';
+var no_record = '{$P8LANG['ask_not_chose_record']}';
+
+function verify(options)
+{
+	if(options.verify == undefined || !reg.test(options.verify)){
+		alert(errormsg);
+		return false;
+	}
+
+	var ids = checked_values('ids[]', $('#list'));
+	if(ids.length<1){alert(no_record);return false;}
+
+	if(options.verify == 1){
+		var img = 'check_yes.gif';
+	}else{
+		var img = 'check_no.gif';
+	}
+
+	$.ajax({
+		url: '{$this_router}-verify',
+		type: 'POST',
+		dataType: 'json',
+		data: 'verify=' + options.verify + ajax_parameters({ids:ids}),
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			for(var i in json){
+				$('#verify_' + json[i]).attr('src','{$RESOURCE}/skin/admin/' + img);
+			}
+			ajaxing({action: 'hide'});
+			alert('{$P8LANG['ask_success']}');
+		}
+	});
+}
+
+function recommend(options)
+{
+	if(options.recommend == undefined || !reg.test(options.recommend)){
+		alert(errormsg);
+		return false;
+	}
+
+	var ids = checked_values('ids[]', $('#list'));
+	if(ids.length<1){alert(no_record);return false;}
+
+	if(options.recommend == 1){
+		var html = '{$P8LANG['Y']}';
+	}else{
+		var html = '{$P8LANG['N']}';
+	}
+
+	$.ajax({
+		url: '{$this_router}-recommend',
+		type: 'POST',
+		dataType: 'json',
+		data: 'recommend=' + options.recommend + ajax_parameters({ids:ids}),
+		cache: false,
+		success: function(json){
+			for(var i in json){
+				$('#recommend_' + json[i]).html(html)
+			}
+			alert('{$P8LANG['ask_success']}');
+		}
+	});	
+}
+
+function closed(options)
+{
+	if(options.closed == undefined || !reg.test(options.closed)){
+		alert(errormsg);
+		return false;
+	}
+
+	var ids = checked_values('ids[]', $('#list'));
+	if(ids.length<1){alert(no_record);return false;}
+
+	if(options.closed == 1){
+		var html = '{$P8LANG['Y']}';
+	}else{
+		var html = '{$P8LANG['N']}';
+	}
+
+	$.ajax({
+		url: '{$this_router}-closed',
+		type: 'POST',
+		dataType: 'json',
+		data: 'closed=' + options.closed + ajax_parameters({ids:ids}),
+		cache: false,
+		success: function(json){
+			for(var i in json){
+				$('#closed_' + json[i]).html(html)
+			}
+			alert('{$P8LANG['ask_success']}');
+		}
+	});	
+}
+
+//删除
+function delete_items(options)
+{
+	var ids = data = [];
+
+	if(options.id == undefined || !reg.test(options.id)){
+		ids = checked_values('ids[]', $('#list'));
+		var data = ajax_parameters({ids:ids});
+	}else{
+		ids = options.id;
+		var data = ajax_parameters({ids:[ids]});
+	}
+
+	if(data.length<1){alert(no_record);return false;}
+
+	if(!confirm('{$P8LANG['ask_topic_delete_tips']}')){
+		return false;
+	}
+
+	$.ajax({
+		url: '{$this_router}-delete',
+		type: 'POST',
+		dataType: 'json',
+		data: data,
+		cache: false,
+		success: function(json){
+			if(!json.length) return;
+
+			for(var i in json){
+				$('#item_'+ json[i]).remove();
+			}
+			alert('{$P8LANG['ask_success']}');
+		}
+	});
+}
+
+//删除
+function clean(){
+	if(!confirm('确定要清空所有的内容？'))return false;
+	$.ajax({
+		url: '{$this_router}-delete',
+		type: 'POST',
+		dataType: 'json',
+		data: 'id=clean',
+		cache: false,
+		success: function(json){
+			alert('{$P8LANG['ask_success']}');
+			location.reload();
+		}
+	});
+}
+
+//置顶问题
+var order_dialog;
+function display_order()
+{
+	var ids = checked_values('ids[]', $('#list'));
+
+	if(ids.length<1){alert(no_record);return false;}
+	order_dialog = new P8_Dialog({
+	title_text: '',
+	button: false,
+	width: 300,
+	height: 200,
+	url: '{$this_router}-set_display_order?'+ajax_parameters({ids:ids})
+	});
+	order_dialog.show();
+	
+}
+<!--{if !empty($_GET['check'])}-->
+check_all(true, 'ids[]', $('#list'))
+<!--{/if}-->
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

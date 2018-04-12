@@ -1,0 +1,169 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">操作</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					<input type="button" value="导入省" onclick="_import('province')" />
+					<input type="button" value="导入市" onclick="_import('city')" />
+					<input type="button" value="导入镇" onclick="_import('town')" />
+					<input type="button" value="添加地区" onclick="_add()" />
+					<input type="button" value="更新缓存" onclick="$('#form input[name=act]').val('cache');$('#form').get(0).submit();" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td>
+					<!--{foreach $parents $n $p}-->
+						<select onchange="if(this.value) window.location.href = '$this_url?parent='+ this.value">
+							<option value="$p">请选择</option>
+							<!--{foreach $list $k $v}-->
+								<!--{if $v['parent'] == $p}-->
+								<!--{php if(isset($parents[$n +1])) unset($list[$k]);}-->
+								<option value="$v[id]"{if isset($parents[$n +1]) && $v['id'] == $parents[$n +1]} selected{/if}>$v[id]: $v[name]</option>
+								<!--{/if}-->
+							<!--{/foreach}-->
+						</select>
+					<!--{/foreach}-->
+				</td>
+			</tr>	
+		</table>
+	</div>
+</div>
+<form action="$this_url" method="post" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+				<table class="columntable formtable hover_table">
+					
+					<tr>
+						<td width="1%" class="title">&nbsp;</td>
+						<td width="5%" class="title"><input type="checkbox" onclick="check_all(this, 'id[]');" /></td>
+						<td width="5%" class="title">ID</td>
+						<td width="10%" class="title">{$P8LANG['area_name']}</td>
+						<td width="4%" class="title">{$P8LANG['area_display_order']}</td>
+						<td width="5%" class="title">{$P8LANG['operation']}</td>
+					</tr>
+					
+					<!--{foreach $list $value}-->
+					<tr>
+						<td></td>
+						<td><input type="checkbox" name="id[]" value="$value[id]" /></td>
+						<td>$value[id]</td>
+						<td><input type="text" name="name[$value[id]]" value="$value[name]" /></td>
+						<td><input type="text" name="display_order[$value[id]]" value="$value[display_order]" /></td>
+						<td></td>
+					</tr>
+					<!--{/foreach}-->
+					
+					<tr id="add">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td><input type="text" name="post[name][]" value="" /></td>
+						<td><input type="text" name="post[display_order][]" value="" /></td>
+						<td></td>
+					</tr>
+					
+					<tr>
+						<td colspan="10">
+							<input type="button" value="添加" onclick="$('#add').clone().insertBefore($(this).parent().parent()).find('input').val('');" />
+						</td>
+					</tr>
+					
+					
+				</table>
+			</tr></td>
+			
+			<tr>
+				<td colspan="3">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+						<tr>
+							<td>
+								<input type="submit" value="提交" class="edit_btn" />
+								<input type="submit" value="删除" onclick="return confirm('$P8LANG[confirm_to_delete]');" class="edit_btn" />
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			</table>
+			<input type="hidden" name="type" value="" />
+			<input type="hidden" name="act" value="" />
+			<input type="hidden" name="parent" value="$parent" />
+		</div>
+	</div>
+</form>
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['help_about']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					1、地区功能模块非常实用，包含了数千个县市地区，并可以不断更新升级，满足大家建细分站。<br />
+				</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+<iframe src="about:blank" style="display: none;" name="poster"></iframe>
+
+<script type="text/javascript">
+
+
+function delete_area(obj){
+	if(confirm('{$P8LANG['confirm_to_delete']}')){
+		$.ajax({
+			url: '$this_url',
+			type: 'POST',
+			dataType: 'json',
+			data: {act: 'delete', id: obj.id.replace(/[^0-9]/g, '')},
+			cache: false,
+			success: function(json){
+				for(var i in json){
+					$('#delete_'+ json[i]).parent().parent().remove();
+				}
+			}
+		});
+	}
+	
+	return false;
+}
+
+$('form input[name^=name]').change(function(){
+	
+	$('#form').append('<input type="hidden" name="update[]" value="'+ this.name.replace(/[^0-9]/g, '') +'" />');
+	$(this).css({border: '1px solid #ff0000'});
+});
+
+$('form input[name^=display_order]').change(function(){
+	this.value = this.value.replace(/[^0-9]/g, '') || 0;
+	if(this.value > 255) this.value = 255;
+	if(this.value < 0) this.value = 0;
+	
+	$('#form').append('<input type="hidden" name="update[]" value="'+ this.name.replace(/[^0-9]/g, '') +'" />');
+	$(this).css({border: '1px solid #ff0000'});
+});
+
+function _import(type){
+	var f = $('#form');
+	
+	f.find('input[name=act]').val('import');
+	f.find('input[name=type]').val(type);
+	f.attr('method', 'post').get(0).submit();
+}
+
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,126 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module header}-->
+<div class="list_box mtop20">
+	<div class="head" id="boxhead">
+		<span class="$unverify_over" ><a href="$this_url?job=unverify">{$P8LANG['ask_unaudited']}</a></span>
+		<span class="$all_over"><a href="$this_url?job=all">已审核</a></span>
+		<span  class="$verify_over"><a href="$this_url?job=verify">{$P8LANG['ask_accept_answered']}</a></span>
+		<span  class="$best_over"><a href="$this_url?job=best">{$P8LANG['ask_best_answered']}</a></span>
+		
+	</div>
+</div>
+<form id="form" name="form" action="$this_url" method="POST">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table" id="list">
+	<tr class="head">
+		<td width="10%">ID</td>
+		<td width="28%">内容</td>
+		<td width="28%">标题</td>
+		<td width="10%">回答者</td>
+		<td width="8%">{$P8LANG['ask_answer_time']}</td>
+		<td width="15%">操作</td>
+	</tr>
+	
+	<!--{foreach $list $k $v}-->
+	<tr id="ask_{$v['id']}">
+		<td ><input type="checkbox" name="id[]" value="{$v['id']}"/> {$v['aid']}</td>
+		<td class="al"><a title="$v[content]">$v[small_content]</a></td>
+		<td class="al"><a href="{$this_system.controller}/item-view-id-$v[id]" title="$v[itle]" target="_blank">$v[small_title]</a></td>
+		<td>
+			<a>{$v['username']}</a>
+		</td>
+		<td><!--{php echo date('y-m-d',$v['addtime']);}--></td>
+		<td>
+			<a href="{$this_router}-verify?id=$v[id]" onclick="verify($v[id],$v[verify]);return false;">审核</a>
+			<a href="{$this_module.controller}-edit?id=$v[id]" target="_blank">修改</a>
+			<a href="{$this_router}-delete?id=$v[id]" onclick="delete_items($v[id]);return false;">删除</a>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+	
+	<tr>
+		<td align="center" colspan="5" >
+			&nbsp;<input type="checkbox" name="ChkAll" id="ChkAll" value="1" onclick="check_all(this, 'id[]', $('#list'))"/>{$P8LANG['ask_checkall']}
+				&nbsp;<input type="button" name="delete" value="{$P8LANG['ask_verify']}" onclick="javascript:verify('',0);"/>
+				&nbsp;<input type="button" name="delete" value="{$P8LANG['ask_unverify']}" onclick="javascript:verify('',1);"/>
+				&nbsp;<input type="button" name="delete" value="{$P8LANG['delete']}" onclick="javascript:delete_items();"/>
+				<div class="pages">$pages</div>
+		</td>
+	</tr>
+</table>
+</form>
+<script type="text/javascript">
+
+function check_ids(){
+	var ids=[];
+	$.each(checked_values('id[]'), function(k, v){
+	ids.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(ids.length<1)return false;
+	return true;
+	
+}
+
+function delete_items(id)
+{
+	if(id==undefined){	
+		if(!check_ids())return false;
+	}
+	if(!confirm("{$P8LANG['ask_delete_tips']}")){
+		return false;
+	}
+
+	$.ajax({
+		url: '{$this_url}',
+		type: 'POST',
+		dataType: 'json',
+		data: 'action=delete_item&oid='+id+'&'+$('#form').serialize(),
+		cache: false,
+		beforeSend: function(){
+				ajaxing({});
+			},
+		success: function(json){
+			if(json=='no_privilege'){ ajaxing({action: 'hide',text: "{$P8LANG['no_privilege']}",fadeOut:3000}); return; }
+			if(json=='no_category_privilege'){ ajaxing({action: 'hide',text: "{$P8LANG['no_category_privilege']}",fadeOut:3000});return; }
+			ajaxing({action: 'hide',text: "{$P8LANG['done']}",fadeOut:3000});
+			for(var i in json){
+				$('#ask_' + json[i]).remove();
+			}
+		}
+	});
+
+}
+function verify(id, verify)
+{
+	if(id==undefined){	
+		if(!check_ids())return false;
+	}
+	verify = verify==undefined? 1 : Math.abs(1-verify);
+	msg = verify? "{$P8LANG['ask_verify']}??" : "{$P8LANG['ask_unverify']}??";
+	if(!confirm(msg)){
+		return false;
+	}
+	
+	$.ajax({
+		url: '{$this_url}',
+		type: 'POST',
+		dataType: 'json',
+		data: 'action=verify&oid='+id+'&verify='+verify+'&'+$('#form').serialize(),
+		cache: false,
+		beforeSend: function(){
+				ajaxing({});
+			},
+		success: function(json){
+			if(json=='no_privilege'){ ajaxing({action: 'hide',text: "{$P8LANG['no_privilege']}",fadeOut:3000}); return; }
+			if(json=='no_category_privilege'){ ajaxing({action: 'hide',text: "{$P8LANG['no_category_privilege']}",fadeOut:3000});return; }
+			ajaxing({action: 'hide',text: "{$P8LANG['done']}",fadeOut:3000});
+			for(var i in json){
+				$('#ask_' + json[i]).remove();
+			}
+		}
+	});
+	return false;
+}
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

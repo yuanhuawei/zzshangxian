@@ -1,0 +1,94 @@
+<!--{php168}-->
+<!--{if !empty($list['super'])}-->
+<!-- 管理组和专家回答 -->
+<div class="wrapbox answerbox light_red_border margin_bottom">
+	<div class="topic_title"><h3 class="float_left icon_expertor">{$P8LANG['ask_team_answer']}</h3></div>
+	<!--{foreach $list['super'] $key $value}-->
+	<div class="answer_content<!--{if ($key+1)==sizeof($list['super'])}--> clearb<!--{/if}-->">
+		<pre id="answer_$value[id]">{$value['content']}</pre>
+		<!--{if !empty($value['follow'])}-->
+				<!--追问内容列表-->
+				<div class="follow_wrap">
+					<!--{foreach $value['follow'] $v}-->
+						<ul>
+							<li>
+								<span><!--{if $is_creator}-->{$P8LANG['ask_my_follow']}<!--{else}-->{$P8LANG['ask_answer_follow']}<!--{/if}--> {$v['addtime']}</span>
+								<pre>{$v['content']}</pre>
+								<!--没有补充追问时显示追问按钮 当前登录用户回答的问答才可补充提问-->
+								<!--{if empty($reply_content) && $value['is_creator']}-->									
+									<div class="replay_follow_wrap">
+										<div class="reply_follow_btn">
+											<input type="checkbox" id="replay_follow_{$v['id']}" onclick="javascript:toggle_replay_follow({id:{$v['id']}});"/><label for="replay_follow_{$v['id']}">{$P8LANG['ask_reply_follow']}</label>
+										</div>
+										<div class="replay_follow_content" id="reply_follow_frame_{$v['id']}" style="display:none;">						
+											<textarea name="replay_follow_content_{$v['id']}" rows ="4" cols="60" id="replay_follow_content_{$v['id']}"></textarea>
+											
+											<span id="replay_follow_error_{$v['id']}"></span>
+											<div class="replay_follow_submit_btn">
+												<input type="button" value="{$P8LANG['submit']}" onclick="javascript:post_replay_follow({aid:{$value['id']},id:{$v['id']}});"/>
+												<input type="button" value="{$P8LANG['cancel']}" onclick="javascript:toggle_replay_follow({id:{$v['id']}});"/>
+											</div>
+										</div>
+									</div>
+								<!--{/if}-->
+							</li>
+							<!--{if !empty($v['reply_content'])}-->
+								<li>
+									<span><!--{if $value['is_creator']}-->{$P8LANG['ask_my_reply_follow']}<!--{else}-->{$P8LANG['ask_answer_reply_follow']}<!--{/if}--> {$v['reply_time']}</span>
+									<pre>{$v['reply_content']}</pre>
+								</li>								
+							<!--{/if}-->							
+						</ul>
+					<!--{/foreach}-->
+				</div>
+				<!--{/if}-->
+				<!--{if $allow_post_follow}-->
+				<!--
+					追问框
+					如果创建者本人可追问
+				-->
+				<div class="follow">
+					<li class="user_operate">
+						<input type="checkbox" id="follow_{$value['id']}" onclick="javascript:toggle_follow({id:{$value['id']}});"/>
+						<label for="follow_{$value['id']}">{$P8LANG['ask_follow']}</label>
+					</li>
+					<li class="follow_content" id="follow_frame_{$value['id']}" style="display:none;">
+						<textarea name="follow_content_{$value['id']}"  rows ="4" cols="60"  id="follow_content_{$value['id']}"></textarea>
+						
+						<span id="follow_error_{$value['id']}"></span>
+						<div class="follow_btn">
+							<input type="button" value="{$P8LANG['submit']}" onclick="javascript:post_follow({id:{$value['id']}});"/>
+							<input type="button" value="{$P8LANG['cancel']}" onclick="javascript:toggle_follow({id:{$value['id']}});"/>
+						</div>
+					</li>
+				</div>
+				<!--{/if}-->
+		<div class="topic_asker">
+		{$P8LANG['ask_answer_u']}
+			<!--{if $value['anonymous']}-->
+				{$P8LANG['ask_anonymous']}
+			<!--{else}-->
+				<span class="u">{$value['username']}</span> 
+				<!--{if $value['expert']}-->
+						- <a href="{$this_module.controller}-ask?exper=$value[uid]" class="u">{$P8LANG['ask_tome']}</a>
+				<!--{/if}-->
+				<span class="asker_credit">152</span> 
+			<!--{/if}-->
+			| 
+			<!--{php echo date('Y-m-d H:i', $value['addtime']);}-->
+			<!--{if $allow_poller_answer}-->
+			&nbsp;<a href="javascript:void(0);" onclick="javascript:answer_poller({id:{$value['id']},tid:{$id}});" class="s">{$P8LANG['ask_poller']}</a>
+			<!--{/if}-->
+			<!--{if $allow_setbest_answer|| $is_creator && !$closed && !$is_closed && !$is_solved && !$value['is_creator']}-->
+			&nbsp;<a href="javascript:void(0);" onclick="javascript:set_best_answer({id:{$value['id']}});" class="s">{$P8LANG['ask_set_best_answer']}</a>
+			<!--{/if}-->
+			<!--{if $allow_edit_answer || ($value['is_creator'] && !$is_closed && !$is_solved && !$closed)}-->
+			&nbsp;<a href="javascript:void(0);" onclick="javascript:edit_answer({id:{$value['id']}});" class="u">{$P8LANG['edit']}</a>
+			<!--{/if}-->
+		</div>
+		<div id="answer_poller_{$value['id']}"></div>		
+	</div>
+	<!--{/foreach}-->			
+</div>
+<!--{/if}-->
+<!--{/php168}-->

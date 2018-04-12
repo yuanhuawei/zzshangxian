@@ -1,0 +1,191 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 
+    您现在的位置：<a href="{$core.admin_controller}/sites/farm-index">站群系统</a> &gt; 
+    <a href="{$core.admin_controller}/sites/item-add">添加内容</a></td>
+  </tr>
+</table>
+
+<form action="$this_url" method="post" id="form">
+<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table" align="center">
+	<tr class="title fix_head list_top">
+        <td width="2%" class="list_top title">ID</td>
+        <td width="10%" class="list_top title" title="0" style="text-align:left" onclick="if(this.title == 1){this.title=0;hide_all();$(this).find('span img').attr('src', '{$SKIN}/show.gif');}else{this.title=1;show_all();$(this).find('span img').attr('src', '{$SKIN}/hide.gif');}" style="cursor: pointer;"><span><img src="{$SKIN}/show.gif" /></span>栏目名称</td>
+        <td width="4%" class="list_top title">模型</td>
+        <td width="4%" class="list_top title">类型</td>
+        <td width="12%" class="list_top title">{$P8LANG['operation']}</td>
+    </tr>
+	<tbody id="__">
+			
+			</tbody>
+</table>
+</form>
+
+
+<script type="text/javascript">
+var CATEGORY_JSON = $json[json];
+var CATEGORY_PATH = $json[path];
+var MODEL_JSON = $json[models];
+
+function _submit(action){
+	if(!confirm('$P8LANG[confirm_to_do]')) return;
+	
+	$('#form input[name=action]').val(action);
+	$('#form').submit();
+}
+
+function show_all(){
+	$('#__ tr').each(function(){
+		var tr = $(this).show();
+		
+		if(tr.attr('sub')){
+			tr.attr('title', 1).find('td:eq(1) span').html('<img src="{$SKIN}/hide.gif" />');
+		}
+	});
+}
+
+function hide_all(){
+	$('#__ tr').each(function(){
+		var tr = $(this);
+		
+		if(tr.attr('sub')){
+			tr.attr('title', 0).find('td:eq(1) span').html('<img src="{$SKIN}/show.gif" />');
+		}
+		
+		if(tr.attr('level') != 1) tr.hide().attr('title', 1);
+	});
+}
+
+function ___(json, l, p){
+	l = l === undefined ? 0 : l;
+	p = p === undefined ? 0 : p;
+	
+	var j = 0, k = count(json);
+	
+	for(var i in json){
+		
+		var html = '';
+		j++;
+		var c = '';
+		if(l != 0){
+			c += str_repeat('│&nbsp;&nbsp;', l - p) + str_repeat('&nbsp;&nbsp;&nbsp;', p);
+			if(j == k){
+				p++;
+				c += '└';
+			}else{
+				c += '├';
+			}
+		}
+		if(json.id>370){alert(json.id);}
+		var sub = json[i].categories ? true : false;
+		var path = CATEGORY_PATH[json[i].id].join('_');
+		c += (json[i].categories ? '<span style="cursor: pointer;"><img src="{$SKIN}/hide.gif" /></span> ' : '') +
+			'<a href="{$core.admin_controller}/$SYSTEM/item-list?model='+ (json[i].categories ? json[i].model : '') +'&cid='+ json[i].id +'" target="_blank">'+ json[i].name +'</a>';
+		
+		html += 
+		'<tr id="category_'+ json[i].id +'" path="path_'+ path +'" title="1"'+ (sub ? ' sub="1"' : '') +' level="'+ (l +1) +'">'+
+			
+			'<td>'+ json[i].id +'</td>'+
+			'<td class="c_name" model="'+ json[i].model +'" style="text-align:left">'+ c +'</td>'+
+			'<td><a href="###" onclick="filter_model(\''+ json[i].model +'\')">'+ (json[i].type==3?'none':MODEL_JSON[json[i].model].alias) +'</a></td>'+
+			'<td>'+ (json[i].type == 1 ? '大分类' : json[i].type == 2? '栏目':json[i].type == 3?'外链':'单网页') +'</td>'+
+			'<td>'+
+				'<input type="button" value="发表" onclick="window.location.href = \'{$core.admin_controller}/$SYSTEM/item-add?model='+ json[i].model +'&cid='+ json[i].id+'&type='+ json[i].type+' \'" />'+
+			'</td>'+
+		'</tr>';
+		
+		var tr = $(html);
+		$('#__').append(tr);
+		if(sub){
+			___(json[i].categories, l +1, p);
+			_toggle(
+				$(tr).find('td:eq(1) span').
+				bind('click', function(){_toggle($(this)); return false;})
+			);
+		}
+	}
+}
+
+___(CATEGORY_JSON);
+
+
+function _toggle(span){
+	var id = $(span).parent().parent().attr('id').replace(/[^0-9]/g, '');
+	var path = CATEGORY_PATH[id].join('_');
+	
+	var on = $('#category_'+ id).attr('title') == 0;
+	
+	var keep_close = [];
+	$('tr[path^=path_'+ path +'_]').each(function(){
+		if(on){
+			
+			if($(this).show().attr('title') == 1 && $(this).attr('sub')){
+				keep_close.push(this.id.replace(/[^0-9]/g, ''));
+				$(this).attr('title', 0);
+			}else{
+				$(this).attr('title', 1);
+			}
+			
+		}else{
+			
+			if($(this).hide().attr('title') == 0 && $(this).attr('sub')){
+				//keep close
+				$(this).attr('title', 1);
+			}else{
+				$(this).attr('title', 0);
+			}
+			
+		}
+	});
+	
+	if(on){
+		$(span).parent().parent().attr('title', 1);
+		$(span).html('<img src="{$SKIN}/hide.gif" />');
+	}else{
+		$(span).parent().parent().attr('title', 0);
+		$(span).html('<img src="{$SKIN}/show.gif" />');
+	}
+	
+	for(var i = 0; i < keep_close.length; i++){
+		$('tr[path^=path_'+ CATEGORY_PATH[keep_close[i]].join('_') +'_]').hide().find('span');
+	}
+	return false;
+}
+
+function filter_model(m){
+	$('#__ td.c_name[model='+ m +']').attr('style', '');
+	$('#__ td.c_name[model!='+ m +']').attr('style', 'filter: alpha(opacity=40); opacity: 0.4;');
+}
+
+$('form input[name^=display_order]').change(function(){
+	this.value = this.value.replace(/[^0-9]/g, '') || 0;
+	if(this.value > 9999) this.value = 9999;
+	if(this.value < 0) this.value = 0;
+	
+	$('#form').append('<input type="hidden" name="_display_order['+ this.name.replace(/[^0-9]/g, '') +']" value="'+ this.value +'" />');
+	$(this).css({border: '1px solid #ff0000'});
+});
+
+function get_category_by_id(id){
+	var path = clone(CATEGORY_PATH[id]);
+	var root = path.shift();
+	var search = CATEGORY_JSON[root];
+	
+	if(path.length == 0){
+		return search;
+	}
+	for(var i in path){
+		search = search.categories[path[i]];
+	}
+	return search;
+}
+
+
+
+</script>
+
+<!--{template $this_system footer admin}-->
+<!--{/php168}-->

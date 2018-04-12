@@ -1,0 +1,30 @@
+<!--{php168}-->
+<!--{php 
+$i = sizeof($CAT['parents']);
+$j = $i>1? $i-2 : 0;
+if($CAT['parents'])
+$stepcat = $category->categories[$CAT['parents'][$j]]['categories'];
+else
+$stepcat = $category->categories[$cid]['categories'];
+}-->
+				
+<ul id="left_nav_url">
+	<!--{foreach $stepcat $v}-->
+	<li><a href="$v[url]">$v[name]</a></li>
+	<!--{/foreach}-->
+	<div class="clear"></div>
+</ul>
+<script type="text/javascript">
+(function(){ $('#left_nav_url h3').click(
+	function(){ 
+		$(this).parent().find('ul').hide('normal'); 
+		if($(this).next('ul').css('display') == 'none') 
+			$(this).next('ul').slideDown("normal"); 
+		else 
+			$(this).next('ul').slideUp("normal");
+	}
+);
+<!--{if !$CAT['parent']}-->$('#left_nav_url').find('ul :first').parent().show()<!--{/if}-->
+})()
+</script>
+<!--{/php168}-->

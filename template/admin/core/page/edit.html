@@ -1,0 +1,198 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/ueditor/ueditor.all.min.js"></script>
+<div class="mainbox mainborder">
+	<div class="section">
+		<form name="form1" method="post" action="$this_url">
+			<table class="columntable formtable hover_table padding_table">
+				<tr class="title">
+					<td colspan="2">单独页面管理</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td width="75"  class="tdL">单独页名称:</td>
+					<td width="650"  class="tdR">
+						<input type="text" class="txt" name="name" value="{if !empty($rsdb['name'])}$rsdb[name]{/if}" size="40">
+					</td>
+				</tr>
+				<tr >
+					<td class="tdL">标 题: </td>
+					<td class="tdR">
+						<input type="text" class="txt" name="title" value="{if !empty($rsdb['title'])}$rsdb[title]{/if}" size="70"> (内容标题,可留空)
+					</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td class="tdL"> 静态网页名: </td>
+					<td  class="tdR">
+						<input type="text" class="txt" name="html_view_url_rule" value="{if !empty($rsdb['html_view_url_rule'])}$rsdb[html_view_url_rule]{else}{\$system_url}/page/{\$id}.$ext{/if}" size="50"> (可以为多级目录,可以把{\$id}换成任意字符,只要文件名不冲突)
+					</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td class="tdL">SEO关键字: </td>
+					<td class="tdR">
+						<input type="text" class="txt" name="keywords" value="{if !empty($rsdb['keywords'])}$rsdb[keywords]{/if}" size="50"> (可留空)
+					</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td class="tdL">SEO描述: </td>
+					<td  class="tdR">
+						<input type="text" class="txt" name="descrip" value="{if !empty($rsdb['descrip'])}$rsdb[descrip]{/if}" size="50"> (可留空)
+					</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td class="tdL">内容: </td>
+					<td class="tdR">
+						<textarea id="content" name="content">{if isset($rsdb['content'])}{html_entities($rsdb['content'])}{/if}</textarea>
+						<script type="text/javascript">UE.getEditor('content',{allowDivTransToP: false,initialFrameHeight: 350});</script>
+					</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td class="tdL">类型: </td><td  class="tdR"><input name="type" type="radio" value="0" onclick="showchose('0')" {if !isset($rsdb['type']) || $rsdb['type']=='0' } checked="checked"{/if}/>单页面 <input name="type" type="radio" value="1" onclick="showchose('1')" {if isset($rsdb['type']) && $rsdb['type']==1} checked="checked"{/if}/>组合</td>
+				</tr>
+				<tr id="chosemodel1">
+					<td class="tdL">模板</td><td  class="tdR"> 
+						内容模板:<input type="text" class="txt" name="tpl_main" id="mt1" value="{if !empty($rsdb['tpl_main'])}$rsdb[tpl_main]{/if}" /><input type="button" value="选择" onclick="mt1_template_dialog.show()" /><br>
+						(你完全可以自己模仿template/default/core/page/alonepage/page.htm这个文件做一个模板,然后在这里输入模板所在路径) </td>
+					</tr>
+				<tr id="chosemodel2" style="display:none">
+					<td class="tdL">模板</td><td  class="tdR"> 
+						头部模板:<input type="text" class="txt" name="tpl_head" id="ht" value="{if !empty($rsdb['tpl_head'])}$rsdb[tpl_head]{/if}" /><input type="button" value="选择" onclick="ht_template_dialog.show()" /> 留空则用网站头部<br>
+						底部模板:<input type="text" class="txt" name="tpl_foot" id="ft" value="{if !empty($rsdb['tpl_foot'])}$rsdb[tpl_foot]{/if}" /><input type="button" value="选择" onclick="ft_template_dialog.show()" /> <br>
+						内容模板:<input type="text" class="txt" name="tpl_main" id="mt2" value="{if !empty($rsdb['tpl_main'])}$rsdb[tpl_main]{/if}" /><input type="button" value="选择" onclick="mt2_template_dialog.show()" /><br>
+						
+					</tr>
+				<tr id="chosemodel1">
+					<td class="tdL">移动设备模板</td><td  class="tdR"> 
+						内容模板:<input type="text" class="txt" name="tpl_mobile" id="mtm" value="{if !empty($rsdb['tpl_mobile'])}$rsdb[tpl_mobile]{/if}" /><input type="button" value="选择" onclick="mt_mobile_template_dialog.show()" /><br>
+						(你完全可以自己模仿template/default/core/page/mobile/page.htm这个文件做一个模板,然后在这里输入模板所在路径) </td>
+					</tr>	
+				<tr bgcolor="#FFFFFF">
+					<td colspan="2" class="tdL"> 
+					<input type="hidden" name="id" value="{if !empty($id)}$id{/if}"> 
+					<input type="hidden" name="tpl_main" id="mt" value="{if !empty($rsdb['tpl_main'])}$rsdb[tpl_main]{/if}"  />
+					<input type="submit" name="Submit" value="提交"> 
+					</td>
+				</tr>
+
+			</table>
+		</form>
+	</div>
+</div>
+
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table width="100%" border="0" cellspacing="1" cellpadding="3" class="tablewidth">
+
+			<tr class="head">
+				<td>帮助说明</td>
+			</tr>
+			<tr bgcolor="#FFFFFF">
+				<td>头部模板,底部模板,内容模板,你都可以自己做一个有个性的,然后在上面输入他们所在的目录即可调用显示.留空的话.将以默认为标准.<br>
+					或者你可以不做头部与底部模板.只做内容模板,此时上面的头部模板与底部模板就得选择&quot;头部白板&quot;&quot;底部白板&quot;<br>
+					通过做出各种各样的模板,你就可以实现不同功能的页面,比如友情链接页,公司介绍页,等等.这会变得非常的轻松自如.<br>
+					如果你想节省服务器资源加快页面浏览速度的话,可以生成静态,静态页面名称可以自由定义,当然可以定义成多级目录的形式,系统会自动创建目录的</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+function showchose(tt){
+	if(tt==0){
+		$('#chosemodel2').hide();$('#chosemodel1').show();
+		}
+	else if(tt==1){
+		$('#chosemodel1').hide();$('#chosemodel2').show();
+		}
+}
+showchose(<!--{php echo $rsdb['type'];}-->);
+var mt1_template_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		$('#mt1').val(mt1_template_selector.value);
+		$('#mt').val(mt1_template_selector.value);
+	}
+});
+var mt1_template_selector = new Template_Selector({
+	base_dir: '{$rsdb['template']}/core/{$this_module.name}/alonepage/',
+	selected: $('#mt1').val(),
+	dialog: mt1_template_dialog
+});
+
+var mt2_template_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		$('#mt').val(mt2_template_selector.value);
+		$('#mt2').val(mt2_template_selector.value);
+	}
+});
+var mt2_template_selector = new Template_Selector({
+	base_dir: '{$rsdb['template']}/core/{$this_module.name}/main/',
+	selected: $('#mt2').val(),
+	dialog: mt2_template_dialog
+});
+
+var ht_template_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		$('#ht').val(ht_template_selector.value);
+	}
+});
+var ht_template_selector = new Template_Selector({
+	base_dir: '{$rsdb['template']}/core/{$this_module.name}/header/',
+	selected: $('#ht').val(),
+	dialog: ht_template_dialog
+});
+
+
+var ft_template_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		$('#ft').val(ft_template_selector.value);
+	}
+});
+var ft_template_selector = new Template_Selector({
+	base_dir: '{$rsdb['template']}/core/{$this_module.name}/foot/',
+	selected: $('#ft').val(),
+	dialog: ft_template_dialog
+});
+
+var mt_mobile_template_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		$('#mtm').val(mt_mobile_template_selector.value);
+	}
+});
+var mt_mobile_template_selector = new Template_Selector({
+	base_dir: '{$rsdb['template']}/core/{$this_module.name}/mobile/',
+	selected: $('#mtm').val(),
+	dialog: mt_mobile_template_dialog
+});
+
+
+$(function() {
+	ht_template_selector.init();
+	ft_template_selector.init();
+	mt1_template_selector.init();
+	mt2_template_selector.init();
+	mt_mobile_template_selector.init();
+});
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

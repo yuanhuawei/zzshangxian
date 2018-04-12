@@ -1,0 +1,27 @@
+* { font-size: 12px; font-family: "宋体"; line-height:180%}
+td { line-height: 1.5; }
+body { font-size: 12px; line-height: 1.5; font-family: "宋体"; margin:0; padding:0; scrollbar-base-color:#C0D586; scrollbar-arrow-color:#FFFFFF; scrollbar-shadow-color:DEEFC6; }
+form, h1, h2, h3, ul, ol, div { margin: 0; padding:0; }
+td, th, div { word-break:break-all; word-wrap:break-word; }
+b, strong { color:#666600; }
+li, dd { list-style-type:none; margin:0px; padding:0px; }
+input[type=button] { background-color: #F1F8B4; }
+h1 { color:#171B16; font-size:130%; font-weight:bold; }
+h2 { color:#171B16; font-size:115%; font-weight:bold; }
+h3 { color:#171B16; font-size:100%; font-weight:bold; }
+a:link { font-size: 9pt; color: #000000; text-decoration: none; font-family: ""宋体""; }
+a:visited { font-size: 9pt; color: #000000; text-decoration: none; font-family: ""宋体"";  }
+.box3 span a:visited { font-size: 9pt; color: #000000; text-decoration: none; font-family: ""宋体""; border-bottom: 1px solid; }
+a:hover { color: red; font-family: ""宋体""; }
+a img { border-style:none; }
+.wraper, .navigation, .footer{margin:0 10px}
+.box{padding: 10px;}
+.box3{border: 1px solid #EEEEEE;color: #666666;margin-bottom: 30px;padding: 15px 10px;margin-top:10px;line-height:3.2;}
+.box3 span{color:#0000ff;font-size:14px;}
+.header{height:100px;background:url(D3.gif) repeat-x;}
+.navigation{ background:url(nav.gif) no-repeat; padding-left:20px; color:#0C598D; font-weight:bold}
+.navigation a{color:#0C598D}
+.wraper{ margin-top:5px; border-top:2px solid #92BFF1;padding:10px 20px;}
+.wraper p{margin:10px 0; text-indent:2em}
+.footer { text-align: center; margin:10px ;padding:10px ; border-top:1px solid #cccccc}
+

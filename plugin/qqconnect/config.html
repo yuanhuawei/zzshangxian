@@ -1,0 +1,63 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<style>
+.box { padding:2px; border:1px solid #cccccc; }
+.head{ background-color:#eeeeee}
+.formtable .title{ color:#FFF}
+#showimgbox{ display:none; width:305px; height:105px; position:absolute;  border:1px solid #cccccc}
+</style>
+
+<div class="mainbox mainborder">
+	<table class="formtable">
+		<tr>
+			<td class="title">{$P8LANG['operation']}</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				<ul>
+					<li><a href="{$this_url}?plugin=qqconnect&job=cache">刷新缓存</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mainbox mainborder" style="display:">
+<form name="form1" action="" method="post">
+	<table class="formtable">
+		<tr>
+			<td class="title" colspan="2">{$P8LANG['operation']}</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list" align="right">帐号：</td>
+			<td class="headerbtn_list"><input name="config[appid]" type="text" value="{if !empty($config['appid'])}$config[appid]{/if}"/> 还没有？<a href="http://connect.qq.com/manage/" target="_blank" style="cololr:#2F8AB5">马上去申请个</a></td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list" align="right">密钥：</td>
+			<td class="headerbtn_list"><input name="config[key]" type="text" value="{if !empty($config['key'])}$config[key]{/if}"/></td>
+		</tr>
+		<tr>
+			<td>样式</td>
+			<td>
+			 <input type="radio" name="config[display]" value="1" {if $config['display']==1}checked{/if}/> <img src="{$src}/Connect_logo_1.png"/><br/>
+			 <input type="radio" name="config[display]" value="6" {if $config['display']==6}checked{/if}/> <img src="{$src}/Connect_logo_6.png"/><br/>
+			<input type="radio" name="config[display]" value="7" {if $config['display']==7}checked{/if}/> <img src="{$src}/Connect_logo_7.png"/> <br/>
+			<input type="radio" name="config[display]" value="2" {if $config['display']==2}checked{/if}/> <img src="{$src}/Connect_logo_2.png"/> <br/>
+			<input type="radio" name="config[display]" value="3" {if $config['display']==3}checked{/if}/> <img src="{$src}/Connect_logo_3.png"/> <br/>
+			<input type="radio" name="config[display]" value="4" {if $config['display']==4}checked{/if}/> <img src="{$src}/Connect_logo_4.png"/><br/>
+			<input type="radio" name="config[display]" value="5" {if $config['display']==5}checked{/if}/> <img src="{$src}/Connect_logo_5.png"/> <br/>
+			
+			</td>
+		</tr>	
+		<tr><td></td><td>
+			<input type="submit" value="确定" class="submit_btn" />
+				<input type="hidden" name="do" value="config" />
+				
+			</td>
+		</tr>
+	</table>
+	</form>
+</div>
+
+<div id="showimgbox"><img src="" id="showimg" width="300" height="100" /></div>
+
+<!--{/php168}-->

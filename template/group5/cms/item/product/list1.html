@@ -1,0 +1,31 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<div class="breadbanner2">
+	$label[zhuzhan-banner]
+</div>
+<div class="gp-container">
+	<div class="breadnav mbt25">
+		<div class="container">
+			<div class="row-page-tabs">
+				<!--{template $this_module step_category4}-->
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="workshop">
+			<div class="text-right">
+				<!--{if $add_enable}-->
+					<a href="{$core.U_controller}/cms/item-add?cid=$cid&model=$CAT[model]" target="_blank">发表</a>
+				<!--{/if}-->
+			</div>
+			<div class="row">
+				<!--{php include template($TEMP_OBJ, $CAT['item_template'], 'label');}-->
+			</div>	
+			<div class="mtop pages" id="page">{$pages}</div>
+		</div>
+	</div>
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

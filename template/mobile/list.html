@@ -1,0 +1,10 @@
+<!--{php168}-->
+<ul class="infolist2">
+<!--{foreach $list $value}-->
+	<li>
+		<a href="$value[url]"  title="$value[full_title]" target="_blank"><img src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}"><strong>$value[title]</strong>
+		<p><i class="t"><!--{php echo date('Y-m-d', $value['timestamp']);}--></i><i class="c">$value[views]</i></p></a>
+	</li>
+<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

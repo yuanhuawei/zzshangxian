@@ -1,0 +1,150 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：
+	<a href="{$core.admin_controller}/sites/farm-index">站群系统</a> &gt; 
+	<a href="{$core.admin_controller}/sites/model-add"><!--{if !empty($data['alias'])}-->编辑<!--{else}-->	添加<!--{/if}-->模型</a></td>
+  </tr>
+</table>
+<form action="$this_url" method="post" id="form">
+	<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table">
+		<tr class="title fix_head">
+			<td width="23%"  class="list_top">{$P8LANG['config']}</td > <td width="35%" class="list_top">参数</td><td width="42%" class="list_top">备注</td>
+		</tr>
+		<tr>
+			<td class="tdL">模型名称</td>
+			<td class="tdR"> 
+            <!--{if !empty($data['name'])}-->
+			{$data['alias']}
+			<input type="hidden" id="alias" name="name" value="{if !empty($data['name'])}$data[name]{/if}" />
+			<!--{else}-->
+			<input type="text" class="txt" name="name" value="{if !empty($data['name'])}$data[name]{/if}" />  
+			<!--{/if}-->
+            </td>
+			<td class="tdR">请添加模型名称,只能以英文数字及_组成,必须以字母开头，提交后不得修改</td>
+		</tr>
+		<tr>
+			<td class="tdL">模型别名</td>
+			<td class="tdR"> <input type="text" class="txt" name="alias" value="{if !empty($data['alias'])}$data[alias]{/if}" /> </td>
+			<td class="tdR">请添加模型别名，名称可任意填写</td>
+		</tr>
+		
+		<tr>
+			<td class="tdL">模型状态</td>
+			<td class="tdR"><input name="enabled" value="1" type="radio" {if !empty($data['enabled'])}checked{/if}/>启用 
+            <input name="enabled" value="0" type="radio" {if empty($data['enabled'])}checked{/if}/>关闭</td>
+			<td class="tdR"></td>
+		</tr>
+		<tr>
+			<td class="tdL">上下篇内容</td>
+			<td class="tdR"><input name="config[prev&next_item]" value="1" type="radio" {if !empty($config['prev&next_item'])}checked{/if}/>启用 
+            <input name="config[prev&next_item]" value="0" type="radio" {if empty($config['prev&next_item'])}checked{/if}/>关闭</td>
+			<td class="tdR"></td>
+		</tr>
+		
+		<tr>
+			<td colspan="3" class="text-center"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		</tr>
+	</table>
+	<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+</form>
+
+<script type="text/javascript">
+
+$.validator.addMethod('valid_model', function(value, element){
+	return /^[a-zA-Z]/.test(value) && !/[^0-9a-zA-Z_]/.test(value);
+});
+
+
+$('#form').validate({
+	rules: {
+		name: {
+			required: true<!--{if $ACTION == 'add'}-->,
+			maxlength: 30,
+			valid_model: true,
+			remote: function(){
+				
+				return {
+					url: '$this_router-check_name',
+					cache: false,
+					type: 'post',
+					beforeSend: function(){
+						ajaxing({});
+					},
+					complete: function(){
+						ajaxing({action: 'hide'});
+					}
+				}
+			}
+			<!--{/if}-->
+		},
+		
+		alias: {
+			required: true
+		}
+	},
+	
+	messages: {
+		<!--{if $ACTION == 'add'}-->
+		name: {
+			required: '{$P8LANG['sites_model_name_can_not_be_empty']}',
+			maxlength: '{$P8LANG['sites_model_name_oversize']}',
+			valid_model: '{$P8LANG['sites_model_name_invalid']}',
+			remote: '{$P8LANG['sites_model_name_duplicate']}'
+		},<!--{/if}-->
+		alias: {
+			required: '{$P8LANG['sites_model_alias_required']}'
+		}
+	},
+	
+	errorPlacement: function(error, element) {
+		error.wrap('<div></div>').appendTo(element.parent().prev());
+	},
+	wrapper: 'div',
+	
+	onkeyup: false
+});
+
+var admin_edit_dialog = new P8_Dialog({
+	title_text: '$P8LANG[select_template]',
+	width: 700,
+	height: 300,
+	button: true,
+	ok: function(){
+		$('#form input[name="config[admin_edit_template]"]').val(admin_template_selector.value);
+	},
+	show: function(){
+		admin_template_selector.init();
+	}
+});
+var admin_template_selector = new Template_Selector({
+	base_dir: 'admin/{$SYSTEM}/item/',
+	selected: $('#form input[name="config[admin_edit_template]"]').val(),
+	dialog: admin_edit_dialog
+});
+
+
+var member_edit_dialog = new P8_Dialog({
+	title_text: '$P8LANG[select_template]',
+	width: 700,
+	height: 300,
+	button: true,
+	ok: function(){
+		$('#form input[name="config[member_edit_template]"]').val(member_template_selector.value);
+	},
+	show: function(){
+		member_template_selector.init();
+	}
+});
+var member_template_selector = new Template_Selector({
+	base_dir: '{$core.CONFIG['member_template']}/{$SYSTEM}/item/',
+	selected: $('#form input[name="config[member_edit_template]"]').val(),
+	dialog: member_edit_dialog
+});
+$('input[name=name]').get(0).focus();
+</script>
+
+<!--{template $this_system footer admin}-->
+<!--{/php168}-->

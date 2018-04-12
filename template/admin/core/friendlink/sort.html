@@ -1,0 +1,63 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+ 
+<form action="$this_url" method="POST">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+						<tr class="title">
+						  <td class="tdL">FID</td>
+						  <td class="tdL">名称</td>
+						  <td class="tdL">显示顺序</td>
+						  <td class="tdL">操作</td>
+						</tr>
+						<!--{if !empty($sorts)}-->
+						<!--{foreach $sorts $sort}-->
+						<tr>
+						  <td class="tdL">$sort[fid]</td>
+						  <td class="tdL">$sort[name]</td>
+						  <td class="tdL">$sort[list]</td>
+						  <td class="tdL"><a href="{$this_router}-editsort?fid={$sort['fid']}">[修改]</a><a id="sort_$sort[fid]" href="javascript:;" onclick="delete_sort([this.id]);">[删除]</a></td>
+						</tr>
+						<!--{/foreach}-->
+						<!--{/if}-->
+					</table>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+function delete_sort(array){
+	var id = [];
+	$.each(array, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	
+	if(!id.length) return false;
+	
+	if(confirm('{$P8LANG['confirm_to_delete']}')){
+		$.ajax({
+			url: '$this_router-deletesort',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({fid: id}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				
+				for(var i in json){
+					$('#sort_'+ json[i]).parent().parent().remove();
+				}
+			}
+		});
+	}
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,89 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!--{template $core header_two}-->
+<div class="position">
+	<a href="{$core.mobile_controller}">首页</a>
+	<!--{foreach $parent_cats $v}-->
+	&gt; <a href="$v[m_url]">$v[name]</a>
+	<!--{/foreach}-->
+	&gt; <a href="$CAT[m_url]">$CAT[name]</a> 
+</div>
+
+<div class="actcon">
+    <div class="bt">
+        <h1>$data[title]</h1>
+       <span id="operation" style="display: none; cursor: pointer;">{$P8LANG['operation']}</span></p>
+    </div>
+	<div id="nymain">
+		<div class="Con fontsizebox"> 
+			<!--{foreach $this_model['fields'] $field $v}-->
+			<div> 
+				<!--<b>$v[alias]</b> :--> 
+				<!--{php 
+			switch($v['widget']){
+			case 'text': case 'textarea': case 'editor': case 'editor_basic': case 'editor_basic':
+		}--> 
+				$data[$field] 
+				<!--{php
+			break;
+			case 'checkbox': case 'multi_select':
+			foreach($v['data'] as $value => $key){
+				if(in_array($value, $data[$field])){
+		}--> 
+				$key 
+				<!--{php
+			}}
+			break;
+			case 'radio':
+		foreach($v['data'] as $value => $key){
+			if($value == $data[$field]){
+		}--> 
+				$key 
+				<!--{php
+			break;
+			}}
+			break;
+			case 'uploader':
+		}--> 
+				<a href="{$data[$field]['url']}" target="_blank">{$data[$field]['title']}</a> 
+				<!--{php break;
+		case 'multi_uploader':
+		foreach($data[$field] as $vv){
+		}-->
+				<div><a href="$vv[url]" target="_blank">$vv[title]</a></div>
+				<!--{php } break;case 'vote':break;default:}--> 
+				$data[$field] 
+				<!--{php }}--> 
+			</div>
+			<!--{/foreach}--> 
+		</div>
+	</div>
+	<div class="pager">
+		<p>上一篇：> >
+		<!--{if !empty($prev_item[subject])}-->
+		<a href="$prev_item[url]" title="$prev_item[title]">$prev_item[subject]</a>
+		<!--{else}-->
+		没有了
+		<!--{/if}-->
+		</p> 
+		<p>下一篇：> >
+		<!--{if !empty($next_item[subject])}-->
+		<a href="$next_item[url]" title="$next_item[title]">$next_item[subject]</a>
+		<!--{else}-->
+		没有了
+		<!--{/if}-->
+		</p>
+	</div>
+</div>
+<div id="end_cd">
+	<ul>
+		<li class="lione"><a href="{$core.mobile_controller}">&lt; &lt; 返回首页</a></li>
+		<li class="litwo"></li>
+		<li class="lithree"></li>
+	</ul>
+</div>
+<script type="text/javascript">
+	$("#nymain img").css("height","auto");
+</script>
+<!--{template $core footer}-->
+<!--{/php168}-->

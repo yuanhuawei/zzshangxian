@@ -1,0 +1,210 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--content-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/item/item.js"></script>
+<script type="text/javascript">
+var item_id = $data[id],
+	model = '$data[model]',
+	item_cid = $data[cid],
+	verified = \$_GET['verified'] !== undefined || \$_GET['verified'] == 1 ? 1 : 0;
+
+$(function(){
+	if(get_cookie('IS_ADMIN') == 1){
+		item_operation($('#operation').show());
+	}
+});
+</script>
+
+<div class="container">
+	$label[company_top_ad]
+</div>
+<div class="layout_txtcontent_position">
+	您所在位置 &gt; <a href="{$this_system.controller}">首页</a>
+	<!--{foreach $parent_cats $v}-->
+	&gt; <a href="$v[url]">$v[name]</a>
+	<!--{/foreach}-->
+	&gt; <a href="$CAT[url]">$CAT[name]</a>
+</div>
+<div class="clear">
+</div>
+<div class="container common_mtop">
+	<div class="contain_left">
+		<div class="show_box_1">
+			<div class="sb1_head">
+				$label[view_left_box_title_1]
+			</div>
+			<div class="sb1_main">
+				$label[view_left_box_content_1]{'i.cid' => $cid}
+			</div>
+		</div>
+		<div class="show_box_1 common_mtop">
+			<div class="sb1_head">
+				$label[view_left_box_title_2]
+			</div>
+			<div class="sb1_main">
+				$label[view_left_box_content_2]{'i.cid' => $cid}
+			</div>
+		</div>
+		<div style="border:none;margin-top:10px;">
+			$label[view_left_box_content_3]
+		</div>
+		<div style="border:#cccccc solid 1px;margin-top:10px;">
+			$label[view_left_box_content_4]
+		</div>
+		<div style="border:#cccccc solid 1px;padding:0px;line-height:100%;margin-top:10px;">
+			$label[view_left_box_content_5]
+		</div>
+	</div>
+	<div class="contain_right">
+		<div class="pic_box">
+			<div class="show_img">
+				<a id="imglink" target="_blank"><img src="$data[frame]" id="showimg" title="" width="280" height="240" /></a>
+			</div>
+		<div>
+			<div class="more_left"  onmousedown="JQPho.moveimg('L')" onmouseup="JQPho.moveimg('Lo')" onmouseout="JQPho.moveimg('Lo')" id="more_left"></div>	
+			<div id="imgmenu" class="img_menu">
+					<ul id="long_ul">
+				<!--{foreach $data['photo'] $k $v}-->
+					<li>
+						<img src="$v[thumb]" url="$v[url]" alt="$v[title]" border="0"  width="50" height="50" onerror="this.src='{$core->url}/images/nopic.jpg'" />
+					</li>
+				<!--{/foreach}-->	
+					</ul>
+			</div>
+			<div  class="more_right" onmousedown="JQPho.moveimg('R')" onmouseup="JQPho.moveimg('Ro')" onmouseout="JQPho.moveimg('Ro')" id="more_right"></div>
+		</div>
+	</div>
+		<div class="content_box">
+			<div class="content_head">
+				<p class="fleft title">$data[title]</p>
+				<p  class="fright">
+				<span ><!--{if !empty($prev_item['subject'])}--><a href="$prev_item[url]" title="$prev_item[title]">上一个</a><!--{else}-->没有了<!--{/if}--></span>
+				<span ><!--{if !empty($next_item['subject'])}--><a href="$next_item[url]" title="$next_item[title]">下一个</a><!--{else}-->没有了<!--{/if}--></span>
+				</p>
+				<p class="clear"></p>
+			</div>
+			
+			<ul class="goods_info">
+				<li><strong>商品编号：</strong>$data[number]</li>
+				<li><strong>规格：</strong>$data[size]</li>
+				<li><strong>库存：</strong>$data[store]</li>
+				<li><strong>上架时间：</strong>{date('Y-m-d',$data['timestamp'])}</li>
+				<li style="text-decoration:line-through"><strong>市场价：</strong>$data[market_price]</li>
+				<li><strong>会员价：</strong>$data[price]</li>
+			</ul>
+			<div>
+				<a href="javascript:buy_dialog.show()"><img src="{$SKIN}item/{$MODEL}/btn-buy.gif" /></a>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div id="tab_1" class="img_info_box_1" style="margin-top:10px">
+			<div class="head">
+				<span>产品参数</span>
+				<span>产品介绍</span>
+			</div>
+			<div class="main">
+				<span class="content">
+				$data[attrbutes]
+				</span>
+				<span class="content">
+				$data[content]
+				</span>
+			</div>
+		
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+var JQPho = 
+{
+MyMar:null, MyMar2 : null, thiss : null,
+moveimg : function(k){
+	 if(k=='Lo'){clearInterval(this.MyMar);}
+	 if(k=='Ro'){clearInterval(this.MyMar2);}
+	if(k=='L'){this.MyMar= setInterval(this.Marquee, 1)}
+	if(k=='R'){this.MyMar2= setInterval(this.Marquee2, 1)}
+	
+				
+},
+Marquee : function(){
+	$('#imgmenu')[0].scrollLeft-=5;
+	if(parseInt($('#imgmenu')[0].scrollLeft)<=0) {
+			$('#imgmenu')[0].scrollLeft=parseInt($('#long_ul').width());
+		}
+	
+},
+Marquee2 : function(){
+		$('#imgmenu')[0].scrollLeft+=5;
+		if(parseInt($('#imgmenu')[0].scrollLeft)>=parseInt($('#long_ul').width())/2) {
+			$('#imgmenu')[0].scrollLeft=0;
+		}
+},
+init : function(){
+	$('#long_ul').css({width:$('#long_ul li').size()*116+'px'});
+	$('#long_ul').append($('#long_ul').html());
+	$("#imgmenu span:first").addClass('over');
+	$("#showimg").attr("src",function(){return $("#imgmenu span:first").find("img").attr("url")});
+	$("#imglink").attr("href",function(){return $("#imgmenu span:first").find("img").attr("url")});
+	$("#imgmenu li").click(function(){
+			$(this).siblings("li").removeClass("over").end().addClass("over");
+			$("#showimg").attr("src",$(this).find("img").attr("url"));
+			$("#imglink").attr("href",$(this).find("img").attr("url"));
+	 })	;
+}
+}
+var pice = {$data[price]};
+var buy_dialog = new P8_Dialog({
+		title_text: "订购详细",
+		button: true,
+		width: 400,
+		height: 300,
+		show:function(){
+			htmls = '<form id="buyform" method="post"><table border="0" cellpadding="3"><tr><td>联系人:</td><td><input type="text" name="name"/></td></tr><tr><td>联系电话:</td><td><input type="text" name="phone"/></td></tr><tr><td>送货地址:</td><td><input type="text" name="address" /></td></tr><tr><td>电子邮箱:</td><td><input type="text" name="email" /></td><tr><td>货物单价:</td><td>'+pice+'</td></tr></tr><tr><td>数量:</td><td><input type="text" name="number" onkeyup="$(\'#amount\').val('+pice+'* this.value)" size="5"/></td></tr><tr><td>总价:</td><td><input type="text"  name="amount" id="amount" readonly /></td></tr><tr><td>备注:</td><td><textarea name="content" rows="1" cols="30"></textarea></td></tr></table></form>';
+			this.content.html(htmls);
+		},
+		ok:function(){
+			name = $('#buyform input[name=name]').val();
+			if(!name){alert('联系人不能为空'); return false;}
+			address = $('#buyform input[name=address]').val();
+			if(!address){alert('收货地址不能为空'); return false;}
+			email = $('#buyform input[name=email]').val();
+			if(!email){alert('电子邮箱不能为空'); return false;}
+			phone = $('#buyform input[name=phone]').val();
+			if(!phone){alert('联系电话不能为空'); return false;}
+			coun = $('#buyform input[name=number]').val().replace(/[^0-9]/g,'');
+			if(!coun){alert('数量有误'); return false;}
+			$.ajax({
+				url:'{$this_router}-order',
+				data: $('#buyform').serialize()+"&id={$data['id']}",
+				dataType:'json',
+				type: 'POST',
+				beforeSend:function(msg){ ajaxing({});},
+				success:function(msg){
+					ajaxing({action:'hide'});
+					show_result(msg);
+				}
+			});
+		}
+});
+var show_dialog = new P8_Dialog({
+		title_text: "订单号",
+		button: false,
+		width: 300,
+		height: 150
+		});
+function show_result(msg){
+	htmls = '<p style="color:#990000;margin:9px">此订单号码：'+msg[0]+' ,请记住订单号</p><p style="color:#990000;margin:9px">我们的客服人员将尽快和你取得联系</p><p style="text-align:center;margin:9px"><input type="button" onclick="window.open(\'{$core.U_controller}?main_page=/cms/item-my_order\')" value="查看订单"/> <input type="button" value="关闭" onclick="show_dialog.close()"></p>';
+	show_dialog.content.html(htmls);
+	show_dialog.show();
+}
+$(document).ready(function(){
+	JQPho.init();					   
+	MoveTabs('tab_1',0,'mouseover');
+});
+
+</script>
+<!--footer-->
+<script type="text/javascript" src="$this_router-count?id=$data[id]"></script>
+<!--{template $core footer}-->
+<!--{/php168}-->

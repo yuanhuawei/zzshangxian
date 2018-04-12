@@ -1,0 +1,22 @@
+<!--{php168}-->
+<!--{php
+$case = mt_rand(100,999);
+$width = ($label['option']['rows']>1) ? (100/$label['option']['rows']-1).'%' : '99%';
+}-->
+<style>
+.label_list2_$case { text-align:left; line-height:180%; border:none;font-size:12px}
+.label_list2_$case li.label_list6_title { text-align:left;width:$width;float:left }
+.label_list2_$case .label_list6_title a:active, .label_list6_title a:link, .label_list6_title a:visited {color:#333436; text-decoration:none; }
+.label_list2_$case .label_list6_title a:hover{ color:#B80B07;text-decoration:underline}
+.label_list2_$case .label_list6_title .label_list6_date { float:right; color:#656668;font-size:12px }
+</style>
+<ul class="label_list2_$case">
+	<!--{foreach $list $value}-->
+	<li class="label_list6_title">
+		<span class="label_list6_date">[<!--{php echo date('Y-m-d', $value['timestamp']);}-->]</span>·<a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a>
+	</li>
+	<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->
+

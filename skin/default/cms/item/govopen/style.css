@@ -1,0 +1,13 @@
+.dt_left { width:258px; float:left;overflow:hidden }
+.dt_right { width:725px; float:right; overflow:hidden }
+.tree_menu{background:url(li.gif) no-repeat;width:162x;margin-bottom:5px; }
+.tree_menu p{cursor:pointer;padding-left:48px;height:30px;line-height:30px}
+.tree_menu dl{padding-left:20px}
+.tree_menu  ul{padding-left:20px}
+.tree_menu li{line-height:22px;background:url(close.png) no-repeat left 5px}
+.tree_menu li span{padding-left:15px;cursor:pointer;}
+.tree_menu dd{line-height:22px;margin-left:5px;padding-left:15px;background:url(li.png) no-repeat left 5px}
+.tree_menu dd a.over{background-color:#FDEAC0;padding:1px 5px;}
+#list_table{background-color:#A3D9F9}
+#list_table td{background-color:#ffffff;padding:5px; text-align:center}
+#list_table .ltbhead td{background-color:#DFF3FF}

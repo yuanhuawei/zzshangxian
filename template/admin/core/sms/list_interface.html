@@ -1,0 +1,107 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="POST">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					
+					<table class="columntable formtable hover_table">
+					<tr class="title">
+						<td class="title">短信接口名称</td>
+						<td class="title">短信接口别名</td>
+						<td class="title">启用</td>
+						<td class="title">操作</td>
+					</tr>
+					
+					<!--{foreach $list $name $value}-->
+						<tr>
+							<td>{$name}</td>      
+							<td>{$value['alias']}</td>
+							<td>
+								<span style="cursor: pointer;">
+								<!--{if !empty($value['enabled'])}-->
+								<img src="{$SKIN}/check_yes.gif" alt="1" title="$name" onclick="enable_interface(this.title, !parseInt(this.alt))" />
+								<!--{else}-->
+								<img src="{$SKIN}/check_no.gif" alt="0" title="$name" onclick="enable_interface(this.title, !parseInt(this.alt))" />
+								<!--{/if}-->
+								</span>
+							</td>
+							<td>
+								<a href="{$this_router}-interface_config?name={$name}">编辑</a>
+								<a href="{$value['apply_url']}" target="_blank">申请</a>
+							</td>
+						</tr>
+					<!--{/foreach}-->
+					
+					</table>
+				</td></tr>
+
+
+				<tr>
+					<td colspan="5">
+						<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+							<tr>
+								<td>
+									<input type="submit" class="edit_btn" value="刷新接口" />
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+			</table>
+		</div>
+	</div>
+</form>
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr><td>
+				
+				<table class="columntable formtable hover_table">
+				<tr class="title">
+					<td class="title">说明</td>
+				</tr>
+				<tr>
+					<td>
+					1、一次只能启用一个短信接口。<br/>
+					2、接口启用前，先去短信服务商那边购买短信，获得短信接口账号。<br/>
+					3、移动飞信手机短信免费，用户先要加为飞信好友。
+					</td>
+				</tr>
+				
+				</table>
+			</td></tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+
+function enable_interface(name, value){
+	if(confirm('{$P8LANG['confirm_to_do']}')){
+		$.ajax({
+			url: '$this_router-interface_config',
+			type: 'post',
+			cache: false,
+			data: {'interface': name, enabled: value ? 1 : 0},
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(status){
+				ajaxing({action: 'hide'});
+				if(status == 0) return;
+				
+				$('img[title='+ name +']').
+				attr('src', SKIN + (value ? '/check_yes.gif' : '/check_no.gif')).
+				attr('alt', value ? 0 : 1);
+				
+			}
+		});
+	}
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

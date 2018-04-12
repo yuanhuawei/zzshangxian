@@ -1,0 +1,40 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<div id="tab_1" class="tab_box mtop20">
+	<div class="head">
+		<span {if $status==1}class="over"{/if}><a href="$this_url?status=1">正常的作业</a></span> 
+		<span {if $status==2}class="over"{/if}><a href="$this_url?status=2">过期的作业</a></span>
+		<a href="$this_router-homework_add" class="sendmsg_link_bg">新增作业</a>
+	</div>
+	<div class="main profile" style="margin-top:20px">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table">
+	<tr class="head">
+		<td width="30">ID</td>
+		<td width="150">标题</td>
+		<td width="300">需求</td>
+		<td width="50">状态</td>
+		<td width="100"><!--{if $status==1}-->审核时间<!--{elseif $status==2}-->结业时间<!--{else}申请时间{/if}--></td>
+		<td>操作</td>
+	</tr>
+	<!--{foreach $list $key $val}-->
+	<tr>
+		<td><input type="checkbox" name="id[]" value="$val[id]" />$val[id]</td>
+		<td>$val[title]</td>
+		<td><!--{if $val['dtitle']}--><a href="{$this_module.controller}-demand?id=$val[id]" target="_blank">$val[dtitle]</a><!--{else}-->全部<!--{/if}--></td>
+		<td><!--{if $status==1}-->已审<!--{elseif $status==2}-->已结业<!--{else}-->未审<!--{/if}--></td>
+		<td>{date('Y-m-d',$val['timestamp'])}</td>
+		<td><!--{if $status==0}-->审核<!--{/if}--> 删除</td>
+	</tr>
+	<!--{/foreach}-->
+	<tr>
+		<td align="center" colspan="6" class="pages">
+			$pages
+		</td>
+	</tr>
+</table>
+	</div>
+</div>
+<div class="clear">
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

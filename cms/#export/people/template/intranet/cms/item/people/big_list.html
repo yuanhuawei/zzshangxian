@@ -1,0 +1,73 @@
+<!--{php168}-->
+<!--{template $this_system header}--> 
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+ 
+<div class="gov_frame">
+      <div class="gov_list_banner">
+		$label[gov_list_ad1]
+	 </div> 
+	 <div class="gov_list_nave">
+		<a href="{$core.controller}">首页</a>&nbsp;&gt;&nbsp;
+		<a href="{$core.controller}/cms/item-news">新闻中心</a>&nbsp;&gt;&nbsp;
+		<!--{foreach $parent_cats $v}-->
+		<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+		<!--{/foreach}-->
+		<a href="$CAT[url]">$CAT[name]</a>
+	 </div>   
+	 
+<!--左边-->	      
+	 <div class="gov_list_left">
+		<!--{foreach $subcategories $v}-->
+		<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+			<div class="gov_list_title5 common_mtop">
+				<a class="gov_list_title_more1" href="$this_url-category-$v[id]">更多>>></a>
+				<span class="title_5">$v[name]</span>
+				</div>
+				<div class="gov_list_content5">
+				$label[gov_big_list]{'i.cid' => $subcat, 'model' => $MODEL}
+				</div>
+		<!--{/foreach}-->
+	 </div>
+
+<!--右边-->	 	   
+	 <div class="gov_list_right_b">
+		<div class="gov_list_title5">
+			<span class="gov_list_title_more4">$label[gov_blist_more5]</span>
+			<span class="title_4">$label[gov_blist_title5]</span>
+		</div>
+		<div class="gov_list_content5">
+			$label[gov_blist_content5]
+		</div>
+		<div class="gov_list_title5 common_mtop">
+			<span class="gov_list_title_more4">$label[gov_blist_more6]</span>
+			<span class="title_4">$label[gov_blist_title6]</span>
+		</div>
+		<div class="gov_list_content5">
+			$label[gov_blist_content6]
+		</div>
+		<div class="gov_list_title5 common_mtop">
+			<span class="gov_list_title_more4">$label[gov_blist_more7]</span>
+			<span class="title_4">$label[gov_blist_title7]</span>
+		</div>
+		<div class="gov_list_content5">
+			$label[gov_blist_content7]
+		</div>
+		<div class="gov_list_title5 common_mtop">
+			<span class="gov_list_title_more4">$label[gov_blist_more8]</span>
+			<span class="title_4">$label[gov_blist_title8]</span>
+		</div>
+		<div class="gov_list_content5">
+			$label[gov_blist_content8]
+		</div>
+		<div class="gov_list_title5 common_mtop">
+			<span class="gov_list_title_more4">$label[gov_blist_more9]</span>
+			<span class="title_4">$label[gov_blist_title9]</span>
+		</div>
+		<div class="gov_list_content5">
+			$label[gov_blist_content9]
+		</div>
+	 </div>  	                  
+</div>
+
+<!--{template $this_system footer}-->
+<!--{/php168}-->

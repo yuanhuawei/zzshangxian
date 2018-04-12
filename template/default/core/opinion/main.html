@@ -1,0 +1,576 @@
+<!--{php168}-->
+<!--{template $this_module header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/opinion/index.css">
+<div id="main_left">
+  <div style="margin-bottom:10px;">$label[index_banner1]</div>
+  <div id="main_rdzz">
+    <div class="rdzz_font">
+      <div class="title"><span class="more_lan">$label[rdzz_more]</span>
+        <h4>$label[rdzz_tt]</h4>
+      </div>
+      <div class="rdzz_con">
+        <div class="topnews">
+			<div style="float:left;width:78px;padding-top:20px;overflow:hidden;">$label[topnewsimages]</div>
+			<div style="float:left;width:320px;overflow:hidden;padding-top:5px;">$label[topnews]</div><div class="clear"></div>
+		</div>
+        <div class="zjtt">$label[topnews_tt2]</div>
+        <div style="height:auto">
+          $label[topnews_list]
+        </div>
+      </div>
+    </div>
+    <div class="rdzz_photo">
+      <div class="picflash">$label[picflash]</div>
+      <div class="picbanner">$label[picbanner]</div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+  <div style="margin-bottom:10px;">$label[index_banner2]</div>
+  <div class="clear"></div>
+  <div class="xzhf dw">
+  <div class="xzhf_up"><img width="133" height="17" align="left"  style="margin:10px 15px 0 25px;" alt="县直单位回复" src="{$RESOURCE}/skin/default/core/{$this_module.name}/main_mail_title1.gif">
+  <b>来信统计:</b>今日来信：<span>$today[0]</span> 件  
+  今日回复：<span>$today[1]</span> 件  
+  来信总数：<span>$all[0]</span> 件  
+  回复总数：<span>$all[1]</span> 件</div>
+  <div class="from">
+
+        <div class="put">
+		<form action="{$this_router}-lettersearch" method="get" name="form_post" target="_blank" id="form_post">
+			<input type="text" style=" width:160px;line-height:18px; font-size:12px; color:#666; height:18px; background:url({$RESOURCE}/skin/default/core/{$this_module.name}/search_putbg.gif)" id="textfield" name="keyword">
+			 <select style="line-height:20px; font-size:12px;  color:#666; text-align:center; height:20px; width:105px " id="select" name="keytype">
+					<option value="number">来信编号</option>
+				  <option value="create_time">来信时间</option>
+				  <option value="title">来信主题</option>
+				  <option value="type">来信类型</option>
+				 </select>
+
+			<select style="line-height:20px; font-size:12px;  color:#666; text-align:center; height:20px; width:105px "   name="department" onchange="changedep(this)" style="float:left">
+			 <option value="">按受理单位</option>
+				  <!--{foreach $cates['department'] $drow}-->
+				  <option value="$drow[id]">$drow[name]</option>
+					<!--{/foreach}-->
+			</select>
+			<input type="image" align="middle" width="75" height="20" style="margin-bottom:5px;padding:0" src="{$RESOURCE}/skin/default/core/{$this_module.name}/search_tj_mail.gif" name="img">
+			</form>
+</div>
+        <div class="put_tw"><a href="{$core.controller}/letter-post" target="_blank"><img width="85" height="24" border="0" src="{$RESOURCE}/skin/default/core/{$this_module.name}/wytw.gif"></a></div>
+        <div class="clear"></div>
+      </div>
+</div>
+  <div class="clear"></div>
+    <div id="network-polotical-action">
+    <div class="online-question"   id="tab_1" style="padding:0;">
+      <div class="head" style="padding:0;">
+        <h2>$label[zxhf_tt]</h2>
+           <span class="over">$label[zxhf_tab11]</span>
+          <span>$label[zxhf_tab21]</span>
+          <span>$label[zxhf_tab31]</span>
+          <span>$label[zxhf_tab41]</span>
+          <span>$label[zxhf_tab51]</span>
+          <span>$label[zxhf_tab61]</span>
+
+      </div>
+	  <div class="main">
+      <div class="content">
+	  <table class="gray-zebra-stripe">
+	     <thead>
+          <tr>
+            <th class="political-action-comppiling">编号</th>
+            <th>主题</th>
+            <th class="political-action-type">类型</th>
+            <th class="political-action-handle">办理情况</th>
+            <th class="political-action-letter">来信人</th>
+            <th class="political-action-time">来信时间</th>
+            <th class="political-action-organizer">承办单位</th>
+			<th>预警</th>
+          </tr>
+        </thead>
+        $label[zxhf_table11]
+	   </table>
+      </div>
+      <div style="display:none;" class="content">
+	  <table class="gray-zebra-stripe">
+        <thead>
+          <tr>
+            <th class="political-action-comppiling">编号</th>
+            <th>主题</th>
+            <th class="political-action-type">类型</th>
+            <th class="political-action-handle">办理情况</th>
+            <th class="political-action-letter">来信人</th>
+            <th class="political-action-time">来信时间</th>
+            <th class="political-action-organizer">承办单位</th>
+			<th>预警</th>
+          </tr>
+        </thead>
+        $label[zxhf_table21]
+      </table>
+	  </div>
+	  <div style="display:none;" class="content">
+      <table  class="gray-zebra-stripe">
+        <thead>
+          <tr>
+            <th class="political-action-comppiling">编号</th>
+            <th>主题</th>
+            <th class="political-action-type">类型</th>
+            <th class="political-action-handle">办理情况</th>
+            <th class="political-action-letter">来信人</th>
+            <th class="political-action-time">来信时间</th>
+            <th class="political-action-organizer">承办单位</th>
+			<th>预警</th>
+          </tr>
+        </thead>
+        $label[zxhf_table31]
+      </table>
+	  </div>
+      <div style="display:none;" class="content">
+      <table  class="gray-zebra-stripe">
+        <thead>
+          <tr>
+            <th class="political-action-comppiling">编号</th>
+            <th>主题</th>
+            <th class="political-action-type">类型</th>
+            <th class="political-action-handle">办理情况</th>
+            <th class="political-action-letter">来信人</th>
+            <th class="political-action-time">来信时间</th>
+            <th class="political-action-organizer">承办单位</th>
+			<th>预警</th>
+          </tr>
+        </thead>
+        $label[zxhf_table41]
+      </table>
+	  </div>
+      <div style="display:none;" class="content">
+      <table  class="gray-zebra-stripe">
+        <thead>
+          <tr>
+            <th class="political-action-comppiling">编号</th>
+            <th>主题</th>
+            <th class="political-action-type">类型</th>
+            <th class="political-action-handle">办理情况</th>
+            <th class="political-action-letter">来信人</th>
+            <th class="political-action-time">来信时间</th>
+            <th class="political-action-organizer">承办单位</th>
+			<th>预警</th>
+          </tr>
+        </thead>
+        $label[zxhf_table51]
+      </table>
+	  </div>
+    <div style="display:none;" class="content">
+      <table  class="gray-zebra-stripe">
+        <thead>
+          <tr>
+            <th class="political-action-comppiling">编号</th>
+            <th>主题</th>
+            <th class="political-action-type">类型</th>
+            <th class="political-action-handle">办理情况</th>
+            <th class="political-action-letter">来信人</th>
+            <th class="political-action-time">来信时间</th>
+            <th class="political-action-organizer">承办单位</th>
+			<th>预警</th>
+          </tr>
+        </thead>
+        $label[zxhf_table61]
+      </table>
+	  </div>
+	   </div>
+    </div>
+  </div>
+  <div class="clear"></div>
+<div class="xzhf"><img width="97" height="17" align="left" style="margin:10px 15px 0 25px;" alt="县直单位回复" src="{$RESOURCE}/skin/default/core/{$this_module.name}/main_mail_title2.gif"><b>
+$label[zxhf_xzdwhfs]      
+</b></div>
+  <div class="clear"></div>
+  <div id="network-polotical-action">
+    <div class="online-question"   id="tab_1" style="padding:0;">
+      <div class="head" style="padding:0;">
+        <h2>$label[zxhf_tt2]</h2>
+           <span class="over">$label[zxhf_tab1]</span>
+          <span>$label[zxhf_tab2]</span>
+          <span>$label[zxhf_tab3]</span>
+          <span>$label[zxhf_tab4]</span>
+          <span>$label[zxhf_tab5]</span>
+          <span>$label[zxhf_tab6]</span>
+
+      </div>
+	  <div class="main">
+      <div class="content">
+	  <table class="gray-zebra-stripe">
+	     <thead>
+          <tr>
+            <th class="political-action-comppiling">编号</th>
+            <th>主题</th>
+            <th class="political-action-type">类型</th>
+            <th class="political-action-handle">办理情况</th>
+            <th class="political-action-letter">来信人</th>
+            <th class="political-action-time">来信时间</th>
+            <th class="political-action-organizer">承办单位</th>
+			<th>预警</th>
+          </tr>
+        </thead>
+        $label[zxhf_table1]
+	   </table>
+      </div>
+      <div style="display:none;" class="content">
+	  <table class="gray-zebra-stripe">
+        <thead>
+          <tr>
+            <th class="political-action-comppiling">编号</th>
+            <th>主题</th>
+            <th class="political-action-type">类型</th>
+            <th class="political-action-handle">办理情况</th>
+            <th class="political-action-letter">来信人</th>
+            <th class="political-action-time">来信时间</th>
+            <th class="political-action-organizer">承办单位</th>
+			<th>预警</th>
+          </tr>
+        </thead>
+        $label[zxhf_table2]
+      </table>
+	  </div>
+	  <div style="display:none;" class="content">
+      <table  class="gray-zebra-stripe">
+        <thead>
+          <tr>
+            <th class="political-action-comppiling">编号</th>
+            <th>主题</th>
+            <th class="political-action-type">类型</th>
+            <th class="political-action-handle">办理情况</th>
+            <th class="political-action-letter">来信人</th>
+            <th class="political-action-time">来信时间</th>
+            <th class="political-action-organizer">承办单位</th>
+			<th>预警</th>
+          </tr>
+        </thead>
+        $label[zxhf_table3]
+      </table>
+	  </div>
+      <div style="display:none;" class="content">
+      <table  class="gray-zebra-stripe">
+        <thead>
+          <tr>
+            <th class="political-action-comppiling">编号</th>
+            <th>主题</th>
+            <th class="political-action-type">类型</th>
+            <th class="political-action-handle">办理情况</th>
+            <th class="political-action-letter">来信人</th>
+            <th class="political-action-time">来信时间</th>
+            <th class="political-action-organizer">承办单位</th>
+			<th>预警</th>
+          </tr>
+        </thead>
+        $label[zxhf_table4]
+      </table>
+	  </div>
+      <div style="display:none;" class="content">
+      <table  class="gray-zebra-stripe">
+        <thead>
+          <tr>
+            <th class="political-action-comppiling">编号</th>
+            <th>主题</th>
+            <th class="political-action-type">类型</th>
+            <th class="political-action-handle">办理情况</th>
+            <th class="political-action-letter">来信人</th>
+            <th class="political-action-time">来信时间</th>
+            <th class="political-action-organizer">承办单位</th>
+			<th>预警</th>
+          </tr>
+        </thead>
+        $label[zxhf_table5]
+      </table>
+	  </div>
+    <div style="display:none;" class="content">
+      <table  class="gray-zebra-stripe">
+        <thead>
+          <tr>
+            <th class="political-action-comppiling">编号</th>
+            <th>主题</th>
+            <th class="political-action-type">类型</th>
+            <th class="political-action-handle">办理情况</th>
+            <th class="political-action-letter">来信人</th>
+            <th class="political-action-time">来信时间</th>
+            <th class="political-action-organizer">承办单位</th>
+			<th>预警</th>
+          </tr>
+        </thead>
+        $label[zxhf_table6]
+      </table>
+	  </div>
+	   </div>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div style="margin:10px 0;">$label[index_banner3]</div>
+  <div class="clear"></div>
+  <div id="main_ask-department">
+    <div class="askleft">
+      <div class="title_l"><span class="more_lan">$label[wzxz01_more]</span>$label[wzxz01_tt]</div>
+      <div class="con"> $label[wzxz01_con]
+	   <div class="clear"></div>
+	  $label[wzxz01_con_l_1]
+	   <div class="clear"></div>
+	  $label[wzxz01_con_l_2]
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div class="askright">
+      <div class="title_l"><span class="more_lan">$label[wzxz02_more]</span>$label[wzxz02_tt]</div>
+      <div class="con"> $label[wzxz02_con]
+        <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div id="main_ask-lead">
+    <div class="askleft">
+      <div class="title"><span class="more_lan">$label[leader01_more]</span>
+        <h4>$label[leader01_tt]</h4>
+      </div>
+      <div class="con">
+        <div class="conleft">
+          <dl>
+            <dt>$label[leader01_btn]</dt>
+            <dd>$label[leader01_photo]</dd>
+          </dl>
+        </div>
+        <div class="conright"> $label[leader01_list] </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div class="askright">
+      <div class="title"><span class="more_lan">$label[leader02_more]</span>
+        <h4>$label[leader02_tt]</h4>
+      </div>
+      <div class="con">
+        <div class="conleft">
+          <dl>
+            <dt>$label[leader02_btn]</dt>
+            <dd>$label[leader02_photo]</dd>
+          </dl>
+        </div>
+        <div class="conright"> $label[leader02_list] </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+  <div  id="zxft">
+    <div class="zxft_hd">
+      <h4>$label[zxft_tt]</h4>
+      <span>$label[zxft_link]</span>
+	  <span class="more_lan">$label[zxft_imore]</span></div>
+    <div class="con">$label[zxft_con]</div>
+  </div>
+  <div class="clear"></div>
+  <div id="paihang">
+    <script src="{$RESOURCE}/skin/default/core/index_wlwz/tab2.js" type="text/javascript"></script>
+    <div class="phleft">
+     <div class="nTab" id="tab_2">
+        <div class="TabTitle2 head">
+             <span class="over">$label[paihang1_tab1]</span>
+			 <span>$label[paihang1_tab2]</span>
+             <span>$label[paihang1_tab3]</span>
+        </div>
+        <div class="TabContent2 main">
+          <div  class="content">
+            <div class="con">
+              <ul>
+                <li class="titleph1">单位(乡镇)名称</li>
+                <li class="titleph2">办结总数</li>
+                <li class="titleph3">办结率</li>
+                <li class="titleph4">来信总数</li>
+              </ul>
+              <div class="clear"></div>
+              <div class="num">
+				<ul>
+            	<!--{foreach $list_01['list'] $key $row}-->
+                <li class="ph1">{$row['department_name']}</li>
+				<li class="ph2">{if isset($list_03['list'][$row['department']]['count'])}{$list_03['list'][$row['department']]['count']}{else}0{/if}个</li>
+				<li class="ph3">{if isset($list_04['list'][$row['department']]['count'])}{$list_04['list'][$row['department']]['count']}{/if}%</li>
+				<li class="ph4">{$row['count']}个</li>
+                <!--{/foreach}-->
+				</ul>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+          <div class="content"  style="display: none;">
+            <div class="con">
+              <ul>
+                <li class="titleph1">单位(乡镇)名称</li>
+				<li class="titleph2">来信总数</li>
+                <li class="titleph3">办结率</li>
+                <li class="titleph4">办结总数</li>
+              </ul>
+              <div class="clear"></div>
+              <div class="num"> 
+				  <ul>
+					<!--{foreach $list_03['list'] $key $row}-->
+					<li class="ph1">{$row['department_name']}个</li>
+					<li class="ph2">{$list_01['list'][$row['department']]['count']}个</li>
+					<li class="ph3">{$list_04['list'][$row['department']]['count']}%</li>
+					<li class="ph4">{$row['count']}</li>
+					<!--{/foreach}-->
+				</ul>
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+          <div class="content" style="display: none;">
+            <div class="con">
+              <ul>
+                <li class="titleph1">单位(乡镇)名称</li>
+				<li class="titleph2">办结总数;</li>
+                <li class="titleph3">来信总数</li>
+                <li class="titleph4">办结率</li>
+              </ul>
+              <div class="clear"></div>
+              <div class="num">
+				<!--{foreach $list_04['list'] $key $row}-->
+                <li class="ph1">{$row['department_name']}</li>
+				<li class="ph2">{if isset($list_03['list'][$row['department']]['count'])}{$list_03['list'][$row['department']]['count']}{else}0{/if}个</li>
+				<li class="ph3">{$list_01['list'][$row['department']]['count']}个</li>
+				<li class="ph4">{$row['count']}%</li>
+                <!--{/foreach}-->
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--滑动门效果结束-->
+    </div>
+    <div class="phright">
+      <div class="nTab" id="tab_3">
+        <div class="TabTitle3 head">
+              <span class="over">$label[paihang2_tab3]</span>
+              <span>$label[paihang2_tab2]</span>
+              <span>$label[paihang2_tab1]</span>
+        </div>
+        <div class="TabContent3  main">
+          <div class="content">
+            <div class="con">
+              <ul>
+                <li class="titleph1">单位(乡镇)名称</li>
+				<li class="titleph2">&nbsp;</li>
+                <li class="titleph3">红灯数</li>
+                <li class="titleph4">黄灯数</li>
+              </ul>
+              <div class="clear"></div>
+              <div class="num">
+				<!--{foreach $list_09['list'] $key $row}-->
+                <li class="ph1">{$row['department_name']}</li>
+				<li class="ph2">&nbsp;</li>
+				<li class="ph3">{$row['hong']}条</li>
+				<li class="ph4">{$row['huan']}条</li>
+                <!--{/foreach}-->
+                <div class="clear"></div>
+              </div>
+            </div>			
+          </div>
+          <div class="content" style="display: none;">
+            <div class="con">
+              <ul>
+                <li class="titleph_4" style="padding-left:25px;width:243px;text-align:left;line-height:25px;">意见标题</li>
+                <li class="titleph_3">发布时间</li>
+              </ul>
+              <div class="clear"></div>
+              <div class="num"> $label[paihang2_con2]
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+          <div class="content" style="display: none;">
+            <div class="con">
+              <ul>
+                <li class="titleph_4" style="padding-left:25px;width:243px;text-align:left;line-height:25px;">调查标题</li>               
+                <li class="titleph_3">发布时间</li>
+              </ul>
+              <div class="clear"></div>
+              <div class="num"> $label[paihang2_con1]
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+<div id="main_right">
+  <div class="wzxxph">
+    <div class="bigtt">$label[wzxxph_bigtt]</div>
+    <div class="nTab inner" id="tab_4">
+      <div class="main">
+          <div class="content">
+          <div class="con"> $label[wzxxph_con1]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="logintb">&nbsp;</div>
+  <div class="login_box" id="header_login_banshi">
+<script type="text/javascript" src="{$core.U_controller}/member-login?style=opinion&id=header_login_banshi"></script>
+<div class="clear"></div>
+</div>
+  <div class="right_title">
+    <h4>$label[rtbox2_tt]</h4>
+  </div>  
+  <div class="right_con">
+    <ul class="nav-links">
+      <li class="link-wenzheng"><a href="{$core.controller}/letter-post" target="_blank">我要问政</a></li>
+      <li class="link-xinxiang"><a href="{$core.controller}/opinion-list" target="_blank">意见征集</a></li>
+      <li class="link-xinfang"><a href="{$core.controller}/opinion-fangtan" target="_blank">在线访谈</a></li>
+      <li class="link-chaxun"><a href="{$core.controller}/survey-list" target="_blank">在线调查</a></li>
+     </ul>
+  </div>
+  <div class="clear"></div>
+  <div class="right_title">
+    <h4>$label[rtbox3_tt]</h4>
+  </div>
+  <div class="right_con" style="padding:6px;">$label[rtbox3_con] </div>
+  <div style="margin-bottom:10px;">$label[rtbanner1]</div>
+  <div class="clear"></div>
+  <div class="right_title">
+    <h4>$label[rtbox4_tt]</h4>
+  </div>
+  <div class="right_con"  style="padding:6px;">$label[rtbox4_con] </div>
+  <div style="margin-bottom:10px;">$label[rtbanner2]</div>
+  <div class="clear"></div>
+  <div class="right_title">
+    <h4>$label[rtbox5_tt]</h4>
+  </div>
+  <div class="right_con" style="padding:6px;">$label[rtbox5_con] </div>
+  <div class="clear"></div>
+    <div class="right_title">
+    <h4>$label[rtbox52_tt]</h4>
+  </div>
+  <div class="right_con"  style="padding:6px;">$label[rtbox52_con] </div>
+  <div class="clear"></div>
+  <div class="right_btbox">
+    <h4>$label[rtbox6_tt]</h4>
+    <div class="con"> $label[rtbox6_con] </div>
+    <div class="bt">&nbsp;</div>
+  </div>
+</div>
+<div class="clear"></div>
+<br>
+<script language="javascript">
+$(document).ready(function(){
+MoveTabs('tab_1',0,'mouseover');
+MoveTabs('tab_2',0,'mouseover');
+MoveTabs('tab_3',0,'mouseover');
+MoveTabs('tab_4',0,'mouseover');
+MoveTabs('tab_5',0,'mouseover');
+MoveTabs('tab_6',0,'mouseover');
+MoveTabs('tab_7',0,'mouseover');
+MoveTabs('tab_8',0,'mouseover');
+});
+</script>
+<!--{template $this_module footer}-->
+<!--{/php168}-->

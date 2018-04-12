@@ -1,0 +1,219 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/autocomplete.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 
+    您现在的位置：<a href="{$core.admin_controller}/sites/farm-index">站群系统</a> &gt; 
+    <a href="{$core.admin_controller}/sites/stop-category">公共栏目管理</a></td>
+  </tr>
+</table>
+
+<form action="$this_url?action=order" method="post" id="form">
+<table width="100%" cellspacing="0" cellpadding="0"  class="zq_list hover_table" align="center">
+	<tr class="title fix_head">
+		<td width="1%" class="list_top"><input type="checkbox" /></td>
+		<td width="1%" class="list_top">ID</td>
+		<td width="50%" class="list_top" title="0" onclick="if(this.title == 1){this.title=0;hide_all();$(this).find('span img').attr('src', '{$SKIN}/show.gif');}else{this.title=1;show_all();$(this).find('span img').attr('src', '{$SKIN}/hide.gif');}" style="cursor: pointer;"><span><img src="{$SKIN}/show.gif" /></span>分类名称</td>
+		<td width="4%" class="list_top">排序</td>
+		<td width="17%" class="list_top">{$P8LANG['operation']}</td>
+	</tr>
+	
+	<tbody id="__">
+	
+	</tbody>
+</table>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+<tr>
+	<td>
+		<input type="button" value="更新缓存" onclick="location.href='{$this_router}-cache'" class="edit_btn" />
+		<input type="button" value="添加栏目" onclick="location.href='{$this_url}?action=add'" class="edit_btn" />
+        <input type="submit" value="更新排序" class="edit_btn" />
+	</td>
+</tr>
+</table>
+</form>
+
+<iframe name="poster" src="about:blank" style="display: none; height: 0px;" width="0" height="0"></iframe>
+
+<script type="text/javascript">
+var CATEGORY_JSON = $json[json];
+var CATEGORY_PATH = $json[path];
+
+function show_all(){
+	$('#__ tr').each(function(){
+		var tr = $(this).show();
+		
+		if(tr.attr('sub')){
+			tr.attr('title', 1).find('td:eq(2) span').html('<img src="{$SKIN}/hide.gif" />');
+		}
+	});
+}
+
+function hide_all(){
+	$('#__ tr').each(function(){
+		var tr = $(this);
+		
+		if(tr.attr('sub')){
+			tr.attr('title', 0).find('td:eq(2) span').html('<img src="{$SKIN}/show.gif" />');
+		}
+		
+		if(tr.attr('level') != 1) tr.hide().attr('title', 1);
+	});
+}
+
+function ___(json, l, p){
+	l = l === undefined ? 0 : l;
+	p = p === undefined ? 0 : p;
+	
+	var j = 0, k = count(json);
+	
+	for(var i in json){
+		
+		var html = '';
+		j++;
+		var c = '';
+		if(l != 0){
+			c += str_repeat('│&nbsp;&nbsp;', l - p) + str_repeat('&nbsp;&nbsp;&nbsp;', p);
+			if(j == k){
+				p++;
+				c += '└';
+			}else{
+				c += '├';
+			}
+		}
+		
+		var sub = json[i].categories ? true: false;
+		var path = CATEGORY_PATH[json[i].id].join('_');
+		c += (json[i].categories ? '<span style="cursor: pointer;"><img src="{$SKIN}/hide.gif" /></span> ' : '') +
+			'<a href="$this_router-list?cid='+ json[i].id +'">'+ json[i].name +'</a>';
+		
+		html += '\
+		<tr id="category_'+ json[i].id +'" path="path_'+ path +'" title="1"'+ (sub ? ' sub="1"' : '') +' level="'+ (l +1) +'">\
+			<td><input type="checkbox" name="id[]" value="'+ json[i].id +'" /></td>\
+			<td>'+ json[i].id +'</td>\
+			<td align="left" class=left>'+ c +'</td>\
+			<td><input type="text" class="txt" name="display_order['+ json[i].id +']" value="'+ json[i].display_order +'" size="4" /></td>\
+			<td>\
+				<a href="{$this_url}?action=add&parent='+ json[i].id +'">添加子分类</a> | \
+				<a href="{$this_url}?action=update&id='+ json[i].id +'">{$P8LANG['edit']}</a> | \
+				<a id="delete_'+ json[i].id +'" href="$this_url?action=delete&id='+ json[i].id +'" onclick="return delete_category([this.id]);">{$P8LANG['delete']}</a> \
+			</td>\
+		</tr>';
+		
+		var tr = $(html);
+		$('#__').append(tr);
+		if(sub){
+			___(json[i].categories, l +1, p);
+			_toggle(
+				$(tr).find('td:eq(2) span').
+				bind('click', function(){_toggle($(this)); return false;})
+			);
+		}
+	}
+}
+
+___(CATEGORY_JSON);
+
+
+function _toggle(span){
+	var id = $(span).parent().parent().attr('id').replace(/[^0-9]/g, '');
+	var path = CATEGORY_PATH[id].join('_');
+	
+	var on = $('#category_'+ id).attr('title') == 0;
+	
+	var keep_close = [];
+	$('tr[path^=path_'+ path +'_]').each(function(){
+		if(on){
+			
+			if($(this).show().attr('title') == 1 && $(this).attr('sub')){
+				keep_close.push(this.id.replace(/[^0-9]/g, ''));
+				$(this).attr('title', 0);
+			}else{
+				$(this).attr('title', 1);
+			}
+			
+		}else{
+			
+			if($(this).hide().attr('title') == 0 && $(this).attr('sub')){
+				//keep close
+				$(this).attr('title', 1);
+			}else{
+				$(this).attr('title', 0);
+			}
+			
+		}
+	});
+	
+	if(on){
+		$(span).parent().parent().attr('title', 1);
+		$(span).html('<img src="{$SKIN}/hide.gif" />');
+	}else{
+		$(span).parent().parent().attr('title', 0);
+		$(span).html('<img src="{$SKIN}/show.gif" />');
+	}
+	
+	for(var i = 0; i < keep_close.length; i++){
+		$('tr[path^=path_'+ CATEGORY_PATH[keep_close[i]].join('_') +'_]').hide().find('span');
+	}
+	return false;
+}
+
+function delete_category(array){
+	if(confirm('{$P8LANG['confirm_to_delete']}')){
+		
+		var id = [];
+		$.each(array, function(k, v){
+			id.push(v.replace(/[^0-9]/g, ''));
+		});
+		
+		$.ajax({
+			url: '$this_url?action=delete',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({id: id}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				
+				ajaxing({action: 'hide'});
+				
+				for(var i in json){
+					$('#delete_'+ json[i]).parent().parent().remove();
+				}
+			}
+		});
+	}
+	
+	return false;
+}
+
+$('form input[name^=display_order]').change(function(){
+	this.value = this.value.replace(/[^0-9]/g, '') || 0;
+	if(this.value > 9999) this.value = 9999;
+	if(this.value < 0) this.value = 0;
+	
+	$('#form').append('<input type="hidden" name="_display_order['+ this.name.replace(/[^0-9]/g, '') +']" value="'+ this.value +'" />');
+	$(this).css({border: '1px solid #ff0000'});
+});
+
+var edit_dialog = new P8_Dialog({
+	title_text: '编辑分类',
+	width: 800,
+	height: 400
+});
+
+function _edit_category(obj){
+	edit_dialog.show();
+	edit_dialog.content.load(obj.href +'&_ajax_request=1');
+	
+	return false;
+}
+	
+</script>
+
+<!--{template $this_system footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,99 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$data[title] 独立页</title>
+<link rel="stylesheet" type="text/css" href="{$SKIN}common.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/label/label.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+
+
+
+</head>
+<body>
+<div class="top">
+	   <div class="top_content">
+		   <div id="header_login">
+			<form method="post" action="{$core.controller}/core/member-login">
+				<span>用户名：</span><input type="text" name="username" value="" class="input common_input_border"/>
+				<span>密码：</span><input type="password" name="password" value="" class="input common_input_border"/>
+				<input type="submit" name="submit" value="登录" class="submit pointer"/>
+				<span><a href="{$core.controller}/core/member-register">注册</a>&nbsp;|&nbsp;<a href="{$core.controller}/core/member-getpassword">忘记密码</a></span>
+			</form>
+		   </div>
+		   <div id="header_t">
+			<a href="#" class="each_item">收藏本页</a>|<a href="#" class="each_item">帮助中心</a>|<a href="#" class="each_item">RSS订阅<span class="rss"></span></a>
+		   </div>
+	  </div> 
+</div>
+<script type="text/javascript">
+var editlabel = get_cookie('IS_ADMIN');
+if(editlabel !==undefined){
+var thisurl = '{$core.url}';
+var thisuri = '{$_SERVER['REQUEST_URI']}';
+
+if(thisuri.indexOf('index.php')>-1){
+var _thisuri=thisuri.split('index.php');
+	thisurl=thisurl+'/index.php'+_thisuri['1'];
+}else{
+	thisurl=thisurl+thisuri;
+}
+if(thisurl.indexOf('edit_label')==-1){
+var ls='?';
+if(thisurl.indexOf('?')>-1)ls='&';
+thisurl=thisurl+ls+'edit_label=1';
+}
+$('#header_t').prepend('<a href='+thisurl+' class="each_item">显示标签</a>|');
+}
+</script>
+<div class="wrap">
+<!--header-->
+<div class="header">
+	<!--top column-->
+	
+	<!--logo column-->
+	<div class="header_nav common_mtop inline-block">
+		<div id="logo"><a href="#"><img src="{$SKIN}logo.gif"/></a></div>
+		<div id="header_nav_menu">
+			<ul>
+				<li class="header_bbs"><span></span><a href="#">社 区</a></li>
+				<li class="header_contribute"><span></span><a href="#">投 稿</a></li>
+				<li class="header_sufficient"><span></span><a href="#">充 值</a></li>
+				<li class="header_credit"><span></span><a href="#">积 分</a></li>
+				<li class="header_jobs"><span></span><a href="#">招 聘</a></li>
+				<li class="header_search"><span></span><a href="#">搜 索</a></li>
+				<li class="header_book"><span></span><a href="#">留 言</a></li>
+				<li class="header_digg"><span></span><a href="#">顶 客</a></li>
+			</ul>
+		</div>
+	</div>
+	<!--module column-->
+	<div id="module_nav" class="common_mtop">
+		<ul>
+			<li><a href="#">首 页</a></li>
+			<li><a href="#">新 闻</a></li>
+			<li><a href="#">知 道</a></li>
+			<li><a href="#">影 视</a></li>
+			<li><a href="#">图片</a></li>
+			<li><a href="#">下载</a></li>
+			<li><a href="#">FLASH</a></li>
+			<li><a href="#">商城</a></li>
+			<li><a href="#">考评</a></li>
+			<li><a href="#">分类信息</a></li>
+			<li><a href="#">商务系统</a></li>
+		</ul>
+	</div>
+</div>
+<!--layout category-->
+<div class="layout_article_category_menu layout_mbottom layout_wrap">
+	<ul>
+		<li>
+			<a href="#">今日看点</a><a href="#">今日看点</a><a href="#">今日看点</a><a href="#">今日看点</a><a href="#">今日看点</a><a href="#">今日看点</a><a href="#">今日看点</a><a href="#">今日看点</a><a href="#">今日看点</a><a href="#">今日看点</a><a href="#">今日看点</a><a href="#">今日看点</a><a href="#">今日看点</a>
+		</li>
+	</ul>
+</div>
+
+<!--{/php168}-->

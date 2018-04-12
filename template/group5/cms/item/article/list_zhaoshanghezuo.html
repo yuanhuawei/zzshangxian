@@ -1,0 +1,199 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css"/>
+<div class="backdrop">
+	<div class="business">
+		<div class="business-title">
+			<h2>$label[list_business_tt1]</h2>
+		</div>
+		<div class="desc">
+			$label[list_business_con1]
+		</div>
+		<div class="butns">
+			<h2>$label[list_business_more1]</h2>
+		</div>
+	</div>
+</div>
+<div class="gp-container">
+	<div class="container">
+		<div class="breadcrumbbox">
+			<ol class="breadcrumb">
+				<li><a href="{$this_system->controller}"><i class="fa fa-home"></i>首页</a></li>
+				<!--{foreach $parent_cats $v}-->
+				<li><a href="$v[url]"><i class="fa fa-caret-right"></i>$v[name]</a></li>
+				<!--{/foreach}-->
+				<li class="active"><i class="fa fa-caret-right"></i>$CAT[name]</li>
+			</ol>
+			<div class="row-page-tabs">
+				<!--{template $this_module step_category3}-->
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="cooperation-row">
+			<div class="cooperate-title text-center">
+				$label[list_cooperate_tt1]
+			</div>
+			<div class="cooperate-content">
+				<div class="row">
+					<div class="row-width fl">
+						<div class="cooperate-new">
+							$label[list_cooperate_con1]
+						</div>
+					</div>
+					<div class="row-width fr">
+						<div class="cooperate-video">
+							$label[list_cooperate_con2]
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="cooperate-title text-center">
+				$label[list_cooperate_tt7]
+			</div>
+			<div class="cooperate-content">
+				<div class="row">
+					<div class="col-sm-12 col-xs-12">
+						<div class="cooperate-pic mbt25">
+							$label[list_cooperate_pic7]
+						</div>
+					</div>
+					<div class="col-sm-12 col-xs-12">
+						<div class="cooperate-pic mbt25">
+							$label[list_cooperate_pic8]
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="cooperate-title text-center">
+				$label[list_cooperate_tt2]
+			</div>
+			<div class="cooperate-content">
+				<div class="cooperate-pic2">$label[list_cooperate_pic1]</div>
+			</div>
+			<div class="cooperate-title text-center">
+				$label[list_cooperate_tt3]
+			</div>
+			<div class="cooperate-content">
+				<div class="row">
+					<div class="row-width fl">
+						<div class="cooperate-pic mbt25">
+							$label[list_cooperate_pic2]
+						</div>
+					</div>
+					<div class="row-width fr">
+						<div class="cooperate-pic mbt25">
+							$label[list_cooperate_pic3]
+						</div>
+					</div>
+					<div class="row-width fl">
+						<div class="cooperate-pic mbt25">
+							$label[list_cooperate_pic4]
+						</div>
+					</div>
+					<div class="row-width fr">
+						<div class="cooperate-pic mbt25">
+							$label[list_cooperate_pic5]
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="cooperate-title text-center">
+				$label[list_cooperate_tt4]
+			</div>
+			<div class="cooperate-content cooperate-bg">
+				<div class="row">
+					<div class="row-width fl">
+						<div class="media cooperate-item">
+							<div class="pull-left">
+								<span>1</span>
+							</div>
+							<div class="media-body">
+								$label[list_cooperate_con3_1]
+							</div>
+						</div>
+						<div class="media cooperate-item">
+							<div class="pull-left">
+								<span>2</span>
+							</div>
+							<div class="media-body">
+								$label[list_cooperate_con3_2]
+							</div>
+						</div>
+						<div class="media cooperate-item">
+							<div class="pull-left">
+								<span>3</span>
+							</div>
+							<div class="media-body">
+								$label[list_cooperate_con3_3]
+							</div>
+						</div>
+					</div>
+					<div class="row-width fr">
+						<div class="media cooperate-item">
+							<div class="pull-left">
+								<span>4</span>
+							</div>
+							<div class="media-body">
+								$label[list_cooperate_con3_4]
+							</div>
+						</div>
+						<div class="media cooperate-item">
+							<div class="pull-left">
+								<span>5</span>
+							</div>
+							<div class="media-body">
+								$label[list_cooperate_con3_5]
+							</div>
+						</div>
+						<div class="media cooperate-item">
+							<div class="pull-left">
+								<span>6</span>
+							</div>
+							<div class="media-body">
+								$label[list_cooperate_con3_6]
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="cooperate-title text-center">
+				$label[list_cooperate_tt5]
+			</div>
+			<div class="cooperate-content">
+				<div class="row">
+					<div class="row-width fl">
+						<div class="cooperate-pic">
+							$label[list_cooperate_pic6]
+						</div>
+					</div>
+					<div class="row-width fr">
+						<div class="cooperate-item2">
+							$label[list_cooperate_con4]
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="cooperate-title text-center">
+				$label[list_cooperate_tt6]
+			</div>
+			<div class="cooperate-content">
+				<div class="row">
+					<div class="contact-code text-center">
+						<div class="cpic">$label[list_cooperate_code_pic1]</div>
+						<span>$label[list_cooperate_code_tt1]</span>
+					</div>
+					<div class="contact-list ctlist ml30">
+						$label[list_cooperate_con5]
+					</div>
+					<div class="contact-list2 ctlist ml30">
+						$label[list_cooperate_con6]
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

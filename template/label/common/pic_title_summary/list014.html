@@ -1,0 +1,13 @@
+<!--{php168}-->
+<!--{php $i=0;}-->
+<ul class="label_pic_com_ul4">
+	<!--{foreach $list $value}-->
+	<!--{php $i++;$j=$i%2;}-->
+	<li class="label_float_$j" style="$wf;">
+		<div style="width:250px;padding:0px 10px;"><h3 class="label_18px_title"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></h3>
+		<p class="label_summary">$value[summary]<span class="cDBlue"><a href="$value[url]" target="_blank">[详细]</a></span></p>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

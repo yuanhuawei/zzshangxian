@@ -1,0 +1,58 @@
+<!--{php168}-->
+<!--{php 
+$select_size = $field_data['data']['select_size'];
+$select_data = mb_unserialize($field_data['data']['select_data']);
+$select_json_data = p8_json($select_data);
+$data_field = empty($data[$field])? array() : explode('-',$data[$field]);
+//$data_field = explode('-','3-31-312');;
+	
+}-->
+
+<input type="hidden" name="#field_{$field}_posted" />
+<!--{if $select_size>=2}-->
+<!--{php
+$selectdata = array();
+
+for($i=0;$i<$select_size;$i++){
+	$this_value = empty($data_field[$i])? '' : $data_field[$i];
+	if($i==0){
+		$selectdata = $select_data;
+	}elseif($data_field){
+		$selectdata = (empty($selectdata[$data_field[$i-1]])? array() : $selectdata[$data_field[$i-1]]['s']);
+	}else{
+		$selectdata = array();
+	}
+}-->
+<select name="field#[$field][]" id="field#[$field]" {$field_data['widget_addon_attr']} onchange="{$field}_select.change(this)">
+	<option value="">--请选择--</option>
+	<!--{foreach $selectdata $key $value}-->
+	<option value="{$value['i']}" {if $this_value==$key}selected{/if}>{$value['n']}</option>
+	<!--{/foreach}-->
+</select>
+<!--{php }}-->
+<!--{/if}-->
+<script type="text/javascript">
+var {$field}_select = {
+CAT : <!--{$select_json_data}-->,
+change : function (obj){
+	var shtml = dhtml = '<option value="">--请选择--</option>';
+	var thisv = $(obj).val();
+	$(obj).nextAll('select').html(dhtml);
+	if(!thisv){
+		return false;
+	}
+	var path = thisv.split('-');
+	var temp = this.CAT;
+	if(path.length==1)
+		temp=this.CAT[path]['s'];
+	else{
+		for (var k in path)
+			temp = temp[path[k]]['s'];
+	}
+	if(temp !=''){
+		for(var j in temp)
+			shtml += '<option value="'+temp[j]['i']+'">'+temp[j]['n']+'</option>';	
+		$(obj).next().html(shtml);	
+}}}
+</script>
+<!--{/php168}-->

@@ -1,0 +1,21 @@
+body { color:#111111;height:100%;font-family: "微软雅黑","宋体", Arial, Times; font-size: 12px; text-align:left; line-height: 150%; background:#f1f2f7; }
+body, div, ul, li, ol, dl, dt, dd, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote { margin: 0px; padding: 0px; }
+input, select, textarea { font-size:12px; }
+table {border-spacing: 0;border-collapse: collapse;}
+fieldset, img { border: 0; }
+img{vertical-align: middle;}
+ol, ul, li { list-style: none; }
+h1, h2, h3, h4, h5, h6 { font-weight: normal; font-size: 100%; }
+.clear { clear:both; height:1px; margin-top:-1px; overflow:hidden;font-size:0;width:100%;_width:98%; _margin-right:-15px; }
+.fleft{float:left}
+.fright{float:right}
+.center{text-align:center;}
+.u { text-decoration:underline; }
+a:link, a:visited { color:#000; text-decoration:none; }
+a:hover { color:#ff0000; text-decoration:underline; }
+/*通用指针样式*/
+.menutips h1, .submit_btn, .header_r_btn, .edit_btn, .upfile, .upfile_btn { cursor:pointer; }
+/*提示信息*/
+.message { color:#ff0000; padding:0 5px; }
+.ajaxing { position: absolute; width: 100px; background: #EFEFEF url(../../images/wait-big.gif) no-repeat 2px 2px; padding: 10px 0px 10px 40px; border: 1px solid #AAAAAA; font-weight: bold; }
+.txt { height:18px; line-height:18px}

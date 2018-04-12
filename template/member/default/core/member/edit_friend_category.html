@@ -1,0 +1,34 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module friend_category_header}-->
+
+
+<div id="tab_1" class="tab_box mtop20">
+	<div class="main profile">
+		
+		<div class="content">
+		<form action="$this_router-$ACTION" method="post">
+			<table width="100%" border="0" cellspacing="1" cellpadding="5">
+				<tr>
+					<td width="12%">分类名称:</td>
+					<td width="88%"><input type="text" name="name" value="{if !empty($data['name'])}{$data['name']}{/if}" /></td>
+				</tr>
+			</table>
+			<tr>
+				<td>&nbsp;</td>
+				<td>
+				<input type="submit" name="button" id="button" value="提交" class="submit_btn"/>
+				<input type="hidden" name="id" id="id" value="{if !empty($data['id'])}{$data['id']}{/if}"/>
+				</td>
+			</tr>
+		</form>
+		</div>
+	</div>
+</div>
+<div class="clear">
+</div>
+<script type="text/javascript">
+$('input[name=name]').get(0).focus();
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

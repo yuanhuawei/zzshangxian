@@ -1,0 +1,43 @@
+<!--{php168}-->
+<!--{if $UID}-->
+<div class="userpanel_info">
+	<div class="icon">
+	<img border="none" width="75" height="90" src="{if !empty($this_module->icon)}{$this_module.icon}{else}{$MEMBERSKIN}/nomenpic.gif{/if}"/>
+	</div>
+	<ul class="userinfo">
+		<li class="usertname">{$USERNAME}</li>		
+		<li>类型:{$this_module.g_name}</li>
+		<li>级别:{$this_module->r_name}</li>
+		<li><a href="{$core.U_controller}" target="_blank">[会员中心]</a><a href="{$this_module.U_controller}-logout">[退出]</a></li>
+	</ul>
+	<table>
+	<tr>
+  		<td height="30"><a href="{$core.controller}/cms/item-list-category-128" target="_blank"><img src="{$RESOURCE}/skin/yuanxi/cms/login_btn01.gif" /></a></td>
+	    <td height="30"><a href="{$core.U_controller}/u.php/core/notify-list" target="_blank"><img src="{$RESOURCE}/skin/yuanxi/cms/login_btn02.gif" /></a></td>
+	   </tr>
+	 </table>
+</div>
+<!--{else}-->
+<form action="{$this_module.U_controller}-login" method="post" onsubmit="return validate_form(this)">
+	 <table width="200" height="130" cellspacing="0" cellpadding="1" border="0" align="left">
+        <tbody><tr><td height="22" colspan="2" class="title"><font style="font-size:13px;">用户名</font></td></tr>
+  		<tr><td style="height:21px;" colspan="2">
+                <input type="text" value="请输入登陆账号" onblur="if(this.value=='') {this.value='请输入登陆账号';this.style.color='#636363';}" onfocus="if(this.value=='请输入登陆账号') {this.value='';}this.style.color='#636363';" class="username" name="username" id="user_id"></td>
+        </tr>
+  		<tr>
+            <td height="22" colspan="2" class="title"><font style="font-size:13px;">密&nbsp;&nbsp;码</font></td>
+        </tr>
+  		<tr>
+            <td style="height:21px;" colspan="2"><input type="password" class="password" name="password" id="password"></td>
+        </tr>
+  		<tr>
+  		  <td colspan="2">
+		  <div style="height:21px;padding:6px 0;overflow:hidden;"><a href="{$core.controller}/member-register?forward=$forward"><img height="20" src="{$RESOURCE}/skin/yuanxi/cms/login4.png" /></a>&nbsp;
+		  $plugin[qqconnect]&nbsp;
+	      <input type="image" src="{$RESOURCE}/skin/yuanxi/cms/login1.jpg" sonclick="window.location.href='{$core.controller}/member-register'"/></div></td>
+	   </tr>
+	  </tbody></table>
+		<input type='hidden' name='forward' id='forward' value="$forward">
+</form>
+<!--{/if}-->
+<!--{/php168}-->

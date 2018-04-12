@@ -1,0 +1,16 @@
+<!--{php168}-->
+<!--{php $i=0;}-->
+<ul class="label_pic_ul_17">
+<!--{foreach $list $value}-->
+<!--{php $i++;$j=$i%2;}-->
+	<li class="label_pic_$j" style="$wf;">
+		<a href="$value[url]"><img src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" width="338" height="222" alt="$value[title]" /></a>
+		<div style="width:338px;text-align:center"><p class="label_pic_title"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></p></div>
+	</li>
+<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->
+
+
+

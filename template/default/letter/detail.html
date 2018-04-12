@@ -1,0 +1,94 @@
+<!--{php168}-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=gbk" http-equiv="Content-Type">
+<title>局长信箱_国微PHP168政府方案----政府CMS、政府内容管理系统、政府网站平台、站群系统、领先的企业、政府级开源平台</title>
+<meta content="局长信箱" name="keywords">
+<meta content="局长信箱" name="description">
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<link rel="stylesheet" type="text/css" href="{$SKIN}common.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/letter/style.css" />
+</head>
+<body>
+<div class="box_outer">
+<div class="bar1"><span class="tt1">信件查询结果</span><span class="more">您的位置：<a >首页</a>&nbsp;&gt;&nbsp;<a href="{$this_router}-list">局长信箱</a>&nbsp;&gt;&nbsp;<a href="">查询结果</a>
+</span></div>
+<div class="bar2"><span class="tt2">信息查询结果</div>
+<table width="716" cellspacing="0" cellpadding="0" border="1" style="border-collapse: collapse;">
+  <tr>
+    <td width="134" align="right">编号:</td>
+    <td width="254">{$data['number']}</td>
+    <td width="71">提交人</td>
+    <td width="229">{$data['username']}</td>
+  </tr>
+  <tr>
+    <td align="right">当前状态:</td>
+    <td colspan="3"><strong>{$P8LANG['status_'.$data['status']]}</strong></td>
+  </tr>
+  <tr>
+    <td align="right">内容:</td>
+    <td colspan="3">{$data['data'][0]['content']}</td>
+  </tr>
+  <tr >
+    <td align="right"  style="color:red;">处理结果:</td>
+    <td colspan="3" >{if !empty($data['data'][0]['reply'])}{$data['data'][0]['reply']}{/if}<br/><br/><br/></td>
+  </tr>
+   <tr >
+    <td width="134" align="right">处理部门:</td>
+    <td width="254">{if !empty($data['solve_department'])}{$cates['department'][$data['solve_department']]['name']}{/if}</td>
+    <td width="71">处理人</td>
+    <td width="229">{$data['solve_name']}</td>
+  </tr>
+</table>
+<div style="margin-top:20px"></div>
+<div class="clear"></div>
+<!--{if $data['status']==3}-->
+<div class="botline">信访人的评价:<span>
+<!--{if $isposter && !$data['comment']}-->
+<a href="javascript:;" onclick="dialog.show()">还没评价,点击这里进行评价</a>
+<script type="text/javascript">
+var dialog = new P8_Dialog({
+	title_text: '评价',
+	button: true,
+	zIndex:10000,
+	width: 400,
+	height: 100,
+	ok:function(){
+		$('#common_form').submit();
+	}
+});
+shtml ='<form id="common_form" action="" method="post"><div style="padding:10px">你对本次信访的评价是：<!--{foreach $comments $ck $com}-->&nbsp;<input type="radio" name="common" value="$ck"/>$com<!--{/foreach}--></div></form>';
+dialog.content.html(shtml);
+
+</script>
+<!--{elseif !$data['comment']}-->
+还没评价
+<!--{else}-->
+{$comments[$data['comment']]}
+<!--{/if}-->
+</span></div>
+<!--{/if}-->
+<div style="margin-top:20px"></div>
+
+<!--{if $list}-->
+<table width="100%" cellspacing="0" cellpadding="0" border="1" class="letter_list_table" style="border-collapse: collapse;">
+<tr><th width="45">编号</th><th width="330">标题</th><th width="80">类型</th><th width="70">来信日期</th><th width="80">办理状态</th><th width="*">承办单位</th></tr>
+  <!--{foreach $list $key $row}-->
+  <!--{php $k=$key%2;}-->
+  <tr class="trc_{$k}">
+	  <td class="no_right">$row[id]</td>
+	  <td class="ltitle"><a href="$row[url]" title="$row[title]" target="_blank">$row[title_s]</td>
+	  <td>$row[type_name]</td>
+	  <td><!--{php echo date('Y-m-d',$row['create_time']);}--></td>
+	  <td><span class="status_$row[status]">{if $row[status]==3}√{else}＝{/if}$row[status_name]</span></td>
+	  <td>$row[department_name]</td>
+  </tr>
+  <!--{/foreach}-->
+ </table> 
+ <!--{/if}-->
+</div>
+</body>
+</html>
+<!--{/php168}-->

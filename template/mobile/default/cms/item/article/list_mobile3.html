@@ -1,0 +1,53 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!--{template $core header_mobile_1}-->
+<div class="position">
+	<a href="{$core.mobile_controller}">首页</a>
+	<!--{foreach $parent_cats $v}-->
+	&gt; <a href="$v[url]">$v[name]</a>
+	<!--{/foreach}-->
+	&gt; <a href="$CAT[url]">$CAT[name]</a> 
+</div>
+<div class="listbox3">
+	<div class="nrbox">
+		<div class="hd">      
+			<h3>$label[Coray_mobile_list3_1]</h3>
+		</div>
+		<div class="bd fontsizebox">
+			$label[Coray_mobile_list3_2]
+		</div>
+    </div>
+	<div class="nrbox">
+		<div class="hd2">      
+			<h3>$label[Coray_mobile_list3_3]</h3>
+		</div>
+		<div class="bd fontsizebox">   
+			$label[Coray_mobile_list3_4]
+		</div>
+    </div>
+	<div class="nrbox">
+		<div class="hd">      
+			<h3>$label[Coray_mobile_list3_5]</h3>
+		</div>
+		<div class="bd fontsizebox">
+			$label[Coray_mobile_list3_6]
+		</div>
+    </div>
+	<div class="nrbox">
+		<div class="hd2">      
+			<h3>$label[Coray_mobile_list3_7]</h3>
+		</div>
+		<div class="bd fontsizebox">
+			$label[Coray_mobile_list3_8]
+		</div>
+    </div>
+</div>
+<div id="end_cd">
+	<ul>
+		<li class="lione"><a href="{$core.mobile_controller}">&lt; &lt; 返回首页</a></li>
+		<li class="litwo"></li>
+		<li class="lithree"><a href="javascript:void(0);" onclick="javascript:smallFont();">A-</a><a href="javascript:void(0);" onclick="javascript:largeFont();">A+</a> </li>
+	</ul>
+</div>
+<!--{template $core footer_mobile}-->
+<!--{/php168}-->

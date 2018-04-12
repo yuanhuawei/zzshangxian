@@ -1,0 +1,31 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<div id="tab_1" class="tab_box mtop20">
+	<div class="main profile" style="margin-top:20px">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table">
+	<tr class="head">
+		<td>职位名称</td>
+		<td>公司名称</td>
+		<td>发布时间</td>
+		<td>操作</td>
+	</tr>
+	<!--{foreach $list $key $val}-->
+	<tr>
+		<td><a href="{$this_system.controller}/company-job?id=$val[jobid]" target="_blank">$val[title]</a></td>
+		<td><a href="{$this_system.controller}/company-job?id=$val[jobid]" target="_blank">$val[name]</a></td>
+		<td>{date('Y-m-d',$val['jtime'])}</td>
+		<td>删除</td>
+	</tr>
+	<!--{/foreach}-->
+	<tr>
+		<td align="center" colspan="4" class="pages">
+			$pages
+		</td>
+	</tr>
+</table>
+	</div>
+</div>
+<div class="clear">
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

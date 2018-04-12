@@ -1,0 +1,23 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!--{template $core header}-->
+<!--{if !empty($subcategories)}-->
+	<!--{foreach $subcategories $v}-->
+		<!--{php $i++;}-->
+		<!--{php if($i>5)break;}-->
+		<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+		<div class="show_box_2">
+			<div class="sb2_head"><a href="$this_url-category-$v[id]">$v[name]</a>
+			</div>
+			<div class="sb2_main">
+				$label[CMS子分类内容列表]{'i.cid' => $subcat, 'model' => $MODEL}
+			</div>
+		</div>
+		<!--{/foreach}-->
+<!--{else}-->
+<div class="bt">$CAT[name]</div>
+<!--{php include template($TEMP_OBJ, $CAT['item_template_mobile'], 'label');}-->
+<div class="page"> $pages</div>
+<!--{/if}-->
+<!--{template $core footer}-->
+<!--{/php168}-->

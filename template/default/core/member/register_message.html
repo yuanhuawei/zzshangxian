@@ -1,0 +1,40 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>{$P8LANG['member_register']}_{$core.CONFIG['site_name']}</title>
+<link type="text/css" rel="stylesheet" href="{$SKIN}member/register.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/member_common.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+</head>
+<body>
+<!--页头-->
+<div class="wrap">
+  <div class="head"> <span class="fright color"><a href="{$RESOURCE}">{$P8LANG['back_to_index']}</a> | <a href="{$core.controller}/core/page-view-id-1" target="_blank">{$P8LANG['about_us']}</a> </span> <img border="0" src="{$SKIN}member/reg_logo.gif" /> <span style="position:relative;top:-5px;color:#AAAAAA;">| 网站会员在线注册</span> </div>
+  <div class="title"> {$P8LANG['thank_register']} </div>
+  <div class="reg_box">
+    <div class="rhead"> {$message} </div>
+  </div>
+  <div id="footer" class="common_mtop" style="border-top:#CCCCCC 1px solid;margin-left:auto;margin-right:auto;margin-top:10px;text-align:center;color:#666666; line-height:180%;">
+    <ul>
+      <li>{$core.CONFIG['copyright']}</li>
+      <li>Copyright@{$core.CONFIG['url']} all rights reserved <a href="http://www.miibeian.gov.cn" target="_blank">{$core.CONFIG['copyright_domain']}</a></li>
+      <li>Powered by <a href="http://www.php168.net" target="_blank"  class="vison">国微CMS</a> Code &copy;
+        <!--{php echo '2003-'.date('Y',P8_TIME);}-->
+        <a href="http://www.php168.net" target="_blank">PHP168SHARP</a></li>
+      <!--{if !empty($core->CONFIG['statistics'])}-->
+      <li>{$core.CONFIG['statistics']}</li>
+      <!--{/if}-->
+    </ul>
+  </div>
+</div>
+</body>
+</html>
+<!--{/php168}-->

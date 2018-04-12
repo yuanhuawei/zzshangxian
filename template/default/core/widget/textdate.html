@@ -1,0 +1,5 @@
+<!--{php168}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<input type="hidden" name="#field_{$field}_posted" />
+<input type="text" class="txt" id="field#[$field]" name="field#[$field]" value="{if isset($data[$field])}$data[$field]{/if}" onclick="rcalendar(this{if !empty($field_data['CONFIG']['full'])}, 'full'{/if});" {$field_data['widget_addon_attr']} />
+<!--{/php168}-->

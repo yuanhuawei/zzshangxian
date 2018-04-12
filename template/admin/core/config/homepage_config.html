@@ -1,0 +1,34 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $core config/menu_bar admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td colspan="2" class="title">个人主页配置</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">是否开启个人主页</td>
+					<td class="tdR">
+						<input name="config[enabled]" type="radio" value="1"{if !empty($config['enabled'])} checked{/if}/>{$P8LANG['Y']}
+						<input name="config[enabled]" type="radio" value="0"{if empty($config['enabled'])} checked{/if}/>{$P8LANG['N']}
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">个人主页二级域名</td>
+					<td class="tdR">
+						<input name="config[sub_domain]" type="text" value="{if isset($config['sub_domain'])}$config[sub_domain]{/if}" size="50" />
+						<span class="help"></span>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

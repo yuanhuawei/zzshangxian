@@ -1,0 +1,812 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+td, body { font-size: 13px; }
+body { margin-top:0px; margin-left:0px; margin-right:0px; background-color: #fcfff7; }
+.button1{color: rgb(181, 5, 6); font-size: 14px; line-height: 24px;}
+.button2{color: rgb(25, 25, 205); font-size: 14px; line-height: 24px;}
+.button3{color: rgb(181, 5, 6); line-height: 24px; margin:5px 0;}
+.button4{color: rgb(211, 22, 211); line-height: 24px; margin:5px 0;}
+.button5{color: rgb(25, 25, 205); font-size: 16px; line-height: 24px; margin:5px 0;}
+</style>
+<title>鏅鸿兘璁＄畻鍣?/title>
+<script language="javascript">
+<!--
+var endNumber=true
+var mem=0
+var carry=10
+var hexnum="0123456789abcdef"
+var angle="d"
+var stack=""
+var level="0"
+var layer=0
+//鏁板瓧閿
+function inputkey(key)
+{
+	var index=key.charCodeAt(0);
+	if ((carry==2 && (index==48 || index==49))
+	 || (carry==8 && index>=48 && index<=55)
+	 || (carry==10 && (index>=48 && index<=57 || index==46))
+	 || (carry==16 && ((index>=48 && index<=57) || (index>=97 && index<=102))))
+	if(endNumber)
+	{
+		endNumber=false
+		document.calc.display.value = key
+	}
+	else if(document.calc.display.value == null || document.calc.display.value == "0")
+		document.calc.display.value = key
+	else
+		document.calc.display.value += key
+}
+function changeSign()
+{
+    if (document.calc.display.value!="0")
+    	if(document.calc.display.value.substr(0,1) == "-")
+        	document.calc.display.value = document.calc.display.value.substr(1)
+    	else
+        	document.calc.display.value = "-" + document.calc.display.value
+}
+//鍑芥暟閿
+function inputfunction(fun,shiftfun)
+{
+	endNumber=true
+	if (document.calc.shiftf.checked)
+		document.calc.display.value=decto(funcalc(shiftfun,(todec(document.calc.display.value,carry))),carry)
+	else
+		document.calc.display.value=decto(funcalc(fun,(todec(document.calc.display.value,carry))),carry)
+	document.calc.shiftf.checked=false
+	document.calc.hypf.checked=false	
+	inputshift()
+}
+function inputtrig(trig,arctrig,hyp,archyp)
+{
+	if (document.calc.hypf.checked)
+		inputfunction(hyp,archyp)
+	else
+		inputfunction(trig,arctrig)
+}
+//杩愮畻绗
+function operation(join,newlevel)
+{
+	endNumber=true
+	var temp=stack.substr(stack.lastIndexOf("(")+1)+document.calc.display.value
+	while (newlevel!=0 && (newlevel<=(level.charAt(level.length-1))))
+	{
+		temp=parse(temp)
+		level=level.slice(0,-1)
+	}
+	if (temp.match(/^(.*\d[\+\-\*\/\%\^\&\|x])?([+-]?[0-9a-f\.]+)$/))
+		document.calc.display.value=RegExp.$2
+	stack=stack.substr(0,stack.lastIndexOf("(")+1)+temp+join
+	document.calc.operator.value=" "+join+" "
+	level=level+newlevel
+	
+}
+//鎷?彿
+function addbracket()
+{
+	endNumber=true
+	document.calc.display.value=0
+	stack=stack+"("
+	document.calc.operator.value="   "
+	level=level+0
+	
+	layer+=1
+	document.calc.bracket.value="(="+layer
+}
+function disbracket()
+{
+	endNumber=true
+	var temp=stack.substr(stack.lastIndexOf("(")+1)+document.calc.display.value
+	while ((level.charAt(level.length-1))>0)
+	{
+		temp=parse(temp)
+		level=level.slice(0,-1)
+	}	
+	document.calc.display.value=temp
+	stack=stack.substr(0,stack.lastIndexOf("("))
+	document.calc.operator.value="   "
+	level=level.slice(0,-1)
+
+	layer-=1
+	if (layer>0)
+		document.calc.bracket.value="(="+layer
+	else
+		document.calc.bracket.value=""
+}
+//绛夊彿
+function result()
+{
+	endNumber=true
+	while (layer>0)
+		disbracket()
+	var temp=stack+document.calc.display.value
+	while ((level.charAt(level.length-1))>0)
+	{
+		temp=parse(temp)
+		level=level.slice(0,-1)
+	}
+
+	document.calc.display.value=temp
+	document.calc.bracket.value=""
+	document.calc.operator.value=""
+	stack=""
+	level="0"
+}
+//淇?敼閿
+function backspace()
+{
+	if (!endNumber)
+	{
+		if(document.calc.display.value.length>1)
+			document.calc.display.value=document.calc.display.value.substring(0,document.calc.display.value.length - 1)
+		else
+			document.calc.display.value=0
+	}
+}
+function clearall()
+{
+	document.calc.display.value=0
+	endNumber=true
+	stack=""
+	level="0"
+	layer=""
+	document.calc.operator.value=""
+	document.calc.bracket.value=""
+}
+//杞?崲閿
+function inputChangCarry(newcarry)
+{
+	endNumber=true
+	document.calc.display.value=(decto(todec(document.calc.display.value,carry),newcarry))
+	carry=newcarry
+
+	document.calc.sin.disabled=(carry!=10)
+	document.calc.cos.disabled=(carry!=10)
+	document.calc.tan.disabled=(carry!=10)
+	document.calc.bt.disabled=(carry!=10)
+	document.calc.pi.disabled=(carry!=10)
+	document.calc.e.disabled=(carry!=10)
+	document.calc.kp.disabled=(carry!=10)
+				
+	document.calc.k2.disabled=(carry<=2)
+	document.calc.k3.disabled=(carry<=2)
+	document.calc.k4.disabled=(carry<=2)
+	document.calc.k5.disabled=(carry<=2)
+	document.calc.k6.disabled=(carry<=2)
+	document.calc.k7.disabled=(carry<=2)
+	document.calc.k8.disabled=(carry<=8)
+	document.calc.k9.disabled=(carry<=8)
+	document.calc.ka.disabled=(carry<=10)
+	document.calc.kb.disabled=(carry<=10)
+	document.calc.kc.disabled=(carry<=10)
+	document.calc.kd.disabled=(carry<=10)
+	document.calc.ke.disabled=(carry<=10)
+	document.calc.kf.disabled=(carry<=10)
+	
+}
+function inputChangAngle(angletype)
+{
+	endNumber=true
+	angle=angletype
+	if (angle=="d")
+		document.calc.display.value=radiansToDegress(document.calc.display.value)
+	else
+		document.calc.display.value=degressToRadians(document.calc.display.value)
+	endNumber=true
+}
+
+function inputshift()
+{
+	if (document.calc.shiftf.checked)
+	{
+		document.calc.bt.value="deg銆€"
+		document.calc.ln.value="exp銆€"
+		document.calc.log.value="expd "
+		
+		if (document.calc.hypf.checked)
+		{
+			document.calc.sin.value="ahs銆€"
+			document.calc.cos.value="ahc銆€"
+			document.calc.tan.value="aht銆€"
+		}
+		else
+		{
+			document.calc.sin.value="asin "
+			document.calc.cos.value="acos "
+			document.calc.tan.value="atan "
+		}
+		
+		document.calc.sqr.value="x^.5 "
+		document.calc.cube.value="x^.3 "
+		
+		document.calc.floor.value=" 灏忔暟 "
+	}
+	else
+	{
+		document.calc.bt.value="d.ms "
+		document.calc.ln.value=" ln銆€"
+		document.calc.log.value=" log "
+
+		if (document.calc.hypf.checked)
+		{
+			document.calc.sin.value="hsin "
+			document.calc.cos.value="hcos "
+			document.calc.tan.value="htan "
+		}
+		else
+		{
+			document.calc.sin.value="sin銆€"
+			document.calc.cos.value="cos銆€"
+			document.calc.tan.value="tan銆€"
+		}
+		
+		document.calc.sqr.value="x^2銆€"
+		document.calc.cube.value="x^3銆€"
+		
+		document.calc.floor.value=" 鍙栨暣 "
+	}
+
+}
+//瀛樺偍鍣ㄩ儴鍒
+
+function clearmemory()
+{
+	mem=0
+	document.calc.memory.value="   "
+}
+
+function getmemory()
+{
+	endNumber=true
+	document.calc.display.value=decto(mem,carry)
+}
+
+function putmemory()
+{
+	endNumber=true
+	if (document.calc.display.value!=0)
+	{
+		mem=todec(document.calc.display.value,carry)
+		document.calc.memory.value=" M "
+	}
+	else
+		document.calc.memory.value="   "
+}
+
+function addmemory()
+{
+	endNumber=true
+	mem=parseFloat(mem)+parseFloat(todec(document.calc.display.value,carry))
+	if (mem==0)
+		document.calc.memory.value="   "
+	else
+		document.calc.memory.value=" M "
+}
+
+function multimemory()
+{
+	endNumber=true
+	mem=parseFloat(mem)*parseFloat(todec(document.calc.display.value,carry))
+	if (mem==0)
+		document.calc.memory.value="   "
+	else
+		document.calc.memory.value=" M "
+}
+
+//鍗佽繘鍒惰浆鎹
+
+function todec(num,oldcarry)
+{
+	if (oldcarry==10 || num==0) return(num)
+	var neg=(num.charAt(0)=="-")
+	if (neg) num=num.substr(1)
+	var newnum=0
+	for (var index=1;index<=num.length;index++)
+		newnum=newnum*oldcarry+hexnum.indexOf(num.charAt(index-1))
+	if (neg)
+		newnum=-newnum
+	return(newnum)
+}
+
+function decto(num,newcarry)
+{
+	var neg=(num<0)
+	if (newcarry==10 || num==0) return(num)
+	num=""+Math.abs(num)
+	var newnum=""
+	while (num!=0)
+	{
+		newnum=hexnum.charAt(num%newcarry)+newnum
+		num=Math.floor(num/newcarry)
+	}
+	if (neg)
+		newnum="-"+newnum
+	return(newnum)
+}
+
+//琛ㄨ揪寮忚В鏋
+
+function parse(string)
+{
+	if (string.match(/^(.*\d[\+\-\*\/\%\^\&\|x\<])?([+-]?[0-9a-f\.]+)([\+\-\*\/\%\^\&\|x\<])([+-]?[0-9a-f\.]+)$/))
+		return(RegExp.$1+cypher(RegExp.$2,RegExp.$3,RegExp.$4))
+	else
+		return(string)
+}
+
+//鏁板?杩愮畻鍜屼綅杩愮畻
+
+function cypher(left,join,right)
+{
+	left=todec(left,carry)
+	right=todec(right,carry)
+	if (join=="+")
+		return(decto(parseFloat(left)+parseFloat(right),carry))
+	if (join=="-")
+		return(decto(left-right,carry))
+	if (join=="*")
+		return(decto(left*right,carry))
+	if (join=="/" && right!=0)
+		return(decto(left/right,carry))
+	if (join=="%")
+		return(decto(left%right,carry))
+	if (join=="&")
+		return(decto(left&right,carry))
+	if (join=="|")
+		return(decto(left|right,carry))
+	if (join=="^")
+		return(decto(Math.pow(left,right),carry))
+
+	if (join=="x")
+		return(decto(left^right,carry))
+	if (join=="<")
+		return(decto(left<<right,carry))
+	alert("闄ゆ暟涓嶈兘涓洪浂")
+	return(left)
+}
+
+//鍑芥暟璁＄畻
+
+function funcalc(fun,num)
+{
+	with(Math)
+	{
+		if (fun=="pi")
+			return(PI)
+		if (fun=="e")
+			return(E)
+
+		if (fun=="abs")
+			return(abs(num))
+		if (fun=="ceil")
+			return(ceil(num))
+		if (fun=="round")
+			return(round(num))
+
+		if (fun=="floor")
+			return(floor(num))
+		if (fun=="deci")
+			return(num-floor(num))
+
+
+		if (fun=="ln" && num>0)
+			return(log(num))
+		if (fun=="exp")
+			return(exp(num))
+		if (fun=="log" && num>0)
+			return(log(num)*LOG10E)
+		if (fun=="expdec")
+			return(pow(10,num))
+
+		
+		if (fun=="cube")
+			return(num*num*num)
+		if (fun=="cubt")
+			return(pow(num,1/3))
+		if (fun=="sqr")
+			return(num*num)
+		if (fun=="sqrt" && num>=0)
+			return(sqrt(num))
+
+		if (fun=="!")
+			return(factorial(num))
+
+		if (fun=="recip" && num!=0)
+			return(1/num)
+		
+		if (fun=="dms")
+			return(dms(num))
+		if (fun=="deg")
+			return(deg(num))
+
+		if (fun=="~")
+			return(~num)
+	
+		if (angle=="d")
+		{
+			if (fun=="sin")
+				return(sin(degressToRadians(num)))
+			if (fun=="cos")
+				return(cos(degressToRadians(num)))
+			if (fun=="tan")
+				return(tan(degressToRadians(num)))
+
+			if (fun=="arcsin" && abs(num)<=1)
+				return(radiansToDegress(asin(num)))
+			if (fun=="arccos" && abs(num)<=1)
+				return(radiansToDegress(acos(num)))
+			if (fun=="arctan")
+				return(radiansToDegress(atan(num)))
+		}
+		else
+		{
+			if (fun=="sin")
+				return(sin(num))
+			if (fun=="cos")
+				return(cos(num))
+			if (fun=="tan")
+				return(tan(num))
+
+			if (fun=="arcsin" && abs(num)<=1)
+				return(asin(num))
+			if (fun=="arccos" && abs(num)<=1)
+				return(acos(num))
+			if (fun=="arctan")
+				return(atan(num))
+		}
+	
+		if (fun=="hypsin")
+			return((exp(num)-exp(0-num))*0.5)
+		if (fun=="hypcos")
+			return((exp(num)+exp(-num))*0.5)
+		if (fun=="hyptan")
+			return((exp(num)-exp(-num))/(exp(num)+exp(-num)))
+
+		if (fun=="ahypsin" | fun=="hypcos" | fun=="hyptan")
+		{
+			alert("瀵逛笉璧?鍏?紡杩樻病鏈夋煡鍒?")
+			return(num)
+		}
+		
+		alert("瓒呭嚭鍑芥暟瀹氫箟鑼冨洿")
+		return(num)
+	}
+}
+
+function factorial(n)
+{
+	n=Math.abs(parseInt(n))
+	var fac=1
+	for (;n>0;n-=1)
+		fac*=n
+	return(fac)
+}
+
+function dms(n)
+{
+	var neg=(n<0)
+	with(Math)
+	{	
+		n=abs(n)
+		var d=floor(n)
+		var m=floor(60*(n-d))
+		var s=(n-d)*60-m
+	}
+	var dms=d+m/100+s*0.006
+	if (neg) 
+		dms=-dms
+	return(dms)
+}
+
+function deg(n)
+{
+	var neg=(n<0)
+	with(Math)
+	{
+		n=abs(n)
+		var d=floor(n)
+		var m=floor((n-d)*100)
+		var s=(n-d)*100-m
+	}
+	var deg=d+m/60+s/36
+	if (neg) 
+		deg=-deg
+	return(deg)
+}
+
+function degressToRadians(degress)
+{
+	return(degress*Math.PI/180)
+}
+
+function radiansToDegress(radians)
+{
+	return(radians*180/Math.PI)
+}
+
+//鐣岄潰
+//-->
+</script>
+</head>
+<body leftmargin="0" topmargin="0" bgcolor="#92BFF1" marginwidth="0">
+<br>
+<div align="center">
+	<form name="calc">
+		<table style="border: 1px solid #2976B2;" width="650" bgcolor="#e6f2e7" height="250">
+			<tbody>
+				<tr>
+					<td bgcolor="#e6f2e7" height="50">
+						<table width="100%">
+							<tbody>
+								<tr>
+									<td align="center"><font color="#205001">鏅鸿兘璁＄畻鍣 </font></td>
+								</tr>
+								<tr>
+									<td align="center" height="35">
+										<input name="display" readonly="readonly" size="50" value="0" style="font-size: 18px;">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td bgcolor="#e6f2e7">
+						<table style="border-width: 1px 0px 0px; border-style: solid; border-color: rgb(138, 183, 138);" width="100%">
+							<tbody>
+								<tr>
+									<td style="color: rgb(32, 80, 1);">
+										<input name="carry" onclick="inputChangCarry(16)" type="radio">
+										鍗佸叚杩涘埗
+										<input checked="checked" name="carry" onclick="inputChangCarry(10)" type="radio">
+										鍗佽繘鍒
+										<input name="carry" onclick="inputChangCarry(8)" type="radio">
+										鍏?繘鍒
+										<input name="carry" onclick="inputChangCarry(2)" type="radio">
+										浜岃繘鍒 </td>
+									<td style="color: rgb(32, 80, 1);" width="187">
+										<input checked="checked" name="angle" onclick="inputChangAngle('d')" value="d" type="radio">
+										瑙掑害鍒
+										<input name="angle" onclick="inputChangAngle('r')" value="r" type="radio">
+										寮у害鍒 </td>
+								</tr>
+							</tbody>
+						</table>
+						<table width="100%">
+							<tbody>
+								<tr>
+									<td style="color: rgb(32, 80, 1);" width="170">
+										<input name="shiftf" onclick="inputshift()" type="checkbox">
+										涓婃。鍔熻兘
+										<input name="hypf" onclick="inputshift()" type="checkbox">
+										鍙屾洸鍑芥暟 </td>
+									<td width="154" align="center">
+										<input name="bracket" readonly="readonly" size="3" style="background-color: lightgrey; line-height: 24px;">
+										<input name="memory" readonly="readonly" size="3" style="background-color: lightgrey; line-height: 24px;">
+										<input name="operator" readonly="readonly" size="3" style="background-color: lightgrey;">
+									</td>
+									<td align="right">
+										<input onclick="backspace()" class="button3" value="銆€閫€鏍笺€€" type="button">
+										<input onclick="document.calc.display.value = 0 " class="button3" value="銆€娓呭睆銆€" type="button">
+										<input onclick="clearall()" class="button3" value="銆€鍏ㄦ竻銆€" type="button">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table width="100%">
+							<tbody>
+								<tr>
+									<td>
+										<table>
+											<tbody>
+												<tr align="middle">
+													<td>
+														<input name="pi" onclick="inputfunction('pi','pi')" style="color: rgb(25, 25, 205); line-height: 24px;" value=" PI銆€" type="button">
+													</td>
+													<td>
+														<input name="e" onclick="inputfunction('e','e')" style="color: rgb(25, 25, 205); line-height: 24px;" value="銆€E銆€" type="button">
+													</td>
+													<td>
+														<input name="bt" onclick="inputfunction('dms','deg')" class="button4" value=" d.ms " type="button">
+													</td>
+												</tr>
+												<tr align="middle">
+													<td>
+														<input onclick="addbracket()" class="button4" value="銆€(銆€" type="button">
+													</td>
+													<td>
+														<input onclick="disbracket()" class="button4" value="銆€)銆€" type="button">
+													</td>
+													<td>
+														<input name="ln" onclick="inputfunction('ln','exp')" class="button4" value="銆€ln銆€" type="button">
+													</td>
+												</tr>
+												<tr align="middle">
+													<td>
+														<input name="sin" onclick="inputtrig('sin','arcsin','hypsin','ahypsin')" class="button4" value="sin銆€" type="button">
+													</td>
+													<td>
+														<input onclick="operation('^',7)" class="button4" value="x^y銆€" type="button">
+													</td>
+													<td>
+														<input name="log" onclick="inputfunction('log','expdec')" class="button4" value=" log銆€" type="button">
+													</td>
+												</tr>
+												<tr align="middle">
+													<td>
+														<input name="cos" onclick="inputtrig('cos','arccos','hypcos','ahypcos')" class="button4" value="cos銆€" type="button">
+													</td>
+													<td>
+														<input name="cube" onclick="inputfunction('cube','cubt')" class="button4" value="x^3銆€" type="button">
+													</td>
+													<td>
+														<input onclick="inputfunction('!','!')" class="button4" value="銆€n!銆€" type="button">
+													</td>
+												</tr>
+												<tr align="middle">
+													<td>
+														<input name="tan" onclick="inputtrig('tan','arctan','hyptan','ahyptan')" class="button4" value="tan銆€" type="button">
+													</td>
+													<td>
+														<input name="sqr" onclick="inputfunction('sqr','sqrt')" class="button4" value="x^2銆€" type="button">
+													</td>
+													<td>
+														<input onclick="inputfunction('recip','recip')" class="button4" value=" 1/x銆€" type="button">
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+									<td width="30"></td>
+									<td>
+										<table>
+											<tbody>
+												<tr>
+													<td align="center">
+														<input onclick="putmemory()" class="button3" value=" 鍌ㄥ瓨 " type="button">
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<input onclick="getmemory()" class="button3" value=" 鍙栧瓨 " type="button">
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<input onclick="addmemory()" class="button3" value=" 绱?瓨 " type="button">
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<input onclick="multimemory()" class="button3" value=" 绉?瓨 " type="button">
+													</td>
+												</tr>
+												<tr>
+													<td height="33">
+														<input onclick="clearmemory()" class="button3" value=" 娓呭瓨 " type="button">
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+									<td width="30"></td>
+									<td>
+										<table cellpadding="0">
+											<tbody>
+												<tr align="middle">
+													<td>
+														<input name="k7" onclick="inputkey('7')" class="button5" value="銆€7銆€" type="button">
+													</td>
+													<td>
+														<input name="k8" onclick="inputkey('8')" class="button5" value="銆€8銆€" type="button">
+													</td>
+													<td>
+														<input name="k9" onclick="inputkey('9')" class="button5" value="銆€9銆€" type="button">
+													</td>
+													<td>
+														<input onclick="operation('/',6)" class="button1" value="銆€/銆€" type="button">
+													</td>
+													<td>
+														<input onclick="operation('%',6)" class="button1" value=" 鍙栦綑 " type="button">
+													</td>
+													<td>
+														<input onclick="operation('&amp;',3)" class="button1" value="銆€涓庛€€" type="button">
+													</td>
+												</tr>
+												<tr align="middle">
+													<td>
+														<input name="k4" onclick="inputkey('4')" class="button5" value="銆€4銆€" type="button">
+													</td>
+													<td>
+														<input name="k5" onclick="inputkey('5')" class="button5" value="銆€5銆€" type="button">
+													</td>
+													<td>
+														<input name="k6" onclick="inputkey('6')" class="button5" value="銆€6銆€" type="button">
+													</td>
+													<td>
+														<input onclick="operation('*',6)" class="button1" value="銆€*銆€" type="button">
+													</td>
+													<td>
+														<input name="floor" onclick="inputfunction('floor','deci')" class="button1" value=" 鍙栨暣 " type="button">
+													</td>
+													<td>
+														<input onclick="operation('|',1)" class="button1" value="銆€鎴栥€€" type="button">
+													</td>
+												</tr>
+												<tr align="middle">
+													<td>
+														<input onclick="inputkey('1')" class="button5" value="銆€1銆€" type="button">
+													</td>
+													<td>
+														<input name="k2" onclick="inputkey('2')" class="button5" value="銆€2銆€" type="button">
+													</td>
+													<td>
+														<input name="k3" onclick="inputkey('3')" class="button5" value="銆€3銆€" type="button">
+													</td>
+													<td>
+														<input onclick="operation('-',5)" class="button1" value="銆€-銆€" type="button">
+													</td>
+													<td>
+														<input onclick="operation('<',4)" class="button1" value=" 宸︾Щ " type="button">
+													</td>
+													<td>
+														<input onclick="inputfunction('~','~')" class="button1" value="銆€闈炪€€" type="button">
+													</td>
+												</tr>
+												<tr align="middle">
+													<td>
+														<input onclick="inputkey('0')" class="button5" value="銆€0銆€" type="button">
+													</td>
+													<td>
+														<input onclick="changeSign()" class="button5" value=" +/- " type="button">
+													</td>
+													<td>
+														<input name="kp" onclick="inputkey('.')" class="button5" value="銆€.銆€" type="button">
+													</td>
+													<td>
+														<input onclick="operation('+',5)" class="button1" value="銆€+銆€" type="button">
+													</td>
+													<td>
+														<input onclick="result()" class="button1" value="銆€锛濄€€" type="button">
+													</td>
+													<td>
+														<input onclick="operation('x',2)" class="button1" value=" 寮傛垨 " type="button">
+													</td>
+												</tr>
+												<tr align="middle">
+													<td>
+														<input disabled="disabled" name="ka" onclick="inputkey('a')" class="button2" value="銆€A 銆€" type="button">
+													</td>
+													<td>
+														<input disabled="disabled" name="kb" onclick="inputkey('b')" class="button2" value="銆€B 銆€" type="button">
+													</td>
+													<td>
+														<input disabled="disabled" name="kc" onclick="inputkey('c')" class="button2" value="銆€C 銆€" type="button">
+													</td>
+													<td>
+														<input disabled="disabled" name="kd" onclick="inputkey('d')" class="button2" value="銆€D銆€" type="button">
+													</td>
+													<td align="center">
+														<input disabled="disabled" name="ke" onclick="inputkey('e')" class="button2" value="銆€E 銆€" type="button">
+													</td>
+													<td align="center">
+														<input disabled="disabled" name="kf" onclick="inputkey('f')" class="button2" value="銆€F 銆€" type="button">
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+</body>
+</html>

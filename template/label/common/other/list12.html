@@ -1,0 +1,26 @@
+<!--{php168}-->
+<style type="text/css">
+.label_list12_case { text-align:left; line-height:180%; border:none; }
+.label_list12_item { margin-bottom:20px; text-align:left; height:66px;border-bottom: 1px #d1d0cf dotted;overflow: hidden;}
+.date{text-align: center;width:56px;height:54px;font-size:18px;color:#333333;background-color: #e6e6e6;line-height: 26px;float: left;}
+.dateny{display:block;height:24px;line-height:24px;font-size:12px;color:#fff;background:#534f4b;}
+.text{margin-left:10px;text-align: left;width:334px;height:54px;float: left;}
+.label_list12_item h3 a{font-size:14px;color: #333333;font-weight: normal;}
+.label_list12_summary { margin-top:20px; font-size: 14px;color: #666666;line-height: 22px;height: 44px;overflow: hidden;} 
+</style>
+<ul class="label_list12_case">
+	<!--{foreach $list $value}-->
+	<li class="label_list12_item">
+		<div class="date">
+            <span class="dateny"><!--{php echo date('Y-m', $value['timestamp']);}--></span>
+            <!--{php echo date('d',$value['timestamp']);}-->
+		</div>
+		<div class="text">
+			<h3><a href="$value[url]"  target="_blank" title="$value[full_title]">$value[title]</a></h3>
+		</div>
+	</li>
+	<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->
+

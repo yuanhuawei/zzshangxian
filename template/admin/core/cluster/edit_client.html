@@ -1,0 +1,72 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+	<tr>
+		<td><img src="{$_SKIN}/$MODULE/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：<a href="{$core.admin_controller}/core/cluster-index">PHP168站群系统</a> &gt; <a href="#">添加客户端</a></td>
+	</tr>
+</table>
+<form action="$this_url" method="post" id="form">
+	<table width="100%" cellspacing="0" cellpadding="0" class="zq_list">
+		<tr>
+			<td width="23%"  class="list_top">{$P8LANG['config']}</td > <td width="35%" class="list_top">参数</td><td width="42%" class="list_top">备注</td>
+		</tr>
+		<tr>
+			<td class="tdL">{$P8LANG['cluster_client']['name']}</td>
+			<td class="tdR"> <input type="text" class="txt" name="name" value="{if !empty($data['name'])}$data[name]{/if}" /> </td>
+			<td class="tdR">请添加分站名称，名称可任意填写</td>
+		</tr>
+		<tr>
+			<td class="tdL">{$P8LANG['cluster_client']['url']}</td>
+			<td  class="tdR"> <input type="text" class="txt" name="url" value="{if !empty($data['url'])}$data[url]{else}http://www.xxx.com{/if}" size="60" /> </td>
+			<td class="tdR">请填写分站的网站，格式：http://www.xxx.com 或 http://xxx.com</td>
+		</tr>
+		<tr>
+			<td class="tdL">{$P8LANG['cluster_client']['client_url']}</td>
+			<td class="tdR"> <input type="text" class="txt" name="client_url" value="{if !empty($data['client_url'])}$data[client_url]{else}http://www.xxx.com/index.php/core/cluster-client{/if}" size="60" /> </td>
+			<td class="tdR">将分站真实网址填入按格式填入即可</td>
+		</tr>
+		<tr>
+			<td class="tdL">{$P8LANG['cluster_client']['code']}</td>
+			<td class="tdR"> <input type="text" class="txt" name="code" value="{if !empty($data['code'])}$data[code]{/if}" size="32" /> </td>
+			<td class="tdR">请设定该分站通信密码：数字字母均可。</td>
+		</tr>
+		<tr>
+			<td class="tdL">{$P8LANG['cluster_client']['ip']}</td>
+			<td class="tdR"> <input type="text" class="txt" name="ip" value="{if !empty($data['ip'])}$data[ip]{/if}" size="16" /> </td>
+			<td class="tdR">可以不填，如域名通信不了可以填IP</td>
+		</tr>
+		<tr>
+			<td class="tdL">{$P8LANG['cluster_client']['charset']}</td>
+			<td class="tdR"> <input type="text" class="txt" name="charset" value="{if !empty($data['charset'])}$data[charset]{else}{$core.CONFIG['page_charset']}{/if}" size="5" /> </td>
+			<td class="tdR">根据分站自身站点编码，一般为gbk 或 utf8</td>
+		</tr>
+		<tr>
+			<td colspan="3"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		</tr>
+	</table>
+	<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+</form>
+<script type="text/javascript">
+$('#form').validate({
+	rules: {
+		name: {required: true},
+		client_url: {required: true},
+		code: {required: true}
+	},
+	
+	messages: {
+		name: {
+			required: '{$P8LANG['cluster_client']['name_required']}'
+		},
+		client_url: {
+			required: '{$P8LANG['cluster_client']['client_url_required']}'
+		},
+		code: {
+			required: '{$P8LANG['cluster_client']['code_required']}'
+		}
+	}
+});
+</script>
+<!--{template $this_module footer admin}-->
+<!--{/php168}-->

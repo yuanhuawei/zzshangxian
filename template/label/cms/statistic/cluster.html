@@ -1,0 +1,15 @@
+<!--{php168}-->
+<table border="0" width="100%" class = "label_ul_s" style="line-height:24px;color:#4A4A4A">
+<tr><th></th><th width="33%" align="left">推送单位</th><th width="33%">推送数量</th><th width="33%">采用数量</th></tr>
+	<!--{php $i = 0;}-->
+	<!--{foreach $list $value}-->
+	<!--{php $i++;}-->
+	<!--{if $i <= 3}-->
+	<tr><td><span class = "label_order123">$i</span></td><td>$key $value[title]</td><td align="center">$value[post]</td><td align="center">$value[verified]</td></tr>
+	<!--{else}-->
+	<tr><td><span class = "label_order456">$i</span></td><td>$key $value[title]</td><td align="center">$value[post]</td><td align="center">$value[verified]</td></tr>
+	<!--{/if}-->
+	<!--{/foreach}-->
+</table>
+<!--{/php168}-->
+

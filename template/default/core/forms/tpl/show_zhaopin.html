@@ -1,0 +1,94 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/alonepage/style.css" />
+<div class="container">
+	$label[form_top_ad]
+</div>
+<div class="clear"></div>
+<div class="clear"></div>
+<div class="container common_mtop">
+	<div class="contain_left">
+		<div class="show_box_1">
+			<div class="sb1_head">
+				$label[zp_let_menu_title_1]
+			</div>
+			<div class="sb1_main">
+				$label[zp_let_menu_1]
+			</div>
+		</div>
+		<div class="show_box_1 Mtop">
+			<div class="sb1_head">
+				$label[zp_let_menu_title_2]
+			</div>
+			<div class="sb1_main">
+				$label[zp_let_menu_2]
+			</div>
+		</div>
+		<div class="ad_box Mtop">
+		$label[zp_ad_1]
+		</div>
+	</div>
+	<div class="contain_right">
+		<div class="show_box_2">
+			<div class="sb2_head">
+				<span class="title_jian">你现在的位置是:首页 &gt;&gt;人才招聘</span><span class="more" id="editcontent"></span>
+			</div>
+			<div class="sb2_main">
+				<table width="99%" border="0" cellspacing="1" cellpadding="3" >
+					<tr bgcolor="#f4f4f4">
+						<td colspan="2"><strong>职位描述 </td>
+					</tr>
+					<tr>
+						<td>职位名称：$data[jobname]</td> 
+						<td>招聘人数：{$data['count']}人</td>
+						
+					</tr>
+					<tr>
+						<td>工作类型：{$this_model['fields']['kind']['data'][$data['kind']]} </td>
+						<td>薪水待遇：{$this_model['fields']['salary']['data'][$data['salary']]}</td> 
+					</tr>
+					
+					<tr bgcolor="#f4f4f4">
+						<td  colspan="2"><strong>职位要求：</strong></td>
+					</tr>
+					<tr>
+						<td>经验要求:{$this_model['fields']['experience']['data'][$data['experience']]} </td>
+						<td>学历要求:{$this_model['fields']['education']['data'][$data['education']]} </td> 
+					</tr>
+					<tr>
+						<td>姓别要求:{$this_model['fields']['gender']['data'][$data['gender']]}</td>
+						<td>年龄范围:$data[age] </td> 
+					</tr>
+					<tr>
+						<td>婚姻状况:{$this_model['fields']['married']['data'][$data['married']]}</td>
+						<td>学专业要求:$data[profession] </td> 
+					</tr>
+					<tr>
+						<td colspan="2">具体描述:<br/>{$data[content]}</td>
+					</tr>
+					<tr>
+						<td style='border-top:1px dotted #ccc;padding-top:20px;'><span style="float:left;"><a href="$this_router-post?mid=17" id="yiping"></a></span> <span style="float:left;margin-left:20px;"><a href="javascript:return(0)" onclick="document.getElementById('sendmsg').style.display='';" title="推荐给朋友" id="tuijian"></a></span></td>
+					</tr>
+					<tr id="sendmsg" style="display:none;">
+						<td colspan="2">
+							<div  style="border:1px solid #ccc;padding:5px;background:#eee;width:98%;">
+								下面是这条信息的访问地址，您可以拷贝通过MSN、QQ、电子邮件发送给您的朋友。<br>
+								<input type="text" name="textfield3" size="50" value="{$this_url}-id-{$data[id]}" id="msgurl"> <input type="button" name="Submit2" value="复制" onClick="JM_cc('msgurl');alert('网址成功，你可以通过QQ或MSN发给你的好友！')">
+								<SCRIPT LANGUAGE="JavaScript">
+<!--
+function JM_cc(ob){
+var obj=document.getElementById(ob); if (obj) { 
+obj.select();js=obj.createTextRange();js.execCommand("Copy");}
+}
+//-->
+</SCRIPT>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->

@@ -1,0 +1,67 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td colspan="2" class="title">{$P8LANG['profile']}</td>
+			</tr>
+			<tr>
+				<td><strong> 操作步骤</strong><br />
+					1、请先下载下方系统提供的“会员资料样式”表，并按格式填写用户资料相关信息<br />
+					2、填写好，让用户资料表格另存为“CSV”样式，步骤：EXCEL表格--另存为--选择“CSV”格式<br />
+					3、将“CSV”格式的文件上传至系统即可，完成批量导入会员工作。 </td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<form name="form" action="$this_url" method="post"  enctype="multipart/form-data">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<table class="formtable columntable hover_table click_changeable">
+							<tr class="title fix_head">
+								<td colspan="2" class="title">
+									会员导入
+								</td>
+							</tr>
+							<tr>
+								<td class="tdL">会员资料样式下载</td>
+								<td class="tdR"><a href="http://esales.php168.net/download/import_member_frame.rar" target="_blank" class="downloadicon">会员资料样式下载</a></td>
+							</tr>
+							<tr class="">
+								<td class="tdL">上传文件</td>
+								<td width="2%">
+								<input type="file" name="import_file"/>
+								</td>
+							</tr>
+							
+							<tr>
+							  <td class="tdL">&nbsp;</td>
+							  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+var imgdialog = new P8_Upload({
+	element: {
+		src: $('#importurl'),
+		attribute: 'value'
+	},
+	param: {
+		filter: {
+			csv: 10240
+		}
+	}
+});
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

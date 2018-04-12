@@ -1,0 +1,140 @@
+<div class="content" id="logbox">
+	<strong>安装详细</strong>
+	<div class="c"></div>
+		<div class="b mtop">安装过程需要些时间，请耐心等待......</div>
+	<div class="h">
+		<div class="installing"></div>
+		<div id="log" class="mtop20">
+		</div>
+		
+	</div>
+	<p style="text-align:center">
+<a href="javascript:void(0)" onclick="tonext()">十分钟后还没跳转，请点击此进入下一步</a>
+</p>
+</div>
+<style>
+.txt{width:200px}
+</style>
+<script type="text/javascript" src="js/jq_validator.js"></script>
+
+<div class="content" id="nextbox" style="display:none">
+	<strong>管理员设置</strong>
+	<form action="" id="form" method="POST">
+		<div class="h">
+			<table  border="0" width="100%" align="center" cellpadding="0" cellspacing="5" class="mtop20">
+				<tr>
+					<td>管理员</td>
+					<td>
+						<input type="text" name="admin" id="admin" class="txt" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td>管理员密码</td>
+					<td>
+						<input type="password" name="password" id="password" class="txt" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td>再输入一次</td>
+					<td>
+						<input type="password" name="rpassword" id="rpassword" class="txt" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td>email</td>
+					<td>
+						<input type="text" name="email" id="email" class="txt" value="@" />
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="form">
+			<input type="button" name="upstep" value="上一步" onclick="javascript:history.go(-1)" class="submit_btn">
+			<input type="submit" name="Submit" value="下一步" class="submit_btn">
+			<input type="hidden" name="step" value="step6" />
+		</div>
+	</form>
+</div>
+
+<form name="form2" id="form2" method="post" action="" target="ifram">
+	<input type="hidden" name="modules" id="modules" value="<?php echo $modules; ?>" />
+	<input type="hidden" name="systems" id="systems" value="<?php echo $systems; ?>" />
+	<input type="hidden" name="plugins" id="plugins" value="<?php echo $plugins; ?>" />
+	<input type="hidden" id="step" name="step" value="step52" />
+</form>
+<form name="form3" id="form3" method="post" action="" target="ifram">
+	<input type="hidden" name="module" id="module" value="" />
+	<input type="hidden" name="system" id="system" value="" />
+	<input type="hidden" id="step" name="step" value="step52" />
+</form>
+<iframe id="ifram" name="ifram" src="" width="800" height="200" style="display: none;"></iframe>
+
+<script type="text/javascript">
+
+function postcheck(msg,nex){
+	$('#log').append(msg + '............install success!!!<br /><a name="last"></a>');
+	if(nex !='' || nex !=undefied)$('#log').append(nex + '............is installing....<br /><a name="last"></a>');
+	document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
+	//$('#log').scrollTop($('#log').scrollHeight);
+}
+function formsubmit(form){
+	$('#'+form+'').attr('action','?'+Math.random())
+	$('#'+form+'').submit();
+}
+function tonext(){
+	$('#logbox').hide();
+	$('#nextbox').show();
+}
+$(document).ready(function(){
+	formsubmit('form2');
+		jQuery.validator.addMethod("isEmail", function(value, element) {    
+		  var eml =  /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;    
+		  return this.optional(element) || (eml.test(value));    
+		}, "<font color=red>邮箱有误</font>");
+		jQuery.validator.addMethod('valid_passwd', function(value, element){
+			return /^(?![^a-zA-Z]+$)(?!\D+$).{8,20}$/.test(value);
+		}, "<font color=red>密码必须同时包含数字与字母</font>");
+	 
+	$('#form').validate({
+		rules: {
+			admin: {
+				required: true
+			},
+			password: {
+				required: true,
+				rangelength: [8, 20]
+			},
+			rpassword: {
+				required: true,
+				equalTo:'#password',
+				valid_passwd: true
+			},
+			email:{
+				required:true,
+				isEmail: true
+				}
+			},
+		
+		messages: {
+			admin: {
+				required:'<font color=red>名字不能为空</font>'
+			},
+			password: {
+				required:'<font color=red>密码不能为空</font>',
+				rangelength: '<font color=red>密码必须是8 - 20个字符</font>',
+				valid_passwd: '<font color=red>密码必须同时包含数字与字母</font>'
+			},
+			rpassword: {
+				required:'<font color=red>密码不能为空</font>',
+				equalTo: '<font color=red>两次密码不一致</font>'
+			},
+			email:{
+				required:'<font color=red>邮箱不能为空</font>',
+				isEmail: "<font color=red>邮箱有误</font>"
+			}
+		},
+		
+		onkeyup: true
+	});				   
+});
+</script>

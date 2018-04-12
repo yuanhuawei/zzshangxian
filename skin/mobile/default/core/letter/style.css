@@ -1,0 +1,100 @@
+.wraper{padding-left:10px;padding-right:10px}
+.items{border-top:1px dashed #cccccc;margin-bottom:10px}
+.post_button{height:49px; line-height:49px;text-align:center;display:block;background:url(btbg.png)repeat-x; color:#ffffff; font-size:14px;}
+.tomember{ background:url(postquest.gif) no-repeat;width:181px; height:49px; display:block; clear:both}
+/**鏍囬?鍥炬爣***/
+.title_jian{ background:url(box1bg.gif) no-repeat left -180px; padding-left:30px; font-weight:normal}
+.title_icon_5{background:url(icon.gif) no-repeat left -129px; padding-left:15px;}
+.title_icon_4{background:url(box1bg.gif) no-repeat left -178px; padding-left:40px;}
+.title_icon_3{background:url(box1bg.gif) no-repeat left -145px; padding-left:40px;}
+.title_icon_2{background:url(box1bg.gif) no-repeat left -38px; padding-left:40px;}
+.title_icon_1{background:url(box1bg.gif) no-repeat left -5px; height:20px; padding-left:40px;}
+
+/**棰嗗?淇＄?***/
+
+.letter_list_table td,.letter_list_table th{text-align:center;line-height:25px;}
+.letter_list_table th{background-color:#F4E6DB}
+.letter_list_table td{border-left:1px solid #F5DBBE}
+.letter_list_table .trc_1 td{background-color:#F1F1F1}
+.letter_list_table td.no_right {border:none}
+.letter_list_table td.ltitle{text-align:left}
+.letter_list_table td.ltitle a{background:url(letter.jpg) no-repeat 10px 2px;padding-left:30px;}
+.letter_list_table .status_0{background-color:#F27D03;color:#ffffff;padding:3px}
+.letter_list_table .status_1{background-color:#F27D03;color:#ffffff;padding:3px}
+.letter_list_table .status_2{background-color:#F27D03;color:#ffffff;padding:3px}
+.letter_list_table .status_3{background-color:#0F96E5;color:#ffffff;padding:3px}
+
+.quicknav {background:url(right_head.gif) no-repeat;width:735px;height:129px;overflow:hidden;display:block;}
+.quicknav .fl{float:left;width:220px;overflow:hidden;}
+.quicknav .fr{float:right;width:510px;overflow:hidden;}
+.quicknav dl.up{height:40px;padding:10px 0 10px 10px;}
+.quicknav dl.dw{height:56px;padding:0 0 10px 10px;}
+.quicknav dl.up dd{float:left;margin-right:10px;}
+.quicknav dl.dw dd{float:left;margin-right:5px;}
+/**淇′欢杩涘害椤?**/
+.show_box_grey {background:#f1f3ec;width:100%;height:auto;min-height:500px;padding:30px;}
+.show_box_grey .conbox{background:#fff;width:668px;height:auto;border:#d4e9f5 1px solid;padding:2px;}
+.show_box_grey .conbox .innerbox{background:url(email2boxbg.gif) no-repeat left top #d4e9f5;height:auto;min-height:200px;padding:48px 0 0 95px}
+.conbox select,.conbox input{height:21px;border:#7f9db9 1px solid;margin-right:10px;}
+.conbox .tt{margin-top:40px;border-bottom:#eee 1px solid;margin-bottom:10px;}
+/**淇′欢璇︾粏椤?**/
+.boxouter {padding:50px 30px;background-color:#ffffff}
+.boxouter h1{font-size:30px}
+.table_hd{height:24px;line-height:24px;margin:30px 0 10px;}
+.table_hd .b{font-size:14px;font-weight:bold;}
+.table_hd .b span{font-size:12px;font-weight:normal;color:red;}
+.table_hd .m a{font-size:14px;color:blue;}
+.rlink {background:#660000;height:26px;line-height:26px;color:#fff;font-weight:bold;padding:2px 5px;margin:30px 0 10px;font-size:18px}
+.botline{background:#dfd5c1;width:100%;height:28px;line-height:28px;text-align:center;margin:10px 0;color:red;}
+.botline span{color:#000;}
+.postbtn {width:100%;text-align:right;margin:30px 15px 0 0;}
+.postbtn input {margin-right:15px;}
+.mailtb td{height:28px;line-height:28px;border:#000 1px solid;}
+.mailtb .grey{background:#e6e6e6}
+.mailtb .b{font-size:14px;font-weight:bold}
+.mailtb .red{font-size:14px;font-weight:normal;color:#cc0000;padding-left:5px;}
+.mailtb .center{text-align:center;}
+.mailtb td.fonty{color:#632203;padding:10px 5px;text-indent:2em; height:48px; vertical-align:top;}
+
+/**淇′欢鎶曢€掗〉***/
+.show_box_govs.email4 .form_title .f_l {background:url(email4_ttbg.gif) no-repeat;color:#b7170f;height:24px;line-height:24px;padding-left:30px;margin:0;font-size:14px;}
+.show_box_govs.email4 table {margin-top:20px;}
+.show_box_govs.email4 table td{height:35px;line-height:35px;border:#e6e6e6 1px solid;}
+.show_box_govs.email4 table td.grey{background:#f7f7f7;text-align:right;padding-right:5px;}
+.show_box_govs.email4 table td.white{background:#fff;text-align:left;padding-left:5px;}
+.show_box_govs.email4 .start{color:red}
+.show_box_govs.email4 table td.last{height:38px;text-align:center;}
+.show_box_govs.email4 table input{height:20px;border:#d9e6f2 1px solid}
+.show_box_govs.email4 table td.last input{background:url(email4btn.gif) no-repeat; width:73px;height:24px;color:#fff;font-weight:bold} 
+
+
+.show_box_govs.email4 table tr.tt {background:url(email4tt_bg.gif) repeat-x;height:28px;line-height:28px;}
+.show_box_govs.email4 table tr.tt td{height:28px;line-height:28px;padding-left:5px;}
+
+
+.fl{float:left}
+.fr{float:right}
+.messages {background:url(email4_2bg.gif) no-repeat;width:522px;height:271px;margin:50px auto;overflow:hidden;}
+.inner_box{margin:48px 130px 0 38px;}
+.inner_box h3{background:url(email4_2_tt.gif) no-repeat;border-bottom:#000 1px solid;padding-left:20px;color:#b7170f;font-size:14px;font-weight:bold;}
+.inner_box .txt{font-size:12px;font-weight:normal;line-height:14px;margin:15px;}
+.inner_box .goback{font-size:12px;font-weight:normal;text-align:right;}
+
+.box_outer {background:#fff;width:718px;height:auto;margin:50px auto;border:#fddf8d 1px solid;overflow:hidden;}
+.bar1 {background:url(email4_2_bar1.gif) repeat-x;height:29px;font-size:12px;font-weight:normal}
+.bar1 .tt1{background:url(email4_ttbg.gif) no-repeat;height:29px;line-height:29px;color:#b7170f;font-size:14px;font-weight:bold;margin-left:10px;padding-left:25px;float:left;}
+.bar1 .more a{color:#000;}
+.bar1 .more {background:url(nav2.gif) no-repeat;padding: 0 10px 0 20px;margin-top:6px;float:right;}
+.bar2 {background:#f7f7f7;border:#d6dee7 1px solid;height:28px;margin:15px 0 10px;}
+.bar2 .tt2{margin-left:30px;height:28px;line-height:28px;font-size:14px;font-weight:bold;}
+.box_outer table{border:#98c4eb 2px solid;margin:0 auto;}
+.box_outer td{height:28px;line-height:28px;border:#98c4eb 1px solid;font-size:12px;font-weight:normal;padding:0 5px;}
+
+.lettertb td{border-bottom:1px dotted #333;}
+.bg_grey {background: #F5F5F5;}
+
+.head_gov {background: url("headbg_grey.gif") repeat-x scroll left top transparent;border-bottom: 1px solid #E2E2E2;height:30px;line-height:30px;}
+.title1 {background: url("title_icon.gif") no-repeat scroll 0 0 transparent;float: left;font-size: 12px;font-weight: bold;line-height: 120%;margin: 6px 0 0 10px;padding-left: 15px;}
+.main1 {background-color: #FFFFFF;height: 100%;line-height: 200%;padding: 10px;}
+
+

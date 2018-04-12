@@ -1,0 +1,30 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr><td>
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td class="title">选择要调用的类型</td>
+				</tr>
+				
+				<tr>
+					<td class="headerbtn_list">
+						<ul>
+						<!--{foreach $types $type $l}-->
+						<li><a href="$this_url?$_SERVER[QUERY_STRING]&data_type=$type">{$P8LANG[$l]}</a></li>
+						<!--{/foreach}-->
+						</ul>
+					</td>
+				</tr>
+				
+			</table>
+			</td></tr>
+		</table>
+	</div>
+</div>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,414 @@
+<!--{php168}-->
+<!--{template $core intranet_header}-->
+<div class="wrap main_wrap">
+<div class="main_left">
+	<ul class="left_menu" id="groups">
+		<li><a title="inbox" class="over" href="{$this_router}-inbox">收件箱</a></li>
+		<li><a title="send" href="{$this_router}-send">写邮件</a></li>
+		<li><a title="draft" href="{$this_router}-outbox?type=draft">草稿箱</a></li>
+		<li><a title="outbox" href="{$this_router}-out">已发送</a></li>
+		<li><a title="rubbish" href="{$this_router}-inbox?type=rubbish">回收站</a></li>
+	</ul>
+</div>
+<div class="main_right">
+	<div  id="list_box">
+		<h3 class="main_right_head"><strong id="boxtitle">收件箱</strong><a id="noreadcount" style="display:none" href="javascript:void(0)" onclick="IntraMail.action='inbox';IntraMail.request_item(1,'new');return false;">(<font style="color:#f00;font-weight:bold;font-size:14px" id="count">0</font>条未读信息)</a></h3>
+		<form id ="form1" name="form1" action="$this_router-down" method="post">
+			<table width="100%" border="0" cellpadding="1" cellspacing="1" class="show_table" id="showtable">
+				<tbody>
+					<tr class="tablehead">
+						<td width="4%">&nbsp;
+							
+						</td>
+						<td width="6%">状态</td>
+						<td width="20%"><span id="sendname">发件人</span></td>
+						<td width="49%">主题</td>
+						<td width="21%">时间</td>
+					</tr>
+				</tbody>
+				<tbody id="list">
+				</tbody>
+				<tbody>
+					<tr>
+						<td colspan="5">
+							<span id="gettype" style="display:none">
+							<a href="javascript:void(0)" onclick="IntraMail.request_item(1,'inbox')">全部</a> 
+							<a href="javascript:void(0)" onclick="IntraMail.request_item(1,'nonew')"> 已读 </a> 
+							<a href="javascript:void(0)" onclick="IntraMail.request_item(1,'new')">未读</a> 
+							</span>
+							<a href="javascript:void(0)" onclick="check_all(true, 'id[]', $('#form1'))">全选</a>/<a href="javascript:void(0)" onclick="check_all(false, 'id[]', $('#form1'));">反选</a>
+							<input type="button" onclick="IntraMail.forwarding()" value="转发" class="submit_btn"/> 
+							<input type="button" onclick="IntraMail.download()" value="下载" class="submit_btn"/> 
+							<input type="button" onclick="IntraMail.delete_message()" value="删除" class="submit_btn"/>
+							<input type="hidden" name = "type" value="in"/>
+							<span id="pages" class="pages"></span> 
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	<div id="view_box"  style="display:none">
+		<table width="100%" border="0" cellpadding="1" cellspacing="1" class="show_table" id="showtable">
+			<tr>
+				<td style="padding:0">
+					<div style="background-color:#F6F9FC;padding:10px">
+					<p id="contitle" style="font-size:16px;font-family:黑体,Verdana, Geneva, sans-serif">神马都是浮云</p>
+					<p>发件人：<span id="senduser" style="color:#1F8919;font-weight:bold">admin</span> </p>
+					<p>时&nbsp;&nbsp;间：<span id="contime">201.-10-15 15:56:54</span></p>
+					<p>收件人：<span id="receiveuser">$USERNAME</span></p>
+					</div>
+					<p style=" border-top:1px dashed #cccccc;padding:10px;margin-top:3px" id="concontent"></p>
+					<p style=" border-top:1px solid #cccccc;padding:10px;margin:10px">
+						<input type="button" class="submit_btn" value="回复" onclick="IntraMail.send_back()"/> <input type="button" class="submit_btn" value="返回" onclick="IntraMail.show_box(2)"/>
+					</p>
+					
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="send_box" style="display:none">
+		<h3 class="main_right_head"><strong>发件箱</strong></h3>
+		<form id="form2" name="form2" action="$this_router-send" method="post">
+		<table width="100%" border="0" cellpadding="1" cellspacing="1" class="show_table" id="showtable">
+			<tr>
+				<td><strong>收件人</strong></td>
+				<td>
+					<input type="text" name="sendee" id="username" size="50" class="txt" tabindex="6"/><input type="button" style="margin-left:20px;" class="intra_btn" value="添加收信人" onclick="show_dialog();"/> </td>
+			</tr>
+			<tr>
+				<td><strong>主题</strong></td>
+				<td>
+					<input type="text" name="title" id="title" size="70" class="txt" isindex="9" tabindex="7"/><span class="tap">请输入邮件主题</span>
+				</td>
+			</tr>
+			<tr>
+				<td><strong>内容</strong></td>
+				<td>
+					<textarea name="content" id="content" isindex="10" tabindex="8"></textarea>
+					<script type="text/javascript">
+						var editor;
+						$(function(){
+							P8_CKEDITOR({
+								id: 'content',
+								config: {toolbar : [['Source','Bold', 'Italic', 'Underline', 'Strike','TextColor'],
+													 ['NumberedList','BulletedList','-','Outdent','Indent'],
+														['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+														['Image','Link']]},
+								callback:function(){
+									editor = this;
+								}
+							});
+						});
+						</script>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+				<span class="msg_type_box">
+					<input name="outbox" type="checkbox" id="outbox" value="1" checked="checked" /><label for="outbox">保存到发件箱</label>
+				</span>
+					<input type="submit" value="立即发送" class="submit_btn" />
+					<input type="submit" value="保存草稿" class="submit_btn" name="draft" />
+				</td>
+			</tr>
+		</table>
+		<form>
+	</div>
+	<script type="text/javascript">	
+var check_uids = {};
+var dialog = new P8_Dialog({
+	title_text: '选择收信人',				   
+	width: 550,
+	height: 400,
+	button: true
+});
+dialog.content.append($('<iframe width="100%" height="360" frameborder="0" border="0" marginwidth="0" marginheight="0"></iframe>'));
+var IntraMail = 
+{
+page : 1, intype : 'in', action : 'inbox', type : 'inbox', _this : null,
+get_item : function(t){
+	_this = this;
+	this.type = t;
+	if(t == 'send'){
+		
+	}else if(t == 'outbox' || t == 'draft'){
+		this.action = 'outbox'
+		this.intype = 'out';
+		$('#sendname').html('收件人');
+		$('#boxtitle').html(t=='outbox'?'发件箱':'草稿箱');
+		this.request_item(1);
+	}else if(t == 'inbox' || t == 'rubbish'){
+		this.action = 'inbox'
+		this.intype = 'in';
+		$('#sendname').html('发件人');
+		$('#boxtitle').html(t=='inbox'?'收件箱':'回收站');
+		this.request_item(1);
+	}
+	if(t=='inbox'){
+		$('#gettype').show();
+		this.get_count();
+	}else{
+		$('#gettype').hide();
+	}
+},
+show_box : function(i,id){
+	if(i!='s'){
+		$('#view_box').hide();
+		if(i==1){
+			$('#send_box').show(); 
+			$('#list_box').hide();
+		}else{
+			$('#send_box').hide(); 
+			$('#list_box').show();
+		}
+	}else{
+		this.get_content(id);
+		$('#view_box').show();
+		$('#send_box').hide(); 
+		$('#list_box').hide();
+	}
+},
+send_back : function(){
+	var user = $('#senduser').html();
+	var content ='<br><br><br>------------------------原始邮件-------------------------<br>';
+		content +=$('#contime').html()+' '+$('#senduser').html()+'在信中写道：';
+		content +='<br>------------------------------------------------------------<br>';
+	content += $('#concontent').html();
+	
+	$('#username').attr('value',user);
+	$('#title').attr('value','回复:'+$('#contitle').html());
+	editor.setData(content);
+	this.show_box(1);
+	
+},
+forwarding : function(){
+	var obj=checked_values('id[]');
+	var ids = [];
+	$.each(obj, function(k, v){
+		ids.push(v.replace(/[^0-9]/g, ''));
+	});
+	id = ids[0];
+	if(!id.length) return false;
+	if(confirm('确定要转发？')){
+		$.ajax({
+			url: '$this_router-send',
+			type: 'GET',
+			dataType: 'json',
+			data: ajax_parameters({type: this.intype, id: id}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				$('#username').attr('value',json['data'].username);
+				editor.setData(json['data'].content);
+				$('#title').attr('value',json['data'].title);
+				_this.show_box(1);
+				ajaxing({action: 'hide'});
+			}
+		});
+	}
+	
+},
+delete_message : function(){
+	var obj=checked_values('id[]');
+	var id = [];
+	$.each(obj, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(!id.length) return false;
+	if(confirm('{$P8LANG['confirm_to_delete']}')){
+		$.ajax({
+			url: '$this_router-delete',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({type: this.intype, id: id}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});		
+				for(var i in json){
+					$('#item_'+ json[i]).remove();
+				}
+			}
+		});
+	}
+},
+get_content : function(id){
+	$.ajax({
+		url: '{$this_router}-read',
+		type: 'GET',
+		cache :false,
+		data: 'id='+id+'&type='+this.intype,
+		dataType: 'json',
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success:function(json){
+			$('#contitle').html(json.title);
+			$('#senduser').html(json.username);
+			$('#receiveuser').html(json.othername);
+			$('#contime').html(date('Y年m月d日 h:i:s',json.timestamp));
+			$('#concontent').html(json.content);
+			ajaxing({action: 'hide'});
+		}
+	});
+	
+},
+request_item : function(page,type){
+	if(type!==undefined){
+		this.type = type;
+	}
+	$.ajax({
+		url: '{$this_router}-'+this.action,
+		type: 'GET',
+		cache :false,
+		data: 'type='+this.type+'&page='+page,
+		dataType: 'json',
+			beforeSend: function(){
+			ajaxing({});
+		},
+		success:function(json){
+			var list = json.list;
+			var list_html = '';
+			$('#list').html('');
+			for(var i in list){
+				tr = '<tr id="item_'+list[i].id+'">'+
+						'<td><input type="checkbox" name="id[]" value="'+list[i].id+'"/></td>'+
+						'<td class="st">'+(list[i]['new']==1? '<img src="{$MEMBERSKIN}/intranet/unRd3.gif"/>':'<font color="#993300">已读</span>')+'</td>'+
+						'<td>'+(list[i]['new']==1? '<b>'+list[i].username+'</b>':list[i].username)+'</td>'+
+						'<td><a href="$this_router-read?id='+list[i].id+'&type='+_this.intype+'" onclick="IntraMail.show_box(\'s\','+list[i].id+');return false">'+(list[i]['new']==1? '<b>'+list[i].title+'</b>':list[i].title)+'</a></td>'+
+						'<td>'+date("Y-m-d h:i",list[i].timestamp)+'</td>'+
+					'</tr>';
+				$('#list').append(tr);
+			}
+			if(_this.type=='outbox'){ $('.st').html('已发送'); }else if(_this.type=='draft'){ $('.st').html('草稿');}
+			
+			$('#pages').html(json.pages);
+			ajaxing({action: 'hide'});
+		}
+	});
+	
+	
+},
+send_item : function(){
+	$('#content').val(editor.getData());
+	$.ajax({
+		url: '{$this_router}-send',
+		type: 'POST',
+		cache :false,
+		data: $('#form2').serialize(),
+		dataType: 'json',
+		async: false,
+		beforeSend: function(){
+			ajaxing({text:'正在发送...'});
+		},
+		success:function(json){
+			if(json!='done'){alert('fail');ajaxing({action: 'hide'});return}
+			ajaxing({text:'发送成功!!!'});
+			$('#username').attr('value','');
+			editor.setData('');
+			$('#title').attr('value','');
+			setTimeout(function(){ $('#groups >li').eq(3).click();ajaxing({action: 'hide'});},2000);
+			
+		}
+	});
+	return false;
+	
+},
+get_count : function(){
+	$.getJSON(P8CONFIG.URI['core']['member'].controller +'-info_jsonp?callback=?', function(json){
+		if(json.new_messages>0){
+			$('#count').html(json.new_messages);
+			$('#noreadcount').show();
+		}else{
+			$('#noreadcount').hide();
+		}
+	}); 
+},
+download : function(){
+	$('#form1').attr('action','{$this_router}-down');
+	$("#form1 input[name='type']").attr('value',this.type);
+	$('#form1').submit();
+}
+};
+function show_dialog(){
+	dialog.show();
+	
+	var ifr = dialog.content.find('iframe');
+	
+	ifr.attr('src', '{$core.U_controller}/core/member-selectuser?'+ajax_parameters({'checked_ids': check_uids}));
+}
+function member_single_select_callback(checked, json){
+
+	var s = $('#username').val(), rep, reg = new RegExp(',?'+ json.username, 'i');
+	
+	rep = ','+ json.username;
+	
+	if(!checked){
+		s = s.replace(reg, '');
+		delete check_uids[json.id];
+	}
+	
+	if(checked && !reg.test(s)){
+		s += (s.length ? ',' : '') + json.username;
+		check_uids[json.id] = json.id;
+	}
+	
+	$('#username').val(s);
+}
+$(document).ready(function(){
+		var a = 1;
+		$('#groups >li').eq(0).addClass('over');
+		$('#groups >li').find('a').click(function(){ $(this).parent().click(); return false;});
+		$('#groups >li').bind('click',function(){
+			$(this).siblings("li").removeClass('over').end().addClass('over');
+			var index = $('#groups >li').index( $(this) );
+			var type = $(this).find('a').attr('title');
+			IntraMail.get_item(type);
+			IntraMail.show_box(index);
+		});
+
+		
+		
+		$('#form2').validate({
+		rules: {
+			sendee: {
+				required: true
+			},
+			title: {
+				required: true
+			},
+			content: {
+				required: true
+			}
+		},
+		
+		messages: {
+			sendee: {
+				required: '&nbsp;'
+			},
+			title: {
+				required: '&nbsp;'
+			},
+			content: {
+				required: '&nbsp;'
+			}
+		},
+		onkeyup: false,
+		submitHandler:function(){
+			IntraMail.send_item();
+		}
+	});
+	IntraMail.get_item('inbox');
+			
+});
+</script>
+</div>
+<div class="clear mtop"></div>
+<!--{template $core footer}-->
+<!--{/php168}-->

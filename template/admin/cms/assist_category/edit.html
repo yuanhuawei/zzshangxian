@@ -1,0 +1,58 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table padding_table">
+				<tr>
+					<td colspan="2" class="title">
+						辅栏目设置
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">名称</td>
+					<td><input type="text" name="name" value="$data[name]"/></td>
+				</tr>
+				<tr>
+					<td class="tdL">所属类型</td>
+					<td class="tdR">
+						<input name="type" id="type_1" type="radio" value="1"{if empty($data['type']) || $data['type'] == 1} checked{/if} />
+						<label for="type_1">大分类(不可发布内容)</label>
+						<input name="type" id="type_2" type="radio" value="2"{if !empty($data['type']) && $data['type'] == 2} checked{/if} />
+						<label for="type_2">栏目</label>
+					</td>
+				</tr>
+			
+				<tr>
+					<td class="tdL">所属分类</td>
+					<td class="tdR">
+						<select name="parent" id="options">
+							<option value="0">现有分类</option>
+						</select>
+						<span>(不选择将成为一级分类)</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL" colspan="2"><input type="submit" value="提交" class="submit_btn"/></td>
+				</tr>
+			</table>
+			<input type="hidden" name="id" value="$id"/>
+			<table class="columntable formtable hover_table padding_table">
+				<tr>
+					<td colspan="2" class="title">
+						说明:
+					</td>
+				</tr>
+				<tr>
+					<td>
+						... 
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

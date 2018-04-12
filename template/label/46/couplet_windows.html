@@ -1,0 +1,37 @@
+<!--{php168}-->
+<!--{php 
+	$data['left']=$data['data']['bottom'];
+	$data['top']=$data['data']['top'];
+}-->
+<script type="text/javascript">
+<!--
+function openpopup(){
+var url6
+url6="$url"
+window.open(url6,"nzmi6","width=$data[width],height=$data[height],left=$data[left],top=$data[top],toolbar=NO,menubar=NO,scrollbars=yes,resizable=yes")
+}
+function get_cookie(Name) {
+var search = Name + "="
+var returnvalue = "";
+if (document.cookie.length > 0) {
+offset = document.cookie.indexOf(search)
+if (offset != -1) {
+offset += search.length
+end = document.cookie.indexOf(";", offset);
+if (end == -1)
+end = document.cookie.length;
+returnvalue=unescape(document.cookie.substring(offset, end))
+}
+}
+return returnvalue;
+}
+function helpor_net(){
+if (get_cookie('p8_46_$data[id]')==''){
+openpopup()
+document.cookie="p8_46_$data[id]=yes"
+}
+}
+helpor_net()
+//-->
+</script>
+<!--{/php168}-->

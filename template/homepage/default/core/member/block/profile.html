@@ -1,0 +1,16 @@
+<!--{php168}-->
+<div class="block" id="block_$block[name]">
+	<div class="title">
+		<span>$block[alias]</span>
+	</div>
+	
+	<div class="content">
+		<div class="php_user_photo">
+			<img width="120" height="120" src="{if !empty($USER['icon'])}{$USER['icon']}{else}{$RESOURCE}/images/nomenpic.gif{/if}" onerror="this.src='{$RESOURCE}/images/nomenpic.gif'" />
+			<h2>$USER[username]</h2>
+		</div>
+		<div class="php_main_left_menu"><img src="{$SKIN}/homepage_jiayou.gif" /> <a href="###" onclick="friend.add($USER[id]); return false;">加我为好友</a></div>
+		<div class="php_main_left_menu"><img src="{$SKIN}/homepage_mail.gif" /> <a href="{$core.U_controller}/message-send?username=$USER[username]" target="_blank">给我发消息</a></div>
+	</div>
+</div>
+<!--{/php168}-->

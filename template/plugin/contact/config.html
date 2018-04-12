@@ -1,0 +1,83 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<form action="$this_url" method="post">
+<table class="mainbox mainborder">
+	<tr>
+		<td>
+		<table class="columntable formtable hover_tabel">
+			<tr>
+				<td colspan="2" class="title">{$P8LANG['config']}</td>
+			</tr>
+			<tr>
+				<td class="tdL">即时通讯模板</td>
+				<td class="tdR">
+					<input type="text" name="config[template]" id="template" value="{if !empty($config['template'])}$config[template]{/if}" readonly />
+					<input type="button" value="选择" onclick="template_dialog.show()" />
+				</td>
+			</tr>
+			<tr><td colspan="2"><font style="font-weight: bold ;">先申请QQ临时会话代码,将代码直接复制到下面框中,临时会话代码申请地址:http://wp.qq.com</font></td></tr>
+			<!--{foreach $config['qq'] $name $value}-->
+				<tr><td align="center" width="10%">类别</td><td><input type="text" name="config[qq][{$name}][name]" value="$value[name]"/></td></tr>
+					<!--{foreach $value['code'] $v}-->
+						<tr><td align="center" width="10%">添加QQ代码</td><td width="90%"><textarea name="config[qq][{$name}][code][]" cols="50" rows="2">$v</textarea><input type="button" value="删除" onclick="delqq(this);" /></td></tr>
+					<!--{/foreach}-->
+					<tbody id="{$name}">
+					</tbody>
+					<tr>
+					<td width="10%" align="center">添加更多QQ</td>
+					<td width="90%">
+					增加<input name="" type="text" id="addnum_{$name}"/>个 <input id="{$name}" name="" value="增加" type="button" class="submit_btn" onclick="addqq(this.id);"/>
+				</tr>
+			<!--{/foreach}-->
+			
+			<tr>
+				<td class="tdL">&nbsp;</td>
+				<td class="tdR"><input type="submit" value="提交" class="submit_btn" /></td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+</table>
+<input type="hidden" name="plugin" value="$plugin" />
+<input type="hidden" name="action" value="$action" />
+</form>
+<script type="text/javascript">
+function addqq(id){
+	var num = $("#addnum_"+id).val();
+	if(num > 10){
+		return;
+	}
+	while(num){
+		var str = '<tr><td width="10%" align="center">添加QQ代码</td><td width="90%"><textarea name="config[qq]['+id+'][code][]" cols="50" rows="2"></textarea><input type="button" value="删除" onclick="delqq(this);" /></tr>';
+		$("#"+id).append(str);
+		num--;
+	}
+	
+}
+
+function delqq(obj){
+	$(obj).parent().parent().remove();
+}
+
+var template_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 500,
+	height: 300,
+	ok: function(){
+		$('#template').val(template_selector.value);
+	},
+	show: function(){
+		template_selector.init();
+	}
+});
+var template_selector = new Template_Selector({
+	base_dir: 'plugin/{$this_plugin.name}/style',
+	template_dir: "{$core.CONFIG['template_dir']}/",
+	selected: "{if !empty($option['template'])}$option[template]{/if}",
+	dialog: template_dialog
+});
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

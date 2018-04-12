@@ -1,0 +1,63 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>{$P8LANG['buy_role']['']}</title>
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/pay/pay.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+</head>
+<body>
+<div class="pay_case">
+	<div style="padding: 0px; margin: 0px;">
+		<div style="clear: both;">
+		</div>
+		<span class="pay_title">{$P8LANG['buy_role']['select_role']}</span>
+		<img src="{$RESOURCE}/skin/default/core/pay/pay_close_button.gif" class="pay_close" onclick="window.close();" /> &nbsp;
+		<div style="clear: both;">
+		</div>
+	</div>
+	<div class="pay_content">
+		{$P8LANG['buy_role']['note']}
+	</div>
+	<form action="$this_url" method="post" onsubmit="return commitData();">
+		<div class="pay_how_much">
+			<div class="chosebox">
+				<ul id="pay_data">
+					<!--{if empty($role_id)}-->
+					<!--{foreach $config $id $v}-->
+					<!--{if $ROLE_GROUP == $core->roles[$id]['gid']}-->
+					<li class="recharge"><a href="$this_url?role_id=$id">{$core->roles[$id]['name']}</li>
+					<!--{/if}-->
+					<!--{/foreach}-->
+					
+					<!--{else}-->
+					<li class="recharge"><input type="radio" name="time" value="30" /> 1个月 {$P8LANG['buy_role']['need_maney']}<font color="#FF0000">{$config[$role_id][30]}</font>$unit$credit</li>
+					<li class="recharge"><input type="radio" name="time" value="90" /> 3个月 {$P8LANG['buy_role']['need_maney']}<font color="#FF0000">{$config[$role_id][90]}</font>$unit$credit</li>
+					<li class="recharge"><input type="radio" name="time" value="180" /> 6个月 {$P8LANG['buy_role']['need_maney']}<font color="#FF0000">{$config[$role_id][180]}</font>$unit$credit</li>
+					<li class="recharge"><input type="radio" name="time" value="365" /> 12个月 {$P8LANG['buy_role']['need_maney']}<font color="#FF0000">{$config[$role_id][365]}</font>$unit$credit</li>
+					<li><input type="image" src="{$RESOURCE}/skin/default/core/pay/pay_submit_icon.gif" class="pay_submit_button" /></li>
+					<input type="hidden" name="role_id" value="$role_id" />
+					<!--{/if}-->
+					<li class="clear"></li>
+				</ul>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+<!--
+function commitData(){
+	var radios = $("#pay_data input:checked");
+	if(radios.length > 0){
+		return true;
+	}
+	$("#message_money").css("visibility","visible");
+	return false;
+}
+//-->
+</script>
+</body>
+</html>
+<!--{/php168}-->

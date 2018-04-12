@@ -1,0 +1,66 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/forms/style.css" />
+<form action="$this_url" method="POST" id="form" enctype="multipart/form-data">
+<div class="mainbox mainborder ">
+	<table class="formtable">
+		<tr >
+			<td colspan="2" class="title">操作步骤</td>
+		</tr>
+		<tr>
+			<td>
+				1、另存为“CSV”样式，步骤：EXCEL表格--另存为--选择“CSV”格式<br />
+				2、将“CSV”格式的文件上传至系统，对照字段与表格的列，数据起始行，完成导入。 </td>
+		</tr>
+	</table>
+</div>
+<div class="container forms_div common_mtop">
+	<table width="100%" cellpadding="2" cellspacing="0" class="Mtop hover_table columntable">
+		<tr class="title">
+			<td colspan="2"  class="forms_head">导入表单内容</td>
+		</tr>
+		<tr>
+			<td width="%30">表单名</td><td>$this_model[alias]</td>
+		</tr>
+		<tr>
+			<td>CSV文件</td><td><input type="file" name="csv_file" /></td>
+		</tr>
+		<tr>
+			<td >开始行</td><td>
+			第<select name="line">
+				<option value="0"> 1 </option>
+				<option value="1"> 2 </option>
+				<option value="2"> 3 </option>
+				<option value="3"> 4 </option>
+				<option value="4"> 5 </option>
+			</select>行
+			</td>
+		</tr>
+		<tr >
+			<td colspan="2" ><strong>字段--内容映射设置</strong></td>
+		</tr>
+		<tr>
+			<td align="right">字段</td><td>对应列</td>
+		</tr>
+		<!--{foreach $this_model['fields'] $field $fd}-->
+		<tr>
+			<td align="right">$fd[alias]</td>
+			<td><select name="fields[$field]">
+				<option value=""> 空 </option>
+				<!--{php $i=0; for($j='A';$j<='Z';$j++){ }-->
+				<option value="$i"> $j </option>
+				<!--{php $i++;} }-->
+			</select></td>
+		</tr>
+		<!--{/foreach}-->
+		<tr>
+			<td></td><td><input type="submit" value="导入"/><input type="hidden" name="mid" value="$mid"/></td>
+		</tr>
+		
+		</table>
+	</div>	
+</form>
+
+<!--{template $core footer}-->
+
+<!--{/php168}-->

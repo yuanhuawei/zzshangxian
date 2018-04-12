@@ -1,0 +1,51 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<form id="form" action="$_this_url" method="post">
+<div class="mainbox mainborder">
+	<table class="formtable">
+		<tr>
+			<td class="title" colspan="2">{$P8LANG['operation']}</td>
+		</tr>
+		<tr>
+			<td class="tdL">
+				亚洲网视ID
+			</td>
+			<td class="tdR">
+				<input type="text" name="config[id]" value="{if isset($config['id'])}$config[id]{/if}" size="6" />
+				<a href="http://www.anv.cc" target="_blank">了解更多，申请？</a>
+			</td>
+		</tr>
+		
+		<tr>
+			<td class="tdL">
+				宽高
+			</td>
+			<td class="tdR">
+				<input type="text" name="config[width]" value="{if isset($config['width'])}$config[width]{/if}" size="3" /> X
+				<input type="text" name="config[height]" value="{if isset($config['height'])}$config[height]{/if}" size="3" />
+				<span class="help">这里是默认宽高，在模板中你可以 \$plu<span></span>gin[anv]{'width' => 360, 'height' => 240} 来定义自己需要的宽高。</span>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<input type="submit" value="$P8LANG[submit]" />
+			</td>
+		</tr>
+		
+	</table>
+</div>
+</form>
+
+<div class="mainbox mainborder">
+	<table class="formtable">
+		<tr>
+			<td>亚洲网视说明。<br />
+			调用方法：在模板中要播放的地方插入 \$plu<span></span>gin[anv] 即可。<br />
+			如果出现 模板有危险代码的情况下。在inc/template.allow_func.php里面加一行 <font color="blue"><b>'\$plugin[\'anv\']'->display' => 1,</b></font> 即可</td>
+		<tr>
+	</table>
+</div>
+
+<!--{/php168}-->

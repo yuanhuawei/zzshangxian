@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<script type="text/javascript" src="config.js"></script>
+<script type="text/javascript" src="jq.js"></script>
+<script type="text/javascript" src="util.js"></script>
+<script type="text/javascript" src="marquee.js"></script>
+
+<style>
+.w{width: 150px; display: inline-block;}
+.r{background-color: red;}
+.g{background-color: green;}
+.b{background-color: blue;}
+.o{background-color: olive;}
+
+</style>
+</head>
+<body>
+
+<div id="m" style="width: 600px; overflow: hidden;">
+	<div style="width: 10000px;">
+		<div id="mm" style="float: left;">
+			<span class="w r">1</span><span class="w g">2</span><span class="w b">3</span><span class="w o">4</span>
+		</div>
+	</div>
+</div>
+
+<div id="d"></div>
+<input type="button" value="播放" onclick="mar.play()" />
+<input type="button" value="停止" onclick="mar.stop()" />
+
+<script>
+var mar = new P8_Marquee({
+	container: $('#m'),	//容器
+	content: $('#mm'),	//内容
+	direction: 'left',	//方向
+	stop_timeout: 2000,	//播放停止间隔
+	scroll: 150,		//停止滚动长度
+	play_timeout: 20	//播放速度,越小越快
+});
+</script>
+
+</body>
+</html>

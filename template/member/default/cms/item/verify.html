@@ -1,0 +1,164 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module header}-->
+<div class="mainfluid">
+	<div class="mtab">
+		<div class="list_box">
+			<div class="head">
+				<span $class[1]><a href="$this_router-verify?verified=1">已签核的文章</a></span>
+				<span $class[0]><a href="$this_router-verify?verified=0">待签核的文章</a></span>
+				<span $class[99]><a href="$this_router-verify?verified=-99">未通过的文章</a></span>
+			</div>
+		</div>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table">
+			<tr class="head">
+				<td>ID</td>
+				<td>标题</td>
+				<td>栏目</td>
+				<td>发布时间</td>
+				<td>发布者</td>
+				<td>审核人</td>
+				<td>状态</td>
+				<td>操作</td>
+			</tr>
+			
+			<!--{foreach $list $k $v}-->
+			<tr id="v_$v[id]">
+				<td>$v[id]</td>
+				<td class="al"><a href="{$core.controller}/cms/item-view-id-$v[id].shtml{if $verified<1}?verified=0{/if}" target="_blank">$v[title]</a></td>
+				<td>
+					<a href="{$this_url}?cid=$v[cid]&verified=$verified" >{$category.categories[$v['cid']]['name']}</a>
+				</td>
+				<td><!--{php echo date('Y-m-d', $v['timestamp']);}--></td>
+				<td>$v[username]</td>
+				<td>$v[verifier]</td>
+				<td>
+				
+				<a id="verify_{$v['id']}" href="javascript:void(0)" title="点击审核" onclick="verify_item({$v['id']}, {$v['verified']})">
+				<!--{if $v['verified']==1}-->已审
+				<!--{elseif $v['verified']==0}-->未审
+				<!--{else}-->已退稿
+				<!--{/if}-->
+				</a>
+				</td>
+				<td>
+					<a href="$this_router-update?model=$v[model]&id=$v[id]&verified=$verified" target="_blank">修改</a> /
+					<a href="$this_router-addon?model=$v[model]&iid=$v[id]&verified=$verified" target="_blank">追加</a> /
+					<a href="$this_router-delete?model=$v[model]&id=$v[id]&verified=$verified" onclick="delete_item($v[id]);return false;">删除</a>
+				</td>
+			</tr>
+			<!--{/foreach}-->
+			
+			<tr>
+				<td align="center" colspan="6" class="pages">
+					$pages
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+function myverify(id,value){
+if(confirm('确定操作？')){
+var verified=$verified;
+$.ajax({
+	type:'POST',
+	url	: '{$this_url}',
+	dataType: 'json',
+	data :ajax_parameters({id: id, value: value,verified:verified}),
+	beforeSend: function(){
+				ajaxing({});
+			},
+	success:function(json){
+		ajaxing({action: 'hide'});
+		if(json){
+			alert('操作成功,ID:'+json);
+			for(var i in json){
+					$('#v_'+ json[i]).remove();
+				}
+		}
+		else{ alert('操作失败');}
+	}
+})}
+}
+var verifiedd = $verified,
+verify_item_id = [];
+
+var verify_html = '';
+<!--{foreach $this_module->CONFIG['verify_acl'] $status $v}-->
+	verify_html += '<span><input type="radio" id="verify$status" name="value" value="$status" /><label for="verify$status">$v[name]</label> </span>';
+<!--{/foreach}-->
+verify_html += '<fieldset><legend>{$P8LANG['cms_item']['verify']['reason']}</legend><textarea rows="5" cols="60"></textarea></fieldset>';
+
+function verify_item(verify_item_id, verified){
+	if(!verify_item_id) return false;
+	
+	var verify_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['cms_item']['verify']['']}',
+	width: 550,
+	height: 230,
+	button: true,
+	ok: function(){
+		var value = this.content.find('input[name=value]:checked').val();
+		var reason = this.content.find('textarea').val();
+		
+		$.ajax({
+			url: '{$this_url}',
+			type: 'POST',
+			dataType: 'json',
+			cache: false,
+			data: ajax_parameters({id: verify_item_id, value: value, verified: verified, push_back_reason: reason}),
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				
+				if(json){
+					alert('操作成功,ID:'+json);
+					for(var i in json){
+							$('#v_'+ json[i]).remove();
+						}
+				}
+				else{ alert('操作失败');}
+			}
+		});
+		},
+		show: function(){
+			this.content.html(verify_html);
+			
+			this.content.find('input[type=radio][value='+verified+']').attr('checked',true);
+		}
+	});
+	verify_dialog.show();
+	
+}
+
+function delete_item(id){
+if(confirm('确定操作？')){
+var verified=$verified;
+$.ajax({
+	type:'POST',
+	url	: '{$this_router}-delete',
+	dataType: 'json',
+	data :ajax_parameters({id: id,verified:verified}),
+	beforeSend: function(){
+				ajaxing({});
+			},
+	success:function(json){
+		ajaxing({action: 'hide'});
+		if(json == 'no_category_privilege'){alert('你没进行对当前分类操作的权限');return false}
+		
+		if(json){
+			alert('操作成功,ID:'+json);
+			for(var i in json){
+					$('#v_'+ json[i]).remove();
+				}
+		}
+		else{ alert('操作失败');}
+	}
+})}
+}
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

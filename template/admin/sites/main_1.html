@@ -1,0 +1,29 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 
+    您现在的位置：<a href="{$core.admin_controller}/sites/farm-index">分站系统</a> &gt; 首页</td>
+  </tr>
+</table>
+
+
+<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table" align="center">
+	<tr class="title fix_head">
+		<td width="9%" class="list_top list_left">最新文章</td>
+		<td width="12%" class="list_top">发布时间</td>
+		<td width="12%" class="list_top">站点</td>
+		<td width="17%" class="list_top list_right">操作</td>
+	</tr>
+	<!--{foreach $listdb $value}-->
+	<tr>
+		<td class="list_left" style="text-align:left"><a href="{$value['url']}" target="_blank">{$value['title']}</a></td>
+		<td ><!--{php echo date('Y-m-d',$value['timestamp']);}--></td>
+		<td ><a href="{$this_router}/item-list?site={$value['site']}">{$siteses[$value['site']]['sitename']}</a></td>
+		<td><a href="{$value['edit']}&site={$value['site']}">{$P8LANG['edit']}</a></td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+<!--{template $this_system footer admin}-->
+<!--{/php168}-->

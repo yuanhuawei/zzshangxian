@@ -1,0 +1,20 @@
+<!--{php168}-->
+<style type="text/css">
+.label_pic_com_ul{$label['id']} li{_display: inline;overflow: hidden;zoom: 1;}
+.label_pic_com_ul{$label['id']} li h3{line-height:35px;height: 35px;font-size:14px;font-weight:normal;text-align:center;}
+.label_pic_com_ul{$label['id']} li h3 a{color:#0d59a7;}
+.label_pic_com_ul{$label['id']} li img{float:left;margin-right:10px;}
+.label_pic_com_ul{$label['id']} .label_summary_con{font-size:12px;color:#4d4d4d;text-indent: 0em;line-height:170%;}
+</style>
+<ul class="label_pic_com_ul{$label['id']}">
+	<!--{foreach $list $value}-->
+	<li style="$wf;">
+		<a href="$value[url]" target="_blank" title="$value[full_title]"><img width="222" height="124" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a>
+		<h3><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></h3>
+		<p class="label_summary_con">$value[summary]</p>
+		<p class="clear"></p>
+	</li>
+	<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->

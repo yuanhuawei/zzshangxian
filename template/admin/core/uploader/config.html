@@ -1,0 +1,288 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0" >
+			<tr><td>
+				<table class="formtable hover_table">
+					<tr>
+						<td colspan="2" class="title">{$P8LANG['uploader_config']}</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">
+							{$P8LANG['bind_domain']}
+						</td>
+						<td class="tdR">
+							<input type="text" class="txt" name="config[domain]" value="{if !empty($config['domain'])}{$config['domain']}{/if}" size="60" />
+							<span class="help">{$P8LANG['bind_upload_domain_note']}</span>
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">是否开启缩略图</td>
+						<td class="tdR">
+							<input type="radio" name="config[thumb][enabled]" value="1"{if !empty($config['thumb']['enabled'])} checked{/if} />{$P8LANG['Y']}
+							<input type="radio" name="config[thumb][enabled]" value="0"{if empty($config['thumb']['enabled'])} checked{/if} />{$P8LANG['N']}
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">缩略图大小</td>
+						<td class="tdR">
+							<input type="text" class="txt" name="config[thumb][width]" value="{if !empty($config['thumb']['width'])}{$config['thumb']['width']}{else}100{/if}" size="3" />
+							x
+							<input type="text" class="txt" name="config[thumb][height]" value="{if !empty($config['thumb']['height'])}{$config['thumb']['height']}{else}100{/if}" size="3" />
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">内容页缩略图大小</td>
+						<td class="tdR">
+							<input type="text" class="txt" name="config[cthumb][width]" value="{if !empty($config['cthumb']['width'])}{$config['cthumb']['width']}{else}600{/if}" size="3" />
+							x
+							<input type="text" class="txt" name="config[cthumb][height]" value="{if !empty($config['cthumb']['height'])}{$config['cthumb']['height']}{else}450{/if}" size="3" />
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">缩略图质量</td>
+						<td class="tdR">
+							<input type="text" class="txt" name="config[thumb][quality]" value="{if !empty($config['thumb']['quality'])}{$config['thumb']['quality']}{else}75{/if}" size="3" /> %
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">是否开启水印</td>
+						<td class="tdR">
+							<input type="radio" name="config[watermark][enabled]" value="1"{if !empty($config['watermark']['enabled'])} checked{/if} />{$P8LANG['Y']}
+							<input type="radio" name="config[watermark][enabled]" value="0"{if empty($config['watermark']['enabled'])} checked{/if} />{$P8LANG['N']}
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">水印文件</td>
+						<td class="tdR">
+							<input type="text" class="txt" name="config[watermark][file]" value="{if !empty($config['watermark']['file'])}{$config['watermark']['file']}{else}mark.gif{/if}" />
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">水印位置</td>
+						<td class="tdR">
+							<table>
+								<tr>
+									<td><input type="radio" name="config[watermark][position]" value="7"{if $config['watermark']['position'] == 7} checked{/if} /></td>
+									<td><input type="radio" name="config[watermark][position]" value="8"{if $config['watermark']['position'] == 8} checked{/if} disabled /></td>
+									<td><input type="radio" name="config[watermark][position]" value="9"{if $config['watermark']['position'] == 9} checked{/if} /></td>
+								</tr>
+								<tr>
+									<td><input type="radio" name="config[watermark][position]" value="4"{if $config['watermark']['position'] == 4} checked{/if} disabled /></td>
+									<td><input type="radio" name="config[watermark][position]" value="5"{if $config['watermark']['position'] == 5} checked{/if} /></td>
+									<td><input type="radio" name="config[watermark][position]" value="6"{if $config['watermark']['position'] == 6} checked{/if} disabled /></td>
+								</tr>
+								<tr>
+									<td><input type="radio" name="config[watermark][position]" value="1"{if $config['watermark']['position'] == 1} checked{/if} /></td>
+									<td><input type="radio" name="config[watermark][position]" value="2"{if $config['watermark']['position'] == 2} checked{/if} disabled /></td>
+									<td><input type="radio" name="config[watermark][position]" value="3"{if $config['watermark']['position'] == 3} checked{/if} /></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">水印质量</td>
+						<td class="tdR">
+							<input type="text" class="txt" name="config[watermark][quality]" value="{if !empty($config['watermark']['quality'])}{$config['watermark']['quality']}{else}75{/if}" size="3" /> %
+						</td>
+					</tr>
+					
+					<tr id="filter">
+						<td class="tdL">{$P8LANG['upload_filter_config']}</td>
+						<td class="tdR">
+							<div id="data_copy" style="display: none;">
+								类型 <input type="text" class="txt" name="" size="5" /> ,  
+								大小 <input type="text" class="txt" name="" size="5" value="" /> K
+								<input type="button" value="{$P8LANG['delete']}" />
+							</div>
+							<input type="button" value="添加附件类型" onclick="_copy_data()" />
+							<script type="text/javascript">
+							function _copy_data(ext, size){
+								var copy = $('#data_copy').clone().show().attr('id', '');
+								
+								$('input:eq(0)', copy).attr('name', 'filter[ext][]').val(ext === undefined ? '' : ext);
+								$('input:eq(1)', copy).attr('name', 'filter[size][]').val(size === undefined ? '' : size);
+								
+								copy.find('input[type=button]').
+								attr('onclick', '').
+								click(function(){
+									$(this).parent().remove();
+								});
+								
+								$('#filter div:last').after(copy);
+							}
+							
+							$(document).ready(function(){
+								<!--{if !empty($filter)}-->
+								<!--{foreach $filter $ext $size}-->
+								_copy_data('$ext', '$size');
+								<!--{/foreach}-->
+								<!--{/if}-->
+							});
+							</script>
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">{$P8LANG['ftp_enabled']}</td>
+						<td class="tdR">
+							<input type="radio" name="config[ftp_config][enabled]" value="1" onclick="show_ftp_config(this.value)"{if !empty($config['ftp_config']['enabled'])} checked{/if} />{$P8LANG['Y']}
+							<input type="radio" name="config[ftp_config][enabled]" value="0" onclick="show_ftp_config(this.value)"{if empty($config['ftp_config']['enabled'])} checked{/if} />{$P8LANG['N']}
+							<span style="color:#999999;padding-left:10px">属于高端应用，一般不作设置</span>
+						</td>
+					</tr>
+					
+					<tbody id="ftp_config">
+					<th colspan="2">{$P8LANG['ftp_config']}</th>
+					
+					<tr>
+						<td class="tdL">{$P8LANG['ftp_host']}</td>
+						<td class="tdR">
+							<input id="ftp_host" type="text" class="txt" name="config[ftp_config][host]" value="{if !empty($this_module->CONFIG['ftp_config']['host'])}{$this_module.CONFIG['ftp_config']['host']}{else}localhost{/if}" />
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">{$P8LANG['ftp_port']}</td>
+						<td class="tdR">
+							<input id="ftp_port" type="text" class="txt" name="config[ftp_config][port]" value="{if !empty($this_module->CONFIG['ftp_config']['port'])}{$this_module.CONFIG['ftp_config']['port']}{else}21{/if}" />
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">{$P8LANG['ftp_user']}</td>
+						<td class="tdR">
+							<input id="ftp_user" type="text" class="txt" name="config[ftp_config][user]" value="{if !empty($this_module->CONFIG['ftp_config']['user'])}{$this_module.CONFIG['ftp_config']['user']}{else}user{/if}" />
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">{$P8LANG['ftp_password']}</td>
+						<td class="tdR">
+							<input id="ftp_password" type="password" class="txt" name="config[ftp_config][password]" value="{if isset($this_module->CONFIG['ftp_config']['password'])}{$this_module.CONFIG['ftp_config']['password']}{else}password{/if}" />
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">{$P8LANG['ftp_dir']}</td>
+						<td class="tdR">
+							<input id="ftp_dir" type="text" class="txt" name="config[ftp_config][dir]" value="{if !empty($this_module->CONFIG['ftp_config']['dir'])}{$this_module.CONFIG['ftp_config']['dir']}{else}/{/if}" />
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">ssl</td>
+						<td class="tdR">
+							<input type="radio" name="config[ftp_config][ssl]" value="1"{if !empty($config['ftp_config']['ssl'])} checked{/if} />{$P8LANG['Y']}
+							<input type="radio" name="config[ftp_config][ssl]" value="0"{if empty($config['ftp_config']['ssl'])} checked{/if} />{$P8LANG['N']}
+							
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">timeout</td>
+						<td class="tdR">
+							<input id="ftp_dir" type="text" class="txt" name="config[ftp_config][timeout]" value="{if !empty($this_module->CONFIG['ftp_config']['timeout'])}{$this_module.CONFIG['ftp_config']['timeout']}{/if}" />
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL"><input type="button" value="{$P8LANG['test_ftp']}" onclick="test_ftp()" /></td>
+						<td class="tdR">
+							<div id="ftp_test_result"></div>
+						</td>
+					</tr>
+					
+					</tbody>
+					
+					<script type="text/javascript">
+						function show_ftp_config(v){
+							if(v == 1)
+								$('#ftp_config').show()
+							else
+								$('#ftp_config').hide();
+						}
+						
+						function test_ftp(){
+							$.ajax({
+								url: '$this_router-test_ftp',
+								dataType: 'json',
+								type: 'post',
+								cache: false,
+								data: {
+									host: $('#ftp_host').val(),
+									port: $('#ftp_port').val(),
+									user: $('#ftp_user').val(),
+									password: $('#ftp_password').val(),
+									dir: $('#ftp_dir').val()
+								},
+								beforeSend: function(){
+									ajaxing({});
+								},
+								success: function(json){
+									ajaxing({action: 'hide'});
+									var result = '';
+									var str;
+									if(json.connect == 0){
+										str = 'Yes';
+									}else if(json.connect == -1){
+										str = '{$P8LANG['ftp_test_connect_fail']}';
+									}else if(json.connect == -2){
+										str = '{$P8LANG['ftp_test_login_fail']}';
+									}
+									
+									result += '{$P8LANG['ftp_test_connect']}: '+ str +'<br />';
+									result += '{$P8LANG['ftp_test_mkdir']}: '+ (json.mkdir ? 'Yes' : 'No') +'<br />';
+									result += '{$P8LANG['ftp_test_put']}: '+ (json.put ? 'Yes' : 'No') +'<br />';
+									result += '{$P8LANG['ftp_test_delete']}: '+ (json['delete'] ? 'Yes' : 'No') +'<br />';
+									result += '{$P8LANG['ftp_test_rmdir']}: '+ (json.rmdir ? 'Yes' : 'No') +'<br />';
+									
+									$('#ftp_test_result').html(result);
+								}
+							});
+						}
+						
+						show_ftp_config(<!--{if !empty($config['ftp_config']['enabled'])}-->1<!--{else}-->0<!--{/if}-->);
+					</script>
+					<tr>
+						<td class="tdL">&nbsp;</td>
+						<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+					</tr>
+				  
+				</table>
+				  </td>
+			  </tr>
+			</table>
+		</div>
+	</div>
+</form>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['help_about']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					1、本系统主要设定关于图片类、附件类的常规应用设置。<br>
+
+					2、“是否开启缩略图”---每上传的一个图片，系统自动为他生成一张缩略图。
+				</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

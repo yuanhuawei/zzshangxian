@@ -1,0 +1,136 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/special/style.css">
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/alonepage/style_newmedia.css" />
+<div class="container" id="yuanxi">
+	<div class="contain_left">
+		<div class="show_box_leftnav">
+			<div class="sb1_head mtop">
+				$label[let_menu_title]
+			</div>
+			<div class="sb1_main">
+				$label[let_menu5]
+			</div>
+			<div class="sb1_bottom">&nbsp;</div>
+			<div class="sb1_head mtop">
+				$label[let_menu_title2]
+			</div>
+			<div class="ad_box" style="border-top:none;">
+				$label[let_menu2]
+			</div>		
+			
+		</div>
+			<div class="ad_box common_mtop">
+				$label[独立页左边广告1]
+			</div>
+			<div class="clear"></div>			
+			
+	</div>
+	<div class="contain_right">
+		<div class="Biank mtop">
+		<div class="ZHUAN_zt1">
+			<span class="head">$label[webtop_title]</span>
+		</div>
+		<div style="margin:17px;">
+			<div class="main_l">$label[center_main_l]</div>
+			<div class="main_r">$label[center_main_r]</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="Biank mtop">
+		<div class="ZHUAN_zt1">
+			<span class="head">$label[webtop_title]</span>
+		</div>
+		<div style="margin:17px;">
+			$label[webtop_content02]
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="page">
+		<div class="L Los TD5">
+			<div class="zt4">
+				<span class="L KEzt">$label[webtitle1]</span> <span class="R Gengd">$label[webtitle1_1]</span>
+			</div>
+			<div class="HON4">
+				$label[webcontent1]
+			</div>
+		</div>
+		<div class="R Rig TD5">
+			<div class="zt4">
+				<span class="L KEzt">$label[webtitle2]</span> <span class="R Gengd">$label[webtitle2_1]</span>
+			</div>
+			<div class="HON4">
+				$label[webcontent2]
+			</div>
+		</div>
+	</div>
+	<div class="page">
+		<div class="L Los TD5">
+			<div class="zt4">
+				<span class="L KEzt">$label[webtitle3]</span> <span class="R Gengd">$label[webtitle3_1]</span>
+			</div>
+			<div class="HON4">
+				$label[webcontent3]
+			</div>
+		</div>
+		<div class="R Rig TD5">
+			<div class="zt4">
+				<span class="L KEzt">$label[webtitle4]</span> <span class="R Gengd">$label[webtitle4_1]</span>
+			</div>
+			<div class="HON4">
+				$label[webcontent4]
+			</div>
+		</div>
+	</div>
+	<div class="page">
+		<div class="L Los TD5">
+			<div class="zt4">
+				<span class="L KEzt">$label[webtitle5]</span> <span class="R Gengd">$label[webtitle5_1]</span>
+			</div>
+			<div class="HON4">
+				$label[webcontent5]
+			</div>
+		</div>
+		<div class="R Rig TD5">
+			<div class="zt4">
+				<span class="L KEzt">$label[webtitle6]</span> <span class="R Gengd">$label[webtitle6_1]</span>
+			</div>
+			<div class="HON4">
+				$label[webcontent6]
+			</div>
+		</div>
+	</div>	
+
+	</div>
+
+</div>	
+
+<!--{if $addcontent}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/images/dialog.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<script type="text/javascript">
+<!--{template_init_js}-->
+
+var \$id='$id';
+var editlabel = get_cookie('IS_ADMIN');
+var dialog= new P8_Dialog({
+	title_text: '编辑内容',
+	button: false,
+	zIndex:10000,
+	width: 750,
+	height: 500,
+	url: \$this_router+'-addcontent?id='+\$id
+});
+$(document).ready(function(){
+	if(editlabel !==undefined){
+	$("#editcontent").html("<a href='javascript:void(0)' onClick='dialog.show()'>编辑</a>");
+}
+ })
+</script>
+<!--{/if}-->
+
+<!--{template $core footer}-->
+<!--{/php168}-->

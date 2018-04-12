@@ -1,0 +1,250 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<title>会员中心</title>
+<link type="text/css" rel="stylesheet" href="{$MEMBERSKIN}/index.css" />
+<link type="text/css" rel="stylesheet" href="{$RESOURCE}/images/dialog.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jquery.nicescroll.min.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/member_common.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+</head>
+<body class="body" scroll="no">
+
+<script type="text/javascript">
+<!--{template_init_js}-->
+
+if(parent != self){
+	parent.window.location.href = P8CONFIG.U_controller;
+}
+</script>
+<div id="wrapper">
+	<div class="blockleft">
+		<div class="mlogo"><a href="{$core.U_controller}"><img src="{$MEMBERSKIN}/logo.png" /></a></div>
+		<div class="mindex">
+			<!--{if $menu_flag}-->
+			<a href="{$core.U_controller}?main_page=/sites/item-my_list">我的首页</a>
+			<!--{else}-->
+			<a href="{$core.U_controller}">我的首页</a>
+			<!--{/if}-->
+		</div>
+		<div id="menu2">	
+		</div>
+	</div>
+	<div class="blockright">
+		<div class="memberhead">
+			<div class="welcome">
+				<h3>欢迎访问会员中心！</h3>
+			</div>
+			<div class="mnav">
+				<ul>
+					<li class="li1"><a href="{$core.U_controller}/core/member-profile" target="wrapright">$USERNAME</a></li>
+					<li class="li2">$label[member_help]</li>
+					<li class="li3"><a href="<!--{if $sites_flag}-->{$HTTP_REFERER}<!--{else}-->{$core.controller}<!--{/if}-->">返回首页</a></li>
+					<li><!--{if $IS_ADMIN}--><a href="?edit_label=1">[显示标签]</a><!--{/if}--></li>
+				<ul>
+			</div>
+		</div>
+		<iframe id="wrapright" width="100%" scrolling="auto" marginwidth="0" marginheight="0" src="{if isset($_GET['main_page'])}{$core.U_controller}{$_GET['main_page']}{else}{$this_module.U_controller}-center{/if}" frameborder="0" name="wrapright" style="width: 100%; height: 100%; visibility: inherit;  z-index: 1;overflow-x: hidden;"></iframe>
+	</div>
+	<div class="clear"></div>
+</div>
+<script type="text/javascript">
+var MENU_JSON = $json[json2];
+var MENU_PATH = $json[path];
+var MENU_DENIED = $denied;
+
+function get_menu_by_id(id){
+	var path = clone(MENU_PATH[id]);
+    if(typeof(path)=="undefined")return {};
+	var root = path.shift();
+	
+	var search = get_menu_byid(MENU_JSON,root);
+	
+	if(path.length == 0){
+		return search;  
+	}
+    
+    for(var i in path){
+		search = get_menu_byid(search.menus,path[i]);
+	}
+	
+	return search;
+}
+function get_menu_byid(json,need){
+    for(var i in json){
+        if(json[i].id==need){
+            return json[i];
+        }
+    }
+    return {};
+}
+//function _auto_height(hash){
+	//alert(hash);
+	//$('#wrapright').css({height: parseInt(hash.substr(1)) + 20 +'px'});  
+//}
+
+function getMessage(){
+	setTimeout(getMessage,30000);//时间可控                        
+	$.ajax({  
+		url: P8CONFIG.URI['core']['message'].U_controller +'-box',
+		dataType: 'json', 
+		data: ajax_parameters({type:'in'}),
+		cache: false,
+		success: function(json){
+			showMessage(json);
+		}
+	});
+}
+function get_user_info(){
+	_forward = $('#forward').val();
+	if(_forward){
+	//this.location.href=	_forward;
+	}
+	$.ajax({
+		   type:'POST',
+		   url:"{$core.controller}/core/member-mymessage",
+		   data: '?',
+		   dataType: 'json',
+		   success:function(my_mesg){				   
+				  for(i in my_mesg){
+					if(my_mesg[i].show=='1'){
+							$('#message_manager .'+ my_mesg[i].name).parent().show();
+							$('#message_manager .'+ my_mesg[i].name).attr('href',my_mesg[i].link);
+							$('#message_manager .'+ my_mesg[i].name).html(my_mesg[i].count?my_mesg[i].count:0);
+						}
+					}
+					$('#message_manager .credit').html(my_mesg['user'].credit);
+					openManageMessage();
+		 }
+	 })
+	
+	
+}
+function showMessage(json){
+	if(json.new_count>0){
+		$("#message_count").text(json.new_count); 
+		$("#message_from").text(json.username);
+		$("#message_title").text(json.title);
+		$("#message_content").html(json.content);
+		$("#message_inbox_url").attr("href", P8CONFIG.URI['core']['message'].U_controller +'-inbox');     
+		$("#message_read_url").attr("href", json.url);
+		$("#message_find_url").attr("href", json.url); 
+		$("#message_refuse").click( function(){  
+			refuse(json['id'])
+		 });
+		openMessage(); 	
+	}else{
+		closeMessage();  
+	} 
+}  
+
+function closeMessage(){
+	$("#message_remind").slideUp("slow");
+}
+
+function closeManageMessage(){
+	$("#message_manager").slideUp("slow");
+}
+
+function openMessage(){
+	$("#message_remind").slideDown("slow");
+}
+function openManageMessage(){
+	if($('#message_remind').css('display')!='none')
+		$("#message_manager").css('bottom','135px');
+	else
+		$("#message_manager").css('bottom','0px');
+
+	$("#message_manager").slideDown("slow");
+}
+function refuse(id){
+	$.ajax({  
+		url: P8CONFIG.URI['core']['message'].U_controller +'-box',
+		type: 'POST',
+		dataType: 'json', 
+		data: ajax_parameters({type: 'rubbish', id: id}),
+		cache: false,
+		success: function(json){
+			if(id=json['id']&&json['move']=='true'){
+				closeMessage();  
+			}
+		}
+	});
+}
+
+$(document).ready(function(){
+	ShowTopMenu(1);
+	
+	$('#topmenu li:first').addClass('over');
+	$('#topmenu li').each(function(index){
+		$(this).click(function(){
+				$('#topmenu li').removeClass();
+				$(this).addClass('over');
+		 })
+	});
+	<!--{if $menu_flag}-->
+	ShowSecMenu(49);
+	<!--{else}-->
+	ShowSecMenu(1);
+	<!--{/if}-->
+	getMessage();
+	setTimeout(get_user_info,1000);
+	
+	$("#menu2 li").each(function (index) {
+		$(this).click(function(){
+			$('#menu2 li').removeClass('active');
+			$(this).addClass('active');
+		});
+	});
+	$(".blockleft").niceScroll({  
+		cursorcolor:"#CAD3D5",  
+		cursoropacitymax:1,  
+		touchbehavior:false,  
+		cursorwidth:"2px",  
+		cursorborder:"0",  
+		cursorborderradius:"5px"  
+	});
+	window.onresize();
+});
+
+//窗口调整
+window.onresize = function(){
+    var widths = document.body.scrollWidth;
+    var heights = document.documentElement.clientHeight-71;
+	$("#menu2").height(heights);
+	var main_w = $('#wrapper').width()-$(".blockleft").width();
+	$('#wrapright').height(heights);
+};
+</script>
+<!--{template $this_module message_box}-->
+<script type="text/javascript">
+<!--{if isset($_GET['site'])}-->
+/*
+$(document).ready(function(){
+
+$('a').each(function(){
+	href = $(this).attr('href');
+	
+	if(typeof(href) != 'undefined'){
+		href += (href.indexOf('?')>-1?'&':'?')+'site=<!--{php echo xss_clear($sites->SITE);}-->';
+		$(this).attr('href',href);
+	}
+
+});
+})
+*/
+<!--{/if}-->
+</script>
+</body>
+</html>
+<!--{/php168}-->

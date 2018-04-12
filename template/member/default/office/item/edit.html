@@ -1,0 +1,350 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module header}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/iColorPicker.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<link rel="stylesheet" href="{$SKIN}category_selector.css" type="text/css" />
+<style type ="text/css">
+.columntable td{border:none; border-bottom:1px solid #EFEFEF;padding-top:8px;padding-bottom:8px}
+.columntable .tdL{font-weight:bold}
+</style>
+<script type="text/javascript">
+var form_submit;
+
+window.onbeforeunload = function(){
+	P8_Upload.del(form_submit);
+};
+
+$(document).ready(function(){
+	$('#form').validate({
+		rules: {
+			<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+			title: {
+				required: true,
+				maxlength: 80
+			},
+			
+			summary: {
+				maxlength: 100
+			},
+			
+			cid: {
+				required: true
+			},
+			
+			html_view_url_rule: {
+				required: false,
+				maxlength: 80
+			}
+			<!--{/if}-->
+		},
+		
+		messages: {
+			<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+			title: {
+				required: '{$P8LANG['office_item']['title_required']}',
+				maxlength: '{$P8LANG['office_item']['title_oversize']}'
+			},
+			
+			summary: {
+				maxlength: '{$P8LANG['office_item']['summary_oversize']}'
+			},
+			
+			cid: {
+				required: '{$P8LANG['office_item']['category_required']}'
+			},
+			
+			html_view_url_rule: {
+				maxlength: '{$P8LANG['office_item']['html_view_url_rule_oversize']}'
+			}
+			<!--{/if}-->
+		},
+		
+		errorPlacement: function(error, element) {
+			if(element.parent().attr('tagName').toLowerCase() == 'td')
+				error.wrap('<div></div>').appendTo(element.parent().prev());
+			else
+				error.wrap('<div></div>').appendTo(element.parent().parent().prev());
+		},
+		wrapper: 'div',
+		
+		submitHandler: function(){
+			form_submit = true;
+			
+			$('#form').get(0).submit();
+		},
+		
+		onkeyup: false
+	});
+});
+</script>
+<div class="nav"  style="max-width:960px; margin:10px auto 0">
+	内容 &gt; 发布内容
+</div>
+<form action="$this_url" method="post" id="form">
+	<div id="tab_1" class="tab_box mtop10" style="max-width:960px; margin:0 auto;border:1px solid #DEDEDE; padding:3px">
+		<div style="background-color:#F9F9F9; height:20px;padding:10px 0 0 10px; font-size:16px;color:#12459C; font-weight:bold"><!--{if $ACTION=='add'}-->发表新文章<!--{else}-->修改文章<span style="font-size:12px; margin-left:10px;color:red;font-weight:normal">(修改文章需重新审核)</span><!--{/if}--></div>
+		<div class="main">
+			<div class="content">
+				<table class="formtable columntable "  width="100%">
+					<tbody>
+						<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+						<tr>
+							<td class="tdL" width="12%">{$P8LANG['office_item']['category']}<font color="#ff0000">*</font></td>
+							<td class="tdR" width="88%">
+								<span id="cids"></span>
+								<input type="button" onclick="dialog.show()" value="选择" class="browse_btn"/>
+								<input type="hidden" name="cid" value="{if isset($data['cid'])}$data[cid]{/if}" />
+								<input type="hidden" id="cid" value="{if isset($data['cid'])}$data[cid]{/if}"/>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['office_item']['title']}<font color="#ff0000">*</font></td>
+							<td class="tdR"> <input type="text" name="title" class="txt ruler" value="{if !empty($data['title'])}{$data['title']}{/if}" size="50" /> &nbsp; 
+								{$P8LANG['office_item']['title_color']}: {$P8LANG['office_item']['title_color']}<input type="text"  name="title_color" size="7" id="titlecolor" class="iColorPicker" value="{if !empty($data['title_color'])}$data[title_color]{/if}" onclick="iColorShow('titlecolor','titlecolor', function(v){ $('#titlecolor').val(v);})" autocomplete="off" />&nbsp;{$P8LANG['office_item']['title_bold']}:<input type="checkbox" name="postdb[fonttype]" value="1" {if !empty($data['fonttype'])}checked{/if}> 评论: <input type="checkbox" name="postdb[forbidcomment]" value="1" {if !empty($data['forbidcomment'])}checked{/if}> </td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['office_item']['author']}</td>
+							<td class="tdR"> <input type="text" name="author" class="txt" value="{if !empty($data['author'])}{$data['author']}{/if}" size="50" /> </td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['office_item']['source']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="source" id="source" value="{if !empty($data['source'])}{$data['source']}{/if}" size="60" />
+								<input type="button" value="{$P8LANG['office_item']['source_hint']}" onclick="$('#source').val('xxx|http://')" />
+							</td>
+						</tr>
+
+						<tr>
+							<td class="tdL">{$P8LANG['office_item']['frame']}</td>
+							<td class="tdR">
+								<input type="text" name="frame" id="frame" class="txt" value="{if !empty($data['frame'])}{$data['frame']}{/if}" size="30" />
+								<input type="button" onclick="uploader.choseup();" value="{$P8LANG['upload']}" class="browse_btn"/>
+								<a href="###" onclick="uploader.image_cut()">[手工剪载图片]</a>
+								<script type="text/javascript">
+								var uploader;
+								$(document).ready(function(){
+									uploader = new P8_Upload({
+										element: {
+											src: $('#frame'),
+											attribute: 'value'
+										}
+									});
+								});
+								</script>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['office_item']['summary']}</td>
+							<td class="tdR">
+								<textarea name="summary" class="txt" cols="65" rows="3">{if !empty($data['summary'])}{$data['summary']}{/if}</textarea>
+								<div class="moretool" style="display:none"><a href="javascript:void(0)" onclick="showmorebox()">更多选项↓</a></div>
+							</td>
+						</tr>
+						
+					</tbody>
+					
+					<tbody id="morechose" style="display:none">
+						<tr>
+							<td class="tdL">{$P8LANG['office_item']['attribute']}</td>
+							<td class="tdR">
+								<!--{foreach $this_module->attributes $aid $v}-->
+								<input type="checkbox" id="attribute_$aid" name="attribute[$aid]" value="$aid" {if isset($data['attributes'][$aid])} checked{/if} />
+								<label for="attribute_$aid" title="{if !empty($attributes[$aid])}{$attributes[$aid]['last_setter']} 于 <!--{php echo date('Y-m-d H:i:s');}-->设置{/if}">{$P8LANG['office_item']['attribute'][$aid]}</label>
+								<!--{/foreach}-->
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">关键字<br />
+								(标签)：</td>
+							<td class="tdR"> <input name="" type="text" size="50" /> &nbsp;
+								<select name="">
+									<option value="1">常用关键字</option>
+								</select>
+								&nbsp;作为相关文章的索引,如多个用,隔开</td>
+						</tr>
+						<!--
+						<tr>
+							<td class="tdL">工具箱：</td>
+							<td class="tdR"> <input name="" type="radio" value="" /> 自动分页&nbsp;<input name="" type="radio" value="" /> 手动分页<br />
+								<input name="" type="checkbox" value="" />是否将内空中的外部图片采集回来(网速慢时，很影响速度)<br />
+								<input name="" type="checkbox" value="" />是否将内容中的超链接去除 </td>
+						</tr>
+						-->
+					</tbody>
+					<!--{/if}-->
+					
+					<tbody>
+						<!--!!foreach_widgets!!-->
+						<!--{foreach $this_model['fields'] $field $field_data}-->
+						<tr>
+							<td class="tdL">{$field_data['alias']}</td>
+							<td class="tdR">
+								<!--{php 
+									$__name = '';
+									include template($core, 'widget/'. $field_data['widget'], 'default');
+									
+									switch($field_data['widget']){
+									
+									case 'checkbox': case 'multi_select':
+										$__name = '[]';
+									break;
+									case 'uploader': case 'image_uploader':
+										$__name = '[url]';
+									break;
+									case 'multi_uploader':
+										$__name = '[url][]';
+									break;
+									
+									}
+								}-->
+								<!--{if !empty($field_data['description'])}--> <span class="help">$field_data[description]</span><!--{/if}-->
+							</td>
+						</tr>
+						<!--{if $field_data['not_null']}-->
+						<script type="text/javascript">
+						$(document).ready(function(){
+							$('#form *[name="field#[$field]$__name"]').rules('add', {
+								required: function(){ return !$('#url').val().length && true},
+								messages: { required: '{$P8LANG['office_item']['field_required']}'}
+							});
+						});
+						</script>
+						<!--{/if}-->
+						<!--{/foreach}-->
+						<!--!!foreach_widgets!!-->
+						
+						<!--!!widgets!!-->
+						<tr style="display: none;">
+							<td class="tdL">{$field_data['alias']}：</td>
+							<td class="tdR">
+								<!--!!widget!!-->
+								<!--!!js_validator!!-->
+								$(document).ready(function(){
+									$('#form *[name="field#[$field]$__name"]').rules('add', {
+										required: function(){ return !$('#url').val().length && true},
+										messages: { required: '{$P8LANG['office_item']['field_required']}'}
+									});
+								});
+								<!--!!js_validator!!-->
+							</td>
+						</tr>
+						<!--!!widgets!!-->
+						<tr>
+							<td class="tdL">{$P8LANG['office_item']['url']}</td>
+							<td class="tdR"> <input type="text" name="url" id="url" class="txt" value="{if !empty($data['url'])}{$data['url']}{/if}" size="50" /> {$P8LANG['office_item']['url_note']}</td>
+						</tr>
+						<tr>
+							<td class="tdL">&nbsp;</td>
+							<td class="tdR"> <input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/> </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" name="model" value="$MODEL" />
+	<input type="hidden" name="verified" value="{if isset($verified)}$verified{/if}" />
+	<input type="hidden" name="action" value="$ACTION" />
+	<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" />
+	<input type="hidden" name="iid" value="{if !empty($data['iid'])}{$data['iid']}{/if}" />
+	<input type="hidden" name="attachment_hash" value="<!--{php echo $attachment_hash = unique_id(16);}-->" />
+</form>
+<script type="text/javascript">
+var attachment_hash = '$attachment_hash';
+
+<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+var my_addible_category = $my_addible_category;
+
+var dialog = new P8_Dialog({
+	title_text: '请选择栏目',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		var id = cs.get_value();
+		$('#form input[name=cid]').val(id);
+		category_path(id);
+	},
+	show: function(){
+		cs.init();
+	}
+});
+
+var cs = new Recursive_Selector({
+	input: $('#cid'),
+	dialog: dialog,
+	sub_property: 'categories',
+	url: '{$this_system.controller}/category-json',
+	value: $('#form input[name=cid]').val(),
+	filter: function(cat){
+		if(!my_addible_category || my_addible_category[0] || my_addible_category[cat.id]){
+			return true;
+		}
+	},
+	item_callback: function(cat, item){
+		if(cat.model != '$MODEL')
+			item.css({opacity: '0.3', alpha: '(opacity=30)'});
+		
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	},
+	init_callback: function(){
+		category_path(this.get_value());
+	},
+	change: function(select){
+		var cat = cs.get_by_id(select.data('value'));
+		if(cat.model != '$MODEL' && !cat.categories) alert('你选了一个非本模型的分类');
+		
+	}
+});
+
+function category_path(cid){
+	if(cid == 0){
+		$('#cids').html('');
+		return;
+	}
+	
+	var tmp = cs.get_by_id(cid);
+	var html = '';
+	
+	while(true){
+		html = tmp.name +' &gt; '+ html;
+		if(tmp.parent == 0) break;
+		
+		tmp = cs.get_by_id(tmp.parent);
+	}
+	
+	$('#cids').html(html);
+}
+<!--{/if}-->
+
+
+$(function(){
+	<!--{if $ACTION == 'add'}-->
+	$('#form input[name=title]').focus();
+	<!--{/if}-->
+	
+	<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+	cs.init();
+	<!--{/if}-->
+});
+
+function showmorebox(){
+	var stype = $("#morechose").css('display');
+	if(stype == 'none' )$("#morechose:hidden").show();
+	else $("#morechose").hide();
+}
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

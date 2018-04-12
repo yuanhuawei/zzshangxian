@@ -1,0 +1,66 @@
+<!--{php168}-->
+<!--{template $this_module $template_path/header admin}-->
+<form action="$this_url" method="POST">
+	<table width="100%" cellspacing="0" cellpadding="0"  class="zq_list" align="center">
+		<tr class="title">
+			<td width="5%" class="list_top list_left">ID</td>
+			<td class="list_top">用户名</td>
+			<td class="list_top">角色</td>
+			<td class="list_top">登录次数</td>
+			<td class="list_top">上次登录</td>
+			<td class="list_top">上次登录IP</td>
+			<td class="list_top list_right">{$P8LANG['operation']}</td>
+		</tr>
+		
+		<!--{foreach $list $value}-->
+		<tr>
+			<td>{$value['id']}</td>
+			<td>{$value['username']}</td>
+			<td>{$roles[$value['role_id']]['name']}</td>
+			<td>{$value['login_time']}</td>
+			<td><!--{php echo date('Y-m-d H:i:s', $value['last_login']);}--></td>
+			<td>{$value['last_login_ip']}</td>
+			<td>
+				<a href="$_this_router&action=login&uid=$value[id]" target="_blank">登录</a>
+				<a href="###" id="delete_$value[id]">{$P8LANG['delete']}</a>
+			</td>
+			
+		</tr>
+		<!--{/foreach}-->
+		</table>
+	</div>
+</form>
+
+
+<script type="text/javascript">
+function delete_admin(obj){
+	if(!confirm('$P8LANG[confirm_to_delete]')) return false;
+	
+	var id = [];
+	$.each(obj, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	
+	$.ajax({
+		url: '$_this_router&action=delete',
+		type: 'POST',
+		cache: false,
+		dataType: 'json',
+		data: ajax_parameters({id: id}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i in json){
+				$('#delete_'+ json[i]).parent().parent().remove();
+			}
+		}
+	});
+	return false;
+}
+</script>
+
+<!--{template $this_module footer admin}-->
+<!--{/php168}-->

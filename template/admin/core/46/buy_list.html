@@ -1,0 +1,139 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="POST" id="form">
+<div class="mainbox mainborder">
+	<div class="section">
+	
+		<table class="columntable formtable hover_table click_changeable">
+		<tr class="title">
+			<td width="5%" class="title"><input type="checkbox" onclick="check_all(this, 'id[]'); init_tr($('#form'));" /></td>
+			<td width="5%" class="title">ID</td>
+			<td width="15%" class="title">广告名称</td>
+			<td width="8%" class="title">投放者</td>
+			
+			<td width="12%" class="title">投放时间</td>
+			<td width="12%" class="title">过期时间</td>
+			<td width="12%" class="title">备注</td>
+			<td width="5%" class="title">审核</td>
+			<td width="5%" class="title">展示</td>
+			<td width="5%" class="title">顺序</td>
+			<td width="8%" class="title">后缀</td>
+			<td class="title">{$P8LANG['operation']}</td>
+		</tr>
+		
+		<!--{foreach $list $value}-->
+		<tr id="buy_$value[id]">
+			<td><input type="checkbox" name="id[]" value="$value[id]" /></td>
+			<td>{$value['id']}</td>
+			<td><a href="$this_url?aid=$value[aid]" title="$value[aid]">{$value['name']}</a></td>
+			<td>{$value['username']}</td>
+			<td>{date('Y-m-d H:i', $value['timestamp'])}</td>
+			<td><!--{if $value['expire']}-->{date('Y-m-d H:i', $value['expire'])}<!--{/if}--></td>
+			<td>$value[comment]</td>
+			<td class="verify_$value[aid]_$value[postfix]" id="verify_$value[id]">
+				<img src="{$SKIN}/{if $value['verified']}check_yes.gif{else}check_no.gif{/if}" />
+			</td>
+			<td class="show_$value[postfix]" id="show_$value[id]">
+				<img src="{$SKIN}/{if $value['showing']}check_yes.gif{else}check_no.gif{/if}" />
+			</td>
+			<td>
+				<input type="text" id="order_$value[id]" value="$value[display_order]" size="3" />
+			</td>
+			<td>$value[postfix]</td>
+			<td>
+				<a href="$this_router-update_buy?id={$value['id']}">{$P8LANG['edit']}</a>
+				<a href="$this_router-click?bid={$value['id']}">点击记录</a>
+			</td>
+		</tr>
+		<!--{/foreach}-->
+		
+		</table>
+		
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+			<tr>
+				<td align="center" id="pages" class="pages">
+					$pages
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="submit" value="修改顺序" class="edit_btn" />
+					<input type="button" value="审核&展示" onclick="verify_and_show('', 1)" class="edit_btn" />
+					<input type="button" value="撤销展示" onclick="verify_and_show('', 0)" class="edit_btn" />
+					<input type="button" value="删除" onclick="_delete()" class="edit_btn" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+
+<script type="text/javascript">
+
+function verify_and_show(action, value){
+	var id = checked_values('id[]', $('#form'));
+	if(!id.length) return;
+	
+	if(!confirm('$P8LANG[confirm_to_do]')) return;
+	
+	$.ajax({
+		url: '$this_router-verify_show',
+		type: 'post',
+		dataType: 'json',
+		cache: false,
+		data: ajax_parameters({action: action, id: id, value: value}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			var img = value == 1 ? 'check_yes.gif' : 'check_no.gif';
+			
+			for(var i in json){
+				$('#show_'+ json[i]).html('<img src="{$SKIN}/'+ img +'" />');
+				$('#verify_'+ json[i]).html('<img src="{$SKIN}/'+ img +'" />');
+			}
+		}
+	});
+}
+
+function _delete(){
+	var id = checked_values('id[]');
+	if(!id.length) return;
+	
+	if(!confirm('{$P8LANG['confirm_to_delete']}')) return;
+	
+	$.ajax({
+		url: '$this_router-delete_buy',
+		type: 'post',
+		dataType: 'json',
+		data: {id: id},
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i in json){
+				$('#buy_'+ json[i]).remove();
+			}
+		}
+	});
+}
+
+$('input[type=text][id^=order_]').change(function(){
+	
+	this.value = this.value.replace(/[^0-9]/g, '') || 0;
+	if(this.value > 255) this.value = 255;
+	if(this.value < 0) this.value = 0;
+	$('#form').append('<input type="hidden" name="display_order['+ this.id.replace(/[^0-9]/g, '') +']" value="'+ this.value +'" />');
+	$(this).css({border: '1px solid #ff0000'});
+
+});
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

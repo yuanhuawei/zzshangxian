@@ -1,0 +1,71 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/group5/core/forms/style.css" />
+<div class="breadbanner">
+	$label[zhuzhan-banner]
+</div>
+<div class="gp-container">
+	<div class="container">
+		<div class="breadcrumbbox">
+			<ol class="breadcrumb">
+				<li><a href="{$this_system->controller}"><i class="fa fa-home"></i>首页</a></li>
+				<li class="active"><i class="fa fa-caret-right"></i>$this_model[alias]</li>
+			</ol>
+			<div class="row-page-tabs">
+				$label[list_forms_nav]
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<table width="100%" cellpadding="2" cellspacing="0" class="Mtop hover_table supplierTable">
+				<tr height="18" class="head">
+					<!--{if $mid}-->
+					<!--{foreach $this_model['list_table_fields'] $field $field_data}-->
+					<td width="10%">$field_data[alias]</td>
+					<!--{/foreach}-->
+					<!--{/if}-->
+					<td width="10%" class="title">发布人</td>
+					<td width="10%" class="title">提交时间</td>
+					<td align="center" width="10%">详情</td>
+				</tr>
+				<!--{foreach $list $key $value}-->
+				<tr id="item_$value[id]">
+					<!--{if $mid}-->
+					<!--{foreach $this_model['list_table_fields'] $field $field_data}-->
+					<td>
+						<span style="{if !empty($field_data['color'])}color:$field_data[color]{/if}">
+						<!--{if isset($value[$field]) && ($field_data['widget']=='radio' || $field_data['widget']=='select' || $field_data['widget']=='city')}-->
+						{$field_data['data'][$value[$field]]}
+						<!--{elseif isset($value[$field]) && ($field_data['widget']=='checkbox' || $field_data['widget']=='multi_select')}-->
+						<!--{foreach $value[$field] $v}-->
+						{$field_data['data'][$v]},
+						<!--{/foreach}-->
+						<!--{elseif isset($value[$field]) && $field_data['widget']=='linkage'}-->
+							<!--{php  $field_value= array_pop($value[$field]);}-->
+								{$field_value}
+						<!--{elseif isset($value[$field])}-->
+							$value[$field]
+						<!--{/if}-->
+						</span>
+						<!--{if !isset($field_data['units'])}-->
+							$field_data[units]
+						<!--{/if}-->
+					</td>
+					<!--{/foreach}-->
+					<!--{/if}-->
+					<td>$value[username]</td>
+					<td>{date('Y-m-d',$value['timestamp'])}</td>
+					<td align="center" id="status_$value[id]">
+						<a class="btn btn-recruit-see" href="$value[url]" target="_blank">查看</a>
+					</td>
+				</tr>
+				<!--{/foreach}-->
+			</table>
+			<div class="mtop pages" id="page">{$pages}</div>
+		</div>
+	</div>
+</div>	
+<!--{template $core footer}-->
+<!--{/php168}-->

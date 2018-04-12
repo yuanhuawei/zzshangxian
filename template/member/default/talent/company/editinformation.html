@@ -1,0 +1,125 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+
+<div id="tab_1" class="tab_box mtop20">
+	<div class="head">
+		<span><a href="$this_router-information?status=1">正常的招聘信息</a></span> 
+		<span><a href="$this_router-information?status=0">未审核的招聘信息</a></span>
+		<a href="$this_router-addinformation" class="sendmsg_link_bg">发布信息</a>
+	</div>
+	<div class="main profile" style="margin-top:20px">
+		<form name="form" id="form" action="{$this_url}" method="post">
+			<table width="100%" border="0" cellspacing="0" cellpadding="5" class="">
+				<tr >
+					<td width="100">标题</td>
+					<td width="*">
+						<input type="text" class="txt" name="title" size="60" value="{if !empty($data['title'])}$data[title]{/if}" />
+					</td>
+				</tr>
+				<tr >
+					<td >简介</td>
+					<td width="*">
+						<textarea name="summary" rows="2" cols="50">{if !empty($data['summary'])}$data[summary]{/if}</textarea>
+					</td>
+				</tr>
+				<tr >
+					<td>内容</td>
+					<td>
+						<textarea  class="txt" name="content" id="content" rows="10" cols="60">{if !empty($data['content'])}<div id="p8_content_show">$data[content]</div>{/if}</textarea>
+						<script type="text/javascript">
+							var editor;
+							P8_CKEDITOR({
+								id: 'content',
+								config: {
+									enterMode: 2,		//<br />
+									shiftEnterMode: 3,	//<div>
+									height:300,
+									toolbar:
+									[
+										['Source','-','Preview'],
+										['PasteText','PasteFromWord'],
+										['RemoveFormat'],
+										['Bold','Italic','Underline','Strike'],
+										['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+										['Link','Unlink'],
+										['Image','Table'],
+										
+										['Styles','Format','Font','FontSize'],
+										['TextColor','BGColor']
+
+									],
+									contentsCss: ['{$RESOURCE}/skin/{$this_module.CONFIG['template']}/talent/style.css']
+								},
+								callback:function(){
+									editor = this;
+								}
+							});
+						</script>
+					</td>
+				</tr>
+				<tr>
+					<td>职位:</td>
+					<td>
+					<div id="jobs">
+					<!--{foreach $jobs $key $val}-->
+					<p><input type="hidden" name="job[$val[id]]" value="$val[id]"/>$val[title]&nbsp;<a href="javascript:;" onclick="inputcontent('$val[id]')">插入</a>&nbsp;<a href="javascript:;" onclick="$(this).parent().remove()">删除</a></p>
+					<!--{/foreach}-->
+					</div>
+					
+						<input type="button" value="添加" onclick="jobs_dialog.show()" />
+					</td>
+				</tr>
+			</table>
+			<div style="padding-left:150px">
+				<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+				<input type="hidden" name="ac" value="{if !empty($ac)}$ac{/if}" />
+				<input type="submit" name="button2" id="button2" value="提交" class="submit_btn"/>
+			</div>
+		</form>
+	</div>
+</div>
+<script src="{$RESOURCE}/js/recursive_selector.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+var jobs_dialog = new P8_Dialog({
+		title_text: "选择职位",
+		button: true,
+		width: 300,
+		height: 200,
+		show : function(){
+			$.ajax({
+				 url: '{$this_router}-addinformation',
+				 data: 'ac=getjobs',
+				 type: 'post',
+				 dataType: 'json',
+				 success: function(msg){
+					 if(msg==''){
+						 jobs_dialog.content.html('<strong>你还没添加任何职位</strong>');
+					 }else{
+						 htmls = '';
+						for(i in msg){
+							htmls += ' <input type="checkbox" name="" title="'+msg[i].title+'" value="'+msg[i].id+'" />'+msg[i].title;
+						}
+						 jobs_dialog.content.html(htmls);
+					 }
+				 }
+			 });
+			
+		},
+		ok: function(){
+			$('#jobs').html('');
+			this.content.find('input[checked=true]').each(function(){
+					aps = '<p><input type="hidden" name="job['+$(this).val()+']" value="'+$(this).val()+'"/>'+$(this).attr('title')+'&nbsp;<a href="javascript:;" onclick="inputcontent('+ $(this).val()+')">插入</a>&nbsp;<a href="javascript:;" onclick="$(this).parent().remove()">删除</a></p>' 
+					$('#jobs').append(aps);											   
+			});
+		}
+	});
+function inputcontent(id){
+	editor.insertHtml('[jobid='+id+']');
+}
+</script>
+<div class="clear">
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

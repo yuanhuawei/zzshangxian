@@ -1,0 +1,159 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/group5/core/forms/style.css" />
+<div class="breadbanner">
+	$label[zhuzhan-banner]
+</div>
+<div class="gp-container">
+	<div class="container">
+		<div class="breadcrumbbox">
+			<ol class="breadcrumb">
+				<li><a href="{$this_system->controller}"><i class="fa fa-home"></i>首页</a></li>
+				<li class="active"><i class="fa fa-caret-right"></i>$this_model[alias]</li>
+				<li><i class="fa fa-caret-right"></i>详细内容</li>
+			</ol>
+			<div class="row-page-tabs"></div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="intro">
+				<div class="poshead">
+					<div class="title">{$data[name]}</div>
+					<div class="date">发布时间：<!--{php echo date("Y-m-d",$data['timestamp']);}--></div>				
+					<div class="resume"><a href="{$core.controller}/forms-post?mid=77">填写简历</a></div>
+				</div>
+				<div class="posinfo">				
+					<span id="operation" style="display: none; cursor: pointer;color:#087cf3">{$P8LANG['operation']}>></span>
+				</div>
+			</div>
+			<div class="layer">		
+				<p class="part_name mbt10">招聘详细要求</p>
+				<table width="100%" cellpadding="0" cellspacing="0" class="hover_table print_table">					
+				<!--{foreach $this_model['fields'] $field $v}-->
+							<tr>
+								<td class="tdL">$v[alias] :</td>
+								<td class="tdR">
+									<!--{php
+									switch($v['widget']){
+										case 'text': case 'textarea': case 'editor': case 'editor_basic': case 'editor_basic'://字段输入方式为：输入杠、文本、编辑器
+								}-->
+									$data[$field]
+									<!--{php
+										break;
+										
+										case 'checkbox': case 'multi_select':
+											foreach($v['data'] as $value => $key){
+												if(in_array($value, $data[$field])){
+								}-->
+									$key
+									<!--{php
+												}
+											}
+										break;
+										
+										case 'select': case 'radio'://字段输入方式为：单选
+											foreach($v['data'] as $value => $key){
+												if($value == $data[$field]){
+								}-->
+									$key
+									<!--{php
+													break;
+												}
+											}
+										break;
+										
+										case 'uploader'://字段输入方式为：上传器
+								}-->
+									<a href="{$data[$field]['url']}" target="_blank">{$data[$field]['title']}</a>
+									<!--{php
+										break;
+										case 'image_uploader'://字段输入方式为：图片上传器
+								}-->
+									<span class="mbottom"> <a href="{$data[$field]['url']}" target="_blank"><img src="{$data[$field]['thumb']}" /></a> </span>
+									<!--{php
+										break;
+										
+										case 'multi_uploader'://字段输入方式为：多上传器
+										foreach($data[$field] as $vv){
+										if(preg_match("/[.+](jpg|jpeg|gif|png|bmp)$/i",$vv['url'])){
+											}-->
+									<span class="mbottom"> <a href="$vv[url]" target="_blank"><img src="$vv[thumb]" /></a> </span><br/>
+									<!--{php
+											}else{
+											}-->
+									<div class="mbottom">
+										<a href="$vv[url]" target="_blank">{$vv['title']}</a>
+									</div>
+									<!--{php
+											}
+										}	
+										break;
+										case 'video_uploader'://字段输入方式为：视频上传器
+								}-->
+									<div>
+										<script type="text/javascript" src="{$RESOURCE}/js/media.js"></script>
+										<!--{if !empty($data[$field])}-->
+										<script type="text/javascript">
+											showMedia({
+												url: '$data[video_url]',
+												width: 550,
+												height: 400
+											});
+											</script>
+										<!--{/if}-->
+									</div>
+									<!--{php
+										break;
+										
+									case 'city'://城市选择
+									
+									
+								}-->
+									$data[$field]
+									<!--{php
+									break;
+										case 'link'://超链接
+								}-->
+								<a href="$data[$field]" target="{if !empty($v['data']['target'])}{$v['data']['target']}{/if}">$data[$field]</a>
+										
+										<!--{php
+									break;
+										default://其它输入方式
+								}-->
+									$data[$field]
+									<!--{php
+									}
+								}-->
+								<!--{if !empty($v['units'])}-->
+								$v[units]
+								<!--{/if}-->
+								</td>
+							</tr>
+				<!--{/foreach}-->
+				</table>
+				<p class="part_name mbt10">处理意见</p>
+				<!--{if !empty($data['reply'])}-->
+				<p style="text-indent:2em;" class="mbt10"  id="reply_$id">$data[reply]</p>
+				<p align="right"  class="mbt10">---- <span  id="manager_$id">$data[replyer]</span> <span  id="rptime_$id">{date('Y-m-d h:i:s',$data['reply_time'])}</span></p>
+				<!--{else}-->	
+				<p align="right">{$status[$data['status']]}	</p>
+				<!--{/if}-->
+			</div>
+			<div class="tools layer">
+				<!--{if $manage}-->
+					【<a href="javascript:void(0)" onclick="setstatus()">处理</a>】
+					【<a href="{$this_router}-update?id=$id">修改</a>】 
+					【<a href="javascript:void(0)" onclick="deleteitem()">删除</a>】</td>
+					<!--{/if}--> 
+					【<a href="javascript:void(0)" onclick="javascript:window.print()">打印本文</a>】
+			</div>
+		</div>
+	</div>
+</div>
+<!--{if $manage}-->
+<!--{template $this_module manage}-->
+<!--{/if}-->
+<!--{template $this_system footer}-->
+<!--{/php168}-->

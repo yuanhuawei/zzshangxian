@@ -1,0 +1,67 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<form id="theform" action="" method="post">
+			<table class="columntable formtable hover_table click_changeable" width="100%" style="text-align:center" >
+				<tr bgcolor="#eeeeee" class="title">
+					<td width="9%"><input type="checkbox" onclick="check_all(this, 'id[]')"/>编号</td>
+					<td width="30%">标题</td>
+					<td width="12%">发布时间</td>
+					<td width="12%">结束时间</td>
+					<td width="10%">填写数量</td>
+					<td width="8%">状态</td>
+					<td width="30%">操作</td>
+				</tr>
+				<!--{foreach $list $k $v}-->
+				<tr>
+					<td><input type="checkbox" name="id[]" value="{$v['id']}"/> $v[id]</td>
+					<td align="left"><a href="{$this_module.controller}-post-id-$v[id]" target="_blank">$v[title]</a></td>
+					<td>
+						<!--{php echo date("Y-m-d H:i:s",$v['timestamp']);}-->
+					</td>
+					<td>
+						<!--{php echo date("Y-m-d H:i:s",$v['endtime']);}-->
+					</td>
+					<td><a href="{$this_router}-list?iid={$v['id']}" >$v[post]</a></td>
+					<td><!--{if $v['status']}-->启用<!--{else}-->关闭<!--{/if}--></td>
+					<td>
+						<a href="{$this_router}-update?id={$v['id']}" >编辑</a>|
+						<a href="{$this_router}-titles?iid={$v['id']}" >问题</a>|
+						<a href="{$this_module.controller}-post-id-$v[id]" target="_blank">填写</a>|
+						<a href="{$this_router}-list?iid={$v['id']}">内容</a>|
+						<a href="{$this_module.controller}-view-id-$v[id]" target="_blank">结果</a>|
+						<a href="$this_router-delete_item?id=$v[id]" onclick="javascript:return confirm('确定了')">删除</a>
+					</td>
+				</tr>
+				<!--{/foreach}-->
+				<tr>
+					<td colspan="7" class="pages" align="left"><input type="button" value="更新统计" class="submit_btn" onclick="survery()"/>&nbsp;&nbsp;&nbsp; {$pages}</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+function survery(){
+	if(!$('input:checked[name="id[]"]').length){
+		alert('先勾选要统计的项目');return;	
+	}
+	$.ajax({
+		   url : '{$this_url}',
+		   data: $('#theform').serialize(),
+		   type:'post',
+		   dataType: 'json',
+		   success:function(result){
+			   if(!result.error){
+				   alert('操作成功');
+			   }else{
+					alert(result.error);				   
+			   }
+		   }
+		   })
+}
+
+</script>
+<!--{/php168}-->

@@ -1,0 +1,27 @@
+body { background: url("login_dbj.jpg") repeat-x; font-size: 12px; margin: 0px; padding:0px; }
+.login { background: url("login_bj.jpg") no-repeat; height: 600px; width: 1002px; margin:0 auto; }
+.left { width:470px; height:370px; border-right: 1px solid #C4AD4F; margin:110px 0 0px 90px; background:url("logo.gif") no-repeat; float:left;display:inline }
+.contain_left { padding-top:110px;height:220px;}
+.contain_news{height:20px;overflow:hidden;width:445px;}
+.contain_news .news {width:380px;float:left;margin-right:10px;}
+.contain_news .more{width:50px;float:left;text-align:center;}
+.contain_head { width:20px; float:left; }
+.contain_head span { background: #707980; color: #ffffff; display: block; font-size: 12px; font-weight: bold; height: 46px; line-height: 20px; margin: 0 2px 5px 2px; padding: 10px 3px; text-align: center; width: 14px; }
+.contain_head span.over { background: #ffffff; color: #707980; display: block; font-size: 12px; font-weight: bold; height: 48px; line-height: 20px; margin: 0 2px 4px 2px; padding: 10px 3px; text-align: center; width: 12px; border:1px solid #707980; }
+.main { margin-left:10px; width:410px; height:204px; border:2px solid #d09b67; padding:4px 0 0 4px; float:left; }
+.login_frame { }
+.module_img { }
+.module_img .each { float: left; height: 68px; width: 82px;overflow:hidden }
+.right { background:url("13.jpg") no-repeat; width:370px; height:350px; float:right; margin:125px 20px 0 0; }
+.contain_right { margin-top:100px; }
+.right_login { margin:0 60px; }
+.right_login span { line-height:35px; font-size:12px; color:#000000; }
+.right_button { margin-top:30px; }
+#login_info{}
+#login_info .urname{font-weight:bold; font-size:14px; line-height:30px;margin-bottom:10px; font-family:SimHei, Verdana, Geneva, sans-serif }
+#login_info .mymesg{width:100px;display:inline-block; line-height:30px}
+#login_info .more_info a{color:#BA2636; text-decoration:underline}
+#login_link p{_margin:5px auto}
+.input{width:120px; height:16px; font-size:12px; line-height:16px;}
+.submit{background:url(../button4.gif) repeat-x;padding:0 5px;border:1px solid #78B1D4;line-height:20px;height:22px;}
+

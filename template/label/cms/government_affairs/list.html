@@ -1,0 +1,14 @@
+<!--{php168}-->
+<!--{php
+$case = mt_rand(100,999);
+}-->
+<ul class="label_ul_b label_arrow">
+<!--{foreach $list $k $item}-->
+<li <!--{if ($k+1)%2==0}-->class="label_arrow_0"<!--{else}-->class="label_arrow_1"<!--{/if}--> ><span class="span3"><a href="{$item['url']}" target="_blank">{$item['suoyin']}</a></span>
+<span class="span1"><a href="{$item['url']}" target="_blank">{$item['title']}</a></span>
+<span class="span4"><!--{php echo date('Y-m-d',$item['timestamp']);}--></span>
+<span class="span2">{$item['wenhao']}</span>
+</li>
+<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

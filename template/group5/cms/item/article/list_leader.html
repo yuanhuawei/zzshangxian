@@ -1,0 +1,43 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<div class="breadbanner">
+	$label[fenzhan-banner]
+</div>
+<div class="gp-container">
+	<div class="container">
+		<div class="breadcrumbbox">
+			<ol class="breadcrumb">
+				<li><a href="{$this_system->controller}"><i class="fa fa-home"></i>首页</a></li>
+				<!--{foreach $parent_cats $v}-->
+				<li><a href="$v[url]"><i class="fa fa-caret-right"></i>$v[name]</a></li>
+				<!--{/foreach}-->
+				<li class="active"><i class="fa fa-caret-right"></i>$CAT[name]</li>
+			</ol>
+			<div class="row-page-tabs">
+				<!--{template $this_module step_category3}-->
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="leader-tab">
+			<div class="TabTitle">
+				<ul id="Tab0">
+					<li class="active" onclick="nTabs(this,0);"><a href="javascript:;" class="active">董事会</a></li>
+					<li class="normal" onclick="nTabs(this,1);"><a href="javascript:;">监事会</a></li>
+					<li class="normal" onclick="nTabs(this,2);"><a href="javascript:;">高级管理人员</a></li>
+				</ul>
+			</div>
+			<div class="TabContent">
+				<div id="Tab0-Content0">
+					$label[list_leader_tab_con1]
+				</div>
+				<div id="Tab0-Content1" class="none">$label[list_leader_tab_con2]</div>
+				<div id="Tab0-Content2" class="none">$label[list_leader_tab_con3]</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

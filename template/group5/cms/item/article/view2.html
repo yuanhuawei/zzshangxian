@@ -1,0 +1,79 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/item/item.js"></script>
+<script type="text/javascript">
+var item_id = $data[id],
+	model = '$data[model]',
+	item_cid = $data[cid],
+	verified = \$_GET['verified'] !== undefined || \$_GET['verified'] == 1 ? 1 : 0;
+
+$(function(){
+	if(get_cookie('IS_ADMIN') == 1){
+		item_operation($('#operation').show());
+	}
+});
+</script>
+<div class="breadbanner">
+	$label[zhuzhuan-banner]
+</div>
+<div class="gp-container">
+	<div class="container">
+		<div class="row">
+			<div class="news-left">
+				<div class="show_leftbox_nav gov18">
+					<!--{php $parent = end($parent_cats);$parent_name = $parent ? $parent[name]:$CAT[name];$parent_url = $parent ? $parent[url] : $CAT[url];}-->
+					<div class="sl1_head">
+						<h3>$parent_name</h3>
+					</div>
+					<div class="sl1_main" id='leftbox'>
+						<!--{template $this_module step_category5}-->
+					</div>
+				</div>
+			</div>
+			<div class="news-right">
+				<div class="position mtop">
+					<a href="{$this_system->controller}">首页</a>
+					<!--{foreach $parent_cats $v}-->
+					&gt;&gt; <a href="$v[url]">$v[name]</a>
+					<!--{/foreach}-->
+					&gt;&gt; <a href="$CAT[url]">$CAT[name]</a> 
+					&gt;&gt; 详细内容
+				</div>
+				<div class="layout_txtcon ">
+					<div class="layout_txtcon_title">
+						$data[title]
+					</div>
+					<div class="layout_txtcon_info">
+						发布：<!--{php echo date("Y-m-d",$data['timestamp']);}--> <!--{php if($data['source']!="") echo " 来源：".$data['source'];}--><!--{php if($data['author']!="") echo " 作者：".$data['author']." ";}--> 编辑：$data[username] <span id="operation" style="display: none; cursor: pointer;">{$P8LANG['operation']}</span>
+					</div>
+					<div class="xxnr" id="maincontent">		
+						$data[content]
+					</div>
+					<div class="clear"></div>
+					<div class="xxnr">
+						$pages
+					</div>
+					<div class="pre_next">
+						<span  class="fl"><strong>上一篇：</strong>
+						<!--{if !empty($prev_item[subject])}-->
+						<a href="$prev_item[url]" title="$prev_item[title]">$prev_item[subject]</a>
+						<!--{else}-->
+						没有了
+						<!--{/if}-->
+						</span> <span class="fr"><strong>下一篇：</strong>
+						<!--{if !empty($next_item[subject])}-->
+						<a href="$next_item[url]" title="$next_item[title]">$next_item[subject]</a>
+						<!--{else}-->
+						没有了
+						<!--{/if}-->
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="$this_router-count?id=$data[id]"></script>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

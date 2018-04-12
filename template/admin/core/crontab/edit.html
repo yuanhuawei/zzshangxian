@@ -1,0 +1,110 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="POST" id="form">
+
+<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td colspan="2" class="title"><!--{if $ACTION == 'add'}-->{$P8LANG['add']}<!--{else}-->{$P8LANG['update']}<!--{/if}--></td>
+				</tr>
+				
+				<tr>
+					<td width="10%">{$P8LANG['crontab_name']}:</td>
+					<td><input type="text" class="txt" name="name" value="{if isset($data['name'])}{$data['name']}{/if}" size="60" /></td>
+				</tr>
+				
+				<tr>
+					<td>{$P8LANG['crontab_script']}:</td>
+					<td><input type="text" class="txt" name="script" value="{if isset($data['name'])}{$data['script']}{/if}" size="30" /></td>
+				</tr>
+				
+				<tr>
+					<td>{$P8LANG['crontab_day']}:</td>
+					<td><input type="text" class="txt" name="day" value="{if isset($data['name'])}{$data['day']}{/if}" size="3" /> 天</td>
+				</tr>
+				
+				<tr>
+					<td>{$P8LANG['crontab_week']}:</td>
+					<td><input type="text" class="txt" name="week" value="{if isset($data['name'])}{$data['week']}{/if}" size="3" /> 周</td>
+				</tr>
+				
+				<tr>
+					<td>{$P8LANG['crontab_month']}:</td>
+					<td><input type="text" class="txt" name="month" value="{if isset($data['name'])}{$data['month']}{/if}" size="3" /> 号</td>
+				</tr>
+				
+				<tr>
+					<td>{$P8LANG['crontab_hour']}:</td>
+					<td><input type="text" class="txt" name="hour" value="{if isset($data['name'])}{$data['hour']}{/if}" size="3" /> 小时</td>
+				</tr>
+				
+				<tr>
+					<td>{$P8LANG['crontab_minute']}:</td>
+					<td><input type="text" class="txt" name="minute" value="{if isset($data['name'])}{$data['minute']}{/if}" size="3" /> 分钟</td>
+				</tr>
+				
+				<tr>
+					<td>{$P8LANG['crontab_status']}:</td>
+					<td><input type="radio" name="status" value="1"{if !empty($data['status']) || !isset($data['status'])} checked{/if} /> {$P8LANG['Y']}&nbsp;
+					<input type="radio" name="status" value="0"{if empty($data['status']) && isset($data['status'])} checked{/if} /> {$P8LANG['N']}
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">&nbsp;</td>
+					<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+				</tr>
+				
+			</table>
+		</div>
+</div>
+<input type="hidden" name="id" value="{if isset($data['name'])}{$data['id']}{/if}" />
+</form>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['help_about']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					1、任务脚本栏只需填写计划任务文件名即可，你先将自己所编的计划任务程序文件用FTP传至系统。<br>
+
+					2、里面的计划任务参数根据需要填写，不一定要全部填写。
+					
+					任务执行时间规律<br />
+					小时与分钟具有最高优先权。这两个设置一定有效。如只设这两个值，则为每隔X小时/X分钟执行。<br />
+					优先先 每隔几天 > 星期几 > 每月几号<br />
+					如果设置了上面其中一个值。那么小时及分钟则为执行当天的小时。<br />
+					例: <br />
+					天: 0, 星期: 0, 几号: 0, 小时: 3 (72) -> 每隔3 (72)小时执行<br />
+					天: 0, 星期: 0, 几号: 0, 小时: 0, 分钟: 5 -> 每隔5分钟执行<br />
+					天: 60, 星期: 0, 几号: 0, 小时: 12, 分钟: 0 -> 每隔60天的12点执行<br />
+					天: 0, 星期: 5, 几号: 0, 小时: 12, 分钟: 0 -> 每星期5的12点执行<br />
+					天: 0, 星期: 0, 几号: 15, 小时: 12, 分钟: 0 -> 每月15号的12点执行<br />
+				</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+$('#form').validate({
+	rules: {
+		name: 'required',
+		script: 'required'
+	},
+	messages: {
+		name: {
+			required: '{$P8LANG['crontab_name_required']}'
+		},
+		script: {
+			required: '{$P8LANG['crontab_script_required']}'
+		}
+	}
+});
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

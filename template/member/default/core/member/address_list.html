@@ -1,0 +1,172 @@
+<!--{php168}-->
+<!--{template $core intranet_header}-->
+<div class="wrap head_search">
+	<div class="search_box">
+		<form name="search" action="" id="request" method="post" onsubmit="get_item(this);return false;">
+			<p class="search_wrap"> <span style="font-size:16px; font-weight:bold">企业搜索</span>
+				<input type="text" class="sear_input" style="color:#cccccc;font-size:12px;" name="keyword" id="keyword" size="40" value="{if !empty($_keyword)}$_keyword{else}可拼音搜索姓名，如刘海涛可搜“lht”或“liuhaitao”{/if}" onfocus="this.value=''" onblur="if(this.value=='')this.value='可拼音搜索姓名，如刘海涛可搜“lht”或“liuhaitao”'" />
+				<input style="padding:4px 10px; font-size:14px" type="submit" value="马上搜索" />
+			</p>
+			<p class="search_type">
+				<input type="radio" value="name" name="type" checked="checked" {if !empty($_type) && $type=='name'}checked{/if} />
+				姓名
+				<input type="radio" value="phone" name="type" {if !empty($_type) && $type=='phone'}checked{/if} />
+				电话
+				<input type="radio" value="mobile" name="type" {if !empty($_type) && $type=='mobile'}checked{/if}/>
+				手机
+				<input type="radio" value="email" name="type" {if !empty($_type) && $type=='email'}checked{/if}/>
+				邮箱
+				<input type="radio" value="cms" name="type" />
+				站内
+				<input type="radio" value="down" name="type" />
+				下载
+				</p>
+				<input type="hidden" name="role_gid" id="role_gid" value="" />
+		</form>
+	</div>
+	<div class="search_info"> $label[index_search_text]<br>
+		<span>$label[index_search_enter]</span> </div>
+</div>
+<div class="wrap main_wrap">
+	<div class="main_left">
+		<ul class="left_menu" id="groups">
+			<li><a title="all">所有</a></li>
+			<!--{foreach $core->role_groups $rs}-->
+			<!--{php $i++; if($i>=20)break;}-->
+			<li><a title="$rs[id]">$rs[name]</a></li>
+			<!--{/foreach}-->
+		</ul>
+	
+	</div>
+	<div class="main_right">
+		<h3 class="main_right_head">企业员工通讯录</h3>
+		<form name="form1" id="form1" action = "$this_router-address_list_down" method="post">
+		<table width="100%" border="0" cellpadding="1" cellspacing="1" class="show_table" id="showtable">
+		<tbody>
+			<tr class="tablehead">
+				<td width="3%"></td>
+				<td width="10%">姓名</td>
+				<td width="13%">部门</td>
+				<td width="13%">职称</td>
+				<td width="13%">电话</td>
+				<td width="15%">手机</td>
+				<td width="22%">邮箱</td>
+				<td width="9%">状态</td>
+			</tr>
+			</tbody>
+			<tbody id="list">
+			</tbody>
+		</table>
+		
+	<div  align="center" style="margin-top:10px">
+		<a href="javascript:void(0)" onclick="check_all(true, 'id[]', $('#form1'))">全选</a>/<a href="javascript:void(0)" onclick="check_all(false, 'id[]', $('#form1'));">反选</a>
+		<input type="checkbox" id="select_all" name="select_all" value="1"/>全选所有  <input type="button" onclick="download()" value="导出" class="submit_btn"/> 
+		<input type="hidden" name="type" value="realname">
+		<input type="hidden" name="role_gid" value="0">
+		<input type="hidden" name="role_id" value="0">
+		<input type="hidden" name="keyword" value="">
+		<span id="pages"></span>
+	</div>
+	</form>
+	</div>
+<script type="text/javascript">
+var ROLE_GROUP_JSON = $role_group_json,
+	ROLE_JSON = $role_json,
+	status_json = $status_json,
+	checked_ids = {};
+function get_item(form){
+	var t = $(form).find('input[name="type"][checked="true"]').val();
+	var keyword = $(form).find('input[name="keyword"]').val();
+	if(t == 'cms'){
+		$(form).attr('action','{$core.controller}/cms/item-search?keyword='+keyword);
+		$(form).attr('target','_blank');
+		$(form).submit();
+	}else if(t == 'down'){
+		$(form).attr('action','{$core.controller}/cms/item-search?keyword='+keyword+'&model='+t);
+		$(form).attr('target','_blank');
+		$(form).submit();
+	}else{
+		request_item(1);
+	}
+}
+function request_item(page){
+var keyword = $('#keyword').val();
+if(keyword=='可拼音搜索姓名，如刘海涛可搜“lht”或“liuhaitao”'){ $('#keyword').val(''); }
+$.ajax({
+	url: '$this_url',
+	data: $('#request').serialize() +'&page='+ (page === undefined ? 1 : page),
+	dataType: 'json',
+	cache: false,
+	beforeSend: function(){
+		ajaxing({});
+	},
+	success: function(json){
+		PAGE = page;
+		$('#keyword').val(keyword)
+		$('#list').empty();
+		for(var i in json.list){
+			_list_item(json.list[i]);
+		}
+		
+		$('#pages').html(json.pages);
+		
+		ajaxing({action: 'hide'});
+		
+		window.scrollTo(0,0);
+		
+		var keywords = $.trim($('#request input[name=keyword]').val());
+		if(!keywords.length) return;
+		
+		var keywords = keywords.replace(/[\+\-\*\|\!]/g, '').split(/\s+/);
+		
+		
+	}
+});
+}
+
+function _list_item(json){
+	
+
+	var tr = 
+	'<tr>'+
+		'<td><input type="checkbox" name="id[]" value="'+ json.id +'"/>'+
+		'<td><a href="{$core.admin_controller}/core/member-update?id='+ json.id +'&role_gid='+ json.role_gid +'" target="_blank">'+(json.name ==''? json.username:json.name)+'</a></td>'+
+		'<td>'+ (ROLE_GROUP_JSON[json.role_gid] ? ROLE_GROUP_JSON[json.role_gid].name : '') +'</td>'+
+		'<td>'+ (ROLE_JSON[json.role_id] ? ROLE_JSON[json.role_id].name : '') +'</td>'+
+		'<td>'+ json.phone +'</td>'+
+		'<td>'+ json.cell_phone +'</td>'+
+		'<td>'+ json.email +'</td>'+
+		'<td>'+ status_json[json.status] +'</td>'+
+	'</tr>';
+	
+	$('#list').append($(tr));
+}
+function download(){
+	var obj=checked_values('id[]');
+	var id = [];
+	$.each(obj, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	var keyword = $('#keyword').val();
+	if(keyword=='可拼音搜索姓名，如刘海涛可搜“lht”或“liuhaitao”'){ $('#keyword').val(''); }
+	$('#form1 input[name="role_gid"]').attr('value',$('#role_gid').val());
+	$('#form1 input[name="type"]').attr('value',$('#request input[type="radio"][name="type"][check="true"]').val());
+	$('#form1 input[name="keyword"]').attr('value',$('#request input[name="keyword"]').val());
+	
+	$('#form1').submit();
+}
+$(document).ready(function(){
+		$('#groups >li').eq(0).addClass('over');
+		$('#groups >li').bind('click',function(){
+			$(this).siblings("li").removeClass('over').end().addClass('over');
+			$('#role_gid').attr('value',$(this).find('a').attr('title'));
+			request_item(1);
+			
+		 })	;
+		request_item(1);
+})
+</script>
+</div>
+<div class="clear mtop"></div>
+<!--{template $core footer}-->
+<!--{/php168}-->

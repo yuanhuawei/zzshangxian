@@ -1,0 +1,73 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>客服中心</title>
+<style type="text/css">
+body {
+	background-color: #FFFFFF;
+	background-position: center top;
+	background-repeat: repeat-x;
+	font-family: "宋体", Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 150%;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+}
+div, ul, li, form, h1, h2, h3, h4, h5, a, p, dl, dt, dd {
+	margin: 0;
+	padding: 0;
+}
+table {
+	margin-top:10px;
+	background-color:#cccccc
+}
+td {
+	text-align:center;
+	background-color:#ffffff;
+	color: #484848;
+	line-height: 25px;
+	padding: 3px;
+}
+.head td{
+	background-color: #EDEDED;
+}
+</style>
+</head>
+<body>
+<table width='600' align="center" cellspacing='1' cellpadding='1' class="formtable columntable hover_table mtop20">
+  <tr class="head">
+    <td width="52">编号</td>
+    <td width="98">分类</td>
+    <td width="157">标题</td>
+    <td width="50">提问时间</td>
+    <td width="55">提交人</td>
+    <td width="53">状态</td>
+    <td width="58">解决人</td>
+    <td width="55">处理时间</td>
+  </tr>
+  <!--{foreach $list $k $v}-->
+  <tr>
+    <td>$v[num]</td>
+    <td>{$category[$v['category']]}</td>
+    <td style="text-align:left">$v[title]</td>
+    <td><!--{php echo date("y-m-d",$v['timestamp']);}--></td>
+    <td>$v[username]</td>
+    <td><!--{if $v['state']==1}-->
+      处理中
+      <!--{elseif $v['state']==2}-->
+      完成处理
+      <!--{else}-->
+      未解决
+      <!--{/if}--></td>
+    <td>{$v['adminname']}</td>
+    <td>{if !empty($v['solvetime'])}{date('y-m-d',$v['solvetime'])}{/if}</td>
+  </tr>
+  <!--{/foreach}-->
+</table>
+<p style="text-align:center; margin-top:10px;">[<a href="javascript:;" onclick="window.print();" />打印</a>]&nbsp;[<a href="javascript:;" onclick="window.close();" />关闭</a>]</p>
+</body>
+</html>
+<!--{/php168}-->

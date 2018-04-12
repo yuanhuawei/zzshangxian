@@ -1,0 +1,7 @@
+<!--{php168}-->
+<!--{if $UID}-->
+	用户名:{$USERNAME} <input id="username_txt" type="hidden" value="{$USERNAME}" /> 匿名<input id="send_type" type="checkbox" value="1" onclick="$(this).prev().val('');"/>
+<!--{else}-->
+	用户名<input id="username_txt" type="text" value="网友" style="width:100px; margin-left:7px; height:13px;"/> 匿名<input id="send_type" type="checkbox" value="1" onclick="$(this).prev().val('');"/>		
+<!--{/if}-->
+<!--{/php168}-->

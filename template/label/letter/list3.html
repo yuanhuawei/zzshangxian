@@ -1,0 +1,16 @@
+<!--{php168}-->
+<table style="line-height:180%;font-size:12px;" width="100%" cellspacing="3" cellpadding="1">
+	<tr><th width="30%">标题</th><th width="15%">类型</th><th width="15%">来信日期</th><th width="15%">办理状态</th><th width="20%">承办单位</th><th width="30">预警</th></tr>
+	  <!--{foreach $list $key $row}-->
+	  <tr>
+		  <td class="ltitle" style="border-top:1px dashed #e1e1e1"><span class="dottitle_dot">·</span><a href="$row[url]" title="$row[full_title]" target="_blank">$row[title]</a></td>
+		  <td align="center" style="border-top:1px dashed #e1e1e1">$row[type_name]</td>
+		  <td align="center" style="border-top:1px dashed #e1e1e1"><!--{php echo date('Y-m-d',$row['create_time']);}--></td>
+		  <td align="center" style="border-top:1px dashed #e1e1e1"><span style="color:#FFFFFF;padding:3px;background-color:{if $row[status]==3}#0F96E5{else}#F27D03{/if}">{if $row[status]==3}√{else}＝{/if}$row[status_name]</span></td>
+		  <td align="center" style="border-top:1px dashed #e1e1e1">$row[department_name]</td>
+		  <td align="center" style="border-top:1px dashed #e1e1e1"><img src="{$RESOURCE}/skin/default/core/letter/dp{$row['dp']}.gif"/></td>
+	  </tr>
+	  <!--{/foreach}-->
+</table>
+<!--{/php168}-->
+

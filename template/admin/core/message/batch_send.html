@@ -1,0 +1,137 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/ueditor/ueditor.all.min.js"></script>
+
+<form action="$this_url" method="POST" id="form">
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr><td>
+				
+				<!--{if $action == 'send' || $action == 'edit'}-->
+				<table class="columntable formtable hover_table">
+				<tr class="title">
+					<td class="title" colspan="2">消息群发</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL" width="15%">角色</td>
+					<td class="tdR" width="85%">
+						<input type="checkbox" onclick="$(this).parent().find('span input[type=checkbox]').prop('checked', this.checked)" />全部
+						<span>
+						<!--{foreach $role->roles $k $v}-->
+							<input type="checkbox" name="role_id[]" value="$k" id="role_$k"{if $action == 'edit'} disabled{/if} /><label for="role_$k">$v[name]</label> 
+						<!--{/foreach}-->
+						</span>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>标题</td>
+					<td><input type="text" class="txt" name="title" id="title" value="{if !empty($data['title'])}{$data['title']}{/if}" size="60" /></td>
+				</tr>
+				
+				<tr>
+					<td>内容</td>
+					<td><div style="width:83.5%">
+						<script name="content" id="content" type="text/plain">{if !empty($data['content'])}{$data['content']}{/if}</script>
+						<script type="text/javascript">UE.getEditor('content',{toolbars: [['fullscreen', 'source','|', 'undo', 'redo','|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'fontfamily','fontsize', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']]
+		,allowDivTransToP: false,initialFrameHeight: 350});</script>
+				</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">&nbsp;</td>
+					<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+				</tr>
+				
+				</table>
+				<!--{else}-->
+				
+				<table class="columntable formtable hover_table">
+				<tr class="title">
+					<td class="title"><input type="checkbox" onclick="check_all(this, 'id[]');init_tr($('#form'));" /></td>
+					<td class="title">ID</td>
+					<td class="title">标题</td>
+					<td class="title">角色</td>
+					<td class="title">时间</td>
+					<td class="title">操作</td>
+				</tr>
+				
+				<!--{foreach $list $value}-->
+				<tr>
+					<td><input type="checkbox" name="id[]" value="$value[id]" /> </td>
+					<td>$value[id]</td>
+					<td>$value[title]</td>
+					<td><!--{if $value['role_id'] == 0}-->所有<!--{else}-->{$role->roles[$value['role_id']]['name']}<!--{/if}--></td>
+					<td>{date('Y-m-d H:i:s', $value['timestamp'])}</td>
+					<td>
+						<a href="$this_url?action=edit&id=$value[id]">{$P8LANG['edit']}</a>
+						<a id="message_$value[id]" href="$this_url?action=edit&id=$value[id]" onclick="return _delete([this.id])">{$P8LANG['delete']}</a>
+					</td>
+				</tr>
+				<!--{/foreach}-->
+				
+				<!--{/if}-->
+				
+			</td></tr>
+		</table>
+	</div>
+</div>
+<input type="hidden" name="action" value="$action" />
+<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" />
+</form>
+
+<script type="text/javascript">
+$('form').validate({
+	rules: {
+		title: {
+			required: true
+		},
+		content: {
+			required: true
+		}
+	},
+	
+	onkeyup: false
+});
+
+function _delete(array){
+	var id = [];
+	$.each(array, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	
+	if(!id.length) return false;
+	
+	if(confirm('{$P8LANG['confirm_to_delete']}')){
+		$.ajax({
+			url: '$this_router-delete',
+			type: 'POST',
+			dateType: 'json',
+			data: ajax_parameters({id: id}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				
+				for(var i in json){
+					$('#message_'+ json[i]).parent().parent().remove();
+				}
+			}
+		});
+	}
+	
+	return false;
+}
+
+</script>
+
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

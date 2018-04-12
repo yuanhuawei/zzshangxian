@@ -1,0 +1,20 @@
+<div class="show">
+<div class="bt">
+<h1>测试静态内容页</h1>
+<p>发布：2016-03-30　　作者：admin　　浏览:0次 <span id="operation" style="display: none; cursor: pointer;">操作</span></p>
+</div>
+<div class="Con"> 
+<div> 
+<!--<b>内容</b> :-->  
+1111  
+</div> 
+</div>
+</div><div class="foot">
+<h1>国微市人民政府主办&nbsp;&nbsp;&nbsp;&nbsp;版权所有 <a id="pclink" href="http://120.26.77.20/yanshi/schoolzhanqun" style="float:right; margin-right:20px; color:#ffffff; font-weight:bold">PC版</a></h1>
+<p>国微市人民政府办公室承办 </p>
+<p>国微市电子政务办公室&nbsp;&nbsp;&nbsp;&nbsp;建设维护</p>
+<p>粤ICP备88888888号</p>
+<p>Tel：020-6666666666&nbsp;&nbsp;&nbsp;&nbsp;Fax：020-66886688</p>
+</div>
+</body>
+</html>

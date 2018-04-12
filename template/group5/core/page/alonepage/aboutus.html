@@ -1,0 +1,152 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$SKDIR}core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/dangwei/core/alonepage/style.css"/>
+<div class="nav mtop">
+	您的位置：<a href="{$this_system.url}">首页</a>&nbsp;&gt;&nbsp;<a href="#">$data[title]</a>
+</div>
+<div class="mtop">
+	<div class="contain_left">	
+		<div class="border1">
+			<div class="head_gov">
+				<span class="title1">
+					$label[aboutus_menu_title]
+				</span>
+			</div>	
+				<div class="main1" id='leftbox'>
+					$label[aboutus_menu]
+				</div>
+				<div class="clear">
+				</div>
+		</div>
+		
+		<div class="border1 mtop">
+			<div class="head_gov">
+				<span class="title1">
+					$label[aboutus_title_2]
+				</span>
+			</div>	
+				<div class="main1">
+				<div style="min-height:40px;">$label[aboutus_content_2]</div>
+				<div style="min-height:40px;margin-top:10px;">$label[aboutus_content_3]</div>
+				<div style="min-height:40px;margin-top:10px;">$label[aboutus_content_4]</div>
+				</div>
+		</div>
+	</div>
+	<div class="contain_right">
+		<div class="show_box_gov">
+			<div class="gov_tab_head head">
+			<span class="title6">$data[title]</span><span class="more2">您当前所在的位置：首页&nbsp;&gt;&nbsp;$data[title]</span><span class="more1" id="editcontent"></span>
+			</div>
+			<div class="main1 main_r_bg" id='rightbox'>
+				<div class="line2"></div>
+					<div class="about_top">
+						<div class="imagestop_l">$label[abimages_0]</div>
+						<div class="txttop_r">
+							<div class="name">$label[abname_0]</div>
+							<div class="alise">$label[abalise_0]</div>
+							<div class="txttop_content">$label[abcontent_0]<p><span style="margin-right:10px;float:left;">$label[abcontent_01]</span> <span style="float:left;">$label[abcontent_02]</span></p></div>							
+						</div>
+					</div>
+					<div class="clear"></div>
+					<div class="each_one">
+						<div class="images_l">$label[abimages_1]</div>
+						<div class="txt_r">
+							<div class="name">$label[abname_1]</div>
+							<div class="alise">$label[abalise_1]</div>
+							<div class="txt_content">$label[abcontent_1]</div>
+						</div>					
+					</div>
+					<div class="each_one">
+						<div class="images_l">$label[abimages_2]</div>
+						<div class="txt_r">
+							<div class="name">$label[abname_2]</div>
+							<div class="alise">$label[abalise_2]</div>
+							<div class="txt_content">$label[abcontent_2]</div>
+						</div>					
+					</div>
+					<div class="each_one">
+						<div class="images_l">$label[abimages_3]</div>
+						<div class="txt_r">
+							<div class="name">$label[abname_3]</div>
+							<div class="alise">$label[abalise_3]</div>
+							<div class="txt_content">$label[abcontent_3]</div>
+						</div>					
+					</div>
+					<div class="each_one">
+						<div class="images_l">$label[abimages_4]</div>
+						<div class="txt_r">
+							<div class="name">$label[abname_4]</div>
+							<div class="alise">$label[abalise_4]</div>
+							<div class="txt_content">$label[abcontent_4]</div>
+						</div>					
+					</div>
+					<div class="each_one">
+						<div class="images_l">$label[abimages_5]</div>
+						<div class="txt_r">
+							<div class="name">$label[abname_5]</div>
+							<div class="alise">$label[abalise_5]</div>
+							<div class="txt_content">$label[abcontent_5]</div>
+						</div>					
+					</div>
+					<div class="each_one">
+						<div class="images_l">$label[abimages_6]</div>
+						<div class="txt_r">
+							<div class="name">$label[abname_6]</div>
+							<div class="alise">$label[abalise_6]</div>
+							<div class="txt_content">$label[abcontent_6]</div>
+						</div>					
+					</div>
+					<div class="each_one">
+						<div class="images_l">$label[abimages_7]</div>
+						<div class="txt_r">
+							<div class="name">$label[abname_7]</div>
+							<div class="alise">$label[abalise_7]</div>
+							<div class="txt_content">$label[abcontent_7]</div>
+						</div>					
+					</div>
+					<div class="each_one">
+						<div class="images_l">$label[abimages_8]</div>
+						<div class="txt_r">
+							<div class="name">$label[abname_8]</div>
+							<div class="alise">$label[abalise_8]</div>
+							<div class="txt_content">$label[abcontent_8]</div>
+						</div>					
+					</div>
+					<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clear">
+</div>
+<!--{if $addcontent}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/images/dialog.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<script type="text/javascript">
+<!--{template_init_js}-->
+
+var \$id='$id';
+var editlabel = get_cookie('IS_ADMIN');
+var dialog
+$(document).ready(function(){
+dialog = new P8_Dialog({
+	title_text: '编辑内容',
+	button: false,
+	zIndex:10000,
+	width: 750,
+	height: 500,
+	url: \$this_router+'-addcontent?id='+\$id
+});
+if(editlabel !==undefined){
+$("#editcontent").html("<a href='javascript:void(0)' onClick='dialog.show()'>编辑</a>");
+}
+						   })
+</script>
+<!--{/if}-->
+<!--{template $core foot_pre}-->
+<!--{template $core footer}-->
+<!--{/php168}-->
+-->

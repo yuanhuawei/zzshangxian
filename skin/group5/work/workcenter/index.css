@@ -1,0 +1,24 @@
+body { font-size:12px; font-family:Arial, Helvetica, sans-serif; color:#000; background-color:#FFFFFF; margin: 0px; padding: 0px }
+img { border:0; vertical-align:middle; }
+body, html, h1, h2, h3, h4, h5, h6, div, ul, li, p, span, input, dl, dt, dd, label, table, th, td, tr, radio, select { margin:0; padding:0; }
+ul, li { list-style:none; }
+a:link, a:visited { color:#305F96; text-decoration:none; }
+a:hover { color:#305F96; text-decoration: underline; }
+.clear { clear:both; line-height:0; height:0; font-size:0; overflow:hidden; }
+.header { height:100px; background:#60A8F2 url(head_2.gif) repeat-x; }
+.header .left { height:100px; background:#60A8F2 url(head_1.png) no-repeat; width:474px; float:left }
+.header .right { height:100px; background:#60A8F2 url(head_3.png) no-repeat; width:257px; float:right }
+.header .site_title { margin:15px 10px 0 50px; font-size:24px; font-weight:bold; color:#ffffff; float:left }
+#wleft { width:220px; background-color:#E7F5FE; float:left; position:relative; display:block; margin-right:5px; }
+#wleft .menu .left_top { background:url(left_top.gif) repeat-x; height:35px; font-size:18px; font-weight:bold; line-height:35px; text-align:center; color:#487097 }
+#wleft .menu .left_top a{ background:url(reddot.gif) no-repeat left 5px; padding-left:15px; text-decoration:none}
+#left_menu { overflow-x:hidden; overflow-y:auto; scrollbar-face-color: #053460; scrollbar-shadow-color: #eee; scrollbar-highlight-color: #eee; scrollbar-3dlight-color: #1F4A74; scrollbar-darkshadow-color: #1F4A74; scrollbar-track-color: #1F4A74; scrollbar-arrow-color: #fff; }
+#openclose { background:#BCD2E0 url(openclose.gif) no-repeat scroll 3px center; display:block; width:9px; right:-10px; top:0; z-index:99; position:absolute; outline-style: none; outline-width: medium }
+#wleft .open { background-position:left center; cursor:pointer }
+#wleft .close { background-position:right center; cursor:pointer }
+#wleft .write { background:none; }
+#menu li{width:190px; height:20px; overflow:hidden}
+#wright { overflow:hidden; _zoom:1; _float:left; }
+.b_menu ul { margin-left:10px; line-height:150% }
+.b_menu p { background:#1A5DB0 url(menubg.gif) repeat-x; font-size:14px; padding:3px 20px; margin-top:5px; border-bottom:1px solid #CCC; color:#ffffff; font-weight:bold }
+.b_menu .icon li{background:url(menu_icon.gif) no-repeat left 7px; padding-left:18px;line-height:25px}

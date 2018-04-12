@@ -1,0 +1,704 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/jq_ui.core.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_tabs.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<link rel="stylesheet" href="{$SKIN}/{$SYSTEM}/category_selector.css" type="text/css" />
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：
+	<a href="{$core.admin_controller}/sites/farm-index">站群系统</a> &gt; 
+	<a href="{$core.admin_controller}/sites/model-add"><!--{if !empty($data['id'])}-->编辑<!--{else}-->	添加<!--{/if}-->栏目</a></td>
+  </tr>
+</table>
+<form action="$this_url" method="post" id="form">
+	<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table">
+     <tbody>
+		<tr class="title fix_head">
+			<td width="20%"  class="list_top">{$P8LANG['config']}</td > <td width="38%" class="list_top">参数</td><td width="42%" class="list_top">备注</td>
+		</tr>
+		<tr>
+            <td class="tdL">栏目名称</td>
+            <td class="tdR">
+                <!--{if $ACTION == 'update'}-->
+                    <input type="text" class="txt" id="name" name="name" value="{if isset($data['name'])}$data[name]{/if}" />
+                <!--{else}-->
+                    <textarea id="name" name="name"  cols="30" rows="5"></textarea>
+                    
+                <!--{/if}-->
+            </td>
+            <td class="tdR"><span>{$P8LANG['top_sites_notes_2']}</span></td>
+        </tr>
+        <tr>
+            <td class="tdL">类型</td>
+            <td class="tdR">
+            <select name="type" onchange="showoutlink(this);change_model($('#model').val())">
+            	<option value="1"{if !empty($data['type']) && $data['type'] == 1} selected{/if}>{$P8LANG['sites_category_type_1']}</option>
+                <option value="2"{if !empty($data['type']) && $data['type'] == 2} selected{/if}>{$P8LANG['sites_category_type_2']}</option>
+                <option value="3"{if !empty($data['type']) && $data['type'] == 3} selected{/if}>{$P8LANG['sites_category_type_3']}</option>
+                <option value="4"{if !empty($data['type']) && $data['type'] == 4} selected{/if}>单网页</option>
+            </select>
+                
+            </td>
+            <td class="tdR"></td>
+        </tr>
+        <tr>
+            <td class="tdL">所属栏目</td>
+            <td class="tdR">
+                <span id="parents"></span>
+                <input type="button" value="选择栏目.." onclick="dialog.show()" />
+                <input type="hidden" name="parent" value="{if isset($data['parent'])}$data[parent]{/if}" />
+                <input type="hidden" id="parent" />
+            </td>
+            <td class="tdR"></td>
+        </tr>
+        <tr id="category_outlink">
+            <td class="tdL">外链地址</td>
+            <td class="tdR">
+                <input type="text" class="txt" name="url" id="outlink" value="{if !empty($data['url'])}$data[url]{/if}" size="50"/>
+                打开窗口:
+                <input type="radio" name="config[target]" value="_self" {if !empty($config['target']) && $config['target']=='_self'} checked{/if}/> 本窗口
+                <input type="radio" name="config[target]" value="_blank" {if empty($config['target']) || $config['target']=='_blank'} checked{/if}/> 新开窗口
+            </td>
+            <td class="tdR"></td>
+        </tr>	
+        <tr>
+            <td class="tdL">模型</td>
+            <td class="tdR">
+                <select name="model" id="model" onchange="change_model(this.value)">
+                    <!--{foreach $models $mod $v}-->
+                    <option value="$mod"{if !empty($data['model']) && $data['model'] == $mod}selected{/if}>$v[alias]
+                    </option>
+                    <!--{/foreach}-->
+                </select>
+            </td>
+            <td class="tdR"></td>
+        </tr>
+       </tbody>
+   <tbody id="more_option" style="display:none">
+         
+         
+        <tr id="all_model">
+            <td class="tdL">列表页是否显示所有内容</td>
+            <td class="tdR"><input type="radio"  name="list_all_model" value="0" {if empty($data['list_all_model'])}checked{/if}/> 否 <input type="radio"  name="list_all_model" value="1" {if !empty($data['list_all_model'])}checked{/if}/> 是
+            </td>
+            <td class="tdR"><span>实现大分类可分页，要配合模板使用</span></td>
+        </tr>
+        <tr>
+            <td class="tdL">每页内容数量</td>
+            <td class="tdR"><input type="text" class="txt" name="page_size"  value="{if !empty($data['page_size'])}{$data['page_size']}{else}30{/if}" size="4" /> 条
+            </td>
+            <td class="tdR"></td>
+        </tr>
+        <tr>
+            <td class="tdL">排序</td>
+            <td class="tdR"><input type="text" class="txt" name="display_order"  value="{if !empty($data['display_order'])}{$data['display_order']}{else}0{/if}" size="4" /> 
+            </td>
+            <td class="tdR"></td>
+        </tr>
+        <!--{if $ACTION == 'update'}-->
+        <tr>
+            <td class="tdL">母站同步对接</td>
+            <td class="tdR">
+                <span id="matrix_cid"></span>
+                <input type="button" value="选择栏目.." onclick="matrix_dialog.show()" />
+                <input type="hidden" name="matrix" value="{if isset($data['matrix'])}$data[matrix]{/if}" />
+                <input type="hidden" id="matrix" />
+            </td>
+            <td class="tdR">对接后，此栏目所发之内容会自动发布到母站与之对接之栏目中。</td>
+        </tr>
+        <tr>
+            <td class="tdL">列表页排序</td>
+            <td class="tdR">
+                <select name="config[orderby]">
+                    <!--{foreach $order_fields $name $v}-->
+                    <option value="$name"{if !empty($config['orderby']) && $config['orderby'] == $name} selected{/if}>$v</option>
+                    <!--{/foreach}-->
+                </select>
+                <input type="radio" name="config[orderby_desc]" value="0"{if empty($config['orderby_desc'])} checked{/if} />降序
+                <input type="radio" name="config[orderby_desc]" value="1"{if !empty($config['orderby_desc'])} checked{/if} />升序
+            </td>
+            <td class="tdR"></td>
+        </tr>
+        <!--{/if}-->
+        
+    
+       
+        
+        <tr>
+            <td class="tdL">栏目列表页模板</td>
+            <td class="tdR" >
+                <input type="text" class="txt" name="list_template" id="lt" value="{if !empty($data['list_template'])}$data[list_template]{/if}" size="30" />
+                <input type="button" value="{$P8LANG['select_template']}" onclick="list_template_dialog.show()" />
+            </td>
+             <td class="tdR"></td>
+        </tr>
+        <tr>
+            <td class="tdL">栏目内容页模板</td>
+            <td class="tdR">
+                <input type="text" class="txt" name="view_template" id="vt" value="{if !empty($data['view_template'])}$data[view_template]{/if}" size="30" />
+                <input type="button" value="{$P8LANG['select_template']}" onclick="view_template_dialog.show()" />
+            </td>
+             <td class="tdR"></td>
+        </tr>
+        <tr>
+            <td class="tdL">栏目列表显示样式</td>
+            <td class="tdR">
+                <input type="text" class="txt" name="item_template" id="it" value="{if !empty($data['item_template'])}$data[item_template]{/if}" size="30" />
+                <input type="button" value="{$P8LANG['select_template']}" onclick="item_template_dialog.show()" />
+            </td>
+             <td class="tdR"></td>
+        </tr>
+        <tr>
+            <td class="tdL">栏目列表标题长度</td>
+            <td class="tdR">
+                <input type="text" class="txt" name="config[list_title_length]" value="{if !empty($config['list_title_length'])}$config[list_title_length]{/if}" size="5" />
+            </td>
+             <td class="tdR"></td>
+        </tr>
+        <tr>
+            <td class="tdL">标题超过字数是否用省略号表示</td>
+            <td class="tdR">
+                <input type="radio" name="config[list_title_length_dot]" value="1" {if !empty($config['list_title_length_dot'])}checked{/if}/>{$P8LANG['Y']}
+                <input type="radio" name="config[list_title_length_dot]" value="0" {if empty($config['list_title_length_dot'])}checked{/if}/>{$P8LANG['N']}
+            </td>
+            <td class="tdR"></td>
+        </tr>
+        <tr>
+            <td class="tdL">栏目列表页分页模板</td>
+            <td class="tdR">
+                <input type="text" class="txt" name="config[list_pages_template]" value="{if !empty($config['list_pages_template'])}$config[list_pages_template]{/if}" size="30" />
+                
+            </td>
+             <td class="tdR"><span>{$P8LANG['sites_category_pages_template_note']}</span></td>
+        </tr>
+        
+        <tr>
+            <td class="tdL">栏目内容页分页模板</td>
+            <td class="tdR">
+                <input type="text" class="txt" name="config[view_pages_template]" value="{if !empty($config['view_pages_template'])}$config[view_pages_template]{else}base_page_template{/if}" size="30" />
+                
+            </td>
+             <td class="tdR"><span>{$P8LANG['sites_category_pages_template_note']}</span></td>
+        </tr>
+        
+        <tr>
+            <td class="tdL">封面图片</td>
+            <td class="tdR" >
+                <input type="text" class="txt" name="frame" id="frame"  value="{if !empty($data['frame'])}{$data['frame']}{/if}" size="50" />
+                <input type="button" onclick="uploader.choseup();" value="{$P8LANG['upload']}" />
+                <input type="button" id="frame_toggle" onclick="" value="" style="display: none;" />
+                <a href="###" onclick="uploader.image_cut()">[$P8LANG[image_cut]]</a><br />
+                
+                <script type="text/javascript">
+                var uploader;
+                $(function(){
+                    uploader = new P8_Upload({
+                        element: {
+                            src: $('#frame'),
+                            attribute: 'value'
+                        },
+                        param: {
+                            return_thumb: true<!--{if !empty($this_model['CONFIG']['frame_thumb_width']) && !empty($this_model['CONFIG']['frame_thumb_height'])}-->,
+                            thumb_width: {$this_model['CONFIG']['frame_thumb_width']},
+                            thumb_height: {$this_model['CONFIG']['frame_thumb_height']}
+                            <!--{/if}-->
+                        }
+                    });
+                });
+                </script>
+            </td>
+             <td class="tdR"></td>
+        </tr>
+        
+        
+        
+        <!--{if $ACTION == 'update'}-->
+        <tr style="display:none">
+            <td class="tdL">绑定域名</td>
+            <td class="tdR">
+                <input type="text" class="txt" name="domain"  value="{if !empty($data['domain'])}{$data['domain']}{/if}" size="60" />
+                
+            </td>
+             <td class="tdR"><span>{$P8LANG['sites_category_domain_note']}</span></td>
+        </tr>
+        
+        <tr>
+            <td class="tdL">静态化</td>
+            <td class="tdR">
+                <input type="radio" name="htmlize" value="1"{if !empty($data['htmlize']) && $data['htmlize'] == 1} checked{/if} />全部静态
+                <input type="radio" name="htmlize" value="2"{if !empty($data['htmlize']) && $data['htmlize'] == 2} checked{/if} />仅内容页静态
+                <input type="radio" name="htmlize" value="0"{if empty($data['htmlize'])} checked{/if} />不静态
+                <input type="checkbox" name="htmlize_apply_category" value="1" id="apply" /><label for="apply">{$P8LANG['sites_category_apply_to_sub_categories']}</label>
+            </td>
+             <td class="tdR"></td>
+        </tr>
+        
+        <tr>
+            <td class="tdL">静态页存放路径</td>
+            <td class="tdR"><!--{if !empty($data['path'])}-->
+                <input type="text" class="txt" name="path"  value="<!--{php echo basename($data['path']);}-->" size="60" /> 
+                {\$DOCUMENT_ROOT}<!--{php echo str_replace(PHP168_PATH, '', $this_system->path .$this_system->SITE.'/'. $data['path']);}-->
+                <!--{else}-->
+                <input type="text" class="txt" name="path"  value="" size="60" />
+                <!--{/if}-->
+                
+            </td>
+             <td class="tdR"><span>如果静态列表、内容页规则不使用{\$category_url}的话这所填之参数将不起作用</span></td>
+        </tr>
+        
+        <tr>
+            <td class="tdL">静态列表页URL规则</td>
+            <td class="tdR">
+               <input type="text" class="txt" name="html_list_url_rule"  value="{if !empty($data['html_list_url_rule'])}{$data['html_list_url_rule']}{else}{\$category_url}/#list-{\$page}.html#{/if}" size="60" />
+                <input type="checkbox" name="list_rule_apply_category" value="1" />{$P8LANG['sites_category_apply_to_sub_categories']}
+                
+            </td>
+             <td class="tdR">
+             	{\$system_url}: 本分站绑定之域名<br/>
+                {\$category_url}静态页存放路径<br/>
+              	{\$id}: 当前分类的ID。<br/>
+                {\$page}: 页码。<br/>
+                ##包围部分表示页码大于1才会使用
+             </td>
+        </tr>
+        
+        <tr>
+            <td class="tdL">静态内容页URL规则</td>
+            <td class="tdR">
+                <input type="text" class="txt" name="html_view_url_rule"  value="{if !empty($data['html_view_url_rule'])}{$data['html_view_url_rule']}{else}{\$category_url}/{\$Y}_{\$m}/{\$d}_{\$H}/content-{\$id}#-{\$page}#.html{/if}" size="60" />
+                <input type="checkbox" name="view_rule_apply_category" value="1" />{$P8LANG['sites_category_apply_to_sub_categories']}
+                
+            </td>
+             <td class="tdR">
+            {\$system_url}: 本分站绑定之域名<br/>
+            {\$category_url}静态页存放路径<br/>
+            {\$id}: 当前内容的ID<br/>
+            {\$Y}: 年份,如2010<br/>
+            {\$m}: 月份,如01,11<br/>
+            {\$d}: 天,如01,11<br/>
+            {\$H}: 小时,如01,11<br/>
+            {\$page}: 页码
+            ##包围部分表示页码大于1才会使用
+             </td>
+        </tr>
+        
+        <tr style="display:none">
+            <td class="tdL">栏目收费</td>
+            <td class="tdR">
+                <input type="radio" name="config[fee][credit_type]" id="credit_0" value="0" /><label for="credit_0">不收费</label>
+                <!--{foreach $core->credits $ccid $v}-->
+                <input type="radio" name="config[fee][credit_type]" id="credit_$ccid" value="$ccid"{if !empty($config['fee']['credit_type']) && $config['fee']['credit_type'] == $ccid} checked{/if} /><label for="credit_$ccid">$v[name]</label>
+                <!--{/foreach}-->
+                <input type="text" name="config[fee][credit]" size="4" value="{if !empty($config['fee']['credit'])}{$config['fee']['credit']}{/if}" />
+                <br />
+                忽略收费的会员组: 
+                <!--{foreach $core->roles $uid $v}-->
+                <!--{php if($v['gid'] == $core->CONFIG['administrator_role_group']) continue;}-->
+                <input type="checkbox" name="config[fee][ignore_roles][$uid]" id="gid_$uid" value="1"{if !empty($config['fee']['ignore_roles'][$uid])} checked{/if} /><label for="gid_$uid">$v[name]</label>
+                <!--{/foreach}-->
+            </td>
+             <td class="tdR"></td>
+        </tr>
+        <!--{/if}-->
+        <tr>
+            <td class="tdL">SEO关键词</td>
+            <td class="tdR">
+                <input type="text" name="seo_keywords" value="{if !empty($data['seo_keywords'])}$data[seo_keywords]{/if}" size="60" />
+            </td>
+             <td class="tdR"></td>
+        </tr>
+        
+        <tr>
+            <td class="tdL">SEO描述</td>
+            <td class="tdR">
+                <input type="text" name="seo_description" value="{if !empty($data['seo_description'])}$data[seo_description]{/if}" size="60" />
+            </td>
+             <td class="tdR"></td>
+        </tr>
+        
+        <tr>
+            <td class="tdL">标题样式</td>
+            <td class="tdR">
+                <input type="radio" name="config[title_style]" id="tt_1" value="1"{if !empty($config['title_style']) && $config['title_style'] == 1}checked{/if} /><label for="tt_1">标题_网站名称</label><br />
+                <input type="radio" name="config[title_style]" id="tt_2" value="2"{if !empty($config['title_style']) && $config['title_style'] == 2}checked{/if} /><label for="tt_2">标题_栏目名称</label><br />
+                <input type="radio" name="config[title_style]" id="tt_3" value="3"{if !empty($config['title_style']) && $config['title_style'] == 3}checked{/if} /><label for="tt_3">标题_栏目名称_网站名称</label>
+            </td>
+             <td class="tdR"></td>
+        </tr>
+        
+        <tr>
+            <td class="tdL">独立标签后缀</td>
+            <td class="tdR">
+                <input type="text" name="label_postfix" value="{if !empty($data['label_postfix'])}$data[label_postfix]{/if}" size="15" />
+                <!--{if $ACTION == 'update'}--><input type="button" value="填充后缀" onclick="$(this).prev().val('category_$data[id]')" />
+                <!--{else}-->
+                <input type="button" value="填充后缀" onclick="get_auto_label_postfix(this)" />
+                <input type="hidden" id="auto_label_postfix" name="auto_label_postfix" value="0"/>
+                <!--{/if}-->
+                
+            </td>
+             <td class="tdR"><span>{$P8LANG['sites_category_label_postfix_note']}</span></td>
+        </tr>
+         <tr>
+			<td colspan="3" class="text-center"><a href="javascript:;" onclick="javascript:$('#more_option').css('display','none');$('#more_but').show()">↑收起更多</a></td>
+		</tr>
+		</tbody>				
+         <tbody>
+        <tr id="more_but">
+			<td colspan="3" class="text-center"><a href="javascript:;" onclick="javascript:$('#more_option').css('display','');$(this).parent().parent().hide()">↓更多选项....</a></td>
+		</tr>
+       
+		<tr>
+			<td colspan="3" class="text-center"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		</tr>
+        </tbody>
+	</table>
+	<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+    <input type="hidden" name="suv" value="{$this_system.suv}" />
+</form>
+
+<script type="text/javascript">
+
+function change_model(name){
+	var f = $('select[name=type]').val();
+	var lt = f==1?'big_list':'list';
+	$('#lt').val(name ? name +'/'+lt : lt);
+	$('#vt').val(name ? name +'/view' : 'view');
+}
+
+$('#form').validate({
+	rules: {
+		name: {
+			required: true
+		}<!--{if $ACTION == 'update'}-->,
+		
+		parent: {
+			remote: {
+				url: '$this_router-verify',
+				data: {
+					data: 'parent',
+					id: function(){return $('#form input[name=id]').val();},
+					parent: function(){return $('#form input[name=parent]').val();}
+				},
+				beforeSend: function(){
+					ajaxing({});
+				},
+				complete: function(){
+					ajaxing({action: 'hide'});
+				}
+			}
+		},
+		path: {
+			required: function(){return parseInt($('#form input[name=htmlize]:checked').val()) ? true : false},
+			remote: {
+				url: '$this_router-verify',
+				data: {
+					id: $('#form input[name=id]').val(),
+					data: 'path',
+					parent: function(){return $('#form input[name=parent]').val();},
+					path: function(){return $('#form input[name=path]').val();}
+				},
+				beforeSend: function(){
+					ajaxing({});
+				},
+				complete: function(){
+					ajaxing({action: 'hide'});
+				}
+			}
+		}
+		<!--{/if}-->
+
+	},
+	
+	messages: {
+		name: {
+			required: '{$P8LANG['sites_category_name_can_not_be_empty']}'
+		},
+		parent: {
+			remote: '{$P8LANG['sites_parent_category_error']}'
+		},
+		path: {
+			required: 'path',
+			remote: '{$P8LANG['sites_category_html_path_exists']}'
+		}
+	},
+	
+	errorPlacement: function(error, element) {
+		error.wrap('<div></div>').appendTo(element.parent().prev());
+	},
+	wrapper: 'div',
+	
+	onkeyup: false
+});
+
+$('#name').focus();
+
+var dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_parent_category']}',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		var id = cs.get_value();
+		$('#form input[name=parent]').val(id);
+		parent_path(id);
+	},
+	show: function(){
+		cs.init();
+	}
+});
+
+var cs = new Recursive_Selector({
+	input: $('#parent'),
+	dialog: dialog,
+	sub_property: 'categories',
+	url: '{$this_system.controller}/category-json',
+	value: $('#form input[name=parent]').val(),
+	init_callback: function(){
+		parent_path(this.get_value());
+	},
+	item_callback: function(cat, item){
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	}
+});
+
+function parent_path(cid){
+	if(cid == 0){
+		$('#parents').html('');
+		return;
+	}
+	
+	var tmp = cs.get_by_id(cid);
+	var html = '';
+	
+	while(true){
+		html = tmp.name +' &gt; '+ html;
+		if(tmp.parent == 0) break;
+		
+		tmp = cs.get_by_id(tmp.parent);
+	}
+	
+	$('#parents').html(html);
+}
+
+
+var matrix_dialog = new P8_Dialog({
+	title_text: '选择母站对接栏目',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		var id = matrix_cs.get_value();
+		$('#form input[name=matrix]').val(id);
+		matrix_parent_path(id);
+	},
+	show: function(){
+		matrix_cs.init();
+	}
+});
+
+var matrix_cs = new Recursive_Selector({
+	input: $('#parent'),
+	dialog: matrix_dialog,
+	sub_property: 'categories',
+	url: '{$cms_system.controller}/category-json',
+	value: $('#form input[name=matrix]').val(),
+	init_callback: function(){
+		matrix_parent_path(this.get_value());
+	},
+	item_callback: function(cat, item){
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	}
+});
+
+function matrix_parent_path(cid){
+	if(cid == 0){
+		$('#matrix_cid').html('');
+		return;
+	}
+	
+	var tmp = matrix_cs.get_by_id(cid);
+	var html = '';
+	
+	while(true){
+		html = tmp.name +' &gt; '+ html;
+		if(tmp.parent == 0) break;
+		
+		tmp = matrix_cs.get_by_id(tmp.parent);
+	}
+	
+	$('#matrix_cid').html(html);
+}
+
+
+function showoutlink(obj){
+	f = $(obj).val();
+	
+	if(f=='3'){
+		$('#category_outlink').show(); $('#category_model').hide();
+		$('#all_model').hide();
+		$('#form *[name="model"]').rules('remove', {
+			required: true,
+			messages: { required: '{$P8LANG['sites_category_model_can_not_be_empty']}'}
+		});
+	}else{
+		$('#category_outlink').hide(); $('#category_model').show();
+		$('#form *[name="model"]').rules('add', {
+			required: true,
+			messages: { required: '{$P8LANG['sites_category_model_can_not_be_empty']}'}
+		});
+		if(f=='2')
+			$('#all_model').hide();
+		else
+			$('#all_model').show();
+	}
+}
+
+var list_template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#lt').val(list_template_selector.value);
+	},
+	show: function(){
+		list_template_selector.init();
+	}
+});
+var list_template_selector = new Template_Selector({
+	base_dir: '{$this_system.name}/{$this_system.site['template']}/{$this_system.name}/item/',
+	selected: $('#lt').val(),
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: list_template_dialog
+});
+
+var view_template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#vt').val(view_template_selector.value);
+	},
+	show: function(){
+		view_template_selector.init();
+	}
+});
+var view_template_selector = new Template_Selector({
+	base_dir: '{$this_system.name}/{$this_system.site['template']}/{$this_system.name}/item/',
+	selected: $('#vt').val(),
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: view_template_dialog
+});
+
+var item_template_dialog = new P8_Dialog({
+	base_dir: 'label/',
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#it').val(item_template_selector.value);
+	},
+	show: function(){
+		item_template_selector.init();
+	}
+});
+var item_template_selector = new Template_Selector({
+	base_dir: 'label/',
+	selected: $('#it').val(),
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: item_template_dialog
+});
+
+//-----------
+
+var list_template_dialog_mobile = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#ltm').val(list_template_selector_mobile.value);
+	},
+	show: function(){
+		list_template_selector_mobile.init();
+	}
+});
+var list_template_selector_mobile = new Template_Selector({
+	base_dir: '{$this_system.name}/{$this_system.site['template']}/{$this_system.name}/item/',
+	selected: $('#ltm').val(),
+	dialog: list_template_dialog_mobile
+});
+
+var view_template_dialog_mobile = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#vtm').val(view_template_selector_mobile.value);
+	},
+	show: function(){
+		view_template_selector_mobile.init();
+	}
+});
+var view_template_selector_mobile = new Template_Selector({
+	base_dir: '{$this_system.name}/{$this_system.site['template']}/{$this_system.name}/item/',
+	selected: $('#vtm').val(),
+	dialog: view_template_dialog_mobile
+});
+
+var item_template_dialog_mobile = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#itm').val(item_template_selector_mobile.value);
+	},
+	show: function(){
+		item_template_selector_mobile.init();
+	}
+});
+var item_template_selector_mobile = new Template_Selector({
+	base_dir: 'label/',
+	selected: $('#itm').val(),
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: item_template_dialog_mobile
+});
+
+//----------
+function get_auto_label_postfix(obj){
+	$.get('{$this_router}-auto_label_postfix',function(result){ $(obj).prev().val('category_'+result); $(obj).next().val(1) });
+}
+$(function() {
+	$("#tabs").tabs();
+	
+	showoutlink('{$data['type']}');
+	
+	cs.init();
+	matrix_cs.init();
+});
+
+</script>
+
+<!--{template $this_system footer admin}-->
+<!--{/php168}-->

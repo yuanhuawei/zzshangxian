@@ -1,0 +1,108 @@
+<style type="text/css">
+.required{font-weight: bold;}
+.unrequired{color:#999999}
+</style>
+<div class="content">
+<strong>环境探测 </strong>(<font color="red">灰色部分可忽略</font>)
+<table width="100%" cellpadding="5" cellspacing="0">
+<tr >
+	<td width="40%">php版本</td>
+	<td width="60%"><?php echo $php_version ? $INSLANG['Y'] : $INSLANG['N'];?> 5.2.2以上版本，你的版本<?php echo phpversion();?></td>
+</tr>
+<tr >
+	<td width="40%">path_info支持</td>
+	<td width="60%"><span id="pathinfo">√</span> 访问install.php/1/2/3如果能正常访问, 主流的框架如zend等均要此支持</td>
+</tr>
+<tr>
+	<td width="40%">mysql支持</td>
+	<td width="60%"><?php echo $mysql ? $INSLANG['Y'] : $INSLANG['N'];?></td>
+</tr>
+<tr>
+	<td>gd库支持</td>
+	<td><?php echo $gd ? $INSLANG['Y'] : $INSLANG['N'];?></td>
+</tr>
+<tr>
+	<td>打开远程文件</td>
+	<td><?php echo $url_fopen ? $INSLANG['Y'] : $INSLANG['N'];?></td>
+</tr>
+<tr >
+	<td>./<?php echo $INSLANG['dir_writable'];?></td>
+	<td><?php echo $root_writable ? $INSLANG['Y'] : $INSLANG['N'];?> <?php echo substr(base_convert(fileperms('./'), 10, 8), -4);?></td>
+</tr>
+<tr >
+	<td>./attachment<?php echo $INSLANG['dir_writable'];?></td>
+	<td><?php echo $attachment_writable ? $INSLANG['Y'] : $INSLANG['N'];?> <?php echo substr(base_convert(fileperms('./attachment/'), 10, 8), -4);?></td>
+</tr>
+<tr >
+	<td>./data<?php echo $INSLANG['dir_writable'];?></td>
+	<td><?php echo $data_writable ? $INSLANG['Y'] : $INSLANG['N'];?> <?php echo substr(base_convert(fileperms('./data/'), 10, 8), -4);?></td>
+</tr>
+<tr >
+	<td>./js<?php echo $INSLANG['dir_writable'];?></td>
+	<td><?php echo $js_writable ? $INSLANG['Y'] : $INSLANG['N'];?> <?php echo substr(base_convert(fileperms('./js/'), 10, 8), -4);?></td>
+</tr>
+
+<tr class="unrequired">
+	<td>编码转换函数</td>
+	<td><?php echo $conv ? $INSLANG['Y'] . $iconv .' '. $mb : $INSLANG['N'];?></td>
+</tr>
+<tr class="unrequired">
+	<td>memcache支持</td>
+	<td><?php echo $memcache ? $INSLANG['Y'] : $INSLANG['N'];?></td>
+</tr>
+<tr class="unrequired">
+	<td>ssl支持</td>
+	<td><?php echo $ssl ? $INSLANG['Y'] : $INSLANG['N'];?></td>
+</tr>
+<tr class="unrequired">
+	<td>ssi支持</td>
+	<td><?php echo $ssi ? $INSLANG['Y'] : $INSLANG['N'];?></td>
+</tr>
+<tr class="unrequired">
+	<td>curl</td>
+	<td><?php echo $curl ? $INSLANG['Y'] : $INSLANG['N'];?></td>
+</tr>
+<tr class="unrequired">
+	<td>最大文件上传</td>
+	<td><?php echo $upload_max_filesize;?></td>
+</tr>
+<tr>
+	<td><?php echo $INSLANG['core_installable'];?></td>
+	<td id="installable"><?php echo $installable ? $INSLANG['Y'] : $INSLANG['N'];?></td>
+</tr>
+
+</table>
+
+</div>
+<script type="text/javascript">
+	$.ajax({
+			url:'data/pathinfo.php/pathinfo',
+			type:'get',
+			success: function(msg){
+				$.ajax({
+					url:'install.php?checkpathinfo=1',
+					data:'pathinfo='+msg,
+					type:'post',
+					dataType:'json',
+					success: function(msg){
+						if(msg.pathinfo==1){
+							$('#pathinfo').html('√');
+						}else{
+							$('#pathinfo').html('X');
+						}
+						if(msg.installable==1){
+							$('#installable').html('√');
+						}else{
+							$('#installable').html('X');
+						}
+					}
+				});
+			}
+		});
+</script>
+<div class="form " style="height:35px">
+<form name="form1" method="post" action="?">
+	<input type="button" name="upstep" value="上一步" onclick="javascript:history.go(-1)" class="submit_btn"> <input type="submit" name="Submit" value="下一步" class="submit_btn"> 
+	<input type="hidden" name="step" value="step1">
+    </form>
+</div>

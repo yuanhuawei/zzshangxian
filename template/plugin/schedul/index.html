@@ -1,0 +1,90 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<style>
+.box { padding:2px; border:1px solid #cccccc; }
+.head{ background-color:#eeeeee}
+.formtable .title{ color:#FFF}
+#showimgbox{ display:none; width:305px; height:105px; position:absolute;  border:1px solid #cccccc}
+</style>
+
+<div class="mainbox mainborder">
+	<table class="formtable">
+		<tr>
+			<td class="title">{$P8LANG['operation']}</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				<ul>
+					<li><a href="{$this_url}?plugin=schedul&job=cache">刷新缓存</a></li>
+					<li><a href="{$this_url}?plugin=schedul&job=add">增加排班</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mainbox mainborder">
+	<table class="formtable">
+		<tr>
+			<td class="title">{$P8LANG['operation']}</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				<form name="form" action="{$this_url}"  method="get">
+					时间：<input type="text" name="date" value="{if !empty($date)}$date{/if}" autocomplete="off" onclick="rcalendar(this, 'YYYY-MM-DD')"/> 
+					姓名：<input type="text" name="name" value="{if !empty($name)}$name{/if}"/>
+					<input type="submit" value="搜索"/>
+					<input type="hidden" name="plugin" value="schedul"/>
+				</form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mainbox mainborder" style="display:">
+<form name="form1" action="{$this_url}"  onsubmit="return check();" method="post">
+	<table class="columntable formtable hover_table click_changeable">
+		<tr class="title">
+			<td class="title"></td>
+			<td class="title">日期</td>
+			<td class="title">时段</td>
+			<td class="title">姓名</td>
+			<td class="title">职称</td>
+			<td class="title">电话</td>
+			<td class="title">排序</td>
+			<td class="title">操作</td>
+		</tr>
+		<!--{foreach $list $row}-->
+		<tr>
+			<td><input type="hidden" name="listorder[]" value="$row[id]"/> $row[id]</td>
+			<td>$row[date]</td>
+			<td>{$P8LANG['date_time_'.$row['date_time']]}</td>
+			<td>$row[name]</td>
+			<td>$row[level]</td>
+			<td>$row[phone]</td>
+			<td><a href="javascript:;" onclick="up(this)">↑</a><a href="javascript:;" onclick="down(this)">↓</a></td>
+			<td><a href="{$this_url}?plugin=schedul&job=edit&date=$row[date]&id=$row[id]">编辑</a> <a href="javascript:;" onclick="removeitem(this,$row[id])">删除</a></td>
+		</tr>
+		<!--{/foreach}-->
+		<tr>
+			<td colspan="5" ><input type="submit" class="submit_btn" value="保存排序" /><input type="hidden" name="do" value="order"/><input type="hidden" name="plugin" value="schedul"/></td><td class="pages" colspan="5">{$pages}</td>
+		</tr>
+	</table>
+	</form>
+</div>
+
+<div id="showimgbox"><img src="" id="showimg" width="300" height="100" /></div>
+<script type="text/javascript">
+function removeitem(obj,id){
+	if(confirm('确定要删除？'))$.post('{$this_url}','plugin=schedul&do=delete&id='+id, function(){ $(obj).parent().parent().remove(); alert('操作成功');})
+}
+function up(obj){
+	var pre = $(obj).parent().parent().prev();
+	pre.before($(obj).parent().parent());
+}
+
+function down(obj){
+	var ne = $(obj).parent().parent().next();
+	ne.after($(obj).parent().parent());
+}
+</script>
+<!--{/php168}-->

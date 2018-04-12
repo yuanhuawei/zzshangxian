@@ -1,0 +1,12 @@
+<!--{php168}-->
+var item_id = $data[id],
+	item_uid = $data[uid],
+	item_cid = $data[cid],
+	verified = \$_GET['verified'] !== undefined || \$_GET['verified'] == 1 ? 1 : 0;
+
+$(function(){
+	if(get_cookie('IS_ADMIN') == 1){
+		item_operation($('#operation').show());
+	}
+});
+<!--{/php168}-->

@@ -1,0 +1,59 @@
+/* CSS Document */
+body { margin:0; padding:0; font-size:12px; font-family: "宋体", Arial, Helvetica, sans-serif; line-height:150%; background:#fff; text-align:left; }
+div, ul, li, form, h1, h2, h3, h4, h5, a, p, dl, dt, dd { margin:0px; padding:0px; }
+ul, li { list-style:none; }
+h1, h2, h3, h4, h5 { font-size:12px; font-weight:normal; }
+img { border:none; }
+a:link, a:visited { color:#000000; text-decoration:none; }
+a:hover { color:#ff0000; text-decoration:underline; }
+/*外框宽*/
+.wrap, .footer { width:990px; margin:0 auto; }
+/*公共样式*/
+.mtop { margin-top:5px; }
+/*清除溢出*/
+.clear { clear:both; height:1px; margin-top:-1px; overflow:hidden; }
+/*顶部*/
+.header { margin-top:10px; width:100%; min-width:990px; background:url(top_bj.gif) repeat-x; }
+.header .h_top { height:18px; text-align:right;padding-right:30px}
+.header .h_top  .htl_tips { background:url(tips.gif) no-repeat; color:#ff0000; padding-left:18px; margin-right:20px }
+.header #logo { float:left; padding-left:10px; }
+.header .h_middle { height:75px; }
+.header .h_middle .top_ad { height:38px; width:700px; float:right; }
+#topmenu { width:700px; padding-right:20px; float:right; height:28px; text-align:right; }
+#topmenu ul{ width:auto; float:right}
+#topmenu li { float:left; height:28px; margin-left:10px; display:block; }
+#topmenu li a { padding:5px 10px; font-weight:bold; display:block; text-decoration:none; }
+#topmenu .over { background:url(topmenu.gif) no-repeat; }
+#topmenu .over a { background:url(topmenu.gif) no-repeat right -28px; color:#ffffff; }
+#secmenu { height:20px; }
+#secmenu li { padding:0 10px; float:right; }
+/*左部内容*/
+.blockleft { float:left; width:220px; border:1px solid #ccc; overflow:hidden; }
+#userpanel { height:180px; background:url(usinfo_bg.gif) repeat-x; }
+#userpanel #lefttitle { padding:3px 20px; }
+#userpanel .usermain #userpanel_logo { float:left; width:89px; height:89px; border:1px solid #ccc; }
+#userpanel .usermain { padding:10px }
+#userpanel .usermain .userpanel_info { float:left; height:90px; clear:right }
+#userpanel .usermain .userpanel_info .morecate { color:#09F; }
+#userpanel .usermain .userpanel_info ul { padding-left:10px; }
+#userpanel .usermain .userpanel_info ul li { color:#666; }
+#userpanel .usermain .userpanel_info .username { color:#ff0000; font-weight:bold; }
+#userpanel .underuserinfo { padding:10px 8px; clear:both; }
+#userpanel .usermain .l_icon { background:url(icon_userpanel.gif) no-repeat; padding-left:15px; color:#2C602F; }
+#userpanel .usermain .l_info { background:url(jiben.gif) no-repeat; padding-left:18px; color:#2C602F; }
+.blockleft .left_menu { width:90%; margin:auto; margin-bottom:20px; clear:both; display:block; }
+.blockleft .left_menu .lm_title { background:url(left_tb.gif) no-repeat; padding-left:18px; color:#FF6600; font-weight:bold; border-bottom:1px dashed #cccccc; }
+.blockleft .left_menu .lm_main .lm_sty1 li { background:url(menu_panel_common.gif) no-repeat; margin:0 auto; margin-top:10px; width:60%; padding:3px 0 10px 50px; border-bottom:1px solid #96BCE8; }
+.blockleft .left_menu .lm_main .lm_sty1 .add { color:#99C; padding-left:10px; }
+.blockleft .left_menu .lm_main .lm_sty2 li { background:url(lmsty2.gif) no-repeat; margin:0 auto; margin-top:10px; width:140px; padding:8px 0 8px 50px; }
+.blockleft .left_menu .lm_main .lm_sty2 a { color:#99C; }
+.blockleft .left_menu .l_bottom { border-top:1px dashed #cccccc; padding:10px; color:#2C602F; }
+.blockleft .left_menu .lb_li li { color:#444; padding:5px 10px; }
+.blockleft .left_menu .lb_li .lb_num { color:#F63; padding:5px 10px; }
+/****/
+
+/*右部*/
+.blockright { float:left; width:755px; margin-left:10px; overflow-x:hidden; }
+/*底部*/
+.footer { font-family:Tahoma; text-align:center; margin-top:10px; padding:10px 0px; border-top:1px solid #CBCBCB; }
+/*主体内容*/

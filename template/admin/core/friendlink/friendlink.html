@@ -1,0 +1,90 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<form name="form" action="" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+						<tr class="title">
+						  <td>ID</td>
+						  <td class="tdL">名称</td>
+						  <td>显示</td>
+						  <td>LOGO</td>
+						  <td class="tdL">状态</td>
+						  <td>分类</td>
+						  <td>审核</td>
+						   <td>排序</td>
+						  <td>操作</td> 
+						</tr>
+						<!--{foreach $links $link}-->
+						<tr>
+						  <td>$link[id]</td>
+						  <td class="tdL"><!--{if !empty($link['url'])}--><a href="$link[url]" target="_blank" title="$link[descrip]">$link[name]</a><!--{else}-->$link[name]<!--{/if}--></td>
+						  <td><!--{if !empty($link['ifhide'])}-->不显示<!--{else}-->显示<!--{/if}--></td>
+						  <td><!--{if !empty($link['logo'])}--><a href="<!--{if !empty($link['url'])}-->$link[url]<!--{/if}-->" target="_blank" title="$link[descrip]"><img height="31" width="88" border="0" src="$link[logo]"/></a><!--{else}-->无图片<!--{/if}--></td>
+						  <td class="tdL"><!--{php if(empty($link['endtime'])){echo '永久有效';}elseif($link['endtime']<P8_TIME){echo '已过期';}else{echo date('Y-m-d H:i:s', $link['endtime']).'截止';}}--></td>
+						  <td>$link[sname]</td>
+						  <td><!--{if empty($link['yz'])}-->未审核<!--{else}-->已审核<!--{/if}--></td>
+						   <td><input type="text" name="list[$link[id]]" size="3" value="{if !empty($link['list'])}$link[list]{/if}"/></td>
+						  <td><a href="$this_router-editlink?id=$link[id]">[修改]</a><a id="link_$link[id]" href="javascript:;" onclick="delete_link([this.id]);">[删除]</a></td> 
+						</tr>
+						<!--{/foreach}-->
+						<tr><td colspan="9"><input class="submit_btn" type="submit" value="{$P8LANG['submit']}"></td></tr>
+					</table>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+</form>
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr><td>
+				<table class="columntable formtable hover_table">
+					<tr class="title">
+					  <td class="title">说明:</td>
+					</tr>
+					<tr> 
+					 <td>可以通过标签来调用友情链接.</td>
+					</tr> 
+				</table>
+			</td></tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+function delete_link(array){
+	var id = [];
+	$.each(array, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	
+	if(!id.length) return false;
+	
+	if(confirm('{$P8LANG['confirm_to_delete']}')){
+		$.ajax({
+			url: '$this_router-deletelink',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({id: id}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				
+				for(var i in json){
+					$('#link_'+ json[i]).parent().parent().remove();
+				}
+			}
+		});
+	}
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->
+
+

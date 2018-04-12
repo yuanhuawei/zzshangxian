@@ -1,0 +1,105 @@
+<!--{php168}-->
+<style type="text/css">
+.swfupload {
+	position: absolute;
+	z-index: 1;
+}
+</style>
+<input type="hidden" name="#field_{$field}_posted" />
+
+{$P8LANG['url']} <input type="text" name="field#[$field]" id="field_{$field}" size="100"  value="{if isset($data[$field])}{$data[$field]}{/if}" />
+<span id="{$field}_holder"></span>
+
+<input type="button" id="{$field}_getfiles" value="{$P8LANG['browse']}" /> 
+
+<div id="{$field}_video">
+<input type="button" id="{$field}_select" value="{$P8LANG['chose']}" /> 
+<input type="button" id="{$field}_uploadfiles" value="{$P8LANG['upload']}" /> 
+</div>
+<div id="{$field}_filelist"></div>
+
+<script type="text/javascript">
+$(function(){
+var uploader = new P8_Upload({
+	element: {
+		src: $('#field_{$field}'),
+		attribute: 'value'
+	}
+});
+
+$('#{$field}_getfiles').click(function(){
+	uploader.browser();
+});
+
+include_once('{$RESOURCE}/js/plupload/plupload.full.min.js', function(){
+	
+	
+var pluuploader = new plupload.Uploader({
+	runtimes : 'html5,flash,silverlight,html4',
+	browse_button : '{$field}_select', // you can pass in id...
+	container: document.getElementById('{$field}_video'), // ... or DOM Element itself
+	url : P8CONFIG.URI['core']['uploader'].url +'/plupload.php',
+	multipart_params: {system: SYSTEM, module: MODULE, user_agent:navigator.userAgent,SESSION_ID: '<!--{php echo SESSION_ID;}-->'},
+	flash_swf_url : '{$RESOURCE}/js/plupload/Moxie.swf',
+	silverlight_xap_url : '{$RESOURCE}/js/plupload/Moxie.xap',
+	file_data_name : 'Filedata',
+
+	filters : {
+		max_file_size : '1024mb',
+		mime_types: [
+			{title : "Video files", extensions : "mp4,flv,swf,avi,rmvb,mvb,wmv,mkv,rm"}
+		]
+	},
+
+	init: {
+		PostInit: function() {
+			document.getElementById('{$field}_filelist').innerHTML = '';
+
+			document.getElementById('{$field}_uploadfiles').onclick = function() {
+				pluuploader.start();
+				return false;
+			};
+		},
+
+		FilesAdded: function(up, files) {
+			document.getElementById('{$field}_filelist').innerHTML = '';
+			plupload.each(files, function(file) {
+				document.getElementById('{$field}_filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
+			});
+		},
+
+		UploadProgress: function(up, file) {
+			document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+		},
+		
+		FileUploaded:function(up,file,responseObject){
+			if(responseObject.response=='error'){
+				document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + P8LANG.core.uploader.fail + "</span>";
+			}else{
+				try {
+					result = eval(responseObject.response);
+				} catch(err) {
+					result = eval('(' + responseObject.response + ')');
+				}
+				$('#field_{$field}').val(result[0].file);
+				P8_Upload.queue(result);
+			}
+		},
+		
+		UploadComplete:function(up,files){
+		
+		},
+		
+		Error: function(up, errObj) {
+			document.getElementById(errObj.field.id).getElementsByTagName('b')[0].innerHTML = '<span>' + errObj.field.message + "</span>";
+			
+		}
+	}
+});
+
+pluuploader.init();
+	
+});
+});
+</script>
+<!--{/php168}-->

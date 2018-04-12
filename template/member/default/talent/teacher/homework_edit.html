@@ -1,0 +1,118 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<div id="tab_1" class="tab_box mtop20">
+	<div class="head">
+		<span><a href="$this_router-homework?status=1">正常的作业</a></span> 
+		<span><a href="$this_router-homework?status=2">过期的作业</a></span>
+		<a href="$this_router-homework_add" class="sendmsg_link_bg">新增作业</a>
+	</div>
+	<div class="main profile" style="margin-top:20px">
+	<form name="form" id="form" action="{$this_url}" method="post">
+		<table width="100%" border="0" cellspacing="0" cellpadding="5" class="">
+			<tr >
+				<td width="100"><font color="red">*</font>标题</td>
+				<td width="*"><input type="text" class="txt" name="title" value="{if !empty($data['title'])}$data[title]{/if}" /></td>
+			</tr>
+			<tr >
+				<td><font color="red">*</font>应用范围</td>
+				<td><select name="range" size="1">
+						<option value="">全部学生</option>
+						<!--{foreach $demands $key $val}-->
+						<option value="$val[id]">$val[title]</option>
+						<!--{/foreach}-->
+					</select>
+				 </td>
+			</tr>
+			<tr>
+				<td><font color="red">*</font>开始时间:</td>
+				<td>
+					<input type="text" class="txt" id="begintime" name="begintime" value="{if !empty($data['begintime'])}{date('Y-m-d',$data['begintime'])}{/if}" onclick="rcalendar(this, 'dateonly');" />
+				</td>
+			</tr>
+			<tr>
+				<td><font color="red">*</font>结束时间:</td>
+				<td>
+					<input type="text" class="txt" id="endtime" name="endtime" value="{if !empty($data['endtime'])}{date('Y-m-d',$data['endtime'])}{/if}" onclick="rcalendar(this, 'dateonly');" />
+				</td>
+			</tr>
+			<tr >
+				<td><font color="red">*</font>作业内容</td>
+				<td><textarea  class="txt" name="content" rows="10" cols="60">{if !empty($data['content'])}<div id="p8_content_show">$data[content]</div>{/if}</textarea></td>
+			</tr>
+			<tr >
+				<td>附件</td>
+				<td>
+					{$P8LANG['title']} <input type="text" name="att[title]" size="10" value="{if isset($data['att']['title'])}{$data['att']['title']}{/if}" />
+					{$P8LANG['url']} <input type="text" name="att[url]" id="att_url" size="30"  value="{if isset($data['att']['url'])}{$data['att']['url']}{/if}" />
+					<span id="att_holder"></span>
+<script type="text/javascript">
+$(function(){
+	var uploader = new P8_Upload({
+		element: {
+			src: $('#att_url'),
+			attribute: 'value'
+		},
+		callback: function(json){
+
+			$('input[name="att[title]"]').val(json.attachments[0].name);
+		}
+	});
+
+	$('<input type="button" value="{$P8LANG['upload']}" />').click(function(){
+		uploader.choseup();
+	}).appendTo($('#att_holder'));
+});
+</script></td>
+			</tr>
+		</table>
+		<div style="padding-left:150px">
+				<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+				<input type="submit" name="button2" id="button2" value="提交" class="submit_btn"/>
+			</div>
+		</form>	
+	</div>
+</div>
+<script src="{$RESOURCE}/js/recursive_selector.js" type="text/javascript"></script>
+<script type="text/javascript">
+var profession_dialog = new P8_Dialog({
+		title_text: "选择专业(最多只能选5项)",
+		button: true,
+		width: 700,
+		height: 400,
+		url: "{$this_system.modules['category']['controller']}-select?m=profession&n=5",
+		ok: function(){
+			text = [];
+			$('#selected_profession span').each(function(){
+				text.push($(this).text());
+													});
+			ids = [];
+			$('#selected_profession').find('input').each(function(){
+				ids.push($(this).val());													  
+			});
+			$('#professionname').html(text.join(' + '));
+			$('#profession').val(ids.join(','));
+		}
+	});
+var city_dialog = new P8_Dialog({
+		title_text: "选择城市(最多只能选1项)",
+		button: true,
+		width: 500,
+		height: 400,
+		url: "{$this_system.modules['category']['controller']}-city?n=1",
+		ok: function(){
+			text = $('#selected_city').text();
+			ids = [];
+			$('#selected_city').find('input').each(function(){
+				ids.push($(this).val());													  
+			});
+			$('#cityname').html(text);
+			$('#city').val(ids.join(','));
+		}
+	});
+</script>
+<div class="clear">
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

@@ -1,0 +1,199 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+
+<form id="searchForm" action="$this_url" method="GET">
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td class="title">{$P8LANG['label_scope']}</td>
+			</tr>
+			
+			<tr>
+				<td class="headerbtn_list">
+				<ul>
+					<li><a href="$this_router-list?all=$all">{$P8LANG['all']}</a></li>
+					<li><a href="$this_router-list?system=core&all=$all">{if 'core' == $system}<b>{$P8LANG['core']}</b>{else}{$P8LANG['core']}{/if}</a></li>
+					<!--{foreach $systems $k $v}-->	
+						<li><a href="$this_router-list?system=$k&all=$all">{if $k == $system}<b>{$v['alias']}</b>{else}{$v['alias']}{/if}</a></li>
+					<!--{/foreach}-->
+				</ul>
+			</td>
+			</tr>
+			
+			<tr>
+				<td class="headerbtn_list">
+					<ul>
+					<!--{foreach $modules $k $v}-->
+						<!--{if file_exists(PHP168_PATH . ($system == 'core' ? '' : $system) .'/modules/'. $k .'/admin/label.php')}-->
+						<li><a href="$this_router-list?system=$system&module=$k">{if $k == $module}<b>{$v['alias']}</b>{else}{$v['alias']}{/if}</a></li>
+						<!--{/if}-->
+					<!--{/foreach}-->
+					</ul>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="headerbtn_list">
+				<!--{if $sitesd}-->站点别名<input type="text" name="site" class="txt" value="$site" size="10" /><!--{/if}--> 
+					{$P8LANG['label_postfix']}<input type="text" name="postfix" class="txt" value="$postfix" size="10" />
+					{$P8LANG['label_name']}<input type="text" class="txt" name="keyword" value="$keyword" size="20" /> 
+					{$P8LANG['label_ttl']}<input type="text" class="txt" name="ttl[]" value="$ttl[0]" size="3" /> - <input type="text" class="txt" name="ttl[]" value="$ttl[1]" size="3" />
+					上次更新时间<input type="text" class="txt" name="last_update[]" value="$last_update[0]" size="10" onclick="rcalendar(this)" autocomplete="off" /> - <input type="text" class="txt" name="last_update[]" value="$last_update[1]" size="10" onclick="rcalendar(this)" autocomplete="off" />
+					ID<input type="text" class="txt" name="id" value="$id" size="5" /> 
+					<input type="submit" name="search" class="submit_btn" value="{$P8LANG['label_search']}" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<input type="hidden" name="system" value="$system" />
+<input type="hidden" name="module" value="$module" />
+</form>
+
+
+<form action="$this_url" method="POST" id="form">
+<div class="mainbox mainborder">
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr><td>
+			<table class="columntable formtable hover_table click_changeable">
+			<tr class="title">
+				<td width="3%" class="title"><input type="checkbox" onclick="check_all(this, 'id[]'); init_tr($('#form'));" /></td>
+				<td width="5%" class="title">ID</td>
+				<td width="18%" class="title">{$P8LANG['label_name']}</td>
+				<td width="7%" class="title">{$P8LANG['label_scope']}</td>
+				<td width="10%" class="title">{$P8LANG['label_postfix']}</td>
+				<!--{if $sitesd}--> 
+				<td width="10%" class="title">站点</td>
+				<!--{/if}-->
+				<td width="8%" class="title">{$P8LANG['label_last_update']}</td>
+				<td width="6%" class="title">{$P8LANG['label_cache']}</td>
+				<td width="10%" class="title">{$P8LANG['operation']}</td>
+			</tr>
+			
+			<!--{foreach $list $value}-->
+			<tr id="label_$value[id]">
+				<td><input type="checkbox" name="id[]" value="$value[id]" /></td>
+				<td>{$value['id']}</td>
+				<td id="name_$value[id]">
+					<a href="###" invoke="{$value['invoke']}" onclick="prompt('', $(this).attr('invoke'));" title="{$P8LANG['label_type'][$value['type']]}"><img src="{$_SKIN}/$MODULE/$value[type].gif" />{if $value['variable']}<font color="blue">{$value['name']}</font>{else}{$value['name']}{/if}</a>
+				</td>
+				<td>{$value['system']}/{$value['module']}</td>
+				<td>{$value['postfix']}</td>
+				<!--{if $sitesd}-->
+				<td>{$value['site']}</td>
+				<!--{/if}-->
+				<td>{if $value['last_update']}{date('Y-m-d H:i', $value['last_update'])}{/if}</td>
+				<td>{$value['ttl']}</td>
+				<td>
+					<a href="$this_router-copy?id={$value['id']}" target="_blank">{$P8LANG['copy']}</a>
+					<a href="$this_router-update?id={$value['id']}&fromurl=admin" target="_blank">{$P8LANG['edit']}</a>
+					<!--{if $value['system']=='core' && $value['module']==''}--> <a href="###" onclick="showJs('{$value['name']}')">JS调用</a><!--{/if}-->
+				</td>
+			</tr>
+			<!--{/foreach}-->
+			
+			</table>
+			</td></tr>
+			
+			
+			<tr>
+				<td colspan="10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+						<tr>
+							<td align="center" id="pages" class="pages">$pages</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="button" value="导入" onclick="import_dialog.show();" class="edit_btn" />
+								<input type="button" value="导出" onclick="_export()" class="edit_btn" />
+								<input type="button" value="导出所有" onclick="_exportall()" class="edit_btn" />
+								<input type="button" value="删除" onclick="delete_label()" class="edit_btn" />
+							<td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+<input type="hidden" name="act" value="" />
+</form>
+
+<script type="text/javascript">
+function delete_label(){
+	var id = checked_values('id[]', $('#form'));
+	
+	if(!id.length) return;
+	
+	if(!confirm('{$P8LANG['confirm_to_delete']}')) return;
+	
+	$.ajax({
+		url: '$this_router-delete',
+		type: 'POST',
+		dataType: 'json',
+		cache: false,
+		data: ajax_parameters({id: id}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i in json){
+				$('#label_'+ json[i]).remove();
+			}
+		}
+	});
+	return false;
+}
+
+function _export(){
+	var id = checked_values('id[]', $('#form'));
+	
+	if(!id.length) return;
+	
+	$('#form input[name=act]').val('export');
+	$('#form').submit();
+}
+function _exportall(){
+
+	$('#searchForm').append('<input type="hidden" name="exportall" value="1" />');
+	$('#searchForm').submit();
+}
+
+var import_dialog = new P8_Dialog({
+	title_text: '导入',
+	width: 400,
+	height: 300,
+	button: true,
+	ok: function(){
+		$.trim(this.content.find('textarea').appendTo($('#form')).val());
+		
+		$('#form input[name=act]').val('import');
+		$('#form').submit();
+	}
+});
+
+var evaluate_dialog = new P8_Dialog({ 
+	title_text: '标签数据javascript调用', 
+	width: 350, 
+	height: 170, 
+	button:false
+});
+function showJs(name){
+	var shtml='<textarea rows="3" cols="50">\<script type="text/javascript" src="{$core.url}/api/lbjs.php?n='+name+'"\>\</script\></textarea>';
+	shtml +='<br/><span style="color:red">注意：js调用的标签，【系统】必须是“核心”，【模块】必须为无,【标签后缀】必须为空，否则会不能正常显示！</span><br/>';
+	shtml +='<p style="text-align:center"><input type="button" class="submit_btn" value=" 关闭 " onclick="evaluate_dialog.close()"/></p>';
+	evaluate_dialog.show();        
+	evaluate_dialog.content.html(shtml);
+}
+import_dialog.content.append($('<textarea name="data" style="width: 380px; height: 220px;"></textarea>'));
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

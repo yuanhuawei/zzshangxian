@@ -1,0 +1,41 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<form action="$this_router-pay" method="post">
+<table class="columntable formtable hover_table" width="100%">
+	<tr>
+	  <td colspan="2">购买信息确认<font color="red">(为了方便与您联系,请购买后更改你基本信息中的联系方式)</font></td>
+	</tr>
+	<tr>
+	  <td >广告名称</td>
+	  <td>$ad[name]</td>
+	</tr>
+	<tr>
+	  <td>广告类型</td>
+	  <td>
+	      <!--{if empty($ad[content_type])}-->文字广告
+	      <!--{elseif $ad[content_type]==1}-->图片广告
+	      <!--{elseif $ad[content_type]==2}-->FLASH广告
+	      <!--{else}-->自定义<!--{/if}-->
+	  </td>
+	</tr>
+	<tr>
+	  <td>广告售价(金币/天)</td>
+	  <td>$ad[price]</td>
+	</tr>
+	<tr>
+	  <td>投放时间</td>
+	  <td>开始时间<input type="text" name="sale_begintime" onclick="rcalendar(this);"/>-结束时间<input type="text" name="sale_endtime" onclick="rcalendar(this);"/></td>
+	</tr>
+	<tr>
+		<td>备注：</td>
+		<td><textarea rows="3" cols="30" name="sale_note"><!--{if !empty($data[note])}-->$data[note]<!--{/if}--></textarea></td>
+	</tr>
+	<tr>
+	  <td colspan="2"><input type="submit" value="确认购买"  /></td>
+	</tr>
+</table>
+<input type="hidden" name="sale_cid" value="$ad[id]"/>
+</form>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

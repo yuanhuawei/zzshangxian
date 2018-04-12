@@ -1,0 +1,100 @@
+<!--{php168}-->
+<input type="hidden" name="#field_{$field}_posted" />
+<div id="{$field}_holder">
+<div></div>
+<input type="button" value="{$P8LANG['add']}" />
+</div>
+<script type="text/javascript" src="{$RESOURCE}/js/sortable.js"></script>
+<script type="text/javascript">
+$(function(){
+	
+	function copy(value, title, thumb){
+		var div = $('<div>'+
+			
+			'<span>'+ P8LANG.title +' </span>&nbsp;<span>'+ P8LANG.thumb_image +' </span>&nbsp;<span>'+ P8LANG.url +' </span>&nbsp;</div>'
+		);
+		
+		$('<input type="text" name="field#[$field][title][]" size="10" autocomplete="off" />').val(title === undefined ? '' : title).appendTo(div.find('span:eq(0)'));
+		
+		var thumb = $('<input type="text" name="field#[$field][thumb][]" size="30" />').val(thumb === undefined ? '' : thumb).appendTo(div.find('span:eq(1)'));
+		
+		var input = $('<input type="text" name="field#[$field][url][]" id="field#[$field]" {$field_data['widget_addon_attr']} size="30" /> ').val(value === undefined ? '' : value).appendTo(div.find('span:eq(2)'));
+		
+		var uploader = new P8_Upload({
+			element: {
+				src: input,
+				attribute: 'value'
+			},
+			callback: function(json){
+				var files = json.attachments;
+				
+				input.val(files[0].thumb == 2 ? files[0].file + '.cthumb.jpg' : files[0].file);
+				$('input:eq(1)', div).val(files[0].thumb != 0 ? files[0].file +'.thumb.jpg' : files[0].file);
+				
+				if(!$('input:eq(0)', div).val().length){
+					$('input:eq(0)', div).val(files[0].name);
+				}
+				
+				if(files.length == 1){
+					
+					return;
+				}
+				files.shift();
+				
+				for(var i = 0; i < files.length; i++){
+					copy(
+						files[i].thumb == 2 ? files[i].file + '.cthumb.jpg' : files[i].file,
+						files[i].name,
+						files[i].thumb != 0 ? files[i].file +'.thumb.jpg' : files[i].file
+					);
+				}
+			},
+			param: {
+				count: -99
+				<!--{if isset($field_data['CONFIG']['thumb_width']) && isset($field_data['CONFIG']['thumb_width'])}-->
+				,thumb_width: {$field_data['CONFIG']['thumb_width']},
+				thumb_height: {$field_data['CONFIG']['thumb_height']}
+				<!--{/if}-->
+				,content_thumb_width: P8CONFIG.cthumb_width || 0,
+				content_thumb_height: P8CONFIG.cthumb_height || 0
+			}
+		});
+		
+		$('<input type="button" class="up_botton" value="'+ P8LANG.upload +'" />').click(function(){
+			uploader.choseup();
+		}).appendTo(div);
+		
+		
+		$('<input type="button" class="up_botton" value="'+ P8LANG.image_cut +'" />').click(function(){
+			uploader.image_cut();
+		}).appendTo(div);
+		
+		$('<input type="button" class="up_botton" value="'+ P8LANG['delete'] +'" />').click(function(){
+			$(this).parent().remove();
+		}).appendTo(div);
+		
+		$('#{$field}_holder div:last').after(div);
+		
+		//sortable.refresh();
+	}
+	
+	/**var sortable = new $.p8_sortable({
+		selector: {
+			range: '#{$field}_holder div',
+			drag: 'b'
+		},
+		type: 'y'
+	});**/
+	
+	$('#{$field}_holder input[type=button]:last').click(function(){
+		copy();
+	});
+	<!--{foreach $data[$field] $vv}-->
+		copy('$vv[url]', '$vv[title]', '$vv[thumb]');
+	<!--{/foreach}-->
+	<!--{foreachelse}-->
+		copy();
+	<!--{/foreachelse}-->
+});
+</script>
+<!--{/php168}-->

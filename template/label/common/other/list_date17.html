@@ -1,0 +1,32 @@
+<!--{php168}-->
+<style type="text/css">
+.event{padding:1.2em 0;border-bottom: 1px solid #d3d3d3;}
+.event .event-date{width: 65px;height: 65px;float:left;border-radius: 0.75em;background-color: #707070;font-size: 1.25em;line-height: 1.1;text-align: center;color: #fff;-webkit-transition: 0.25s ease-in-out background-color;-moz-transition: 0.25s ease-in-out background-color;-o-transition: 0.25s ease-in-out background-color;transition: 0.25s ease-in-out background-color; }
+.event .event-date:hover, .event .event-date:focus{background-color: #d3d3d3; }
+.event,.event .event-info{overflow: hidden;zoom: 1;}
+.event .event-info{padding-left: 1em;}
+.event .event-date, .event .event-info{display: table-cell;vertical-align: top;}
+.event .content p{margin: 0.5em 0 0;}
+.event .event-date span{display:block;text-align:center;font-size:16px;}
+.event .event-date .text{padding:1em 0.5em;}
+.event:first-of-type .event-date {background-color: #bb1f01;overflow: hidden;color: #fff; }
+.event:first-of-type .event-date:hover, .event:first-of-type .event-date:focus {background-color: #881701; }
+.event h3{font-weight:400;text-transform: none;margin:0;line-height:1.5;font-size: 1.125em;}
+.event h3 a{color: #333; }
+.event h3 a:hover, .event h3 a:focus{color: #bb1f01;text-decoration: underline; }
+.event .event-time {margin-top:0.25em;}
+.event-time i {font-size: 1.125em;color: #707070;line-height: 1; margin-right:0.5em;}
+.event-time span {color: #bb1f01;margin: 0;font-size: 0.9em; }
+</style>
+<div class="events">
+	<!--{foreach $list $value}-->
+	<div class="event">
+		<a href="$value[url]" title="$value[full_title]" target="_blank"><div class="event-date"><span class="text">{date('m月d日', $value['timestamp'])}</span></div></a>
+		<div class="event-info">
+			<h3><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h3>
+			<div class="event-time"><i class="fa fa-clock-o"></i><span>{date('H:I a', $value['timestamp'])}</span></div>
+		</div>
+	</div>
+	<!--{/foreach}-->
+</div>
+<!--{/php168}-->

@@ -1,0 +1,230 @@
+.tree_menu{background:url(li.gif) no-repeat;width:162x;margin-bottom:5px; }
+.tree_menu p{cursor:pointer;padding-left:48px;height:30px;line-height:30px}
+.tree_menu dl{padding-left:20px}
+.tree_menu  ul{padding-left:20px}
+.tree_menu li{line-height:22px;background:url(close.png) no-repeat left 5px}
+.tree_menu li span{padding-left:18px;cursor:pointer;}
+.tree_menu dd{line-height:22px;margin-left:5px;padding-left:15px;background:url(li.png) no-repeat left 5px}
+.tree_menu dd a.over{background-color:#FDEAC0;padding:1px 5px;}
+.searchformdiv { background:#EFEFF0 url(zwgksearchbt.gif) 100px center no-repeat; height:20px;_height:30px padding-left:130px;padding:10px 0;text-align:center; border:1px solid #E7E7E7; margin:5px auto; font-size:14px; }
+.selectwidth { width:100px; }
+.searchformdiv strong { margin-left:10px; }
+.searchformdiv font { color:#F00; padding:0 2px; font-size:12px; }
+.searchformdiv span { color:#07519A; font-size:12px; font-weight:normal; margin-left:15px; }
+/*小列表表格*/
+#list_table{background-color:#FFF}
+#list_table td{background-color:#ffffff;text-align:center;line-height:30px;height:30px;}
+#list_table .ltbhead td{background-color:#E6E6E6;color:#9A0A0A;font-weight:bold;line-height:28px;}
+#list_table .ltbhead  .white {background-color:#FFF;}
+#list_table .ltbhead  .white {background-color:#FFF;}
+#list_table2{background-color:#C0C0C0}
+#list_table2 td{background-color:#ffffff;padding:5px; text-align:center}
+#list_table2 .ltbhead td{background-color:#E6E6E6}
+
+
+/*政务公开*/
+.mt_5{margin-top:5px}
+.m_l5 {margin-left: 5px;}
+.fl{float:left}
+.fr{float:right}
+.mbot{margin-bottom:10px;}
+.wrap_990{width:990px;margin:0 auto;overflow:hidden}
+.sidebar{width:231px;float:left;overflow:hidden}
+.mainBody{width:749px;float:right;overflow:hidden}
+.col{width:749px;clear:both;overflow:hidden}
+.ldzc_hd {background: url("ldzc_hd.jpg") no-repeat scroll 0 0 transparent;color: #FFFFFF;font-size: 14px;height:32px;line-height: 32px;text-align:center;width:231px;}
+.ldzc {border:1px solid #CBCBCB;border-top:none;height:auto;padding: 10px 6px;overflow:hidden}
+.ldzc ul li {background: url("government-04.jpg") no-repeat scroll center center transparent;height:21px;margin-top: 3px;padding-top: 4px;text-align: center;width: 100%;}
+.ldzc a:link, .ldzc a:visited {color: #CC0000;text-decoration: none;}
+.ldzc .p1 {background: url("government-06.jpg") no-repeat scroll 0 0 transparent;height:30px;line-height:30px;text-align: center;width: 216px;}
+.ldzc .p2 {background: url("government-07.jpg") no-repeat scroll 0 0 transparent;height:30px;line-height:30px;text-align: center;width: 216px;margin-top:3px;}
+.ldzc .p3 {background: url("government-08.jpg") no-repeat scroll 0 0 transparent;height:30px;line-height:30px;text-align: center;width: 216px;margin-top:3px;}
+
+.yjgl_hd {background: url("yjgl_hd.jpg") no-repeat scroll 0 0 transparent;color: #FFFFFF;font-size: 14px;height:39px;line-height: 35px;text-align:center;width:231px;margin:5px auto 0;}
+.yjgl {border:1px solid #CBCBCB;border-top:none;height:auto;padding: 10px 6px;overflow:hidden}
+.yjgl_ul {margin: 7px auto 0;width: 208px;}
+.yjgl_ul li {background: url("zwgk_06.jpg") no-repeat scroll 0 0 transparent;color: #636363;height: 30px;line-height: 30px;margin-bottom: 5px;padding-left: 88px;width: 120px;}
+
+
+.zkxx_hd {background: url("zkxx_hd.jpg") no-repeat scroll 0 0 transparent;color: #FFFFFF;font-size: 14px;height:32px;line-height: 32px;text-align:center;width:231px;margin:5px auto 0;}
+.zkxx_hd span {float:right;margin-right:10px;font-size: 12px;font-weight: normal;}
+.zkxx_hd span a {color: #FFFFFF;}
+.zkxx {border:1px solid #CBCBCB;border-top:none;height:auto;padding: 10px 6px;overflow:hidden}
+
+
+.zw_part_left {border: 1px solid #CBCBCB;float: left;height: 210px;width: 506px;}
+.zw_bna {float: left;height: 190px;padding: 10px 10px 0;width: 238px;}
+.zw_04 {border-left: 1px solid #CBCBCB;float: right;height: 210px;width: 247px;}
+.zw_04 h1 {background: url("zwgk_09.jpg") no-repeat scroll 0 0 transparent;color: #FFFFFF;font-size: 14px;height: 23px;line-height: 23px;padding: 10px 10px 0 30px;}
+.zw_04 h1 span {float: right;font-size: 12px;font-weight: normal;}
+.zw_04 h1 span a {color: #4A4A4A;}
+.zw_04 ul {margin: 0 auto;padding-top: 15px;width: 210px;}
+.zw_04 ul li {background: url("sn_11.jpg") no-repeat scroll left center transparent;display: block;line-height: 24px;padding-left: 10px;width: 200px;}
+
+.zw_part_right {float: right;width: 234px;}
+.zw_05 {background: url("zwgk_10.jpg") no-repeat scroll 0 0 transparent;color: #FFFFFF;font-size: 14px;height: 33px;line-height: 33px;padding: 0 10px 0 30px;width: 194px;}
+.zw_05 span {float: right;font-size: 12px;font-weight: normal;}
+.zw_05 span a {color: #FFFFFF;}
+.zw_07 {border: 1px solid #CBCBCB;height: 26px;padding: 10px 0 10px 10px;width: 222px;}
+.zw_07 li {float: left;margin-right: 5px;}
+.zw_06 {background: url("zwgk_11.jpg") no-repeat scroll 0 0 transparent;color: #AE0B0C;font-size: 14px;height: 34px;line-height: 34px;margin: 5px auto 0;padding: 0 10px 0 30px;width: 194px;}
+.zw_06 span {float: right;font-size: 12px;font-weight: normal;}
+.zw_06 span a {color: #999999;}
+.zw_08 {border: 1px solid #CBCBCB;height: 69px;padding: 11px 0 10px 6px;width: 226px;}
+.zw_08 li {float: left; margin-right: 5px;}
+
+
+.col_dt_left{float:left;height:auto;width:506px}
+.col_dt_right{float:right;height:auto;width:234px}
+.zw_09 {background: url("zwgk_17.jpg") no-repeat scroll center top transparent;border: 1px solid #CBCBCB;height: 200px;padding: 0 10px;margin-top:5px;width: 228px;}
+.zw_09 h1 {color: #AE0B0C;font-size: 14px;height: 23px;line-height: 23px;margin-bottom: 10px; padding: 10px 10px 0 20px;}
+.zw_09 h1 span {float: right;font-size: 12px;font-weight: normal;}
+.zw_09 dl {padding: 0 10px;width: 208px;}
+.zw_09 dl img {border: 1px solid #CCCCCC;display: block;float: left;height: 72px;margin-right: 10px;padding: 1px;width: 62px;}
+.zw_09 dl dt {display: block;font-weight: bold;height: 30px;line-height: 30px;overflow: hidden;}
+.zw_09 dl dd {display: block;height: 40px;line-height: 20px;overflow: hidden;text-indent: 10px;}
+.zw_09 ul {margin: 15px auto 0;width: 228px;}
+.zw_09 ul li {background: url("li.jpg") no-repeat scroll left center transparent;display: block;height: 22px;line-height: 22px;overflow: hidden;padding-left: 10px;width: 218px;}
+.zwgk {border:1px solid #CBCBCB;border-top:none;height:auto;padding: 10px 6px;overflow:hidden}
+
+
+/*政务公开2013*/
+#govopen2013 {background:url(govopen_head_2013.jpg) no-repeat center top #faf7ee;}
+#govopen2013 .container{background:none;width:990px;margin:0 auto;overflow:hidden}
+#govopen2013 #header_t{height:25px;line-height:25px;margin-right:20px;text-align:right}
+#govopen2013 .logo {width:400px;height:142px;clear:both}
+#govopen2013 .logo a{width:400px;height:142px;display:block;text-indent:-9999px}
+.govopen_nav ul {height:50px;line-height:50px}
+.govopen_nav li {background:url(nav_line_2013.gif) right center no-repeat;padding:0 34px;float:left}
+.govopen_nav li.first,.govopen_nav li.last{background:none}
+.govopen_nav li.first{margin-left:20px;}
+.govopen_nav li a{font-size:14px;font-weight:bold;color:#fff;text-decoration: none;}
+.govopen_nav li a:hover{color:#e5e03c}
+
+
+#govopen2013 .foot{background:url(footbg.gif) repeat-x;clear: both;height:auto; margin: 0 auto;text-align: center; width:100%;height:184px}
+#govopen2013 .foot .foot_nav{margin:24px 0;height:33px;line-height:33px;}
+
+#govopen2013 .siderBar{width:250px;margin-top:10px;}
+#govopen2013 .mainBody{width:730px;margin-top:22px;}
+
+.leftad_box {height:50px;display:block}
+.ztcx_hd{background:url(ztcx_hd_2013.jpg) no-repeat;height:39px;line-height:39px;text-align:center;font-size:14px;font-weight:bold;color:#fff}
+.ztcx_con{background:url(ztcx_con_bg_2013.gif) repeat-x;border:#FCD091 1px solid;border-top:none;padding:10px 0;text-align:center}
+.ztcx_con li{margin-bottom:7px;}
+
+.gkcx{background:url(gkcx_box_bg_2013.gif) repeat-x;border:#FCD091 1px solid;}
+.gkcx_hd{height:31px;}
+.gkcx_hd span{background:url(icon01_2013.jpg) no-repeat;margin-left:18px;padding-left:25px;height:17px;margin-top:8px;display:block;color:#412e03;font-weight:bold}
+.gkcx_con table{margin:0 auto}
+
+.bmcx_hd{background:url(bmcx_hd_2013.jpg) no-repeat;height:30px;line-height:30px;padding-left:26px;color:#c92104;font-weight:bold}
+.bmcx_con{border:#FCD091 1px solid;border-top:none;padding:10px}
+
+
+.rtbox_index{background: url(index_rtbox_conbg_2013.png) repeat-x scroll center top #fff;border: 1px solid #FCD091;}
+.rtbox_index .hd {background: url(index_rtbox_hd_2013.png) no-repeat scroll center 0 transparent;color: #C72200;font-size: 14px;font-weight: bold;height: 33px;line-height: 33px;text-align: center;}
+.rtbox_index .con{overflow:hidden;padding:18px;}
+
+.rtbox_index .col2{width:222px;margin:0 20px;}
+
+.leader {border-bottom: 1px dotted #CCCCCC;height: 123px;margin-bottom: 10px;}
+.leader .pic {border: 1px solid #CCCCCC;height: 105px;margin-right: 10px;padding: 3px;width: 82px;}
+.leader .intro {width: 122px;}
+.leader .intro h3 {line-height: 22px;margin-bottom: 5px;}
+.leader .intro p {color: #666666;line-height: 18px;text-indent: 2em;}
+.leader .intro p a {color: #FF3300;}
+
+.others .tt{float:left;color:#b41205;font-weight:bold;}
+.others ul{float:right;width:170px;}
+.others ul li {float:left;margin:0 0px 10px 10px}
+
+
+.rtbox_index .con.bm ul {float: left;padding: 14px 0 14px 23px;}
+.rtbox_index .con.bm li {background: url(xx_ico.png) no-repeat scroll 0 6px transparent;float: left;height: 24px;padding-left: 15px;width: 152px;}
+
+
+
+/*政务公开2013_大列表*/
+.ztcx_con #gov_left {background:#fff;width:216px;border:#fce5af 1px solid;padding:12px 8px;margin:0 auto;text-align:left}
+.ztcx_con #gov_left .bigtt{background:url(ttbg02_2013.jpg) no-repeat;height:26px;line-height:26px;color:#c42100;font-weight:bold;font-size:14px;padding-left:30px;margin:0 auto 10px;}
+.rtbox_biglist {background: url(biglist_rtbox_conbg_2013.gif) repeat-x scroll center top #fff;border: 1px solid #FCD091;padding:0 12px}
+.rtbox_biglist .hd{height:45px;line-height:45px;}
+.rtbox_biglist .hd span{background:url(icon3_2013.png) no-repeat left center;padding-left:38px;color:#c42100;font-size:18px;font-weight:bold;margin-right:10px;float:left}
+.rtbox_biglist .nav{background:url(icon4_2013.png) no-repeat left center;float:left;margin-top:6px;}
+.rtbox_biglist .con{overflow:hidden}
+.rtbox_biglist .searchformdiv{background:none;border:none}
+.ls_bm li{background:url(li02_2013.jpg) no-repeat;width:220px;height:30px;line-height:30px;text-align:center;margin:10px 4px;}
+
+#list {padding: 0 12px 27px;}
+#list table, #list table tr, #list table tr td,#list .hdbox{border: 1px solid #DFB058;border-collapse: collapse}
+#list #list_table .ltbhead,#list #list_table .ltbhead td {background: url(xx_con_tit.png) repeat-x scroll 0 0 transparent;color:#000000;font-weight: bold;height: 27px;line-height:27px;text-align: center;}
+#list table tr td {text-align: center;font: 12px/24px "宋体",Arial,Helvetica,sans-serif;padding:0 5px;border-left:none}
+#list #list_table td.white{padding:0;border-right:none}
+#list table tr td.xx_tit {padding: 0 13px;text-align: left;}
+#list .hd {height:26px;line-height:26px;text-align:center;padding-bottom:1px;}
+#list .con {border-top:1px solid #DFB058}
+#list .con ul{margin:25px 0;}
+#list .con li{float:left;width:195px;margin:0px 10px 15px;}
+
+.rtbox_biglist .intr_title {color:#ff6500;font-size:30px;font-weight:bold;height: 30px;line-height: 30px;margin:20px 0 0;text-align: center;}
+.rtbox_biglist .gov_article_article_info{background:url(subtt_bg.gif) repeat-x;height:28px;line-height:28px;text-align:center;width:95%;margin:10px auto 30px}
+.rtbox_biglist .page_con{width:95%;margin:0 auto}
+
+.ldjs_hd{background:url(leader_hd.jpg) no-repeat;height:10px;margin-top:8px;}
+.ldjs_con{background:url(leader_con.jpg) repeat-y;text-align:center;overflow:hidden}
+.ldjs_bot{background:url(leader_bot.jpg) no-repeat;height:10px;}
+
+.ldjs_con .p1{padding-top:10px;font-size:24px;font-weight:bold;color:#b61c28}
+.ldjs_con .p2{margin:10px auto 18px auto;font-size:30px;font-weight:bold}
+.ldjs_con .pic {border: 1px solid #CCCCCC;height:209px;padding: 3px;width:164px;margin:0 auto 30px}
+
+
+#govopen2013 .mainBody.ldjs{width:682px;background:#fff;padding:0 24px}
+.rtbox1_hd{background:#fce9be;height:27px;line-height:27px;margin-top:15px;padding-left:10px;font-weight:bold}
+.rtbox1_con{padding:15px 0 15px 10px;}
+
+.rtbox2_hd{background:url(rtbox1_hd.jpg) no-repeat;height:29px;line-height:29px;border-bottom:#e6e6e6 1px solid;padding-left:19px;color:#fff;font-weight:bold}
+.rtbox2_hd .more{float:right;margin-right:12px;line-height:29px;}
+.rtbox2_hd .more a{color:#7a7a7a;font-size:12px;font-weight:normal}
+.rtbox1_con,.rtbox2_con{padding:15px;}
+.mainBody.ldjs .box{border: 1px solid #DFB058;}
+.mainBody.ldjs .box .con{min-height:30px;overflow:hidden}
+
+.rtbox3 .hd{background:url(rtbox3_hd.jpg) no-repeat;height:27px;line-height:27px;padding-left:19px;color:#fff;font-weight:bold}
+.rtbox3 .hd .more{float:right;margin-right:12px;line-height:27px;}
+.rtbox3 .hd .more a{color:#7a7a7a;font-size:12px;font-weight:normal}
+
+.rtbox_xxgkzn{border: 1px solid #DFB058;}
+.rtbox_xxgkzn .hd{background:url(rtbox730_hd.jpg) no-repeat;height:27px;line-height:27px;padding-left:19px;color:#fff;font-weight:bold}
+.rtbox_xxgkzn .hd .more{float:right;margin-right:12px;line-height:27px;color:#7a7a7a;font-size:12px;font-weight:normal}
+.rtbox_xxgkzn .hd .more a{color:#7a7a7a;font-size:12px;font-weight:normal}
+.rtbox_xxgkzn .con{background:#fff;min-height:30px;}
+
+
+.rtbox4 .hd{background:url(rtbox4_hd.jpg) no-repeat;height:25px;line-height:25px;padding-left:19px;margin:1px;color:#fff;font-weight:bold}
+.rtbox4 .hd .more{float:right;margin-right:12px;font-size:12px;font-weight:normal;line-height:25px;}
+.rtbox4 .hd .more a{color:#7a7a7a;font-size:12px;font-weight:normal}
+.rtbox4 .con{padding:15px;}
+.rtbox4 .tb_tt {border-bottom:#727272 1px solid;height:28px;line-height:28px;padding:0 20px;color:#db110f;font-weight:bold}
+.rtbox4 .tb_con{padding:8px 20px 20px;}
+.rtbox4 .tb_con li{line-height:24px;}
+.rtbox4 .linkmore a{color:#f5a900;font-weight:bold}
+
+
+
+.font24 {color: red;font-size: 24px;font-weight: bold;}
+.font16 {color: red;font-size: 14px;font-weight: bold;}
+.height28 {line-height: 28px;}
+#ysqgk .headbtn{width:94%;clear:both;padding-left:140px;}
+#ysqgk .btnbox{border:#deb05b 1px solid;margin:30px 10px;padding:1px;display:block;float:left}
+#ysqgk .btnbox span{background:url(btn_bg.gif) repeat-x;padding:0 10px;height:22px;line-height:22px;display:block;}
+#ysqgk .btnbox span a{color:#c42404;font-size:12px;font-weight:bold}
+
+
+.list5_table, .list5_table tr, .list5_table tr td {border: 1px solid #FFFFFF;border-collapse: collapse;}
+.list5_table tr td {background: none repeat scroll 0 0 #FFF5FA;line-height:24px;}
+.list5_table .tdlab {background: none repeat scroll 0 0 #F8B3D0;text-align: right;}
+.list5_table .bottombt {text-align: center;}
+.list5_table .bottombt a {background: url(view_btn01.jpg) no-repeat scroll 0 0 transparent;display: inline-block;height: 26px;line-height: 26px;text-align: center;width: 85px;}
+.list5_tips{margin:40px auto 68px}

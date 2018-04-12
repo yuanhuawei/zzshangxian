@@ -1,0 +1,7 @@
+<!--{php168}-->
+<ul class="adaplist22 label_nowrap" style="font-size:14px;color:#333;">
+<!--{foreach $list $value}-->
+	<li><a href="{$value['url']}" target="_blank" title="{$value['full_title']}"><span class="label_title">$value[title]</span><span class="label_datatime" style="font-size:14px;"><!--{php echo date('Y-m-d', $value['timestamp']);}--></span></a></li>
+<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

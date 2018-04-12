@@ -1,0 +1,7 @@
+<!--{php168}-->
+<input type="hidden" name="#field_{$field}_posted" />
+<textarea name="field#[$field]" id="field#[$field]" type="text/plain">
+{if isset($data[$field])}{html_entities($data[$field])}{/if}</textarea>
+<script type="text/javascript">UE.getEditor('field#[$field]',{toolbars: [['fullscreen', 'source','|', 'undo', 'redo','|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']]
+,allowDivTransToP: false,initialFrameHeight: 350});</script>
+<!--{/php168}-->

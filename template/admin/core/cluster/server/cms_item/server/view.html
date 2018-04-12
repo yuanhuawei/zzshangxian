@@ -1,0 +1,87 @@
+<!--{php168}-->
+<!--{template $this_module $template_path/header admin}-->
+
+<table width="100%" cellspacing="0" cellpadding="0" class="zq_list">
+	<tr>
+		<td colspan="2" class="list_top"></td>
+	</tr>
+	
+	<tr>
+		<td class="tdL">标题</td>
+		<td class="tdR">
+			$data[title]
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="tdL">副标题</td>
+		<td class="tdR">
+			$data[sub_title]
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="tdL">来源</td>
+		<td class="tdR">
+			$data[source]
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="tdL">关键词</td>
+		<td class="tdR">
+			$data[keywords]
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="tdL">摘要</td>
+		<td class="tdR">
+			$data[summary]
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="tdL">时间</td>
+		<td class="tdR">
+			{date('Y-m-d H:i:s', $data['timestamp'])}
+		</td>
+	</tr>
+	
+	<!--{foreach $data['field#'] $name $v}-->
+	<tr>
+		<td class="tdL">[$name]</td>
+		<td class="tdR">
+			<!--{php print_r($v);}-->
+		</td>
+	</tr>
+	<!--{/foreach}-->
+	
+	<!--{foreach $data['addon'] $v}-->
+	<tr>
+		<td class="tdL">追加数据</td>
+		<td class="tdR">
+			<table width="100%" class="zq_list">
+				<tr>
+					<td class="tdL">追加标题</td>
+					<td class="tdR">$v[addon_title]</td>
+				</tr>
+				<tr>
+					<td class="tdL">追加摘要</td>
+					<td class="tdR">$v[addon_summary]</td>
+				</tr>
+				<!--{foreach $v['field#'] $kk $vv}-->
+				<tr>
+					<td class="tdL">$kk</td>
+					<td class="tdR"><!--{php print_r($vv);}--></td>
+				</tr>
+				<!--{/foreach}-->
+			</table>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+	
+</table>
+
+<!--{template $this_module footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,43 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="columntable formtable hover_table click_changeable" width="100%" style="text-align:center" >
+			<tr bgcolor="#eeeeee" class="title">
+				<td width="9%">编号</td>
+				<td width="34%">标题</td>
+				<td width="12%">发布时间</td>
+				<td width="12%">结束时间</td>
+				<td width="10%">意见数量</td>
+				<td width="10%">状态</td>
+				<td width="15%">操作</td>
+			</tr>
+			<!--{foreach $list $k $v}-->
+			<tr>
+				<td>$v[id]</td>
+				<td align="left"><a href="{$this_module.controller}-post-id-$v[id]" target="_blank">$v[title]</a></td>
+				<td>
+					<!--{php echo date("Y-m-d H:i:s",$v['timestamp']);}-->
+				</td>
+				<td>
+					<!--{php echo date("Y-m-d H:i:s",$v['endtime']);}-->
+				</td>
+				<td><a href="{$this_router}-list?iid={$v['id']}" >$v[post]</a></td>
+				<td><!--{if $v['status']}-->启用<!--{else}-->关闭<!--{/if}--></td>
+				<td>
+					<a href="{$this_router}-list?iid={$v['id']}">内容</a>|
+					<a href="{$this_module.controller}-post-id-$v[id]" target="_blank">填写</a>|
+					<a href="{$this_router}-update?id={$v['id']}" >编辑</a> |  
+					<a href="$this_router-delete_item?id=$v[id]" onclick="javascript:return confirm('确定了?')">删除</a>
+				</td>
+			</tr>
+			<!--{/foreach}-->
+			<tr>
+				<td colspan="6" class="pages">{$pages}</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<!--{/php168}-->

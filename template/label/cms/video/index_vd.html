@@ -1,0 +1,22 @@
+<!--{php168}-->
+
+<style>
+.head_vd_{$label['id']}{ width:{$swidth}px;position:relative;}
+.head_vd_{$label['id']} .head_vd_frame{width:{$swidth}px;height:{$sheight}px; overflow:hidden}
+.head_vd_{$label['id']} .head_vd_frame .vd_play{ position:absolute; width:71px; margin-top:20px;margin-left:125px}
+.head_vd_{$label['id']} .head_vd_title{width:{$swidth}px;font-size:14px; position: absolute;bottom: 0px;height: 28px;line-height: 28px;text-align: center;background: #000;filter: alpha(opacity=75);background-color: rgba(0,0,0,0.8);}
+.head_vd_{$label['id']} .head_vd_title a{color:#fff;}
+</style>
+<!--{php $first=array_shift($list);}-->
+<div class = "head_vd_{$label['id']}">
+	<div class="head_vd_frame">
+		<a href="$first[url]" target="_blank"><img class="vd_play" src="{$RESOURCE}/skin/label/video_04.png" /></a>
+		<a href="$first[url]" target="_blank"><img src="$first[frame]" width="{$swidth}px"height="{$sheight}px" /></a>
+		
+	</div>
+	<div class="head_vd_title">
+		<a href="$first[url]" target="_blank">$first[full_title]</a>
+	</div>
+</div>
+<!--{/php168}-->
+

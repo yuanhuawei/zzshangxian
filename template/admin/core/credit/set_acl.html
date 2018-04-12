@@ -1,0 +1,13 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<form action="" method="POST">
+<table class="mainbox mainborder">
+	
+	<!--{template $role acl_action admin}-->
+	
+</table>
+<input type="hidden" name="role_id" value="<!--{if !empty($role_id)}-->$role_id<!--{/if}-->" />
+<input type="submit" />
+</form>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

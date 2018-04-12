@@ -1,0 +1,39 @@
+<!--{php168}-->
+<!--{php 
+$i = sizeof($CAT['parents']);
+$j = $i>1? $i-2 : 0;
+if($CAT['parents'])
+$stepcat = $category->categories[$CAT['parents'][$j]]['categories'];
+else
+$stepcat = $category->categories[$cid]['categories'];
+}-->
+				
+<div class="main_ultop" id="left_nav_url">
+	<!--{foreach $stepcat $v}-->
+	<!--{if !$v['enable_show']}-->
+	<h3 class="open"><span class="icon"></span><a href="$v[url]">$v[name]</a></h3>
+                <!--{if !empty($v['categories'])}-->
+				<ul class="ulstNext" style="{if array_key_exists($cid,$v['categories']) || $cid==$v['id']}display:;{else}display:none{/if}">
+                    <!--{foreach $v['categories'] $sv}-->
+					<!--{if !$sv['enable_show']}--><li><a href="$sv[url]">$sv[name]</a></li><!--{/if}-->
+                    <!--{/foreach}-->                 
+                </ul>
+				<!--{/if}-->
+	<!--{/if}-->
+	<!--{/foreach}-->
+	<div class="clear"></div>
+</div>
+<script type="text/javascript">
+(function(){ $('#left_nav_url h3').click(
+	function(){ 
+		$(this).parent().find('ul').hide('normal'); 
+		if($(this).next('ul').css('display') == 'none') 
+			$(this).next('ul').slideDown("normal"); 
+		else 
+			$(this).next('ul').slideUp("normal");
+	}
+);
+<!--{if !$CAT['parent']}-->$('#left_nav_url').find('ul :first').parent().show()<!--{/if}-->
+})()
+</script>
+<!--{/php168}-->

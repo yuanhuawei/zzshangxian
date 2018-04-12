@@ -1,0 +1,83 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<form action="$this_url" method="POST">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="formtable columntable">
+				<tr class="title">
+					<td class="title">$P8LANG[system]</td>
+					<td class="title">$P8LANG[module]</td>
+					<td class="title">$P8LANG[label_postfix]</td>
+					<td class="title">$P8LANG[operation]</td>
+				</tr>
+				
+				<tbody id="acl">
+				<tr id="copy" style="display: none;">
+					<td><select class="system"><option value="*">所有系统</option></select></td>
+					<td><select class="module"><option value="*">所有模块</option></select></td>
+					<td><input type="text" class="postfix" value="" /></td>
+					<td><input type="button" value="$P8LANG[delete]" /></td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<table align="center" border="0" cellpadding="0" cellspacing="0" class="buttomtable">
+		<tr><td class="">
+			<input type="button" value="$P8LANG[add]" class="edit_btn" onclick="_copy('*', '*', '')" />
+			<input type="submit" name="submit" value="$P8LANG[submit]" class="edit_btn" />
+		</td></tr>
+	</table>
+	<input type="hidden" name="role_id" value="{if !empty($role_id)}$role_id{/if}" />
+</form>
+
+<script type="text/javascript">
+var SYSTEMS = {p8_json($core->systems)};
+var CORE_MODULES = {p8_json($core->modules)};
+
+function _copy(system, module, postfix){
+	var copy = $('#copy').clone(true).attr('id', '').show().appendTo($('#acl'));
+	
+	var select = copy.find('select.system').attr('name', 'acl[system][]');
+	select.append($('<option value="core">$P8LANG[core]</option>'));
+	for(var i in SYSTEMS){
+		select.append($('<option value="'+ i +'">'+ SYSTEMS[i]['alias'] +'</option>'));
+	}
+	select.change(function(){
+		var modules = change_system(this.value);
+		var select = copy.find('select.module').attr('length', 1);
+		for(var i in modules){
+			select.append($('<option value="'+ i +'">'+ modules[i]['alias'] +'</option>'));
+		}
+	});
+	
+	copy.find('select.system').val(system || '').change();
+	copy.find('select.module').attr('name', 'acl[module][]').val(module || '');
+	copy.find('input.postfix').attr('name', 'acl[postfix][]').val(postfix || '');
+	copy.find('input[type=button]').click(function(){
+		copy.remove();
+	});
+}
+
+function change_system(sys){
+	if(sys == 'core'){
+		return CORE_MODULES;
+	}else if(SYSTEMS[sys]){
+		return SYSTEMS[sys]['modules'];
+	}
+}
+
+<!--{foreach $scope $system $v}-->
+	<!--{foreach $v $module $vv}-->
+		<!--{foreach $vv $postfix $vvv}-->
+		_copy('$system', '$module', '$postfix');
+		<!--{/foreach}-->
+	<!--{/foreach}-->
+<!--{/foreach}-->
+<!--{foreachelse}-->
+	_copy('*', '*', '');
+<!--{/foreachelse}-->
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,77 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999	/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}uploader/css.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+<style type="text/css">
+#menu{border: 1px solid #8CB8EA; position: absolute; background-color: #ffffff; padding: 5px; display: none; z-Index: 1000; }
+#menu li{cursor: pointer;}
+a:link, a:visited { color:#000; text-decoration:none; }
+a:hover { color:#ff0000; text-decoration:underline; }
+</style>
+</head>
+
+<body>
+
+
+
+<select id="system" onchange="if(this.value) _goto(this.value)">
+	<option value="">{$P8LANG['system']}</option>
+	<!--{foreach $this_module->CONFIG['enables'] $s $m}-->
+	<option value="$s"{if $system == $s} selected{/if}>{if $s == 'core'}{$P8LANG['core']}{else}{$core.systems[$s]['alias']}{/if}</option>
+	<!--{/foreach}-->
+</select>
+ - 
+<select id="module" onchange="_goto('$system', this.value)">
+	<option value="">所有模块</option>
+	<!--{php $module_info = get_modules($system);}-->
+	<!--{foreach $this_module->CONFIG['enables'][$system] $m $v}-->
+		<!--{php if($m == '') continue;}-->
+		<option value="$m"{if $module == $m} selected{/if}>{$module_info[$m]['alias']}</option>
+	<!--{/foreach}-->
+</select>
+<input type="button" value="{$P8LANG['refresh']}" onclick="window.location.reload();" />
+$P8LANG[upload_select_tip]
+
+<ul id="menu">
+	<li><a href="###" target="_blank">$P8LANG[view]</a></li>
+	<li><a href="###" target="_blank">$P8LANG[rename]</a></li>
+	<li><a href="###">$P8LANG[delete]</a></li>
+</ul>
+
+<div id="items">
+	<!--{foreach $list $value}-->
+	<a href="###" class="item" title="$value[filename]" id="file_$value[id]" alt="$value[remote]" size="$value[size]">
+		<div class="icon">
+			<div class="time">{date('Y-m-d H:i', $value['timestamp'])}</div>
+		</div>
+		<div class="name">$value[filename]</div>
+		<div class="size">$value[size]</div>
+		<em>$value[path]</em>
+		<b>$value[thumb]</b>
+	</a>
+	<!--{/foreach}-->
+</div>
+<div style="clear: both;" align="center" class="pages">$pages</div>
+
+<script type="text/javascript">
+var attachment_url = '{$core.attachment_url}';
+var remote_attachment_urls = $remote_attachment_urls;
+var system = '$system';
+var module = '$module';
+</script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/uploader/browse.js"></script>
+</body>
+</html>
+<!--{/php168}-->

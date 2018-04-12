@@ -1,0 +1,182 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>代理商申请</title>
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/forms/channel.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/label/label.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+
+</head>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+
+<script type="text/javascript">
+var MODEL = '$MODEL';
+var attachment_hash = '$attachment_hash';
+var form_submit = false;
+{if !empty($this_model['CONFIG']['content_thumb_width'])}P8CONFIG.cthumb_width = {$this_model['CONFIG']['content_thumb_width']};{/if}
+{if !empty($this_model['CONFIG']['content_thumb_height'])}P8CONFIG.cthumb_height = {$this_model['CONFIG']['content_thumb_height']};{/if}
+
+window.onbeforeunload = function(){
+	P8_Upload.del(form_submit);
+};
+$(function(){
+
+$.validator.addMethod('jsreg',function(value, element, params){
+	return this.optional(element) || params.test(value);
+});
+
+$('#form').validate({
+	rules: { },
+	messages: { },
+	
+	errorPlacement: function(error, element) {
+			element.siblings(".jsregmsg").html(error);	
+	},
+	submitHandler: function(form){
+		form_submit = true;		
+		form.submit();
+	},		
+	onkeyup: false
+});
+
+});
+</script>
+<div id="header_t" style="position: absolute;"></div>
+	<div class="channel_head_frame">
+		<div class="channel_head_box" >
+		
+			<div class="channel_logo"><!--a href="#"><img border="0" src="channel_logo.gif" /></a-->
+			$label[channel_post_logo]
+			</div>
+			<div class="channel_logo_right">$label[channel_post_title]<!--a href="#"><h3 style="padding:0px;margin:0px;">玉树地震首批近千名遇难者遗体集体火化</h3></a--></div>
+			<div class="channel_head_banner">$label[channel_post_banner1]<!--a href="#"><img border="0" src="channel_banner1.gif" /></a--></div>
+		</div>
+	</div><script type="text/javascript">
+init_labelshows('header_t');
+</script>
+	<div class="channel_main_frame">
+		<div class="channel_main_box">			
+			<form name="form" id="form" action="$this_url" method="post">
+			<div class="channel_content" >
+				<strong class="title_icon_5">$label[产品与公司介绍]</strong>
+			</div>
+			<div class="channel_content" style="border-bottom:0px;height:190px;" >
+				<div class="channel_item">
+				$label[channel_post_dis]
+				</div>
+                <div class="channel_item" style="margin-top:20px;">
+					 <div class="channel_item_text"><span style="float:left;width:300px;color:#000099;">$label[channel_item_text1]</span>
+					 <span style="float:right;width:100px;">$label[channel_item_more1]</span></div>
+
+					<div class="channel_item_text"><span style="float:left;width:300px;color:#000099;">$label[channel_item_text2]</span>
+					<span style="float:right;width:100px;">$label[channel_item_more2]</span></div>
+
+					<div class="channel_item_text"><span style="float:left;width:300px;color:#000099;">$label[channel_item_text3]</span>
+					<span style="float:right;width:100px;">$label[channel_item_more3]></span></div>
+
+				</div>
+			</div>
+			<div class="channel_content" style="margin-top:20px;">
+				<strong class="title_icon_5">$label[代理申请]</strong>
+			</div>
+			<div class="channel_content" style="border-bottom:0px;" >
+			
+			<!--{foreach $this_model['fields'] $field $field_data}-->
+				<!--{php
+					if(!$field_data['editable']) continue;
+					
+					$__name = '';
+					
+					switch($field_data['widget']){
+					
+					case 'checkbox': case 'multi_select':
+						$__name = '[]';
+					break;
+					case 'uploader': case 'image_uploader':
+						$__name = '[url]';
+					break;
+					case 'multi_uploader':
+						$__name = '[url][]';
+					break;
+					
+					}
+				}-->
+				<div class="channel_item">
+					<div style="clear:both;"></div>
+					<div class="channel_item_title"> {$field_data['alias']}:
+						<!--{if $field_data['not_null']}-->
+						<font color="red">*</font>
+						<!--{/if}-->：
+					</div>
+					<div class="channel_item_input">
+						<!--{php include template($core, 'widget/'. $field_data['widget'], 'default');}-->
+						<!--{if !empty($field_data['units'])}-->
+						$field_data[units]
+						<!--{/if}-->
+					</div>
+					<div class="channel_item_tip"><!--{if !empty($field_data['description'])}-->$field_data[description]<!--{/if}--><span class="jsregmsg"></span></div>
+					<!--{if $field_data['not_null']}-->
+					<script type="text/javascript">
+					$(document).ready(function(){
+						$('#form *[name="field#[$field]$__name"]').rules('add', {
+							required: true,
+							messages: { required: "{$P8LANG['forms_field_required']}"}
+						});
+					});
+					</script>
+					<!--{/if}-->
+					<!--{if $field_data['jsreg']}-->
+					<script type="text/javascript">
+						$(document).ready(function(){
+							$('#form *[name="field#[$field]$__name"]').rules('add', {
+								jsreg: {$field_data['jsreg']},
+								messages: {jsreg:'{$field_data['jsregmsg']}'}
+							});
+						});
+						</script>
+					<!--{/if}-->
+					<div style="clear:both;"></div>
+				</div>
+				<!--{/foreach}-->
+				
+				
+				
+			</div>			
+			<div class="channel_content" style="text-align:center;">
+				<div class="channel_item">					
+                    <input type="submit" name="" class="channel_btn" value="" />
+					<input type="hidden" name="mid" value="$mid" />
+					<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+					<input type="hidden" name="attachment_hash" value="<!--{php echo $attachment_hash;}-->" />
+				</div>
+			</div>
+			</form>
+	</div>
+<script type="text/javascript">
+
+$(function(){
+	<!--{if empty($this_model['CONFIG']['parts'])}-->	   
+	$('.pop_table tr:even').addClass('pop_tr');	
+	<!--{/if}-->
+})
+
+</script>
+	<div style="text-align:center;margin-bottom:20px;margin-top:10px;">
+<!--{template $core footer}-->
+	</div>
+<!--{/php168}-->

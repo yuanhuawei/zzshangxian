@@ -1,0 +1,96 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $this_module menu_bar admin}-->
+<form action="$this_url" method="GET">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td class="title">{$P8LANG['search']}</td>
+				</tr>
+				
+				<tr>
+					<td>
+						卡号<input type="text" class="txt" name="id" value="$id" size="40" /> 
+						<input type="submit" class="submit_btn" value="{$P8LANG['search']}" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+
+<form action="$this_url" method="POST">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td class="title">生成点卡</td>
+				</tr>
+				
+				<tr>
+					<td>
+						积分类型
+						<select name="credit_type">
+							<!--{foreach $core->credits $id $v}-->
+							<option value="$id">$v[name]</option>
+							<!--{/foreach}-->
+						</select>
+						金额
+						<input type="text" name="quantity" size="5" />
+						数量
+						<input type="text" name="num" size="5" value="10000" />
+						<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+
+<form action="$this_url" method="POST" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table click_changeable">
+			<tr class="title fix_head">
+				<td width="3%" class="title"><input type="checkbox" onclick="check_all(this, 'id[]');init_tr($('#form'));" /></td>
+				<td width="5%" class="title">ID</td>
+				<td width="10%" class="title">卡号</td>
+				<td width="10%" class="title">积分类型</td>
+				<td width="10%" class="title">金额</td>
+				<td width="10%" class="title">已使用</td>
+				<td width="8%">{$P8LANG['operation']}</td>
+			</tr>
+			
+			<!--{foreach $list $value}-->
+			<tr id="item_$value[id]">
+				<td><input type="checkbox" name="id[]" value="{$value['id']}" /></td>
+				<td>{$value['id']}</td>
+				<td>{$value['sn']}</td>
+				<td>{$core.credits[$value['credit_type']]['name']}</td>
+				<td>{$value['quantity']}</td>
+				<td>
+					<!--{if $value['used']}-->
+					<img src="{$SKIN}/check_yes.gif" />
+					<!--{else}-->
+					<img src="{$SKIN}/check_no.gif" />
+					<!--{/if}-->
+				</td>
+				<td>
+				</td>
+			</tr>
+			<!--{/foreach}-->
+			
+			</table>
+		</div>
+	</div>
+</form>
+
+<div align="center" class="pages">$pages</div>
+
+<script type="text/javascript">
+
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,30 @@
+<!--{php168}-->
+<style type="text/css">
+.label_list14_date li{width:100%;margin-top:15px;float:left;}
+.label_list14{padding:20px 10px;background:#f9f9f9;overflow:hidden;}
+.label_list14 .time{width:70px;float:left;color:#000;text-align:right;}
+.label_list14 .time h4{font-size:22px;font-weight:bold;padding-bottom:12px;}
+.label_list14 .time p{font-size:16px;color:#000;}
+.label_list14 .info{width:430px;float:left;margin-left:8px;}
+.label_list14 .info h4{font-size:18px;font-weight:normal;color:#000;padding-bottom:12px;}
+.label_list14 .info h4 a{display:block;color:#000;text-decoration:none;}
+.label_list14 .info h4 a:hover{color:#9c231b;}
+.label_list14 .info p{color:#4d4d4d;font-size:14px;line-height:24px;}
+</style>
+<ul class="label_list14_date">
+	<!--{foreach $list $value}-->
+	<li>
+		<div class="label_list14">
+			<div class="time">
+				<h4>{date('m-d', $value['timestamp'])}</h4>
+				<p>{date('Y', $value['timestamp'])}</p>
+			</div>
+			<div class="info">
+				<h4><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h4>
+				<div class="summary">$value[summary]</div>
+			</div>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

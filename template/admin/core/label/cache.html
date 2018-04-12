@@ -1,0 +1,22 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<div class="formtable">
+			<div class="title">
+				{$P8LANG['operation']}
+			</div>
+			<div class="headerbtn_list" style="padding:10px ">
+				<form action="$this_router-$ACTION" method="POST">
+					<input type="hidden" name="type" value="all" />
+					<input type="submit" class="submit_btn" value="{$P8LANG['cache_all']}" /> 
+					<input type="submit" class="submit_btn" value="{$P8LANG['cache_label']}" onclick="this.form.type.value='label'" />
+					 <input type="submit" class="submit_btn" value="{$P8LANG['cache_label_data']}" onclick="this.form.type.value='data'" />
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

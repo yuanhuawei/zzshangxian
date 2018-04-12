@@ -1,0 +1,244 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+
+<div class="layout_article_category_menu layout_mbottom layout_wrap">
+	<form action="{$this_system.modules['item']['controller']}-search" method="get" style="height:20px;position:relative;top:-5px;">
+	<span style="font-size:12px;">关键词：</span>$label[default_head_keywords]
+	<input type="text" id="keyword" name="keyword" value="{if isset($keyword)}$keyword{/if}" />
+	<select name="type" id="type" >
+		<option value="">站内</option>
+	</select>
+	<input type="image" src="{$SKIN}default_head_search_button.gif" style = "position:relative;top:5px;_top:3px;" />
+	</form>
+	<span style="font-size:12px;">热点：</span>$label[default_head_hotwords]
+</div>
+<!--layout ads-->
+
+<div class="ads_column">
+<div class="default_head_ad1">$label[default_head_ad1]</div>
+<div class="default_head_ad2">$label[default_head_ad2]</div>
+</div>
+<!--content-->
+<div id="container" class="common_mtop">
+    <!--left content-->
+	
+	<script>
+	function change_ad(str)
+	{
+		if(str == 'text_ad1')
+		{
+			document.getElementById('text_menu1').className="default_index_title2";
+			document.getElementById('text_menu2').className="default_index_title1";
+			document.getElementById('text_ad1').style.display="block";
+			document.getElementById('text_ad2').style.display="none";
+			
+		}
+		else
+		{
+			document.getElementById('text_menu1').className="default_index_title1";
+			document.getElementById('text_menu2').className="default_index_title2";
+			document.getElementById('text_ad2').style.display="block";
+			document.getElementById('text_ad1').style.display="none";
+		
+		}
+	}
+	</script>
+		<div class="default_index_top">
+			<div class="fleft default_index_top_left">
+			<div class="fleft default_index_titlecase">
+				<div id="text_menu1" class="default_index_title2" onmouseover="change_ad('text_ad1')">$label[default_index_topad_title1]</div>
+				<div id="text_menu2" class="default_index_title1" onmouseover="change_ad('text_ad2')">$label[default_index_topad_title2]</div>
+			</div>
+			<div id="text_ad1" class="default_index_content1">$label[default_index_top_textad1]</div>
+			<div id="text_ad2" class="default_index_content1" style="display:none;">$label[default_index_top_textad2]</div></div>
+			<div class="fright default_index_top_right">$label[default_index_info_total]</div>
+		</div>
+	<div id="blockleft" class="common_mright fleft">
+		<!--search block-->
+		<!--layout left-->
+		<div class="layout_left fleft layout_mtop layout_mright">
+			<div id="focus">
+			$label[CMS首页幻灯]
+			</div>
+			<div class="layout_box common_border layout_mtop">
+				<div class="layout_title1"><h3>$label[default_index_title1]</h3><div class="layout_more">$label[default_index_more1]</div></div>
+				<div class="layout_focustext inline-block">
+					$label[default_index_content1]
+				</div>
+			</div>
+		</div>
+		
+		<div class="layout_middle fleft layout_mtop">
+			<div class="layout_box common_border">
+				<div class="layout_title"><h3>$label[default_index_title2]</h3><div class="layout_more">$label[default_index_more2]</div></div>
+				<div class="layout_hotarc_box" style="height: 335px;">
+				$label[CMS首页头条]
+				</div>
+			</div>
+		</div>
+		<div style="clear:both;"></div>
+		<script>
+			function change_div(str)
+			{
+				if(str == 'content_tab1')
+				{
+					document.getElementById('title_tab1').className="current";
+					document.getElementById('title_tab2').className="";
+					document.getElementById('title_tab3').className="";
+					document.getElementById('content_tab1').style.display="block";
+					document.getElementById('content_tab2').style.display="none";
+					document.getElementById('content_tab3').style.display="none";
+				}
+				else if (str == 'content_tab2')
+				{
+					document.getElementById('title_tab1').className="";
+					document.getElementById('title_tab2').className="current";
+					document.getElementById('title_tab3').className="";
+					document.getElementById('content_tab1').style.display="none";
+					document.getElementById('content_tab2').style.display="block";
+					document.getElementById('content_tab3').style.display="none";
+				
+				}
+				else if (str == 'content_tab3')
+				{
+					document.getElementById('title_tab1').className="";
+					document.getElementById('title_tab2').className="";
+					document.getElementById('title_tab3').className="current";
+					document.getElementById('content_tab1').style.display="none";
+					document.getElementById('content_tab2').style.display="none";
+					document.getElementById('content_tab3').style.display="block";
+				
+				}
+				
+			}
+		</script>
+		<div class="layout_left fleft layout_mtop layout_mright">
+			<div class="layout_box common_border">
+				<div class="layout_exam_box">
+					<div class="layout_exam_title">
+						<h3 class="fleft">$label[default_index_title3]</h3><div class="layout_more">$label[default_index_more3]</div>
+						<ul class="fright ">
+							<li id = "title_tab1" class="current" onmouseover="change_div('content_tab1')">$label[default_index_title_a1]</li>
+							<li id = "title_tab2" onmouseover="change_div('content_tab2')">$label[default_index_title_a2]</li>
+							<li id = "title_tab3" onmouseover="change_div('content_tab3')">$label[default_index_title_a3]</li>
+						</ul>
+					</div>
+					<div id="content_tab1" class="layout_exam_textlist inline-block">
+						$label[default_index_content21]
+					</div>
+					<div  id="content_tab2" class="layout_exam_textlist inline-block" style="display:none;">
+						$label[default_index_content22]
+					</div>
+					<div  id="content_tab3" class="layout_exam_textlist inline-block" style="display:none;">
+						$label[default_index_content23]
+					</div>
+				</div>
+			</div>
+			<!--layout ads-->
+			<div class="ads_column layout_mtop">$label[default_index_ad10]</div>
+		</div>
+		
+		<div class="layout_middle fleft layout_mtop">
+			<div class="layout_box common_border">
+				<div class="layout_title"><h3>$label[default_index_title4]</h3><div class="layout_more">$label[default_index_more4]</div></div>
+				<div class="layout_hotarc_box" style="height: 260px;">
+				$label[CMS首页推荐]
+				</div>
+			</div>
+		</div>			
+	</div>
+	
+	<div id="blockright" class="fright">
+		<!--layout common-->
+		<div class="layout_box layout_mtop common_border">
+			<div class="layout_title1">
+				<h3>$label[default_index_title5]</h3>
+				<div class="layout_more">
+					$label[default_index_more5]
+				</div>
+			</div>
+			<div class="layout_common_box" style="height: 155px;">
+			$label[CMS首页公告]
+			</div>
+		</div>
+		<!--layout announcement-->
+		<div class="layout_box layout_mtop common_border">
+			<div class="layout_title1">
+				<h3>$label[default_index_title6]</h3>
+				<div class="layout_more">
+					$label[default_index_more6]
+				</div>
+			</div>
+			<div class="layout_announcement">
+				$label[default_index_content6]
+			</div>
+		</div>
+		<!--layout vote-->
+		<div class="layout_box layout_mtop common_border">
+			<div class="layout_title1"><h3>$label[default_index_title7]
+			</h3>
+				<div class="layout_more">
+					$label[default_index_more7]
+				</div></div>
+			<div class="layout_vote inline-block">
+				$label[default_index_content7]
+			</div>
+			<div class="layout_vote_textlist">
+				$label[default_index_content8]
+			</div>
+		</div>	
+	</div>
+	
+	<!--layout ads-->
+		<div class="ads_column common_mtop" style="clear:both;">
+			<div class="fleft default_index_ad1">$label[default_index_ad11]</div>
+			<div class="fright default_index_ad2">$label[default_index_ad12]</div>
+		</div>
+		
+	
+	<div id="blockleft" class="common_mright fleft">
+		<!--layout topics article-->
+		<div class="layout_left fleft common_mtop layout_mright">	
+			<div class="layout_box common_border">
+				<div class="layout_title"><h3>$label[default_index_title9]</h3><div class="layout_more">$label[default_index_more9]</div></div>
+				<div class="layout_topics_article inline-block">
+					$label[default_index_content9]
+				</div>
+			</div>
+		</div>
+		
+		<div class="layout_middle fleft common_mtop">
+			<div class="layout_box common_border">
+				<div class="layout_title"><h3>$label[default_index_title10]</h3><div class="layout_more">$label[default_index_more10]</div></div>
+				<div class="layout_jobs_textlist inline-block">
+					$label[default_index_content10]
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="blockright" class="fright common_mtop">
+		<!--layout digg-->
+		<div class="layout_box common_border">
+			<div class="layout_title1"><h3>$label[default_index_title11]</h3><div class="layout_more">$label[default_index_more11]</div></div>
+			<div class="layout_digg">
+				$label[default_index_content11]
+			</div>
+		</div>
+	</div>
+	<!--layout merchant-->
+	<div class="layout_box layout_merchant layout_wrap layout_mtop common_border inline-block">
+		<div class="layout_title"><h3>$label[default_index_title12]</h3><div class="layout_more">$label[default_index_more12]</div></div>
+		$label[default_index_content12]
+	</div>
+	<!--layout partner-->
+	<div class="layout_box layout_partner common_border layout_mtop inline-block" style="width:100%;">
+		<div class="layout_title"><h3>$label[default_index_title13]</h3><div class="layout_more">$label[default_index_more13]</div></div>
+		$label[default_index_content13]
+	</div>
+	
+</div>
+<div>
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

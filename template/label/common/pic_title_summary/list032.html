@@ -1,0 +1,14 @@
+<!--{php168}-->
+<ul class="label_pic_com_ul32">
+	<!--{foreach $list $value}-->
+	<li class="media">
+		<div class="thumbnail"><a href="$value[url]" target="_blank" title="$value[full_title]"><img width="205" height="257" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a></div>
+		<div class="mediacon">
+			<h3><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></h3>
+			<p>$value[summary]<span class="cDRed"><a href="$value[url]" target="_blank">[详细]</a></span></p>
+		</div>
+	</li>   
+<!--{/foreach}-->
+<!--{/php168}-->
+
+

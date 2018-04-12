@@ -1,0 +1,269 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $this_module header admin}-->
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="formtable columntable hover_table click_changeable" id="list">			
+						<tr class="title">
+							<td width="5%">{$P8LANG['ask_choose']}</td>
+							<td width="5%">ID</td>
+							<td>{$P8LANG['ask_category_name']}</td>
+							<td>{$P8LANG['ask_category_items']}</td>
+							<td>{$P8LANG['ask_category_display']}</td>
+							<td>{$P8LANG['ask_category_displayorder']}</td>
+							<td width="20%" class="cleartd">{$P8LANG['operation']}</td>
+						</tr>
+						<!--{php 
+							function _list($list, $level = -1){
+								global $this_module, $item, $SKIN, $this_router, $P8LANG;
+								$level++;
+							}-->
+							
+							<!--{foreach $list $value}-->
+								<!--{php 
+									if(empty($value['url'])){
+										$value['url'] = p8_url($item, $value, 'list');
+									}
+								}-->
+								<tr id="category_{$value['id']}">
+									<td><input type="checkbox" name="ids[]" value="{$value['id']}"/></td>
+									<td>{$value['id']}</td>
+									<td class="txtlist">
+										<!--{if $level>0}-->│<!--{/if}-->
+										<!--{php echo str_repeat('&nbsp;', $level*2);}-->
+										<!--{if $level>0}-->├<!--{/if}-->
+										【<a href="{$value['url']}" target="_blank">{$value['name']}</a>】
+										<!--{if !empty($value['categories'])}-->
+											<img src="{$SKIN}/<!--{if empty($value['categories']) || $level==1}-->show.gif<!--{else}-->hide.gif<!--{/if}-->" id="show_{$value['id']}" style="cursor:pointer;" onclick="javascript:get_category({element:{$value['id']},id:{$value['id']}, level:<!--{php echo $level<=0 ? 1 : $level+1;}-->});"/>
+										<!--{/if}-->
+									</td>
+									<td>{$value['item_count']}</td>
+									<td><a href="javascript:void(0);" onclick="javascript:set_display({id:{$value['id']}});"><!--{if $value['display']}--><img src="{$SKIN}/check_yes.gif" id="display_{$value['id']}"/><!--{else}--><img src="{$SKIN}/check_no.gif" id="display_{$value['id']}"/><!--{/if}--></a></td>
+									<td><input type="text" class="txt" id="display_order_{$value['id']}" name="display_order[{$value['id']}]" size="10" value="{$value['display_order']}"/></td>
+									<td class="cleartd">
+									<a href="{$value['url']}?edit_label=1" target="_blank">{$P8LANG['label']}</a> | 
+										<a href="{$this_router}-batch_add?id={$value['id']}">{$P8LANG['ask_category_add']}</a> | <a href="{$this_router}-batch_edit?ids={$value['id']}">{$P8LANG['edit']}</a> | 
+										<a href="javascript:void(0);" onclick="javascript:delete_category({id:{$value['id']}});">{$P8LANG['delete']}</a>
+									</td>
+								</tr>
+								<!--{php
+									if(!empty($value['categories']) && $level<1){
+										_list($value['categories'], $level);
+									}
+								}-->						         
+							<!--{/foreach}-->
+							
+						<!--{php
+						}
+						
+						_list($list);
+						
+						}-->
+					</table>
+			<!--{if $list}-->
+					<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+						<tr>
+							<td width="7%">
+								<div align="right"><input type="checkbox" id="ChkAll" onclick="check_all(this, 'ids[]', $('#list'))"/> {$P8LANG['ask_checkall']}</div>
+							</td>
+							<td width="10%">
+								<input type="button" name="Submit" value="{$P8LANG['delete']}" onclick="return delete_category({});" class="edit_btn"/>
+							</td>
+							<td width="*" class="pages">
+								{$pages}
+							</td>
+						</tr>
+					</table>
+			<!--{/if}-->
+				</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+//获取子分类
+function get_category(params)
+{
+	var reg = /^[0-9]*$/;
+	
+	if(params.element == undefined || !reg.test(params.element) || params.id == undefined || !reg.test(params.id)){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+
+	$.ajax({
+		url: '{$this_router}-get_category',
+		type: 'POST',
+		dataType: 'json',
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		data: {id:params.id},
+		success: function(json){
+			ajaxing({action: 'hide'});
+
+			if(json.categories != undefined){
+				list_category({element:params.element, categories:json.categories, level:params.level});
+			}
+
+		}
+	});
+}
+
+//子分类列表
+function list_category(params)
+{
+	var categories = [];
+	var str = blank = '';
+	var showcategory = true;
+
+	if(params.categories == undefined) return ;
+
+	var categories = params.categories;
+	
+	if(params.level == undefined){
+		params.level = 1;
+	}
+
+	params.level++;
+
+	for(var i=categories.length-1; i>=0; i--){
+		//隐藏
+		if($('#category_'+categories[i].id).length>0){
+			$('#category_'+categories[i].id).remove();
+			if(categories[i].id != undefined){
+				list_category({element:'category_'+categories[i].id, categories:categories[i].categories, level:params.level});
+			}
+			showcategory = false;
+		}else{
+			 str = '<tr id="category_'+categories[i].id+'">';
+			 str += '<td><input type="checkbox" name="ids[]" value="'+categories[i].id+'"/></td>';
+			 str +='<td>'+categories[i].id+'</td><td class="txtlist">';
+			 for(var k=1; k<params.level; k++){
+				str += '│&nbsp;&nbsp;';
+			 }
+			 str += '├【<a href="'+categories[i].url+'" target="_blank">'+categories[i].name+'</a>】';
+			 if(categories[i].categories != undefined){
+				str += '<img src="{$SKIN}/show.gif" id="show_'+categories[i].id+'" style="cursor:pointer;" ';
+				str += ' onclick="javascript:get_category({element:'+categories[i].id+',id:'+categories[i].id+',level:'+params.level+'});"/>';
+			 }
+			 str += '</td><td>'+categories[i].item_count+'</td>';
+			 str += '<td><a href="javascript:void(0);" onclick="javascript:set_display({id:'+categories[i].id+'});">';
+			 if(categories[i].display==1){
+				str += '<img src="{$SKIN}/check_yes.gif" id="display_'+categories[i].id+'"/>';
+			 }else{
+				str += '<img src="{$SKIN}/check_no.gif" id="display_'+categories[i].id+'"/></a></td>';
+			 }
+			str += '<td><input type="text" class="txt" name="display_order_['+categories[i].id+']" id="display_order_'+categories[i].id+'" size="10" ';
+			str += ' value="'+categories[i].display_order+'"/></td><td class="cleartd">';
+			str += '<a href="{$this_router}-batch_add?id='+categories[i].id+'">{$P8LANG['ask_category_add']}</a> | ';
+			str += '<a href="{$this_router}-batch_edit?ids='+categories[i].id+'">{$P8LANG['edit']}</a> | ';
+			str += '<a href="javascript:void(0);" onclick="javascript:delete_category({id:'+categories[i].id+'});">{$P8LANG['delete']}</a></td></tr>';
+			
+			if($('#category_'+categories[i].id).length<=0){
+				$('#category_'+params.element).after(str);
+			}
+		}
+		
+		//显示全部子分类
+		/*if(categories[i].categories != undefined){
+			list_category({element:'category_'+categories[i].id, categories:categories[i].categories, level:params.level});
+		}*/		
+	}
+
+	if(!showcategory){
+		$('#show_'+params.element).attr('src','{$SKIN}/show.gif');
+	}else{
+		$('#show_'+params.element).attr('src','{$SKIN}/hide.gif');
+	}
+}
+
+//删除
+function delete_category(params)
+{
+	var ids = [];
+
+	if(params.id == undefined){
+		ids = checked_values('ids[]', $('#list'));
+		data = ajax_parameters({ids:ids});
+	}else{
+		ids = params.id;
+		data = ajax_parameters({ids:[ids]});
+	}
+
+	if(ids.length<1){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+
+	if(confirm('{$P8LANG['ask_category_delete_tips']}')){
+		$.ajax({
+			url: '{$this_router}-delete',
+			type: 'POST',
+			dataType: 'json',
+			data: data,
+			cache: false,
+			success: function(json){
+					for(var i in json){
+						$('#category_'+ json[i]).remove();
+					}
+			}
+		});
+	}
+		
+}
+
+//设置是否显示
+function set_display(params)
+{
+	if(params.id == undefined || isNaN(params.id)){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+
+	var data = ajax_parameters({ids:[params.id]});
+
+	$.ajax({
+		url: '{$this_router}-set_display',
+		type: 'POST',
+		dataType: 'json',
+		data: data,
+		cache:false,
+		success: function(json){
+			for(var i in json){
+				if(json[i]==1){
+					$('#display_'+i).attr('src','{$SKIN}/check_yes.gif');
+				}else{
+					$('#display_'+i).attr('src','{$SKIN}/check_no.gif');
+				}
+			}
+		}
+	});
+}
+
+$(document).ready(function(){
+	//更新排序
+	$("input[name^='display_order']").change( function() {
+		$(this).css({border: '1px solid #ff0000'});
+		var id = $(this).attr('id');
+		var display_order = $(this).val().replace(/[^0-9]/g,'') || 0;		
+		$.ajax({
+			url: '{$this_router}-set_display_order',
+			type: 'POST',
+			dataType: 'json',
+			data: {id:id.split('_')[2], display_order:display_order},
+			cache: false,
+			success: function(json){
+				$('#'+id).val(json.display_order);
+				alert('{$P8LANG['ask_category_display_order_update_success']}');
+			}
+		});
+	});
+});
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

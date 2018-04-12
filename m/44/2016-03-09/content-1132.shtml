@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="gbk">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>测试发表新文章_学术讲座_国微学校方案----领先的学校内容管理系统</title>
+<link rel="stylesheet" type="text/css" href="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/style.css" />
+<script src="http://120.26.77.20/yanshi/schoolzhanqun/js/util_mobile.js"></script>
+<script src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/TouchSlide.1.1.js"></script>
+<!--[if IE]>
+<script src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/html5.js"></script>
+<![endif]-->
+<!--[if IE 6]>
+<script type="text/javascript" src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/DD_belatedPNG_0.0.8a.js" ></script>
+<script>
+DD_belatedPNG.fix('.,img,background');
+</script>
+<![endif]-->
+
+</head>
+<body>
+<div id="nav-over"></div>
+<div class="warmp">
+<header class="header">
+<section class="fix navbar">
+<div class="top">
+<a class="back fl" href="javascript:history.go(-1);"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/back.png"></a>
+<span>学术讲座</span>
+<a class="menue navHome" href="#"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/ico-nav.jpg"></a>
+</div>
+</section>
+</header>
+</div>
+<nav id="nav" class="nav home">
+<h2><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/logo1.jpg"></h2>
+<div id="scrollerBox" class="scrollerBox">
+<div class="scroller">
+<ul><li><a href="/" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/home.png"> 首页</a> </li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-view-id-1053.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/gk.png"> 学校概况</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-view-id-1055.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/sz.png"> 机构设置</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-729.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/rc.png"> 人才培养</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-55.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/yj.png"> 科学研究</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-61.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/xk.png"> 学科建设</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-724.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/dw.png"> 队伍建设</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-76.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/jl.png"> 合作交流</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-27.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/zs.png"> 招生就业</a></li></ul>
+</div>
+</div>
+</nav> 
+<script>
+function hidenav(){
+$("#nav").hide();
+window.location.reload();
+}
+</script>
+<div class="show">
+<div class="bt">
+<h1>测试发表新文章</h1>
+<p>发布：2016-03-09　　作者：admin　　浏览:3次 <span id="operation" style="display: none; cursor: pointer;">操作</span></p>
+</div>
+<div class="Con"> 
+<div> 
+<!--<b>内容</b> :-->  
+testtesttesttesttesttest  
+</div> 
+</div>
+</div><div class="foot">
+<h1>广州国微大学主办    版权所有 <a id="pclink" href="" style="float:right; margin-right:20px; color:#ffffff; font-weight:bold">PC版</a></h1>
+<p>广州国微大学信息办公室承办 </p>
+<p>广州国微大学信息办公室    建设维护</p>
+<p>粤ICP备11023858号</p>
+<p>Tel：020-5688888    Fax：020-5288888</p>
+
+</div>
+<script type="text/javascript">
+$(function(){
+var l = location.href;
+$('#pclink').attr('href',l.indexOf('ismobile')>-1?l.replace('ismobile=1','ismobile=0'):l+((l.indexOf('?')>-1?'&':'?')+'ismobile=0'));					 
+})
+</script>
+<script src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/index.js"></script>
+
+</body>
+</html>

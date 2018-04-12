@@ -1,0 +1,256 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $this_module menu_bar admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<form id="form" action="$this_router-$ACTION" method="post" >
+			<table border="0" width="100%" cellpadding="0" cellspacing="0" >
+			<tr><td>
+				<table class="columntable formtable hover_table">
+					<tr>
+						<td colspan="2" class="title">
+						{$P8LANG[$action]}模型
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">模型名称</td>
+						<td class="tdR">
+							<!--{if !empty($data['name'])}-->
+								$data[name]
+							<!--{else}-->	
+								<input type="text" class="txt" id="name" name="name" value=""/><span class="point">模型名称添加之后不能修改,必须以字母开头,只能是以字母与数字和下划线的组合 </span>
+							<!--{/if}-->
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">表单名称</td>
+						<td class="tdR"><input type="text" class="txt" id="alias" name="alias"  value="{if !empty($data['alias'])}{$data['alias']}{/if}" /></td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">启用本表单</td>
+						<td class="tdR">
+							<input type="checkbox" name="enabled" value="1"{if !empty($data['enabled']) || empty($data)} checked{/if} />
+						</td>
+					</tr>
+					<tr>
+						<td class="tdL">启用验证码</td>
+						<td class="tdR">
+							<input type="checkbox" name="config[captcha]" value="1"{if !empty($config['captcha'])} checked{/if} />
+						</td>
+					</tr>
+					<tr>
+						<td class="tdL">启用查看检验</td>
+						<td class="tdR">
+							<input type="checkbox" name="config[viewhash]" value="1"{if !empty($config['viewhash'])} checked{/if} />
+						</td>
+					</tr>
+					<tr >
+						<td class="tdL">本表单列表显示数据</td>
+						<td class="tdR">
+						<!--{foreach $this_module->CONFIG['status'] $k $v}-->
+							<input type="checkbox" name="verified[]" value="$k" {if isset($data['verified']) && in_array($k,$data['verified'])} checked="checked"{/if} />$v
+							<!--{/foreach}-->
+							<input type="checkbox" name="recommend" value="1"{if $data['recommend']} checked="checked"{/if}/>推荐
+							<span class="checkbox">(不选则全部)</span>
+						</td>
+					</tr>
+					<tr style="display:none">
+						<td class="tdL">本表单处理方式</td>
+						<td class="tdR">
+						<span id="statuss">
+						<!--{foreach $config[status] $key $val}-->
+							<p>方式 <input type="text" class="pname" name="config[status][$key]" value="$val"> <input type="button" value="删除" onclick="remove_status(this)" /></p>
+						<!--{/foreach}-->
+						</span>	
+							<input type="button" onclick="add_status()" value="增加"/><span class="point">如："已阅"、"同意"等</span>
+							<script type="text/javascript">
+								function add_status(){
+									var resultcount = $('#statuss p').length;
+									rand = resultcount? resultcount+1 : 1;
+									$('#statuss').append('<p>方式 <input type="text" name="config[status]['+rand+']" value=""> <input type="button" value="删除" onclick="remove_status(this)" /></p>');
+								}
+								function remove_status(obj){
+									$(obj).parent().remove();
+								}
+							</script>
+						</td>
+					</tr>
+					<tr>
+						<td class="tdL">本表单布局</td>
+						<td class="tdR">
+						<span id="parts">
+						<!--{foreach $config[parts] $key $val}-->
+							<p>标题 <input type="text" class="pname" name="config[parts][$key][name]" value="$val[name]"> 列 <input type="text" onkeyup="check_row(this)" size="5" name="config[parts][$key][row]" value="$val[row]"/> 排序 <input type="text" size="5" name="config[parts][$key][order]"  value="$val[order]"/> <input type="button" value="删除" onclick="remove_status(this)" /></p>
+						<!--{/foreach}-->
+						</span>	
+							<input type="button" onclick="add_part()" value="增加"/><span class="point">用于错综复杂的布局，如分几部分几列</span>
+							<script type="text/javascript">
+								function add_part(){
+									var rand = Math.random().toString().substr(3,5);
+									$('#parts').append('<p>标题 <input type="text" name="config[parts]['+rand+'][name]" value=""> 列 <input onkeyup="check_row(this)" type="text" size="5" name="config[parts]['+rand+'][row]" value="1"/> 排序 <input type="text" size="5" name="config[parts]['+rand+'][order]"> <input type="button" value="删除" onclick="remove_status(this)" /></p>');
+								}
+							</script>
+						</td>
+					</tr>
+					<tr>
+						<td class="tdL">发布页模板</td>
+						<td class="tdR">
+							<input type="text" class="txt" name="post_template" id="pt" value="{if !empty($data['post_template'])}$data[post_template]{/if}" /> <input type="button" value="选择" onclick="template_dialog.show()" /> 一般不用选。如自己有自定义模板，可把模板上传到文件夹"template/$template_dir"后再在这里选择<br>
+						</td>
+					</tr>
+					<tr>
+						<td class="tdL">列表页模板</td>
+						<td class="tdR">
+							<input type="text" class="txt" name="list_template" id="lt" value="{if !empty($data['list_template'])}$data[list_template]{/if}" /> <input type="button" value="选择" onclick="lt_dialog.show()" /> 同上。<br>
+						</td>
+					</tr>
+					<tr>
+						<td class="tdL">展示页模板</td>
+						<td class="tdR">
+							<input type="text" class="txt" name="view_template" id="vt" value="{if !empty($data['view_template'])}$data[view_template]{/if}" /> <input type="button" value="选择" onclick="vt_dialog.show()" /> 同上。<br>
+						</td>
+					</tr>
+					<!--{if $action == 'update'}-->
+					<tr>
+						<td class="tdL">表单权限设置</td>
+						<td class="tdR">
+						<!--{foreach $core->roles $id $v}-->
+							<a href="{$this_router}-set_acl?role_id=$v[id]"  target="_blank">$v[name]</a>
+						<!--{/foreach}-->
+						</td>
+					</tr>
+					
+					<!--{/if}-->
+					<tr>
+						<td class="tdL">表单权限设置2</td>
+						<td class="tdR">
+							<input type="checkbox" name="config[viewself]" value="1" {if !empty($config['viewself'])}checked{/if}>至少能查看自己的数据<span class="help">在列表或内容查看被禁之情况下乃能查看到自己之内容</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="tdL"><input type="hidden" name = "action" value="$action"/>
+						<input type="hidden" name = "id" value="{if !empty($data['id'])}$data[id]{/if}"/></td>
+						<td class="tdR"><input type="submit" class="submit_btn" value="{$P8LANG['submit']}"/></td>
+					</tr>
+				</table>
+			</td></tr>
+			</table>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+
+$.validator.addMethod('valid_model', function(value, element){
+	return /^[a-zA-Z]/.test(value) && !/[^0-9a-zA-Z_]/.test(value);
+});
+
+var template_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		$('#pt').val(template_selector.value);
+	}
+});
+var template_selector = new Template_Selector({
+	base_dir: "{$template_dir}",
+	selected: $('#pt').val(),
+	dialog: template_dialog
+});
+
+var vt_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		$('#vt').val(vt_selector.value);
+	}
+});
+var vt_selector = new Template_Selector({
+	base_dir: "{$template_dir}",
+	selected: $('#vt').val(),
+	dialog: vt_dialog
+});
+
+var lt_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		$('#lt').val(lt_selector.value);
+	}
+});
+var lt_selector = new Template_Selector({
+	base_dir: "{$template_dir}",
+	selected: $('#lt').val(),
+	dialog: lt_dialog
+});
+$('#form').validate({
+	
+	rules: {
+		<!--{if $action == 'add'}-->
+		name: {
+			required: true,
+			maxlength: 30,
+			valid_model: true,
+			remote: function(){
+				
+				return {
+					url: '$this_router-check_name',
+					cache: false,
+					type: 'post',
+					beforeSend: function(){
+						ajaxing({});
+					},
+					complete: function(){
+						ajaxing({action: 'hide'});
+					}
+				}
+			}
+			
+		},
+		<!--{/if}-->
+		alias: {
+			required: true
+		}
+	},
+	
+	messages: {
+		<!--{if $action == 'add'}-->
+		name: {
+			required: "{$P8LANG['forms_model_name_can_not_be_empty']}",
+			maxlength: "{$P8LANG['forms_model_name_oversize']}",
+			valid_model: "{$P8LANG['forms_model_name_invalid']}",
+			remote: "{$P8LANG['forms_model_name_duplicate']}"
+		},
+		<!--{/if}-->
+		alias: {
+			required: "{$P8LANG['forms_model_alias_required']}"
+		}
+	},
+	submitHandler:function(form){
+		$('#statuss').find('.pname').each( function(){ if($(this).val().length<1){ $(this).parent().remove(); }} );
+		$('#parts').find('.pname').each( function(){ if($(this).val().length<1){ $(this).parent().remove(); }} );
+		form.submit();
+	},
+	onkeyup: false
+});
+$(document).ready(function(){
+	template_selector.init();
+	lt_selector.init();	
+	vt_selector.init();					   
+})
+
+function check_row(obj){
+	val = $(obj).val();
+	if(val.length>0 && /[^1-9]/.test(val) ){alert('must 1-9');$(obj).attr('value','').focus();}
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,97 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$TITLE</title>
+<meta name="keywords" content="$SEO_KEYWORDS" />
+<meta name="description" content="$SEO_DESCRIPTION" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/survey/style.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+</head>
+<body id="survey_body">
+<div id="main3">
+  <div class="add-inner">
+    <div id="page_wzym">
+	<!--{if $IS_ADMIN}-->
+	<span id="labelshow" style="top:1px;right:1px; position:absolute;">[显示标签]</span>
+	<script type="text/javascript">
+	LABEL_URL = location.href;
+	if(LABEL_URL.indexOf('edit_label')==-1){
+		var ls='?';
+		if(LABEL_URL.indexOf('?')>-1)ls='&';
+		LABEL_URL=LABEL_URL+ls+'edit_label=1';
+		$('#labelshow').html('<a href='+LABEL_URL+' id="edit_label">[显示标签]</a>');
+	}else{
+		LABEL_URL=LABEL_URL.replace('&edit_label=1','');
+		LABEL_URL=LABEL_URL.replace('edit_label=1','');
+		$('#labelshow').html('<a href='+LABEL_URL+' >[隐藏标签]</a>');
+	}
+	</script>
+	<!--{/if}-->
+       <div class="hdline" ><span style="float:right;margin-right:20px; line-height:35px">本调查截止至<!--{php echo date('Y-m-d H:i',$data['endtime']);}--></span>$label[survey_view_banner] </div>
+      <div class="section">
+        <div class="hd">
+          <h2 class="page-title-green">$label[survey_post_name]</h2>
+        </div>
+        <div class="bd">
+          <table width="698" height="150" cellspacing="1" cellpadding="0" border="0" align="center">
+            <tbody>
+              <tr bgcolor="white">
+                <td align="center" style="font-size:16px; font-weight:bold;  padding:10px"><em>$label[survey_post_title]</em></td>
+              </tr>
+              <tr>
+                <td height="10"></td>
+              </tr>
+              <tr bgcolor="#FFFFFF">
+                <td valign="top" style="padding:10px" colspan="2">
+                <!--{foreach $titles $title}-->
+                  <fieldset>
+                    <legend style="font-size:14px; font-weight:bold"><span class="block_126">$title[display_order]、$title[tittle]</span></legend>
+                    <table width="100%" cellspacing="1" cellpadding="0" align="center" style="border:gray solid 0px; line-height:23px">
+                      <tbody>
+                        <tr>
+                          <td height="10px"></td>
+                        </tr>
+                        <tr>
+                          <td valign="top">
+                          
+                          <table width="100%" cellspacing="1" cellpadding="0" align="center">
+                              <tbody>
+                              	<!--{php
+                                    $tcount = !empty($result[$title['id']])?array_sum($result[$title['id']]):0;
+                                }-->
+                              	<!--{foreach $title['data'] $key $val}-->
+                                <!--{php
+                                	$icount = !empty($result[$title['id']][$key])?$result[$title['id']][$key]:0;
+                                	$ipercent = $tcount ? round($icount*100/$tcount, 2) : 0;
+                                  
+                                }-->
+                                <tr>
+                                  <td valign="top">&nbsp;&nbsp;<span style="font-size:14px">$val</span></td>
+                                  <td align="left"><div style="display: block;" class="process"><div style="width: $ipercent%;" class="process_i"></div></div></td>
+								  <td width="100">$icount</td>
+                                  <td width="100">$ipercent%</td>
+                                </tr>
+								<!--{/foreach}-->
+                              </tbody>
+                            </table>
+                            </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </fieldset>
+                 <!--{/foreach}-->
+                 </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+<!--{/php168}-->

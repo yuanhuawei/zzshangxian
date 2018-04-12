@@ -1,0 +1,209 @@
+<!--{php168}-->
+<!--{php
+$TITLE = $data['title'] .'-'. $CAT['name'];
+$SEO_KEYWORDS = !empty($data['seo_keywords']) ? $data['seo_keywords'] : $data['title'] .'-'. $CAT['seo_keywords'];
+$SEO_DESCRIPTION = !empty($data['seo_description']) ? $data['seo_description'] :$data['title'] .'-'. $CAT['seo_description'];
+}-->
+<!--{template $this_system header}-->
+<!--content-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/item/item.js"></script>
+<script type="text/javascript">
+var item_id = $data[id],
+	model = '$data[model]',
+	item_cid = $data[cid],
+	verified = \$_GET['verified'] !== undefined || \$_GET['verified'] == 1 ? 1 : 0;
+
+$(function(){
+	if(get_cookie('IS_ADMIN') == 1){
+		item_operation($('#operation').show());
+	}
+});
+</script>
+<div id="container" class="layout_mtop">
+	<!--layout left-->
+	<div class="blockleft_article fleft common_mright">
+		<!--layout article content-->
+		<div class="layout_box layout_txtcontent layout_txtcontent_border layout_padding">
+			<div class="layout_txtcontent_position">您所在位置 &gt; <a href="{$this_system.url}">首页</a> 
+			<!--{foreach $parent_cats $v}-->
+				&gt;&gt; <a href="$v[url]">$v[name]</a> 
+			<!--{/foreach}-->
+			&gt;&gt; <a href="$CAT[url]">$CAT[name]</a> 
+			</div>
+			<div class="layout_txtcontent_title">$data[title]</div>
+			<div class="layout_txtcontent_info">
+				{date('Y-m-d H:i:s', $data['timestamp'])} 
+				来源:<a href="$data[source_url]">$data[source_name]</a>
+				作者:$data[username]
+				【<a href="#">大</a> <a href="#">中</a> <a href="#">小</a>】
+				浏览:<span class="item_views">0</span>次
+				评论:<span class="item_comments">0</span>条
+				<span id="operation" style="display: none; cursor: pointer;">{$P8LANG['operation']}</span>
+			</div>
+		    <div class="layout_txtcontent_list">副标题: $data[sub_title]</div>
+		    <!--{if $pay_check}-->
+			<div>自定义字段</div>
+			<!--!!fields!!-->
+			<!--{foreach $this_model['fields'] $field $v}-->
+				<div>
+				<b>$v[alias]</b> : 
+				<!--{php
+					switch($v['widget']){
+						case 'text': case 'textarea': case 'editor': case 'editor_basic': case 'editor_basic':
+				}-->
+							$data[$field]
+				<!--{php
+						break;
+						
+						case 'checkbox': case 'multi_select':
+							foreach($v['data'] as $value => $key){
+								if(in_array($value, $data[$field])){
+				}-->
+							$key 
+				<!--{php
+								}
+							}
+						break;
+						
+						case 'radio':
+							foreach($v['data'] as $value => $key){
+								if($value == $data[$field]){
+				}-->
+							$key
+				<!--{php
+									break;
+								}
+							}
+						break;
+						
+						case 'uploader':
+				}-->
+							<a href="{$data[$field]['url']}" target="_blank">{$data[$field]['title']}</a>
+				<!--{php
+						break;
+						
+						case 'multi_uploader':
+						foreach($data[$field] as $vv){
+				}-->
+							<div><a href="$vv[url]" target="_blank">$vv[title]</a></div>
+				<!--{php
+						}
+						break;
+						
+						default:
+				}-->
+							$data[$field]
+				<!--{php
+					}
+				}-->
+				</div>
+			<!--{/foreach}-->
+			<!--!!fields!!-->
+			<div class="layout_txtcontent_list" class="pages">$pages</div>
+			<!--{else}-->
+			<!--{php include template($this_module, 'pay');}-->
+			<!--{/if}-->
+			
+			<!--{if !empty($this_module->CONFIG['allow_mood']) && !empty($data['allow_mood'])}-->
+			<div class="layout_txtcontent_feel">
+				<iframe allowtransparency="true" style="background-color:transparent" frameborder="0" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="" id="mood_iframe"></iframe>
+			</div>
+			<script type="text/javascript">
+			$(function(){
+				var offset = $('#mood_iframe').offset();
+				var requested = false;
+				
+				function get(){
+					if(requested){
+						$(window).unbind('scroll', get);
+						return;
+					}
+					
+					var top = get_scrollTop() + get_document_height();
+					if(top > offset.top){
+						$('#mood_iframe').attr('src', '$this_router-mood?iid=$data[id]');
+						requested = true;
+					}
+				}
+				
+				get();
+				$(window).scroll(get);
+			});
+			</script>
+			<!--{/if}-->
+			
+			<div class="layout_txtcontent_tags">
+				<p>Tags：</p><h1><a href="#">创业</a>&nbsp;<a href="#">富翁</a></h1><span>责任编辑：<a href="#">admin</a></span>
+			</div>
+			<div class="layout_txtcontent_footer">
+				【<a href="#">大</a>&nbsp;<a href="#">中</a>&nbsp;<a href="#">小</a>】
+				【<a href="#">打印</a>】
+				【<a href="###">投稿</a>】
+				【<a href="###" id="item_$data[id]" onclick="collect(this.id);" >收藏</a>】
+				【<a href="#">举报</a>】
+				【<a href="#">评论</a>】
+				【<a href="#">关闭</a>】
+				【<a href="javascript:scroll(0,0)">返回顶部</a>】
+			</div>
+		</div>
+		<!--layout comment-->
+		
+		<!--{if !empty($this_module->CONFIG['comment']['enabled']) && !empty($data['allow_comment'])}-->
+		<!--{template $this_module view_comment}-->
+		<!--{/if}-->
+		
+	</div>
+	
+	<div class="blockright_article fright">
+		<!--layout ads-->
+		<div class="layout_box layout_article_side_focus common_bg_color common_border">
+			<div class="layout_article_side_titlebar"><h3>推荐产品</h3></div>
+			<div class="ads_column ads_side_top"><a href="#"><img src="{$SKIN}side_ads2.gif"/></a></div>
+		</div>
+		<!--layout 24H hits-->
+		<div class="layout_box layout_article_side_focus common_border layout_mtop">
+			<div class="layout_article_side_titlebar"><h2>新闻24小时点击排行榜</h2></div>
+			<div class="layout_article_side_rank_textlist">
+				<ul class="ranktitle">
+					<li class="tips_title">标题</li><li class="tips_num">点击数</li>
+				</ul>
+				<ul class="ranklist">
+					<li class="tips_title"><a href="#">广州百名防暴警察平息一起打斗事件(组图)</a></li><li class="tips_num">609632</li>
+				</ul>
+			</div>
+		</div>
+		<!--layout-->
+		<div class="layout_box layout_article_side_focus common_bg_color common_border layout_mtop">
+			<div class="layout_article_side_titlebar"><h2>推荐产品</h3></div>
+			<div class="layout_side_adtext">
+				<ul>
+					<li><a href="#">前列腺炎：“一次性”治愈</a></li>
+				</ul>
+			</div>
+		</div>
+		<!--layout-->
+		<div class="layout_box layout_article_side_focus common_bg_color common_border layout_mtop">
+			<div class="layout_article_side_titlebar"><h2>推荐产品</h3></div>
+			<div class="layout_side_adtext">
+				<ul>
+					<li><a href="#">前列腺炎：“一次性”治愈</a></li>
+				</ul>
+			</div>
+		</div>
+		<!--layout-->
+		<div class="layout_box layout_article_side_focus common_bg_color common_border layout_mtop">
+			<div class="layout_article_side_titlebar"><h2>推荐产品</h3></div>
+			<div class="layout_side_adtext">
+				<ul>
+					<li><a href="#">前列腺炎：“一次性”治愈</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+</div>
+<!--footer-->
+<script type="text/javascript" src="$this_router-count?id=$data[id]"></script>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

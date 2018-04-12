@@ -1,0 +1,27 @@
+<!--{php168}-->
+<!--{php
+$images = '';
+$titles = '';
+$urls = '';
+foreach($list AS $k=>$v){
+	$images .= $v['frame'].'|';
+	$titles .= $v['title'].'|';
+	$urls .= $v['url'].'|';
+}
+}-->
+<DIV id="slide_{$label['id']}"></DIV>
+<SCRIPT type="text/javascript" src="{$RESOURCE}/js/meiti_slide/flash.js"></SCRIPT>
+<SCRIPT type='text/javascript'>
+(function(){
+var sohuFlash2 = new sohuFlash("{$RESOURCE}/images/meiti.swf", "{$label['id']}", {$swidth}, {$sheight}, "7");
+sohuFlash2.addParam("quality", "high");
+sohuFlash2.addParam("wmode", "transparent");
+sohuFlash2.addVariable("image","{$images}");
+sohuFlash2.addVariable("url","{$urls}");
+sohuFlash2.addVariable("info", "{$titles}");
+sohuFlash2.addVariable("stopTime","3000");
+sohuFlash2.write("slide_{$label['id']}");
+})();
+</SCRIPT>
+<!--{/php168}-->
+

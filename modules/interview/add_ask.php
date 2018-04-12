@@ -1,0 +1,24 @@
+<?php
+defined('PHP168_PATH') or die();
+
+/**
+ * Ìí¼ÓÍøÓÑÁôÑÔ
+ */
+
+header("Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" );
+header("Cache-Control: no-cache, must-revalidate" );
+header("Pragma: no-cache");
+header("Content-type: text/x-json");
+
+if(REQUEST_METHOD == 'GET'){
+	exit('0');
+}else{
+
+	$sid = isset($_POST['sid']) ? $_POST['sid'] : 0;
+	$sid or exit('0');
+
+	if($this_controller->add_ask($_POST))
+	exit('1');
+}
+
+?>

@@ -1,0 +1,77 @@
+<!--{php168}-->
+
+<!--{template $this_module header admin}-->
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<!--{if empty($core->CONFIG['use_core_roles_only'])}-->
+		<table class="formtable">
+			<tr class="title">
+				<td class="title">{$P8LANG['role_system_filter']}</td>
+			</tr>
+			
+			
+			<tr>
+				<td class="headerbtn_list">
+					<ul>
+						<li><a href="$this_url?system=core">{$P8LANG['core']}</a></li>
+					<!--{foreach $system_list $k $v}-->	
+						<li><a href="$this_url?system=$k">{$v['alias']}</a></li>
+					<!--{/foreach}-->
+					</ul>
+				</td>
+			</tr>
+			
+		</table>
+		<!--{/if}-->
+		
+		<table class="columntable formtable hover_table">
+		<tr class="title">
+			<td class="title">ID</td>
+			<td class="title">{$P8LANG['role']}</td>
+			<td class="title">{$P8LANG['operation']}</td>
+		</tr>
+		
+		<!--{foreach $list['system'] $value}-->
+		<tr>
+			<td>{$value['id']}</td>
+			<td>{$value['name']}</td>
+			<td>
+				<a href="$this_url?role_id={$value['id']}">设置上传权限</a>
+			</td>
+		</tr>
+		<!--{/foreach}-->
+		
+		<!--{foreach $list['normal'] $value}-->
+		<tr>
+			<td>{$value['id']}</td>
+			<td>{$value['name']}</td>
+			<td>
+				<a href="$this_url?role_id={$value['id']}">设置上传权限</a>
+			</td>
+		</tr>
+		<!--{/foreach}-->
+		
+		</table>
+	</div>
+</div>
+</form>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['help_about']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					1、主要设定系统中的用户角色分别有哪些上传附件类型的权限。<br />
+	2、可以针对附件类型、大小、是否开启等做出设置。
+				</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+<!--{template $core footer admin}-->
+
+<!--{/php168}-->

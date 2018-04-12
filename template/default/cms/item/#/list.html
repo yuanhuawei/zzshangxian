@@ -1,0 +1,87 @@
+<!--{php168}-->
+<!--{php
+$TITLE = $CAT['name'];
+$SEO_KEYWORDS = $CAT['seo_keywords'];
+$SEO_DESCRIPTION = $CAT['seo_description'];
+}-->
+<!--{template $this_system header}-->
+
+<div class="layout_article_category_menu layout_mbottom layout_wrap">
+	<form action="{$this_system.modules['item']['controller']}-search" method="get" style="height:20px;position:relative;top:-5px;">
+	<span style="font-size:12px;">关键词：</span>$label[default_head_keywords]
+	<input type="text" id="keyword" name="keyword" value="{if isset($keyword)}$keyword{/if}" />
+	<select name="type" id="type" >
+		<option value="">站内</option>
+	</select>
+	<input type="image" src="{$SKIN}default_head_search_button.gif" style = "position:relative;top:5px;_top:3px;" />
+	</form>
+	<span style="font-size:12px;">热点：</span>$label[default_head_hotwords]
+</div>
+<!--layout ads-->
+
+<div class="ads_column">
+<div class="default_news_ad1">$label[default_list_head_ad1]</div>
+</div>
+<!--content-->
+
+<div id="container" class="layout_mtop">
+	
+	<!--layout left-->
+	<div class="conleft fleft common_mright">
+	
+	<!--{foreach $subcategories $v}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+		<div class="layout_box common_border common_mtop">
+			<div class="layout_cat_tips_title"><h3>$v[name]</h3></div>
+			<div class="layout_cat_article_box">
+				$label[news_大分类]{'i.cid' => $subcat, 'model' => $MODEL}
+			</div>
+		</div>
+		<!--{/foreach}-->	
+		<!--{if empty($subcategories)}-->	
+		<div class="layout_box common_border">
+			<div class="layout_cat_tips_title"><h3>$CAT[name]</h3></div>
+			<div class="layout_cat_article_box">
+				<!--{php include template($TEMP_OBJ, $CAT['item_template'], 'label');}-->
+				<div id="page">
+					$pages
+				</div>
+			</div>
+		</div>
+		<!--{/if}-->
+	</div>
+	
+	<div class="conright fright">
+		<!--文章分类-->
+		<div class="layout_box conright_category common_border layout_mbottom inline-block">
+			<!--{foreach $subcategories $v}-->
+			<a href="$v[url]">$v[name]</a>
+			<!--{/foreach}-->
+			
+		</div>
+		<!--广告-->
+		<div class="ads_column layout_mbottom">$label[default_list_ad1]</div>
+		<!--layout article-->
+		<div class="layout_box blue_border common_bg_color layout_padding">
+			<div class="layout_article_side_title"><h3>$label[default_list_title1]</h3><div class="more">$label[default_list_more1]</div></div>
+			<div class="layout_article_side_number_textlist">
+				$label[default_list_content1]
+			</div>
+		</div>
+		<!--layout article-->
+		<div class="layout_box blue_border common_bg_color layout_mtop layout_padding">
+			<div class="layout_article_side_title">$label[default_list_title2]<div class="more">$label[default_list_more2]</div></div>
+			<div class="layout_article_side_number_textlist">
+				$label[default_list_content2]
+			</div>
+		</div>
+		<!--layout ads-->
+		<div class="ads_column ads_side_90 layout_mtop">
+			$label[default_list_ad2]
+		</div>
+	</div>
+	
+</div>
+
+<!--{template $this_system footer}-->
+<!--{/php168}-->

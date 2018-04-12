@@ -1,0 +1,113 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{$P8LANG['image_cut']}</title>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/iColorPicker.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/label/jquery-ui.min.css"/>
+</head>
+<body>
+
+<style>
+body{height: 100%; background:#000000}
+</style>
+
+<div id="info" style="padding: 5px; background: #777777;color:#ffffff">
+	<form action="$this_url" method="post" id="form">
+		<input type="hidden" name="url" value="$url" />
+		{$P8LANG['image_cut_corrdinate']}
+		<input type="text" name="x" value="" size="5" onchange="set_info()" /> ,
+		<input type="text" name="y" value="" size="5" onchange="set_info()" />
+		&nbsp;
+		{$P8LANG['image_cut_size']}
+		<input type="text" name="width" value="" size="5" onchange="set_info()" /> x
+		<input type="text" name="height" value="" size="5" onchange="set_info()" />
+		&nbsp;
+		{$P8LANG['image_cut_handle_color']} <input type="text" id="mask" value="#99D3FB" class="iColorPicker" onclick="iColorShow('mask', 'mask', function(v){ $('#handle').css({background: v});})" />
+		&nbsp;
+		<input type="hidden" name="system" value="$system" />
+		<input type="hidden" name="module" value="$module" />
+		<input type="button" value="{$P8LANG['submit']}" onclick="this.form.submit()" />
+	</form>
+</div>
+
+<div style="border: 2px solid #000000; float: left;">
+	<img id="img" src="$url" />
+	<div id="handle" style="border: 1px solid #000000; background: #99D3FB; opacity: 0.3; filter: alpha(opacity=30); width: 100px; height: 100px; position: absolute; left: 0px; top: 0px; cursor: move;">
+		<div style="right: 0px; bottom: 0px; position: absolute; background: url({$RESOURCE}/images/se-resize.png) no-repeat -6px -6px; width: 20px; height: 20px; cursor: se-resize;"></div>
+	</div>
+	
+</div>
+
+
+
+
+<script type="text/javascript">
+
+$(function(){
+	
+	$('#handle').css({left: $('#img').offset().left, top: $('#img').offset().top})
+    .draggable({
+        containment: '#img',
+        drag : function(){
+			get_info();
+		},
+		stop: function(){
+			get_info();
+		}
+    })
+    .resizable({
+        containment: '#img',
+        resizing: function(){
+			get_info();
+		},
+        stop: function(){
+			get_info();
+		}
+	});
+	
+	get_info();
+	if($('#info').width() - $('#img').width() < 200){
+		$('#info').css({right: -($('#info').width() + 20)});
+	}
+});
+
+
+function get_info(){
+	var obj = $('#handle');
+	var offset = obj.offset();
+	var img_offset = $('#img').offset();
+	
+	$('#form input[name=width]').val(obj.width());
+	$('#form input[name=height]').val(obj.height());
+	$('#form input[name=x]').val(offset.left - img_offset.left);
+	$('#form input[name=y]').val(offset.top - img_offset.top);
+}
+
+function set_info(){
+	var obj = $('#handle');
+	var img_offset = $('#img').offset();
+	
+	obj.css({
+		width: $('#form input[name=width]').val() +'px',
+		height: $('#form input[name=height]').val() +'px'
+	});
+	
+	obj.css({
+		left: parseInt(img_offset.left) + parseInt($('#form input[name=x]').val()) +'px',
+		top: parseInt(img_offset.top) + parseInt($('#form input[name=y]').val()) +'px'
+	});
+}
+</script>
+</body>
+</html>
+<!--{/php168}-->

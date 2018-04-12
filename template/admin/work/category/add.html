@@ -1,0 +1,291 @@
+<!--{php168}-->
+
+<!--{if !P8_AJAX_REQUEST}-->
+<!--{template $core header admin}-->
+<!--{template $this_system menu_bar admin}-->
+<!--{/if}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<link rel="stylesheet" href="{$SKIN}/{$SYSTEM}/category_selector.css" type="text/css">
+<form action="$this_url" method="post" id="_form"{if P8_AJAX_REQUEST} target="poster" onsubmit="ajaxing({});"{/if}>
+	<div class="mainbox mainborder">
+		<table class="columntable formtable padding_table">
+			<tr>
+				<td colspan="2" class="title">
+					<!--{if $ACTION == 'add'}-->
+					{$P8LANG['add_cms_category']}
+					<!--{else}-->
+					{$P8LANG['update_cms_category']}
+					<!--{/if}-->
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div id="tabs"  class="tab_box mtop" style="border-bottom:none">
+						<div class="head">
+							<span><a>基本设置</a></span> <span><a>风格样式</a></span>
+						</div>
+						<div class="main">
+							<div class="content">
+								<table class="columntable formtable hover_table">
+									<tr>
+										<td class="tdL">{$P8LANG['cms_category_name']}<br />
+											</td>
+										<td class="tdR">
+											<textarea id="name" name="name"  cols="30" rows="5"></textarea>
+											<span class="help">{$P8LANG['top_cms_notes_2']}</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="tdL">{$P8LANG['cms_category_type']}</td>
+										<td class="tdR"><input name="type" id="type_1" type="radio" value="1"{if empty($data['type']) || $data['type'] == 1} checked{/if} onclick="showoutlink(1)"/>
+											<label for="type_1">{$P8LANG['cms_category_type_1']}</label>
+											<input name="type" id="type_2" type="radio" value="2"{if !empty($data['type']) && $data['type'] == 2} checked{/if} onclick="showoutlink(2)"/>
+											<label for="type_2">{$P8LANG['cms_category_type_2']}</label>
+											<input name="type" id="type_3" type="radio" value="3"{if !empty($data['type']) && $data['type'] == 3} checked{/if} onclick="showoutlink(3)"/>
+											<label for="type_3">{$P8LANG['cms_category_type_3']}</label>
+										</td>
+									</tr>
+									<tr id="category_outlink">
+										<td class="tdL">{$P8LANG['cms_category_outlink']}</td>
+										<td class="tdR">
+											<input type="text" class="txt" name="url" value="{if !empty($data['url'])}$data[url]{/if}" size="50"/>
+										</td>
+									</tr>
+									<tbody  id="category_model">
+									<tr>
+										<td class="tdL">{$P8LANG['cms_category_model']}</td>
+										<td class="tdR">
+											<select name="model" id="model" onchange="change_template(this.options[this.selectedIndex].value)" >
+												<!--{foreach $models $model $v}-->
+												<option value="$model"> $v[alias] </option>
+												<!--{/foreach}-->
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td class="tdL">在线办事栏目</td>
+										<td class="tdR"> <input name="iswork" type="radio" value="0" {if empty($data['iswork'])}checked{/if} /> {$P8LANG['N']}  <input name="iswork" type="radio" value="1" {if !empty($data['iswork'])}checked{/if}/> {$P8LANG['Y']}<span class="point">(作为在线办事可以布内容的最小栏目必选)</span>
+										</td>
+									</tr>
+									</tbody>
+									<tr>
+										<td class="tdL">{$P8LANG['cms_parent_category']}</td>
+										<td class="tdR"> <span id="parents"></span> <input type="button" value="选择栏目.." onclick="dialog.show()" /> <input type="hidden" name="parent" /> <input type="hidden" id="parent" value="{if !empty($data['parent'])}$data[parent]{/if}" /> {$P8LANG['top_cms_notes_3']} </td>
+									</tr>
+									
+								</table>
+								</div>
+								
+								
+								<div class="content">
+									<table class="columntable formtable hover_table">
+										<tr>
+											<td class="tdL">{$P8LANG['cms_category_list_template']}<span class="help">由前面模型选择影响</span></td>
+											<td class="tdR">
+												<input type="text" class="txt" name="list_template" id="lt" value="{if !empty($data['list_template'])}$data[list_template]{/if}" size="30" />
+												<input type="button" value="{$P8LANG['select_template']}" onclick="list_template_dialog.show()" />
+											</td>
+										</tr>
+										<tr>
+											<td class="tdL">{$P8LANG['cms_category_view_template']}</td>
+											<td class="tdR">
+												<input type="text" class="txt" name="view_template" id="vt" value="{if !empty($data['view_template'])}$data[view_template]{/if}" size="30" />
+												<input type="button" value="{$P8LANG['select_template']}" onclick="view_template_dialog.show()" />
+											</td>
+										</tr>
+										<tr>
+											<td class="tdL">{$P8LANG['cms_category_item_template']}</td>
+											<td class="tdR">
+												<input type="text" class="txt" name="item_template" id="it" value="{if !empty($data['item_template'])}$data[item_template]{/if}" size="30" />
+												<input type="button" value="{$P8LANG['select_template']}" onclick="item_template_dialog.show()" />
+											</td>
+										</tr>
+										<tr>
+											<td class="tdL">每页内容数量</td>
+											<td class="tdR"><input type="text" class="txt" name="page_size"  value="{if !empty($data['page_size'])}{$data['page_size']}{else}20{/if}" size="4" /> 条
+											</td>
+										</tr>
+										
+									</table>
+								</div>
+						</div>
+					</div>
+				</td>
+				
+			</tr>
+			<tr>
+				<td class="tdL">&nbsp;</td>
+				<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/> </td>
+			</tr>
+		</table>
+	</div>
+	<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" />
+	<!--{if P8_AJAX_REQUEST}-->
+	<input type="hidden" name="_ajax_request" value="1" />
+	<!--{/if}-->
+</form>
+<script type="text/javascript">
+$('#_form').validate({
+	rules: {
+		name: {
+			required: true
+		},
+		model: {
+			required: true
+		}
+	},
+	
+	messages: {
+		name: {
+			required: '{$P8LANG['cms_category_name_can_not_be_empty']}'
+		},
+		model: {
+			required: '{$P8LANG['cms_category_model_can_not_be_empty']}'
+		}
+	},
+	
+	errorPlacement: function(error, element) {
+		error.wrap('<div></div>').appendTo(element.parent().prev());
+	},
+	
+	wrapper: 'div',
+	
+	onkeyup: false
+});
+
+
+$('#name').focus();
+
+var _CATEGORY_JSON = $json[json];
+var _CATEGORY_PATH = $json[path];
+
+var dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_parent_category']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		parent_path();
+	},
+	show: function(){
+		cs.init();
+	}
+});
+
+function parent_path(){
+	var val = $('#parent').val();
+	$('#_form input[name=parent]').val(val);
+	
+	$('#parents').empty();
+	
+	var path = _CATEGORY_PATH[val];
+	if(!path) return;
+	for(var i = 0; i < path.length; i++){
+		var cat = cs.get_by_id(path[i]);
+		$('#parents').append($('<span>'+ cat.name +' &gt; </span>'));
+	}
+}
+
+var cs = new Recursive_Selector({
+	json: _CATEGORY_JSON,
+	path: _CATEGORY_PATH,
+	input: $('#parent'),
+	dialog: dialog,
+	sub_property: 'categories',
+	item_callback: function(cat, item){
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	},
+	parents: <!--{if !empty($data['parent'])}-->clone(_CATEGORY_PATH[$data[parent]])<!--{else}-->null<!--{/if}-->
+});
+
+change_template('article');
+
+var list_template_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#lt').val(list_template_selector.value);
+	},
+	show: function(){
+		list_template_selector.init();
+	}
+});
+var list_template_selector = new Template_Selector({
+	template_dir: '{$core.CONFIG['template_dir']}',
+	base_dir: '{$this_system.CONFIG['template']}/{$this_system.name}/item/',
+	selected: $('#lt').val(),
+	dialog: list_template_dialog
+});
+
+var view_template_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#vt').val(view_template_selector.value);
+	},
+	show: function(){
+		view_template_selector.init();
+	}
+});
+var view_template_selector = new Template_Selector({
+	base_dir: '{$this_system.CONFIG['template']}/{$this_system.name}/item/',
+	template_dir: '{$core.CONFIG['template_dir']}',
+	selected: $('#vt').val(),
+	dialog: view_template_dialog
+});
+
+var item_template_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#it').val(item_template_selector.value);
+	},
+	show: function(){
+		item_template_selector.init();
+	}
+});
+var item_template_selector = new Template_Selector({
+	base_dir: 'label/',
+	selected: $('#it').val(),
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: item_template_dialog
+});
+
+function change_template(model){
+	
+	$('#lt').val(model+'/list');
+	$('#vt').val(model+'/view');
+	$('#it').val('cms/'+model+'/list');
+}
+function showoutlink(f){
+	if(f=='3'){ $('#category_outlink').show(); $('#category_model').hide(); }
+	else{ $('#category_outlink').hide(); $('#category_model').show(); }
+}
+$(function(){
+	MoveTabs("tabs",0);
+	showoutlink('{$data['type']}');
+	parent_path();
+});
+
+</script>
+
+<!--{if !P8_AJAX_REQUEST}-->
+<!--{template $core footer admin}-->
+<!--{/if}-->
+
+<!--{/php168}-->

@@ -1,0 +1,9 @@
+<!--{php168}-->
+<input type="hidden" name="#field_{$field}_posted" />
+<select name="field#[$field][]" id="field#[$field]" multiple {$field_data['widget_addon_attr']}>
+	<option value=""></option>
+<!--{foreach $field_data['data'] $value $key}-->
+	<option value="$value"{if isset($data[$field]) && in_array($value, $data[$field])} selected{elseif empty($data[$field]) && isset($field_data[$field]['default_value'][$value])} selected{/if}>$key</option>
+<!--{/foreach}-->
+</select>
+<!--{/php168}-->

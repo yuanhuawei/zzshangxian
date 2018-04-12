@@ -1,0 +1,222 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$TITLE</title>
+<meta name="keywords" content="$SEO_KEYWORDS" />
+<meta name="description" content="$SEO_DESCRIPTION" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/head_foot.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/label/label.css" />
+<!--{if !empty($LINKRSS)}-->
+<link rel="alternate" type="application/rss+xml" title="$LINKRSS[title]" href="$LINKRSS[url]" />
+<!--{/if}-->
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$this_router}-check_verify_action?cid=$cid"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/item/item.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+
+<script type="text/javascript">
+<!--{template_init_js}-->
+
+<!--{template $this_module item_js}-->
+</script>
+
+</head>
+<body>
+
+<!--{template $core top_header}-->
+
+<script type="text/javascript" src="{$SKIN}../core/media.js"></script>
+<div class="gov_article_frame">
+	<div class="gov_article_banner">
+		<div class="banner_left">
+		$label[gov_article_banner_ad]
+		</div>
+		<div class="banner_right">
+			$label[gov_article_banner_right]
+		</div>
+	</div>
+	<div class="gov_article_nav">
+			<a href="{$core.url}">首页</a>&nbsp;&gt;&nbsp;
+			<!--{foreach $parent_cats $v}-->
+			<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+			<!--{/foreach}-->
+			<a href="$CAT[url]">$CAT[name]</a>&nbsp;&gt;
+			<span>正文</span>
+		</div>
+	<div class = "gov_article_left">
+		
+		<div class = "gov_article_content1">
+			<div class = "gov_article_ad1">
+				 $label[gov_article_ad1]
+			</div>
+			<div class="gov_article_article_title">
+				$data[title]
+			</div>
+			<div class="gov_article_article_info">
+				发布：<!--{php echo date("Y-m-d",$data['timestamp']);}-->
+				来源：<a href="$data[source_url]" target="_blank">$data[source_name]</a>
+				编辑：$data[username]
+				浏览：<span class="item_views">0</span>次   
+				【<a href="javascript:;" onclick="document.getElementById('maincontent').style.fontSize = '16px';">大</a> <a href="javascript:;" onclick="document.getElementById('maincontent').style.fontSize = '14px';">中</a> <a href="javascript:;" onclick="document.getElementById('maincontent').style.fontSize = '12px';">小</a>】
+				<span id="operation" style="display: none; color:#C30;font-weight:bold; cursor: pointer;">{$P8LANG['operation']}</span>
+			</div>
+			<div class="summary">
+				核心提示:$data[summary]
+			</div>
+			<!--{if $pay_check}-->
+			<div id="maincontent">
+				$data[content]
+			</div>
+			<div class="gov_article_article_pagelist page_2">
+				$pages
+			</div>
+			<!--{else}-->
+			<!--{php include template($this_module, 'pay');}-->
+			<!--{/if}-->
+			
+			<div class="common_digg">
+				
+				<!--{if !empty($this_module->CONFIG['allow_digg'])}-->
+				<div id="" style="width:300px;float:left;height:30px;">
+					<iframe allowtransparency="true" style="background-color:transparent" frameborder="0" width="300" height="30" scrolling="no" marginheight="0" marginwidth="0" src="" id="digg_iframe"></iframe>
+				</div>
+				<script type="text/javascript">
+				$(function(){
+					scroll_to_load($('#digg_iframe'), function(){
+						$(this).attr('src', '$this_router-digg?iid=$data[id]');
+					});
+				});
+				</script>
+				<!--{/if}-->
+				
+				<!--{if !empty($this_module->CONFIG['comment']['enabled']) && !empty($data['allow_comment'])}-->
+				<div class="gov_article_comment_total">
+					【<a href="{$this_router}-comment?iid={$data['id']}" target="_blank">共有&nbsp;<font color="#cc3300"><strong>$data[comments]</strong></font>&nbsp;条评论信息,点击查看</a>】
+				</div>
+				<!--{/if}-->
+				
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+			<!--{if !empty($KEYWORD)}-->
+			<div id="" class="morecom_rap common_mtop">
+			<div class="head"><span class="title">更多关于 <font color="red">$KEYWORD</font> 的新闻</span></div>
+				$label[gov_view_kewlist]{'i.title' => $KEYWORD}
+			</div>
+			<!--{/if}-->
+			<div id="" class="morecom_rap common_mtop">
+			
+			<!--{if !empty($this_module->CONFIG['allow_mood'])}-->
+			<div class="head"><span class="title">您看到此篇文章时的感受是</span></div>
+				<iframe allowtransparency="true" style="background-color:transparent" frameborder="0" width="500" scrolling="no" marginheight="0" marginwidth="0" src="" id="mood_iframe"></iframe>
+				<script type="text/javascript">
+				$(function(){
+					scroll_to_load($('#mood_iframe'), function(){
+						$(this).attr('src', '$this_router-mood?iid=$data[id]');
+					});
+				});
+			</script>
+			<!--{/if}-->
+			
+			</div>
+			<div class="commot_mtop dashed">
+			</div>
+			<div class="common_mtop backnext">
+				<p><strong>上一篇: </strong><!--{if empty($prev_item['title'])}-->没有了...<!--{else}--><a href="$prev_item[url]" >$prev_item[title]</a><!--{/if}--></p>
+				<p><strong>下一篇: </strong><!--{if empty($next_item['title'])}-->没有了...<!--{else}--><a href="$next_item[url]" >$next_item[title]</a><!--{/if}--></p>
+			</div>
+		</div>
+		
+		<div class="gov_article_content2">
+			<a name="top"></a>
+			<!--{if !empty($this_module->CONFIG['comment']['enabled']) && !empty($data['allow_comment'])}-->
+			<!--{template $this_module view_comment}-->
+			<!--{/if}-->
+			
+			
+		</div>  
+		<div class="gov_article_title2">
+			<span class="list_more1">$label[gov_view_com_more]</span>
+			<span class="">$label[gov_view_com_title_23]</span>
+		</div>
+		<div class="gov_article_content4">
+			<div class="article_p19">
+				$label[gov_article_content9]
+			</div>
+			<div class="gov_article_title3">$label[gov_article_title3]</div>
+			<div class="article_p19">
+			$label[gov_article_content10]{'a.cid'=>$CATEGORY, 'model' => $MODEL}
+			</div>
+		</div>
+	</div>
+	<div class = "gov_article_right">
+		<div class="gov_article_ad2">
+			$label[gov_article_ad2]
+		</div>
+		<div>
+			<div class="gov_article_title5">
+				$label[gov_article_title4]
+			</div>
+			<div class="gov_article_content5">
+				 $label[gov_article_content1]{'i.cid'=>$cid, 'model' => $MODEL}
+			</div>
+		</div>
+		<div>
+			<div class="gov_article_title5">
+				$label[gov_article_title5]
+			</div>
+			<div class="gov_article_content5">
+				 $label[gov_article_content2]{'a.cid'=>$cid, 'model' => $MODEL}
+			</div>
+		</div>
+		<div>
+			<div class="gov_article_title5">
+				$label[gov_article_title6]
+			</div>
+			<div class="gov_article_content5">
+				$label[gov_article_content3]{'i.cid'=>$cid, 'model' => $MODEL}
+			</div>
+		</div>
+		<div>
+			<div class="gov_article_title5">
+				$label[gov_article_title7]
+			</div>
+			<div class="gov_article_content5">
+				$label[gov_article_content7]{'i.cid'=>$cid, 'model' => $MODEL}
+			</div>
+		</div>
+		<div>
+			<div class="gov_article_title5">
+				$label[gov_article_title8]
+			</div>
+			<div class="gov_article_content5">
+				$label[gov_article_content8]{'i.cid'=>$CATEGORY, 'model' => $MODEL}
+			</div>
+		</div>
+		<div>
+			<div class="gov_article_title5">
+				$label[gov_article_title9]
+			</div>
+			<div class="gov_article_content5">
+				$label[gov_article_content11]{'i.cid'=>$CATEGORY, 'model' => $MODEL}
+			</div>
+		</div>
+		<div class="gov_article_ad5 common_mtop">
+			$label[gov_article_content5]
+		</div>
+
+		
+	</div>
+</div>
+<script type="text/javascript" src="$this_router-count?id=$data[id]"></script>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

@@ -1,0 +1,38 @@
+<!--{php168}-->
+<style>
+#friend_3{ margin-top:10px;}
+#friend_3 .head{ height:23px; background:none}
+#friend_3 .head span{float:left; padding:1px 10px 0 10px;border:1px solid #dedede;background:#eeeeee;border-bottom:none; margin-left:5px;}
+#friend_3 .head span.over{background:#ffffff}
+#friend_3 .main {border:1px solid #dedede;background-color:#fff;display:block;padding: 5px 10px;height:auto;min-height:10px;}
+#friend_3 .main .content .each{float:left; padding:6px 10px; line-height:150%}
+#friend_3 .main .content .each a.name{padding:6px 5px; display:block; line-height:150%}
+</style>
+<div id="friend_3">
+	<div class="head">
+	<!--{foreach $list $k $v}-->
+		<span>$v[name]</span>
+	<!--{/foreach}-->
+	</div>
+	<div class="main">
+		<!--{foreach $list $k $v}-->
+		<div class="content">
+			<!--{foreach $v['link'] $k2 $v2}-->
+				<div class="each">
+				<!--{if $v2['logo']}-->
+				<a href="$v2[url]" target="_blank"><img src="$v2[logo]" width="115" height="34" title="$v2[name]" /></a>
+				<!--{else}-->
+				<a href="$v2[url]" target="_blank" class="name">$v2[name]</a>
+				<!--{/if}-->
+				</div>
+			<!--{/foreach}-->
+			<div class="clear"></div>
+			</div>
+		<!--{/foreach}-->
+	</div>	
+</div>
+<script type="text/javascript">
+	MoveTabs("friend_3",0,'mouseover');
+</script>
+<!--{/php168}-->
+

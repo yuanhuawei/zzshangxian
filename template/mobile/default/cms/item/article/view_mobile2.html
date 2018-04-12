@@ -1,0 +1,70 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!--{template $core header}-->
+<div class="position">
+	<a href="{$core.mobile_controller}">首页</a>
+	<!--{foreach $parent_cats $v}-->
+	&gt; <a href="$v[url]">$v[name]</a>
+	<!--{/foreach}-->
+	&gt; <a href="$CAT[url]">$CAT[name]</a> 
+</div>
+<div class="pelcon">
+	<div class="pelname">
+		<h3>$data[title]</h3>
+	</div>
+	<div class="peldata">
+		<img width="150" height="205" src="$data[frame]"> 
+		<div class="pelnr">
+			<!--{foreach $this_model['fields'] $field $v}-->
+        <div> 
+            <!--<b>$v[alias]</b> :--> 
+            <!--{php 
+    	switch($v['widget']){
+		case 'text': case 'textarea': case 'editor': case 'editor_basic': case 'editor_basic':
+	}--> 
+            <!--$data[$field]-->
+            <!--{php
+		break;
+		case 'checkbox': case 'multi_select':
+		foreach($v['data'] as $value => $key){
+			if(in_array($value, $data[$field])){
+	}--> 
+            $key 
+            <!--{php
+		}}
+		break;
+		case 'radio':
+	foreach($v['data'] as $value => $key){
+		if($value == $data[$field]){
+	}--> 
+            $key 
+            <!--{php
+		break;
+		}}
+		break;
+		case 'uploader':
+	}--> 
+            <a href="{$data[$field]['url']}" target="_blank">{$data[$field]['title']}</a> 
+            <!--{php break;
+    case 'multi_uploader':
+	foreach($data[$field] as $vv){
+	}-->
+            <div><a href="$vv[url]" target="_blank">$vv[title]</a></div>
+            <!--{php } break;case 'vote':break;default:}--> 
+            $data[$field] 
+            <!--{php }}--> 
+        </div>
+        <!--{/foreach}--> 
+		</div>
+	</div>
+</div>
+<div id="end_cd">
+	<ul>
+		<li class="lione"><a href="{$core.mobile_controller}">&lt; &lt; 返回首页</a></li>
+		<li class="litwo"></li>
+		<li class="lithree"></li>
+	</ul>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->
+

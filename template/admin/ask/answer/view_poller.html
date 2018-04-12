@@ -1,0 +1,66 @@
+<!--{php168}-->
+<form action="$this_router-$ACTION" id="againstform" name="againstform" method="post">
+<table cellspacing="0" cellpadding="0" width="100%" class="ajaxBox">
+<tr>
+	<td colspan="2"><h3>{$P8LANG['ask_view_content']}</h3></td>
+</tr>
+<tr>
+	<td width="20%" class="tdL">{$P8LANG['ask_belong_answer']}</td>
+	<td width="80%" class="tdR">{$data['answer_content']}</td>
+</tr>
+<tr>
+	<td class="tdL">{$P8LANG['user']}</td>
+	<td class="tdR"><!--{if $data['anonymous'] && empty($data['username'])}-->{$P8LANG['ask_anonymous']}<!--{else}-->{$data['username']}<!--{/if}--></td>
+</tr>
+<tr>
+	<td class="tdL">{$P8LANG['ask_time']}</td>
+	<td class="tdR"><!--{php echo date('Y-m-d H:i:s',$data['addtime']);}--></td>
+</tr>
+<tr>
+	<td class="tdL">IP</td>
+	<td class="tdR">{$data['ip']}</td>
+</tr>
+<tr>
+	<td class="tdL">{$P8LANG['ask_markup_handler']}</td>
+	<td class="tdR"><!--{if $data['handler']}--><img src="{$SKIN}/check_yes.gif" id="markupHandler_{$id}"/><!--{else}--><img src="{$SKIN}/check_no.gif" id="markupHandler_{$id}"/><!--{/if}--></td>
+</tr>
+<tr>
+	<td class="tdL" style="color:#ff0000;">{$P8LANG['ask_poller_reason']}</td>
+	<td class="tdR">{$data['content']}</td>
+</tr>
+<tr>
+	<td colspan="2" height="30"><input type="button" id="voteBtn" value="{$P8LANG['ask_markup_handler']}" <!--{if $data['handler']}-->disabled="disabled" <!--{/if}-->class="edit_btn" onclick="javascript:markup_handler({id:{$id}});"/></td>
+</tr>
+</table>
+</form>
+<script type="text/javascript">
+function markup_handler(options)
+{
+	if(options.id == undefined || !reg.test(options.id)){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+
+	$.ajax({
+		url: '{$this_router}-{$ACTION}',
+		type: 'POST',
+		dataType: 'json',
+		data: ajax_parameters({ids:[options.id]}),
+		cache: false,
+		success: function(json){
+			if(!json.length) return;
+
+			$('#markupHandler_'+options.id).attr('src','{$SKIN}/check_yes.gif');
+				
+			$('#poller_box').fadeOut('slow',function(){
+				$('.dialogWrapper').remove();
+				$('#poller_box').jqmHide();
+				for(var i in json){
+					$('#handler_'+json[i]).attr('src','{$SKIN}/check_yes.gif');
+				}
+			});
+		}
+	});
+}
+</script>
+<!--{/php168}-->

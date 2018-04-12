@@ -1,0 +1,45 @@
+<!--{php168}-->
+
+<!--{template $core header admin}-->
+
+<table class="mainbox mainborder">
+	<tr><td>
+		<table class="columntable formtable hover_table">
+		<tr>
+			<td colspan="4" class="title">文件权限检查</td>
+		</tr>
+		
+		<!--{foreach $file_perm $k $v}-->
+		<tr>
+			<td>$P8LANG[$k]</td>
+			<td>$v[0]</td>
+			<td>$v[1]</td>
+			<td>$v[2]</td>
+		</tr>
+		<!--{/foreach}-->
+		</table>
+	</td></tr>
+</table>
+
+<form action="$this_url" method="post">
+	<table class="mainbox mainborder">
+	<tr><td>
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td colspan="2" class="title">CMS系统安装程序</td>
+			</tr>
+			
+			<tr>
+			  <td class="tdL">&nbsp;</td>
+			  <td class="tdR"><input type="submit" value="{$P8LANG['install']}" class="submit_btn"/></td>
+		  </tr>
+	    </table>
+	</td></tr>
+    </table>
+	
+</form>
+
+
+<!--{template $core footer admin}-->
+
+<!--{/php168}-->

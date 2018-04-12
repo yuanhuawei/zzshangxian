@@ -1,0 +1,255 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$item_title - {$P8LANG['comment']}</title>
+<link href="{$SKIN}../core/common.css" rel="stylesheet" type="text/css" />
+<link href="{$RESOURCE}/images/dialog.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/$MODULE/$MODULE.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+</head>
+<body>
+<style>
+.comment_item{ width:94%; margin:10px auto; text-align:left; border-bottom: 1px dotted #AFAFB0; display:block;padding:3px 2px; }
+.comment_item .date{ float: right; margin-right: 20px; }
+.comment_item .quote{ border: 1px solid #999999; background-color: #FFFFEE; padding: 3px; margin-bottom: 5px; }
+.comment_item .quote .postby{ margin-bottom: 5px; }
+.comment_item .quote .postby span.author{ color: #1E50A2; }
+.comment_item .quote .postby span.floor{ float: right; }
+.comment_item .comment_item{ border-bottom: 1px dotted #000000; padding-bottom: 20px; margin-bottom: 20px; }
+.comment_item .repeat span{ color: #BA2636; }
+.comment_item .button_bar { float: right; }
+.comment_item.pre_reply { background-color: #F5F5F5; }
+#logined_box{padding:5px 2px; font-weight:bold}
+#login_com_box{padding:5px 0}
+.layout_comment .item_comments{color:#F00; font-weight:bold}
+.comment_body{font-size:12px}
+.comment_textarea {background: #FFFFFF; border: 1px solid #CCCCCC; height: 140px; margin: 5px 0; padding: 10px; width: 94%;}
+#logined_box{padding-left:10px}
+.form_div{margin:5px 0 10px 20px}
+</style>
+<div style="margin-left:auto;margin-right:auto;margin-bottom:30px;width:960px;text-align:left;">
+	<div>
+		<img style="float:left;" border="none" width="140" height="24" src="{$SKIN}comment_logo.gif" />
+		<div style="height:16px;padding:10px 20px;float:left;">
+			<!--a href="#">网易</a> &gt; <a href="#">国内跟贴4版</a-->
+		</div>
+	</div>
+	<div style="clear:both;">
+	</div>
+	<div style="font-size:28px;font-weight:bolder;color:#1F3A87;margin-top:10px;margin-bottom:20px;">
+		话题：<a href="$item_url" target="_blank">$item_title</a> <span style="color:#990000;font-size:12px;"><a href="$item_url" target="_blank">[查看全文]</a></span>
+	</div>
+	<a name="top"></a>
+	
+<div class="layout_box layout_comment layout_txtcontent_border layout_mtop layout_padding" style="font-size:12px;background-color:#F8FAFE;border:#C4D6EC 1px solid;" id="comment_box">
+	
+	<div class="commont_box_title" style="font-size:14px;width:100%;height:28px;border-top:#C4D6EC 1px solid;background-color:#E5EEF8;font-size:24px;padding:5px 0px;">
+		<strong>用户留言</strong>&nbsp; <span>
+		<a href="$this_router-comment?iid=$data[id]" target="_blank"><font color="#1E50A2">已有 </font><span class="item_comments"><font color="#BA2636"><strong>0</strong></font></span><font color="#1E50A2"> 条留言</font><font color="#BA2636">(点击查看)</font></a> </span>
+	</div>
+	
+	<div id="layout_comment_box">
+		<div id="comment_clone" style="display: none;">
+			<div style="margin-bottom: 20px;">
+				<span class="date">__date__ 发表</span>
+				<span class="author">__author__</span>
+			</div>
+			<div class="content"></div>
+			<div class="button_bar">
+				<a href="###" onclick="comment.digg(__id__, this)">顶[__digg__]</a>
+				<a href="javascript:void(0);" onclick="comment_reply(__id__)">回复</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+		<div id="comments"></div>
+		<div style="height:20px;text-align:right;font-size:12px;font-weight:normal;margin:10px 20px 0px 0px;">
+		<span id="comment_pages"></span></div>
+		<div style="width:100%;height:28px;border-top:#C4D6EC 1px solid;background-color:#EEF5FD;font-size:24px;margin-top:10px;padding:5px 0px;">
+			</div>
+		<div id="login_com_box" style="margin-top:5px;text-align:left;margin-left:80px;font-size:12px;">
+			<form method="post" action="{$core.U_controller}/core/member-login" >
+				<span> 网站通行证：</span><input type="text" name="username" value="" class="input common_input_border"/> <span>密码：</span><input type="password" name="password" value="" class="input common_input_border" onfocus="javascript:$('#forward_c').attr('value',window.location.href)"/> <input type="submit" name="submit" value="登录" class="submit pointer"/> <input type="hidden" name="forward" id="forward_c" value="window.location.href" /> <span> <a href="{$core.controller}/core/member-register">注册</a> | <a href="{$core.controller}/core/member-getpassword">忘记密码</a> </span>
+			</form>
+		</div>
+		<div id="logined_box">
+			网站通行证：<a href="{$core.url}/u.php"><font color="#FF7F04">{$USERNAME}</font></a>
+		</div>
+		<div class="form_div">
+			<form action="$this_router-comment" method="post" id="commenter" target="submit_comment">
+				<div>
+					<textarea name="content" id="content" class="comment_body" cols="70" rows="5" onfocus="this.value=''">文明上网，登录留言</textarea><br />
+					<label>网友评论仅供其表达个人看法，并不表明本站同意其观点或证实其描述。</label>
+					<span> <input type="button" id="comment_submit" name="bbt" onclick="post_comment()"  value="马上发表"/> </span>
+				</div>
+				<input type="hidden" name="action" value="add" />
+				<input type="hidden" name="iid" value="$data[id]" />
+			</form>
+		</div>
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+
+var allow_comment = false, comment_loaded = false;
+
+function comment_check(form){
+	
+	var flag = true,
+		msg = '';
+	
+	if(!allow_comment){
+		alert(P8LANG[SYSTEM].comment.not_allow);
+		flag = false;
+	}
+	
+	if($.trim(form.find('textarea').val()).length < 5){
+		alert(P8LANG[SYSTEM].comment.write_something);
+		flag = false;
+	}
+	
+	return flag;
+}
+
+
+function comment_reply(id){
+	
+	reply_id = id;
+	$('#comment_'+ id).addClass('pre_reply');
+	
+	comment_dialog.show();
+}
+
+var reply_id;
+var comment_dialog = new P8_Dialog({
+	title_text: P8LANG[SYSTEM].comment.reply,
+	width: 400,
+	height: 250,
+	button: true,
+	overlay: false,
+	show: function(){
+		this.content.find('input[name=reply_id]').val(reply_id);
+		this.content.find('textarea').val('').get(0).focus();
+	},
+	ok: function(){
+		$('#comment_'+ reply_id).removeClass('pre_reply');
+		var form = this.content.find('form');
+		if(comment_check(form)){
+			form.get(0).submit();
+			return true;
+		}
+		
+		return false;
+	},
+	cancel: function(){
+		$('#comment_'+ reply_id).removeClass('pre_reply');
+	}
+});
+
+function comment_jsonp(json){
+	$('#comments').html('<div></div>');
+	$('#comment_pages').html(json.pages);
+	
+	var items = json.items;
+	for(var i in items){
+		$('#comments').append(
+			comment.item(items[i], $('#comment_clone').clone().show())
+		);
+	}
+	
+	allow_comment = json.allow_comment;
+	
+	if(comment_loaded){
+		window.scrollTo(0, $('#comment_box').offset().top);
+		return;
+	}
+	
+	comment_loaded = true;
+}
+
+
+var comment = new Comment({
+	iid: $data[id],
+	url: \$this_router +'-comment',
+	callback: comment_jsonp<!--{if $ACTION == 'view'}-->,
+	view_page: true
+	<!--{/if}-->
+});
+
+
+$(function(){
+	if(get_cookie('UID')){
+		$('#comment_login').html(get_username());
+	}else{
+		$('#comment_login form').show().append(
+			$('<input type="hidden" name="forward" value="'+ window.location +'" />')
+		);
+	}
+	
+	var form = $('#commenter').clone().attr('id', '').
+		append($('<textarea name="content" class="comment_textarea"></textarea><input type="hidden" name="reply_id" />')).
+		appendTo(comment_dialog.content);
+	form.find('div').remove();
+	
+	scroll_to_load($('#comment_box'), function(){
+		comment.request(1);
+	});
+});
+
+var limitTime;
+function post_comment(){
+	var content=$('#content').val();
+	if(content.length<5 || content==''){alert('评论字数太少或为空'); return false; }
+	$('#commenter').submit();
+	$('#content').val('');
+	limitTime=5;
+	limitComment();
+	
+}
+
+function limitComment(){
+	limitTime=limitTime-1;
+	if(limitTime>0){
+		$('#content').val('还剩'+limitTime+'秒,你才可以再发表评论');
+		$('#content').attr('disabled','disabled');
+		$('#comment_submit').attr('disabled','disabled');
+		setTimeout("limitComment()",1000);
+	}else if(limitTime==0){
+		$('#content').val('文明上网，登录留言');
+		$('#content').removeAttr('disabled');
+		$('#comment_submit').removeAttr('disabled');
+	}
+}
+function reply_comment(id){
+	reply_id = id;
+	reply_dialog.show();
+	$('#comment_'+ id).addClass('pre_reply');
+	$('#reply_id').val(id);
+}
+
+var UID = get_cookie('UID');
+$(document).ready(function(){
+	if(UID === undefined){
+		$('#login_com_box').show();$('#logined_box').hide();
+	}else{
+		$('#logined_box').show();$('#login_com_box').hide();
+	}  
+});
+
+</script>
+<iframe name="submit_comment" style="display:none;"></iframe>
+</body>
+</html>
+<!--{/php168}-->

@@ -1,0 +1,17 @@
+<!--{php168}-->
+<div class="panelhead">
+	<div class="toptitle">
+		你的短信息
+	</div>
+
+	<div id="tab_1" class="tab_box mtop10">
+		<div class="head">
+			<span {if $ACTION == 'inbox' && $type == 'in'} class="over"{/if}><a href="$this_router-inbox">我的收件箱</a></span>
+			<span {if $ACTION == 'outbox' && $type == 'out'} class="over"{/if}><a href="$this_router-outbox">我的发件箱</a></span>
+			<span {if $ACTION == 'outbox' && $type == 'draft'} class="over"{/if}><a href="$this_router-outbox?type=draft">草稿箱</a></span>
+			<span {if $ACTION == 'inbox' && $type == 'rubbish'} class="over"{/if}><a href="$this_router-inbox?type=rubbish">垃件箱</a></span>
+			<a href="$this_router-send" class="sendmsg_link_bg">发短信息</a>
+		</div>
+	</div>
+</div>
+<!--{/php168}-->

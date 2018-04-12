@@ -1,0 +1,8 @@
+<!--{php168}-->
+<ul>
+<!--{foreach $list $k $value}-->
+<li><span class="label_datatime"><!--{php echo date('m-d',$value['timestamp']);}--></span><a target="_blank" title="{$value['full_title']}" href="{$value['url']}">{$value['title']}</a></li>
+<!--{/foreach}-->
+<div class="clear"></div>
+</ul>
+<!--{/php168}-->

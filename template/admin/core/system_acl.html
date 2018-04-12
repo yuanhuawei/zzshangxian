@@ -1,0 +1,97 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $core menu_bar/admin_acl_menu_bar admin}-->
+
+<form action="$this_url" method="POST" onsubmit="check_privileges()">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<table class="acltable">
+							<tr>
+								<td class="title"></td>
+							</tr>
+							<tr>
+								<td class="headerbtn_list">
+									<ul style="background: #D5E9FF;">
+											<li>
+												<a href="{$core.admin_controller}/core-set_acl?role_id=$role_id">
+												<!--{if $SYSTEM == 'core'}-->
+												<b>{$P8LANG['core']}</b>
+												<!--{else}-->
+												{$P8LANG['core']}
+												<!--{/if}-->
+												</a>
+												</li>
+											<!--{foreach $core->systems $k $v}-->
+											<li>
+												<a href="{$core.admin_controller}/$k-set_acl?role_id=$role_id">
+												<!--{if $SYSTEM == $k}-->
+												<b>{$v['alias']}</b>
+												<!--{else}-->
+												{$v['alias']}
+												<!--{/if}-->
+												</a>
+											</li>
+											<!--{/foreach}-->
+									</ul>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table class="acltable">
+							<tbody class="privileges">
+								<!--{template $role acl_action admin}-->
+								<!--{foreach $acls $module $_acl}-->
+								<!--{template $role acl_module_action admin}-->
+								<!--{/foreach}-->
+								<tr><td class="foot_blank"></td></tr>
+							</tbody>
+							
+							<!--{if $SYSTEM == 'core'}-->
+							<tr>
+								<td class="tdL">
+									$P8LANG[editor_allow_tags]
+									<input type="text" name="acl[allow_tags]" value="{if !empty($acl['allow_tags'])}{implode('|', $acl['allow_tags'])}{/if}" size="60" />
+									<span class="help">$P8LANG[editor_tags_note]</span>
+								</td>
+							</tr>
+							
+							<tr>
+								<td class="tdL">
+									$P8LANG[editor_disallow_tags]
+									<input type="text" name="acl[disallow_tags]" value="{if !empty($acl['disallow_tags'])}{implode('|', $acl['disallow_tags'])}{/if}" size="60" />
+									<span class="help">$P8LANG[editor_tags_note]</span>
+								</td>
+							</tr>
+							<!--{/if}-->
+						</table>
+					</td>
+				</tr>
+			</table>
+			<table align="center" border="0" cellpadding="0" cellspacing="0" class="buttomtable">
+				<tr><td class="" >
+					<input type="hidden" name="role_id" value="{if !empty($role_id)}$role_id{/if}" />
+					<input type="submit" name="submit" value="确定" class="edit_btn" />
+					<input type="reset" name="rest" value="重置" class="edit_btn"/>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+function check_privileges(){
+	$('.privileges input[type=checkbox]').each(function(i){
+		if(!this.checked){
+			this.checked = true;
+			this.value = 0;
+		}
+	});
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

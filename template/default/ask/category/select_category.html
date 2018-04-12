@@ -1,0 +1,128 @@
+<!--{php168}-->
+<table border="0" cellspacing="0" cellpadding="0" class="ajaxBox">
+	<tr>
+		<td><h3>{$P8LANG['ask_select_category']}</h3></td>
+	</tr>
+	<tr>
+		<td id="categories"></td>
+	</tr>
+	<tr>
+		<td>&nbsp;{$P8LANG['ask_select_category_correct_tips']}</td>
+	</tr>
+	<tr>
+		<td>
+			<input type="button" value="{$P8LANG['ok']}" class="postbtn" onclick="javascript:choose_category();"/>
+			<input type="button" value="{$P8LANG['cancel']}" class="postbtn" onclick="javascript:close_dialog();"/>
+		</td>
+	</tr>
+</table>
+<script type="text/javascript">
+
+var reg = /^[0-9]*$/;
+
+function get_category_by_id(id){
+	var path = clone(CATEGORY_PATH[id]);
+	var root = path.shift();
+	var search = CATEGORY_JSON[root];
+
+	if(path.length == 0){
+		return search;
+	}
+	for(var i in path){
+		search = search.categories[path[i]];
+	}
+	return search;
+}
+
+show_category({});
+function show_category(options)
+{
+	var k = 0;
+	var show_next = false;
+
+	if(options.cid == undefined || !reg.test(options.cid)){
+		options.cid = 0;
+		var categories = CATEGORY_JSON;
+	}else{
+		var categories = get_category_by_id(options.cid).categories;
+	}
+
+	if(categories == undefined){
+		$('#'+options.element).nextAll().remove();
+		return false;
+	}
+
+	var select = $('<select onchange="show_category({element:\'category_'+options.cid+'\', cid:this.value})" size="14" id="category_'+options.cid+'" style="float:left; width:120px; margin-left:5px; margin-right:5px;"></select>').get(0);
+
+	for(var i in categories){
+		option = $('<option value="'+categories[i].id+'" level="1">'+categories[i].name+'</option>');
+		if(k == 0) option.get(0).setAttribute('selected', true);
+		if(get_category_by_id(categories[i].id).categories != undefined){
+			option.get(0).setAttribute('cat', 1);
+			if(k == 0){
+				show_next = true;
+				var cid = categories[i].id;
+			}
+		}
+		k++;
+		$(select).append(option);
+	}
+
+	if(options.element == undefined){
+		$('#categories').html($(select));
+	}else{
+		$('#'+options.element).nextAll().remove();				
+		$('#'+options.element).after($(select));
+	}
+
+	element_to_center('.dialogBox');
+
+	if(show_next){
+		show_category({element:'category_'+options.cid, cid:cid});
+	}
+
+}	
+
+function choose_category()
+{	
+	if($('#categories select').length <= 0){
+		alert('{$P8LANG['ask_error_not_choose_category']}');
+		return false;
+	}
+
+	var cid = $('#categories select')[$('#categories select').length-1].value;
+
+	if(cid == undefined || !reg.test(cid)){
+		alert('{$P8LANG['ask_error_not_choose_category']}');
+		return false;
+	}	
+
+	var path = clone(CATEGORY_PATH[cid]);
+	var root = path.shift();
+	var search = CATEGORY_JSON[root];
+
+	var input = '<input type="radio" checked>' + search.name;
+
+	if(path.length != 0){
+		for(var i in path){
+			search = search.categories[path[i]];
+			input += ' &gt; ' + search.name;
+		}
+	}
+	
+	$("#AskForm input[name=cid]").val(cid);
+	$("#AskForm input[name=allow_post]").val(true);
+	$('#categoryList').html(input);
+	close_dialog();
+
+}
+
+function close_dialog()
+{
+	$('#category_box').fadeOut('slow',function(){
+		$('.dialogWrapper').remove();
+		$('#category_box').jqmHide();
+	});
+}
+</script>
+<!--{/php168}-->

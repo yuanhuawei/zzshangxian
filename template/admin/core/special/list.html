@@ -1,0 +1,95 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">		
+		<form  method="post" id="form" action="">
+			<table width="100%" class="columntable formtable hover_table click_changeable">
+				<tr class="title fix_head">
+					<td width="6%" height="16" align="center" class="title">ID</td>
+					<td width="25%" align="center" class="title">{$P8LANG['name']}</td>
+					<td width="25%" align="center" class="title">{$P8LANG['type']}</td>
+					<td width="12%" align="center">{$P8LANG['special']['file_num']}</td>
+					<td width="33%" align="center" class="title">{$P8LANG['operation']}</td>
+				</tr>
+				<!--{foreach $list $k $v}-->
+				<tr>
+					<td align="center"><input type="checkbox" name="id[]" value="$v[id]" /> $v[id]</td>
+					<td align="left"><a href="{$this_module.controller}-view-id-{$v['id']}" target="_blank">$v[title]</a></td>
+					<td align="center"><a href="$this_url?cid=$v[cid]">{$this_module.category.categories[$v['cid']]['name']}</a></td>
+					<td align="center">$v[count]</td>
+					<td align="center"><a href="{$core.controller}/core/{$this_module.name}-view-id-{$v['id']}?edit_label=1">{$P8LANG['label']}</a> / <a href="{$this_router}-edit?id=$v[id]">{$P8LANG['special']['edit']}</a> / <a href="###" onclick="html_page([$v[id]])">{$P8LANG['html']}</a> /<a href="{$this_router}-delete?id=$v[id]" id="delete_$v[id]" onclick="return delete_sp(['$v[id]'])">{$P8LANG['delete']}</a></td>
+				</tr>
+				<!--{/foreach}-->
+				<tr>
+					<td colspan="5" align="center">
+					<div style="float:left"><a href="javascript:void(0)" onclick="check_all(true, 'id[]');init_tr($('#form'));">{$P8LANG['select_all']}</a> /
+				<a href="javascript:void(0)" onclick="check_all(false, 'id[]');init_tr($('#form'));">{$P8LANG['select_back']}</a>
+				<input type="button" value="{$P8LANG['html']}" class="submit_btn" onclick="html_page()" /></div>
+					<div class="pages">$pages</div>
+				</td>
+				</tr>
+			</table>
+		</form>
+	</DIV>
+</div>
+<form method="post" id="view_to_html" action="$this_router-view_to_html" target="_blank">
+</form>
+<script type="text/javascript">	
+function html_page(ids){
+	if(ids==undefined){
+		var ids = checked_values('id[]', $('#form'));
+	}
+	if(!ids.length) return;
+	$('#view_to_html').html('');
+	for(var i = 0; i < ids.length; i++){
+			$('#view_to_html').append($('<input type="hidden" name="ids[]" value="'+ ids[i] +'" />'));
+		}
+
+	$('#view_to_html').submit();
+}
+function delete_sp(array){
+	if(confirm('{$P8LANG['confirm_to_delete']}')){
+		
+		var id = [];
+		$.each(array, function(k, v){
+			id.push(v.replace(/[^0-9]/g, ''));
+		});
+		
+		$.ajax({
+			url: '$this_router-delete',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({model: 'sp', id: id}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				
+				ajaxing({action: 'hide'});
+				
+				for(var i in json){
+					$('#delete_'+ json[i]).parent().parent().remove();
+				}
+			}
+		});
+	}
+	
+	return false;
+}
+	$(document).ready(function(){
+	
+	$('td[id^=item_cat_]').each(function(){
+		var cid = $(this).attr('title');
+		var cat = cs.get_by_id(cid);
+		
+		$(this).html('<a href="{$this_module.controller}-list-category-'+ cid +'" target="_blank">'+ cat['name'] +'</a>');
+	});
+	
+	<!--{if !empty($cid)}-->
+	category_selected($cid);
+	<!--{/if}-->
+});
+</script>
+<!--{template $core footer admin}-->		
+<!--{/php168}-->

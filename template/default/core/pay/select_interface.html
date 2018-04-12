@@ -1,0 +1,64 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/label/label.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/pay/pay.css" />
+<title>{$P8LANG['select_pay_interface']}</title>
+</head>
+<body>
+<div class="pay_case">
+	<div style="padding: 0px; margin: 0px;">
+	<div style="clear: both;"></div>
+	<span class="pay_title">{$P8LANG['pay_note_issue']}</span> <img src="{$RESOURCE}/skin/default/core/pay/pay_close_button.gif" class="pay_close" onclick="window.close();" /> &nbsp;
+	<div style="clear: both;"></div>
+	</div>
+	<div class="pay_content">
+	{$P8LANG['pay_note']}
+	</div>
+	<span class="pay_title">{$P8LANG['select_pay_interface']}</span>
+	<div class="clear"></div>
+	<form id="form" action="$this_url" method="post" onsubmit="return checks(this)">
+		<!--{foreach $this_module->CONFIG['interfaces'] $k $v}-->
+				<!--{if $v['enabled']}-->
+				<div style="width:120px;text-align:center;float:left;padding:5px">
+					<label for="$k"><img src="{$RESOURCE}/images/pay/{$v['logo']}" title="$v[alias]" /></label><br />
+					<input type="radio" id="$k" name="__" value="$k"{if $interface == $k} checked{/if} onclick="this.form.interface.value = this.value;" />
+				</div>
+				<!--{/if}-->
+		<!--{/foreach}-->
+	<div class="clear"></div>
+		<div>
+			<div class="chosebox">
+				<!--{if !empty($amount)}-->{$P8LANG['order']['amount']}: $amount 元<br /><!--{/if}-->
+				<!--{if !empty($name)}-->{$P8LANG['order']['name']}: $name<br /><!--{/if}-->
+				{$P8LANG['order']['NO']}: $NO<br />
+				<input type="hidden" name="NO" value="$NO" />
+				<input type="hidden" name="interface" value="" />
+				<input type="hidden" name="seller_uid" value="$seller_uid" /><br />
+				<input type="submit" value="{$P8LANG['click_to_pay']}" />
+			</div>
+		</div>
+	</form>
+</div>
+
+
+<script type="text/javascript">
+<!--{if !empty($interface)}-->
+var f = document.getElementById('form');
+f.interface.value = '$interface';
+f.submit();
+<!--{/if}-->
+
+function checks(form){
+	
+	if(!form.interface.value){ alert('{$P8LANG['pay_interface_required']}');return false;}
+	return true;
+}
+</script>
+
+</body>
+</html>
+<!--{/php168}-->

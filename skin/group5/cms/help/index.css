@@ -1,0 +1,14 @@
+body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0;word-wrap:break-word}
+body,html,input{font:12px/1.5 tahoma,arial,\5b8b\4f53,sans-serif;; line-height:150%}
+table{border-collapse:collapse;border-spacing:0;}img{border:none}
+h1,h2,h3,h4,h5,h6{font-size:100%;}input.dialog{height:0; height:0; font-size:0; line-height:0; border:none}
+h1{font-size:34px;}h2{font-size:26px;}h3{font-size:18px; }h4{font-size:16px;}h5{font-size:14px;}h6{font-size:12px;}
+ul,ol,li{list-style:none;}
+a{text-decoration:none;}
+a:hover{text-decoration:underline;}
+.title{ font-size:14px; font-weight:bold; margin:10px 0 10px 10px}
+.menu{margin-left:10px;line-height:150%}
+.menu dt{ background:url(show_2.gif) no-repeat left 3px; padding-left:20px; font-weight:bold; cursor:pointer}
+.menu dt.collapsable{background:url(hide_2.gif) no-repeat left 3px;}
+.menu dd{background:url(treeview-line.gif) no-repeat;padding-left:20px}
+.menu a,.menu a:hover,.menu a:link,.menu a:visited{color:#333}

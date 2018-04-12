@@ -1,0 +1,67 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$TITLE</title>
+<meta name="keywords" content="$SEO_KEYWORDS" />
+<meta name="description" content="$SEO_DESCRIPTION" />
+<link rel="stylesheet" type="text/css" href="{$SKDIR}core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$SKDIR}core/head_foot.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/label/label.css" />
+<!--{if !empty($LINKRSS)}-->
+<link rel="alternate" type="application/rss+xml" title="$LINKRSS[title]" href="$LINKRSS[url]" />
+<!--{/if}-->
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+</head>
+<body>
+<div class="top_banner">
+	<div class = "gov_head">
+		<div class = "gov_logo"></div>
+	</div>
+	<div class="gov_frames">
+		<div  id="header_t">
+		<span id="header_login" class="user-login">
+		<script type="text/javascript" src="{$core.U_controller}/member-login?style=com&id=header_login"></script>
+		</span>
+		</div>
+	</div>
+	<div class="gov_nav">
+		<div class="container" style="background:#679a01;">
+		<ul id="menu_nav" class="gov_nav_bar">
+	<!--			<li class="over"><a href="{$core.controller}">网站首页</a></li>-->
+				<!--{php $loadsystem = ($SYSTEM == $core->CONFIG['index_system'] || $core->CONFIG['CoreMenu'])? 'core' : $this_system->name;}-->
+				<!--{php $navigation_menu = $CACHE->read('', $loadsystem, 'navigation');}-->
+				<!--{foreach $navigation_menu['menus'] $k $v}-->
+				<li><a href="$v[url]" target="$v[target]">$v[name]</a>
+				<!--{if !empty($v['menus']) && $core->CONFIG['ShowMenu']}-->
+					<dl>
+					<!--{foreach $v['menus'] $k2 $v2}-->
+					<dt><a href="$v2[url]" target="$v2[target]">$v2[name]</a></dt>
+					<!--{/foreach}-->
+					</dl>
+				<!--{/if}-->
+				</li>
+				<!--{/foreach}-->
+		</ul>
+		<!--<div class="gov_nav_serach">
+			<form action="{$core.controller}/cms/item-search" target="_blank" method="get" name="form1" id="form1">
+<input type="text" value="" class="keyword" id="keyword" name="keyword"> <input type="submit" class="submitbtn" value="" id="button" name="button">
+</form>
+		</div>-->
+		</div>
+	</div>
+	
+</div>
+<script src="{$SKIN}../core/governament.js" type="text/javascript"></script>
+<div class="container bg_white">
+<!--{/php168}-->

@@ -1,0 +1,282 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $this_module header admin}-->
+<link rel="stylesheet" href="{$RESOURCE}/images/category_selector.css" type="text/css">
+
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+	<div class="mainbox mainborder">
+		<div class="section">
+			<form action="$this_router-$ACTION" id="myform" name="myform" method="post">
+				<table class="formtable columntable hover_table click_changeable" id="list">			
+					<tr class="title">
+						<td width="4%">{$P8LANG['ask_choose']}</td>
+						<td width="30%">{$P8LANG['ask_member_name']}</td>
+						<td>{$P8LANG['ask_verify_title']}</td>
+						<td>{$P8LANG['ask_expertor_title']}</td>
+						<td>{$P8LANG['ask_star_title']}</td>
+						<td>{$P8LANG['ask_topics']}</td>
+						<td>{$P8LANG['ask_answers']}</td>
+						<td class="cleartd">{$P8LANG['ask_solve']}</td>
+					</tr>
+					<!--{if empty($list)}-->
+					<tr>
+						<td colspan="8">{$P8LANG['ask_no_records']}</td>
+					</tr>
+					<!--{else}-->
+					<!--{foreach $list $value}-->
+					<tr id="member_{$value['id']}">
+						<td><input type="checkbox" name="ids[]" value="{$value['id']}"/></td>
+						<td class="txtlist"><a >{$value['username']}</a></td>
+						<td><!--{if $value['verify']}--><img src="{$SKIN}/check_yes.gif" id="verify_{$value['id']}"/><!--{else}--><img src="{$SKIN}/check_no.gif" id="verify_{$value['id']}"/><!--{/if}--></td>
+						<td id="expert_{$value['id']}"{if $value['expert']} style="line-height:16px;"{/if} valign="middle">
+							<!--{if $value['expert']}-->
+								<img src="{$SKIN}/check_yes.gif" style="margin-top:3px;float:left">
+								<!--{if !empty($value['categories'])}-->
+								<a onclick="$('#expert_e_{$value['id']}').toggle()" style="padding-left:20px">点击查看</a><br />
+									<div style="float:left;margin-left:10px; display:none" id="expert_e_{$value['id']}">						
+									<!--{foreach $value['categories'] $v}-->
+										<div id="expert_category_{$v['id']}" style="display:block;">
+											{$v['name']}
+											<a href="javascript:void(0);" onclick="javascript:delete_expert_category({uid:{$value['id']}, id:{$v['id']}});"><img src="{$SKIN}/del_icon2.gif"/></a>
+										</div>
+									<!--{/foreach}-->
+									</div>
+								<!--{/if}-->
+							<!--{else}-->
+								<img src="{$SKIN}/check_no.gif">
+							<!--{/if}--></td>
+						<td id="star_{$value['id']}"><!--{if $value['star']}--><img src="{$SKIN}/check_yes.gif"/><!--{else}--><img src="{$SKIN}/check_no.gif"/><!--{/if}--></td>
+						<td>{$value['item_count']}</td>
+						<td>{$value['reply_count']}</td>
+						<td>{$value['solve_item_count']}</td>
+					</tr>
+					<!--{/foreach}-->
+					<!--{/if}-->
+				</table>
+			</form>
+			<!--{if $list}-->
+				<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+					<tr>
+						<td width="7%">
+							<div align="center"><input type="checkbox" id="ChkAll" onclick="check_all(this, 'ids[]', $('#list'))"/> {$P8LANG['ask_checkall']}</div>
+						</td>
+						<td>
+							<input type="button" name="Submit" value="{$P8LANG['ask_pass_verify']}" class="edit_btn" onclick="javascript:submitinit({action:'verify',element:'verify',value:'1'});"/>
+							<input type="button" name="Submit" value="{$P8LANG['ask_cancel_verify']}"  class="edit_btn" onclick="javascript:submitinit({action:'verify',element:'verify',value:'0'});"/>
+							<input type="button" name="Submit" value="{$P8LANG['ask_set_expertor']}"  class="edit_btn" onclick="dialog.show()"/>
+							<input type="button" name="Submit" value="{$P8LANG['ask_cancel_expertor']}"  class="edit_btn" onclick="javascript:delete_expertor();"/>
+							<input type="button" name="Submit" value="{$P8LANG['ask_set_star']}"  class="edit_btn" onclick="javascript:submitinit({action:'set_star',element:'star',value:'1'});"/>
+							<input type="button" name="Submit" value="{$P8LANG['ask_cancel_star']}"  class="edit_btn" onclick="javascript:submitinit({action:'set_star',element:'star',value:'0'});"/>
+						</td>
+									</tr>
+					<!--{if $pages}-->
+					<tr>
+					<td colspan="2" height="40" class="pages">&nbsp;&nbsp;&nbsp;{$pages}</td>
+					</tr>
+					<!--{/if}-->
+				</table>
+			<!--{/if}-->
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+var reg = /^[0-9]*$/;
+
+function submitinit(params)
+{
+	var ids = [];
+
+	if(params.action == undefined) return false;
+
+	ids = checked_values('ids[]', $('#list'));
+	
+	if(ids.length<1){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+
+	$.ajax({
+		url: '{$this_router}-'+params.action,
+		type: 'POST',
+		dataType: 'json',
+		data: params.element+'='+ params.value + ajax_parameters({ids:ids}),
+		cache: false,
+		success: function(json){
+			//审核用户
+			if(params.action == 'verify'){
+				for(var i in json){
+					if(json[i]==1){
+						img = 'check_yes.gif';
+					}else{
+						img = 'check_no.gif';
+					}
+					$('#verify_' + i).attr('src', '{$SKIN}/'+img);
+				}
+			}
+			//问答之星设置
+			else if(params.action == 'set_star'){
+				for(var i in json){
+					if(json[i]==1){
+						var img = 'check_yes.gif';
+					}else{
+						var img = 'check_no.gif';
+					}
+					$('#star_' + i).find('img').attr('src', '{$SKIN}/' + img);
+				}
+			}
+
+		}
+	});
+}
+
+//删除专家
+function delete_expertor()
+{
+	var ids = [];
+
+	ids = checked_values('ids[]', $('#list'));
+	
+	if(ids.length<1){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+
+	$.ajax({
+		url: '{$this_router}-delete_expertor',
+		type: 'POST',
+		dataType: 'json',
+		data: ajax_parameters({uids:ids}),
+		cache: false,
+		success: function(json){
+			for(var i in json){
+				$('#expert_' + i + ' div').remove();
+				$('#expert_' + i).find('img').attr('src', '{$SKIN}/check_no.gif');
+			}
+		}
+	});	
+}
+
+//删除专家分类
+function delete_expert_category(options)
+{
+	if(options.uid == undefined || !reg.test(options.uid) || options.id == undefined || !reg.test(options.id)){
+		alert('{$P8LANG['ask_error']}');
+		return;
+	}
+
+	if(!confirm('{$P8LANG['ask_delete_tips']}')){
+		return false;
+	}
+
+	$.ajax({
+		url: '{$this_router}-delete_expertor_category',
+		type: 'POST',
+		dataType: 'json',
+		data: ajax_parameters({uids:[options.uid]})+ajax_parameters({ids:[options.id]}),
+		cache: false,
+		success: function(json){
+			if(!json) return;
+
+			for(var uid in json){
+				var ids = json[uid].ids
+				for(var i in ids){
+					$("#expert_"+uid+' #expert_category_'+ids[i]).remove();
+				}
+				if($("#expert_"+uid+" div").length<=0){
+					$("#expert_"+uid).find('img').attr('src','{$SKIN}/check_no.gif');
+				}
+			}
+		}
+	});
+}
+
+//设置专家
+
+var CATEGORY_JSON = $json[json];
+var CATEGORY_PATH = $json[path];
+
+var dialog = new P8_Dialog({
+	title_text: '{$P8LANG['ask_select_experts_category']}',
+	button: true,
+	width: 700,
+	height: 300,
+	ok: function(){
+		submit_expertor_category(cs.get_value().join(','));
+	},
+	show: function(){
+		cs.init();
+	}
+});
+dialog.content.height(240);
+
+var cs = new Recursive_Selector({
+	json: CATEGORY_JSON,
+	path: CATEGORY_PATH,
+	multiple: true,
+	input: $('#categories'),
+	dialog: dialog,
+	values: $('#form input[name="option[category]"]').val(),
+	sub_property: 'categories',
+	item_callback: function(cat, item){
+		if(cat.categories !==undefined){
+			item.find('span').addClass('frame_category');
+			item.find('input[type=checkbox]').attr('disabled', true);
+		}
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	}
+});
+/**
+ * 提交
+ */
+function submit_expertor_category(cids)
+{
+	//var cids = [];
+	//用户ID
+	var ids = [];
+	ids = checked_values('ids[]', $('#list'));
+	
+	if(ids.length<1){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+	if(cids.length<1){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+
+	$.ajax({
+		url: '{$this_router}-set_expertor',
+		type: 'POST',
+		dataType: 'json',
+		data: 'ids='+ids+'&cids='+cids,
+		cache: false,
+		success: function(json){
+			for(var uid in json){
+				$("#expert_"+uid+" img").each(function(i){
+　					if(i==0){
+						$(this).src = '{$SKIN}/check_yes.gif';
+						$(this).css("margin-top","3px");
+					}
+				});
+
+				var cids = json[uid].cids;
+				for(var i in cids){
+					if($("#expert_"+uid+" #expert_category_"+cids[i].id).length<=0){
+						$("#expert_"+uid).append('<div id="expert_category_'+cids[i].id+'" style="display: block;">'+cids[i].name+'<a onclick="javascript:delete_expert_category({uid:'+uid+', id:'+cids[i].id+'});" href="javascript:void(0);"><img src="{$SKIN}/del_icon2.gif"/></a></div>');
+					}
+				}				
+			}
+
+			close_dialog();
+
+		}
+	});
+
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

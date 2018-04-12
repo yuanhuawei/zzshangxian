@@ -1,0 +1,249 @@
+<!--{php168}-->
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+					<table class="columntable formtable ">
+						<tr>
+							<td colspan="2" class="title">{$P8LANG['label_scope']}</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div id="tabs"  class="tab_box mtop">
+									<div class="head">
+										<span><a>基本设置</a></span> <span><a>风格样式</a></span> <span><a>其它设置</a></span>
+									</div>
+									<div class="main">
+									<div class="content">
+										<table width="100%" class="hover_table">
+											<tr>
+												<td width="22%">请选择显示哪个栏目的内容,不选择刚显示所有栏目的内容</td>
+												<td width="78%"> <input type="text" class="txt" name="option[category]" value="{if !empty($option['category'])}$option[category]{/if}" /> <input type="hidden" id="categories" /> <input type="button" value="选择" onclick="dialog.show()" /> </td>
+											</tr>
+											
+											<tr>
+												<td>显示类型</td>
+												<td> <input name="" type="radio" value="" /> 已审核 <input name="" type="radio" value="" /> 全部</td>
+											</tr>
+											<tr>
+												<td class="tdL">{$P8LANG['label_order_by']}</td>
+												<td class="tdR">
+													<!-- for clone -->
+													<div id="order_by">
+														<div style="display: none;">
+															<select name="">
+																<!--{foreach $order_bys $k $v}-->
+																<option value="$k">{$P8LANG[$v]}</option>
+																<!--{/foreach}-->
+															</select>
+															<input type="radio" name="" value="1" /> {$P8LANG['label_desc']} <input type="radio" name="" value="0" /> {$P8LANG['label_asc']} <input type="button" value="{$P8LANG['delete']}" onclick="label_delete_order_by(this)" />
+														</div>
+													</div>
+													<!-- for clone -->
+													<div id="add_order_by">
+														<!--{if !empty($option['order_by'])}-->
+														<!--{foreach $option['order_by'] $field $v}-->
+														<script type="text/javascript">
+														label_add_order_by($('#order_by'), $('#add_order_by'), '$field', '$v');
+													</script>
+														<!--{/foreach}-->
+														<!--{/if}-->
+													</div>
+													<br />
+													<input type="button" value="{$P8LANG['label_add_order_by']}" onclick="label_add_order_by($('#order_by'), $('#add_order_by'))" /> </td>
+											</tr>
+											<tr>
+												<td class="tdL">{$P8LANG['cms_item_attribute']}</td>
+												<td class="tdR">
+													<select name="option[attribute]">
+														<option value="0">{$P8LANG['null']}</option>
+														<!--{foreach $this_module->attributes $aid $v}-->
+														<option value="$aid"
+														<!--{if !empty($option['attribute']) && $option['attribute'] == $aid}-->
+														 selected
+														<!--{/if}-->
+														>$v
+														</option>
+														<!--{/foreach}-->
+													</select>
+													{$P8LANG['cms_item_attribute_note']} </td>
+											</tr>
+											<tr>
+												
+												<td class="tdL">显示哪个模型的内容</td>
+												<td class="tdR">
+													<select name="model" onchange="if(this.value) window.location.href.replace(/&model=.*/g, '') +'&model='+ this.value;">
+														<option value="">------</option>
+														<!--{foreach $models $model $v}-->
+														<option value="$model"{if $MODEL == $model} selected{/if}>$v[alias]</option>
+														<!--{/foreach}-->
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td>是否开启sphinx搜索</td>
+												<td> <input name="" type="radio" value="" /> 开启 <input name="" type="radio" value="" /> 不开启</td>
+											</tr>
+											<tr>
+												<td>是否可分页</td>
+												<td> <input name="" type="radio" value="" /> 可以 <input name="" type="radio" value="" /> 不可以</td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td></td>
+											</tr>
+										</table>
+										</div>
+										<div class="content">
+										<table width="100%" class="hover_table">
+											<!--{if in_array($data['type'], array('sql', 'module_data'))}-->
+											<tr>
+												<td class="tdL">{$P8LANG['label_template']}</td>
+												<td class="tdR"> <input type="text" class="txt" name="option[template]" id="template" value="{if !empty($option['template'])}$option[template]{/if}" /> <input type="button" value="选择" onclick="template_dialog.show()" />
+													<script type="text/javascript">
+													var template_dialog = new P8_Dialog({
+														title_text: '选择模板',
+														button: true,
+														width: 600,
+														height: 400,
+														ok: function(){
+															
+														}
+													});
+													var template_selector = new Template_Selector({
+														base_dir: 'label/',
+														input: $('#template'),
+														selected: '{if !empty($option['template'])}$option[template]{/if}',
+														dialog: template_dialog
+													});
+													template_selector.init();
+													</script>
+												</td>
+											</tr>
+											<!--{/if}-->
+											<tr>
+												<td class="tdL">{$P8LANG['label_limit']}</td>
+												<td class="tdR"> <input type="text" class="txt" name="option[limit]" size="3" value="{if !empty($option['limit'])}{$option['limit']}{else}10{/if}" /> </td>
+											</tr>
+											<tr>
+												<td class="tdL">标题长度</td>
+												<td class="tdR"> <input type="text" class="txt" name="option[title_length]" size="3" value="{if !empty($option['title_length'])}{$option['title_length']}{else}20{/if}" /> </td>
+											</tr>
+											<tr>
+												<td>标题超过字数是否用省略号表示</td>
+												<td> <input type="radio" name="radio" id="radio" value="radio" /> 用 <input name="radio" type="radio" id="radio2" value="radio" checked="checked" /> 不用</td>
+											</tr>
+											<tr>
+												<td>内容简介显示几个字</td>
+												<td> <input name="textfield4" type="text" class="txt" id="textfield4" value="120" /> </td>
+											</tr>
+											<tr>
+												<td>模板代码</td>
+												<td> <input type="text" class="txt" name="textfield5" id="textfield5" /> </td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
+											</tr>
+										</table>
+										</div>
+										<div class="content">
+										<!--{template $LABEL other_set admin}-->
+										</div>
+									</div>
+								</div>
+								<script type="text/javascript">
+								MoveTabs("tabs",1);
+								</script>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdL"><input type="button" value="{$P8LANG['explain_sql']}" class="submit_btn" onclick="explain_sql()" /></td>
+			</tr>
+			<tr>
+				<td class="tdR" id="explain"></td>
+			</tr>
+			<tr>
+				<td align="center"> <input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/> <input type="hidden" name="place_holder_height" value="<!--{if isset($_GET['place_holder_width'])}-->{$_GET['place_holder_width']}<!--{elseif !empty($data['option']['place_holder_width'])}-->{$data['option']['place_holder_width']}<!--{/if}-->" /> <input type="hidden" name="place_holder_height" value="<!--{if isset($_GET['place_holder_height'])}-->{$_GET['place_holder_height']}<!--{elseif !empty($data['option']['place_holder_height'])}-->{$data['option']['place_holder_height']}<!--{/if}-->" /> </td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<script type="text/javascript">
+function explain_sql(){
+	$.ajax({
+		url: '$this_url?action=explain',
+		type: 'post',
+		cache: false,
+		data: $('#form').serialize(),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(data){
+			ajaxing({action: 'hide'});
+			$('#explain').html(data);
+		}
+	});
+}
+
+function valid_add_time(time, obj){
+	var time1 = $('#timestamp1').val();
+	var time2 = $('#timestamp2').val();
+	
+	if(time2 && time1 >= time2){
+		$(obj).val('');
+	}
+}
+
+var CATEGORY_JSON = $json[json];
+var CATEGORY_PATH = $json[path];
+
+var dialog = new P8_Dialog({
+	title_text: '选择分类',
+	button: true,
+	width: 600,
+	height: 400,
+	ok: function(){
+		$('#form input[name=\'option[category]\']').val($('#categories').val());
+	},
+	show: function(){
+		cs.init();
+	}
+});
+
+var values = {};
+var categories = $('#categories').val().split(',');
+for(var i = 0; i < categories.length; i++){
+	var v = parseInt(categories[i]);
+	if(isNaN(v)) break;
+	
+	values[v] = 1;
+}
+
+var cs = new Recursive_Selector({
+	json: CATEGORY_JSON,
+	path: CATEGORY_PATH,
+	multiple: true,
+	input: $('#categories'),
+	dialog: dialog,
+	sub_property: 'categories',
+	values: values
+});
+
+$(document).ready(function(){
+	for(var i in field_json){
+		if(field_json[i].filterable == 1){
+			$('#_field').append($('<option value="'+ i +'">'+ field_json[i].alias +'</option>'));
+		}
+	}
+	
+	cs.init();
+});
+</script>
+<!--{/php168}-->

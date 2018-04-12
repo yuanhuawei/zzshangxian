@@ -1,0 +1,120 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+<style type="text/css">
+.manager_ids li{float:left; display:inline-block; margin-right:30px}
+.delete_link{color:red; cursor:pointer}
+.role_span{margin-right:30px;float:left; display:inline-block; width:100px; margin-bottom:10px}
+</style>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：
+	<a href="{$core.admin_controller}/sites/farm-index">站群系统</a> &gt; 
+	<a href="{$core.admin_controller}/sites/farm-acl">站点授权</a></td>
+  </tr>
+</table>
+<form action="$this_url" method="post" id="form">
+	<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table">
+		<tr class="title fix_head">
+			<td width="15%"  class="list_top">{$P8LANG['config']}</td > <td width="45%" class="list_top">参数</td><td width="40%" class="list_top">备注</td>
+		</tr>
+		<tr>
+			<td class="tdL">管理员</td>
+			<td class="tdR">
+            <ul id="manager" class="manager_ids">
+            <!--{foreach $managers $user}-->
+            <li>{$user['username']}<input type="hidden" name="manager[]" value="{$user['id']}"/><span onclick="delete_manager(this)" class="delete_link">[X]</span></li>
+            <!--{/foreach}-->
+            </ul><input type="button" value="选择管理员" onclick="show_dialog('manager')"/></td>
+			<td class="tdR">能管理此站点的用户,所选之人需在会员管理内勾上"管理员",让此人可登录后台。</td>
+		</tr>
+		<tr>
+			<td class="tdL">管理角色</td>
+			<td class="tdR"> 
+			<ul class="manager_ids" id="role_list">
+             <!--{foreach $manager_roles $rid}-->
+            <li>{$roles[$rid]['name']}<input type="hidden" name="role[]" value="{$rid}"/><span onclick="delete_manager(this)" class="delete_link">[X]</span></li>
+            <!--{/foreach}-->
+            </ul><input type="button" value="选择角色" onclick="dialog_role.show()"/>
+			</td>
+			<td class="tdR">能管理此站点的角色</td>
+		</tr>
+		<tr>
+			<td class="tdL">投稿人</td>
+			<td class="tdR"> 
+			 <ul id="poster" class="manager_ids">
+            <!--{foreach $poster $user}-->
+            <li>{$user['username']}<input type="hidden" name="poster[]" value="{$user['id']}"/><span onclick="delete_manager(this)" class="delete_link">[X]</span></li>
+            <!--{/foreach}-->
+            </ul><input type="button" value="选择投稿人" onclick="show_dialog('poster')"/></td>
+			</td>
+			<td class="tdR">允许投稿的人</td>
+		</tr>
+		
+		<tr>
+			<td colspan="3" class="text-center"><input type="submit" value=" {$P8LANG['submit']} " class="submit_btn"/></td>
+		</tr>
+	</table>
+	<input type="hidden" name="alias" value="{if !empty($alias)}$alias{/if}" />
+</form>
+
+<script type="text/javascript">
+var role_json = $role_json;
+var dialog_role = new P8_Dialog({
+	title_text:'选择角色组',
+	width: 550,
+	height: 320,
+	button: true,
+	show: function(){
+		
+		var check_roles = {};
+		$('#role_list').find('input').each( function(){ check_roles[$(this).val()]=$(this).val(); } );
+		
+		var shtml = '';
+		for(var i in role_json){
+			shtml+= '<span class="role_span"><input type="checkbox" name="role[]" value="'+role_json[i].id+'" '+(check_roles[role_json[i].id]?'checked':'')+'/>'+role_json[i].name+'</span>';
+		}
+		dialog_role.content.html(shtml);
+		
+	},
+	ok: function(){
+		$('#role_list').html('');
+		dialog_role.content.find('input:checked').each(function(){
+				j = $(this).val();
+				$('#role_list').append('<li>'+role_json[j].name+'<input type="hidden" name="role[]" value="'+j+'"/><span onclick="delete_manager(this)" class="delete_link">[X]</span></li>');
+		});
+														
+	}
+});
+
+function delete_manager(obj){
+$(obj).parent().remove();	
+}
+var cutten_item = null;
+function member_single_select_callback(checked, json){
+	$('#'+cutten_item).find("input[value="+json.id+"]").parent().remove();
+	if(checked)		$('#'+cutten_item).append('<li>'+json.username+'<input type="hidden" name="'+cutten_item+'[]" value="'+json.id+'"/><span onclick="delete_manager(this)" class="delete_link">[X]</span></li>');
+
+
+
+}
+var dialog = new P8_Dialog({
+	title_text:'选择管理员',
+	width: 550,
+	height: 420,
+	button: true
+});
+dialog.content.append($('<iframe width="100%" height="360" frameborder="0" border="0" marginwidth="0" marginheight="0"></iframe>'));
+
+function show_dialog(item){
+	dialog.show();
+	cutten_item = item;
+	var ifr = dialog.content.find('iframe');
+	var check_uids = {};
+	$('#'+cutten_item).find('input').each( function(){ check_uids[$(this).val()]=$(this).val(); } );
+	ifr.attr('src', '{$core.U_controller}/core/member-selectuser?'+ajax_parameters({'checked_ids': check_uids}));
+}
+</script>
+
+<!--{template $this_system footer admin}-->
+<!--{/php168}-->

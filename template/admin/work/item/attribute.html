@@ -1,0 +1,188 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"/></script>
+<link rel="stylesheet" href="{$SKIN}/cms/category_selector.css" type="text/css">
+
+<div class="mainbox mainborder">
+
+	<form action="$this_url" method="post" id="form">
+	<table class="columntable formtable hover_table click_changeable">
+	
+	<tr class="title fix_head">
+		<td width="3%" class="title"><input type="checkbox" onclick="check_all(this, 'id[]', $('#form'))" /></td>
+		<td width="5%" class="title">ID</td>
+		<td width="35%" class="title">{$P8LANG['title']}</td>
+		<td width="10%" class="title">{$P8LANG['cms_category_name']}</td>
+		<td width="5%" class="title">{$P8LANG['cms_model']}</td>
+		<td width="10%" class="title">{$P8LANG['addtime']}</td>
+		<td width="10%" class="title">{$P8LANG['cms_item']['attribute_timestamp']}</td>
+		<td width="10%" class="title">{$P8LANG['cms_item']['attribute_last_setter']}</td>
+		<td width="10%" class="title">{$P8LANG['operation']}</td>
+	</tr>
+	
+	<tbody id="list">
+	
+	</tbody>
+	
+	</table>
+	</form>
+	
+	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+	<tr>
+		<td align="center" id="pages">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<!--{template $this_module attribute_setter admin}-->
+		</td>
+	</tr>
+	</table>
+</div>
+
+<script type="text/javascript">
+
+var _lang = {
+	confirm_to_delete: '{$P8LANG['confirm_to_delete']}',
+	confirm_to_do: '{$P8LANG['confirm_to_do']}'
+};
+
+var CATEGORY_JSON = $category_json[json];
+var CATEGORY_PATH = $category_json[path];
+var MODEL_JSON = $model_json;
+var ATTR_JSON = $attr_json;
+var PAGE;
+
+
+
+function request_item(page){
+	
+	$.ajax({
+		url: '$this_url',
+		data: $('#attr_request').serialize() +'&page='+ (page === undefined ? 1 : page),
+		dataType: 'json',
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			PAGE = page;
+			
+			$('#list').empty();
+			for(var i in json.list){
+				_list_item(json.list[i]);
+			}
+			
+			$('#pages').html(json.pages);
+			
+			ajaxing({action: 'hide'});
+			
+			window.scrollTo(0,0);
+			
+			init_tr($('#list'));
+		}
+	});
+}
+
+function _list_item(json){
+	var attr = json.attributes.split(',');
+	var attrs = '';
+	for(var i in attr){
+		if(!attr[i]) continue;
+		
+		attrs += '<font color="red">'+ ATTR_JSON[attr[i]] +'</font> ';
+	}
+	
+	json.otitle = json.title;
+	json.title = '<span class="item_title">'+ json.title +'</span>';
+	json.title_bold == 1 && (json.title = '<b>'+ json.title +'</b>');
+	json.title_color && (json.title = '<font color="'+ json.title_color +'">'+ json.title +'</font>');
+	json.title = '<span style="width: 240px; overflow: hidden; display: inline-block; height: 18px;">'+ json.title +'</span>';
+	
+	var tr = '\
+	<tr>\
+		<td><input type="checkbox" name="id[]" value="'+ json.id +'" /></td>\
+		<td>'+ json.id +'</td>\
+		<td>\
+			<a href="{$this_module.controller}-view-id-'+ json.id +'" target="_blank" title="'+ json.otitle +'">'+ json.title +'</a>&nbsp;\
+			'+ attrs +'\
+		</td>\
+		<td align="center" id="item_cat_'+ json.id +'" title="'+ json.cid +'">'+ cs.get_by_id(json.cid).name +'</td>\
+		<td align="center">'+ MODEL_JSON[json.model].alias +'</td>\
+		<td>'+ date('Y-m-d H:i:s', json.timestamp) +'</td>\
+		<td>'+ date('Y-m-d H:i:s', json.last_timestamp) +'</td>\
+		<td>'+ json.last_setter +'</td>\
+		<td>\
+			<a href="$this_router-update?model='+ json.model +'&id='+ json.id +'" target="_blank">\
+				<img src="{$SKIN}/button_edit.gif" border="0" title="{$P8LANG['edit']}" />\
+			</a>\
+			<a id="delete_'+ json.id +'" href="###" onclick="return delete_item(['+ json.id +']);">\
+				<img src="{$SKIN}/del_icon2.gif" border="0" title="{$P8LANG['delete']}" />\
+			</a>\
+		</td>\
+	</tr>';
+	
+	$('#list').append($(tr));
+}
+
+
+var dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_category']}',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		request_item(1);
+		
+		category_selected(cs.get_value());
+	}
+});
+
+var cs = new Recursive_Selector({
+	json: CATEGORY_JSON,
+	path: CATEGORY_PATH,
+	input: $('#cid'),
+	dialog: dialog,
+	sub_property: 'categories',
+	item_callback: function(cat, item){
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	},
+	parents: <!--{if !empty($cid)}-->clone(CATEGORY_PATH[$cid])<!--{else}-->null<!--{/if}-->
+	
+});
+
+function category_selected(cid){
+	var path = clone(CATEGORY_PATH[cid]);
+	$('#cids').html('');
+	if(!path) return;
+	$('#cids').html('');
+	for(var i = 0; i < path.length; i++){
+		var cat = cs.get_by_id(path[i]);
+		$('#cids').append($('<span>'+ cat.name +' &gt; </span>'));
+	}
+}
+
+$(document).ready(function(){
+	cs.init();
+	
+	$('td[id^=item_cat_]').each(function(){
+		var cid = $(this).attr('title');
+		var cat = cs.get_by_id(cid);
+		
+		$(this).html('<a href="{$this_module.controller}-list-category-'+ cid +'" target="_blank">'+ cat['name'] +'</a>');
+	});
+	
+	<!--{if !empty($cid)}-->
+	category_selected($cid);
+	<!--{/if}-->
+	
+	request_item(1);
+});
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

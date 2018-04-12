@@ -1,0 +1,104 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 
+    您现在的位置：<a href="{$core.admin_controller}/sites/farm-index">分站系统</a> &gt; 
+    <a href="#">模型管理</a></td>
+  </tr>
+</table>
+
+<form action="$this_url" method="post" id="form">
+<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table" align="center">
+	<tr class="title fix_head">
+		<td width="9%" class="list_top list_left">模型名称</td>
+		<td width="17%" class="list_top">模型别名</td>
+		<td width="12%" class="list_top">排序</td>
+		<td width="12%" class="list_top">状态</td>
+		<td width="17%" class="list_top list_right">操作</td>
+	</tr>
+	<!--{foreach $list $value}-->
+	<tr id="model_{$value['name']}">
+		<td class="list_left">{$value['alias']}</td>
+		<td><a href="$this_router-client_call?client_id=$value[id]" target="_blank">{$value['name']}</a></td>
+		<td><input type="text" class="txt" name="display_order[{$value['id']}]" value="{$value['display_order']}" size="3"  /></td>
+		<td><img src="$_SKIN/status_{$value['enabled']}.gif" /></td>
+		
+		<td>
+			<!--{if $edit_model}--><a href="$this_router-update?name={$value['name']}">{$P8LANG['edit']}</a> <!--{/if}--> 
+			<!--{if $field}--><a href="$this_router-list_field?model={$value['name']}">字段管理</a>
+			<a href="$this_router-add_field?model={$value['name']}">添加字段</a> <!--{/if}-->
+			<a href="###" onclick="_export('{$value['name']}')">导出模型</a> 
+			<!--{if $delete_model}--><a  href="$this_router-delete?name={$value['name']}" onclick="return delete_model(this)">{$P8LANG['delete']}</a><!--{/if}-->
+		</td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+<input type="hidden" name="name" />
+<input type="hidden" name="new_name" />
+</form>
+<br/>
+<!--{if $add_model}--><input type="button" value=" 添加模型 " name=" {$P8LANG['add']} " onclick="window.location.href='{$this_router}-add'" class="edit_btn"  />
+<input type="button" value=" 导入模型 " name=" {$P8LANG['add']} " onclick="window.location.href='{$this_router}-import'" class="edit_btn"  /> <!--{/if}-->
+<input type="button" value=" 更新缓存 " name="cache" onclick="window.location.href='{$this_router}-cache'" class="edit_btn"  />  
+<input type="button" value="修改排序" class="submit_btn" onclick="$('#form').submit();"/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+<tr>
+	<td align="center">
+		<span  id="page" class="pages">$pages</span>
+	</td>
+</tr>
+
+</table>
+
+<script type="text/javascript">
+function delete_model(obj){
+	var sure = confirm('确定要删除此模型么');
+	
+	if(!sure) return false;
+	
+	var model = $(obj).parent().parent().attr('id').replace(/model_/, '');
+	$.ajax({
+		url: '$this_router-delete',
+		type: 'post',
+		dataType: 'text',
+		data: {name: model},
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(status){
+			ajaxing({action: 'hide'});
+			if(status == 1){
+				alert('删除成功');
+				$(obj).parent().parent().remove();
+			}
+		}
+	});
+	return false;
+}
+
+function _export(name){
+	var new_name = prompt('模型名称', name);
+	if(!new_name) return;
+	
+	$('#form').attr('action', '$this_router-export').
+	find('input[name=name]').val(name);
+	
+	$('#form').
+	find('input[name=new_name]').val(new_name);
+	
+	$('#form').submit();
+}
+$('form input[name^=display_order]').change(function(){
+	this.value = this.value.replace(/[^0-9]/g, '') || 0;
+	if(this.value > 255) this.value = 255;
+	if(this.value < 0) this.value = 0;
+	$('#form').append('<input type="hidden" name="_display_order['+ this.name.replace(/[^0-9]/g, '') +']" value="'+ this.value +'" />');
+	$(this).css({border: '1px solid #ff0000'});
+});
+</script>
+
+
+<!--{template $this_system footer admin}-->
+<!--{/php168}-->

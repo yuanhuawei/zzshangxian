@@ -1,0 +1,100 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/$MODULE/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：<a href="#">PHP168站群系统</a> &gt; <a href="#">管理首页</a></td>
+  </tr>
+</table>
+
+<form action="$this_url" method="post" id="form">
+<table width="100%" cellspacing="0" cellpadding="0" class="zq_list" align="center">
+	<tr>
+		<td width="3%" class="list_top"><input type="checkbox" onclick="check_all(this, 'id[]');init_tr($('#form'));" /></td>
+		<td width="5%" class="list_top list_left">ID</td>
+		<td width="10%" class="list_top">用户名</td>
+		<td width="17%" class="list_top">标题</td>
+		<td width="17%" class="list_top">url</td>
+		<td width="8%" class="list_top">IP</td>
+		<td width="12%" class="list_top">时间</td>
+		<td width="10%" class="list_top list_right">{$P8LANG['operation']}</td>
+	</tr>
+	
+	<!--{foreach $list $value}-->
+	<tr>
+		<td class="list_left" align="center"><input type="checkbox" name="id[]" value="$value[id]" /></td>
+		<td class="list_left" align="center">{$value['id']}</td>
+		<td class="list_left" align="center">{$value['username']}</td>
+		<td class="list_left">{$value['title']}</td>
+		<td class="list_left">{$value['url']}</td>
+		<td class="list_left">{$value['ip']}</td>
+		<td class="list_left">{date('Y-m-d H:i:s', $value['timestamp'])}</td>
+		<td align="center">
+			<a href="$this_url?id={$value['id']}" onclick="return view_log(this)">详细</a>
+			<a href="###" id="delete_$value[id]" onclick="return delete_log([this.id])">{$P8LANG['delete']}</a>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+</form>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+	<tr>
+		<td align="center"> <span id="page" class="pages">$pages</span> </td>
+	</tr>
+</table>
+
+<script type="text/javascript">
+var view_dialog = new P8_Dialog({
+	title_text: '查看日志详细',
+	width: 700,
+	height: 300
+});
+view_dialog.content.append('<textarea cols="110" rows="17"></textarea>');
+
+function view_log(obj){
+	view_dialog.show();
+	
+	$.ajax({
+		url: obj.href,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(s){
+			ajaxing({action: 'hide'});
+			view_dialog.content.find('textarea').val(s);
+		}
+	});
+	
+	return false;
+}
+
+function delete_log(obj){
+	if(!confirm('$P8LANG[confirm_to_delete]')) return false;
+	
+	var id = [];
+	$.each(obj, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	
+	$.ajax({
+		url: '$this_url',
+		type: 'POST',
+		dataType: 'json',
+		data: ajax_parameters({id: id}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i in json){
+				$('#delete_'+ json[i]).parent().parent().remove();
+			}
+		}
+	});
+	return false;
+}
+</script>
+
+<!--{template $this_module footer admin}-->
+<!--{/php168}-->

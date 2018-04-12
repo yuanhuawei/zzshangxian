@@ -1,0 +1,12 @@
+<!--{php168}-->
+<ul class="label_ul_s">
+<!--{foreach $list $value}-->
+	<li style="$wf;">
+		<!--{if $value[status]==1}--><span class="label_datatime" style="color:#990000;">[进行中]
+</span>{else}<span class="label_datatime" style="color:#3886C4;">[ 已结束 ]</span>
+<!--{/if}-->·<a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a>
+	</li>
+<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->

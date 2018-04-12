@@ -1,0 +1,348 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<div class="mainfluid">
+	<div class="mtab">
+		<div id="tab_1" class="tab_box">
+			<div class="head">
+				<span>基本资料</span> <span>联系方式</span> <span>修改密码</span>
+			</div>
+			<div class="main profile" style="margin-top:20px">
+				<div class="content base_config">
+					<form action="$this_url" method="post">
+						<table width="100%" border="0" cellspacing="1" cellpadding="8" class="pretable">
+							<tr>
+								<td>头像:</td>
+								<td>
+									<img src="$data[icon]" id="icon_img" width="90" height="90" onerror="this.src='{$MEMBERSKIN}/nomenpic.gif'"/><br />
+									<input type="text" name="icon" id="icon" value="{$data['icon']}" size="35" onchange="$('#icon_img').attr('src', this.value)" />&nbsp;<input type="button" value="上传" onclick="icon_uploader.choseup()"  /><a href="###" onclick="icon_uploader.image_cut()">[$P8LANG[image_cut]]</a><br />
+									注：允许上传格式为.jpg .gif，图片大小不可超过500k
+									<input type="hidden" name="attachment_hash" value="<!--{php echo $attachment_hash = unique_id(16);}-->" />
+									<script type="text/javascript">
+									var attachment_hash = '$attachment_hash';
+									var icon_uploader;
+									
+									$(function(){
+										
+										icon_uploader = new P8_Upload({
+											element: {
+												src: $('#icon'),
+												attribute: 'value'
+											},
+											param: {
+												return_thumb: true
+											},
+											callback: function(json){
+												$('#icon_img').attr('src', json.attachments[0].file);
+											}
+										});
+									});
+									</script>
+								</td>
+							</tr>
+							
+							<tr>
+								<td width="12%" class="tbl">用户名:</td>
+								<td width="88%">{$data['username']}</td>
+							</tr>
+							<tr>
+								<td>电子邮箱:</td>
+								<td><input type="text" name="email" id="email" value="{$data['email']}" /></td>
+							</tr>
+							<tr>
+								<td>真实姓名:</td>
+								<td><input type="text" name="name" id="name" value="{$data['name']}" /></td>
+							</tr>
+							<!--{if !empty($data['number'])}-->
+							<tr>
+								<td>编号:</td>
+								<td><input type="text" name="name" id="name" value="{$data['number']}" readonly="readonly" /></td>
+							</tr>
+							<!--{/if}-->
+							<tr>
+								<td>性别:</td>
+								<td>
+								<input type="radio" name="gender" id="gender" value="0" {$data[0]} />保密
+								<input type="radio" name="gender" id="gender" value="1" {$data[1]} />男 
+								<input type="radio" name="gender" id="gender" value="2" {$data[2]} />女
+								</td>
+							</tr>
+							<tr>
+								<td>生日:</td>
+								<td>
+									<select id="birthday_year" name="birthday_year">
+									<option value="" > </option>
+									<!--{php $datenow=getdate();}-->
+									<!--{php for($y=$datenow['year'];$y>=$datenow['year']-100;$y--){}-->
+										<option value="$y" {$by[$y]}>$y</option>
+										<!--{php }}-->
+									</select>年
+									<select id="birthday_month" name="birthday_month">
+									<option value="" > </option>
+									<!--{php for($m=12;$m>=1;$m--){$m=str_pad($m,2,0,STR_PAD_LEFT);}-->
+										<option value="$m" {$bm[$m]}>$m</option>
+										<!--{php }}-->
+									</select>月
+									<select id="birthday_day" name="birthday_day">
+									<option value="" > </option>
+									<!--{php for($d=31;$d>=1;$d--){$d=str_pad($d,2,0,STR_PAD_LEFT);}-->
+										<option value="$d" {$ba[$d]}>$d</option>
+										<!--{php }}-->
+									</select>日
+								</td>
+							</tr>
+							<tr>
+								<td>地址:</td>
+								<td><input type="text" name="address" id="address" size="55" value="{$data['address']}" /></td>
+							</tr>
+							<tr>
+								<td>好友设置:</td>
+								<td>
+									<select name="friend_setting">
+										<option value="0"{if $data['friend_setting'] == 0} selected{/if}>允许任何人加好友</option>
+										<option value="1"{if $data['friend_setting'] == 1} selected{/if}>需要验证</option>
+										<option value="2"{if $data['friend_setting'] == 2} selected{/if}>拒绝所有</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>个人说明</td>
+								<td>
+									<textarea name="memo" id="memo" cols="45" rows="5">{$data['memo']}</textarea>
+								</td>
+							</tr>
+							
+							<!--{foreach $this_model['fields'] $field $field_data}-->
+							<tr>
+								<td>$field_data[alias]</td>
+								<td>
+									<!--{php include template($core, 'widget/'. $field_data['widget'], 'default');}-->
+								</td>
+							</tr>
+							<!--{/foreach}-->
+							
+							<tr>
+								<td>&nbsp;</td>
+								<td>
+								<input type="submit" name="button" id="button" value="提交" class="submit_btn"/>
+								<input type="hidden" name="id" id="id" value="{$data['id']}"/>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div class="content">
+				<form action="$this_router-$ACTION" method="post">
+					<table width="100%" border="0" cellspacing="1" cellpadding="5">
+						<tr>
+							<td width="12%">电话:</td>
+							<td width="88%"><input type="text" name="phone" id="phone" value="{$data['phone']}" /></td>
+						</tr>
+						<tr>
+							<td>传真:</td>
+							<td><input type="text" name="fax" id="fax" value="{$data['fax']}" /></td>
+						</tr>
+						<tr>
+							<td>手机:</td>
+							<td><input type="text" name="cell_phone" id="cell_phone" value="{$data['cell_phone']}" /></td>
+						</tr>
+						<tr>
+							<td>QQ:</td>
+							<td><input type="text" name="qq" id="qq" value="{$data['qq']}" /></td>
+						</tr>
+						<tr>
+							<td>MSN:</td>
+							<td><input type="text" name="msn" id="msn" value="{$data['msn']}" /></td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td>
+							<input type="submit" name="button2" id="button2" value="提交" class="submit_btn"/>
+							<input type="hidden" name="id" id="id" value="{$data['id']}"/>
+							</td>
+						</tr>
+					</table>
+					</form>
+				</div>
+
+				
+				<div class="content">
+				<form action="$this_router-$ACTION" method="post"  id="form3">
+					<table width="100%" border="0" cellspacing="1" cellpadding="5">
+						<tr>
+							<td width="12%">输入旧密码</td>
+							<td width="88%"><input type="text" name="old_password"  /></td>
+						</tr>
+						<tr>
+							<td>输入新密码</td>
+							<td><input type="text" name="new_password" /></td>
+						</tr>
+						<tr>
+							<td>重新输入新密码</td>
+							<td><input type="text" name="confirm_password" /></td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td>
+							<input type="submit" name="button4" id="button4" value="提交" class="submit_btn"/>
+							<input type="hidden" name="job" value="passwd" /></td>
+						</tr>
+					</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript">
+$.validator.addMethod('valid_passwd', function(value, element){
+	return /^(?![^a-zA-Z]+$)(?!\D+$).{8,20}$/.test(value);
+});
+$('#form3').validate({
+	rules: {
+		
+		new_password: {
+			required: true,
+			rangelength: [8, 20],
+			valid_passwd :true
+		}
+	},
+	
+	messages: {
+		
+		new_password: {
+			required: '$P8LANG[password_required]',
+			rangelength: '$P8LANG[password_length_range]',
+			valid_passwd: '$P8LANG[password_strong]'
+		}
+	},
+	
+	onkeyup: false
+});
+</script>
+<script type="text/javascript">
+// 选项卡
+MoveTabs("tab_1");
+</script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+
+<form action="$this_url" method="post" style="display:none">
+	<div class="blockright" style="border: solid 1px #CDDEF0; ">
+		<h5 class="com_bt"> <strong class="com_btwz">　联系方式</strong><span style="font-size:12px; color:#FF0000; margin-left:5px;">带*符号为必填信息</span> </h5>
+		<table width="92%" align="center" style="font-size:14px; color:#333; margin:5px auto 5px auto;">
+			<tr>
+				<td width="17%" height="42">真实姓名<font color="#FF0000"> *</font></td>
+				<td height="42" colspan="2"> <input type="text" name="name" value="{$data['name']}" /> </td>
+			</tr>
+			<tr>
+				<td height="42">性 别 <font color="#FF0000">*</font></td>
+				<td height="42" colspan="2">
+					<table>
+						<tr>
+							<td width="26"><input name="radiobutton" type="radio" value="radiobutton" checked="checked" /></td>
+							<td width="29">男</td>
+							<td width="28"><input type="radio" name="radiobutton" value="radiobutton" /></td>
+							<td width="67">女</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td height="42">城 市 <font color="#FF0000">*</font></td>
+				<td height="42" colspan="2">
+					<table>
+						<tr>
+							<td width="125">
+								<select name="select">
+									<option>请选择所在省份</option>
+									<option>湖南省</option>
+									<option>湖北省</option>
+								</select>
+							</td>
+							<td width="125">
+								<select name="select2">
+									<option>请选择所在城市</option>
+									<option>北京市</option>
+									<option>长沙市</option>
+								</select>
+							</td>
+							<td width="125">
+								<select name="select3">
+									<option>请选择所在区域</option>
+									<option>朝阳区</option>
+									<option>天安门</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td height="42">地 址 <font color="#FF0000">*</font></td>
+				<td width="33%" height="42"> <input type="text" name="address" value="{$data['address']}" size="40" /> </td>
+				<td width="50%" height="42">&nbsp;</td>
+			</tr>
+			<tr>
+				<td height="42">电 话 <font color="#FF0000">*</font></td>
+				<td height="42"> <input type="text" name="phone" value="{$data['phone']}" /> </td>
+				<td height="42">&nbsp;</td>
+			</tr>
+			<tr>
+				<td height="42">手 机 <font color="#FF0000">*</font></td>
+				<td height="42"> <input type="text" name="cell_phone" value="{$data['cell_phone']}" /> </td>
+				<td height="42">&nbsp;</td>
+			</tr>
+			<!--{foreach $this_model['fields'] $field $v}-->
+			<tr>
+				<td height="42">{$v['alias']} <font color="#FF0000">*</font></td>
+				<td height="42">
+					<!--{php include template($core, 'widget/'. $v['widget'], 'default');}-->
+				</td>
+				<td height="42">&nbsp;</td>
+			</tr>
+			<!--{/foreach}-->
+			<tr>
+				<td height="40" colspan="3">
+					<table width="99%" class="fgx">
+						<tr>
+							<td width="96%" height="40" align="right" valign="middle">完善更完整资料（选项）</td>
+							<td width="4%" valign="middle"><a href="#"></a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td height="42">Q Q</td>
+				<td height="42"><input name="textfield232" type="text" size="30" /></td>
+				<td height="42">&nbsp;</td>
+			</tr>
+			<tr>
+				<td height="42">个人主页</td>
+				<td height="42"><input name="textfield233" type="text" size="30" /></td>
+				<td height="42">&nbsp;</td>
+			</tr>
+			<tr>
+				<td height="135">个人说明</td>
+				<td height="135" colspan="2">
+					<textarea name="textarea" cols="66" rows="6"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td height="46" colspan="3">
+					<table width="64%" align="center">
+						<tr>
+							<td width="39%"><input type="submit" value="{$P8LANG['submit']}" /></td>
+							<td width="61%"></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+<div class="clear">
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

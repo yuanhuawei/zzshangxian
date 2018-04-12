@@ -1,0 +1,116 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}../cms/style.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<div class="position">
+你的位置：<a href="{$core.controller}">首页</a> &gt; <a href="#">$this_model[alias]</a>
+</div>
+<style>
+.supplierTable td{ background-color:#FFF; padding:5px;text-align:center}
+.supplierTable .head td{background-color:#E7F1F8;padding:10px 5px;}
+</style>
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/forms/style.css" />
+<div class="container containerbg">
+	<div class="bodyLeft">
+			<div class="subMenu">
+				<ul>
+					<li class="head">$label[school_teacher_tt]</li>
+			</ul>
+			<div class="">$label[school45_teacher_navi]</div>			    
+			</div>
+			<div class="subMenubottom"></div>
+	</div>
+	<div class="bodyRight">
+		<div class="show_box_2">
+			<h3 class="content_t"><div class="bread"><a href="/">首页</a> &gt; 师资队伍 &gt; $this_model[alias]</div>师资队伍</h3>
+			<div class="sb2_main layout_txtcontent common_mbottom">
+				<div class="layout_txtcontent_content"  style="padding:0 15px;">
+<form name="request" id="request" action="" method="get">
+	<table>
+		<tr><td style="background-color:#990000;color:#ffffff; font-weight:bold;font-size:14px;padding:3px 10px">$this_model[alias]</td>
+			<td class="headerbtn_list">
+				<!--{foreach $this_model['filterable_fields'] $field $field_data}-->
+				<div class="search_option">
+					<strong>{$field_data['alias']}:</strong>
+					<!--{php include template($core, 'widget/'. $field_data['widget'], 'default');}-->
+				</div>
+				<!--{/foreach}-->
+				<div class="search_option" style="width:140px">
+					<input type="submit" class="search_btn" value="" onclick="this.form.action='';this.form.method='get'"/> |
+					<input type="button" value="发布" onclick="window.open('$this_router-post?mid=$this_model[id]')" />
+					<input type="hidden" name="mid" value="$mid" />
+					<input type="hidden" name="ids" value="" />
+				</div>
+			</td>
+		</tr>
+	</table>
+</form>
+<table cellspacing="1" cellpadding="0" border="0" bgcolor="#ccd0c8" width="100%" style="text-align:center" class="Mtop hover_table label_ul_s table">
+	<tr align="center" height="18">
+		<!--{if $mid}-->
+		<!--{foreach $this_model['list_table_fields'] $field $field_data}-->
+		<th width="10%">$field_data[alias]</th>
+		<!--{/foreach}-->
+		<!--{/if}-->
+		<th width="10%" >详情</th>
+	</tr>
+	<!--{foreach $list $key $value}-->
+	<tr id="item_$value[id]">
+		<!--{if $mid}-->
+		<!--{php $i = 1;}-->
+		<!--{foreach $this_model['list_table_fields'] $field $field_data}-->
+		
+		<td {if $i }style="font-weight:bold"{/if}>
+		<!--{php $i = 0;}-->
+		<span style="{if !empty($field_data['color'])}color:$field_data[color]{/if}">
+			<!--{if isset($value[$field]) && ($field_data['widget']=='radio' || $field_data['widget']=='select' || $field_data['widget']=='city')}-->
+			{$field_data['data'][$value[$field]]}
+			<!--{elseif isset($value[$field]) && ($field_data['widget']=='checkbox' || $field_data['widget']=='multi_select')}-->
+			<!--{foreach $value[$field] $v}-->
+			{$field_data['data'][$v]},
+			<!--{/foreach}-->
+			<!--{elseif isset($value[$field]) && $field_data['widget']=='linkage'}-->
+							<!--{php  $field_value= array_pop($value[$field]);}-->
+								{$field_value}
+			<!--{elseif isset($value[$field])}-->
+			$value[$field]
+			<!--{/if}-->
+			</span>
+			<!--{if !empty($field_data['units'])}-->
+				$field_data[units]
+			<!--{/if}-->
+		</td>
+		<!--{/foreach}-->
+		<!--{/if}-->
+		<td align="center" id="status_$value[id]"> <a class="icon_view" href="$value[url]" target="_blank">查看</a> </td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+<div style="margin-top:10px;text-align:center">
+	<span class="pages" id="page">$pages</span>
+	<!--{if $manage}-->
+	<a href="{$core.U_controller}/core/forms-intranetforms?mid=$mid&se=0&ac=manage" target="_blank">【处理】</a>
+	<!--{/if}-->
+	<!--{if $download}-->
+	<span class="download"><a href="{$this_router}-download" onclick="download_forms();return false;">【导出】</a></span>
+	<script type="text/javascript">
+	function download_forms(){
+	$('#request').attr('action',"{$this_router}-download");
+	$('#request').attr('method',"post");
+	$('#request').submit();
+	}
+	</script>
+	<!--{/if}-->
+	<!--{if $import_list}-->
+	<span class="download"><a href="{$this_router}-import_list?mid=$mid" target="_blank">【导入】</a></span>
+	<!--{/if}-->
+</div>
+</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div style="clear:both"></div>
+<div class="wrap container">
+<!--{template $core footer}-->
+<!--{/php168}-->

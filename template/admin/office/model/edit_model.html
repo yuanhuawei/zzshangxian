@@ -1,0 +1,194 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_router-$ACTION" method="post" id="form">
+	<table class="mainbox mainborder">
+	<tr><td>
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td colspan="2" class="title"><!--{if $ACTION == 'add'}-->{$P8LANG['add_office_model']}<!--{else}-->{$P8LANG['update_office_model']}<!--{/if}--></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['office_model_name']}</td>
+				<td class="tdR">
+					<!--{if !empty($data['name'])}-->
+						<input type="text" class="txt" value="{$data['name']}" disabled />
+						<input type="hidden" name="name" value="{$data['name']}" />
+					<!--{else}-->
+						<input type="text" class="txt" name="name"  id="name" />
+					<!--{/if}-->
+					{$P8LANG['office_model_name_note']}
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['office_model_alias']}</td>
+				<td class="tdR"><input type="text" class="txt" name="alias"  value="{if !empty($data['alias'])}{$data['alias']}{/if}" /></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['office_model_enabled']}</td>
+				<td class="tdR">
+					<input type="checkbox" name="enabled" value="1"{if !empty($data['enabled']) || empty($data)} checked{/if} />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['office_model_prev&next_item']}</td>
+				<td class="tdR">
+					<input type="checkbox" name="config[prev&next_item]" value="1"{if !empty($data['config']['prev&next_item'])} checked{/if} />
+				</td>
+			</tr>
+			
+			<!--{if $ACTION == 'update'}-->
+			<tr>
+				<td class="tdL">{$P8LANG['office_model_admin_edit_template']}</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="config[admin_edit_template]"  value="{if !empty($data['config']['admin_edit_template'])}{$data['config']['admin_edit_template']}{/if}" />
+					<input type="button" value="$P8LANG[select_template]" onclick="admin_edit_dialog.show()" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['office_model_edit_template']}</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="config[member_edit_template]"  value="{if !empty($data['config']['member_edit_template'])}{$data['config']['member_edit_template']}{/if}" />
+					<input type="button" value="$P8LANG[select_template]" onclick="member_edit_dialog.show()" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">封面缩略图宽高</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="config[frame_thumb_width]" value="{if !empty($config['frame_thumb_width'])}{$config['frame_thumb_width']}{/if}" size="4" /> X
+					<input type="text" class="txt" name="config[frame_thumb_height]" value="{if !empty($config['frame_thumb_height'])}{$config['frame_thumb_height']}{/if}" size="4" />
+				</td>
+			</tr>
+
+			<tr>
+				<td class="tdL">内容缩略图宽高</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="config[content_thumb_width]" value="{if !empty($config['content_thumb_width'])}{$config['content_thumb_width']}{/if}" size="4" /> X
+					<input type="text" class="txt" name="config[content_thumb_height]" value="{if !empty($config['content_thumb_height'])}{$config['content_thumb_height']}{/if}" size="4" />
+				</td>
+			</tr>
+			
+			<!--{/if}-->
+			
+			<!-- extra config -->
+			<!--{php
+				if(
+					!empty($name) && 
+					file_exists(TEMPLATE_PATH .'admin/'. $this_system->name .'/'. $this_module->name .'/model_config/'. $name .'.html')
+				){
+					include template($this_module, 'model_config/'. $name, 'admin');
+				}
+			}-->
+			
+			<tr>
+			  <td class="tdL">&nbsp;</td>
+			  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		  </tr>
+	    </table>
+	</td></tr>
+    </table>
+</form>
+
+<script type="text/javascript">
+
+$.validator.addMethod('valid_model', function(value, element){
+	return /^[a-zA-Z]/.test(value) && !/[^0-9a-zA-Z_]/.test(value);
+});
+
+
+$('#form').validate({
+	rules: {
+		name: {
+			required: true<!--{if $ACTION == 'add'}-->,
+			maxlength: 30,
+			valid_model: true,
+			remote: function(){
+				
+				return {
+					url: '$this_router-check_name',
+					cache: false,
+					type: 'post',
+					beforeSend: function(){
+						ajaxing({});
+					},
+					complete: function(){
+						ajaxing({action: 'hide'});
+					}
+				}
+			}
+			<!--{/if}-->
+		},
+		
+		alias: {
+			required: true
+		}
+	},
+	
+	messages: {
+		<!--{if $ACTION == 'add'}-->
+		name: {
+			required: '{$P8LANG['office_model_name_can_not_be_empty']}',
+			maxlength: '{$P8LANG['office_model_name_oversize']}',
+			valid_model: '{$P8LANG['office_model_name_invalid']}',
+			remote: '{$P8LANG['office_model_name_duplicate']}'
+		},<!--{/if}-->
+		alias: {
+			required: '{$P8LANG['office_model_alias_required']}'
+		}
+	},
+	
+	errorPlacement: function(error, element) {
+		error.wrap('<div></div>').appendTo(element.parent().prev());
+	},
+	wrapper: 'div',
+	
+	onkeyup: false
+});
+
+var admin_edit_dialog = new P8_Dialog({
+	title_text: '$P8LANG[select_template]',
+	width: 700,
+	height: 300,
+	button: true,
+	ok: function(){
+		$('#form input[name="config[admin_edit_template]"]').val(admin_template_selector.value);
+	},
+	show: function(){
+		admin_template_selector.init();
+	}
+});
+var admin_template_selector = new Template_Selector({
+	base_dir: 'admin/{$SYSTEM}/item/',
+	selected: $('#form input[name="config[admin_edit_template]"]').val(),
+	dialog: admin_edit_dialog
+});
+
+
+var member_edit_dialog = new P8_Dialog({
+	title_text: '$P8LANG[select_template]',
+	width: 700,
+	height: 300,
+	button: true,
+	ok: function(){
+		$('#form input[name="config[member_edit_template]"]').val(member_template_selector.value);
+	},
+	show: function(){
+		member_template_selector.init();
+	}
+});
+var member_template_selector = new Template_Selector({
+	base_dir: '{$this_system.CONFIG['template']}/{$SYSTEM}/item/',
+	selected: $('#form input[name="config[member_edit_template]"]').val(),
+	dialog: member_edit_dialog
+});
+$('input[name=name]').get(0).focus();
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

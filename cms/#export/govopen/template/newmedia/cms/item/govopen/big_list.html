@@ -1,0 +1,71 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/newmedia/css/cmsstyle.css">
+<div class="list_banner">
+	$label[gov_list_ad1]
+</div>
+<div class="list_nave">
+	<a href="{$this_system.url}">Ê×Ò³</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>
+</div>
+<!--×ó±ß-->
+<div class="list_left">
+	<div class="list_head1 mtop">
+		<span class="list_more1"></span> <span class="list_title1">$label[gov_list_title1]</span>
+	</div>
+	<div class="list_content1">
+		<!--{php include template($TEMP_OBJ, $this_module->CONFIG['list_navigagion'], 'label/cms/navigation');}-->
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more2">$label[gov_list_more2]</span> <span class="list_title1">$label[gov_list_title2]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_list_content1]{'i.cid'=>$CATEGORY, 'model' => $MODEL}
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more2">$label[gov_list_more3]</span> <span class="list_title1">$label[gov_list_title3]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_list_content4]{'i.cid'=>$CATEGORY, 'model' => $MODEL}
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more2">$label[gov_list_more4]</span> <span class="list_title1">$label[gov_list_title4]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_list_content5]{'a.cid'=>$CATEGORY, 'model' => $MODEL}
+	</div>		
+</div>
+<!--ÓÒ±ß-->
+<div class="list_right">
+	<!--{php $i = 0;}-->
+	<!--{foreach $subcategories $v}-->
+	<!--{php if($i > 5) break; $i++;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+	<div class="list_head1 mtop">
+		<a class="list_more1" href="$v[url]">¸ü¶à>>></a> <span class="list_title2">$v[name]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_big_list]{'i.cid' => $subcat, 'model' => $MODEL}
+	</div>
+	<!--{/foreach}-->
+	<!--{if empty($subcategories)}-->
+	<div>
+		<div class="list_head1" >
+			<span class="title_5">$CAT[name]</span>
+		</div>
+		<div class="list_head1">
+			<!--{php include template($TEMP_OBJ, $CAT['item_template'], 'label');}-->
+			<div id="page">
+				{$pages}
+			</div>
+		</div>
+	</div>
+	<!--{/if}-->
+	
+</div>
+<div class="clear"></div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

@@ -1,0 +1,62 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+	
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+						<tr>
+							<td colspan="2" class="title">设置</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['templatestyle']}</td>
+							<td class="tdR">
+							<select name="config[template]">
+							<option value="">----</option>
+							<!--{foreach $core->CONFIG['templates'] $name $alias}-->
+							<!--{if is_dir(TEMPLATE_PATH . $name .'/core/'. $MODULE)}-->
+								<option value="$name"{if !empty($config['template']) && $config['template'] == $name} selected{/if}>$alias</option>
+							<!--{/if}-->
+							<!--{/foreach}-->
+							</select>	<span class="point">一般不作设置</span>			
+							</td>
+						</tr>
+						<tbody style="display:none">
+						<tr>
+							<td class="tdL">{$P8LANG['dynamic_list_url_rule']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="config[dynamic_list_url_rule]"  value="{if !empty($config['dynamic_list_url_rule'])}{$config['dynamic_list_url_rule']}{else}{\$module_controller}-list#-page-{\$page}#.html{/if}" size="60" />
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">动态填写页URL规则</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="config[dynamic_post_url_rule]"  value="{if !empty($config['dynamic_post_url_rule'])}{$config['dynamic_post_url_rule']}{else}{\$module_controller}-post-id-{\$id}.html{/if}" size="60" />
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['dynamic_view_url_rule']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="config[dynamic_view_url_rule]"  value="{if !empty($config['dynamic_view_url_rule'])}{$config['dynamic_view_url_rule']}{else}{\$module_controller}-view-id-{\$id}.html{/if}" size="60" />
+							</td>
+						</tr>
+						</tbody>
+						<tr>
+						  <td class="tdL">&nbsp;</td>
+						  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+					  </tr>
+					</table>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+	
+</form>
+
+
+<!--{template $core footer admin}-->
+
+<!--{/php168}-->

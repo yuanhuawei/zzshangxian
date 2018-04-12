@@ -1,0 +1,132 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $core config/menu_bar admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td colspan="2" class="title">{$P8LANG['base_config']}</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['site_name']}</td>
+					<td class="tdR">
+						<input type="text" class="txt" name="config[site_name]" size="38"  value="{if !empty($config['site_name'])}{$config['site_name']}{/if}" />
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['which_system_to_index']}</td>
+					<td class="tdR">
+						<select name="config[index_system]">
+							<option value="">{$P8LANG['default']}</option>
+							<!--{foreach $core->systems $system $v}-->
+							<option value="$system"{if !empty($config['index_system']) && $config['index_system'] == $system} selected{/if}>
+							$v[alias]
+							</option>
+							<!--{/foreach}-->
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['site_key_word']}</td>
+					<td class="tdR">
+						<input type="text" class="txt" name="config[site_key_word]" size="50"  value="{if !empty($config['site_key_word'])}{$config['site_key_word']}{/if}"/> {$P8LANG['explode_width_dot']}
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['site_description']}</td>
+					<td class="tdR">
+						<textarea  name="config[site_description]" cols="47" rows="5" class="textarea" >{if !empty($config['site_description'])}{$config['site_description']}{/if}</textarea>
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['logo']}</td>
+					<td class="tdR" id="up">
+					  <span id="u">
+							<input type="text" class="txt" name="config[logo]" id="logo_img" size="38"  value="{if !empty($config['logo'])}{$config['logo']}{/if}" />
+							<input type="button" onclick="imgupload.choseup()" value="{$P8LANG['upload']}" class="u" />
+					  </span>
+						<a href="http://www.55.la" target="_blank" style="padding-left:20px;">{$P8LANG['make_logo_online']}<img src="{$RESOURCE}/skin/admin/jj.png" /></a>
+						
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['admin_email']}</td>
+					<td class="tdR">
+						<input type="text" class="txt" name="config[admin_email]" size="38"  value="{if !empty($config['admin_email'])}{$config['admin_email']}{/if}"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['site_url']}</td>
+					<td class="tdR">
+						<input type="text" class="txt" name="config[url]" size="38"  value="{if !empty($config['url'])}{$config['url']}{/if}" />
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['base_domain']} <span class="help">网络安装时，自动获取基域名到框中.当启用多个域名或二级域名时候，对cookie产生作用。
+	与网站地址一样，不加http://。格式：php168.net</span></td>
+					<td class="tdR">
+						<input type="text" class="txt" name="config[base_domain]" size="38"  value="{if !empty($config['base_domain'])}{$config['base_domain']}{/if}" /><span class="point">(如php168.net)</span>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['site_open']}</td>
+					<td class="tdR">
+						<input type="radio" name="config[site_open]" value="1"{if !empty($config['site_open'])} checked{/if} />
+						{$P8LANG['Y']}
+						<input type="radio" name="config[site_open]" value="0"{if empty($config['site_open'])} checked{/if} />
+						{$P8LANG['N']}<br />
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['site_close_reason']}</td>
+					<td class="tdR">
+						<input name="config[site_close_reason]" size="38" class="txt"  value="{if !empty($config['site_close_reason'])}{$config['site_close_reason']}{else}网站正在维护中...{/if}"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['copyright']}</td>
+					<td class="tdR">
+						<input type="text" class="txt" size="38"  name="config[copyright_domain]" value="{if !empty($config['copyright_domain'])}{$config['copyright_domain']}{/if}"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['statistics']}</td>
+					<td class="tdR">
+						<textarea name="config[copyright]" cols="47" rows="5">{if !empty($config['copyright'])}{$config['copyright']}{/if}</textarea>
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">统计代码</td>
+					<td class="tdR">
+						<textarea name="config[statistics]" cols="47" rows="5">{if !empty($config['statistics'])}{$config['statistics']}{/if}</textarea><span class="point">你可以向<a href="http://www.cnzz.com/" style="color:red" target="_blank">CNZZ官方</a>申请统计代码，然后将申请到的统计代码复制到此框内</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">&nbsp;</td>
+					<td class="tdR">
+						<input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+var imgupload = new P8_Upload({
+	element: {
+		src: $('#logo_img'),
+		attribute: 'value'
+	},
+	param: {
+		filter: {
+			gif: 1024000,
+			jpg: 1024000
+		}
+	}
+});
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

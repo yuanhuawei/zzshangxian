@@ -1,0 +1,66 @@
+<!--{php168}-->
+<div class="topic_title light_blue_bg"><h3 class="float_left">{$P8LANG['ask_addition_question']}</h3><i class="icon_close" onclick="javascript:remove_addition();"></i></div>
+<div class="topicbox">
+<!--{if empty($UID)}-->
+	{$P8LANG['ask_error_nologin']}
+<!--{else}-->
+	<!--{if !$allow_post_addition}-->
+		{$P8LANG['ask_error_not_allow_post_addition']}
+	<!--{else}-->
+		<form action="" name="addition_form" id="addition_form" method="post" class="expand" onsubmit="javascript:return false;">
+			<div class="title"><b>{$P8LANG['ask_addition_content']}</b><span>{$P8LANG['ask_addition_content_tips']}</span></div>
+			<textarea name="content" id="addition_content" class="content"></textarea>
+			<input type="hidden" name="tid" id="tid" value="{$id}"/>
+			<div id="error_addition"></div>
+			<div><input type="button" value="{$P8LANG['submit']}" class="btn" onclick="javascript:submit_addition();"/> <input type="button" value="{$P8LANG['cancel']}" class="btn" onclick="javascript:remove_addition();"/></div>
+		</form>
+	<!--{/if}-->
+<!--{/if}-->
+</div>
+
+<script type="text/javascript">
+var addition_length = {$addition_length};
+
+function remove_addition()
+{
+	$('#addition').html('');
+	$('#addition').removeClass();
+}
+
+<!--{if $allow_post_addition}-->
+function submit_addition()
+{
+	var tid = $('#addition_form input[name=tid]').val();
+	var content = $('#addition_form #addition_content').val();
+
+	if(!reg.test(tid) || tid == undefined){
+		hidden('error_addition', '{$P8LANG['ask_not_chose_record']}', 'block', 'fields_error');
+		return false;
+	}else{
+		hidden('error_addition', '', 'none', '');
+	}
+
+	if(content.length<1 || content.length>addition_length){
+		hidden('error_addition', '{$P8LANG['ask_error_notallow_addition_empty'] $addition_length}', 'block', 'fields_error');
+		return false;
+	}else{
+		hidden('error_addition', '', 'none', '');
+	}
+	var cc=$('#item_addition li').size()+1;
+	$.ajax({
+		url: '{$this_router}-{$ACTION}', 
+		type: 'POST',
+		dataType: 'json',
+		data: {tid:tid, content:content},
+		cache: false,
+		success: function(json){
+			
+			$('#item_addition').append('<li><b>'+'{$P8LANG['ask_additionb']}'+cc+':<span>('+json.addtime+')</span></b><br/>'+json.content+'</li>');
+			remove_addition();
+		}
+	});	
+}
+<!--{/if}-->
+</script>
+
+<!--{/php168}-->

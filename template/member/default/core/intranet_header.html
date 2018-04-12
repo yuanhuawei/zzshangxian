@@ -1,0 +1,60 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>$TITLE</title>
+<link type="text/css" rel="stylesheet" href="{$MEMBERSKIN}/style.css" />
+<link type="text/css" rel="stylesheet" href="{$MEMBERSKIN}/intranet/style.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/member_common.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+</head>
+<body>
+<div id="header">
+	<div class="wrap">
+		<div class="top_head">
+			<p class="top_head_link">
+			    $label[top_head_link]
+				<!--{if $IS_ADMIN}-->
+				<a href="{$this_url}?edit_label=1">编辑标签</a>
+				<!--{/if}-->
+			</p>
+		</div>
+		<div class="head_middle">
+			<div class="logo">
+				<img src="{$MEMBERSKIN}/intranet/logo.gif" border="0" />
+				<img src="{$MEMBERSKIN}/intranet/$baner.gif" border="0" />
+			</div>
+		</div>
+		<div class="head_bottom">
+			<div class="usr_info">
+				<span class="loing_link"><b style="color:#A92025">$USERNAME</b> 欢迎您回来！[<a href="{$core.U_controller}/member-logout">安全退出</a>]</span>
+			</div>
+			<ul class="menu" id="navigation">
+				<!--{foreach $navgation $nav}-->
+				<li><a href="$nav[url]">$nav[title]</a></li>
+				<!--{/foreach}-->
+				<li><a href="{$core.U_controller}">会员中心</a></li>
+				<li><a href="{$core.url}">官方首页</a></li>
+			</ul>
+		</div>
+	</div>
+	<script type="text/javascript">
+	$(function(){
+		$('#navigation >li:first').addClass('over');  
+			   })
+	</script>
+	<div class="colorline">
+	</div>
+</div>
+<!--{/php168}-->

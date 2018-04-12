@@ -1,0 +1,85 @@
+<!--{php168}-->
+<!--{template $core header_govopen}-->
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../cms/item/govopen/style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKDIR}core/common.css" />
+<div class="siderBar fl">
+<div class="ztcx_hd">$label[ztcx_tt]</div>
+<div class="ztcx_con box_con">
+$label[ztcx_con]
+</div>
+<div class="gkcx mtop">
+<div class="gkcx_hd"><span>$label[gkcx_tt]</span></div>
+<div class="gkcx_con">
+<table>
+<tbody><tr><td height="2" colspan="2"></td></tr>
+<tr>
+<td width="28%" height="28" align="right">用户名：</td>
+<td width="72%" align="left"><input type="text" id="loginname" name="loginname" size="14" value=""></td>
+</tr>
+<tr>
+<td height="28" align="right">密&nbsp;&nbsp;码：</td>
+<td align="left"><input type="password" id="loginpwd" name="loginpwd" size="14"></td>
+</tr>
+<tr>
+</tr><tr>
+<td height="32" align="center" colspan="2">
+<input type="image" name="imageField2" src="{$SKIN}../cms/item/govopen/btn1_2013.jpg" onclick="ssoLogin();">
+<img width="48" height="20" src="{$SKIN}../cms/item/govopen/btn2_2013.jpg" style="cursor:hand; vertical-align: top;" onclick="regedit();">
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="bmcx_hd mtop">$label[bmcx_tt]</div>
+<div class="bmcx_con">
+$label[bmcx_con]
+</div>
+<div class="leftad_box mtop">
+$label[leftad01]
+</div>
+<div class="leftad_box mtop">
+$label[leftad02]
+</div>
+<div class="leftad_box mtop mbot">
+$label[leftad03]
+</div>
+
+
+</div>
+<div class="mainBody fr">
+<div class="rtbox_biglist mbot">
+<div class="hd">
+<div class="nav mtop">$label[nav]您的位置：
+<a href="{$core.controller}">首页</a>
+&gt;&gt; <a href="#">政府信息公开 </a> 
+</div>
+</div>
+<div class="con">
+<div id="ysqgk">
+<div class="headbtn">
+<div class="btnbox"><span>$label[ysqgk_btn01]</span></div><div class="btnbox"><span>$label[ysqgk_btn02]</span></div><div class="btnbox"><span>$label[ysqgk_btn03]</span></div>
+</div>
+<div class="clear"></div>
+<div class="intro_fm">
+$label[ysqgk_con]
+</div>
+</div>
+
+
+
+</div>
+</div>
+</div></div><!--主体结束-->
+<div class="clear"></div>
+<script type="text/javascript">
+$(function(){
+	$('#gov_left .tree_menu p').bind('click',function(){	$('#gov_left .tree_menu .one_manu').slideUp("normal");if($(this).parent().find('.one_manu').css('display')=='none'){	$(this).parent().find('.one_manu').slideDown('normal');	}else{	$(this).parent().find('.one_manu').slideUp("normal");}});
+	$('#gov_left .two_manu span').bind('click',function(){	$('#gov_left .two_manu dl').slideUp("normal"); if($(this).parent().find('dl').css('display')=='none'){	$(this).parent().find('dl').slideDown('normal');	}else{	$(this).parent().find('dl').slideUp("normal");}});
+})
+</script>
+<!--{template $core footer_govopen}-->
+<!--{/php168}-->

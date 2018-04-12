@@ -1,0 +1,21 @@
+/*头部样式开始*/
+#header { width:960px; clear: left; margin:3px auto 0 auto; }
+.flash { width:960px; height:185px; }
+.wenben { background:url(wenben_03.jpg); width:387px; border:none; height:20px; *height:24px;padding-top:6px; *padding-top:2px;line-height:20px; *line-height:24px;text-indent:6px; }
+#header p { float:left; color: #FFFFFF; padding-left: 400px; display: block; padding-top:6px; }
+#menu { height:35px; width: 960px; margin:0px auto 0px auto; border-top:1px solid #59ADE9; background:url(menu_bj.gif) repeat-x; _margin-top:-3px; }
+#menu ul { text-align:left; margin-left:30px; }
+#menu li { font-size: 14px; font-weight:bold; color: #FFFFFF; float: left; line-height: 35px; background:url(index_11.gif) no-repeat right center; padding: 0px 15px; }
+#menu a { color: #FFF; }
+#zi_menu { height: 29px; width: 958px; background:#DEEBFE; border:solid 1px #CAE0FF; border-top:none; margin:0px auto 0px auto }
+#zi_menu li { float: left; width: 70px; background-image: url(index_16.gif); background-position:left center; padding-left: 10px; display: block; line-height: 30px; background-repeat: no-repeat; }
+.wbzd { border:solid 1px #ACC8DB; height:17px; width:149px; padding-top:2px; }
+#zi_menu a { color: #333; }
+#zi_menu ul { padding-left: 50px; height: 21px; }
+#header a { color: #FFFFFF; text-decoration: none; }
+.top_bjt { background-image: url(bt_bjt.gif); height: 28px; width: 960px; }
+.ssan { height: 20px; width: 45px; border:none; text-align: center; }
+.STYLE4 { color: #005FA5; font-size: 14px; font-weight: bold; }
+#footer{text-align:center; border-top:1px solid #cccccc; padding:5px;}
+
+

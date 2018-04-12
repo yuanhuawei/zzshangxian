@@ -1,0 +1,81 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['operation']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					<ul>
+						<li><a href="{$core.admin_controller}/core-allow_ip">后台登陆ip限定</a></li>
+						<li><a href="{$core.admin_controller}/core-stop_ip">IP黑名单</a></li>
+						<li><a href="{$core.admin_controller}/core-word_filter">词语过滤</a></li>
+						<li><a href="{$core.admin_controller}/core-md5_files">文件改动扫描</a></li>
+						<li><a href="{$core.admin_controller}/core-global_config">后台路径/验证码/安全码设置</a></li>
+						<li><a href="{$core.admin_controller}/core-aboutlogin">登陆失败设置</a></li>
+					</ul>
+				</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+<form action="$this_url" method="post" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+						<tr>
+							<td colspan="3" class="title">IP禁止设置</td>
+						</tr>
+						<tr>
+							<td class="tdL">是否启用IP禁止:</td>
+							<td class="tdL">
+								<input type="radio" name="config[stop_ip][enabled]" value="1" {if !empty($config['stop_ip']['enabled'])} checked{/if}/>开启
+								<input type="radio" name="config[stop_ip][enabled]" value="0" {if empty($config['stop_ip']['enabled'])} checked{/if}/>不开启
+							</td>
+							<td class="tdR">&nbsp;</td>
+						</tr>
+						<tr>
+							<td class="tdL">禁止IP:</td>
+							<td class="tdL">
+								<textarea cols="30" rows="5" name="config[stop_ip][forbidip]">
+								<!-- {if !empty($config['stop_ip']['forbidip'])} -->
+									<!-- {foreach $config['stop_ip']['forbidip'] $key $value} -->
+										$key
+									<!-- {/foreach} -->
+								<!-- {/if} -->
+								</textarea>
+							</td>
+							<td class="tdR point">
+								你可以设置封掉设置过的IP访问网站前台和后台,每个IP换一行,书写格式如下：<br>
+									192.168.0.2<br>
+									192.168.1.5<br>
+									...<br>
+									192.168.0 格式表示限制所有192.168.0.0--192.168.0.254段的IP<br />
+									注意:这里会同时禁止访问前台与后台,请不要封自己的IP,否则很麻烦
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">禁止IP段:</td>
+							<td align="right" class="tdL">
+								<input name="config[stop_ip][beginip]" type="text"  class="txt" id="" value="{if !empty($config['stop_ip']['beginip'])}{$config['stop_ip']['beginip']}{/if}" size="33" />
+							</td>
+							<td class="tdR">
+								 -- <input id="" type="text" class="txt" name="config[stop_ip][endip]" value="{if !empty($config['stop_ip']['endip'])}{$config['stop_ip']['endip']}{/if}" /> 
+								<span class="point">例如：192.168.0.2-192.168.0.111</span>
+							</td>
+						</tr>
+					</table>
+				</td></tr>
+			</table>
+			<input type="submit" value="保存设置" class="submit_btn" style="margin-left:5px;margin-top:10px;" />
+		</div>
+	</div>
+</form>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

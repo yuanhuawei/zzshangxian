@@ -1,0 +1,77 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table width='100%' cellspacing='1' cellpadding='3' class="tablewidth">
+		  <form name="form1" method="post" action="$this_url?action=$job">
+			<tr  class="head"> 
+			  <td colspan='3'> 
+				{$P8LANG['config']}
+			  </td>
+			</tr>
+			<tr> 
+			  <td width='28%' bgcolor='#FFFFFF'>{$P8LANG['guestbook']['name']}:</td>
+			  <td colspan='2' bgcolor='#FFFFFF'>
+				<input type="text" class="txt" name="config[name]"   value="{if !empty($config['GuestBookList'])}$config[name]{else}留言本{/if}">
+				 </td>
+			</tr>
+			<tr> 
+			  <td width='28%' bgcolor='#FFFFFF'>{$P8LANG['guestbook']['ifOpenGuestBook']}</td>
+			  <td colspan='2' bgcolor='#FFFFFF'> 
+				<input type="radio" name="config[ifCloseGuestBook]" value="1" {if !empty($config['ifCloseGuestBook'])}checked{/if}>
+				{$P8LANG['disabled']}
+				<input type="radio" name="config[ifCloseGuestBook]" value="0" {if empty($config['ifCloseGuestBook'])}checked{/if}>
+				{$P8LANG['enabled']} </td>
+		  </tr>
+		  <tr> 
+			  <td width='28%' bgcolor='#FFFFFF'>{$P8LANG['guestbook']['captcha']}:</td>
+			  <td colspan='2' bgcolor='#FFFFFF'>
+				<input type="radio" name="config[captcha]" value="1" {if !empty($config['captcha'])}checked{/if}>
+				{$P8LANG['Y']} 
+				<input type="radio" name="config[captcha]" value="0" {if empty($config['captcha'])}checked{/if}>
+				{$P8LANG['N']}</td>
+			</tr>
+			 <tr> 
+			  <td width='28%' bgcolor='#FFFFFF'>{$P8LANG['guestbook']['ifanonymous']}:</td>
+			  <td colspan='2' bgcolor='#FFFFFF'>
+				<input type="radio" name="config[anonymous]" value="1" {if !empty($config['anonymous'])}checked{/if}>
+				{$P8LANG['Y']} 
+				<input type="radio" name="config[anonymous]" value="0" {if empty($config['anonymous'])}checked{/if}>
+				{$P8LANG['N']}</td>
+			</tr>
+			<tr> 
+			  <td width='28%' bgcolor='#FFFFFF'>{$P8LANG['guestbook']['GuestBookList']}:</td>
+			  <td colspan='2' bgcolor='#FFFFFF'>
+				<input type="text" class="txt" name="config[GuestBookList]" size="5"  value="{if !empty($config['GuestBookList'])}$config[GuestBookList]{else}10{/if}">
+				{$P8LANG['guestbook']['unit1']} </td>
+			</tr>
+			<tr> 
+			  <td width='28%' bgcolor='#FFFFFF'>{$P8LANG['guestbook']['GuestBookNum']}:</td>
+			  <td colspan='2' bgcolor='#FFFFFF'>
+				<input type="text" class="txt" name="config[GuestBookNum]" size="5"  value="{if !empty($config['GuestBookNum'])}$config[GuestBookNum]{else}50{/if}">
+				{$P8LANG['guestbook']['unit1']} </td>
+			</tr>
+			<tr style="display:none">
+						<td class="tdL">{$P8LANG['dynamic_list_url_rule']}</td>
+						<td class="tdR">
+							<input type="text" class="txt" name="config[dynamic_list_url_rule]"  value="{if !empty($config['dynamic_list_url_rule'])}{$config['dynamic_list_url_rule']}{else}{\$module_controller}-list-id-{\$id}#-page-{\$page}#.html{/if}" size="60" />
+						</td>
+					</tr>
+					<tr style="display:none">
+						<td class="tdL">{$P8LANG['dynamic_view_url_rule']}</td>
+						<td class="tdR">
+							<input type="text" class="txt" name="config[dynamic_view_url_rule]"  value="{if !empty($config['dynamic_view_url_rule'])}{$config['dynamic_view_url_rule']}{else}{\$module_controller}-view-id-{\$id}#-page-{\$page}#.html{/if}" size="60" />
+						</td>
+					</tr>
+			<tr> 
+			  <td width='28%' bgcolor='#FFFFFF'>&nbsp;</td>
+			  <td colspan='2' bgcolor='#FFFFFF'> 
+				<input  class="submit_btn"  type='submit' name='w' value="{$P8LANG['submit']}">
+			  </td>
+			</tr>
+		  </form>
+		</table>
+	</div>
+</div>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

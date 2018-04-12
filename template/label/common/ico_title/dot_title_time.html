@@ -1,0 +1,9 @@
+<!--{php168}-->
+<ul class="label_dotlist_{$label['id']} label_ul_s barr5">
+<!--{foreach $list $value}-->
+	<li>
+		<span style="color:#00f"><!--{php echo date('m-d',$value['timestamp']);}--></span> <a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a>
+	</li>
+<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

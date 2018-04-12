@@ -1,0 +1,31 @@
+<!--{php168}-->
+<style type="text/css">
+.list_adap_date8 li{padding-top:17px;}
+.list_adap_date8 .item, .list_adap_date8 .info{overflow: hidden;zoom: 1;}
+.list_adap_date8 .time{width:60px;height:60px;float:left;text-align:center;margin-right:20px;border:1px solid #dcdcdc;}
+.list_adap_date8 .time span{display:block;text-align:center;font-size:16px;}
+.list_adap_date8 .time .date{color:#fff;background:#176dbc;padding:5px 0;}
+.list_adap_date8 .time .year{color:#595959;background:#ffffff;}
+.list_adap_date8 .info h4{font-size:16px;font-weight:normal;margin:0;line-height:25px;}
+.list_adap_date8 .info h4 a{display:block;color:#02529b;text-decoration:none;}
+.list_adap_date8 .info h4 a:hover{color:#9c231b;}
+.list_adap_date8 .info p{color:#737373;font-size:14px;}
+</style>
+<ul class="list_adap_date8">
+	<!--{foreach $list $value}-->
+	<li>
+		<div class="item">
+			<div class="time">
+				<span class="date"><!--{php echo date('d', $value['timestamp']);}--></span>
+				<span class="year"><!--{php echo date('m月', $value['timestamp']);}--></span>
+			</div>
+			<div class="info">
+				<h4 class="item-tit"><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h4>
+				<p>$value[summary]</p>
+			</div>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->
+

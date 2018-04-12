@@ -1,0 +1,26 @@
+<div class="content">
+<div class="warm"></div>
+<div class="warm_right">
+数据已经存在了,要覆盖安装吗?(一般选择"是")<br />
+或者你当前在本机没有安装过,而是在另一台机共用一个数据库,可以选择安装但不覆盖,与己安装的共用数据,可以实现简单的DNS负载均衡
+</div>
+
+</div>
+<div class="form">
+<form action="" method="POST">
+<input type="hidden" name="db_host" value="<?php echo $db_host;?>" />
+<input type="hidden" name="db_port" value="<?php echo $db_port;?>" />
+<input type="hidden" name="db_user" value="<?php echo $db_user;?>" />
+<input type="hidden" name="db_password" value="<?php echo $db_password;?>" />
+<input type="hidden" name="db_name" value="<?php echo $db_name;?>" />
+<input type="hidden" name="db_charset" value="<?php echo $db_charset;?>" />
+<input type="hidden" name="page_charset" value="<?php echo $page_charset;?>" />
+<input type="hidden" name="table_prefix" value="<?php echo $table_prefix;?>" />
+<input type="hidden" name="core_table_prefix" value="<?php echo $core_table_prefix;?>" />
+<input type="hidden" name="mysql_connect_type" value="<?php echo $_POST['mysql_connect_type'];?>" />
+<input type="hidden" name="step" value="step4" />
+<input type="hidden" name="cover" value="0" />
+<input type="submit" value=" 是 " onclick="this.form.cover.value=1; this.form.step.value='step2';" class="submit_btn" /> 
+<input type="submit" value=" 否 " onclick="this.form.step.value='finish';" class="submit_btn" /> 
+</form>
+</div>

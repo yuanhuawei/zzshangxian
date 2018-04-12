@@ -1,0 +1,87 @@
+<!--{php168}-->
+<script type="text/javascript">
+var STATUS = $status_json;
+var MID = $mid;
+var dialog = new P8_Dialog({
+	title_text:'处理表单',
+	width: 400,
+	height: 200,
+	button: true,
+	ok:function(){
+		var status = this.content.find('input[name=status]:checked').val();
+		var reply = this.content.find('textarea').val();
+		if(status==undefined){
+			alert("{$P8LANG['forms_confirm_no_manage']}");
+			return;
+		}
+		var recommend = this.content.find('input[name=recommend]:checked').val();
+		$.ajax({
+			url: '{$this_router}-manage',
+			type: 'POST',
+			dataType: 'json',
+			data: 'action=set_status&oid={$id}&status='+status+'&recommend='+recommend+'&reply='+reply,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				var oSTATUS = STATUS;
+				for(var i in json){
+					$('#status_'+json[i].id).html(oSTATUS[json[i].status]);
+					$('#manager_'+json[i].id).html('{$USERNAME}');
+					$('#reply_'+json[i].id).html(json[i].reply);
+					$('#rptime_'+json[i].id).html('刚刚');
+				}
+				alert("{$P8LANG['done']}");
+			}
+		});
+	}
+});
+function setstatus(){
+
+		$.ajax({
+			url: '{$this_router}-manage',
+			type: 'POST',
+			dataType: 'json',
+			data: 'action=check_status&id='+$id,
+			success:function(json){
+				show_dialog(json)
+			}   
+		});
+}
+function show_dialog(json){
+	var innerhtml = '<p>处理方式：';
+	var oSTATUS = STATUS;
+	for(var i in oSTATUS){
+		innerhtml +=' <input type="radio" name="status" value="'+i+'" '+(json ==undefined ? '' : (json.status==i? 'checked':''))+'>'+oSTATUS[i];
+	}
+	innerhtml +=' <input type="checkbox" name="recommend" value="1" '+(json.recommend==1?'checked':'')+'/>推荐';
+	innerhtml +='</p>处理意见：<textarea style="width:380px;height:90px"> '+(json ==undefined ? '' : json.reply)+'</textarea>';
+	innerhtml +='<input type="hidden" name="id" value="'+(json ==undefined ? '' : json.id)+'"/>';
+	dialog.content.html(innerhtml);			
+	dialog.show();
+}
+function deleteitem(){ 
+	if(!confirm('确定要删除？'))return;
+	$.ajax({
+			url: '{$this_router}-manage',
+			type: 'POST',
+			dataType: 'json',
+			data: 'action=delete&oid={$id}&mid={$mid}',
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				if(json[0]=='{$id}'){
+				alert('删除成功');
+				window.close();
+				}else{
+				ajaxing({action: 'hide',text:'删除失败'});
+				}
+			}
+		});
+	
+}
+
+</script>
+<!--{/php168}-->

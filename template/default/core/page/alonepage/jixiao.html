@@ -1,0 +1,88 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$TITLE</title>
+<meta name="keywords" content="$SEO_KEYWORDS" />
+<meta name="description" content="$SEO_DESCRIPTION" />
+<link rel="stylesheet" type="text/css" href="{$SKDIR}core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/label/label.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/alonepage/style.css" />
+<link rel="Shortcut Icon" href="favicon.ico">
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+</head>
+<body>
+
+<div class="email_frame">
+	<div class="title"><span class="txt">企业绩效登记查询</span><span id="header_t"></span><span class="x"><a href=javascript:window.opener=null;window.close()>&nbsp;&nbsp;</a></span>
+	</div>
+	<div class="content">
+		<ul>
+			<li class="jixiao">$label[jixiao01]</li>
+			<li class="enter">$label[jixiaocakan01]</li>
+		</ul>
+		<ul>
+			<li class="jixiao">$label[jixiao02]</li>
+			<li class="enter">$label[jixiaocakan02]</li>
+		</ul>
+		<ul>
+			<li class="jixiao">$label[jixiao03]</li>
+			<li class="enter">$label[jixiaocakan03]</li>
+		</ul>
+		<ul>
+			<li class="jixiao">$label[jixiao04]</li>
+			<li class="enter">$label[jixiaocakan04]</li>
+		</ul>
+		<ul>
+			<li class="jixiao">$label[jixiao05]</li>
+			<li class="enter">$label[jixiaocakan05]</li>
+		</ul>
+		<ul>
+			<li class="jixiao">$label[jixiao06]</li>
+			<li class="enter">$label[jixiaocakan06]</li>
+		</ul>
+		<ul>
+			<li class="jixiao">$label[jixiao07]</li>
+			<li class="enter">$label[jixiaocakan07]</li>
+		</ul>
+		<div class="clear"></div>
+	</div>
+</div>
+<script type="text/javascript">
+var editlabel = get_cookie('IS_ADMIN');
+if(editlabel !==undefined){
+var thisurl = '{$core.url}';
+var thisuri = '{$_SERVER['REQUEST_URI']}';
+
+if(thisuri.indexOf('index.php')>-1){
+var _thisuri=thisuri.split('index.php');
+	thisurl=thisurl+'/index.php'+_thisuri['1'];
+}else{
+	thisurl=thisurl+thisuri;
+}
+if(thisurl.indexOf('edit_label')==-1){
+var ls='?';
+if(thisurl.indexOf('?')>-1)ls='&';
+thisurl=thisurl+ls+'edit_label=1';
+}
+$('#header_t').prepend('<a href='+thisurl+' class="each_item">显示标签</a>');
+}else{
+thisurl=thisurl.replace('&edit_label=1','');
+thisurl=thisurl.replace('edit_label=1','');
+$('#edit_label').remove();
+$('#header_t').prepend('<a href='+thisurl+' >[隐藏标签]</a>');
+}
+</script>
+
+</body>
+</html>
+<!--{/php168}-->

@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>极酷阳光播放器(CuSunPlayerV2.5)版_酷播官方演示</title>
+<meta name="keywords" content="极酷阳光播放器,播放器演示,酷播官方,cuplayer"/>
+<meta name="description" content="极酷阳光播放器(CuSunPlayerV2.5)版使用官方演示实例,极酷阳光播放器官方使用帮助与介绍,官方代码写法示例"/>
+<SCRIPT LANGUAGE=JavaScript>
+<!--
+function getLight(pars){if(pars=="open"){close_light(this)}else{close_light(this)}};function thisMovie(movieName){if(navigator.appName.indexOf("Microsoft")!=-1){return window[movieName]}else{return document[movieName]}}
+//-->
+</SCRIPT> 
+
+<style type="text/css">
+<!--
+.video { OVERFLOW: hidden; WIDTH: 100%; POSITION: relative}
+.close_light_bg {DISPLAY: none; BACKGROUND: #000; FILTER: alpha(opacity = 95); LEFT: 0px; WIDTH: 100%; POSITION: absolute; TOP: 0px; HEIGHT: 100%; opacity: .95}
+
+body { padding:10px;}
+div.help { line-height:32px; font-size:14px;}
+-->
+</style>
+</head>
+
+<body>
+<div class="close_light_bg" id="close_light_bg"></div>
+<!--极酷播放器/代码开始-->
+<script type="text/javascript" src="images/swfobject.js"></script>
+<div class="video" id="CuPlayer"><b><img src="images/loading.gif"  /> 网页视频播放器加载中，请稍后...</b></div>
+<script type="text/javascript">
+var so = new SWFObject("player.swf","ply","600","410","9","#000000");
+so.addParam("allowfullscreen","true");
+so.addParam("allowscriptaccess","always");
+so.addParam("wmode","opaque");
+so.addParam("quality","high");
+so.addParam("salign","lt");
+//播放器设置文件-----------------------------
+so.addVariable("JcScpFile","CuSunV2set.php");
+//视频文件及略缩图--------------------------
+//so.addVariable("JcScpServer","rtmp://www.yoursite.com/vod");
+so.addVariable("JcScpVideoPath","http://demo.cuplayer.com/file/test.mp4"); 
+so.addVariable("JcScpImg","images/startpic.jpg");
+//-----------------------------------------
+so.addVariable("JcScpSharetitle","极酷阳光播放器(CuSunPlayerV2.5)版使用官方演示实例"); 
+so.write("CuPlayer");
+</script>
+<SCRIPT language=javascript src="images/jquery.js" type=text/javascript></SCRIPT> 
+<SCRIPT language=javascript src="images/action.js" type=text/javascript></SCRIPT>
+<!--极酷播放器/代码结束-->
+
+<h1>极酷阳光播放器V2.5版演示2(应用配置文件参数)</h1>
+<!-- help/Bgein -->
+<div class="help">
+ <p>
+        <strong>播放器使用环境及注意事项：</strong><br />
+        *  请用户在IIS下或其它网站环境下使用，<a href="http://www.cuplayer.com/CuSunPlayer/help/Step/" target="_blank">新手指南&gt;&gt;</a>；<br />
+        *  请确认您的环境是否支持支持flv,mp4等视频文件的mime类型，<a href="http://www.cuplayer.com/CuSunPlayer/help/Help71.html" target="_blank" class="cOrange">详细参见&gt;&gt;</a>；<br />
+        *  播放器在使用过程中，支持加载XML(asp,php,jsp,aspx)等格式配置文件，<a href="http://www.cuplayer.com/CuSunPlayer/help/Help23.html" target="_blank" class="cOrange">详细参见&gt;&gt;</a>；<br />
+        * 请确认播放器相关的文件地址是否正确。
+        <br />
+        <strong>遇到问题如何获得帮助：</strong>        <br />
+        * 官方应用文档：<a href="http://www.cuplayer.com/cusunplayer/help/index.html" target="_blank" class="cOrange">http://www.CuPlayer.com/cusunplayer/help/index.html</a><br />
+        * 官方客服QQ：<strong class="cRed2">176797520</strong> (验证须注明&ldquo;极酷&rdquo;或&ldquo;酷播&rdquo;字样)  <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=176797520&site=qq&menu=yes"><img src="http://wpa.qq.com/pa?p=2:176797520:41 &r=0.7833309615211892" alt="极酷FlvPlayer在线客服" border="0" align="absmiddle" title="点击这里给我发消息"></a><br />
+        <strong>如何正确的向客服提问？</strong> <br />
+    A:请将您的测试页上传到您的某个网站目录下，然后把测试页地址发给客服<br />
+    （如果您无法提供测试页地址，很多问题，无法协助您找出更准确的原因）； <br />
+  B:请尽可能的把问题，表述清楚。 <br />
+  <strong>极酷阳光官方网站：</strong> <a href="http://www.cuplayer.com/cusunplayer/" target="_blank">http://www.CuPlayer.com/CuSunPlayer/</a></p>
+</div>
+<!-- help/End -->
+</body>
+</html>
+

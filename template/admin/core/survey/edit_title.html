@@ -1,0 +1,185 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/iColorPicker.js"></script>
+<form action="$this_url" id="form" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+						<tr>
+							<td colspan="2" class="title"><!--{if $action == 'add'}-->增加问题<!--{else}-->编辑问题<!--{/if}--></td>
+						</tr>
+						<tr>
+							<td class="tdL">问题</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="tittle" id="tittle" value="{if !empty($data['tittle'])}{$data['tittle']}{/if}" style="width:500px"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">序号</td>
+							<td class="tdR">
+									<input type="text" id="display_order" name="display_order" value="{if !empty($data['display_order'])}{$data['display_order']}{/if}" size="5" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">是否必填</td>
+							<td class="tdR">
+								<input type="checkbox" name="not_null"  value="1"{if !empty($data['not_null']) || !isset($data['not_null'])} checked{/if} />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">其它填写框</td>
+							<td class="tdR">
+								<input type="checkbox" name="other"  value="1"{if !empty($data['other'])} checked{/if} />(供答题者填写其它答案当所列答案不在其中)
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">输入类型</td>
+							<td class="tdR">
+								<select name="type" id="widget" onchange="on_select_widget(this.value)">
+									<!--{foreach $this_module->widgets $type $lang}-->
+									<option value="$type"{if !empty($data['type']) && $data['type'] == $type} selected{/if}>{$P8LANG[$lang]}</option>
+									<!--{/foreach}-->
+								</select>
+							</td>
+						</tr>
+						
+						<tr id="widget_data">
+							<td class="tdL">{$P8LANG['forms_model_field_widget_data']}</td>
+							<td class="tdR">
+								<div id="data_copy" style="display: none;" class="data">
+									<b style="cursor: move; background: url({$RESOURCE}/images/draggable.png) no-repeat 0px -20px;">&nbsp;&nbsp;</b>
+									值<input type="text" class="txt" value="" size="10" readonly="readonly"/>
+									显示文字<input type="text" class="txt" value="" />
+									<input type="button" value="{$P8LANG['delete']}" />
+								</div>
+								<input type="button" value="{$P8LANG['add']}" onclick="_copy_data()" />
+								
+								<script type="text/javascript" src="{$RESOURCE}/js/sortable.js"></script>
+								<script type="text/javascript">
+								var mk = 0;
+								function _copy_data(key, value){
+									var copy = $('#data_copy').clone().show().attr('id', '');
+									if(typeof(key)=="undefined"){
+										key = ++mk;
+									}else{
+										mk = Math.max(mk,key);
+									}
+									$('input:eq(0)', copy).attr('name', 'data_key['+key+']').val(key);
+									$('input:eq(1)', copy).attr('name', 'data_value['+key+']').val(value === undefined ? '' : value);
+									
+									copy.find('input[type=button]').attr('onclick', '').
+									click(function(){
+										$(this).parent().remove();
+									});
+									
+									$('#widget_data div:last').after(copy);
+									
+									sortable.refresh();
+								}
+								
+								var sortable = new $.p8_sortable({
+									selector: {
+										range: '.data',
+										drag: 'b'
+									},
+									type: 'y'
+								});
+								
+								$(document).ready(function(){
+									<!--{foreach $widget_data $key $value}-->
+									_copy_data('$key', '$value');
+									<!--{/foreach}-->
+								});
+								</script>
+							</td>
+						</tr>
+						
+						<tr>
+						  <td class="tdL">&nbsp;</td>
+						  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+					  </tr>
+					</table>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+	<input type="hidden" name="iid" value="{if !empty($iid)}$iid{/if}" />
+	<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" />
+	<input type="hidden" name="action" value="$action" />
+</form>
+<div class="mainbox mainborder">
+	<div class="section">
+		<div class="formtable">
+				<div class="title">{$P8LANG['help_about']}</div>
+
+				<div class="headerbtn_list">
+					帮助说明相关文字
+				</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+
+function on_select_widget(type){
+	switch(type){
+		case 'checkbox': case 'radio': case 'select': case 'multi_select':
+			$('#widget_data').show();
+			$('#widget_link').hide();
+			$('#widget_linkage').hide();
+		break;
+		case 'link':
+			$('#widget_link').html('<td class="tdL">打开窗口</td><td class="tdR"><input type="hidden" name="data_key[target]" value="target" /><input type="radio" name="data_value[target]" value="_self" {if empty($widget_data['target']) || $widget_data['target']=='_self'}checked{/if} />本窗口 <input type="radio" name="data_value[target]" value="_blank" {if !empty($widget_data['target']) && $widget_data['target']=='_blank'}checked{/if}/>新窗口</td>').show();
+			$('#widget_data').hide();
+			$('#widget_linkage').hide();
+		break;
+		case 'linkage':
+			$('#widget_linkage').show();
+			$('#widget_data').hide();
+			$('#widget_link').hide();
+		break;
+		default:
+			$('#widget_data').hide();
+			$('#widget_link').hide();
+			$('#widget_linkage').hide();
+	}
+}
+
+$(function(){
+on_select_widget($('#widget').val());
+
+$('#form').validate({
+	rules: {
+		tittle: {
+			required: true	
+		},
+		display_order: {
+			required: true	
+		}
+	},
+	
+	messages: {
+		tittle: {
+			required: "问题不能为空",
+		},
+		display_order: {
+			required: '序号不能为空'	
+		}
+	},
+	
+	errorPlacement: function(error, element) {
+		error.wrap('<div></div>').appendTo(element.parent().prev());
+	},
+	wrapper: 'div',
+	
+	onkeyup: false
+})
+
+})
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,13 @@
+#message_box{width:272px;padding:0px;font-size:12px;overflow-x:hidden;position:fixed !important;position:absolute;right:0px;bottom:0px;display:none}
+#message_box .msg_head{background:url(message_remind_title.gif);width:272px;height:24px;padding:0px;overflow:hidden;}
+#message_box .msg_head .msg_new{float:right; margin-right:15px; margin-top:3px; display:inline-block}
+#message_box .msg_head a.msg_close{float:right; margin-right:10px; display:inline-block; text-decoration:none; }
+#message_box .msg_main{width:250px;*width:272px;padding:7px 10px 0px 10px;border-bottom:#CCCCCC 1px solid;border-left:#CCCCCC 1px solid;border-right:#CCCCCC 1px solid;background:#ffffff;overflow:hidden;}
+#message_box .msg_main .user_name{color:#020711;font-size:18px;}
+#message_box .msg_main .form{color:#999999;margin-left:40px;}
+#message_box .msg_main .msg_title{color:#993333;margin-top:10px;}
+#message_box .msg_main .msg_content{color:#666666;margin-top:10px;}
+#message_box .msg_main .msg_button{color:#999999;margin-top:10px;text-align:right;padding-right:10px;}
+#message_box .msg_main .msg_button a{margin-left:10px;}
+
+

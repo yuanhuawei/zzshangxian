@@ -1,0 +1,62 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<div class="list_banner">
+	$label[dow_list_ad1]
+</div>
+<div class="list_nave">
+	<a href="{$this_system.url}">Ê×Ò³</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>
+</div>
+<!--×ó±ß-->
+<div class="intranet_bglist_down_left">
+	<div class="list_head2 mtop"><!--{php $parent = end($parent_cats);$parent_name = $parent ? $parent[name]:$CAT[name];$parent_url = $parent ? $parent[url] : $CAT[url];}-->
+		<span class="list_title1"><a href="$parent_url">$parent_name</a></span>
+	</div>
+	<div class="main1 list_content_categories">
+		<!--{template $this_module step_category}-->
+	</div>
+	<div class="mtop">
+	    $label[down_blist_ad01]
+	</div>
+	<div class="mtop">
+	    $label[down_blist_ad02]
+	</div>
+	<div class="list_head2 mtop">
+		<span class="list_title1">$label[dow_blist_title1]</span> <span class="list_more1">$label[dow_blist_more1]</span>
+	</div>
+	<div class="list_content1">
+		$label[dow_blist_content1]
+	</div>
+	<div class="mtop">
+	    $label[down_blist_ad03]
+	</div>
+	<div class="list_head2 mtop">
+		<span class="list_title1">$label[dow_blist_title2]</span> <span class="list_more1">$label[dow_blist_more2]</span>
+	</div>
+	<div class="list_content1">
+		$label[dow_blist_content2]
+	</div>	
+</div>
+<!--ÓÒ±ß-->
+<div class="intranet_bglist_down_right">
+	<!--{php $i = 0;}-->
+	<!--{foreach $subcategories $v}-->
+	<!--{php if($i > 5) break; $i++;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+	<div class="list_head2 mtop" >
+		<span class="list_title3">$v[name]</span> <a class="list_more1" href="$v[url]">>>>¸ü¶à</a>
+	</div>
+	<div class="list_content1">
+		$label[dow_big_list]{'i.cid' => $subcat, 'model' => $MODEL}
+	</div>
+	<!--{/foreach}-->
+</div>
+
+<div class="clear">
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

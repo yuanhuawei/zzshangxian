@@ -1,0 +1,92 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<div class="list_nave">
+	您的位置：<a href="{$this_system.url}">首页</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>
+</div>
+<!--左边-->
+<div class="intranet_bglist_down_left">
+	<div class="intranet_content_hdp mtop">
+		$label[gov_blist_content5]
+	</div>
+	<div class="list_content_bm mtop">
+		<div><span class="list_more2">$label[gov_blist_content_bm03]</span><span style="margin:5px 0px 5px 10px">$label[gov_blist_content_bm02]</span>
+		</div>
+		<span >$label[gov_blist_content_bm01]</span>
+	</div>
+	
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[gov_blist_more7]</span> <span class="list_title1">$label[gov_blist_title7]</span>
+	</div>
+	<div class="list_content_categories">
+	    <table>
+		    <tr>
+			   <td>
+		<!--{foreach $subcategories $v}-->
+		<div class="intranet_list_nm"><a href="$v[url]">$v[name]</a></div>
+		<!--{/foreach}-->
+		</td>
+	   </tr>
+	</table>
+	</div>
+		<div class="mtop">
+	    $label[gov_blist_artical_ad1]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[gov_blist_more6]</span> <span class="list_title1">$label[gov_blist_title6]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_blist_content6]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[gov_blist_more8]</span> <span class="list_title1">$label[gov_blist_title8]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_blist_content8]
+	</div>
+	<div class="mtop">
+	    $label[gov_blist_artical_ad2]
+	</div>
+</div>
+
+<!--右边-->
+<div class="intranet_bglist_down_right">
+	<!--{php $i = 0;}-->
+	<!--{foreach $subcategories $v}-->
+	<!--{php if($i > 3) break; $i++;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+	<div class="list_head1 mtop head">
+		<span class="list_more1" ><a href="{$core.U_controller}/cms/item-add?cid=$v[id]&model=$v[model]" target="_blank">发表</a> | <a href="$v[url]">更多>>></a></span> <span class="list_title2">$v[name]</span>
+	</div>
+	<div class="list_content1 main">
+		$label[gov_big_list]{'i.cid' => $subcat, 'model' => $MODEL}
+	</div>
+	<!--{/foreach}-->
+	<!--{if empty($subcategories)}-->
+	<div>
+		<div class="list_head1" >
+			<span class="list_more1" ><a href="{$core.U_controller}/cms/item-add?cid=$CAT[id]&model=$v[model]" target="_blank">发表</a></span> <span class="list_title2">$CAT[name]</span>
+		</div>
+		<div class="list_head1">
+			<!--{php include template($TEMP_OBJ, $CAT['item_template'], 'label');}-->
+			<div id="page">
+				{$pages}
+			</div>
+		</div>
+	</div>
+	<!--{/if}-->
+</div>
+<div class="clear"></div>
+
+<div class="list_head1 mtop">
+		<span class="list_title2">$label[big_list_title_images]</span> <span class="list_more1">$label[big_list_images_more]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_big_list_images]
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

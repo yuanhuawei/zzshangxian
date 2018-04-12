@@ -1,0 +1,13 @@
+<!--{php168}-->
+var item_id = $data[id],
+	item_uid = $data[uid],
+	item_cid = $data[cid],
+	model = '$data[model]',
+	verified = \$_GET['verified'] !== undefined || \$_GET['verified'] == 1 ? 1 : 0;
+
+$(function(){
+	if(is_verify){
+		item_operation($('#operation').show());
+	}
+});
+<!--{/php168}-->

@@ -1,0 +1,32 @@
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	background-color: #E6E6E6;
+	font-size:12px;
+}
+.b{padding:5px; clear:both}
+.c{ clear:both; font-size:0px;}
+.h{height:300px;  min-height:300px; display:block}
+.tc{text-align:center}
+.mtop{ margin-top:10px;}
+.mtop20{margin-top:20px;}
+.style1{ color:#990000}
+.right{text-align:right}
+.warm{ background:url(sorry.jpg) no-repeat; width:150px; height:120px; float:left}
+.warm_right{height:200px;  min-height:200px; padding-top:50px; line-height:180%}
+.eachmodule{ width:150px; display:inline-block; float:left}
+#log{ height:200px; display:block; overflow-y:scroll; background-color:#eeeeee; line-height:200%; font-size:14px; padding:0 20px}
+#header{ background-color:#ffffff; height:120px; min-width:990px; background:#ffffff url(b_right.gif) no-repeat right top;}
+#header .logo{width:165px; float:left; padding-top:30px}
+#header .head_title{ float:left;font-size:18px;padding-top:30px; font-family:ºÚÌå,Georgia, "Times New Roman", Times, serif}
+#header .head_bottom{ background:url(Bottom.gif) repeat-x; height:33px; float:left; width:100%; margin-top:6px}
+#main{ width:770px; background:#ffffff; margin:0 auto; min-height:380px;}
+#footer{ width:730px; background:url(Bottom.gif); margin:auto; padding:20px; color:#ffffff; line-height:150%}
+#main .content{ padding:10px; min-height:300px;display:block}
+
+.form{ text-align:center; margin-top:5px; clear:both}
+.submit_btn{ border:1px solid #666; border-color:#CCC #666 #666 #ccc; background:#eeeeee; padding:3px 5px; cursor:pointer; margin-left:10px;}
+.must{ background-color:#CCC; border:1px solid #cccccc}
+.installing{top:40%; left:50%; background:url(installing.gif) no-repeat; position:absolute;width:32px; height:32px; margin:-19px 0 0 -19px; display:block}

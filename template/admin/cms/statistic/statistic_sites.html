@@ -1,0 +1,129 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<style type="text/css">
+.formtable td a.over{color:red};
+</style>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table width="100%" border="0" cellspacing="3">
+		<tr><td height="50">
+		<form id="form1" method="post">
+
+		年份：<select id="year" name="year"  onchange="get_data()"><option value="0" selected>全部</option>
+			<!--{foreach $years $year}-->
+			<option value="{$year}">{$year}</option>
+			<!--{/foreach}-->
+			</select> 
+		月份：<select id="month" name="month"  onchange="get_data()"><option value="0" selected>全部</option>
+				<!--{foreach $months $month}-->
+				<option value="{$month}">{$month}</option>
+				<!--{/foreach}-->
+			</select> 
+
+		<input type="hidden" name="cid" id="cid" value="0"/>
+		<input type="hidden" name="uid" id="uid" value="{if !empty($uid)}{$uid}{/if}"/>
+		<input type="hidden" name="act" id="act" value="query"/>
+		<input type="button" value="导出Excel" class="submit_btn" onclick="download()"/>
+		</form>
+		</td>
+		<td align="right">统计时间：<span id="statis_time">2012-05-01 </span> <!--{if empty($uid)}--><a href="javascript:;" class="submit_btn" onclick="statistic()" style="color:#fff;">重新统计</a><!--{/if}--></td>
+		</tr>
+		<tr><td valign="top" colspan="2">
+			<table  class="columntable formtable hover_table click_changeable" align="center" style="text-align:center">
+			<tr>
+			<td width="100" class="title">排名</td>
+			<td width="100" class="title">站点名称</td>
+			<td width="100" class="title">投稿量</td>
+			<td width="100" class="title">采用量</td></tr>
+			<tbody id="data_list">
+						
+			</tbody>
+			</table>
+		</td></tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+var SITES = {$sites};
+function get_data(cid){
+	$('#cid').val(cid);
+	$('#act').val('query');
+	
+	var year=$('#year').val();
+	var month=$('#month').val();
+	var model=$('#model').val();
+	ajaxing({});
+	$.ajax({
+		url:'{$this_url}',
+		data: $('#form1').serialize(),
+		dataType: 'json',
+		type: 'POST',
+		success: function(msg){
+			if(msg!=''){
+				var shtml = '';
+				var statis_time;
+                var hs = [];
+                var h=0;
+				for(var i in msg){
+                    if(SITES[msg[i].site]==undefined)continue;
+                    h++;
+					shtml +=  '<tr><td>'+h+'</td><td>'+SITES[msg[i].site]['sitename']+'</td><td>'+msg[i].post+'</td><td>'+msg[i].verified+'</td></tr>';
+					statis_time=msg[i].timestamp;
+                    hs.push(msg[i].site);
+				}
+                h++
+                for(var k in SITES){
+                    if(SITES[k]==undefined)continue;
+                    if($.inArray(SITES[k]['alias'],hs)!=-1)continue;
+					shtml +=  '<tr><td>'+h+'</td><td>'+SITES[k]['sitename']+'</td><td>0</td><td>0</td></tr>';
+				}
+				$('#statis_time').html(statis_time);
+				$('#data_list').html(shtml);
+				
+			}else{
+				$('#data_list').html('<tr><td colspan="3" align="center">没有相关数据</td></tr>');
+			}
+			ajaxing({action: 'hide'});
+		}
+	});
+}
+function statistic(){
+	if($('#year').val()==0){
+		alert('请选择至少一个年份');
+		return false
+	}
+	var d = new Date(); 
+	$('#statis_time').html(d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes());
+	$('#act').val('stat');
+	ajaxing({});
+	$.ajax({
+		url:'{$this_url}',
+		data: $('#form1').serialize(),
+		dataType: 'json',
+		type: 'POST',
+		success: function(msg){
+			if(msg)
+				alert('统计成功!');
+			else
+				alert('统计失败!');
+			get_data();
+			ajaxing({action: 'hide'});
+		}
+	});
+}
+function aover(obj){
+$('#__ a').removeClass('over');
+$('#category_0 a').removeClass('over');
+$(obj).addClass('over');
+}
+
+function download(style){
+	
+	$('#act').val('download');
+	$('#form1').submit();
+
+}
+get_data();
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

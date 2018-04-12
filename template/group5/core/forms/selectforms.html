@@ -1,0 +1,21 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/forms/style.css" />
+<div class="container common_mtop">
+	<div class="show_box_2">
+		<div class="sb2_head">
+			<h2 class="title title_icon_4">选择表单</h2>
+			<span class="more" id="editcontent"></span>
+		</div>
+		<div class="sb2_main" id='rightbox'>
+			<!--{foreach $models $k $v}-->
+			<p><strong style="margin-right:100px">{$v['alias']}</strong><a href="{$this_module.controller}-post?mid=$v[id]" target="_blank">填写</a></p>
+			<!--{/foreach}-->
+			<div class="clear">
+			</div>
+		</div>
+	</div>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->
+

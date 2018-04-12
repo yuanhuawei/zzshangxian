@@ -1,0 +1,395 @@
+<!--{php168}-->
+<!--{if !P8_AJAX_REQUEST}-->
+<!--{template $this_module header admin}-->
+<!--{/if}-->
+<script type="text/javascript" src="{$RESOURCE}/js/jq_ui.core.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_tabs.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<link rel="stylesheet" href="{$SKIN}/{$SYSTEM}/category_selector.css" type="text/css" />
+<form action="$this_url" method="post" id="_form"{if P8_AJAX_REQUEST} target="poster"{/if}>
+	<div class="mainbox mainborder">
+		<table border="0" cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['update_cms_category']}</td>
+			</tr>
+			<tr>
+				<td id="tabs">
+					<ul>
+						<li><a href="#tabs-1"> <span>{$P8LANG['cms_config']}</span> </a></li>
+						<li><a href="#tabs-2"> <span>{$P8LANG['cms_config_style']}</span> </a></li>
+						<li><a href="#tabs-3"> <span>{$P8LANG['cms_config_other']}</span> </a></li>
+					</ul>
+					<div id="tabs-1">
+						<table class="columntable formtable hover_table">
+							<tr>
+								<td class="tdL">{$P8LANG['cms_category_name']}</td>
+								<td class="tdR"><input type="text" class="txt" id="name" name="name"  value="{$data['name']}" /> </td>
+							</tr>
+							<tr>
+								<td class="tdL">{$P8LANG['cms_category_type']}</td>
+								<td class="tdR"> <input name="type" id="type_1" type="radio" value="1"{if !empty($data['type']) && $data['type'] == 1} checked{/if}  onclick="showoutlink(1)"/>
+									<label for="type_1">{$P8LANG['cms_category_type_1']}</label>
+									<input name="type" id="type_2" type="radio" value="2"{if !empty($data['type']) && $data['type'] == 2} checked{/if}  onclick="showoutlink(2)"/>
+									<label for="type_2">{$P8LANG['cms_category_type_2']}</label>
+									<input name="type" id="type_3" type="radio" value="3"{if !empty($data['type']) && $data['type'] == 3} checked{/if} onclick="showoutlink(3)"/>
+									<label for="type_3">{$P8LANG['cms_category_type_3']}</label>
+								</td>
+							</tr>
+							<tr>
+								<td class="tdL">{$P8LANG['cms_parent_category']}</td>
+								<td class="tdR"> <span id="parents"></span> <input type="button" value="选择栏目.." onclick="dialog.show()" /> <input type="hidden" name="parent" /> <input type="hidden" id="parent" value="{if !empty($data['parent'])}$data[parent]{/if}" /> </td>
+							</tr>
+							<tr id="category_outlink">
+										<td class="tdL">{$P8LANG['cms_category_outlink']}</td>
+										<td class="tdR">
+											<input type="text" class="txt" name="url" id="outlink" value="{if !empty($data['url'])}$data[url]{/if}" size="50"/>
+										</td>
+							</tr>
+							<tbody id="category_model">	
+							<tr>
+								<td class="tdL">在线办事栏目</td>
+								<td class="tdR"> <input name="iswork" type="radio" value="0" {if empty($data['iswork'])}checked{/if} /> {$P8LANG['N']} <input name="iswork" type="radio" value="1" {if !empty($data['iswork'])}checked{/if}/> {$P8LANG['Y']}<span class="point">(作为在线办事可以布内容的最小栏目必选)</span> </td>
+							</tr>
+							
+							<tr>
+								<td class="tdL">{$P8LANG['cms_category_model']}</td>
+								<td class="tdR">
+									<select name="model" id="model" onchange="change_model(this.value)">
+										<!--{foreach $models $mod $v}-->
+										<option value="$mod"{if !empty($data['model']) && $data['model'] == $mod}selected{/if}>
+										$v[alias]
+									
+										</option>
+										<!--{/foreach}-->
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="tdL">每页内容数量</td>
+								<td class="tdR"><input type="text" class="txt" name="page_size"  value="{if !empty($data['page_size'])}{$data['page_size']}{else}20{/if}" size="4" /> 条 </td>
+							</tr>
+							<tr>
+							<td class="tdL">排序</td>
+							<td class="tdR"><input type="text" class="txt" name="display_order"  value="{if !empty($data['display_order'])}{$data['display_order']}{else}0{/if}" size="4" /> 
+							</td>
+						</tr>
+							<tr>
+								<td class="tdL">{$P8LANG['cms_category_content_orderby']}</td>
+								<td class="tdR">
+									<select name="config[orderby]">
+										<!--{foreach $order_fields $name $v}-->
+										<option value="$name"{if !empty($config['orderby']) && $config['orderby'] == $name} selected{/if}>
+										$v
+										</option>
+										<!--{/foreach}-->
+									</select>
+									<input type="radio" name="config[orderby_desc]" value="0"{if empty($config['orderby_desc'])} checked{/if} />降序 <input type="radio" name="config[orderby_desc]" value="1"{if !empty($config['orderby_desc'])} checked{/if} />升序 </td>
+							</tr>
+							<!--
+						<tr>
+							<td class="tdL">栏目管理员</td>
+							<td class="tdR">
+								<input type="text" name="config[administrator]" value="{if !empty($config['administrator'])}$config[administrator]{/if}" size="80" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['cms_category_Commentable']}</td>
+							<td class="tdR"><input name="allowcomment" type="radio" value="1" checked="checked"/>
+								{$P8LANG['cms_category_Comments_open']}
+								<input name="allowcomment" type="radio" value="0" />
+								{$P8LANG['cms_category_Comments_close']} </td>
+						</tr>
+						-->
+						</tbody>
+						</table>
+					</div>
+					<div id="tabs-2">
+						<table class="columntable formtable hover_table">
+							<tr>
+								<td class="tdL">{$P8LANG['cms_category_list_template']}</td>
+								<td class="tdR"> <input type="text" class="txt" name="list_template" id="lt" value="{if !empty($data['list_template'])}$data[list_template]{/if}" size="30" /> <input type="button" value="{$P8LANG['select_template']}" onclick="list_template_dialog.show()" /> </td>
+							</tr>
+							<tr>
+								<td class="tdL">{$P8LANG['cms_category_view_template']}</td>
+								<td class="tdR"> <input type="text" class="txt" name="view_template" id="vt" value="{if !empty($data['view_template'])}$data[view_template]{/if}" size="30" /> <input type="button" value="{$P8LANG['select_template']}" onclick="view_template_dialog.show()" /> </td>
+							</tr>
+							<tr>
+								<td class="tdL">{$P8LANG['cms_category_item_template']}</td>
+								<td class="tdR"> <input type="text" class="txt" name="item_template" id="it" value="{if !empty($data['item_template'])}$data[item_template]{/if}" size="30" /> <input type="button" value="{$P8LANG['select_template']}" onclick="item_template_dialog.show()" /> </td>
+							</tr>
+						</table>
+					</div>
+					<div id="tabs-3">
+						<table class="columntable formtable hover_table">
+							<tr>
+								<td class="tdL">{$P8LANG['bind_domain']}</td>
+								<td class="tdR"> <input type="text" class="txt" name="domain"  value="{if !empty($data['domain'])}{$data['domain']}{/if}" size="60" /> </td>
+							</tr>
+							<tr>
+								<td class="tdL">{$P8LANG['htmlize']}</td>
+								<td class="tdR"> <input type="radio" name="htmlize" value="1"{if !empty($data['htmlize'])} checked{/if} />{$P8LANG['Y']} <input type="radio" name="htmlize" value="0"{if empty($data['htmlize'])} checked{/if} />{$P8LANG['N']} <input type="checkbox" name="htmlize_apply_category" value="1" id="apply" />
+									<label for="apply">{$P8LANG['cms_category_apply_to_sub_categories']}</label>
+								</td>
+							</tr>
+							<tr>
+								<td class="tdL">{$P8LANG['cms_category_html_path']}</td>
+								<td class="tdR">
+									<!--{if !empty($data['path'])}-->
+									<input type="text" class="txt" name="path"  value="<!--{php echo basename($data['path']);}-->" size="60" /> {\$DOCUMENT_ROOT}
+									<!--{php echo str_replace(PHP168_PATH, '', $this_system->path . $data['path']);}-->
+									<!--{else}-->
+									<input type="text" class="txt" name="path"  value="" size="60" />
+									<!--{/if}-->
+									<span class="help">{$P8LANG['cms_category_html_path_note']}</span> </td>
+							</tr>
+							<tr>
+								<td class="tdL">{$P8LANG['html_list_url_rule']}</td>
+								<td class="tdR"> <input type="text" class="txt" name="html_list_url_rule"  value="{if !empty($data['html_list_url_rule'])}{$data['html_list_url_rule']}{else}{\$category_url}/#list-{\$page}.html#{/if}" size="70" /> <span class="help">{$P8LANG['cms_category_html_list_rule_note']}</span> </td>
+							</tr>
+							<tr>
+								<td class="tdL">{$P8LANG['html_view_url_rule']}</td>
+								<td class="tdR"> <input type="text" class="txt" name="html_view_url_rule"  value="{if !empty($data['html_view_url_rule'])}{$data['html_view_url_rule']}{else}{\$category_url}/{\$Y}_{\$m}/{\$d}_{\$H}/content-{\$id}#-{\$page}#.html{/if}" size="70" /> <span class="help">{$P8LANG['cms_category_html_view_rule_note']}</span> </td>
+							</tr>
+							<tr>
+								<td class="tdL">{$P8LANG['seo_keywords']}</td>
+								<td class="tdR"> <input type="text" name="seo_keywords" value="{if !empty($data['seo_keywords'])}$data[seo_keywords]{/if}" size="80" /> </td>
+							</tr>
+							<tr>
+								<td class="tdL">{$P8LANG['seo_description']}</td>
+								<td class="tdR"> <input type="text" name="seo_description" value="{if !empty($data['seo_description'])}$data[seo_description]{/if}" size="80" /> </td>
+							</tr>
+							<tr>
+								<td class="tdL">{$P8LANG['cms_category_label_postfix']}</td>
+								<td class="tdR"> <input type="text" name="label_postfix" value="{if !empty($data['label_postfix'])}$data[label_postfix]{/if}" size="15" /> <input type="button" value="填充后缀" onclick="$(this).prev().val('category_$data[id]')" /> <span class="help">{$P8LANG['cms_category_label_postfix_note']}</span> </td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+			</tr>
+		</table>
+	</div>
+	<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" />
+	<!--{if P8_AJAX_REQUEST}-->
+	<input type="hidden" name="_ajax_request" value="1" />
+	<!--{/if}-->
+</form>
+<script type="text/javascript">
+
+function change_model(name){
+	$('#lt').val(name ? name +'/list' : 'list');
+	$('#vt').val(name ? name +'/view' : 'view');
+}
+
+$('#_form').validate({
+	rules: {
+		name: {
+			required: true
+		},
+		<!--{if $ACTION == 'update'}-->
+		parent: {
+			remote: {
+				url: '$this_router-verify',
+				data: {
+					data: 'parent',
+					id: function(){return $('#_form input[name=id]').val();},
+					parent: function(){return $('#_form input[name=parent]').val();}
+				},
+				beforeSend: function(){
+					ajaxing({});
+				},
+				complete: function(){
+					ajaxing({action: 'hide'});
+				}
+			}
+		},
+		path: {
+			required: function(){return parseInt($('#_form input[name=htmlize]:checked').val()) ? true : false},
+			remote: {
+				url: '$this_router-verify',
+				data: {
+					id: $('#_form input[name=id]').val(),
+					data: 'path',
+					parent: function(){return $('#_form input[name=parent]').val();},
+					path: function(){return $('#_form input[name=path]').val();}
+				},
+				beforeSend: function(){
+					ajaxing({});
+				},
+				complete: function(){
+					ajaxing({action: 'hide'});
+				}
+			}
+		},
+		<!--{/if}-->
+		model: {
+			required: true
+		}
+	},
+	
+	messages: {
+		name: {
+			required: '{$P8LANG['cms_category_name_can_not_be_empty']}'
+		},
+		model: {
+			required: '{$P8LANG['cms_category_model_can_not_be_empty']}'
+		},
+		
+		parent: {
+			remote: '{$P8LANG['cms_parent_category_error']}'
+		},
+		path: {
+			required: 'path',
+			remote: '{$P8LANG['cms_category_html_path_exists']}'
+		}
+	},
+	
+	errorPlacement: function(error, element) {
+		error.wrap('<div></div>').appendTo(element.parent().prev());
+	},
+	wrapper: 'div',
+	
+	onkeyup: false
+});
+
+$('#name').focus();
+
+var _CATEGORY_JSON = $json[json];
+var _CATEGORY_PATH = $json[path];
+
+var dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_parent_category']}',
+	button: true,
+	width: 600,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		parent_path();
+	},
+	show: function(){
+		cs.init();
+	}
+});
+
+function parent_path(){
+	var val = $('#parent').val();
+	$('#_form input[name=parent]').val(val);
+	
+	$('#parents').empty();
+	
+	var path = _CATEGORY_PATH[val];
+	if(!path) return;
+	for(var i = 0; i < path.length; i++){
+		var cat = cs.get_by_id(path[i]);
+		$('#parents').append($('<span>'+ cat.name +' &gt; </span>'));
+	}
+}
+
+var cs = new Recursive_Selector({
+	json: _CATEGORY_JSON,
+	path: _CATEGORY_PATH,
+	input: $('#parent'),
+	dialog: dialog,
+	sub_property: 'categories',
+	item_callback: function(cat, item){
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	},
+	parents: <!--{if !empty($data['parent'])}-->clone(_CATEGORY_PATH[$data[parent]])<!--{else}-->null<!--{/if}-->
+});
+
+var list_template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#lt').val(list_template_selector.value);
+	},
+	show: function(){
+		list_template_selector.init();
+	}
+});
+var list_template_selector = new Template_Selector({
+	base_dir: '{$this_system.CONFIG['template']}/{$this_system.name}/item/',
+	selected: $('#lt').val(),
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: list_template_dialog
+});
+
+var view_template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#vt').val(view_template_selector.value);
+	},
+	show: function(){
+		view_template_selector.init();
+	}
+});
+var view_template_selector = new Template_Selector({
+	base_dir: '{$this_system.CONFIG['template']}/{$this_system.name}/item/',
+	selected: $('#vt').val(),
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: view_template_dialog
+});
+
+var item_template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#it').val(item_template_selector.value);
+	},
+	show: function(){
+		item_template_selector.init();
+	}
+});
+var item_template_selector = new Template_Selector({
+	base_dir: 'label/',
+	selected: $('#it').val(),
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: item_template_dialog
+});
+function showoutlink(f){
+	if(f=='3'){
+		$('#category_outlink').show(); $('#category_model').hide();
+		$('#_form *[name="model"]').rules('remove', {
+		required: true,
+		messages: { required: '{$P8LANG['cms_category_model_can_not_be_empty']}'}
+	});
+	}else{
+		$('#category_outlink').hide(); $('#category_model').show();
+		$('#_form *[name="model"]').rules('add', {
+		required: true,
+		messages: { required: '{$P8LANG['cms_category_model_can_not_be_empty']}'}
+	});
+	}
+}
+$(function() {
+	$("#tabs").tabs();
+	
+	parent_path();
+	showoutlink('{$data['type']}');
+	<!--{if P8_AJAX_REQUEST}-->
+	init_help($('#_form'));
+	<!--{/if}-->
+});
+
+</script>
+<!--{if !P8_AJAX_REQUEST}-->
+<!--{template $core footer admin}-->
+<!--{/if}-->
+<!--{/php168}-->

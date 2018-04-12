@@ -1,0 +1,143 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+		<tr>
+			<td class="title"></td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				<ul>
+					<li>
+						<a href="$this_router-list?system=core">
+						<!--{if $system == 'core'}-->
+						<b>{$P8LANG['core']}</b>
+						<!--{else}-->
+						{$P8LANG['core']}
+						<!--{/if}-->
+						</a>
+					</li>
+				<!--{foreach $systems $k $v}-->	
+					<!--{if isset($this_module->CONFIG['enables'][$k])}-->
+					<li>
+						<a href="$this_router-list?system=$k">
+						<!--{if $system == $k}-->
+						<b>{$v['alias']}</b>
+						<!--{else}-->
+						{$v['alias']}
+						<!--{/if}-->
+						</a>
+					</li>
+					<!--{/if}-->
+				<!--{/foreach}-->
+				</ul>
+			</td>
+		</tr>
+		</table>
+	
+		<table class="formtable">
+		<tr>
+			<td class="headerbtn_list">
+				<ul>
+				<!--{foreach $modules $k $v}-->	
+					<!--{if isset($this_module->CONFIG['enables'][$system][$k])}-->
+					<li>
+						<a href="$this_router-list?system=$system&module={$v['name']}">
+						<!--{if $module == $k}-->
+						<b>{$v['alias']}</b>
+						<!--{else}-->
+						{$v['alias']}
+						<!--{/if}-->
+						</a>
+					</li>
+					<!--{/if}-->
+				<!--{/foreach}-->
+				</ul>
+			</td>
+		</tr>
+		</table>
+	</div>
+</div>
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<form action="" method="post" id="form">
+		<table width="100%" class="columntable formtable hover_table click_changeable">
+		<tr class="title">
+			<td class="title"><input type="checkbox" onclick="check_all(this, 'id[]');init_tr($('#form'));" /></td>
+			<td class="title">ID</td>
+			<td class="title">{$P8LANG['upload_username']}</td>
+			<td class="title">{$P8LANG['upload_filename']}</td>
+			<td class="title">{$P8LANG['upload_path']}</td>
+			<td class="title">{$P8LANG['upload_time']}</td>
+			<td class="title">{$P8LANG['upload_ext']}</td>
+			<td class="title">{$P8LANG['operation']}</td>
+		</tr>
+		
+		<!--{foreach $list $value}-->
+		<tr id="item_$value[id]">
+			<td><input type="checkbox" name="id[]" value="{$value['id']}" /></td>
+			<td>{$value['id']}</td>
+			<td>{$value['username']}</td>
+			<td>{$value['filename']}</td>
+			<td>
+				<a href="{if $value['remote']}{$a_config['remote']['server'][$value['remote']]}{else}{$core.attachment_url}{/if}/{$value['path']}" target="_blank">{$value['path']}</a>
+			</td>
+			<td>{date('Y-m-d H:i', $value['timestamp'])}</td>
+			<td>{$value['ext']}</td>
+			<td>
+				<a href="###" onclick="_delete_item(['$value[id]'])">{$P8LANG['delete']}</a>
+			</td>
+		</tr>
+		<!--{/foreach}-->
+		
+		</table>
+		</form>
+		
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+		<tr>
+			<td align="center" class="pages">
+				$pages
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="button" value="{$P8LANG['delete']}" onclick="_delete_item(checked_values('id[]', $('#form')))" class="edit_btn" />
+			</td>
+		</tr>
+		</table>
+	</div>
+</div>
+
+<script type="text/javascript">
+function _delete_item(array){
+	var id = [];
+	$(array).each(function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(!id.length) return;
+	
+	if(!confirm('{$P8LANG['confirm_to_delete']}')) return;
+	
+	$.ajax({
+		url: '$this_router-delete',
+		type: 'post',
+		dataType: 'json',
+		cache: false,
+		data: ajax_parameters({system: '$system', id: id}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i = 0; i < json.length; i++){
+				$('#item_'+ json[i]).remove();
+			}
+		}
+	});
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

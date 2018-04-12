@@ -1,0 +1,120 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}../cms/search/style.css" />
+<div class="container">
+	<div class="search_outbox">
+		<div class="search_left">	
+			<div class="searchyear">按年份搜索</div>
+			<div class="searchdate">
+				<dl class="opt">
+					<!--{if !$year}-->
+					<dd class="dd-selected">全部时间</dd>
+					<!--{else}-->
+					<a class="a-no-selected" href="{$year_url}"><dd class="dd-no-selected">全部时间</dd></a>
+					<!--{/if}-->
+					
+					<!--{foreach $get_year $v}-->
+						<!--{if $v==$year}-->
+						<dd class="dd-selected">{$v}年</dd>
+						<!--{else}-->
+						<a class="a-no-selected" href="{$year_url}{$v}"><dd class="dd-no-selected">{$v}年</dd></a>
+						<!--{/if}-->
+					<!--{/foreach}-->
+				</dl>	
+			</div>
+		</div>
+		<div class="search_right">
+			<div class="searchhead">
+				<ul>
+					<li><a href="javascript:void(0)">全站搜索<span>( 约{$count} )</span></a></li>
+					<li><a href="javascript:void(0)">新闻动态<span>( 约{$count} )</span></a></li>
+					<li><a href="javascript:void(0)">政策法规<span>( 约{$count} )</span></a></li>
+					<li><a href="javascript:void(0)">信息公开<span>( 约{$count} )</span></a></li>
+					<li><a href="javascript:void(0)">网上办事<span>( 约{$count} )</span></a></li>
+				</ul>
+			</div>
+			<div class="searchbox">
+				<form name="form1" action="" method="get">
+					<div class="search_buttom">
+						<div class="forminput">
+							搜索内容：				
+							<input name="search_type" type="radio" value="0" <!--{if $search_type==0}-->checked="checked"<!--{/if}--> /> 标题+内容
+							<input name="search_type" type="radio" value="1" <!--{if $search_type==1}-->checked="checked"<!--{/if}--> /> 标题
+							<input name="search_type" type="radio" value="2" <!--{if $search_type==2}-->checked="checked"<!--{/if}--> /> 内容
+							<input name="search_type" type="radio" value="3" <!--{if $search_type==3}-->checked="checked"<!--{/if}--> /> 作者
+							<input name="search_type" type="radio" value="4" <!--{if $search_type==4}-->checked="checked"<!--{/if}--> /> 添加人
+						</div>
+						<div class="forminput">关键字：<input name="keyword" type="text" class="search_input" value="{$keyword}" /></div>
+						<div class="forminput">
+							模型：
+							<select name="model">
+								<option value="" <!--{if !$model}-->selected="selected"<!--{/if}-->>不限模型</option>
+								<!--{foreach $models $v}-->
+								<option value="{$v[name]}" <!--{if $model==$v[name]}-->selected="selected"<!--{/if}-->>{$v[alias]}</option>
+								<!--{/foreach}-->
+							</select>
+							时间：<input name="starttime" value="{date("Y-m-d", $starttime)}" type="text" size="10"/> - <input name="endtime" value="{date("Y-m-d", $endtime)}" type="text" size="10"/>
+						</div>
+						<div class="formsub"><input type="submit" class="search_bottom" value="搜索"/></div>
+					</div>
+					<div class="clear"></div>			
+				</form>
+			</div>
+			<div class="search_content">
+				<ul>
+					<!--{php $i=0;}-->
+					<!--{foreach $list $value}-->
+					<li class="search_result">
+						<div class="title">
+							<a href="$value[url]" target="_blank" class="item_title">$value[title]</a>  (<!--{php echo date('Y-m-d',$value[timestamp]);}-->)
+						</div>
+						<div class="item_summary">
+							$value[summary]
+						</div>
+						<div class="suctime">
+							<a href="$value[url]" target="_blank">$value[url]</a> <span class="label_category">【<a href="$value[category_url]" target="_blank">$value[category_name]</a>】</span>
+						</div>
+					</li>
+					<!--{/foreach}-->
+				</ul>
+				<div style="text-align:center;margin-top:50px;" class="pages">
+					$pages
+				</div>
+				<script type="text/javascript">
+
+					$(function(){
+
+							   $('#search_top span').each(function (i){ $(this).click( function(){ $('#search_top span').removeClass();$(this).addClass('over');})});
+
+						var keywords = '<!--{php echo str_replace('\'', '\\\'', $keyword);}-->'.replace(/[\+\-\*\|\!]/g, '').split(/\s+/);
+
+						
+
+						$('.search_result').each(function(){
+
+							for(var i = 0; i < keywords.length; i++){
+
+								var html = $(this).find('.item_title').get(0).innerHTML;
+
+								$(this).find('.item_title').get(0).innerHTML = html.replace(keywords[i], '<font color="red">'+ keywords[i] +'</font>', 'ig');
+
+								
+
+								var html = $(this).find('.item_summary').get(0).innerHTML;
+
+								$(this).find('.item_summary').get(0).innerHTML = html.replace(keywords[i], '<font color="red">'+ keywords[i] +'</font>', 'ig');
+
+							}
+
+						});
+
+					});
+				</script>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--{template $core footer}-->
+
+<!--{/php168}-->

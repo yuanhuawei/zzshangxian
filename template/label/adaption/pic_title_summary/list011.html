@@ -1,0 +1,20 @@
+<!--{php168}-->
+<style type="text/css">
+.label_adap_pic_com_ul11 .img2,.label_adap_pic_com_ul11 .img5,.label_adap_pic_com_ul11 .img9{border-top: 2px solid #e0823d;}
+</style>
+<!--{php $i=0;}-->
+<ul class="label_adap_pic_com_ul11">
+	<!--{foreach $list $value}-->
+	<!--{php $i ++;}-->
+	<li class="col-md-4 col-sm-4 col-xs-12">
+		<div class="media label-media img$i">
+			<a href="$value[url]" target="_blank" title="$value[full_title]" style="{if empty($value['frame'])}display:none;{else}display:block{/if}"><img width="100%" height="120" alt="$value[full_title]"  src="$value[frame]" /></a>
+			<div class="media-body">
+				<h3 class="label_title"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></h3>
+				<p class="summary">$value[summary]</p>
+			</div>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

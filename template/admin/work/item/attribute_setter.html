@@ -1,0 +1,69 @@
+<!--{php168}-->
+
+<div id="attributes">
+<div class="fright">
+<form id="attr_request" method="get" action="$this_router-attribute"{if $ACTION != 'attribute'} target="_blank"{/if}>
+<select name="attribute" onchange="if(this.value) {if $ACTION == 'attribute'}this.form.cid.value = 0;$('#cids').empty();request_item(1);{else}this.form.submit();{/if}">
+	<option value="">--文章属性筛选--</option>
+	<!--{foreach $this_module->attributes $aid $v}-->
+	<option value="$aid"{if !(empty($attribute)) && $attribute == $aid} selected{/if}>{$P8LANG['cms_item']['attribute'][$aid]}</option>
+	<!--{/foreach}-->
+</select>&nbsp;
+<!--{if $ACTION == 'attribute'}-->
+<span id="cids"></span>
+<input type="hidden" name="cid" id="cid" />
+<input type="button" value="按分类筛选" onclick="dialog.show()" />
+<!--{/if}-->
+</form>
+</div>
+<div class="fleft">
+<form id="att_form" method="post" action="$this_router-attribute" target="attr_poster">
+	<!--{if !empty($allow_attribute)}-->
+	<!--{foreach $this_module->attributes $aid $v}-->
+	<input type="checkbox" name="attribute[$aid]" id="attribute[$aid]" value="$aid" /><label for="attribute[$aid]">{$P8LANG['cms_item']['attribute'][$aid]}</label> 
+	<!--{/foreach}-->
+	&nbsp;选中项:
+	<input type="button" value="{$P8LANG['cms_item']['set_attribute']}" onclick="set_attribute()" />
+	<input type="button" value="{$P8LANG['cms_item']['delete_attribute']}" onclick="delete_attribute()" />
+	<!--{/if}-->
+	<div id="attr_ids"></div>
+	<input type="hidden" name="act" />
+</form>
+</div>
+</div>
+
+<iframe name="attr_poster" style="display: none;"></iframe>
+
+<script type="text/javascript">
+	function set_attribute(){
+		//no item or attribute selected
+		var ids = collect_attribute_ids();
+		if(!ids.length || !$('#attributes input[type=checkbox][id^=attribute]:checked').length) return;
+		
+		ajaxing({});
+		$('#att_form input[name=act]').val('set');
+		$('#att_form').get(0).submit();
+	}
+	
+	function delete_attribute(){
+		//no item or attribute selected
+		var ids = collect_attribute_ids();
+		if(!ids.length || !$('#attributes input[type=checkbox][id^=attribute]:checked').length) return;
+		
+		ajaxing({});
+		$('#att_form input[name=act]').val('delete');
+		$('#att_form').get(0).submit();
+	}
+	
+	function collect_attribute_ids(){
+		var ids = $('#form input[type=checkbox]:checked');
+		$('#attr_ids').empty();
+		ids.each(function(){
+			$('<input type="hidden" name="id[]" />').val(this.value).appendTo($('#attr_ids'));
+		});
+		
+		return ids;
+	}
+	
+</script>
+<!--{/php168}-->

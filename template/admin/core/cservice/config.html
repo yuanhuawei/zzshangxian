@@ -1,0 +1,35 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<form name="form" id="form" method="post">
+			<table width="100%" border="0" cellspacing="1" cellpadding="3" class="columntable formtable hover_table click_changeable">
+				<tr class="title">
+					<td colspan="2">设置</td>
+				</tr>
+				<tr>
+					<td>问题分类</td>
+					<td>
+						<!--{foreach $config['cs_category'] $k $v}-->		
+							<input name="config[cs_category][$k]" type="text" value="$v" class="forminput"/><br />
+						<!--{/foreach}-->		
+						<span id="more"></span>
+						<input type="button" value="添加分类" class="addmore" onclick="addmore()" />
+					</td>
+				</tr>
+				<tr>
+				<td></td><td><input type="submit" value="确定" class="submit_btn" /></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+function addmore(){
+	$('#more').append('<input name=\"config[cs_category]['+ Math.random().toString().substr(3,5)+']\" type=\"text\" class=\"forminput"\ /><br/>');
+	
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

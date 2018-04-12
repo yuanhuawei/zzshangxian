@@ -1,0 +1,91 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<div class="list_nave">
+	您的位置：<a href="{$this_system.url}">首页</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>
+</div>
+<!--左边-->
+<div class="list_left">
+	<div class="big_head mtop">
+		<div class="xve">
+			<div class="vd_mbottom">
+				$label[vd_big_content_1]
+			</div>
+			<div>
+				$label[vd_big_content_2]
+			</div>
+			&nbsp;
+		</div>
+		<div class="fds">
+			$label[vd_big_content_3]
+		</div>
+		<div class="clear">
+		</div>
+	</div>
+	<!--{php $i = 0;}-->
+	<!--{foreach $subcategories $v}-->
+	<!--{php if($i > 5) break; $i++;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+	<div class="list_head2 mtop" >
+		<span class="list_title3">$v[name]</span> <a class="list_more1" href="$v[url]">>>>更多</a>
+	</div>
+	<div class="list_content1">
+		$label[vd_big_list]{'i.cid' => $subcat, 'model' => $MODEL}
+	</div>
+	<!--{/foreach}-->
+</div>
+<!--右边-->
+<div class="list_right">
+    <div class="list_head2 mtop">
+		<span class="list_title1">$label[vd_blist_title0]</span> <span class="list_more1">$label[vd_blist_more0]</span>
+	</div>
+	<div class="list_content_categories">
+		<table>
+		    <tr>
+			   <td>
+		<!--{foreach $subcategories $v}-->
+		<div class="intranet_list_nm"><a href="$v[url]">$v[name]</a></div>
+		<!--{/foreach}-->
+		</td>
+		   </tr>
+		</table>
+	</div>
+	<div class="list_head2 mtop">
+		<span class="list_title1">$label[vd_blist_title1]</span> <span class="list_more1">$label[vd_blist_more1]</span>
+	</div>
+	<div class="list_content1">
+		$label[vd_blist_content1]
+	</div>
+	<div class="list_head2 mtop">
+		<span class="list_title1">$label[vd_blist_title2]</span> <span class="list_more1">$label[vd_blist_more2]</span>
+	</div>
+	<div class="list_content1">
+		$label[vd_blist_content2]
+	</div>
+	<div class="list_head2 mtop">
+		<span class="list_title1">$label[vd_blist_title3]</span> <span class="list_more1">$label[vd_blist_more3]</span>
+	</div>
+	<div class="list_content1">
+		$label[vd_blist_content3]
+	</div>
+	<div class="list_head2 mtop">
+		<span class="list_title1">$label[vd_blist_title4]</span> <span class="list_more1">$label[vd_blist_more4]</span>
+	</div>
+	<div class="list_content1">
+		$label[vd_blist_content4]
+	</div>
+	<div class="list_head2 mtop">
+		<span class="list_title1">$label[vd_blist_title5]</span> <span class="list_more1">$label[vd_blist_more5]</span>
+	</div>
+	<div class="list_content1">
+		$label[vd_blist_content5]
+	</div>
+</div>
+<div class="clear">
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

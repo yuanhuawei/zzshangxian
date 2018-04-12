@@ -1,0 +1,182 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript">
+var label_type = 'slide';
+var action = '$ACTION';
+var _system;
+var _module;
+var imageCount = 0;
+</script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<form action="$this_url" method="POST" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<table class="columntable formtable ">
+							<tr>
+								<td colspan="2" class="title">{$P8LANG['label_scope']}</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div id="tabs"  class="tab_box mtop">
+										<div class="head">
+											<span><a>风格样式</a></span>
+											<span><a>其它设置</a></span>
+										</div>
+										<div class="main">
+											<div class="content">
+											<table width="100%" class="hover_table">
+												<tr>
+													<td class="tdL">幻灯片尺寸</td>
+													<td class="tdR"> 
+														宽<input name="option[width]" type="text" class="txt" value="{if !empty($option['width'])}$option[width]{else}300{/if}" /><br/>
+														高<input name="option[height]" type="text" class="txt" value="{if !empty($option['height'])}$option[height]{else}300{/if}" />
+													</td>
+												</tr>
+												
+												<tr>
+													<td class="tdL">{$P8LANG['label_template']}</td>
+													<td class="tdR"> <input type="text" class="txt" name="option[template]" id="template" value="{if !empty($option['template'])}$option[template]{else}cms/slide/gov_slide2{/if}" /> <input type="button" value="选择" onclick="template_dialog.show()" />
+													</td>
+												</tr>
+												
+												<tr id="clone" style="display: none;" class="data">
+													<td class="tdL">幻灯片图片</td>
+													<td class="tdR">
+														<b style="cursor: move; background: url({$RESOURCE}/images/draggable.png) no-repeat 0px -20px;">&nbsp;&nbsp;</b>
+														图片标题：<input type="text" class="txt" />
+														网址链接：<input type="text" class="txt" />
+														图片：<input type="text" class="txt" />
+														<input type="button" value="选择图片" />
+														<input type="button" value="删除图片" />
+													</td>
+												</tr>
+												
+												<tbody id="images">
+													
+												</tbody>
+												<script type="text/javascript" src="{$RESOURCE}/js/sortable.js"></script>
+												<script type="text/javascript">
+												function _add(data){
+													var data = data === undefined ? {} : data;
+													var copy = $('#clone').clone(true).attr('id', '').show();
+													
+													var uploader = new P8_Upload({
+														element: {
+															src: copy.find('input[type=text]:eq(2)'),
+															attribute: 'value'
+														},
+														callback: function(json){
+															copy.find('input[type=text]:eq(0)').val(json.attachments[0].name);
+															if(json.attachments.length > 1){
+																var files = json.attachments;
+																for(var i = 1; i < files.length; i++){
+																	_add({
+																		title: files[i].name,
+																		src: files[i].file
+																	});
+																}
+															}else{
+                                                                var files = json.attachments;
+                                                                console.log(files);
+                                                                copy.find('input[type=text]:eq(0)').val(files[0].name);
+                                                                copy.find('input[type=text]:eq(2)').val(files[0].file);
+                                                            }
+														}
+													});
+													
+													copy.find('input[type=text]:eq(0)').attr('name', 'option[images][title][]').val(data.title ? data.title : '');
+													copy.find('input[type=text]:eq(1)').attr('name', 'option[images][url][]').val(data.url ? data.url : '');
+													copy.find('input[type=text]:eq(2)').attr('name', 'option[images][src][]').val(data.src ? data.src : '');
+													copy.find('input[type=button]:eq(0)').click(function(){
+														uploader.choseup();
+													});
+													copy.find('input[type=button]:eq(1)').click(function(){
+														copy.remove();
+													});
+													
+													copy.appendTo($('#images'));
+													
+													sortable.refresh();
+												}
+												var sortable = new $.p8_sortable({
+													selector: {
+														range: '.data',
+														drag: 'b'
+													},
+													type: 'y'
+												});
+												$(function(){
+												<!--{foreach $option['images']['title'] $k $v}-->
+												_add({
+													title: '{$option['images']['title'][$k]}',
+													src: '{$option['images']['src'][$k]}',
+													url: '{$option['images']['url'][$k]}'
+												});
+												<!--{/foreach}-->
+												<!--{foreachelse}-->
+												_add();
+												<!--{/foreachelse}-->
+												});
+												</script>
+												<tbody id="addmore"></tbody>
+												<tr>
+													<td class="tdL">添加更多图片</td>
+													<td class="tdR">
+													<input value="增加" type="button" class="submit_btn" onclick="_add();"/>
+												</tr>
+											</table>
+											</div>
+											<div class="content">
+												<!--{template $this_module other_set admin}-->
+											</div>
+										</div>
+									</div>
+									<script type="text/javascript">
+									MoveTabs("tabs", 0);
+								</script>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td align="center">
+						<input type="hidden" name="type" value="slide" />
+						<input type="submit" value="提交" class="submit_btn" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+</form>
+<script type="text/javascript">
+
+
+var template_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 600,
+	height: 400,
+	ok: function(){
+		$('#template').val(template_selector.value);
+	},
+	show: function(){
+		template_selector.init();
+	}
+});
+var template_selector = new Template_Selector({
+	base_dir: 'label/',
+	template_dir: '{$core.CONFIG['template_dir']}/',
+	selected: $('#template').val(),
+	dialog: template_dialog
+});
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

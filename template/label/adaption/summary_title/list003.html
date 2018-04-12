@@ -1,0 +1,14 @@
+<!--{php168}-->
+<ul class="label_adap_title_ul3">
+	<!--{foreach $list $value}-->
+	<li class="media">
+		<div class="media-body">
+			<div class="date"><!--{php echo date('Y-m-d', $value['timestamp']);}--><span class="recom"></span></div>
+			<h3><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></h3>
+			<p class="summary">$value[summary]</p>
+			<a href="$value[url]" target="_blank" class="button">查看更多</a>
+		</div>
+    </li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

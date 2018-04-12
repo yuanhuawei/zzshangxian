@@ -1,0 +1,13 @@
+/* CSS Document */
+
+
+.box{   overflow:hidden; _height:120px;}
+.picbox{ width:895px; height:120px; overflow:hidden; position:relative; margin-top:29px; margin-left:80px;}
+.piclist{ height:115px;position:absolute; left:0px; top:0px}
+.piclist li{ margin-right:10px;  float:left;}
+.piclist li img{ width:170px; height:120px;}
+.swaplist{ position:absolute; left:-3000px; top:0px}
+.og_prev,.og_next{ margin-left:55px; margin-top:-80px; width:30px; height:50px;  position:absolute; z-index:99; cursor:pointer;filter:alpha(opacity=70); opacity:0.7;}
+.og_prev{ background-position:0 -60px; left:4px;}
+.og_next{ background-position:0 0; right:8px;}
+

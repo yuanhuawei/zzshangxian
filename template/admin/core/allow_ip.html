@@ -1,0 +1,137 @@
+﻿<!--{php168}-->
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['operation']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					<ul>
+						<li><a href="{$core.admin_controller}/core-allow_ip">后台登陆ip限定</a></li>
+						<li><a href="{$core.admin_controller}/core-stop_ip">IP黑名单</a></li>
+						<li><a href="{$core.admin_controller}/core-word_filter">词语过滤</a></li>
+						<li><a href="{$core.admin_controller}/core-md5_files">文件改动扫描</a></li>
+						<li><a href="{$core.admin_controller}/core-global_config">后台路径/验证码/安全码设置</a></li>
+						<li><a href="{$core.admin_controller}/core-aboutlogin">登陆失败设置</a></li>
+					</ul>
+				</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+<form action="$this_url" method="post" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<table class="columntable formtable hover_table">
+							<tr>
+								<td colspan="3" class="title">IP允许</td>
+							</tr>
+							<tr>
+								<td class="tdL">是否启用IP允许:</td>
+								<td class="tdL">
+									<input type="radio" name="config[allow_ip][enabled]" value="1" {if !empty($config['allow_ip']['enabled'])} checked{/if}/>开启
+									<input type="radio" name="config[allow_ip][enabled]" value="0" {if empty($config['allow_ip']['enabled'])} checked{/if}/>不开启
+								</td>
+								<td class="tdR"><sapn class="point">启用IP允许后，IP禁止则失效</span></td>
+							</tr>
+							<tr>
+								<td colspan="3" align="center"><strong>全局ip白名单设置<strong></td>
+							</tr>
+							<tr>
+								<td class="tdL">允许IP:</td>
+								<td class="tdL">
+									<textarea cols="30" rows="8" name="config[allow_ip][collectip]">
+									<!-- {if !empty($config['allow_ip']['collectip'])} -->
+										<!-- {foreach $config['allow_ip']['collectip'] $key $value} -->
+											$key
+										<!-- {/foreach} -->
+									<!-- {/if} -->
+									</textarea>
+								</td>
+								<td class="tdR point">
+									注意:访问的客户端必须是固定IP或者在固定的IP段内<br>
+									否则很有可能导致客户端无法正常访问,此时只能通过修改后台文件强制进入后台进行修改恢复<br>
+									书写格式如下：<br>
+									192.168.0.2<br>
+									192.168.0.5<br>
+									...
+								</td>
+							</tr>
+							<tr>
+								<td class="tdL">允许IP段:</td>
+								<td class="tdL" align="right">
+									<input name="config[allow_ip][beginip]" type="text" class="txt" id="" value="{if !empty($config['allow_ip']['beginip'])}{$config['allow_ip']['beginip']}{/if}" size="33" />
+								</td>
+								<td class="tdR">
+									 -- <input id="" type="text" class="txt" name="config[allow_ip][endip]" value="{if !empty($config['allow_ip']['endip'])}{$config['allow_ip']['endip']}{/if}" /> 
+									<sapn class="point">例如：192.168.0.2-192.168.0.111</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="tdL">允许IP段内例外IP:</td>
+								<td class="tdL">
+									<textarea cols="30" rows="6" name="config[allow_ip][ruleoutip]">
+									<!-- {if !empty($config['allow_ip']['ruleoutip'])} -->
+										<!-- {foreach $config['allow_ip']['ruleoutip'] $key $value} -->
+											$key
+										<!-- {/foreach} -->
+									<!-- {/if} -->
+									</textarea>
+								</td>
+								<td class="tdR point">
+									附注:在允许IP段内，可以限制排除下列IP地址<br>
+									书写格式如下：<br>
+									192.168.0.2<br>
+									192.168.0.5<br>
+									...
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3" align="center"><strong>后台允许ip登陆白名单</strong></td>
+							</tr>
+							<tr>
+								<td class="tdL">允许登录后台IP段:</td>
+								<td class="tdL" align="right">
+									<input name="config[allow_ip][admin_beginip]" type="text" class="txt" id="" value="{if !empty($config['allow_ip']['admin_beginip'])}{$config['allow_ip']['admin_beginip']}{/if}" size="33" />
+								</td>
+								<td class="tdR">
+									 -- <input id="" type="text" class="txt" name="config[allow_ip][admin_endip]" value="{if !empty($config['allow_ip']['admin_endip'])}{$config['allow_ip']['admin_endip']}{/if}" /> 
+									<sapn class="point">例如：192.168.0.2-192.168.0.111</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="tdL">允许登录后台IP:</td>
+								<td class="tdL">
+									<textarea cols="30" rows="6" name="config[allow_ip][admin]">
+									<!-- {if !empty($config['allow_ip']['admin'])} -->
+										<!-- {foreach $config['allow_ip']['admin'] $key $value} -->
+											$key
+										<!-- {/foreach} -->
+									<!-- {/if} -->
+									</textarea>
+								</td>
+								<td class="tdR point">
+									写错很有可能导致进入后台<br/>
+									书写格式如下：<br>
+									192.168.0.2<br>
+									192.168.0.5<br>
+									...
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+			<input type="submit" value="保存设置" class="submit_btn" style="margin-left:5px;margin-top:10px;" />
+		</div>
+	</div>
+</form>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

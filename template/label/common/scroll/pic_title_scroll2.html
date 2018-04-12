@@ -1,0 +1,28 @@
+<!--{php168}-->
+<div class="layer" style="height:{$sheight}px;width:{$swidth}px;overflow:hidden" id="pingpaibox_{$label['id']}">
+	<div id="scroll_{$label['id']}" style="width:800%">
+		<ul class="label_pic_ul" id="pingpai_{$label['id']}" style="float:left;height:{$sheight}px;">
+		<!--{foreach $list $value}-->
+		<li style="float:left;display:inline-block; margin-right:5px">
+			<a href="$value[url]" target="_blank" title="$value[full_title]"><img width="{$sheight}" height="{$sheight}" alt="$value[full_title]" onload="this.height=this.width-30" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a>
+			<p class="label_pic_title2 center" style="width:{$sheight}px;"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></p>
+		</li>
+		<!--{/foreach}-->
+		</ul>
+		<ul class="fleft" id="pingpaicopy_{$label['id']}"  style="float:left;height:{$sheight}px;"></ul>
+	</div>
+	<script type="text/javascript">
+	(function(){
+		$('#pingpaicopy_{$label['id']}').html($('#pingpai_{$label['id']}').html());
+		var MyMar=setInterval(Marquee,20); 
+		$('#scroll_{$label['id']}').hover( function(){ clearInterval(MyMar) }, function(){ MyMar=setInterval(Marquee,20) } );
+		function Marquee(){var tab=$('#pingpaibox_{$label['id']}')[0], tab1=$('#pingpai_{$label['id']}')[0],tab2=$('#pingpaicopy_{$label['id']}')[0];
+		if(tab2.offsetWidth-tab.scrollLeft<=0)tab.scrollLeft-= tab1.offsetWidth;else{tab.scrollLeft++;}
+		$('#tab').html(tab.scrollLeft);
+		$('#tab1').html(tab1.offsetWidth);
+		$('#tab2').html(tab2.offsetWidth);
+		}
+	})()
+	</script>
+</div>
+<!--{/php168}-->

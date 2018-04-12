@@ -1,0 +1,36 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module header}--> 
+
+<div class="wrapper">
+	<p class="clear"></p>
+	<div class="note m20">
+		<p class="note_h">我的办事</p>
+		<p class="mt10"><span class="notes">待受理<a href="$this_router-my_list?verified=0" class="num"> {$myitem['noverify']['count']} </a>条</span><span class="notes">受理中<a href="$this_router-my_list?verified=1" class="num"> {$myitem['verifing']['count']} </a>条</span><span class="notes">已完结<a  href="$this_router-my_list?verified=99" class="num"> {$myitem['verified']['count']} </a>条</span></p>
+	</div>
+	<!--{if $adminitem}-->
+	<div class="note m20">
+		<p class="note_h">我管理的办事</p>
+		<p class="mt10"><span class="notes">待受理<a  href="$this_router-verify?verified=0" class="num"> {$adminitem['noverify']['count']} </a>条</span><span class="notes">受理中<a href="$this_router-verify?verified=1" class="num"> {$adminitem['verifing']['count']} </a>条</span><span class="notes">已完结<a href="$this_router-verify?verified=99" class="num"> {$adminitem['verified']['count']} </a>条</span></p>
+	</div>
+	<!--{/if}-->
+	<div class="layer m20">
+		<p class="layer_h"><span class="more">$label[work_center_more1]</span><span class="title">$label[work_center_t1]</span></p>
+		<div class="main">
+			$label[work_center_1]
+		</div>
+	</div>
+	<div class="layer m20">
+		<p class="layer_h"><span class="more">$label[work_center_more2]</span><span class="title">$label[work_center_t2]</span></p>
+		<div class="main">
+			$label[work_center_2]
+		</div>
+	</div>
+	<div class="layer m20">
+		<p class="layer_h"><span class="more">$label[work_center_more3]</span><span class="title">$label[work_center_t3]</span></p>
+		<div>$label[work_center_3]</div>
+	</div>
+</div>
+</div>
+<!--{template $this_module footer}-->
+<!--{/php168}-->

@@ -1,0 +1,27 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!--{template $core header_mobile_1}-->
+<div class="position">
+	<a href="{$core.mobile_controller}">首页</a>
+	<!--{foreach $parent_cats $v}-->
+	&gt; <a href="$v[url]">$v[name]</a>
+	<!--{/foreach}-->
+	&gt; <a href="$CAT[url]">$CAT[name]</a> 
+</div>
+<div class="listbox5">
+    <div class="ztpic">$label[Coray_mobile_zt_1]</div>
+	<div class="ztpic">$label[Coray_mobile_zt_2]</div>
+	<div class="ztpic">$label[Coray_mobile_zt_3]</div>
+	<div class="ztpic">$label[Coray_mobile_zt_4]</div>
+	<div class="ztpic">$label[Coray_mobile_zt_5]</div>
+	<div class="ztpic">$label[Coray_mobile_zt_6]</div>
+</div>
+<div id="end_cd">
+	<ul>
+		<li class="lione"><a href="{$core.mobile_controller}">&lt; &lt; 返回首页</a></li>
+		<li class="litwo"></li>
+		<li class="lithree"></li>
+	</ul>
+</div>
+<!--{template $core footer_mobile}-->
+<!--{/php168}-->

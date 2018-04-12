@@ -1,0 +1,93 @@
+<!--{php168}-->
+<!--{template $member header}-->
+<style type="text/css">
+.asklist { clear:both; display:block; }
+.asklist ul { clear:both; display:inline-block; width:100%; }
+.asklist ul li { float:left; height:20px; padding:8px 0px; border-bottom:1px dashed #ccc; }
+.asklist ul li.title { width:60%; font-size:14px; text-indent:6px; }
+.asklist ul li.title span { font-size:12px; }
+.asklist ul li.user { width:15%; }
+.asklist ul li.replies { width:10%; }
+.asklist ul li.time { width:10%; }
+.asklist ul li.status { width:5%; }
+</style>
+<div class="table">
+	<div class="tabs">
+		<li class="focus">{$P8LANG['ask_all_favorites']}</li>
+	</div>
+	<div id="list" class="asklist border">
+		<ul>
+			<li class="title"><span>{$P8LANG['ask_topic'] $count}</span></li>
+			<li class="user">{$P8LANG['ask_asker']}</li>
+			<!--{if !in_array($filter,array('verify','best'))}--><li style="width:5%">{$P8LANG['ask_status']}</li><!--{/if}-->
+			<li class="replies">{$P8LANG['ask_reply']}</li>
+			<li class="time">{$P8LANG['ask_post_time']}</li>
+		</ul>
+		<!--{if !empty($list)}-->
+			<!--{foreach $list $k $value}-->
+			<ul id="fav_{$value['fav_id']}">
+				<li class="title">
+					<input type="checkbox" name="ids[]" value="{$value['fav_id']}"/><a href="{$value['url']}" target="_blank">{$value['title']}</a> 
+					<!--{php $cat = $category->fetch_one($value['cid']);}-->
+					[<a href="{$this_router}-list-cid-{$value['cid']}" target="_blank">{$cat['name']}</a>] </li>
+				<li class="user"><a href="{$value['puid']}">{$value['pusername']}</a></li>
+				<li class="status"><img src="{$SKIN}/status_{$value['status']}.gif"/></li>
+				<li class="replies">{$value['replies']}</li>
+				<li class="time"><!--{php echo date('Y-m-d',$value['paddtime']);}--></li>
+			</ul>
+			<!--{/foreach}-->
+			<ul class="pages">
+				&nbsp;<input type="checkbox" name="ChkAll" id="ChkAll" value="1" onclick="check_all(this, 'ids[]', $('#list'))"/>{$P8LANG['ask_checkall']}
+				&nbsp;<input type="button" name="delete" value="{$P8LANG['delete']}" onclick="javascript:delete_favorites();"/>
+				&nbsp;<!--{if !empty($pages)}-->{$pages}<!--{/if}-->
+			</ul>
+		<!--{else}-->
+			<ul class="pages">{$P8LANG['ask_no_records']}</ul>
+		<!--{/if}-->
+	</div>
+</div>
+<script type="text/javascript">
+//选择ID
+function  chose_ids()
+{
+	var ids = [];
+	$("input[name='ids[]']", $('#list').parent()).each(function(){
+		if($(this).attr("checked")==true){
+			ids.push(this.value);
+		}			
+	});
+	return ids;
+}
+
+function delete_favorites()
+{
+	var ids = [];
+	ids = chose_ids();
+
+	if(ids.length<1){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+
+	if(!confirm('{$P8LANG['ask_delete_tips']}')){
+		return false;
+	}
+
+	$.ajax({
+		url: '{$this_router}-delete_myfavorite',
+		type: 'POST',
+		dataType: 'json',
+		data: '_ajax_request=1'+ajax_parameters({ids:ids}),
+		cache: false,
+		success: function(json){
+			for(var i in json){
+				$('#fav_' + json[i]).remove();
+			}
+
+		}
+	});
+
+}
+</script>
+<!--{template $member footer}-->
+<!--{/php168}-->

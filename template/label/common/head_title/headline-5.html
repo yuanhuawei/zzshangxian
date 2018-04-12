@@ -1,0 +1,13 @@
+<!--{php168}-->
+<style>
+.label_headline5 h3 {font: bold 18px/36px Microsoft Yahei,simhei,"黑体";text-align:center;}
+.label_headline5 h3 a{color:#535353;}
+.label_headline5 .label_head_summary{font-size:14px; color:#595959;margin:0 5px 5px 5px;line-height:150%}}
+.label_headline5 .cDBlue a{color:#187dc8;}
+</style>
+<!--{php $first=array_shift($list);$first_title=p8_cutstr($first['full_title'], $label['option']['top_title_length'],'');}-->
+<div class="label_headline5">
+<h3><a target="_blank" href="{$first['url']}">{$first_title}</a></h3>
+<p class="label_head_summary">$first[summary] <span class="cDBlue"><a target="_blank" href="{$first['url']}">[详情]</a></span></p>
+</div>
+<!--{/php168}-->

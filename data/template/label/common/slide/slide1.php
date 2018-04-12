@@ -1,0 +1,54 @@
+<?php
+defined('PHP168_PATH') or die();
+?>
+<?php
+print <<<EOT
+<div id="slide_{$label['id']}">
+<script type='text/javascript'>
+(function(){
+var imgUrl = [];
+var imgtext = [];
+var imgLink = [];
+EOT;
+$slide_num=0;
+$__t_foreach = @$list;
+if(!empty($__t_foreach)){
+foreach($__t_foreach as $value){
+if($slide_num > 5) break;$value['title']=strip_tags($value['title']);
+print <<<EOT
+
+imgUrl.push('$value[frame]');
+imgLink.push('$value[url]');
+imgtext.push('$value[title]');
+EOT;
+}
+}
+
+print <<<EOT
+
+var pics = imgUrl.join('|');
+var links = imgLink.join('|');
+var texts = imgtext.join('|');
+
+var focus_width={$swidth};
+var focus_height={$sheight};
+
+if(window.ActiveXObject){
+var text_height=22;
+}else{
+var text_height=40;
+focus_height=focus_height+40;
+}
+var swf_height = focus_height+text_height;
+
+document.write('<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="'+ focus_width +'" height="'+ swf_height +'">');
+document.write('<param name="allowScriptAccess" value="sameDomain" /><param name="movie" value="{$core->url}/images/focus.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#F0F0F0">');
+document.write('<param name="menu" value="false"><param name=wmode value="opaque">');
+document.write('<param name="FlashVars" value="pics='+pics+'&links='+links+'&texts='+texts+'&borderwidth='+focus_width+'&borderheight='+focus_height+'&textheight='+text_height+'">');
+document.write('<embed src="{$core->url}/images/focus.swf" wmode="opaque" FlashVars="pics='+pics+'&links='+links+'&texts='+texts+'&borderwidth='+focus_width+'&borderheight='+focus_height+'&textheight='+text_height+'" menu="false" bgcolor="#F0F0F0" quality="high" width="'+ focus_width +'" height="'+ focus_height +'" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />');
+document.write('</object>');
+})();
+</script>
+</div>
+EOT;
+?>

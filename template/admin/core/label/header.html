@@ -1,0 +1,32 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/iColorPicker.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['operation']}</td>
+			</tr>
+			<tr><td class="headerbtn_list">
+				<ul>
+					<li><a href="{$core.admin_controller}/core/label-list?{if isset($_GET['holder'])}$_GET[holder]{/if}">{$P8LANG['list_label']}</a></li>
+					<li><a href="{$core.admin_controller}/core/label-add?system={if isset($system)}$system{/if}&module={if isset($module)}$module{/if}&site={if isset($site)}$site{/if}&env={if isset($env)}$env{/if}">{$P8LANG['add_label']}</a></li>
+					<li><a href="{$core.admin_controller}/core/label-cache">{$P8LANG['update_cache']}</a></li>
+					<!--{if !empty($id)}-->
+					<li><a href="{$core.admin_controller}/core/label-add?id=$id&name=$data[name]&postfix=$data[postfix]&system=$data[system]&module=$data[module]&site=$data[site]&env=$data[env]&_referer=$HTTP_REFERER">更换选择其它设置</a></li>
+					<li><a href="{$core.admin_controller}/core/label-list?postfix=$data[postfix]&keyword=$data[name]">清空此标签数据</a></li>
+					<!--{/if}-->
+					<!--{if !empty($viewurl)}-->
+					<li ><a href="{$viewurl}" target="_blank">查看效果</a></li>
+					<li ><a href="{$viewurl}&edit_label=1">返回频道\专题</a></li>
+					<!--{/if}-->
+				</ul>
+			</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<!--{/php168}-->

@@ -1,0 +1,177 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+	
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td colspan="2" class="title">{$P8LANG['module_config']}</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['template']}</td>
+				<td class="tdR">
+					<select name="config[template]" id="template">
+					<!--{foreach $core->CONFIG['templates'] $k $v}-->
+						<option value="$k"{if !empty($config['template']) && $config['template'] == $k} selected{/if}>$v</option>
+					<!--{/foreach}-->
+					</select>
+				</td>
+			</tr>
+			<script type="text/javascript">
+			$('#template').change(function(){
+				detect_template({
+					system: SYSTEM,
+					module: MODULE,
+					template: this.value,
+					callback: function(status){
+						if(status == 0){
+							alert('模板不存在哦');
+						}
+						ajaxing({action: 'hide'});
+					}
+				});
+			});
+			</script>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['htmlize']}</td>
+				<td class="tdR">
+					<input type="radio" name="config[htmlize]" value="1"{if !empty($config['htmlize'])} checked{/if} />{$P8LANG['Y']}
+					<input type="radio" name="config[htmlize]" value="0"{if empty($config['htmlize'])} checked{/if} />{$P8LANG['N']}
+					<input type="checkbox" name="htmlize_apply_category" value="1" />应用到所有分类
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">是否开启顶客</td>
+				<td class="tdR">
+					<input type="radio" name="config[allow_digg]" value="1"{if !empty($config['allow_digg'])} checked{/if} />{$P8LANG['Y']}
+					<input type="radio" name="config[allow_digg]" value="0"{if empty($config['allow_digg'])} checked{/if} />{$P8LANG['N']}
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['office_item_allow_mood']}</td>
+				<td class="tdR">
+					<input type="radio" name="config[allow_mood]" value="1"{if !empty($config['allow_mood'])} checked{/if} />{$P8LANG['Y']}
+					<input type="radio" name="config[allow_mood]" value="0"{if empty($config['allow_mood'])} checked{/if} />{$P8LANG['N']}
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['office_item_allow_comment']}</td>
+				<td class="tdR">
+					<input type="radio" name="config[comment][enabled]" value="1"{if !empty($config['comment']['enabled'])} checked{/if} />{$P8LANG['Y']}
+					<input type="radio" name="config[comment][enabled]" value="0"{if empty($config['comment']['enabled'])} checked{/if} />{$P8LANG['N']}
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['office_item_comment_verify']}</td>
+				<td class="tdR">
+					<input type="radio" name="config[comment][require_verify]" value="1"{if !empty($config['comment']['require_verify'])} checked{/if} />{$P8LANG['Y']}
+					<input type="radio" name="config[comment][require_verify]" value="0"{if empty($config['comment']['require_verify'])} checked{/if} />{$P8LANG['N']}
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['office_item_comment_per_page']}</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="config[comment][page_size]"  value="{if !empty($config['comment']['page_size'])}{$config['comment']['page_size']}{else}20{/if}" size="3" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['office_item_comment_view_per_page']}</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="config[comment][view_page_size]"  value="{if !empty($config['comment']['view_page_size'])}{$config['comment']['view_page_size']}{else}5{/if}" size="3" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['dynamic_list_url_rule']}</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="config[dynamic_list_url_rule]"  value="{if !empty($config['dynamic_list_url_rule'])}{$config['dynamic_list_url_rule']}{else}{\$module_controller}-list-category-{\$id}#-page-{\$page}#.html{/if}" size="60" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['dynamic_view_url_rule']}</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="config[dynamic_view_url_rule]"  value="{if !empty($config['dynamic_view_url_rule'])}{$config['dynamic_view_url_rule']}{else}{\$module_controller}-view-id-{\$id}#-page-{\$page}#.html{/if}" size="60" />
+				</td>
+			</tr>
+			<tr>
+				<td class="tdL">{$P8LANG['office_item']['navigation']}</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="config[list_navigagion]" id="nav" value="{if !empty($config['list_navigagion'])}$config[list_navigagion]{/if}" /><input type="button" value="选择" onclick="template_dialog.show()" />
+				</td>
+			</tr>
+			<tr>
+				<td class="tdL">{$P8LANG['office_item']['list_page_cache_ttl']}</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="config[list_page_cache_ttl]"  value="{if !empty($config['list_page_cache_ttl'])}{$config['list_page_cache_ttl']}{else}0{/if}" size="4" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['office_item']['view_page_cache_ttl']}</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="config[view_page_cache_ttl]"  value="{if !empty($config['view_page_cache_ttl'])}{$config['view_page_cache_ttl']}{else}0{/if}" size="4" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['sphinx_enabled']}</td>
+				<td class="tdR">
+					<input type="radio" name="config[sphinx][enabled]" value="1"{if !empty($config['sphinx']['enabled'])} checked{/if} onclick="$('#sphinx').show()" />{$P8LANG['Y']}
+					<input type="radio" name="config[sphinx][enabled]" value="0"{if empty($config['sphinx']['enabled'])} checked{/if} onclick="$('#sphinx').hide()" />{$P8LANG['N']}
+					<span class="help">{$P8LANG['sphinx_note']}</span>
+				</td>
+			</tr>
+			
+			<tbody id="sphinx">
+			<tr>
+				<td class="tdL">{$P8LANG['sphinx_host']}</td>
+				<td class="tdR"><input type="text" class="txt" name="config[sphinx][host]"  value="{if !empty($config['sphinx']['host'])}{$config['sphinx']['host']}{else}localhost{/if}" /></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['sphinx_port']}</td>
+				<td class="tdR"><input type="text" class="txt" name="config[sphinx][port]"  value="{if !empty($config['sphinx']['port'])}{$config['sphinx']['port']}{else}3312{/if}" size="5" /></td>
+			</tr>
+			</tbody>
+			<script type="text/javascript">
+			$('#sphinx')[$('input[name="config[sphinx][enabled]"][value=1]').prop('checked') ? 'show' : 'hide']();
+			</script>
+			<tr>
+				<td class="tdL">&nbsp;</td>
+				<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+			</tr>
+	    </table>
+	</div>
+</form>
+<script type="text/javascript">
+var template_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		$('#nav').val(template_selector.value);
+	},
+	show: function(){
+		template_selector.init();
+	}
+});
+
+var template_selector = new Template_Selector({
+	base_dir: '/label/office/navigation/',
+	selected: $('#nav').val(),
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: template_dialog
+});
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

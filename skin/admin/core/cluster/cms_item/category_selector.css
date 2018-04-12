@@ -1,0 +1,39 @@
+.category_container{
+	width: 120px;
+	height: 220px;
+	float: left;
+	overflow-y: auto;
+	overflow-x: hidden;
+	margin: 0px 5px;
+}
+
+.category_container li{
+	padding: 2px;
+	width: 100%;
+	cursor: pointer;
+}
+
+.category_container li.selected{
+	background-color: #cccccc;
+}
+
+.category_container li span.frame_category{
+	padding-left: 16px;
+	background-image: url(../../../dir.gif);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+}
+
+.category_container li.normal_category{
+	background-color: #cccccc;
+}
+
+.category_container li.multi_selected{
+	background-color: #F1F7FD;
+}
+
+.category_container li.sub_category{
+	background-image: url(arrow.gif);
+	background-repeat: no-repeat;
+	background-position: right 9px;
+}

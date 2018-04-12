@@ -1,0 +1,89 @@
+/*头*/
+.header {margin: 0 auto;height: auto;width: 100%;}
+.nihao{float:left;}
+.topbox{ width:100%; height:27px; background:#666666;font-size:12px;color:#fff }
+.topbox .top{width:1140px;margin: 0 auto;height:27px;line-height:27px;}
+.topbox .top .zuo{float:left; }
+.dropdown{position:relative;width:150px;}
+.dropdown a.white{color:#fff;display:block;background:url(arr.png) 100px center no-repeat;}
+.dropdown a{text-decoration:none;}
+.dropdown ul{background:#fff;border:1px solid #ddd;position:absolute;top:27px;left:0;z-index:99999;width:120px;padding:0px 15px 10px;}
+.dropdown ul li{padding:5px 0;border-bottom:1px dotted #ddd;}
+.topbox .top .you,.topbox .top .fir{float:right;}
+.toplogin,.topscan{float:left;}
+.toplogin,.toplogin a{color:#fff;}
+.topscan li{float:left;height:27px;line-height:27px;position: relative;z-index: 200;margin-right:10px;}
+.topscan li span{color:#333;display:block;width:20px;height:27px;background: url(icons.png) 0 0 no-repeat;text-decoration:none;text-indent:-99999px;}
+.topscan li .phone{background-position:0 0;}
+.topscan li .wechat{background-position:0 -27px;}
+.topscan li .codeDiv{padding:5px;background:#fff;position: absolute;top:27px; right:0;width:100px;height:100px;display: none;}
+/*nav*/
+.logo_fl{ float:left;width:360px; height:80px; margin-right:40px;}
+.head-v3{ position: relative; z-index: 100; min-width: 1140px }
+.head-v3 .navigation-inner{ margin: 0 auto; width: 1140px; position: relative }
+.navigation-up{ height:80px; line-height:80px; background: url(mav.jpg) repeat-x;}
+.navigation-up .navigation-v3{width:1140px;overflow:hidden;}
+.navigation-up .navigation-v3 ul{float:right; height:80px;overflow:hidden;}
+.navigation-up .navigation-v3 li{margin-left:14px;float:left;font:normal 16px/59px "microsoft yahei";color:#fff; width:86px; text-align:center;}
+.navigation-up .navigation-v3 .nav-up-selected{}
+.navigation-up .navigation-v3 .nav-up-selected-inpage{background:}
+.navigation-up .navigation-v3 li h2{font-weight:normal;padding:0;margin:0;width:86px;}
+.navigation-up .navigation-v3 li:hover{ background: url(nav.png) 0 3px no-repeat;}
+.navigation-up .navigation-v3 li a:hover{ color:#333}
+.navigation-up .navigation-v3 li h2 a{ font-size:16px;width:86px;color:#fff;display:inline-block;height:80px; line-height:80px;text-decoration:none;}
+
+.navigation-down{position:absolute;top:80px;right:221px;width:800px;height:200px;}
+.navigation-down .nav-down-menu{width:800px;margin:0;height:200px;background:url(nav-down-menu.png) no-repeat; position:absolute;top:0px; }
+.navigation-down .nav-down-menu .navigation-down-inner{margin:auto;width:800px;position:relative}
+.navigation-down .nav-down-menu dl{float:left;margin:0 80px 18px 0}
+.navigation-down .menu-1 dl{margin:0 80px 25px 0}
+.navigation-down .menu-1 dt{font:normal 16px "microsoft yahei";color:#61789e;padding-bottom:10px;border-bottom:1px solid #61789e;margin-bottom:10px}
+.navigation-down .menu-1 dd a{color:#fff;font:normal 14px/30px "microsoft yahei"}
+.navigation-down .menu-1 dd a:hover{color:#60aff6}
+.navigation-down .menu-2 dd a,.navigation-down .menu-3 dd a{color:#fff;font:normal 16px "microsoft yahei"}
+
+.xiala{width:100%;}
+.mklist{width:240px; height:160px; float:left;margin-top:24px;margin-left:22px}
+.mklist li{ float: left; height: 25px; line-height: 25px; width:120px; text-align: center; margin-bottom:12px; color:#3B3B3B}
+.mklist li a{color:#3B3B3B}
+.mklist li a:hover{}
+.mklist_1{width:280px; height:160px; float:left; margin-left:20px;}
+.mklist_1 li{float: left; height: 25px; line-height: 25px; width: 140px; text-align: center;margin-top:10px; }
+.mklist_1 li a{color:#3B3B3B}
+.gaikuang{width:210px; height:160px; float:left;margin-top:27px;margin-left:25px;}
+.gaikuang img{}
+.ggk{width:230px;height:160px;float:left;margin-top:40px;margin-left:30px;}
+.ggk h1{ font-size:18px; font-weight:normal; color: #333333; margin-top:20px;}
+.ggk p{ line-height:30px;color: #333333;text-indent:2.0em;font-size:12px;}
+
+.banner{width:100%;overflow:hidden;min-height:300px;}
+
+.banList{position:absolute;left:50%;margin-left:-960px;height:450px}
+.banList li{height:470px;opacity:0;position:absolute;transform:scale(0);transition:transform 0.5s ease 0s, opacity 1.5s ease 0s;z-index:1;}
+.banList li.active{opacity:1;transform:scale(1);z-index:2;}
+.fomW{position:absolute;bottom:20px;left:50%;height:20px;z-index:9;width:1140px;margin-left:-500px}
+.jsNav{text-align:center;}
+.jsNav a{display:inline-block;background:#fff;width:15px;height:15px;border-radius:50%;margin:0 5px;}
+.jsNav a.current{background:#fc8f0f;cursor:pointer}
+
+.foot_fl {width:100%; margin:auto;background:#484848; }
+.foot_fl .con{width:1140px; height:260px; margin:auto;}
+.foot_fl .con .zuo{ margin-top:50px; float:left; width:420px; height:160px;background:url(foot_line.png) right center no-repeat;}
+.foot_fl .con .zuo ul li{ float:left;padding-left:5px;width:135px; height:20px; line-height:20px; font-size:12px; margin-top:12px;}
+.foot_fl .con .zuo ul li a:hover{color:#2EA4DD}
+.foot_fl .con .zuo li.tit{ float:left;width:365px; height:25px; font-size:18px; color:#fff;margin-top:0px;}
+.foot_fl .con .zuo li a{ color:#b4b4b4;}
+.mg{ margin-left:15px}
+.foot_fl .con .zhong{ margin-top:50px;padding-left:48px;width:400px; height:160px; float:left;background:url(foot_line.png) right center no-repeat;}
+.foot_fl .con .zhong p{color:#b4b4b4;  height:20px;  font-size:12px; margin-bottom:12px;}
+.foot_fl .con .zhong p img{float:right;margin-right:15px;}
+.foot_fl .con .zhong h3{ font-size:18px; font-weight:500;color:#b4b4b4;margin-bottom:20px;}
+#footer_login,#footer_login a{color:#fff;}
+.foot_fl .con .you{width:175px; height:auto; float:left; margin-left:60px; margin-top:38px; text-align:center; }
+.foot_fl .con .you .tp{width:175px; height:175px;}
+.foot_fl .con .you span {display: block;padding-top:15px;color: #c1c1c1;font-size:14px;}
+
+.foot_fl .xia{width:100%; height:40px; background:#272727;}
+.foot_fl .xia .wd{width:1140px;margin:0 auto;overflow:hidden;height:40px; line-height:40px;color:#fefefe; text-align:center;}
+.foot_fl .xia a{color:#fefefe;}
+

@@ -1,0 +1,74 @@
+<!--{php168}-->
+<!--{php
+$assist_category = $this_system->load_module('assist_category');
+$assist_categories=$assist_category->get_sids($id);
+$as_cat_json=$assist_category->get_json();
+}-->
+
+<input type="button" value="选择" onclick="asct_dialog.show()"/>
+<input type="hidden" id="categories" />
+<input type="text" id="forcategories" name="assist_category" value="{if !empty($assist_categories)}$assist_categories{/if}" />
+<div id="category_path"></div>
+<script type="text/javascript">
+var _CATEGORY_JSON = $as_cat_json[json];
+var _CATEGORY_PATH = $as_cat_json[path];
+var asct_dialog;
+
+var _cs = new Recursive_Selector({
+	json: _CATEGORY_JSON,
+	path: _CATEGORY_PATH,
+	multiple: true,
+	input: $('#categories'),
+	dialog: asct_dialog,
+	sub_property: 'categories',
+	values: $('#form input[name="assist_category"]').val(),
+	item_callback: function(cat, item){
+		if(cat.categories !==undefined){
+			item.find('span').addClass('frame_category');
+			item.find('input[type=checkbox]').attr('disabled', true);
+		}
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	}
+});
+function _category_path(cids){
+	$('#category_path').empty();
+	
+	cids = array_filter(cids);
+	
+	for(var i in cids){
+		var path = clone(_CATEGORY_PATH[cids[i]]);
+		
+		if(!path) continue;
+		
+		var div = '';
+		for(var j = 0; j < path.length; j++){
+			var cat = _cs.get_by_id(path[j]);
+			div += '<span>'+ cat.name +' &gt; </span>';
+		}
+		
+		$('#category_path').append('<div>'+ div +'</div>');
+	}
+}
+$(function(){
+	 asct_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_category']}',
+	button: true,
+	width: 700,
+	height: 300,
+	ok: function(){
+		var values = _cs.get_value();
+		$('#forcategories').attr('value',(values.join(',')));
+		_category_path(values);
+	},
+	show: function(){
+		_cs.init();
+	}
+});
+	_cs.init();
+var val = $('#form input[name="assist_category"]').val();
+	val ? _category_path(val.split(',')) : '';
+ });
+</script>
+<!--{/php168}-->

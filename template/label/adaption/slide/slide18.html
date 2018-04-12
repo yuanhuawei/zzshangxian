@@ -1,0 +1,59 @@
+<!--{php168}-->
+<!--{php $swidth = strpos($swidth, '%')!==false?$swidth:$swidth.'px';}-->
+<style type="text/css">
+.focus{$label['id']}{ position:relative; width:{$swidth};height:{$sheight}px;}  
+.focus{$label['id']} img{ width: {$swidth}; height: {$sheight}px;} 
+.focus{$label['id']} .shadow .title{width: 260px; height: 65px;padding-left: 30px;padding-top: 20px;}
+.focus{$label['id']} .shadow .title a{ text-decoration:none; color:#fff; font-size:14px; font-weight:bolder; overflow:hidden; }
+.focus{$label['id']} .btn{ position:absolute; bottom:34px; left:510px; overflow:hidden; zoom:1;} 
+.focus{$label['id']} .btn a{position:relative; display:inline; width:13px; height:13px; border-radius:7px; margin:0 5px;color:#B0B0B0;font:12px/15px "微软雅黑"; text-decoration:none; text-align:center; outline:0; float:left; background:#D9D9D9; }  
+.focus{$label['id']} .btn a:hover,.focus{$label['id']} .btn a.current{  cursor:pointer;background:#009b01;}   
+.focus{$label['id']} .D1fBt{ overflow:hidden; zoom:1;  height:16px; z-index:10;  }  
+.focus{$label['id']} .shadow{ width:100%; position:absolute; bottom:0; left:0px; z-index:10; height:30px; line-height:30px;  background:rgba(0,0,0,0.6);    
+filter:progid:DXImageTransform.Microsoft.gradient( GradientType = 0,startColorstr = '#80000000',endColorstr = '#80000000')9;  display:block;  text-align:left; overflow:hidden; }  
+.focus{$label['id']} .shadow a{ text-decoration:none; color:#fff; font-size:16px;margin-left:10px;}  
+.focus{$label['id']} .fcon{ position:relative; width:100%;display:none; background:#fffff;}  
+.focus{$label['id']} .fcon img{ display:block; }  
+.focus{$label['id']} .fbg{bottom:5px; right:10px; position:absolute; height:21px; text-align:center; z-index: 200; }  
+.focus{$label['id']} .fbg div{margin:4px auto 0;overflow:hidden;zoom:1;height:14px}    
+.focus{$label['id']} .D1fBt a{position:relative; display:inline; width:12px; height:12px; border-radius:7px; margin:0 5px;color:#B0B0B0;font:12px/15px "微软雅黑"; text-decoration:none; text-align:center; outline:0; float:left; background:#D9D9D9; }    
+.focus{$label['id']} .D1fBt .current,.focus{$label['id']} .D1fBt a:hover{background:#009b01;}    
+.focus{$label['id']} .D1fBt img{display:none}    
+.focus{$label['id']} .D1fBt i{display:none; font-style:normal;}    
+</style>
+<div id="fsD1" class="focus{$label['id']}">  
+    <div id="D1pic1" class="fPic">  
+		<!--{foreach $list $value}-->
+		<div class="fcon" style="display: none;">
+			<a href="$value[url]" target="_blank" title="$value[full_title]"><img src="$value[frame]" alt="$value[full_title]" style="opacity: 1; "/></a>
+			<span class="shadow"><a target="_blank" href="#">$value[full_title]</a></span>
+		</div> 
+		<!--{/foreach}-->
+    </div>
+    <div class="fbg hidden-xs">  
+		<div class="D1fBt" id="D1fBt"> 
+			<!--{foreach $list $k $value}-->
+				<a href="javascript:void(0)" hidefocus="true" target="_self" class=""><i>$k</i></a>  
+			<!--{/foreach}-->
+		</div>  
+    </div>  
+</div>  
+<script type="text/javascript">
+      Qfast.add('widgets', { path: "{$RESOURCE}/js/terminator2.2.min.js", type: "js", requires: ['fx'] });  
+      Qfast(false, 'widgets', function () {
+        K.tabs({
+          id: 'fsD1',   //焦点图包裹id  
+          conId: "D1pic1",  //** 大图域包裹id  
+          tabId:"D1fBt",  
+          tabTn:"a",
+          conCn: '.fcon', //** 大图域配置class       
+          auto: 1,   //自动播放 1或0
+          effect: 'fade',   //效果配置
+          eType: 'click', //** 鼠标事件
+          pageBt:true,//是否有按钮切换页码
+          bns: ['.prev', '.next'],//** 前后按钮配置class                          
+          interval: 3000  //** 停顿时间  
+        }) 
+      })  
+    </script>
+<!--{/php168}-->

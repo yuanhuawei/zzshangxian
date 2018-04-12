@@ -1,0 +1,199 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+
+<div class="toptitle">
+	表单管理
+</div>
+<div class="mtop" style="border:1px solid #cccccc;height:20px; padding:5px 3px;width:98%;">
+	<form name="request" id="request" action="$this_url" method="get">
+		<div style="margin-left:10px; float:left">
+			<strong>状态:</strong>
+			<select name="selectstatus">
+				<option value="">所有</option>
+				<!--{foreach $status $k $v}-->
+				<option value="$k" {if isset($selectstatus) && $selectstatus===$k}selected{/if}>$v</option>
+				<!--{/foreach}-->
+			</select>
+		</div>
+		<div style="margin-left:10px; float:left">
+					<strong>表单:</strong>
+					<select name="mid" style="width:120px">
+						<option value="">所有</option>
+						<!--{foreach $models $k $v}-->
+						<option value="$v[id]" {if isset($mid) && $mid==$v['id']}selected="selected"{/if}>$v[alias]</option>
+						<!--{/foreach}-->
+					</select>
+				</div>
+		<div style="margin-left:10px; float:left">
+			<strong> 提交时间:</strong>
+			<input type="text" name="mindate" size="10" onclick="rcalendar(this);" value="{if !empty($mindate)}$mindate{/if}"/>
+			-
+			<input type="text" name="maxdate" size="10" onclick="rcalendar(this);"  value="{if !empty($maxdate)}$maxdate{/if}"/>
+		</div>
+		<div style="margin-left:10px; float:left; ">
+			<strong>用户名:</strong>
+			<input type="text" name="username" size="8" value="{if !empty($username)}$username{/if}"/>
+		</div>
+		<div style="margin-left:10px; float:left">
+			<input type="submit" class="submit_btn" onclick="request.action='$this_url';request.method='get'" value="搜索" />
+			<input type="hidden" name="ids" value="" />
+		</div>
+	</form>
+</div>
+<form name="form" id="form" action="$this_url" method="post">
+	<table width='99%' cellspacing='1' cellpadding='3' class="formtable columntable hover_table mtop" style="text-align:center">
+		<tr class="head">
+			<td width="8%">ID</td>
+			<td width="30%"><a href="$this_url">表单名称</a></td>
+			<td width="15%">提交者</td>
+			<td width="15%">填写时间</td>
+			<td width="10%">状态</td>
+			<td width="18%">操作</td>
+		</tr>
+		<!--{foreach $list $key $value}-->
+		<tr id="item_$value[id]">
+			<td>
+				<input type="checkbox" name="id[]" value="$value[id]" />
+				$value[id]</td>
+			<td align="left"><a href="$this_url?mid=$value[mid]">$value[title]</a></td>
+			<td>$value[username]</td>
+			<td>{date('Y-m-d h:i',$value['timestamp'])}</td>
+			<td id="status_$value[id]">
+				<!--{if $value['status']==0}-->
+				<strong>
+				<!--{/if}-->
+				{$status[$value['status']]}
+				<!--{if $value['status']==0}-->
+				</strong>
+				<!--{/if}-->
+			</td>
+			<td><a href="javascript:void(0)" onclick="setstatus($value[id],$value[mid])">处理</a> <a href="$value[url]" target="_blank">查看</a> <a href="{$this_module.controller}-update?id=$value[id]&mid=$value[mid]" target="_blank">修改</a> <a href="$this_url?action=delete&id=$value[id]" onclick="deleteitem($value[id],$value[mid]);return false">删除</a></td>
+		</tr>
+		<!--{/foreach}-->
+		<tr>
+			<td colspan="6" align="center">
+			<!--{if !empty($this_module->MODEL)}-->
+			<a href="javascript:void(0)" onclick="check_all(true,'id[]',$('#form'))">全选</a>/<a href="javascript:void(0)" onclick="check_all(false,'id[]',$('#form'));">反选</a>
+				
+				<input type="button" class="submit_btn" value="处理" onclick="setstatus()" />
+				<input type="button" class="submit_btn" value="导出" onclick="download()" />
+				<input type="button" class="submit_btn" value="删除" onclick="deleteitem()" />
+				<!--{/if}-->
+				<span class="pages">$pages</span> </td>
+		</tr>
+	</table>
+</form>
+<script type="text/javascript">
+var STATUS = $status_json;
+var MID = $mid;
+var dialog = new P8_Dialog({
+	title_text:'处理表单',
+	width: 400,
+	height: 200,
+	button: true,
+	ok:function(){
+		var status = this.content.find('input[name=status]:checked').val();
+		var reply = this.content.find('textarea').val();
+		var id = this.content.find('input[name=id]').val();
+		if(status==undefined){
+			alert("{$P8LANG['forms_confirm_no_manage']}");
+			return;
+		}
+		$.ajax({
+			url: '$this_url',
+			type: 'POST',
+			dataType: 'json',
+			data: $('#form').serialize()+'&action=set_status&oid='+id+'&status='+status+'&reply='+reply,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				var oSTATUS = STATUS[MID];
+				for(var i in json){
+					$('#status_'+json[i].id).html(oSTATUS[json[i].status]);
+				}
+			}
+		});
+	}
+});
+function setstatus(id,mid){
+	if(id==undefined){	
+		if(check_ids())
+		show_dialog();
+	}else{
+		MID = mid;
+		$.ajax({
+			url: '{$this_url}',
+			type: 'POST',
+			dataType: 'json',
+			data: 'action=check_status&id='+id,
+			success:function(json){
+				show_dialog(json)
+			}   
+		});
+	}
+}
+function show_dialog(json){
+	var innerhtml = '<p>处理方式：';
+	var oSTATUS = STATUS;
+	for(var i in oSTATUS){
+		innerhtml +=' <input type="radio" name="status" value="'+i+'" '+(json ==undefined ? '' : (json.status==i? 'checked':''))+'>'+oSTATUS[i];
+	}
+	innerhtml +='</p>处理意见：<textarea style="width:380px;height:90px"> '+(json ==undefined ? '' : json.reply)+'</textarea>';
+	innerhtml +='<input type="hidden" name="id" value="'+(json ==undefined ? '' : json.id)+'"/>';
+	dialog.content.html(innerhtml);			
+	dialog.show();
+}
+function deleteitem(id,mid){
+	if(id==undefined){	
+		if(!check_ids())return;
+	}
+	if(!confirm('确定要删除？'))return;
+	$.ajax({
+			url: '$this_url',
+			type: 'POST',
+			dataType: 'json',
+			data: $('#form').serialize()+'&action=delete&oid='+id+"&mid="+(mid==undefined? MID : mid),
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				for(var i in json){
+					$('#item_'+json[i]).remove();
+				}
+			}
+		});
+	
+}
+
+function check_ids(){
+	var ids=[];
+	$.each(checked_values('id[]'), function(k, v){
+	ids.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(ids.length<1)return false;
+	return true;
+	
+}
+function download(){
+	var obj=checked_values('id[]');
+	var ids = [];
+	$.each(obj, function(k, v){
+		ids.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(ids.length<1){
+		if(!confirm('你没选中任何个人，是否操作全部'))return;
+	}
+	$('#request').attr('action',"{$this_router}-download");
+	$('#request').attr('method',"post");
+	//$('#request').find('input[name=ids]').attr('value',ids);
+	$('#request').submit();
+}
+</script>
+<div class="clear">
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

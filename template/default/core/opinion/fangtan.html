@@ -1,0 +1,197 @@
+<!--{php168}-->
+<!--{php $TITLE = '在线访谈  - ';}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/css/style.css">
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/common/style.css">
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/{$this_module.name}/style.css">
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/{$this_module.name}/interview.css">
+<!--白色背景--->
+<div class="breadnav">
+	<div class="container">
+		<div class="row">
+			<div class="position fr">
+				<a href="{$core.url}">首页</a>&gt;&gt; <a href="{$this_router}-main">网络问政</a>&gt;&gt; <span class="current">在线访谈</span>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="maincon">
+	<div class="container">
+		<div class="row">
+			<div class="dt_left">
+				<div class="border1 mbottom">
+					<div class="head1">
+						<span class="title1">$label[hdjl-firstTitle]</span>
+					</div>	
+					<div class="main1">
+						$label[hdjl-leftDaohang_hudong]
+					</div>
+				</div>
+			</div>
+			<div class="dt_right">
+			<div class="add-inner">
+			  <div id="page_feedback">
+				<h1 class="page-title-red">在线访谈</h1>
+				<div class="pager-content">
+					<div class="ftVideo">
+						<div class="fleft Hdp">
+							<!--{if empty($subject['type'])}-->
+							<script type="text/javascript" src="{$RESOURCE}/js/media.js"></script>
+							<script type="text/javascript">
+							showMedia({
+							url: '{$subject['video']}',
+							width: 300,
+							height: 260
+							});
+							</script>
+							<!--{else}-->
+							<a href="$subject[url]" target="_blank"><img src="{$subject['picture']}" width="300" height="260"/></a>
+							<!--{/if}-->
+						</div>
+						<div class="fright Rig">
+							<div class="Dbuom">
+								<span><a href="$subject[url]" target="_blank">$subject[title]</a></span><br>
+								<font style="font-weight:bold;">内容简介：</font><br/>
+								<a href="$subject[url]" target="_blank">$subject[summary]</a>
+							</div>
+							<div class="Lin3">
+								<font style="font-weight:bold;">主持人：</font>
+								<a href="$subject[url]" target="_blank">$subject[cname]</a><br/>
+								<font style="font-weight:bold;">访谈嘉宾：</font>
+								<a href="$subject[url]" target="_blank">$subject[gname]</a><br/>
+								<font style="font-weight:bold;">开始时间：</font>
+								<a href="$subject[url]" target="_blank"><!--{php echo date('Y-m-d', $subject['begintime']);}--></a>
+							</div>
+							<div class="ftbnt">
+								<a href="$subject[url]" target="_blank">访谈回顾</a>
+								<a href="$subject[url]" target="_blank">文字实录</a>
+								<a href="$subject[url]" target="_blank">视频回放</a>
+							</div>
+						</div>
+						<p class="clear"></p>
+					</div>
+						
+				</div>
+			  </div>
+			</div>
+			  <div id="page_feedback">
+				<h1 class="page-title-red">	$label[hdjl-interview_title_bottom]</h1>
+				<div class="pager-content">
+				<div class="Car FT_zi">
+			$label[hdjl-interview_textcon]
+				   </div>		
+				</div>
+			  </div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+<script language="javascript">
+var sid = "$subject[id]";
+function getAskList(){
+	setTimeout(getAskList,50000);//时间可控   
+	$.ajax({  
+		url: P8CONFIG.URI.core['interview'].controller+'-list_ask',
+		type: 'POST',
+		dataType: 'json', 
+		data: ajax_parameters({sid:sid}),
+		cache: false,
+		success: function(json){    
+			var str = '';
+			for(var i=0; i<json.length; i++){
+				 str += '<div class="eachvi">'+
+						 '<span style="letter-spacing:2px;"><font color="blue">'+(json[i].username==''? '匿名' : json[i].username)+'</font>：</span>'+
+						 '<span class="timestamp">发表时间:'+date('Y-m-d H:i:s',json[i].posttime)+'</span>'+
+						 '<div class="vicontent">'+json[i].content+'</div>'+
+			  		 '</div>';
+			}
+			$('#ask_container').empty().append(str).animate({scrollTop: $('#ask_container')[0].scrollHeight});
+			
+		}
+	});
+}
+
+function addAsk(){
+	var content = $('#ask_textarea').val();
+	var sendtype = $('#send_type').attr('checked');
+	var username = sendtype ? '' : $('#username_txt').val();
+
+	if(content == '' ||(!sendtype && username == '')) return;
+
+	$.ajax({
+		url: P8CONFIG.URI.core['interview'].controller+'-add_ask', 
+		type: 'POST',
+		dataType: 'json',
+		data: ajax_parameters({sid: sid, username: username, content: content}),
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide',text: '发表成功！'});
+			
+			$('#ask_textarea').val('');
+			var str = '';
+			 str += '<div class="eachvi">'+
+						 '<span style="letter-spacing:2px;"><font color="blue">'+(username==''? '匿名': username)+'</font>：</span>'+
+						 '<span class="timestamp">发表时间:'+date('Y-m-d H:i:s')+'</span>'+
+						 '<div class="vicontent">'+content+'</div>'+
+			  		 '</div>';
+			
+			$('#ask_container').append(str).animate({scrollTop: $('#ask_container')[0].scrollHeight});
+		}
+	});
+}
+
+function getContentList(){
+	setTimeout(getContentList,20000);//时间可控   
+	$.ajax({  
+		url: P8CONFIG.URI.core['interview'].controller+'-list_content',
+		type: 'POST',
+		dataType: 'json', 
+		data: ajax_parameters({sid:sid}),
+		cache: false,
+		success: function(json){    
+			var str = '';
+			for(var i=0; i<json.length; i++){
+				str += '<div class="eachvi">'+
+					  '<span >'+(json[i].sender == 0 ? '<font color="red">主持人</font>':'<font color="blue">嘉宾</font>')+'：</span>'+
+					  '<span class="timestamp">发表时间:'+date('Y-m-d H:i:s',json[i].posttime)+'</span>'+
+					  '<div class="vicontent">'+json[i].content+'</div>'+
+				  '</div>';
+			}
+			$('#content_container').empty().append(str).animate({scrollTop: $('#content_container')[0].scrollHeight});
+		}
+	});
+}
+
+function getPictureList(){
+	setTimeout(getContentList,20000);//时间可控   
+	$.ajax({  
+		url: P8CONFIG.URI.core['interview'].controller+'-list_picture',
+		type: 'POST',
+		dataType: 'json', 
+		data: ajax_parameters({sid:sid}),
+		cache: false,
+		success: function(json){    
+			var str = '';
+			for(var i=0; i<json.length; i++){
+				str += '<div class="XU">'+
+					  '<div class="fleft"><img src="'+json[i].url+'" width="110" height="70" /></div>'+
+					  '<div class="fright LIGOR">'+json[i].summary+'</div>'+
+				  '</div>';
+			}
+			$('#picture_container').empty().append(str);
+		}
+	});
+}
+
+$(document).ready(function(){
+	getAskList();
+	getContentList();
+	getPictureList();
+});
+</script>
+<!--{template $core footer}-->
+<!--{/php168}-->

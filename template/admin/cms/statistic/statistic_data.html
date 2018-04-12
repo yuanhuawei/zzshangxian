@@ -1,0 +1,228 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<style type="text/css">
+.formtable td a.over{color:red};
+</style>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table width="100%" border="0" cellspacing="3">
+		<tr><td rowspan="2" valign="top">
+			<div style="border:1px solid #BDD9F4">
+			<table class="formtable">
+			<tr path="0" title="1" level="0">
+				<td class="title" colspan="2">栏目列表</td>
+			</tr>
+			<tr id="category_0" path="0" title="1" level="0">
+				<td>&nbsp;</td>
+				<td class="c_name" model="0"><a class="over" href="javascript:;" onclick="aover(this);get_data(0)">所有</a></td>
+			</tr>
+			<tbody id="__">
+						
+			</tbody>
+			</table>
+			</div>
+		</td><td height="50">
+		<form id="form1" method="post">
+		<!--{if !empty($uid)}-->
+		相关人员：<b>{$username} </b>
+		<!--{/if}-->
+		年份：<select id="year" name="year"  onchange="get_data()"><option value="0" selected>全部</option>
+			<!--{foreach $years $year}-->
+			<option value="{$year}">{$year}</option>
+			<!--{/foreach}-->
+			</select> 
+		月份：<select id="month" name="month"  onchange="get_data()"><option value="0" selected>全部</option>
+				<!--{foreach $months $month}-->
+				<option value="{$month}">{$month}</option>
+				<!--{/foreach}-->
+			</select> 
+		模型：<select id="model" name="model" onchange="get_data()"><option value="0" selected>全部</option>
+			<!--{foreach $models $model}-->
+			<option value="{$model['name']}">{$model['alias']}</option><
+			<!--{/foreach}-->
+			</select>
+		<input type="hidden" name="cid" id="cid" value="0"/>
+		<input type="hidden" name="uid" id="uid" value="{if !empty($uid)}{$uid}{/if}"/>
+		<input type="hidden" name="act" id="act" value="query"/>
+		<input type="button" value="导出Excel" class="submit_btn" onclick="download()"/>
+		</form>
+		</td>
+		<td align="right">统计时间：<span id="statis_time">2012-05-01 </span> <!--{if empty($uid)}--><a href="javascript:;" class="submit_btn" style="color:#fff;" onclick="statistic()">重新统计</a><!--{/if}--></td>
+		</tr>
+		<tr><td valign="top" colspan="2">
+			<table  class="columntable formtable hover_table click_changeable" align="center" style="text-align:center">
+			<tr><td width="100" class="title">日期</td><td width="100" class="title">发稿量</td><td width="100" class="title">评论数</td></tr>
+			<tbody id="data_list">
+						
+			</tbody>
+			</table>
+		</td></tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+var CATEGORY_JSON = $json[json];
+var CATEGORY_PATH = $json[path];
+
+function ___(json, l, p){
+	l = l === undefined ? 0 : l;
+	p = p === undefined ? 0 : p;
+	
+	var j = 0, k = count(json);
+	
+	for(var i in json){
+		
+		var html = '';
+		j++;
+		var c = '';
+		if(l != 0){
+			c += str_repeat('│&nbsp;&nbsp;', l - p) + str_repeat('&nbsp;&nbsp;&nbsp;', p);
+			if(j == k){
+				p++;
+				c += '└';
+			}else{
+				c += '├';
+			}
+		}
+		
+		var sub = json[i].categories ? true : false;
+		var path = CATEGORY_PATH[json[i].id].join('_');
+		c += (json[i].categories ? '<span style="cursor: pointer;"><img src="{$SKIN}/hide.gif" /></span> ' : '') +
+			'<a href="javascript:;" onclick="aover(this);get_data('+ json[i].id +');">'+ json[i].name +'</a>';
+		
+		html += 
+		'<tr id="category_'+ json[i].id +'" path="path_'+ path +'" title="1"'+ (sub ? ' sub="1"' : '') +' level="'+ (l +1) +'">'+
+			'<td>&nbsp;</td>'+
+			'<td class="c_name" model="'+ json[i].model +'">'+ c +'</td>'+
+		'</tr>';
+		
+		var tr = $(html);
+		$('#__').append(tr);
+		if(sub){
+			___(json[i].categories, l +1, p);
+			_toggle(
+				$(tr).find('td:eq(1) span').
+				bind('click', function(){_toggle($(this)); return false;})
+			);
+		}
+	}
+}
+
+___(CATEGORY_JSON);
+
+
+
+function _toggle(span){
+	var id = $(span).parent().parent().attr('id').replace(/[^0-9]/g, '');
+	var path = CATEGORY_PATH[id].join('_');
+	
+	var on = $('#category_'+ id).attr('title') == 0;
+	
+	var keep_close = [];
+	$('tr[path^=path_'+ path +'_]').each(function(){
+		if(on){
+			
+			if($(this).show().attr('title') == 1 && $(this).attr('sub')){
+				keep_close.push(this.id.replace(/[^0-9]/g, ''));
+				$(this).attr('title', 0);
+			}else{
+				$(this).attr('title', 1);
+			}
+			
+		}else{
+			
+			if($(this).hide().attr('title') == 0 && $(this).attr('sub')){
+				//keep close
+				$(this).attr('title', 1);
+			}else{
+				$(this).attr('title', 0);
+			}
+			
+		}
+	});
+	
+	if(on){
+		$(span).parent().parent().attr('title', 1);
+		$(span).html('<img src="{$SKIN}/hide.gif" />');
+	}else{
+		$(span).parent().parent().attr('title', 0);
+		$(span).html('<img src="{$SKIN}/show.gif" />');
+	}
+	
+	for(var i = 0; i < keep_close.length; i++){
+		$('tr[path^=path_'+ CATEGORY_PATH[keep_close[i]].join('_') +'_]').hide().find('span');
+	}
+	return false;
+}
+
+function get_data(cid){
+	$('#cid').val(cid);
+	$('#act').val('query');
+	
+	var year=$('#year').val();
+	var month=$('#month').val();
+	var model=$('#model').val();
+	ajaxing({});
+	$.ajax({
+		url:'{$this_url}',
+		data: $('#form1').serialize(),
+		dataType: 'json',
+		type: 'POST',
+		success: function(msg){
+			if(msg!=''){
+				var shtml = '';
+				var statis_time;
+				for(var i in msg){
+					shtml +=  '<tr><td>'+msg[i].year+(year!='0'? '-'+msg[i].month:'')+((year!='0' && month!='0')? '-'+msg[i].day:'')+'</td><td>'+msg[i].post+'</td><td>'+msg[i].comment+'</td></tr>';
+					statis_time=msg[i].timestamp;
+				}
+				$('#statis_time').html(statis_time);
+				$('#data_list').html(shtml);
+				
+			}else{
+				$('#data_list').html('<tr><td colspan="3" align="center">没有相关数据</td></tr>');
+			}
+			ajaxing({action: 'hide'});
+		}
+	});
+}
+function statistic(){
+	if($('#year').val()==0){
+		alert('请选择至少一个年份');
+		return false
+	}
+	var d = new Date(); 
+	$('#statis_time').html(d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes());
+	$('#act').val('stat');
+	ajaxing({});
+	$.ajax({
+		url:'{$this_url}',
+		data: $('#form1').serialize(),
+		dataType: 'json',
+		type: 'POST',
+		success: function(msg){
+			if(msg)
+				alert('统计成功!');
+			else
+				alert('统计失败!');
+			get_data();
+			ajaxing({action: 'hide'});
+		}
+	});
+}
+function aover(obj){
+$('#__ a').removeClass('over');
+$('#category_0 a').removeClass('over');
+$(obj).addClass('over');
+}
+
+function download(style){
+	
+	$('#act').val('download');
+	$('#form1').submit();
+
+}
+get_data();
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

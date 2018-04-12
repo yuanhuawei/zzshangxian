@@ -1,0 +1,27 @@
+<!--{php168}-->
+<!--{php $list_count = count($list);}-->
+<!--{php $list_i = 0;}-->
+<ul class="label_title_ul10">
+	<!--{foreach $list $value}-->
+	<!--{php $list_i ++;}-->
+	<!--{if $list_i == $list_count}-->
+	<li style="border-bottom:none;">
+		<div class="label_text">
+			<h3><a href="$value[url]" target="_blank" title="$value[full_title]" >$value[title]</a></h3>
+			<p class="label_summary">$value[summary]</p>
+		</div>
+		<div class="label_icon"></div>
+	</li>
+	<!--{else}-->	
+	<li>
+		<div class="label_text">
+			<h3><a href="$value[url]" target="_blank" title="$value[full_title]" >$value[title]</a></h3>
+			<p class="label_summary">$value[summary]</p>
+		</div>
+		<div class="label_icon"></div>
+	</li>
+	<!--{/if}-->	   
+<!--{/foreach}-->
+<!--{/php168}-->
+
+

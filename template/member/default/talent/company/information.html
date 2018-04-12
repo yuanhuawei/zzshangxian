@@ -1,0 +1,37 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<div id="tab_1" class="tab_box mtop20">
+	<div class="head">
+		<span {if $status==1}class="over"{/if}><a href="$this_router-information?status=1">正常的招聘信息</a></span> 
+		<span {if $status==0}class="over"{/if}><a href="$this_router-information?status=0">未审核的招聘信息</a></span>
+		<a href="$this_router-addinformation" class="sendmsg_link_bg">发布信息</a>
+	</div>
+	<div class="main profile" style="margin-top:20px">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table">
+	<tr class="head">
+		<td width="70">ID</td>
+		<td width="*">标题</td>
+		<td width="100">发布时间</td>
+
+		<td width="100">操作</td>
+	</tr>
+	<!--{foreach $list $key $val}-->
+	<tr>
+		<td><input type="checkbox" name="id[]" value="$val[id]" /> $val[id]</td>
+		<td style="text-align:left"><a href="{$this_module.controller}-information?id=$val[id]" target="_blank">$val[title]</a></td>
+		<td>{date('Y-m-d',$val['timestamp'])}</td>
+		<td><a href="$this_router-editinformation?id=$val[id]">修改</a> 删除</td>
+	</tr>
+	<!--{/foreach}-->
+	<tr>
+		<td align="center" colspan="3" class="pages">
+			$pages
+		</td>
+	</tr>
+</table>
+	</div>
+</div>
+<div class="clear">
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

@@ -1,0 +1,38 @@
+<!--{php168}--> 
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+<table width="100%" border="0" cellspacing="1" cellpadding="3" class="columntable formtable hover_table padding_table">
+ 
+    <tr  class="title"> 
+      <td colspan="2"> 
+        {$P8LANG['guestbook']['showguest']}
+      </td>
+    </tr>
+		<tr>
+			<td width="10%">{$P8LANG['guestbook']['poster']}ID</td><td width="90%">$rsdb[uid]</tr>
+		</tr>
+		<tr>
+			<td>{$P8LANG['guestbook']['poster']}</td><td>$rsdb[username]</tr>
+		</tr>
+		<tr>
+			<td>{$P8LANG['title']}</td><td>$rsdb[title]</tr>
+		</tr>
+		<tr>
+			<td>{$P8LANG['content']} </td><td>$rsdb[content]</tr>
+		</tr>
+		<tr>
+			<td>{$P8LANG['email']}</td><td>$rsdb[email]</tr>
+		</tr>
+		<tr>
+			<td>{$P8LANG['guestbook']['tel']}</td><td>$rsdb[telephone]</tr>
+		</tr>
+		<tr>
+			<td>{$P8LANG['addtime']}</td><td><!--{php echo date("Y-m-d H:i:s",$rs[content]);}--></tr>
+		</tr>
+		<tr>
+			<td>{$P8LANG['operation']}</td><td><a href="$this_url?job=edit&id=$rsdb[id]" onclick="return _edit_guestbook($rsdb[id])">[{$P8LANG['edit']}]</a><a href="$this_url?job=reply&id=$rsdb[id]" onclick="return _reply_guestbook($rsdb[id])">[{$P8LANG['guestbook']['reply']}]</a></tr>
+		</tr>
+   </table>
+	</div> 
+	<!--{template $core footer admin}-->
+<!--{/php168}-->

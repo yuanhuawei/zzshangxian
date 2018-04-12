@@ -1,0 +1,24 @@
+/* CSS Document */
+@import url(../../style.css); /* 引用cms公共样式 */
+/* 文章内容页 */
+.people{float:left;width:990px;}
+.people_detail{float:right;width:765px;}
+.people_detail ul{float:left;}
+.people_detail li{padding:6px 0;text-align:left;}
+.people_detail .each1{width:200px;float:left;text-align:left;}
+.people_detail .each2{width:500px;float:left;text-align:left;}
+.people_detail .each3{width:200px;text-align:left;clear:both;}
+#people_wrap{background:none repeat scroll 0 0 #FFFFFF;padding-top:10px;clear:both;position:relative;}
+#people_wrap .photo{border:1px solid #E4E4E4;float:left;padding:10px;width:184;height:220;overflow:hidden;}
+#people_wrap .backButton{background:url("fanhui.jpg") no-repeat;height:22px;position:absolute;z-index:99;right:1em;top:15px;width:110px;}
+#people_wrap .cDRed{color:#BA2636}
+#people_wrap li .name{background:url("renwu.jpg") no-repeat;font-family:"黑体";font-size:18px;padding-left:15px;vertical-align:middle;}
+
+#people_bottom{background:none repeat scroll 0 0 #FFFFFF;margin-top:10px;clear:both;}
+#people_bottom .list_head{height:26px;overflow:hidden;margin-top:10px;clear:both;}
+#people_bottom .list_title{float:left;line-height:150%;margin:3px 0 0 10px;padding-left:20px;font-family:"黑体";font-size:18px;}
+#people_bottom .list_content{background:url("1.jpg") repeat-x scroll 0 0 transparent;padding:15px 10px;margin:5px 0 0 0 }
+#people_bottom .list_con{line-height:180%;overflow:hidden;}
+
+
+

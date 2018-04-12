@@ -1,0 +1,68 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="POST" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td class="title" width="10%">模板</td>
+					<td class="title">路径</td>
+				</tr>
+				
+				<tr>
+					<td>{$P8LANG['cms_model_admin_edit_template']}</td>
+					<td>
+					原始模板:
+					<!--{if file_exists(TEMPLATE_PATH . 'admin/'. $SYSTEM .'/'. $name .'/#edit.html')}-->
+						{$core.CONFIG['template_dir']}admin/$SYSTEM/item/$name/#edit.html
+					<!--{else}-->
+						{$core.CONFIG['template_dir']}admin/$SYSTEM/item/edit.html
+					<!--{/if}-->
+					<br />
+					目标模板: {$core.CONFIG['template_dir']}admin/$SYSTEM/item/$name/edit.html
+					</td>
+				</tr>
+				
+				<tr>
+					<td>{$P8LANG['cms_model_member_edit_template']}</td>
+					<td>
+					原始模板:
+					<!--{if file_exists(TEMPLATE_PATH . $core->CONFIG['member_template'] .'/'. $SYSTEM .'/item/'. $name .'/#edit.html')}-->
+						{$core.CONFIG['template_dir']}{$core.CONFIG['member_template']}/$SYSTEM/item/$name/#edit.html
+					<!--{else}-->
+						{$core.CONFIG['template_dir']}{$core.CONFIG['member_template']}/$SYSTEM/item/edit.html
+					<!--{/if}-->
+					<br />
+					目标模板: {$core.CONFIG['template_dir']}{$core.CONFIG['member_template']}/$SYSTEM/item/$name/edit.html
+					</td>
+				</tr>
+				
+				<tr>
+					<td>{$P8LANG['cms_model_list_edit_template']}</td>
+					<td>
+					原始模板:
+					<!--{if file_exists(TEMPLATE_PATH . $this_system->CONFIG['template'] .'/'. $SYSTEM .'/item/'. $name .'/#list.html')}-->
+						{$core.CONFIG['template_dir']}{$this_system.CONFIG['template']}/$SYSTEM/item/$name/#list.html
+					<!--{else}-->
+						{$core.CONFIG['template_dir']}{$this_system.CONFIG['template']}/$SYSTEM/item/#/list.html
+					<!--{/if}-->
+					<br />
+					目标模板: {$core.CONFIG['template_dir']}{$this_system.CONFIG['template']}/$SYSTEM/item/$name/list.html
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdR" align="center" colspan="2">
+						<input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/>
+					</td>
+				</tr>
+				
+			</table>
+		</div>
+	</div>
+<input type="hidden" name="name" value="$name" />
+</form>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

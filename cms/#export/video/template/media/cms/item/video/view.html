@@ -1,0 +1,143 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$TITLE</title>
+<meta name="keywords" content="$SEO_KEYWORDS" />
+<meta name="description" content="$SEO_DESCRIPTION" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/head_foot.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/label/label.css" />
+<!--{if !empty($LINKRSS)}-->
+<link rel="alternate" type="application/rss+xml" title="$LINKRSS[title]" href="$LINKRSS[url]" />
+<!--{/if}-->
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+<script type="text/javascript">
+<!--{template_init_js}-->
+
+<!--{template $this_module item_js}-->
+</script>
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/$MODULE/item.js"></script>
+</head>
+<body>
+
+<!--{template $core top_header}-->
+
+<script type="text/javascript" src="{$RESOURCE}/skin/media/core/media.js"></script>
+<div class="gov_frame">
+	<div class="list_nave ">
+		<a href="{$core.url}">首页</a>&nbsp;&gt;&nbsp;
+		<!--{foreach $parent_cats $v}-->
+		<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+		<!--{/foreach}-->
+		<a href="$CAT[url]">$CAT[name]</a>
+	</div>
+</div>
+<!--content-->
+<div id="vd_wrap" class="mtop">
+	<div class="video_wrap vd_990">
+		<div class="left_box">
+			<div class="screen">
+				<!--{if $pay_check}-->
+				<script type="text/javascript" src="{$RESOURCE}/js/media.js"></script>
+				<!--{if !empty($data['video_url'])}-->
+				<script type="text/javascript">
+				showMedia({
+					url: '$data[video_url]',
+					width: 590,
+					height: 486,
+					image: '$data[frame]'.replace(/\.thumb\.jpg/, ''),
+					flashvars: {
+						winType: 'interior',
+						showAd: 0,
+						show_pre: 0,
+						show_next: 0,
+						isAutoPlay: 'true'
+					}
+				});
+				</script>
+				<!--{/if}-->
+				<!--{else}-->
+				<!--{php include template($this_module, 'pay');}-->
+				<!--{/if}-->
+			</div>
+			<div class="vd_title">
+				$data[title]
+				<span id="operation" style="display: none;float:right;color:#ff0000; cursor: pointer;">{$P8LANG['operation']}</span>
+			</div>
+			<div class="vd_summary">
+				<div class="nomal" onmousemove="this.className='abs'" onmouseout="this.className='nomal'">
+				$data[content]
+				</div>
+			</div>
+			<div class="vd_date_time">
+				<!--{if !empty($data['source'])}-->
+				来源:<a href="$data[source_url]" target="_blank">$data[source_name]</a>
+				<!--{/if}-->
+				添加时间:{date('Y-m-d H:i:s', $data['timestamp'])}
+			</div>
+		</div>
+		<div class="right_box">
+			<div class="rtop-adb">
+				$label[vd_ad_1]
+			</div>
+			<div class="vd_list">
+				<!--{foreach $listdb $val}-->
+				<div class="vd_slist">
+					<a class="frame" href="$val[url]"><img src="{if !empty($val['frame'])}$val[frame]{else}{$RESOURCE}/images/nopic.jpg{/if}"  onerror="this.src='{$RESOURCE}/images/nopic.jpg'" /></a>
+					<p class="sl_title" style="clear:right" > <a class="frame" href="$val[url]">$val[title]</a></p>
+					<p class="sl_time">
+						{date('Y-m-d H:i:s', $val['timestamp'])}
+					</p>
+				</div>
+				<!--{/foreach}-->
+			</div>
+		</div>
+		<script language="javascript">
+		$(document).ready(function(){
+			$('.vd_slist').hover(
+				function(){ $(this).addClass('vd_slist2') },
+				function(){ $(this).removeClass('vd_slist2') }
+			);
+		});
+	</script>
+		<div class="clear">
+		</div>
+	</div>
+	<div class="video_wrap vd_990 ">
+		<div class="left_box" style="height:auto">
+			<!--{if !empty($this_module->CONFIG['comment']['enabled']) && !empty($data['allow_comment'])}-->
+			<!--{template $this_module video/view_comment}-->
+			<!--{/if}-->
+		</div>
+		<div class="right_box">
+			<div class="vd_border" style="margin:4px">
+				<div class="rtop-adc">
+					本周最受欢迎视频
+				</div>
+				<div class="vd_list" style="border-top:none">
+					$label[本周最受欢迎视频]{'i.cid' => $CATEGORY, 'model' => $MODEL}
+				</div>
+			</div>
+		</div>
+		<div class="clear">
+		</div>
+	</div>
+</div>
+<div>
+<!--footer-->
+<script type="text/javascript" src="$this_router-count?id=$data[id]"></script>
+
+<script type="text/javascript" src="http://v2.jiathis.com/code/jiathis_r.js?move=0" charset="utf-8"></script>
+
+<!--{template $this_system footer}-->
+<!--{/php168}-->

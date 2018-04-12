@@ -1,0 +1,21 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<div class="wrapbox">
+	<div class="wrapbox light_blue_border margin_bottom">
+		<div class="topic_title light_blue_bg">
+			<h3>{$P8LANG['ask_submit_answer']}</h3>
+		</div>
+		<div class="answer_success inline-block">
+			<p><strong>您的回答已成功提交！非常感谢您帮助提问者解决难题！</strong><a href="{$url}">查看该问题>></a></p>
+			<h2>还有以下问题等待您来回答：</h2>
+			<ul>
+				<!--{foreach $list $k $v}-->
+					<li><a href="$v[url]">$v[title]</a></li>
+				<!--{/foreach}-->
+				<li class="clear"></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

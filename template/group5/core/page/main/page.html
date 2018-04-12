@@ -1,0 +1,64 @@
+<!--{php168}-->
+<!--{template $core header}-->
+
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/alonepage/style.css" />
+<div class="container">
+	$label[page_top_ad]
+</div>
+<div class="clear"></div>
+<div class="container common_mtop">
+	<div class="contain_left">
+		<div class="show_box_1">
+			<div class="sb1_head">
+				$label[let_menu_title]
+			</div>
+			<div class="sb1_main" id='leftbox'>
+				$label[let_menu]
+			</div>
+		</div>
+	
+	</div>
+	<div class="contain_right">	
+
+		<div class="show_box_2">
+			<div class="sb2_head">
+				<a class="title" href="">$data[title]</a>
+				<span class="more" id="editcontent"></span>
+			</div>
+			<div class="sb2_main" id='rightbox'>
+				$data[content]
+			</div>
+		</div>
+	</div>
+
+</div>	
+
+<!--{if $addcontent}-->
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<script type="text/javascript">
+<!--{template_init_js}-->
+
+var \$id='$id';
+var editlabel = get_cookie('IS_ADMIN');
+if(editlabel !==undefined){
+$("#editcontent").html("<a href='javascript:void(0)' onClick='dialog.show()'>编辑</a>");
+var dialog = new P8_Dialog({
+	title_text: '编辑内容',
+	button: false,
+	zIndex:10000,
+	width: 720,
+	height: 480,
+	url: \$this_router+'-addcontent?id='+\$id,
+	show: function(){
+		cs.init();
+	}
+});
+}
+</script>
+<!--{/if}-->
+
+<!--{template $core footer}-->
+<!--{/php168}-->

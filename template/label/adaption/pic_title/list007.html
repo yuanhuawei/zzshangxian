@@ -1,0 +1,13 @@
+<!--{php168}-->
+<ul class="label_adap_pic_ul7">
+	<!--{foreach $list $value}-->
+	<li class="col-md-4 col-sm-4 col-xs-12">
+		<a href="$value[url]" target="_blank">
+            <div class="label-pic"><img width="380" height="220" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></div>
+            <div class="datatime"><!--{php echo date('Y.m.d',$value['timestamp']);}-->&nbsp;&nbsp;|&nbsp;&nbsp;$value[category_name]</div>
+            <div class="label-title">$value[title]</div>
+        </a>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

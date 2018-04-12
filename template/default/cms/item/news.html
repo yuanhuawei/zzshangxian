@@ -1,0 +1,148 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+
+<link rel="stylesheet" type="text/css" href="{$SKIN}news/news.css" />
+
+<div class="layout_article_category_menu layout_mbottom layout_wrap">
+	<form action="{$this_system.modules['item']['controller']}-search" method="get" style="height:20px;position:relative;top:-5px;">
+	<span style="font-size:12px;">关键词：</span>$label[default_head_keywords]
+	<input type="text" id="keyword" name="keyword" value="{if isset($keyword)}$keyword{/if}" />
+	<select name="type" id="type" >
+		<option value="">站内</option>
+	</select>
+	<input type="image" src="{$SKIN}default_head_search_button.gif" style = "position:relative;top:5px;_top:3px;" />
+	</form>
+	<span style="font-size:12px;">热点：</span>$label[default_head_hotwords]
+</div>
+<!--layout ads-->
+
+<div class="ads_column">
+<div class="default_news_ad1">$label[default_news_head_ad1]</div>
+</div>
+
+<div class="default_news_frame">
+	<div  class="default_news_bar">
+		<div  class="default_news_logo">
+			<img src="{$SKIN}/news/default_news_logo.gif" />
+		</div>
+		<div class="default_news_bar_right">
+		$label[default_news_bar_right]
+		</div>
+	</div>
+</div>
+<!--div class="default_news_frame">
+	<div class="default_news_ad1">
+		$label[default_news_banner_left1]
+		$label[default_news_banner_right1]
+	</div>
+</div-->
+<div class="default_news_frame">
+	<div class="default_news_frame_left">
+<!--{if !empty($list)}-->
+<!--{foreach $list $k1 $v1}-->
+
+		<div class="default_news_title1">
+			<div class="default_news_title_more">
+				<a href="$v1[category_url]" target="_blank">更多>></a>
+			</div>
+			$v1[category_name]
+		</div>
+		<div class="default_news_content1">
+<!--{if !empty($v1)}-->
+<!--{php $iii = 0;}-->
+<!--{foreach $v1 $k2 $v2}-->
+<!--{if is_numeric($k2)}-->
+<!--{if $iii == 0}-->
+		<div>
+		<a href="$v2[url]" target="_blank" style="text-decoration:none;font-size:18px;font-weight:bolder;color:#bb2a31;">$v2[title]</a>
+		</div>
+
+<!--{elseif $iii == 1}-->
+		<div>
+		<a href="$v2[url]" target="_blank" style="text-decoration:none;font-size:12px;color:#261cdc;">[$v2[title]]</a>
+		</div>
+
+<!--{elseif $iii == 2}-->
+		<div>
+		<a href="$v2[url]" target="_blank" style="text-decoration:none;font-size:12px;color:#261cdc;">[$v2[title]]</a>
+		</div>
+	
+<!--{else}-->
+		<div>
+		<span class="default_news_date"><!--{php echo date('Y-m-d', $value['timestamp']);}--></span>
+		·<a href="$v2[url]" target="_blank">$v2[title]</a>
+		</div>
+<!--{/if}-->
+<!--{php $iii++;}-->
+		
+<!--{/if}-->
+<!--{/foreach}-->
+<!--{/if}-->
+		</div>
+
+<!--{/foreach}-->
+<!--{/if}-->
+	</div>
+	<div class="default_news_frame_right">
+		<div class="default_news_ad2">
+			$label[default_news_right_ad1]
+		</div>
+		<div class="default_news_ad2">
+			$label[default_news_right_ad7]
+		</div>
+		<div class="default_news_content2">
+			<div class="default_news_title2">
+				<div class="default_news_title_more">
+					$label[default_news_more1]
+				</div>
+				$label[default_news_right_title1]
+			</div>
+			<div>
+				$label[default_news_right_content1]
+			</div>
+		</div>
+		<div class="default_news_ad2">
+			$label[default_news_right_ad2]
+		</div>
+		<div class="default_news_content2">
+			<div class="default_news_title2">
+				<div class="default_news_title_more">
+					$label[default_news_more2]
+				</div>
+				$label[default_news_right_title2]	
+			</div>
+			<div>
+				$label[default_news_right_content2]
+			</div>			
+		</div>
+		<div class="default_news_ad2">
+			$label[default_news_right_ad3]
+		</div>
+		<div class="default_news_content2">
+			<div class="default_news_title2">
+				<div class="default_news_title_more">
+					$label[default_news_more3]
+				</div>
+				$label[default_news_right_title3]	
+			</div>
+			<div>
+				$label[default_news_right_content3]
+			</div>			
+		</div>
+		<div class="default_news_ad2">
+			$label[default_news_right_ad5]
+		</div>
+		<div class="default_news_ad2">
+			$label[default_news_right_ad9]
+		</div>
+	</div>
+</div>
+
+<div class="default_news_frame">
+	<div class="default_news_ad1">
+		$label[default_news_banner_left2]
+		$label[default_news_banner_right2]
+	</div>
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

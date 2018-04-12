@@ -1,0 +1,22 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<div class="mainbox mainborder">
+<table width="100%" align="center" class="columntable formtable hover_table click_changeable">
+	<tr class="title fix_head">
+		<td >名称</td>
+		<td >管理</td>
+		<td >操作</td>
+	</tr>
+	<!--{foreach $models $k $v}-->	
+	<tr>
+		<td class="headerbtn_list">{$v['alias']}</td>
+		<td></td>
+		<td><a href="$this_router-add?model=$k">发表</a>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+	</table>
+</div>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

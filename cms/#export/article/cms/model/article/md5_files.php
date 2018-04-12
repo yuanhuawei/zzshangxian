@@ -1,0 +1,20 @@
+<?php
+return array (
+  'admin/index.html' => 'd41d8cd98f00b204e9800998ecf8427e',
+  'admin/delete_addon.php' => '36239d59d53bae5e36c4c64b2ceaa5d2',
+  'admin/delete.php' => 'fba062120d7e81a52e039f24965d6d7e',
+  'admin/update.php' => '8f9fd6ccec6847834b59c366a162a6d0',
+  'admin/addon.php' => 'bdf31c91b791ba100cd00f8036fed02a',
+  'admin/update_addon.php' => 'c93552b636677fc34dc6d47ba7c9ca74',
+  'admin/add.php' => '340136ffb1888c6900f7509a30de1e55',
+  'index.php' => '37820113fbc7cdd0dc0900d39970fcc4',
+  'หตร๗.txt' => '15b254c5a6491cf7c07112ed6a30e9e6',
+  'main.php' => '5d2e0d5548f6070bd3f765a657898c47',
+  'view.php' => '3ccf3e922a9e67b33641465dccf48636',
+  'list.php' => '13ccfe6e5dbbc35d106952bdc1c204d6',
+  'member/delete.php' => 'd6e050bd2a5926682ec80aeaa05aa5a3',
+  'member/delete_addon.php' => 'ceb29355953b7e903db860f6422a8b0b',
+  'member/update.php' => '05c4bdfaa592cf6e12d6a561b2b7d3d2',
+  'member/update_addon.php' => '74642f50b3995702065b5d643cc1b99d',
+  'member/add.php' => '730434dc4e6ad848222e31e5d0a0cb1a',
+);

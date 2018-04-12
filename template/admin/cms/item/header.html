@@ -1,0 +1,39 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<!--{php isset($MODEL) || $MODEL = '';}-->
+<script type="text/javascript">
+var MODEL = '$MODEL';
+</script>
+<!--{if !empty($MODEL)}-->
+<div class="mainbox mainborder">
+		<div class="section">
+			<table class="formtable">
+				<tr>
+					<td class="title">{$P8LANG['operation']}</td>
+				</tr>
+				<tr>
+					<td class="headerbtn_list">
+						<ul>
+							<li><a href="{$core.admin_controller}/{$this_system.name}/model-manage?model=$MODEL">{$P8LANG['manage']}</a></li>
+							<li><a href="$this_router-add?model=$MODEL" target="_blank">{$P8LANG['cms_item']['add']}</a></li>
+							<!--{if $ACTION != 'list'}-->
+							<li><a href="$this_router-list?model={if !empty($MODEL)}$MODEL{/if}">{$P8LANG['cms_item']['list']}</a></li>
+							<!--{/if}-->
+							
+							<!--{if $ACTION == 'list_addon'}-->
+								<li><a href="$this_router-addon?model=$MODEL&iid=$data[id]{if isset($verified)}&verified=$verified{/if}">{$P8LANG['cms_item']['addon']}</a></li>
+							<!--{/if}-->
+							
+							<!--{if $ACTION == 'addon' || $ACTION == 'update_addon'}-->
+								<li><a href="$this_router-list_addon?model=$MODEL&iid=$data[iid]{if isset($verified)}&verified=$verified{/if}">{$P8LANG['cms_item']['addon']}</a></li>
+							<!--{/if}-->
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</div>
+</div>
+<!--{/if}-->
+
+<!--{/php168}-->

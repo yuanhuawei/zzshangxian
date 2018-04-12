@@ -1,0 +1,13 @@
+<!--{php168}-->
+<ul class="label_pic_ul label_pic_border">
+	<!--{foreach $list $value}-->
+	<li>
+		<a href="$value[url]" target="_blank" title="$value[full_title]"><img width="112" height="80" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a>
+		<p class="label_pic_title2 w110"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></p>
+		<p class="label_pic_title2 w110 c999">浏览次数：<span class="cred">$value[views]次</span></p>		
+	</li>
+	<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->
+

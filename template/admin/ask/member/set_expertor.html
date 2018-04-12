@@ -1,0 +1,255 @@
+<!--{php168}-->
+<style type="text/css">
+.category_list { width:130px; height:200px; padding:3px; border:1px solid #EFEFEF; background:#F9F9F9; overflow-y:scroll; overflow-x:hidden; }
+.category_list li { clear:both; float:left; width:100%; display:block; margin-bottom:1px; }
+.category_list li img { cursor:pointer; }
+.category_btn { font-size:14px; padding:3px; }
+</style>
+<div class="ajaxBox">
+	<h3 style="margin-bottom:8px;">{$P8LANG['ask_select_category']}</h3>
+	<div><!--{php echo vsprintf($P8LANG['ask_select_experts_category'],"$SKIN/show.gif");}--></div>
+	<div id="categories" style="float:left;">
+		<div id="categories_0" class="category_list fleft">
+				<!--{php 
+					$i = $cid = 0;
+					$show_next = false; //显示二级分类
+				}-->
+				<!--{foreach $category->top_categories $value}-->
+					<!--{php
+						$have_categories = false;
+						if(isset($value['categories'])){
+							$have_categories = true;
+							if($i==0){
+								$cid = $value['id'];
+								$name = $value['name'];
+								$show_next = true;
+							}
+						}
+					}-->
+					<li id="category_{$value['id']}">
+						<input type="checkbox" name="cids[]" names="{$value['name']}" value="{$value['id']}" {if $have_categories} disabled="true" {/if} />{$value['name']}<!--{if $have_categories}--><img id="img_{$value['id']}" src="{$SKIN}/show.gif" open="false"  onclick="javascript:show_category({img:'img_{$value['id']}', names:'{$value['name']}', id:{$value['id']}});"/><!--{/if}-->
+					</li>
+					<!--{php $i++;}-->
+				<!--{/foreach}-->
+	   </div>
+	</div>
+	<table border="0" cellpadding="0" cellspacing="0" class="fleft" style="height:200px;margin:0 10px;">
+		<tr>
+			<td valign="middle">
+				<input type="button" value="{$P8LANG['add']}>>" class="category_btn" onclick="javascript:add_category();"/>
+				<br/>
+				<br/>
+				<input type="button" value="<<{$P8LANG['delete']}" class="category_btn" onclick="javascript:delete_category();"/>
+			</td>
+		</tr>
+	</table>
+	<div id="category_result" class="category_list fleft" style="width:200px;"></div>
+	<div class="clear"></div>
+	<div style="display:block; margin-top:10px;">
+		<input type="hidden" name="ids" value="{$allids}"/>
+		<input type="button" value="{$P8LANG['submit']}" class="edit_btn" onclick="javascript:submit_expertor_category();"/> <input type="button" value="{$P8LANG['cancel']}" class="edit_btn" onclick="javascript:close_dialog();"/>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	change_choose_img();
+});
+
+<!--{if $show_next && !empty($cid)}-->
+	show_category({img:'img_{$cid}',names:'{$name}',id:{$cid}});
+<!--{/if}-->
+
+/**
+ * 关闭窗口
+ */
+function close_dialog()
+{
+	$('#expertor_box').fadeOut('slow',function(){
+		$('.dialogWrapper').remove();
+		$('#expertor_box').jqmHide();
+	});
+}
+
+/**
+ * 获取分类
+ * options.names 上级分类
+ * options.id 分类ID
+ * options.img 当前变换的图片
+ */
+function show_category(options)
+{
+	if(options.element == undefined){
+		options.element = 'categories_0';
+	}
+
+	if(options.id == undefined || !reg.test(options.id)){
+		return;
+	}
+
+	if($('#'+options.img).attr('open') == 'false'){
+		$('#'+options.img).attr('open', true);
+		$('#'+options.img).attr('src', '{$SKIN}/hide.gif');
+	}else{
+		
+		if($('#categories_'+options.id).html() != null){
+			$('#'+options.img).attr('open', false);
+			$('#'+options.img).attr('src', '{$SKIN}/show.gif');
+			$('#'+options.element).nextAll().remove();
+			return;
+		}
+		
+	}
+
+	var category_list = $('<div id="categories_'+options.id+'" class="category_list fleft mleft" style="width:200px;"><li style="color:#ff0000;"><input type="checkbox" name="ChkAll[]" id="ChkAll_'+options.id+'" onclick="javascript:check_all({name:\'cids[]\',element:\'ChkAll_'+options.id+'\',range:\'categories_'+options.id+'\'});"/>{$P8LANG['ask_checkall']}</li></div>').get(0);
+
+	$.ajax({
+		url: P8CONFIG.admin_controller+'/'+SYSTEM+'/{$category.name}-get_category',
+		type: 'POST',
+		dataType: 'json',
+		beforeSend:function(){
+			ajaxing({});
+		},
+		data: {id: options.id},
+		cache: false,
+		success: function(json){
+			ajaxing({action: 'hide'});			
+
+			if(json == undefined || json.categories == undefined){
+				$('#'+options.element).nextAll().remove();
+				return;
+			}
+
+			var categories = json.categories;
+			for(var i in categories){
+				 var li = $('<li id="category_'+categories[i].id+'"><input type="checkbox" name="cids[]" names="'+options.names+'&gt;'+categories[i].name+'" value="'+categories[i].id+'"/>'+options.names+'&gt;'+categories[i].name+'</li>');
+				 if(categories[i].categories != undefined){
+					li.find('input').attr('disabled',true);
+					li.append('<img id="img_'+categories[i].id+'" src="{$SKIN}/show.gif" open="false" onclick="javascript:show_category({img:\'img_'+categories[i].id+'\', names:\''+options.names+'&gt;'+categories[i].name+'\', element:\'categories_'+options.id+'\',id:'+categories[i].id+'});"/>');
+				 }
+				 
+				 $(category_list).append(li);
+			}
+
+			$('#'+options.element).nextAll().remove();
+			$('#'+options.element).after($(category_list));
+
+			change_choose_img();
+
+			element_to_center('.dialogBox');
+				
+		}
+	});
+}
+
+/** 
+ * 选择时变换的图片
+ */
+function change_choose_img()
+{
+	var img = '<img src="{$SKIN}/ok.gif"/>';
+	$('.ajaxBox .category_list li').find('input').click(function(){
+		if($(this).attr('name') == 'ChkAll[]') return;
+		if($(this).prop('checked')){
+			$(this).parent().find('img').remove();
+			$(this).parent().append(img);
+		}else{
+			$(this).parent().find('img').remove();
+		}
+	});
+}
+
+/**
+ * 增加分类
+ *
+ */
+function add_category()
+{
+	var cids = [];
+	
+	cids = checked_values('cids[]', $('#categories'));
+
+	if(cids.length<=0){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return;
+	}
+
+	for(var i in cids){		
+		if($("#category_result #"+cids[i]).length<=0){
+			$('#category_result').append('<li id="'+cids[i]+'"><input type="checkbox" value="'+cids[i]+'" name="cids[]" names="'+$('#categories #category_'+cids[i]).find('input').attr('names')+'" checked="true"/>'+$('#categories #category_'+cids[i]+' input').attr('names')+'<img src="{$SKIN}/ok.gif"/></li>');
+		}
+	}
+
+	change_choose_img();
+	return;
+
+}
+
+/**
+ * 删除分类
+ */
+function delete_category()
+{
+	var cids = [];
+
+	cids = checked_values('cids[]', $('#category_result'));
+
+	if(cids.length<=0){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return;
+	}
+
+	for(var i in cids){
+		$("#category_result #"+cids[i]).remove();
+	}
+}
+
+/**
+ * 提交
+ */
+function submit_expertor_category()
+{
+	var cids = [];
+	//用户ID
+	var ids = $(".ajaxBox input[name='ids']").val();
+
+	cids = checked_values('cids[]', $('#category_result'));
+
+	if(cids.length<=0 || ids.length<=0){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return;
+	}
+
+	$.ajax({
+		url: '{$this_router}-{$ACTION}',
+		type: 'POST',
+		dataType: 'json',
+		data: 'ids='+ids+ajax_parameters({cids:cids}),
+		cache: false,
+		success: function(json){
+			
+			for(var uid in json){
+				$("#expert_"+uid+" img").each(function(i){
+　					if(i==0){
+						$(this).src = '{$SKIN}/check_yes.gif';
+						$(this).css("margin-top","3px");
+					}
+				});
+
+				var cids = json[uid].cids;
+				for(var i in cids){
+					if($("#expert_"+uid+" #expert_category_"+cids[i].id).length<=0){
+						$("#expert_"+uid).append('<div id="expert_category_'+cids[i].id+'" style="display: block;">'+cids[i].name+'<a onclick="javascript:delete_expert_category({uid:'+uid+', id:'+cids[i].id+'});" href="javascript:void(0);"><img src="{$SKIN}/del_icon2.gif"/></a></div>');
+					}
+				}				
+			}
+
+			close_dialog();
+
+		}
+	});
+
+}
+
+
+</script>
+<!--{/php168}-->

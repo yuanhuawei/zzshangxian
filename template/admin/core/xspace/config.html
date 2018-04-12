@@ -1,0 +1,135 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<form action="$this_url" method="post" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="formtable hover_table">
+						<tr>
+							<td colspan="2" class="title">discuzX设置</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">
+								discuzX URL
+							</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="config[url]" value="{if isset($config['url'])}{$config['url']}{else}http://www.xxx.com{/if}" size="60" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">
+								数据库主机
+							</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="config[db][host]" value="{if isset($config['db']['host'])}{$config['db']['host']}{/if}" size="20" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">
+								数据库用户名
+							</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="config[db][user]" value="{if isset($config['db']['user'])}{$config['db']['user']}{/if}" size="20" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">
+								数据库密码
+							</td>
+							<td class="tdR">
+								<input type="password" class="txt" name="config[db][password]" value="{if isset($config['db']['password'])}{$config['db']['password']}{/if}" size="20" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">
+								数据库端口
+							</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="config[db][port]" value="{if isset($config['db']['port'])}{$config['db']['port']}{else}3306{/if}" size="4" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">
+								数据库名
+							</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="config[db][name]" value="{if isset($config['db']['name'])}{$config['db']['name']}{/if}" size="20" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">
+								数据库表名前缀
+							</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="config[db][table_prefix]" value="{if isset($config['db']['table_prefix'])}{$config['db']['table_prefix']}{else}pre_{/if}" size="20" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">
+								数据库编码
+							</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="config[db][charset]" value="{if isset($config['db']['charset'])}{$config['db']['charset']}{else}$db_charset{/if}" size="20" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">
+								页面编码
+							</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="config[page_charset]" value="{if isset($config['page_charset'])}{$config['page_charset']}{else}{$core.CONFIG['page_charset']}{/if}" size="20" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">
+								<input type="button" value="测试连接" onclick="_test()" />
+							</td>
+							<td class="tdR" id="_test">
+								
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">&nbsp;</td>
+							<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+						</tr>
+						
+					</table>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+</form>
+
+<script type="text/javascript">
+function _test(){
+	$.ajax({
+		url: '$this_router-test',
+		type: 'post',
+		cache: false,
+		data: $('#form').serialize(),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(s){
+			ajaxing({action: 'hide'});
+			
+			$('#_test').html(s == 1 ? '<img src="{$SKIN}/check_yes.gif" />' : '<img src="{$SKIN}/check_no.gif" />');
+		}
+	});
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

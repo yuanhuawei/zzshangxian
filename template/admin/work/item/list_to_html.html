@@ -1,0 +1,157 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+	
+
+
+<div class="mainbox mainborder">
+	
+	<table class="formtable">
+		<tr>
+			<td colspan="3" class="title">生成静态</td>
+		</tr>
+		<tr>
+			<td colspan="3">&nbsp;</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<form action="$this_url" id="list_to_html" method="post" target="shower" onsubmit="$('#shower').show();if($('#list_to_html input[name=view_to_html][value=1]:checked').length){ _view_to_html();}">
+				<table>
+				<tr>
+					<td width="16%" align="right">同时生成栏目内容 </td>
+					<td colspan="2">
+						<input type="checkbox" name="view_to_html" value="1" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td width="16%" align="right">生成类型</td>
+					<td colspan="2">
+						<input type="radio" name="type" value="0" checked />全部
+						<input type="radio" name="type" value="1" />大分类
+						<input type="radio" name="type" value="2" />栏目
+					</td>
+				</tr>
+				
+				<tr>
+					<td width="16%" align="right">仅生成前几页</td>
+					<td colspan="2">
+						<input type="input" name="pages" value="0" size="3" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="right" >请选择所属栏目</td>
+					<td width="25%">
+						<select name="cids[]" id="cids" multiple style="width: 200px; height: 200px;" onchange="if(this.value == 0) this.selectedIndex = -1;">
+							<option value="0">所有栏目</option>
+		<!--{php
+		function _options($cs, $selected = 0, $level = -1){
+		$level++;
+		}-->
+		<!--{foreach $cs $v}-->
+							<option value="{$v['id']}"{if $selected == $v['id']} selected{/if}><!--{php echo str_repeat('&nbsp;', $level * 3);}-->{$v['name']}</option>
+			
+			<!--{if isset($v['categories'])}-->
+				<!--{php _options($v['categories'], $selected, $level);}-->
+			<!--{/if}-->
+		<!--{/foreach}-->
+		<!--{php
+		}
+
+		_options($category->top_categories);
+		}-->
+						</select>
+						<div>
+							<input type="submit" name="button3" id="button3" value="开始生成栏目" class="header_r_btn"/>
+						</div>
+						
+					</td>
+				</tr>
+				</table>
+				</form>
+			</td>
+			
+			<td width="57%">
+				<form action="$this_router-view_to_html" method="post" id="view_to_html" target="shower2">
+				<ul class="line10">
+				
+				<li>生成更新时间从 
+					<input type="text" class="txt" id="time1" name="time_range[]" onclick="rcalendar(this, 'full', _valid_time_range)" autocomplete="off" />
+					-
+					<input type="text" class="txt" id="time2" name="time_range[]" onclick="rcalendar(this, 'full', _valid_time_range)" autocomplete="off" />
+					
+					<input type="button" value="1小时内" onclick="_set_time_range(mktime(_H, 0, 0, _m, _d, _Y), mktime(_H +1, 0, 0, _m, _d, _Y))" />
+					<input type="button" value="今天" onclick="_set_time_range(mktime(0, 0, 0, _m, _d, _Y), mktime(0, 0, 0, _m, _d +1, _Y))" />
+					<input type="button" value="近3天" onclick="_set_time_range(mktime(0, 0, 0, _m, _d -3, _Y), mktime(0, 0, 0, _m, _d, _Y))" />
+					<input type="button" value="本周" onclick="_set_time_range(mktime(0, 0, 0, _m, _d - _j, _Y), mktime(0, 0, 0, _m, _d + 7 - _j, _Y))" />
+					<input type="button" value="本月" onclick="_set_time_range(mktime(0, 0, 0, _m, 1, _Y), mktime(0, 0, 0, _m +1, 1, _Y));" />
+				</li>
+				
+				<li>
+					id 范围
+					<input type="text" class="txt" name="id_range" size="50" />
+				</li>
+				
+				<li>
+					每次生成的文件数
+					<input type="text" class="txt" name="perpage" value="50" size="3" />
+				</li>
+				
+				</ul>
+				<div id="_collect_category" style="display: none;"></div>
+				<input type="button" id="button3" value="开始生成内容" class="header_r_btn" onclick="_view_to_html()" />
+				</form>
+			</td>
+		</tr>
+		
+		<tr>
+			<td colspan="3">&nbsp;</td>
+		</tr>
+	</table>
+</div>
+
+<iframe id="shower" name="shower" width="45%" height="200" style="display: none;"></iframe>
+<iframe id="shower2" name="shower2" width="45%" height="200" style="display: none;"></iframe>
+
+<script type="text/javascript">
+var _obj = new Date(<!--{php echo P8_TIME;}-->000);
+var _Y = _obj.getFullYear();
+var _m = _obj.getMonth() +1;
+var _d = _obj.getDate();
+var _H = _obj.getHours();
+var _j = _obj.getDay();
+
+function _set_time_range(t1 ,t2){
+	$('#time1').val(date('Y-m-d H:i:s', t1));
+	$('#time2').val(date('Y-m-d H:i:s', t2));
+}
+
+function _valid_time_range(time, obj){
+	var time1 = $('#time1').val();
+	var time2 = $('#time2').val();
+	if(time2 && time1 >= time2){
+		$(obj).val('');
+	}
+}
+
+function _view_to_html(){
+	$('#shower2').show();
+	$('#_collect_category').empty();
+	
+	var selected = $('#cids option:selected');
+	
+	$('#cids option:selected').each(function(){
+		$('<input type="hidden" name="cids[]" value="'+ this.value +'" />').appendTo($('#_collect_category'));
+	});
+	
+	$('#view_to_html').submit();
+}
+
+
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

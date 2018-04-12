@@ -1,0 +1,25 @@
+<!--{php168}-->
+<ul class="label_pic_ul_18">
+<!--{foreach $list $value}-->
+	<li class="label_pic18" style="$wf;">
+		<a href="$value[url]"><img src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" width="212" height="217" alt="$value[title]" /></a>
+		<div>
+            <p class="wy_div_bot_p">IDM30系列</p>
+            <p class="wy_div_bot_p">$value[title]</p>
+            <p class="info">$value[summary]</p>
+        </div>
+	</li>
+<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<script>
+	$(".label_pic_ul_18 .label_pic18").hover(function() {
+		$(this).addClass("on");
+	}, function() {
+		$(this).removeClass("on");
+	});
+</script>
+<!--{/php168}-->
+
+
+

@@ -1,0 +1,238 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>通讯录</title>
+<link type="text/css" rel="stylesheet" href="{$MEMBERSKIN}/intranet/style.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/member_common.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+
+</head>
+<body>
+<form action="$this_url" method="get" id="request" onsubmit="request_item(1);return false;">
+	<table width="100%" border="0" cellpadding="1" cellspacing="1"  class="show_table" >		
+		<tr>
+			<td>
+				<strong>部门搜索</strong>
+				
+				<select name="role_gid" id="role_gid" onchange="if(this.value) change_role_group(this.value);">
+					<option value="0">-选择部门-</option>
+				</select>&nbsp;
+				
+				<select name="role_id" id="role_id" onchange="if(this.value) request_item(1);">
+					<option value="0">-选择岗位-</option>
+				</select>&nbsp;
+				<input type="text" class="txt" id="keyword" size="15" name="keyword" value="{if !empty($keyword)}$keyword{else}请输入姓名{/if}" onfocus="this.value=''" />&nbsp;
+				
+				<input type="hidden" name="type" value="name" />
+				<input type="submit" value="搜索" class="submit_btn" onclick="$('input[name=where]', $('#send')).val($('#request').serialize());" />
+			</td>
+		</tr>
+	</table>
+</form>
+
+<form action="$this_url" method="post" id="form">
+		<table  width="100%" border="0" cellpadding="1" cellspacing="1"  class="show_table" >
+			<tr class="tablehead">
+				<td width="10%" class="title"><input type="checkbox" name="check_all" onclick="m_check_all(this)" /> 姓名</td>
+				 <td width="14%" class="title">工号</td>
+				 <td width="13%" class="title">部门</td>
+				 <td width="16%" class="title">岗位</td>
+			</tr>
+			
+			<tbody id="list">
+			
+			</tbody>
+		  
+	    </table>
+</form>
+<div style="margin-top:10px;text-align:center">
+				<a href="javascript:void(0)" onclick="m_check_all(true)">全选</a>/<a href="javascript:void(0)" onclick="m_check_all(false);">反选</a>
+				<input type="checkbox" onclick="check_all('noall', 'id[]')" id="ca" /><label for="ca">全选所有 </label>  <span id="pages" align="center"></span>
+</div>
+
+
+<form action="$this_router-batch_send" method="get" id="send" target="_blank">
+	<input type="hidden" name="where" />
+</form>
+
+
+
+
+<script type="text/javascript">
+
+var ROLE_GROUP_JSON = $role_group_json,
+	ROLE_JSON = $role_json,
+	status_json = $status_json,
+	checked_ids = {};
+
+	
+function batch_send(){
+	var ids = checked_values('id[]');
+	if(ids.length){
+		$('input[name=where]', $('#send')).val('id='+ ids.join(','));
+	}else{
+		//$('input[name=where]', $('#send')).val($('#request').serialize());
+	}
+	
+	$('#send').attr('action', '$this_router-batch_send').submit();
+}
+
+function request_item(page){
+	k = $('#keyword').val();
+	if(k == '请输入姓名')$('#keyword').val('');
+	$.ajax({
+		url: '{$core.U_controller}/member-address_list',
+		data: $('#request').serialize() +'&page='+ (page === undefined ? 1 : page),
+		dataType: 'json',
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			PAGE = page;
+			
+			$('#list').empty();
+			for(var i in json.list){
+				_list_item(json.list[i]);
+			}
+			
+			$('#pages').html(json.pages);
+			
+			ajaxing({action: 'hide'});
+			
+			window.scrollTo(0,0);
+			
+			$('#form input[name=check_all]').attr('checked', false);
+			
+			$('#form input[name="id[]"]').click(function(){
+				var _this = this;
+				var tr = $(this).parent().parent();
+				
+				var json = {id: this.value, username: tr.find('td:eq(1) a').html(), role: tr.find('td:eq(3)').html()};
+				
+				setTimeout(function(){ parent.member_single_select_callback(_this.checked, json); }, 1);
+			});
+						
+			var keywords = $.trim($('#request input[name=keyword]').val());
+			if(!keywords.length) return;
+			
+			var keywords = keywords.replace(/[\+\-\*\|\!]/g, '').split(/\s+/);
+			
+			$('.list_item').each(function(){
+				for(var i = 0; i < keywords.length; i++){
+					var html = $(this).find('.item_title').get(0).innerHTML;
+					$(this).find('.item_title').get(0).innerHTML = html.replace(keywords[i], '<font color="red">'+ keywords[i] +'</font>', 'ig');
+				}
+			});
+			
+		}
+	});
+}
+
+function _list_item(json){
+	
+	var tr = 
+	'<tr>'+
+		'<td><input type="checkbox" name="id[]" value="'+ json.id +'"'+ (checked_ids[json.id] ? ' checked' : '') +' /> '+ json.username +'</td>'+
+		'<td>'+(json.number==''? '' : json.number)+'<a style="display:none">'+json.username+'</a></td>'+
+		'<td>'+ (ROLE_GROUP_JSON[json.role_gid] ? ROLE_GROUP_JSON[json.role_gid].name : '') +'</td>'+
+		'<td>'+ (ROLE_JSON[json.role_id] ? ROLE_JSON[json.role_id].name : '') +'</td>'+
+	'</tr>';
+	
+	$('#list').append($(tr));
+}
+
+function m_check_all(checked){
+	
+	//check_all(checked, 'id[]', $('#form'));
+
+	$('#form input[name="id[]"]').click();
+
+}
+
+$(function(){
+	
+	for(var i in ROLE_GROUP_JSON){
+		$('#role_gid').append($('<option value="'+ ROLE_GROUP_JSON[i].id +'">'+ ROLE_GROUP_JSON[i].name +'</option>'));
+	}
+	
+	request_item(1);
+	
+	if(\$_GET['checked_ids']) checked_ids = \$_GET['checked_ids'];
+	
+	if(window.opener){
+		$('#opener_hide').hide();
+		
+		$('#button_bar').append($('<input type="button" value="确定选择" class="edit_btn" />').click(function(){
+			
+			var ids = checked_values('id[]');
+			if(ids.length){
+				window.opener.member_select_callback(ids);
+			}else{
+				window.opener.member_select_callback($('input[name=where]', $('#send')).val());
+			}
+			
+			window.close();
+		}));
+	}
+});
+
+function change_role_group(gid){
+	$('#role_id').attr('length', 1);
+	for(var i in ROLE_JSON){
+		if(ROLE_JSON[i].gid != gid) continue;
+		
+		$('#role_id').append($('<option value="'+ ROLE_JSON[i].id +'">'+ ROLE_JSON[i].name +'</option>'));
+	}
+	
+	request_item(1);
+}
+
+function delete_member(obj){
+	
+	var id = [];
+	$.each(obj, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(!id.length) return;
+	
+	if(confirm('{$P8LANG['confirm_to_delete']}')){
+		$.ajax({
+			url: '$this_router-delete',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({id: id}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				if(json.length == 0) return false;
+				
+				for(var i in json){
+					$('#delete_'+ json[i]).parent().parent().remove();
+				}
+			}
+		});
+	}
+	
+	return false;
+}
+</script>
+</body>
+</html>
+<!--{/php168}-->

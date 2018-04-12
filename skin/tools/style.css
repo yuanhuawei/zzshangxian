@@ -1,0 +1,74 @@
+
+body{width:100%!important;width:98%}
+html, body {color: #666666; font-size: 12px;margin: 0;overflow: auto;padding: 0;text-align:left;}
+
+/*万年历*/
+
+.CAL_wid{width:400px;height:auto;border:#A9C8CE 1px solid; border-top-width:0px; position:relative; margin:0 auto;}
+	.CAL_wid_LT{ position:absolute; left:-1px; top:0px; width:5px; height:43px; background-position:-99px -165px}
+	.CAL_wid_LR{ position:absolute; right:-1px; top:0px; width:5px; height:43px; background-position:-104px -165px}
+	.CAL_wid_top{ height:43px; background-image:url(Cal_bg_tit.gif); background-repeat:repeat-x}
+	.CAL_LN{ height:18px; line-height:18px; background-color:#22AADF; margin:0px 1px}
+		.CAL_LN a{ display:block; width:65px; height:18px; float:left; line-height:19px; overflow:hidden; color:#FFF; text-decoration:none}
+		.CAL_LN a{background-image:url(bg.gif);background-repeat:no-repeat}
+		.CAL_LN a:hover{ background-color:#55BEE6; text-decoration:none}
+		a.CAL_A1{ text-indent:18px; background-position:-436px -85px}
+		a.CAL_A2{ text-indent:18px; background-position:-511px -85px}
+		a.CAL_A3{ width:35px; background-position:-579px -85px}
+		a.CAL_A4{ text-indent:10px; background-position:-611px -85px}
+		a.CAL_A5{ text-indent:10px; background-position:-684px -85px}
+		.CAL_Az{ float:left; width:55px; height:18px}
+.Cont_tit{background-color:#FDFDFD;border-bottom:#F1F1F1 1px solid;height:auto;padding:15px 25px 8px 31px;background-position:0px -95px; font-size:12px}
+		.Cont_tit h1{color:#2567AF;margin:0px;padding:0px;font-size:14px}
+		.Cont_tit span{display:block;margin-top:6px;color:#666}		
+.wnl_div{ margin-top:-3px; margin-bottom:0px}
+.sunday td{ background-color:#D3E9F3;font-size:28px; font-weight:bold; font-family:"微软雅黑", "黑体"; text-align:center}
+.cal_day_NO{ width:100%; height:100%; border:0px}
+	.cal_day_NO td{font-size:26px; font-family:Verdana, Arial, Helvetica, sans-serif; color:#666; font-weight:bold}
+.cal_day_jr{ width:100%; height:100%; border:0px}
+	.cal_day_jr td{ font-size:12px; color:#565656}
+	td.weekend_ms{ background-color:#F60; color:#FFF}
+	.CAL_div{ margin:1px}
+.Cont {margin: 25px;}
+.bot_back_btn{text-align:left; padding-left:95px; margin-top:15px; clear:both; border-top:#E0E9ED 2px solid; padding-top:8px; padding-bottom:15px}
+	input.Back_IND{font-size:14px; color:#333; padding-top:2px; height:30px;width:160px; padding-top:2px}
+
+
+/*计算器*/
+
+.ZL_Cont_tab{width:100%;border:0px;table-layout:fixed}
+	.Cont_tbL{width:105px;vertical-align:top; font-size:12px}
+	.NAV_L_Tit{height:27px;background-position:0px -56px;line-height:27px;font-weight:bold;text-indent:10px;border-right:#D8E1E8 1px solid}
+	td.Cont_tbL a{display:block;width:100%;height:25px;line-height:25px;color:#666;text-indent:10px}
+	td.Cont_tbL a:hover{background-position:-112px -5px;text-decoration:none}
+	td.Cont_tbL a.on,td.Cont_tbL a.on:hover{background-position:-112px -36px;font-weight:bold; color:#444}
+	
+	.Cont_tit{background-color:#FDFDFD;border-bottom:#F1F1F1 1px solid;height:auto;padding:15px 25px 8px 31px;background-position:0px -95px; font-size:12px}
+		.Cont_tit h1{color:#2567AF;margin:0px;padding:0px;font-size:14px}
+		.Cont_tit span{display:block;margin-top:6px;color:#666}
+
+.Cont{margin:25px}
+	.sxjsq_tab{width:390px;table-layout:fixed;overflow:hidden;margin:0 auto;}	
+		.sx_J_11{width:4px;height:80px;font-size:0px;overflow:hidden;background-position:-230px -5px}
+		.sx_J_12{width:380px;height:80px;vertical-align:top;background-position:0px -258px;text-align:center}
+		.sx_J_13{width:6px;height:80px;font-size:0px;overflow:hidden;background-position:-234px -5px}
+		.sx_J_21{background-position:-5px 0px;vertical-align:top;width:390px;height:auto}
+		.sx_J_31{width:390px;height:7px;background-position:-5px -100px;font-size:0px;overflow:hidden}
+	
+		.sec_box_NOS{margin:17px auto;text-align:center}
+		.sec_box_NOS input{width:340px;border:#557B97 1px solid;font-family:"Arial Black";font-size:24px;color:#000;padding:2px 5px;letter-spacing:5px;background-position:-254px -5px; overflow:hidden; background-attachment:fixed}
+		.tips_p{float:left;position:relative;width:100%;background-color:#CCCCCC}
+		.sec_box_NON{position:absolute;top:1px;left:50%;margin-left:-178px;width:355px;height:20px;line-height:20px;text-align:left;text-indent:8px;white-space:nowrap;text-overflow:ellipsis;overflow: hidden;background-color:#D3DFE7}
+
+		.sec_box_JSQ_table{width:360px;margin:15px auto}
+		.sec_box_JSQ_table td{text-align:center;width:20%;padding-top:5px;padding-bottom:5px}
+		.sec_box_JSQ_table input{width:52px;height:30px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;font-weight:bold;color:#333}
+		input.jsq_btn_B{height:70px}
+		input.fsize18{font-size:18px}
+
+td.Cont_tbL a:hover, td.Cont_tbL a.on, .Cont_tbL a.on_m, .sx_J_11, .sx_J_13, .sx_J_31,  .IND_T_L, .IND_T_R, .SER_Logo, .icon_d, .Cont_caiDet11, .Cont_caiDet13, .Cont_caiDet31, .Cont_caiDet33, .IND_M_ref, .IND_M_line .tit, a.T_r_close, .CAL_wid_LT, .CAL_wid_LR, .CAL_LN a, .ico_bY, .ico_bX, .cs_bot a.on, .cy_ses_line_TB, .hb_r_tab td a.a_k, .hb_r_tab td a.a_g, a.a_syt, a.a_xyt, .xzbg .CC000EC, .xz_info_line, .WZ_tit_W, .WZ_CH, .lieche_tab td a.a_k, .lieche_tab td a.a_g, td a.a_cy_ser {
+    background-image: url("bg.gif");
+    background-repeat: no-repeat;
+}
+.sx_J_12{background-image: url("bg_x.gif");background-repeat: repeat-x;}
+.sx_J_21{background-image:url("bg_y.gif");background-repeat:repeat-y;}

@@ -1,0 +1,56 @@
+<!--{php168}-->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="label_ul_b" style="font-size:12px;">
+	<!--{php $i = 0;}-->
+	<!--{foreach $list $key $value}-->
+	<!--{php $i++;}-->
+	<!--{if $i <= 3}-->
+	<tr id="item_$value[id]">
+		<td><span class = "label_order123" style="width:16px;margin-right:0;" >$i</span></td>
+		<!--{foreach $option['fields'] $field}-->
+		<td align="left">
+			<!--{if !empty($value[$field]) && ($this_model['fields'][$field]['widget']=='radio' || $this_model['fields'][$field]['widget']=='select' || $this_model['fields'][$field]['widget']=='city')}-->
+						<a href="$value[url]" target="_blank">{$this_model['fields'][$field]['data'][$value[$field]]}</a>
+			<!--{elseif !empty($value[$field]) && ($this_model['fields'][$field]['widget']=='checkbox' || $this_model['fields'][$field]['widget']=='multi_select')}-->
+				<!--{foreach $value[$field] $v}-->
+							<a href="$value[url]" target="_blank">{$this_model['fields'][$field]['data'][$v]}</a>
+				<!--{/foreach}-->
+			<!--{elseif !empty($value[$field]) && $this_model['fields'][$field]['widget']=='link'}-->
+				<a href="{$value[$field]}" target="{if !empty($this_model['fields'][$field]['widget']['data']['target'])}{$this_model['fields'][$field]['widget']['data']['target']}{/if}">{$this_model['fields'][$field]['alias']}</a>
+			<!--{elseif isset($value[$field])}-->
+				<a href="$value[url]" target="_blank">{$value[$field]}</a>
+			<!--{/if}-->
+			<!--{if !empty($this_model['fields'][$field]['units'])}-->
+			{$this_model['fields'][$field]['units']}
+			<!--{/if}-->
+		</td>
+		<!--{/foreach}-->
+		<td align="center"><a href="$value[url]" target="_blank" style="background:#ffff66;border:1px solid #6fef2d;padding:1px 4px;font-size:12px;">报名</a></td>
+	</tr>
+	<!--{else}-->	
+	<tr id="item_$value[id]">
+		<span class = "label_order456" style="width:16px;margin-right:0;" >$i</span></td>
+		<!--{foreach $option['fields'] $field}-->
+		<td align="left">
+			<!--{if !empty($value[$field]) && ($this_model['fields'][$field]['widget']=='radio' || $this_model['fields'][$field]['widget']=='select' || $this_model['fields'][$field]['widget']=='city')}-->
+						<a href="$value[url]" target="_blank">{$this_model['fields'][$field]['data'][$value[$field]]}</a>
+			<!--{elseif !empty($value[$field]) && ($this_model['fields'][$field]['widget']=='checkbox' || $this_model['fields'][$field]['widget']=='multi_select')}-->
+				<!--{foreach $value[$field] $v}-->
+							<a href="$value[url]" target="_blank">{$this_model['fields'][$field]['data'][$v]}</a>
+				<!--{/foreach}-->
+			<!--{elseif !empty($value[$field]) && $this_model['fields'][$field]['widget']=='link'}-->
+				<a href="{$value[$field]}" target="{if !empty($this_model['fields'][$field]['widget']['data']['target'])}{$this_model['fields'][$field]['widget']['data']['target']}{/if}">{$this_model['fields'][$field]['alias']}</a>
+			<!--{elseif isset($value[$field])}-->
+				<a href="$value[url]" target="_blank">{$value[$field]}</a>
+			<!--{/if}-->
+			<!--{if !empty($this_model['fields'][$field]['units'])}-->
+			{$this_model['fields'][$field]['units']}
+			<!--{/if}-->
+		</td>
+		<!--{/foreach}-->
+		<td align="center"><a href="$value[url]" target="_blank" style="background:#ffff66;border:1px solid #6fef2d;padding:1px 4px;font-size:12px;">报名</a></td>
+	</tr>
+	<!--{/if}-->
+	<!--{/foreach}-->
+</table>
+<!--{/php168}-->
+

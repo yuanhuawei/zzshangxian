@@ -1,0 +1,92 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<style>
+.box { padding:2px; border:1px solid #cccccc; }
+.head{ background-color:#eeeeee}
+.formtable .title{ color:#FFF}
+#showimgbox{ display:none; width:305px; height:105px; position:absolute;  border:1px solid #cccccc}
+</style>
+
+<div class="mainbox mainborder">
+	<table class="formtable">
+		<tr>
+			<td class="title">{$P8LANG['operation']}</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				<ul>
+					<li><a href="{$this_url}?plugin=qqconnect&job=cache">刷新缓存</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mainbox mainborder" style="display:">
+<form name="form1" action=""  onsubmit="return check();" method="post">
+	<table class="formtable">
+		<tr>
+			<td class="title" colspan="2">{$P8LANG['operation']}</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list" align="right">会员绑定模式：</td>
+			<td class="headerbtn_list">
+			<input type="radio" name="config[check_status]" value="0" {if empty($config['check_status'])}checked{/if}/>自动生成 <span class="point">当QQ会员第一次登录时，系统会自动生成随机帐号、密码与邮箱，其中密码与邮箱可以在会员中心修改。(未审核通过时建议用此模式)</span><br/>
+			<input type="radio" name="config[check_status]" value="1"  {if !empty($config['check_status'])}checked{/if}/>手动绑定 <span class="point">第一次登录时，需手动绑定本站的帐号。 (审核通过后建议使用此模式)</span>
+			
+			<span style="color:red"></span>
+			</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list" align="right">APP ID：</td>
+			<td class="headerbtn_list"><input name="config[appid]" type="text" value="{if !empty($config['appid'])}$config[appid]{/if}"/> 还没有？<a href="http://connect.qq.com/manage/" target="_blank" style="cololr:#2F8AB5">马上去申请个</a></td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list" align="right">APP KEY：</td>
+			<td class="headerbtn_list"><input name="config[appkey]" type="text" value="{if !empty($config['appkey'])}$config[appkey]{/if}"/></td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list" align="right">新加入的会员角色组：</td>
+			<td class="headerbtn_list">
+			<select id="role_id" name="config[role_gid]">
+				<option value="">请选择</option>
+			<!--{foreach $role_module->groups $ro}-->
+			<!--{if $ro['registrable']}-->
+				<option value="{$ro['id']}" {if !empty($config['role_gid']) && $config['role_gid']==$ro['id']}selected{/if}>{$ro['name']}</option>
+			<!--{/if}-->
+			<!--{/foreach}-->
+			</select>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">登录按钮样式：</td>
+			<td>
+			 <input type="radio" name="config[display]" value="1" {if $config['display']==1}checked{/if}/> <img src="{$src}/Connect_logo_1.png"/><br/>
+			 <input type="radio" name="config[display]" value="6" {if $config['display']==6}checked{/if}/> <img src="{$src}/Connect_logo_6.png"/><br/>
+			<input type="radio" name="config[display]" value="7" {if $config['display']==7}checked{/if}/> <img src="{$src}/Connect_logo_7.png"/> <br/>
+			<input type="radio" name="config[display]" value="2" {if $config['display']==2}checked{/if}/> <img src="{$src}/Connect_logo_2.png"/> <br/>
+			<input type="radio" name="config[display]" value="3" {if $config['display']==3}checked{/if}/> <img src="{$src}/Connect_logo_3.png"/> <br/>
+			<input type="radio" name="config[display]" value="4" {if $config['display']==4}checked{/if}/> <img src="{$src}/Connect_logo_4.png"/><br/>
+			<input type="radio" name="config[display]" value="5" {if $config['display']==5}checked{/if}/> <img src="{$src}/Connect_logo_5.png"/> <br/>
+			
+			</td>
+		</tr>	
+		<tr><td></td><td>
+			<input type="submit" value="确定" class="submit_btn" />
+				<input type="hidden" name="do" value="config" />
+				
+			</td>
+		</tr>
+	</table>
+	</form>
+</div>
+
+<div id="showimgbox"><img src="" id="showimg" width="300" height="100" /></div>
+<script type="text/javascript">
+function check(){
+	if($('#role_id').val()==""){
+		alert('角色必须选择一个');return false;
+	}
+	return true;
+}
+</script>
+<!--{/php168}-->

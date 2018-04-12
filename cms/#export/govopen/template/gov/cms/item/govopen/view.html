@@ -1,0 +1,46 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/item/item.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+<script type="text/javascript">
+<!--{template_init_js}-->
+
+var item_id = $data[id],
+	model = '$data[model]',
+	item_cid = $data[cid],
+	verified = \$_GET['verified'] !== undefined || \$_GET['verified'] == 1 ? 1 : 0;
+$(function(){
+	if(get_cookie('IS_ADMIN') == 1){
+		item_operation($('#operation').show());
+	}
+});
+</script>
+<!--位置栏开始-->
+<div class="nav_wrap">
+	<a href="{$core.url}">首页</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>&nbsp;&gt; <span>正文</span>
+</div>
+<!--内容开始-->
+<table cellspacing="1" border="0" width="100%" id="list_table">
+<tr><td width="15%">索引号</td><td width="35%">{$data['suoyin']}</td><td width="15%">信息分类</td><td width="35%">{$data['xinxifenlei']}</td></tr>
+<tr><td>发布机构</td><td>{$this_model['fields'][jigou]['data'][$data['jigou']]}</td><td>生成日期</td><td><!--{php echo date('Y-m-d',$data['timestamp']);}--></td></tr>
+<tr><td>联合发布机构</td><td>{$this_model['fields'][jigou]['data'][$data['jigou']]}</td><td>关 键 词</td><td>{$data['keywords']}</td></tr>
+<tr><td>主题分类</td><td>$CAT[name]</td><td>服务对象分类</td><td>{$this_model['fields'][duixiang]['data'][$data['duixiang']]}</td></tr>
+<tr><td>体裁分类</td><td>{$this_model['fields'][ticai]['data'][$data['ticai']]}</td><td>生命周期分类</td><td>{$this_model['fields'][shengming]['data'][$data['shengming']]}</td></tr>
+<tr><td>文    号</td><td>{$data['wenhao']}</td><td>信息格式/语种</td><td>{$this_model['fields'][geshi]['data'][$data['geshi']]}</td></tr>
+<tr><td>信息名称</td><td colspan="3" style="text-align:left">{$data['title']}</td></tr>
+<tr><td>内容概述</td><td colspan="3" style="text-align:left">{$data['content']}</td></tr>
+<tr><td>相关信息</td><td colspan="3" style="text-align:left">{$data['xianguang']}</td></tr>
+</table>
+<!--浏览计数器-->
+<script type="text/javascript" src="$this_router-count?id=$data[id]"></script>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

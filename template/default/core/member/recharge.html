@@ -1,0 +1,51 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>{$P8LANG['recharge']['']}</title>
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/pay/pay.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+</head>
+<body>
+<div class="pay_case">
+	<div style="padding: 0px; margin: 0px;">
+		<div style="clear: both;">
+		</div>
+		<span class="pay_title">{$P8LANG['recharge']['select_amount']}</span>
+		<img src="{$RESOURCE}/skin/default/core/pay/pay_close_button.gif" class="pay_close" onclick="window.close();" /> &nbsp;
+		<div style="clear: both;">
+		</div>
+	</div>
+	<div class="pay_content">
+		{$P8LANG['recharge']['note']}
+	</div>
+	<form action="$this_url" method="post" onsubmit="return commitData();">
+		<div class="pay_how_much">
+			<div class="chosebox">
+				<ul id="pay_data">
+					<!--{foreach $config['quantity'] $money $credit}-->
+					<li class="recharge"><input type="radio" id="m_$money" name="money" value="$money" /> {$credit}{$core.credits[$config['credit_type']]['unit']}{$core.credits[$config['credit_type']]['name']}，需{$money}元</li>
+					<!--{/foreach}-->
+					<li><input type="image" src="{$RESOURCE}/skin/default/core/pay/pay_submit_icon.gif" class="pay_submit_button" /></li>
+					<li class="clear"></li>
+				</ul>
+			</div>
+		</div>
+		<input type="hidden" name="post_type" value="recharge" />
+	</form>
+</div>
+<script type="text/javascript">
+function commitData(){
+	var radios = $("#pay_data input:checked");
+	if(radios.length > 0){
+		return true;
+	}
+	$("#message_money").css("visibility","visible");
+	return false;
+}
+</script>
+</body>
+</html>
+<!--{/php168}-->

@@ -1,0 +1,14 @@
+<!--{php168}-->
+<ul class="label_list">
+	<!--{foreach $list $value}-->
+	<li  style="background:url({$RESOURCE}/skin/label/icon9.jpg) left 6px no-repeat;margin-bottom:3px;padding-left:15px;">
+		<h3 style="font-weight:normal;"><span class="label_datatime" style="color:#656668;font-size:12px;">[<!--{php echo date('m-d', $value['timestamp']);}-->]</span><a class="label_14px_title" style="color:#0068b8;font-weight:normal;" href="$value[url]" target="_blank" title="$value[full_title]" >$value[title]</a></h3>
+		<p class="label_summary" style="text-indent:0em;color:#646464;margin:3px 0px 0px;line-height:180%;">
+		$value[summary]... <span class="cDRed" style=""><a href="$value[url]" target="_blank">[详细]</a></span>
+		</p>
+	</li>
+	<!--{/foreach}-->
+	<li class="clear"></li>
+</ul>
+<!--{/php168}-->
+

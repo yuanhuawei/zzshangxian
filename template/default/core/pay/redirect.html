@@ -1,0 +1,22 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{$P8LANG['pay_redirect']}</title>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}">
+</head>
+<body>
+<form id="form" action="$payform[gateway]" method="$payform[method]">
+<!--{foreach $payform['params'] $k $v}-->
+<input type="hidden" name="$k" value="$v" />
+<!--{/foreach}-->
+<input type="submit" value="{$P8LANG['click_to_pay']}" />
+</form>
+<script type="text/javascript">
+window.onload = function(){
+	document.getElementById('form').submit();
+};
+</script>
+</body>
+</html>
+<!--{/php168}-->

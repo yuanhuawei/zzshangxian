@@ -1,0 +1,23 @@
+<?php
+return array(
+	'id' => '',
+	'fid' => '',
+	'name' => '',
+	'title' => '',
+	'timestamp' => '',
+	'uid' => '',
+	'username' => '',
+	'style' => '',
+	'type' => '',
+	'tpl_head' => '',
+	'tpl_main' => '',
+	'tpl_foot' => '',
+	'htmlize' => '',
+	'html_view_url_rule' => '',
+	'filepath' => '',
+	'descrip' => '',
+	'keywords' => '',
+	'content' => '',
+	'hits' => '',
+	'ishtml' => '',
+);?>

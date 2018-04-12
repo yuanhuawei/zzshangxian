@@ -1,0 +1,96 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="" method="POST" id="form">
+<div class="mainbox mainborder">
+	<table class="columntable formtable hover_table">
+		<tr>
+			<td class="title">{$P8LANG['office_model_name']}</td>
+			<td class="title">{$P8LANG['office_model_alias']}</td>
+			<td class="title">{$P8LANG['enabled']}</td>
+			<td class="title">{$P8LANG['operation']}</td>
+		</tr>
+		
+		<!--{foreach $list $value}-->
+		<tr id="model_{$value['name']}">
+			<td>{$value['name']}</td>
+			<td>{$value['alias']}</td>
+			<td><img src="{$SKIN}/check_{if empty($value['enabled'])}no{else}yes{/if}.gif" /></td>
+			<td>
+				<a href="$this_router-update?name={$value['name']}">{$P8LANG['edit']}</a>
+				<a href="$this_router-manage?model={$value['name']}">{$P8LANG['manage']}</a>
+				<a href="$this_router-list_field?model={$value['name']}">{$P8LANG['office_model_field_list']}</a>
+				<a href="$this_router-add_field?model={$value['name']}">{$P8LANG['add_office_model_field']}</a>
+				<a href="$this_router-template?name={$value['name']}">{$P8LANG['office_model_generate_template']}</a>
+				<a href="###" onclick="_export(this.id)" id="{$value['name']}">{$P8LANG['office_model_export']}</a>
+				<a href="$this_router-delete?name={$value['name']}" onclick="return delete_model(this)">{$P8LANG['delete']}</a>
+			</td>
+		</tr>
+		<!--{/foreach}-->
+		
+		<tr class="">
+			<td colspan="3">
+				<input type="submit" value="{$P8LANG['update_cache']}" />
+				<input type="submit" name="sphinx" value="{$P8LANG['sphinx_config']}" />
+			</td>
+		</tr>
+	</table>
+</div>
+
+<input type="hidden" name="name" />
+<input type="hidden" name="new_name" />
+</form>
+
+<div class="mainbox mainborder">
+	<div class="formtable">
+		<div class="title">{$P8LANG['help_about']}</div>
+
+		<div class="headerbtn_list">
+		导出的模型保存在cms/#export目录下。<br />
+
+		小技巧，导出模型可以用于复制模型。导出模型，弹出输入新模型名称的输入框，比如原模型为article，那么输入新模型名为article2导出。再导入article2模型即可。
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+function delete_model(obj){
+	var sure = confirm('{$P8LANG['confirm_to_delete_office_model']}');
+	
+	if(!sure) return false;
+	
+	var model = $(obj).parent().parent().attr('id').replace(/model_/, '');
+	$.ajax({
+		url: '$this_router-delete',
+		type: 'post',
+		dataType: 'text',
+		data: {name: model},
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(status){
+			ajaxing({action: 'hide'});
+			if(status == 1){
+				$(obj).parent().parent().remove();
+			}
+		}
+	});
+	return false;
+}
+
+function _export(name){
+	var new_name = prompt('{$P8LANG['office_model_name']}', name);
+	if(!new_name) return;
+	
+	$('#form').attr('action', '$this_router-export').
+	find('input[name=name]').val(name);
+	
+	$('#form').
+	find('input[name=new_name]').val(new_name);
+	
+	$('#form').submit();
+}
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

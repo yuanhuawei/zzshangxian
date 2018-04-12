@@ -1,0 +1,126 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module header}-->
+<div class="list_box mtop20">
+	<div class="head" id="boxhead">
+		<span id="unverified" class="$unsolve_over"><a href="$this_router-verify?job=unsolve">未解决的问题</a></span>
+		<span id="verified"class="$solve_over"><a href="$this_router-verify?job=solve">已解决的问题</a></span>
+		<span id="noverified" class="$unverify_over"><a href="$this_router-verify?job=unverify">未审核的问题</a></span>
+	</div>
+</div>
+<form id="form" name="form" action="$this_url" method="POST">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table" id="list">
+	<tr class="head">
+		<td width="7%">ID</td>
+		<td width="40%">标题</td>
+		<td width="10%">栏目</td>
+		<td width="10%">提问人</td>
+		<td width="10%">{$P8LANG['ask_post_time']}</td>
+		<td width="20%">操作</td>
+	</tr>
+	
+	<!--{foreach $list $k $v}-->
+	<tr id="ask_{$v['id']}">
+		<td ><input type="checkbox" name="id[]" value="{$v['id']}"/> {$v['id']}</td>
+		<td class="al"><a href="{$this_module.controller}-view-id-$v[id]" target="_blank">$v[title]</a></td>
+		<td>
+			<a href="{$this_url}?cid=$v[cid]" >{$category.categories[$v['cid']]['name']}</a>
+		</td>
+		<td>{$v['username']}</td>
+		<td><!--{php echo date('y-m-d', $v['addtime']);}--></td>
+		<td>
+			<a href="{$this_router}-verify?id=$v[id]" onclick="verify($v[id],$v[verify]);return false;">审核</a>
+			<a href="{$this_module.controller}-edit?id=$v[id]" target="_blank">修改</a>
+			<a href="{$this_router}-delete?id=$v[id]" onclick="delete_items($v[id]);return false;">删除</a>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+	
+	<tr>
+		<td align="center" colspan="6" class="pages">
+			&nbsp;<input type="checkbox" name="ChkAll" id="ChkAll" value="1" onclick="check_all(this, 'id[]', $('#list'))"/>{$P8LANG['ask_checkall']}
+				&nbsp;<input type="button" name="delete" value="{$P8LANG['ask_verify']}" onclick="javascript:verify('',0);"/>
+				&nbsp;<input type="button" name="delete" value="{$P8LANG['ask_unverify']}" onclick="javascript:verify('',1);"/>
+				&nbsp;<input type="button" name="delete" value="{$P8LANG['delete']}" onclick="javascript:delete_items();"/>
+				$pages
+		</td>
+	</tr>
+</table>
+</form>
+<script type="text/javascript">
+
+function check_ids(){
+	var ids=[];
+	$.each(checked_values('id[]'), function(k, v){
+	ids.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(ids.length<1)return false;
+	return true;
+	
+}
+
+function delete_items(id)
+{
+	if(id==undefined){	
+		if(!check_ids())return false;
+	}
+	if(!confirm("{$P8LANG['ask_delete_tips']}")){
+		return false;
+	}
+
+	$.ajax({
+		url: '{$this_url}',
+		type: 'POST',
+		dataType: 'json',
+		data: 'action=delete_item&oid='+id+'&'+$('#form').serialize(),
+		cache: false,
+		beforeSend: function(){
+				ajaxing({});
+			},
+		success: function(json){
+			if(json=='no_privilege'){ ajaxing({action: 'hide',text: "{$P8LANG['no_privilege']}",fadeOut:3000}); return; }
+			if(json=='no_category_privilege'){ ajaxing({action: 'hide',text: "{$P8LANG['no_category_privilege']}",fadeOut:3000});return; }
+			
+			for(var i in json){
+				$('#ask_' + json[i]).remove();
+			}
+			ajaxing({action: 'hide',text: "{$P8LANG['done']}",fadeOut:3000});
+		}
+	});
+
+}
+function verify(id, verify)
+{
+	if(id==undefined){	
+		if(!check_ids())return false;
+	}
+	verify = verify==undefined? 1 : Math.abs(1-verify);
+	msg = verify? "{$P8LANG['ask_verify']}??" : "{$P8LANG['ask_unverify']}??";
+	if(!confirm(msg)){
+		return false;
+	}
+	
+	$.ajax({
+		url: '{$this_url}',
+		type: 'POST',
+		dataType: 'json',
+		data: 'action=verify&oid='+id+'&verify='+verify+'&'+$('#form').serialize(),
+		cache: false,
+		beforeSend: function(){
+				ajaxing({});
+			},
+		success: function(json){
+			
+			if(json=='no_privilege'){ ajaxing({action: 'hide',text: "{$P8LANG['no_privilege']}",fadeOut:3000}); return; }
+			if(json=='no_category_privilege'){ ajaxing({action: 'hide',text: "{$P8LANG['no_category_privilege']}",fadeOut:3000});return; }
+			for(var i in json){
+				$('#ask_' + json[i]).remove();
+			}
+			ajaxing({action: 'hide',text: "{$P8LANG['done']}",fadeOut:3000});
+		}
+	});
+	return false;
+}
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

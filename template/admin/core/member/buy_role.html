@@ -1,0 +1,99 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $this_module menu_bar admin}-->
+<form action="$this_url" method="GET">
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td class="title">{$P8LANG['search']}</td>
+			</tr>
+			
+			<tr>
+				<td>
+					{$P8LANG['order']['NO']}<input type="text" class="txt" name="NO" value="$NO" size="40" /> 
+					<input type="submit" class="submit_btn" value="{$P8LANG['search']}" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+
+<form action="$this_url" method="POST" id="form">
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="columntable formtable hover_table click_changeable">
+		<tr class="title fix_head">
+			<td width="3%" class="title"><input type="checkbox" onclick="check_all(this, 'id[]');init_tr($('#form'));" /></td>
+			<td width="5%" class="title">ID</td>
+			<td width="10%" class="title">订单编号</td>
+			<td width="10%" class="title">角色</td>
+			<td width="10%" class="title">购买者</td>
+			<td width="10%" class="title">购买时长</td>
+			<td width="10%" class="title">是否付款</td>
+			<td width="8%">{$P8LANG['operation']}</td>
+		</tr>
+		
+		<!--{foreach $list $value}-->
+		<tr id="item_$value[id]">
+			<td><input type="checkbox" name="id[]" value="{$value['id']}" /></td>
+			<td>{$value['id']}</td>
+			<td>{$value['order_NO']}</td>
+			<td>{$core.roles[$value['role_id']]['name']}</td>
+			<td>{$value['username']}</td>
+			<td>{$value['time']}</td>
+			<td>
+				<!--{if $value['status']}-->
+				<img src="{$SKIN}/check_yes.gif" />
+				<!--{else}-->
+				<img src="{$SKIN}/check_no.gif" />
+				<!--{/if}-->
+			</td>
+			<td>
+				<a href="{$core.admin_controller}/core/pay-view_order?NO=$value[order_NO]" target="_blank">详细</a>
+				<a href="###" id="order_$value[id]" onclick="update_status([this.id])">确认</a>
+			</td>
+		</tr>
+		<!--{/foreach}-->
+		
+		</table>
+	</div>
+</div>
+</form>
+
+<div align="center" class="pages">$pages</div>
+
+<script type="text/javascript">
+function update_status(obj){
+	if(!confirm('{$P8LANG['buy_role']['confirm_note']}')) return false;
+	
+	var id = [];
+	$.each(obj, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(!id.length) return false;
+	
+	$.ajax({
+		url: '$this_url',
+		type: 'post',
+		data: {id: id},
+		dataType: 'json',
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i in json){
+				$('#item_'+ json[i]).find('img').attr('src', '$SKIN/check_yes.gif');
+			}
+		}
+	});
+	
+	return false;
+}
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

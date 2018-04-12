@@ -1,0 +1,84 @@
+<!--{php168}-->
+<div id="confirm_form">
+  <table width="100%" cellspacing="0" cellpadding="0" border="none" style="border:#f0f0f0 1px solid">
+    <tr class="tt">
+      <td colspan="4"><span style="color:#ff0000;"><b>鎵嬫満楠岃瘉</b></td>
+
+    </tr>
+    <tr>
+      <td class="grey" width="85">鎵嬫満鍙耳</td>
+      <td class="white" width="250"><input type="text" name="mc_mobile" id="mc_mobile" value="" />
+        <button type="button" id="mobile_confirm_btn">鑾峰彇鐭?俊</button></td>
+    </tr>
+    <tr>
+      <td class="grey" width="103">楠岃瘉鐮?</td>
+      <td class="white">
+        <input type="text" name="mc_code" id="mc_code" value="" />
+        <button type="button" id="mobile_confirm_check">鎻愪氦楠岃瘉</button>
+      </td>
+    </tr>  
+    </table>
+</div>    
+<script type="text/javascript">
+$(function(){
+    $('#form').before($('#confirm_form'));
+    var wait=60;
+    function timewait(obj) {
+      if (wait == 0) {
+       obj.removeAttr("disabled").html("閲嶆柊鑾峰彇楠岃瘉鐮?);
+       wait = 60;
+       
+      } else { 
+
+       obj.attr("disabled", true).html("閲嶆柊鍙戦€?" + wait + ")");
+       wait--;
+       setTimeout(function() {
+        timewait(obj)
+       },
+       1000)
+      }
+     }
+     var mchash='<!--{php echo p8_code((string)P8_TIME);}-->';
+    $('#mobile_confirm_btn').click(function(){
+        var mcmobile = $('#mc_mobile').val();
+        if(mcmobile=='' || /^1\d{10}$/.test(mcmobile)==false){
+            alert('璇峰～鍐欐湁鏁堟墜鏈哄彿');return false;
+        }
+        timewait($('#mobile_confirm_btn'));
+        $.post('{$core.url}/api/mobilecheck.php',{'do':'send',mobile:mcmobile,hash:mchash},function(data){ 
+            if(data.status==1){
+                 alert('鍙戦€佹垚鍔燂紝璇锋煡鏀剁煭淇?);
+            }else{
+                alert(data.msg);
+            }
+        },'json');
+        
+    });
+    $('#mobile_confirm_check').click(function(){
+        var mcmobile = $('#mc_mobile').val();
+        if(mcmobile=='' || /^1\d{10}$/.test(mcmobile)==false){
+            alert('璇峰～鍐欐湁鏁堟墜鏈哄彿');return false;
+        }
+        var mc_code = $('#mc_code').val();
+        if(mc_code=='' || /^\d{4}$/.test(mc_code)==false){
+            alert('璇峰～鍐欐湁楠岃瘉鐮?);return false;
+        }
+        $.post('{$core.url}/api/mobilecheck.php',{'do':'check',mobile:mcmobile,code:mc_code,hash:mchash},function(data){ 
+            //if(data.status==1){
+                $('input,textarea,select',$('#form')).removeAttr('disabled');
+                $('#confirm_form').hide();
+                $('#form input[name=phone]').val(mcmobile).attr('readonly','readonly');
+                $('<input type="hidden" name="mobolecheck" value="'+data.hash+'">').appendTo($('#form'));
+                alert('楠岃瘉鎴愬姛锛岃?缁х画濉?啓');
+            //}else{
+              //  alert('楠岃瘉澶辫触');
+            //}
+        },'json');
+    })
+    $('input,textarea,select',$('#form')).attr('disabled','disabled');
+});
+</script>
+</form>
+
+<!--{/php168}-->
+

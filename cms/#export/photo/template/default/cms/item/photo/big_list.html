@@ -1,0 +1,64 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}common.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}head_foot/head_foot.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/photo/style.css" />
+<div class="ph_992">
+	<div class="gov_list_banner">
+		$label[gov_list_ad1]<img src="http://localhost/65/attachment/2010_06/20_13/71482fd9a3a38d70.jpg" width="992" height="100" />
+	</div>
+	<div id="navigation_div" class="ph_mtop">
+		<a href="{$core.url}">Ê×Ò³</a>&nbsp;&gt;&nbsp;
+		<!--{foreach $parent_cats $v}-->
+		<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+		<!--{/foreach}-->
+		<a href="$CAT[url]">$CAT[name]</a>
+	</div>
+	<!--×ó±ß-->
+	<div class="ph_list_left">
+		<!--{foreach $subcategories $v}-->
+		<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+		<div class="ph_border ph_mbottom">
+			<div class="ph_list_head" >
+				<span class="ph_list_title">$v[name]</span>
+				<a class="ph_list_more1" href="$this_url-category-$v[id]">>>>¸ü¶à</a>
+			</div>
+			<div class="ph_list_content1">
+				$label[gov_big_list]{'i.cid' => $subcat, 'model' => $MODEL}
+			</div>
+		</div>
+		<!--{/foreach}-->
+	</div>
+	<!--ÓÒ±ß-->
+	<div class="ph_list_right">
+		<div class="ph_border ">
+			<div class="ph_list_title1">
+				<span class="ph_list_more2">$label[ph_blist_more1]</span>
+				$label[ph_blist_title1]
+			</div>
+			<div class="ph_list_content1">
+				$label[ph_blist_content1]
+			</div>
+		</div>
+		<div class="ph_border ph_mtop">
+			<div class="ph_list_title1">
+				<span class="ph_list_more2">$label[ph_blist_more2]</span>
+				$label[ph_blist_title2]
+			</div>
+			<div class="ph_list_content1">
+				$label[ph_blist_content2]
+			</div>
+		</div>
+		<div class="ph_border ph_mtop">
+			<div class="ph_list_title1">
+				<span class="ph_list_more2">$label[ph_blist_more3]</span>
+				$label[ph_blist_title3]
+			</div>
+			<div class="ph_list_content1">
+				$label[ph_blist_content3]
+			</div>
+		</div>
+	</div>
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

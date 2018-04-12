@@ -1,0 +1,32 @@
+<!--{php168}-->
+<!--{php $case=rand(100,999);}-->
+<!--{php $width=($label['option'][rows]>1)? (100/$label['option']['rows']-1).'%':'99%';}-->
+<style>
+.label_list02_$case {  border:none; font-size:14px;list-style-type:decimal; line-height:200%}
+.label_list02_$case li.label_list26_item{line-height:150%;display:inline-black;background:#ffffff;width:$width;float:left}
+.label_list02_$case .label_list26_case_underline { border-bottom:1px solid #0E37A9 }
+.label_list02_$case .label_list26_date { padding-left:10px }
+.label_list02_$case .labeldashed {float:right; border-bottom:1px dashed #cccccc; margin:10px 0;font-size:0px; height:1px }
+.label_list02_$case a { color:#0E37A9 }
+.label_list02_$case  a:hover { color:#f00; text-decoration:none }
+</style>
+<ul class="label_list02_$case">
+	<!--{php $i=0;}-->
+	<!--{foreach $list $value}-->
+	<li class="label_list26_item"> ·
+		<span class="label_list26_case_underline"><a href="$value[url]" class="label_list26_title_a" target="_blank" title="$value[full_title]"> $value[title]</a>
+		<span class="label_list26_date">
+		<!--{php echo date('m-d', $value['timestamp']);}-->
+		</span>
+		</span>
+	</li>
+	<!--{php $i++;}-->
+	<!--{if $i % 10==0}-->
+	<li class="labeldashed label_list26_item"></li>
+	<!--{/if}-->
+	<!--{/foreach}-->
+	<li class="clear" >
+	</li>
+</ul>
+<!--{/php168}-->
+

@@ -1,0 +1,12 @@
+<!--{php168}-->
+<ul class="label_adap_vd_ul2">
+	<!--{foreach $list $value}-->
+	<li>
+		<div class="item">
+			<a href="$value[url]" class="vd-icon"><i class="glyphicon glyphicon-play"></i></a>
+			<a href="$value[url]" target="_blank" title="$value[full_title]"><img width="243" height="130" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

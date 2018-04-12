@@ -1,0 +1,75 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/ueditor/ueditor.all.min.js"></script>
+<form action="$this_url" method="POST" id="form">
+
+<div class="mainbox mainborder">
+	<div class="section">
+
+		<table class="columntable formtable hover_table">
+		<tr class="title">
+			<td class="title" colspan="2">消息群发</td>
+		</tr>
+		
+		<tr>
+			<td class="tdL" width="15%">发送方式 </td>
+			<td class="tdR" width="85%">
+				<input type="checkbox" name="pm" value="1" id="pm" checked /><label for="pm">站内短信</label>
+				<input type="checkbox" name="email" value="1" id="email" /><label for="email">电子邮件</label>
+				<input type="checkbox" name="sms" value="1" id="sms" /><label for="sms">手机短信</label>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>标题</td>
+			<td><input type="text" class="txt" name="title" id="title" value="{if !empty($data['title'])}{$data['title']}{/if}" size="60" /></td>
+		</tr>
+		
+		<tr>
+			<td>内容</td>
+			<td><div style="width:83.5%">
+			<textarea name="content" id="content" type="text/plain">{if !empty($data['content'])}{$data['content']}{/if}</textarea>
+	<script type="text/javascript">UE.getEditor('content',{toolbars: [['fullscreen', 'source','|', 'undo', 'redo','|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'forecolor', 'backcolor', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc'],['paragraph','fontfamily','fontsize','|','indent','justifyleft','justifyright','justifycenter','justifyjustify','|','link','unlink','|','touppercase','tolowercase','|','imagenone','imageleft','imageright','imagecenter','simpleupload','|','insertvideo','attachment']],allowDivTransToP: false,initialFrameHeight: 350});</script>
+				</div>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>每轮发送数</td>
+			<td><input type="text" class="txt" name="perpage" value="50" size="3" /></td>
+		</tr>
+		
+		<tr>
+			<td class="tdL">&nbsp;</td>
+			<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		</tr>
+		
+		</table>
+	</div>
+</div>
+<!--{foreach $GET $k $v}-->
+<input type="hidden" name="$k" value="$v" />
+<!--{/foreach}-->
+</form>
+
+<script type="text/javascript">
+$('form').validate({
+	rules: {
+		title: {
+			required: true
+		},
+		content: {
+			required: true
+		}
+	},
+	
+	onkeyup: false
+});
+
+</script>
+
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

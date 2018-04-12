@@ -1,0 +1,460 @@
+<!--{php168}-->
+<!--{template $LABEL header admin}-->
+<link rel="stylesheet" href="{$SKIN}/cms/category_selector.css" type="text/css">
+
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<script type="text/javascript">
+_order_by_offset = -1;
+
+var label_type = 'module_data';
+var action = '$action';
+var _system;
+var _module;
+</script>
+<form action="$this_url?action=$action" id="form" method="post">
+	
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<table class="columntable formtable ">
+							<tr>
+								<td colspan="2" class="title">编辑标签</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div id="tabs"  class="tab_box mtop">
+										<div class="head">
+											<span><a>基本设置</a></span> <span><a>风格样式</a></span> <span><a>其它设置</a></span>
+										</div>
+										<div class="main">
+											<div class="content">
+												<table width="100%" class="hover_table">
+													<tr>
+														<td width="tdL">版块</span></td>
+														<td width="tdR">
+															<input type="text" class="txt" name="option[forums]" value="{if !empty($option['forums'])}<!--{php if(is_array($option['forums']))$option['forums']= implode(',', $option['forums']);echo  $option['forums'];}-->{/if}" onchange="forums_path(this.value.split(','))" />
+															<div id="forums_path"></div>
+															<input type="hidden" id="forums" />
+															<input type="button" value="选择" onclick="dialog.show()" />
+														</td>
+													</tr>
+													
+													<tr>
+														<td width="tdL">指定内容ID</td>
+														<td width="tdR">
+															<input type="text" class="txt" name="option[ids]" value="{if !empty($option['ids'])}<!--{php echo implode(',', $option['ids']);}-->{/if}" size="60" />
+														</td>
+													</tr>
+													
+													<tr>
+														<td width="tdL">
+															关键字搜索
+															<span class="help">大数据量下如果不开sphinx效率会很低,一般不用填写</span>
+														</td>
+														<td width="tdR">
+															<input type="text" class="txt" name="option[keyword]" value="{if !empty($option['keyword'])}$option[keyword]{/if}" size="60" />
+														</td>
+													</tr>
+													
+													<tr>
+														<td class="tdL">{$P8LANG['label_order_by']}</td>
+														<td class="tdR">
+															<!-- for clone -->
+															<div id="order_by">
+																<div style="display: none;">
+																	<select name="">
+																		<!--{foreach $order_bys $k $v}-->
+																		<option value="$k">{$P8LANG[$v]}</option>
+																		<!--{/foreach}-->
+																		<option value="">------</option>
+																	</select>
+																	<input type="radio" name="" value="1" /> {$P8LANG['label_desc']} <input type="radio" name="" value="0" /> {$P8LANG['label_asc']} <input type="button" value="{$P8LANG['delete']}" onclick="label_delete_order_by(this)" />
+																</div>
+															</div>
+															<!-- /for clone -->
+															
+															<div id="add_order_by">
+																<!--{if !empty($option['order_by'])}-->
+																<!--{foreach $option['order_by'] $field $v}-->
+																<script type="text/javascript">
+																	label_add_order_by($('#order_by'), $('#add_order_by'), '$field', '$v');
+																</script>
+																<!--{/foreach}-->
+																<!--{/if}-->
+															</div>
+															<br />
+															<input type="button" value="{$P8LANG['label_add_order_by']}" onclick="label_add_order_by($('#order_by'), $('#add_order_by'))" /> </td>
+													</tr>
+													
+													<tr>
+														<td>是否可分页</td>
+														<td> <input name="option[pageable]" type="radio" value="1" {if !empty($option['pageable'])} checked {/if}/> 可以 <input name="option[pageable]" type="radio" value="0" {if empty($option['pageable'])} checked {/if}/> 不可以</td>
+													</tr>
+													<tr>
+														<td>&nbsp;</td>
+														<td></td>
+													</tr>
+												</table>
+											</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+											<div class="content">
+												<table width="100%" class="hover_table">
+													<!--{if in_array($data['type'], array('sql', 'module_data'))}-->
+													<tr>
+														<td class="tdL">{$P8LANG['label_template']} <span class="help">模板选择即可，一般不用编辑。编辑功能是用于修改模板</span></td>
+														<td class="tdR">
+															<input type="text" class="txt" name="option[template]" id="template" value="{if !empty($option['template'])}$option[template]{else}common/ico_title/dot_title{/if}" size="30" />
+															<input type="button" value="选择模板.." onclick="template_dialog.show()" /><input type="button" class="usethistpl" value="编辑此模板" onclick="useThisTpl()" >(想自己进一步修改可用此功能)<br />
+														<img style="max-height:300px; max-width:500px;display:block; border:1px solid #ff0000; padding:2px; " id="templateshowimg" src="{$RESOURCE}/images/nopic.jpg" onerror="this.src='{$RESOURCE}/images/nopic.jpg'"  />
+													
+														<script type="text/javascript">
+														$(document).ready(function(){
+															$('#templateshowimg').attr('src',function(){
+																return P8CONFIG.RESOURCE +'/{$core.CONFIG['template_dir']}label/'+$('#template').val()+'.jpg';
+															});
+														});
+														
+														</script>
+														</td>
+													</tr>
+													<!--{/if}-->
+													<tr>
+														<td class="tdL">幻灯片宽高：<br>（<font color="red">仅当选择幻灯片模版时生效</font>）</td>
+														<td class="tdR">
+															宽:<input type="text" class="txt" name="option[width]" size="3" value="{if !empty($option['width'])}{$option['width']}{else}300{/if}" />
+															高:<input type="text" class="txt" name="option[height]" size="3" value="{if !empty($option['height'])}{$option['height']}{else}300{/if}" /></td>
+													</tr>
+													<tr>
+														<td class="tdL">{$P8LANG['label_limit']}</td>
+														<td class="tdR"> <input type="text" class="txt" name="option[limit]" size="3" value="{if !empty($option['limit'])}{$option['limit']}{else}10{/if}" /> </td>
+													</tr>
+													<tr>
+														<td class="tdL">分几列</td>
+														<td class="tdR">
+															<input name="option[rows]" type="text" size="3" class="txt" id="rows" value="{if !empty($option['rows'])}$option[rows]{else}1{/if}" />(对有些模板无效)
+														</td>
+													</tr>
+													<tr>
+														<td class="tdL">大标题长度<span class="help">对于“head_title”等一类有大标题的模板才有效</span></td>
+														<td class="tdR"> <input type="text" class="txt" name="option[top_title_length]" size="3" value="{if !empty($option['top_title_length'])}{$option['top_title_length']}{else}40{/if}" /> </td>
+													</tr>
+													<tr>
+														<td class="tdL">列表标题长度</td>
+														<td class="tdR"> <input type="text" class="txt" name="option[title_length]" size="3" value="{if !empty($option['title_length'])}{$option['title_length']}{else}60{/if}" /> </td>
+													</tr>
+													<tr>
+														<td>标题超过字数是否用省略号表示</td>
+														<td>
+															<input type="radio" name="option[title_dot]" value="1"{if !empty($option['title_dot'])} checked{/if} /> 用
+															<input type="radio" name="option[title_dot]" value="0"{if empty($option['title_dot'])} checked{/if} /> 不用</td>
+													</tr>
+													<tr>
+														<td>内容简介显示几个字</td>
+														<td> <input name="option[summary_length]" type="text" class="txt" id="textfield4" value="{if !empty($option['summary_length'])}$option[summary_length]{else}120{/if}" /> </td>
+													</tr>
+													
+													<tr>
+														<td>模板代码 <span class="help">一般为空，保证自己掌握了标签模板规则才可编辑，否则页面会报错</span></td>
+														<td>
+													<textarea name="option[tplcode]" id="tplcode" style="display:{if !empty($option['tplcode'])}{else}none{/if}" rows="15" cols="100" wrap=off>{if !empty($option['tplcode'])}{$option['tplcode']}{/if}</textarea>
+													<a href="javascript:void(0);" id="toshow" onclick="$('#tplcode').show();$(this).hide();">查看</a>
+														</td>
+												
+											</tr>
+													<tr>
+														<td>&nbsp;</td>
+														<td>&nbsp;</td>
+													</tr>
+												</table>
+											</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+											<div class="content">
+												<!--{template $LABEL other_set admin}-->
+											</div>
+										</div>
+									</div>
+									<script type="text/javascript">
+									MoveTabs("tabs",1);
+									</script>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">
+						<input type="button" value="{$P8LANG['explain_sql']}" class="submit_btn" onclick="explain_sql()" />
+						<input type="button" value="{$P8LANG['preview']}" class="submit_btn" onclick="preview()" />
+						<input type="hidden" name="verify" value="0" />
+						{$P8LANG['label_submit_fail_note']}
+					</td>
+				</tr>
+				<tr>
+					<td class="tdR" id="explain"></td>
+				</tr>
+				<tr>
+					<td align="center">
+						<input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	 
+</form>
+
+<script type="text/javascript">
+
+
+function explain_sql(){
+	$.ajax({
+		url: '$this_url?action=explain',
+		type: 'post',
+		cache: false,
+		data: $('#form').serialize(),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(data){
+			ajaxing({action: 'hide'});
+			$('#explain').html(data);
+		}
+	});
+}
+
+function preview(){
+	$.ajax({
+		url: '$this_url?action=preview',
+		type: 'post',
+		cache: false,
+		data: $('#form').serialize(),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(data){
+			ajaxing({action: 'hide'});
+			$('#explain').html(data);
+		}
+	});
+}
+
+function change_model(model){
+	if(!model) return;
+	
+	/*$.ajax({
+		url: '{$core.admin_controller}/$SYSTEM/$MODULE-model_field_json',
+		data: {model: model},
+		dataType: 'json',
+		async: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			
+		}
+	});*/
+}
+
+function valid_add_time(time, obj){
+	var time1 = $('#timestamp1').val();
+	var time2 = $('#timestamp2').val();
+	
+	if(time2 && time1 >= time2){
+		$(obj).val('');
+	}
+}
+
+var FORUMS_JSON = $json[json];
+var FORUMS_PATH = $json[path];
+
+var dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_category']}',
+	button: true,
+	width: 700,
+	height: 300,
+	ok: function(){
+		var values = cs.get_value();
+		$('#form input[name="option[category]"]').val(values.join(','));
+		category_path(values);
+	},
+	show: function(){
+		cs.init();
+	}
+});
+dialog.content.height(240);
+
+var cs = new Recursive_Selector({
+	json: FORUMS_JSON,
+	path: FORUMS_PATH,
+	multiple: true,
+	input: $('#forums'),
+	dialog: dialog,
+	values: $('#form input[name="option[category]"]').val(),
+	sub_property: 'forums',
+	item_callback: function(cat, item){
+		if(cat.type == 1){
+			item.find('span').addClass('frame_category');
+			item.find('input[type=checkbox]').attr('disabled', true);
+		}
+		
+		if(cat.forums)
+			item.addClass('sub_category');
+	}
+});
+
+var template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 350,
+	ok: function(){
+		$('#template').val(template_selector.value);
+		$('#templateshowimg').attr('src',P8CONFIG['RESOURCE']+'/'+'{$core->CONFIG['template_dir']}'+'label/'+template_selector.value+'.jpg');
+		$('#tplcode').val('');
+		$('#form input[name=verify]').val(Math.random());
+	},
+	show: function(){
+		template_selector.init();
+	}
+});
+
+var template_selector = new Template_Selector({
+	base_dir: 'label/',
+	template_dir: 'uchome',
+	selected: $('#template').val(),
+	dialog: template_dialog
+});
+
+function category_path(cids){
+	$('#category_path').empty();
+	
+	cids = array_filter(cids);
+	
+	for(var i in cids){
+		var path = clone(CATEGORY_PATH[cids[i]]);
+		
+		if(!path) continue;
+		
+		var div = '';
+		for(var j = 0; j < path.length; j++){
+			var cat = cs.get_by_id(path[j]);
+			div += '<span>'+ cat.name +' &gt; </span>';
+		}
+		
+		$('#category_path').append('<div>'+ div +'</div>');
+	}
+}
+
+function useThisTpl(){
+	var tpl=$('#template').val();
+	$('#tplcode').show();
+	$('#toshow').hide();
+	
+	$.ajax({
+		type:'POST',
+		url:'{$core.admin_controller}/core/label-edit_template',
+		datatype:'html',
+		data:'bdir=label/&tpl='+tpl,
+		success:function(mesg){
+		 $('#tplcode').val(mesg); 
+		}
+	});
+	
+}
+
+$(function(){
+	cs.init();
+	
+	
+	$('#form #tplcode').change(function(){
+		$('#form input[name=verify]').val(Math.random());
+	}).textarea_tab();
+	
+	$('#form input[name=verify]').rules('add', {
+		remote: function(){
+			
+			return {
+				url: '$this_url?action=preview&_verify=1',
+				type: 'post',
+				data: $('#form').serialize(),
+				beforeSend: function(){
+					ajaxing({});
+				},
+				complete: function(){
+					ajaxing({action: 'hide'});
+				}
+			}
+		},
+		messages: {
+			remote: '{$P8LANG['label_template_syntax_error']}'
+		}
+	});
+	
+	var val = $('#form input[name="option[category]"]').val();
+	val ? category_path(val.split(',')) : '';
+});
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

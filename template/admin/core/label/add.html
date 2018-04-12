@@ -1,0 +1,102 @@
+<!--{php168}-->
+
+<!--{template $this_module header admin}-->
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr><td>
+				
+				<table class="formtable">
+				<tr>
+					<td class="title" colspan="2">{$P8LANG['select_label_type']}</td>
+				</tr>
+				<tr>
+					<td width="10%" align="center">公共标签</td>
+					<td width="90%">
+					<span class="each_type">
+						<input name="type" id="type_html" type="radio" value="base_html" onclick="window.location.href='$this_url?system=$system&module=$module&site=$site&env=$env&postfix=$postfix&name=$name&type=html&id=$id&name=$name&place_holder_width=$place_holder_width&place_holder_height=$place_holder_height'"/> 
+						<label for="type_html">{$P8LANG['label_type']['html']}</label>
+					</span>
+					<span class="each_type">
+						<input name="type" id="type_sql" type="radio" value="base_userinfo" onclick="window.location.href='$this_url?system=$system&module=$module&site=$site&env=$env&postfix=$postfix&name=$name&type=sql&id=$id&name=$name&place_holder_width=$place_holder_width&place_holder_height=$place_holder_height'"/>
+						<label for="type_sql">{$P8LANG['label_type']['sql']}</label>
+					</span>
+					<span class="each_type">
+						<input name="type" id="type_slide" type="radio" value="base_slide" onclick="window.location.href='$this_url?system=$system&module=$module&site=$site&env=$env&postfix=$postfix&name=$name&type=slide&id=$id&name=$name&place_holder_width=$place_holder_width&place_holder_height=$place_holder_height'"/>
+						<label for="type_slide">{$P8LANG['label_type']['slide']}</label>
+					</span>
+					<span class="each_type">
+						<input name="type" id="type_flash" type="radio" value="base_flash" onclick="window.location.href='$this_url?system=$system&module=$module&site=$site&env=$env&postfix=$postfix&name=$name&type=flash&id=$id&name=$name&place_holder_width=$place_holder_width&place_holder_height=$place_holder_height'"/>
+						<label for="type_flash">{$P8LANG['label_type']['flash']}</label>
+					</span>
+					<span class="each_type">
+						<input name="type" id="type_image" type="radio" value="base_image" onclick="window.location.href='$this_url?system=$system&module=$module&site=$site&env=$env&postfix=$postfix&name=$name&type=image&id=$id&name=$name&place_holder_width=$place_holder_width&place_holder_height=$place_holder_height&_referer=$HTTP_REFERER'"/>
+						<label for="type_image">{$P8LANG['label_type']['image']}</label>
+					</span>
+					</td>
+				</tr>
+				<tr>
+					<td width="10%" align="center">{$P8LANG['core']}</td>
+					<td width="90%">
+					<!--{foreach $core->modules $mod $v}-->
+						<!--{php if(file_exists(PHP168_PATH . 'modules/'. $mod .'/admin/label.php'))}-->
+					<span class="each_type">
+						<input name="type" id="core_$mod" type="radio"  onclick="window.location.href='$this_url?system=$system&module=$module&site=$site&env=$env&postfix=$postfix&name=$name&src_system=core&src_module=$mod&type=module_data&id=$id&name=$name&place_holder_width=$place_holder_width&place_holder_height=$place_holder_height&_referer=$HTTP_REFERER'"/> 
+						<label for="core_$mod">{$v['alias']}</label>
+					</span>
+					<!--{/foreach}-->
+					</td>
+				</tr>
+				
+			<!--{foreach $systems $sys $sv}-->
+				<tr>
+					<td width="10%" align="center">$sv[alias]</td>
+					<td width="90%">
+				<!--{foreach get_modules($sys)  $mod  $v}-->
+						<!--{php if(!file_exists(PHP168_PATH . $sys.'/modules/'. $mod .'/admin/label.php')) continue;}-->
+						
+						<span class="each_type">
+							<input name="type" id="_{$sys}_{$mod}" type="radio" onclick="window.location.href='$this_router-add?system=$system&module=$module&site=$site&env=$env&postfix=$postfix&type=module_data&src_system=$sys&src_module=$mod&id=$id&name=$name&_referer=$HTTP_REFERER'" />
+							<label for="_{$sys}_{$mod}">{$v['alias']}</label>
+						</span>
+				<!--{/foreach}-->
+					</td>
+				</tr>
+			<!--{/foreach}-->
+				<tr>
+					<td class="headerbtn_list" colspan="2">
+					
+					</td>
+				</tr>
+				
+				</table>
+				
+				
+			</td></tr>
+		</table>
+	</div>
+</div>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['help_about']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+					1、选择你自己需要的标签类型，将自动产生一个新标签，记住标签名称。标签列表可管理所有标签。<br />
+
+					2、此处添加标签后，将自动产生一个新标签，如 \$ label[index_tab_content_4]，你只需将此标签放到模板中即可。<br />
+
+					3、同时支持中文标签和英文标签如 \$ label[index_tab_content_4]和 \$ labe[独立页左边广告2]<br />
+
+				</td>
+			</tr>
+			
+		</table>
+	</div>
+</div>
+<!--{template $core footer admin}-->
+
+<!--{/php168}-->

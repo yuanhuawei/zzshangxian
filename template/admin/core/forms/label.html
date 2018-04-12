@@ -1,0 +1,268 @@
+<!--{php168}-->
+<!--{template $LABEL header admin}-->
+<link rel="stylesheet" href="{$SKIN}/cms/category_selector.css" type="text/css" />
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<script type="text/javascript">
+_order_by_offset = -1;
+
+var label_type = 'module_data';
+var action = '$action';
+var _system;
+var _module;
+</script>
+<form action="$this_url?action=$action" id="form" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+				<td>
+				<table class="columntable formtable ">
+					<tr>
+						<td colspan="2" class="title">编辑标签</td>
+					</tr>
+					<tr>
+					<td colspan="2">
+					
+					<div id="tabs"  class="tab_box mtop">
+					
+					<div class="head">
+						<span><a>基本设置</a></span> <span><a>风格样式</a></span> <span><a>其它设置</a></span>
+					</div>
+					<div class="main">
+					
+					<div class="content">
+					
+					<table width="100%" class="hover_table">
+						<tr>
+							<td class="tdL">显示哪个模型的内容</td>
+							<td class="tdR">
+								<select name="option[mid]" onchange="change_model(this.value)">
+									<!--{foreach $models $model $v}-->
+									<option value="$v[id]"{if isset($MODEL) && $MODEL == $model} selected="selected"{/if}>$v[alias]</option>
+									<!--{/foreach}-->
+								</select>
+							</td>
+						</tr>
+							<tr>
+								<td class="tdL">显示的字段<p class="point">(不选则显示全部)</p></td>
+								<td class="tdR">
+
+										<!--{foreach $this_model['fields'] $field $field_data}-->
+										<input type="checkbox" name="option[fields][]" value="$field" {if !empty($option['fields']) && in_array($field , $option['fields'])}checked{/if}> $field_data[alias]<br />
+										<!--{/foreach}-->
+
+								</td>
+							</tr>
+							<tr>
+								<td class="tdL">{$P8LANG['label_order_by']}</td>
+								<td class="tdR">
+									<!-- for clone -->
+									<div id="order_by">
+										<div style="display: none;">
+											<select name="">
+												<!--{foreach $order_bys $k $v}-->
+												<option value="$k">$v</option>
+												<!--{/foreach}-->
+											</select>
+											<input type="radio" name="" value="1" />
+											{$P8LANG['label_desc']}
+											<input type="radio" name="" value="0" />
+											{$P8LANG['label_asc']}
+											<input type="button" value="{$P8LANG['delete']}" onclick="label_delete_order_by(this)" />
+										</div>
+									</div>
+									<!-- /for clone -->
+									<div id="add_order_by">
+										<!--{foreach $option['order_by'] $field $v}-->
+										<script type="text/javascript">
+															label_add_order_by($('#order_by'), $('#add_order_by'), '$field', '$v');
+														</script>
+										<!--{/foreach}-->
+									</div>
+									<br />
+									<input type="button" value="{$P8LANG['label_add_order_by']}" onclick="label_add_order_by($('#order_by'), $('#add_order_by'))" />
+								</td>
+							</tr>
+							<tr>
+							<td class="tdL">状态</td>
+							<td class="tdR">
+								<select name="option[status]">
+									<option value=''>--全部--</option>
+									<!--{foreach $this_module->CONFIG['status'] $k $v}-->
+									<option value="$k"{if (!isset($option['status']) && $k==9) || isset($option['status']) && $option['status'] == $k} selected="selected"{/if}>$v</option>
+									<!--{/foreach}-->
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">推荐</td>
+							<td class="tdR">
+								<select name="option[recommend]">
+									<option value='-1'>--全部--</option>
+									<option value="1"{if $option['recommend']} selected="selected"{/if}>是</option>
+									<option value="0"{if $option['recommend']=='0'} selected="selected"{/if}>否</option>
+								</select>
+							</td>
+						</tr>
+							<tr>
+								<td>是否开启sphinx搜索</td>
+								<td>
+									<input name="option[sphinx]" type="radio" value="1" {if !empty($option['sphinx'])} checked {/if} />
+									开启
+									<input name="option[sphinx]" type="radio" value="0" {if empty($option['sphinx'])} checked {/if}/>
+									不开启</td>
+							</tr>
+							<tr>
+								<td>是否可分页</td>
+								<td>
+									<input name="option[pageable]" type="radio" value="1" {if !empty($option['pageable'])} checked {/if}/>
+									可以
+									<input name="option[pageable]" type="radio" value="0" {if empty($option['pageable'])} checked {/if}/>
+									不可以</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td></td>
+							</tr>
+						</table>
+						</div>
+						
+						<div class="content">
+							<table width="100%" class="hover_table">
+								<!--{if in_array($data['type'], array('sql', 'module_data'))}-->
+								<tr>
+									<td class="tdL">{$P8LANG['label_template']} <span class="help">模板选择即可，一般不用编辑。编辑功能是用于修改模板</span></td>
+									<td class="tdR">
+										<input type="text" class="txt" name="option[template]" id="template" value="{if !empty($option['template'])}$option[template]{else}forms/list{/if}" size="30" />
+										<input type="button" value="选择模板.." onclick="template_dialog.show()" />
+										<input type="button" class="usethistpl" value="编辑此模板" onclick="useThisTpl()" >
+										(想自己进一步修改可用此功能)<br />
+										<img style="max-height:300px; max-width:500px;display:block; border:1px solid #ff0000; padding:2px; " id="templateshowimg" src="{$RESOURCE}/images/nopic.jpg" onerror="this.src='{$RESOURCE}/images/nopic.jpg'"  />
+										<script type="text/javascript">
+												$(document).ready(function(){
+													$('#templateshowimg').attr('src',function(){
+														return P8CONFIG.RESOURCE +'/{$core.CONFIG['template_dir']}label/'+$('#template').val()+'.jpg';
+													});
+												});
+												
+												</script>
+									</td>
+								</tr>
+								<!--{/if}-->
+								<tr>
+									<td class="tdL">幻灯片宽高：<br>（<font color="red">仅当选择幻灯片或滚动模版时生效</font>）</td>
+									<td class="tdR">
+										宽:<input type="text" class="txt" name="option[width]" size="3" value="{if !empty($option['width'])}{$option['width']}{else}300{/if}" />
+										高:<input type="text" class="txt" name="option[height]" size="3" value="{if !empty($option['height'])}{$option['height']}{else}300{/if}" /></td>
+								</tr>
+								<tr>
+									<td class="tdL">{$P8LANG['label_limit']}</td>
+									<td class="tdR">
+										<input type="text" class="txt" name="option[limit]" size="3" value="{if !empty($option['limit'])}{$option['limit']}{else}10{/if}" />
+									</td>
+								</tr>
+								<tr>
+										<td class="tdL">字段内容长度</td>
+										<td class="tdR">
+											<input type="text" class="txt" name="option[title_length]" size="3" value="{if !empty($option['title_length'])}{$option['title_length']}{else}0{/if}" /><span class="point">0不作限制</span>
+										</td>
+									</tr>
+								<tbody style="display:none">
+									<tr>
+										<td class="tdL">分几列</td>
+										<td class="tdR">
+											<input name="option[rows]" type="text" size="3" class="txt" id="rows" value="{if !empty($option['rows'])}$option[rows]{else}1{/if}" />
+											(对有些模板无效) </td>
+									</tr>
+									<tr>
+										<td class="tdL">大标题长度<span class="help">对于“head_title”等一类有大标题的模板才有效</span></td>
+										<td class="tdR">
+											<input type="text" class="txt" name="option[top_title_length]" size="3" value="{if !empty($option['top_title_length'])}{$option['top_title_length']}{else}40{/if}" />
+										</td>
+									</tr>
+									
+									<tr>
+										<td>标题超过字数是否用省略号表示</td>
+										<td>
+											<input type="radio" name="option[title_dot]" value="1"{if !empty($option['title_dot'])} checked{/if} />
+											用
+											<input type="radio" name="option[title_dot]" value="0"{if empty($option['title_dot'])} checked{/if} />
+											不用</td>
+									</tr>
+								</tbody>
+								<tr>
+									<td>模板代码 <span class="help">一般为空，保证自己掌握了标签模板规则才可编辑，否则页面会报错</span></td>
+									<td>
+										<textarea name="option[tplcode]" id="tplcode" style="display:{if !empty($option['tplcode'])}{else}none{/if}" rows="15" cols="100" wrap=off>{if !empty($option['tplcode'])}{$option['tplcode']}{/if}</textarea>
+										<a href="javascript:void(0);" id="toshow" onclick="$('#tplcode').show();$(this).hide();">查看</a> </td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr>
+							</table>
+						</div>
+						<div class="content">
+							<!--{template $LABEL other_set admin}-->
+						</div>
+						</div>
+						
+						</div>
+						
+						</td>
+						</tr>
+						
+					</table>
+					</td>
+					</tr>
+					
+					<tr>
+						<td class="tdL">
+							<input type="button" value="{$P8LANG['explain_sql']}" class="submit_btn" onclick="explain_sql()" />
+							<input type="button" value="{$P8LANG['preview']}" class="submit_btn" onclick="preview()" />
+							<input type="hidden" name="verify" value="0" />
+							{$P8LANG['label_submit_fail_note']} </td>
+					</tr>
+					<tr>
+						<td class="tdR" id="explain"></td>
+					</tr>
+					<tr>
+						<td align="center">
+							<input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+</form>
+<script type="text/javascript">
+MoveTabs("tabs",1);
+
+function change_model(mid){
+	if(!mid) return;
+	
+	var url = window.location.href;
+	url = /&mid\=[^&]*/ig.test(url) ? url.replace(/&mid\=[^&]*/ig, '&mid='+ mid) : url + '&mid='+ mid;
+	
+	window.location.href = url;
+	
+}
+
+function valid_add_time(time, obj){
+	var time1 = $('#timestamp1').val();
+	var time2 = $('#timestamp2').val();
+	
+	if(time2 && time1 >= time2){
+		$(obj).val('');
+	}
+}
+
+
+$(function(){
+	
+});
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

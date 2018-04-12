@@ -1,0 +1,101 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/swfupload/swfupload.min.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+<style>
+.uploader_box{ padding:10px; font-size:12px; line-height:200%}
+
+.swfupload {
+	position: absolute;
+	z-index: 1;
+}
+
+#files{
+	margin: 10px 5px;
+	padding: 5px 5px;
+}
+
+.item {
+	margin: 5px;
+	padding: 4px;
+	border: solid 1px #E8E8E8;
+	background-color: #F7F7F7;
+	float: left;
+	width: 190px;
+	overflow: hidden;
+}
+
+a.cancel {
+	display: block;
+	float: right;
+}
+
+.progress{
+	font-size: 0;
+	width: 0%;
+	height: 2px;
+	background-color: blue;
+	margin-top: 2px;
+}
+</style>
+</head>
+
+<body>
+
+
+
+<div class="uploader_box">
+	
+	{$P8LANG['swf_upload_note']}
+	<div id="files">
+		
+		<div class="item" id="clone" style="display: none;">
+			<a class="cancel" href="###">{$P8LANG['cancel']}</a>
+			<div class="name"><input type="text" size="18" /></div>
+			<div class="progress"></div>
+		</div>
+		
+		<div style="clear: both;"></div>
+	</div>
+	
+	<span id="holder"></span>
+	<input type="button" value="{$P8LANG['browse']}" />
+	<input type="button" value="{$P8LANG['upload']}" onclick="swfu.startUpload();" />
+	<input type="button" value="{$P8LANG['cancel']}" class="cancel_btn" />
+	<input type="checkbox" id="from_word" onclick="jsonp.from_word = this.checked ? 1 : 0;" /><label for="from_word">$P8LANG[image_paste_from_word]</label>
+</div>
+
+<script type="text/javascript">
+var upload_count = $count,
+	file_count = 1,
+	filter_json = $filter_json,
+	filter = '', comma = '',
+	jsonp = {action: 'upload', attachments: [], from_word: 0},
+	swfu,
+	system = '$system', module = '$module',
+	thumb_width = $thumb_width,
+	thumb_height = $thumb_height,
+	cthumb_width = $cthumb_width,
+	cthumb_height = $cthumb_height,
+	sid = '<!--{php echo SESSION_ID;}-->';
+
+for(var i in filter_json){
+	filter += comma +'*.'+ i;
+	comma = ';';
+}
+</script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/uploader/swfupload.js"></script>
+</body>
+</html>
+<!--{/php168}-->

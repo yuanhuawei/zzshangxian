@@ -1,0 +1,70 @@
+/***互动页公共样式***/
+/**常用**/
+.Main {width: 1000px;margin: 0 auto;overflow: hidden;}
+.more1{ margin:5px 10px 0 0; float:right; color:#0E70AB; font-weight:normal; font-size:12px}
+.more2{ margin:5px 10px 0 0; float:right; color:#6D6D6D; font-weight:normal; font-size:12px}
+.more3{ margin:8px 10px 0 0; float:right; color:#0E70AB; font-weight:normal; font-size:12px}
+
+.add-inner {   border: 1px solid #EBEBEB;   margin: 0; }
+.pd10{padding:10px;}
+.pages{margin-bottom:15px;}
+
+.dt_left { width:270px; float:left;overflow:hidden }
+.dt_right { width:860px; float:right; overflow:hidden }
+
+.border1 .main_ultop h3{margin:0;}
+.border1 .main_ultop h3,.border1 .main_ultop li{line-height:50px;text-align:center;color:#4c4c4c;border-bottom:#e2e2e2 1px solid;-o-transition:all ease 0.5s;transition:all ease 0.5s;}
+.border1 .main_ultop h3:hover,.border1 .main_ultop li:hover{-webkit-box-shadow:0 5px 12px 0 rgba(124,124,124,0.3);-moz-box-shadow:0 5px 12px 0 rgba(124,124,124,0.3);box-shadow:0 5px 12px 0 rgba(124,124,124,0.3);-webkit-transform:translateY(-2px);-ms-transform:translateY(-2px);-o-transform:translateY(-2px);transform:translateY(-2px);}
+.border1 ul li.last{border-bottom:none;}
+.border1 .main_ultop h3 a{color:#175aa1;font-size:16px;}
+.border1 .main_ultop li a{display:block;color:#4c4c4c;font-size:15px;}
+.border1 .main_ultop li a:hover,.border1 .main_ultop li.cur{text-decoration:none;color:#175aa1;background:url(../images/cur_blue.png) center bottom no-repeat;}
+.border1 .main_ultop li.cur a{color:#175aa1;}
+
+.border1 .main_ultop2 h3{margin:0;font-weight:normal;}
+.border1 .main_ultop2 h3,.border1 .main_ultop2 li{line-height:50px;text-align:center;color:#4c4c4c;border-bottom:#e2e2e2 1px solid;-o-transition:all ease 0.5s;transition:all ease 0.5s;}
+.border1 .main_ultop2 h3:hover,.border1 .main_ultop2 li:hover{-webkit-box-shadow:0 5px 12px 0 rgba(124,124,124,0.3);-moz-box-shadow:0 5px 12px 0 rgba(124,124,124,0.3);box-shadow:0 5px 12px 0 rgba(124,124,124,0.3);-webkit-transform:translateY(-2px);-ms-transform:translateY(-2px);-o-transform:translateY(-2px);transform:translateY(-2px);}
+.border1 ul li.last{border-bottom:none;}
+.border1 .main_ultop2 h3 a{color:#175aa1;font-size:16px;}
+.border1 .main_ultop2 li a{display:block;color:#4c4c4c;font-size:14px;}
+.border1 .main_ultop2 li a:hover,.border1 .main_ultop2 h3.cur{text-decoration:none;color:#175aa1;background:url(../images/cur_blue.png) center bottom no-repeat;}
+.border1 .main_ultop2 h3.cur a{color:#175aa1;}
+.cat_list{ padding:5px 0 5px 15px;background:url(article_elite.gif) no-repeat left 3px; float:left; width:40%; display:inline-block; margin-left:5px; }
+.dashed{border-bottom:1px dashed #dedede; font-size:0px;margin:10px 0 5px 0;}
+.icon_ssh{background:url(hh_03.gif) no-repeat left 5px; padding-left:15px}
+
+.show_box_leftnav2{}
+.show_box_leftnav2 .sb1_head{background:#2373ce; height:68px;line-height:68px;font-size:18px;;color:#fff;}
+.show_box_leftnav2 .sb1_head_tit{padding-left:90px;background:url(sb1_head_tit.png) 69px 50% no-repeat;}
+.show_box_leftnav2 .sb1_main2{ padding: 0px;min-height: 30px;border: #e8e8e8 1px solid;border-bottom: none;}
+.show_box_leftnav2  .main_ultop li{width: 248px;background: url(tab.png) no-repeat;height: 49px;line-height: 49px;border-bottom: #e8e8e8 1px solid;padding-left:0;margin:0;font-weight:normal;}
+.show_box_leftnav2  li.over{width:248px;background:url(tab_hover.png) no-repeat;}
+.show_box_leftnav2 .main_ultop li a:hover{color:#ef7a08;background:url(tab_hover.png) no-repeat;}
+.show_box_leftnav2 .main_ultop li a{padding-left:20px;color:#333;display: block;height:50px;line-height:50px;font-size:14px;text-decoration:none;}
+.show_box_leftnav2  li.over a{color:#ef7a08;}
+.head6 {
+    background: url("headbg_grey.gif") repeat-x scroll left top;
+    border-bottom: 1px solid #cccccc;
+    height:40px;
+    overflow: hidden;
+}
+.title7 {
+    background: url("title_icon.gif") no-repeat scroll 0 0;
+    float: left;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 120%;
+    margin: 10px 0 0 10px;
+    padding-left:20px;
+}
+.bg_white {
+    background: #fff none repeat scroll 0 0;
+}
+.nav,.list_nave {
+    background: transparent url("nav.gif") no-repeat scroll 0 50%;
+    font-size: 12px;
+    height: 32px;
+    line-height:32px;
+    margin: 0 15px;
+    padding-left: 18px;
+}

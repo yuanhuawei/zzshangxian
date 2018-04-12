@@ -1,0 +1,125 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<style>
+.supplierTable td{ background-color:#FFF; padding:5px;text-align:center}
+.supplierTable .head td{background-color:#E7F1F8;padding:10px 5px;}
+.w400{width:440px; float:left}
+.w300{width:192px; height:50px; float:right; display:block}
+</style>
+<div class="container">
+	$label[company_top_ad2]
+</div>
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/forms/style.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/alonepage/style_yuanxi.css" />
+<div class="nav">
+	你的位置：<a href="{$core.controller}">首页</a> &gt; <a href="#">$this_model[alias]</a>
+</div>
+<div class="container">
+<div class="contain_left_sh">
+		<div class="show_box_1">
+			<div class="sb1_head">
+				$label[fhcx2_menu_title]
+			</div>
+			<div class="sb1_main" id='leftbox'>
+				$label[fhcx2_menu]
+			</div>
+		</div>
+		<div class="show_box_1 Mtop">
+			<div class="sb1_head">
+				$label[fhcx2_left_title_2]
+			</div>
+			<div class="sb3_main" id='leftbox'>
+				$label[fhcx2_left_content_2]
+			</div>
+		</div>
+		<div class="ad_box Mtop">
+				$label[fhcx2_left_ad]
+		</div>
+		<div class="ad_box Mtop">
+				$label[fhcx2_left_ad2]
+		</div>
+		
+	</div>
+	<div class="contain_right_sh">	
+<form name="request" id="request" action="" method="get">
+	<table class="formtable">
+		<tr>
+			<td class="headerbtn_list">
+				<!--{foreach $this_model['filterable_fields'] $field $field_data}-->
+				<div class="search_option">
+					<strong>{$field_data['alias']}:</strong>
+					<!--{php include template($core, 'widget/'. $field_data['widget'], 'default');}-->
+				</div>
+				<!--{/foreach}-->
+				<div class="search_option" style="width:140px">
+					<input type="submit" class="search_btn" value="" onclick="this.form.action='';this.form.method='get'"/> |
+					<input type="button" value="发布" onclick="window.open('$this_router-post?mid=$this_model[id]')" />
+					<input type="hidden" name="mid" value="$mid" />
+					<input type="hidden" name="ids" value="" />
+				</div>
+			</td>
+		</tr>
+	</table>
+</form>
+<table width="100%" cellpadding="0" cellspacing="1" class="Mtop hover_table supplierTable" bgcolor="#C1D1FF">
+	<tr align="center" height="18" class="head">
+		<!--{if $mid}-->
+		<!--{foreach $this_model['list_table_fields'] $field $field_data}-->
+		<td width="10%">$field_data[alias]</td>
+		<!--{/foreach}-->
+		<!--{/if}-->
+		<td width="10%" >详情</td>
+	</tr>
+	<!--{foreach $list $key $value}-->
+	<tr id="item_$value[id]">
+		<!--{if $mid}-->
+		<!--{php $i = 1;}-->
+		<!--{foreach $this_model['list_table_fields'] $field $field_data}-->
+		
+		<td {if $i }style="font-weight:bold"{/if}>
+		<!--{php $i = 0;}-->
+		<span style="{if !empty($field_data['color'])}color:$field_data[color]{/if}">
+			<!--{if isset($value[$field]) && ($field_data['widget']=='radio' || $field_data['widget']=='select' || $field_data['widget']=='city')}-->
+			{$field_data['data'][$value[$field]]}
+			<!--{elseif isset($value[$field]) && ($field_data['widget']=='checkbox' || $field_data['widget']=='multi_select')}-->
+			<!--{foreach $value[$field] $v}-->
+			{$field_data['data'][$v]},
+			<!--{/foreach}-->
+			<!--{elseif isset($value[$field])}-->
+			$value[$field]
+			<!--{/if}-->
+			</span>
+			<!--{if !empty($field_data['units'])}-->
+				$field_data[units]
+			<!--{/if}-->
+		</td>
+		<!--{/foreach}-->
+		<!--{/if}-->
+		<td align="center" id="status_$value[id]"> <a class="icon_view" href="$value[url]" target="_blank">查看</a> </td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+<div style="margin-top:10px;text-align:center">
+	<span class="pages">$pages</span>
+	<!--{if $manage}-->
+	<a href="{$core.U_controller}/core/forms-intranetforms?mid=$mid&se=0&ac=manage" target="_blank">【处理】</a>
+	<!--{/if}-->
+	<!--{if $download}-->
+	<span class="download"><a href="{$this_router}-download" onclick="download();return false;">【导出】</a></span>
+	<script type="text/javascript">
+	function download(){
+	$('#request').attr('action',"{$this_router}-download");
+	$('#request').attr('method',"post");
+	$('#request').submit();
+	}
+	</script>
+	<!--{/if}-->
+	<!--{if $import_list}-->
+	<span class="download"><a href="{$this_router}-import_list?mid=$mid" target="_blank">【导入】</a></span>
+	<!--{/if}-->
+</div>
+</div>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->

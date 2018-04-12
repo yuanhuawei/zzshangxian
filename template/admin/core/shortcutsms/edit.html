@@ -1,0 +1,73 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<form action="$this_url" method="POST" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+						<tr class="title">
+							<td colspan="3" class="title">添加快捷短信</td>
+						</tr>
+				
+						<tr>
+							<td class="tdL" width="15%">快捷短信内容</td>
+							<td class="tdR" width="85%"><div style="width:83.5%">
+								<script name="content" id="content" type="text/plain">{if isset($data['content'])}{html_entities($data['content'])}{/if}</script>
+								<script type="text/javascript">UE.getEditor('content',{toolbars: [['fullscreen', 'source','|', 'undo', 'redo','|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'fontfamily','fontsize', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']],allowDivTransToP: false,initialFrameHeight: 350});</script>
+								</div>					
+							</td>
+						</tr>
+						
+					</table>
+				</td></tr>
+				<tr>
+					<td colspan="3" class="footer" align="center">
+						<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+<input type="hidden" name="_referer" value="$HTTP_REFERER" />
+<input type="hidden" name="id" value="{if isset($data['id'])}$data[id]{/if}" />
+<input type="hidden" name="attachment_hash" value="<!--{php echo $attachment_hash = unique_id(16);}-->" />
+</form>
+
+<script type="text/javascript">
+
+var attachment_hash = '$attachment_hash';
+
+$('#form').validate({
+	rules: {
+		name: {
+			required: true
+		},
+		
+		content: {
+			required: true
+		}
+	},
+	
+	messages: {
+		name: {
+			required: '&nbsp;'
+		},
+		content: {
+			required: '&nbsp;'
+		}
+	},
+	
+	submitHandler: function(form){
+		form.submit();
+	}
+});
+
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

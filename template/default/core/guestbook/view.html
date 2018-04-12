@@ -1,0 +1,44 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/guestbook/style.css">
+<div class="page Lujing">
+	<a href="{$core.controller}">首页</a> > <a href="{$this_module.controller}">留言板</a>
+</div>
+<div class="border2 mtop">
+	<p class="head">
+		<span class="user">
+		<!--{if !empty($data['username'])}-->
+		$data[username] :
+		<!--{else}-->
+		$data[ip] :
+		<!--{/if}-->
+		</span>
+		<span class="title">$data[title]</span>
+	</p>
+	<div class="main" >
+		$data[content]
+		<span id="reply_$data[id]">
+		<!--{if !empty($data['reply'])}-->
+		<div class="border3 mtop">
+			$data[reply]
+			<p class="replyer">回复人：$data[replyer] &nbsp;回复时间：
+				<!--{php echo date("Y-m-d H:i:s",$data['replytime']);}-->
+			</p>
+		</div>
+		<!--{/if}-->
+		</span>
+	</div>
+	<div class="buttom">
+		<span class="status">状态：<!--{if !empty($data['reply'])}-->已回复<!--{else}-->未回复<!--{/if}--></span>
+		<!--{if $reply}-->
+		<a href="javascript:void(0)" class="fright" onclick="_reply_guestbook($data[id])">回复</a>
+		<!--{/if}-->
+		<span class="datatime">发表时间：
+			<!--{php echo date("Y-m-d H:i:s",$data['posttime']);}-->
+		</span>
+		
+	</div>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->

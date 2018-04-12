@@ -1,0 +1,268 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+
+<!--content-->
+
+<div id="container" class="common_mtop">
+    <!--left content-->
+	<div id="blockleft" class="common_mright fleft">
+		<!--search block-->
+		<div id="search" class="common_border">
+			<ul id="search_form">
+				<form action="{$this_system.modules['item']['controller']}-search">
+					<select name="">
+						<option value="">整站搜索</option>
+						<option value="">图片模型</option>
+					</select>
+					<input type="text" name="keyword" value="" class="keywords common_input_border"/>
+					<input type="submit" name="submit" value="搜索" class="submit pointer"/>
+					<span><a href="#">高级搜索</a></span>
+				</form>
+			</ul>
+			<ul>
+				<li>资源搜索：<a href="#">整站系统1</a><a href="#">空间域名</a><a href="#">求购域名</a><a href="#">站长咨询</a><a href="#">整站系统</a><a href="#">风格下载</a><a href="#">站长导航</a></li>
+			</ul>
+		</div>
+		<!--layout left-->
+		<div class="layout_left fleft layout_mtop layout_mright">
+			<div id="focus">
+			$label[CMS首页幻灯]
+			</div>
+			<div class="layout_box common_border layout_mtop">
+				<div class="layout_title"><h3>新闻版块</h3></div>
+				<div class="layout_focustext inline-block">
+					<ul>
+						<li><a href="#">PHP168行业电子商务方案</a></li>
+						<li><a href="#">PHP168行业电子商务方案</a></li>
+						<li><a href="#">PHP168行业电子商务方案</a></li>
+						<li><a href="#">PHP168行业电子商务方案</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div class="layout_middle fleft layout_mtop">
+			<div class="layout_box common_border">
+				<div class="layout_title"><h3>头条</h3></div>
+				<div class="layout_hotarc_box" style="height: 335px;">
+				$label[CMS首页头条]
+				</div>
+			</div>
+		</div>
+		
+		<div class="layout_left fleft layout_mtop layout_mright">
+			<div class="layout_box common_border">
+				<div class="layout_exam_box">
+					<div class="layout_exam_title">
+						<h3 class="fleft">考试提醒</h3>
+						<ul class="fright "><li class="current"><a href="#">考试</a></li><li><a href="#">报名</a></li><li><a href="#">查分</a></li></ul>
+					</div>
+					<div class="layout_exam_textlist inline-block">
+						<ul>
+							<li class="exam_name exam_title tr_bg">考试名称</li><li class="exam_time exam_title tr_bg">查询时间</li><li class="exam_entrance exam_title tr_bg">查询入口</li>
+							<li class="exam_name"><a href="#">9月证券从业</a></li><li class="exam_time"><span>10月9日开始</span></li><li class="exam_entrance"><a href="#">题库</a>&nbsp;&nbsp;<a href="#">进入查询</a></li>
+							<li class="exam_name tr_bg"><a href="#">9月证券从业</a></li><li class="exam_time tr_bg"><span>10月9日开始</span></li><li class="exam_entrance tr_bg"><a href="#">题库</a>&nbsp;&nbsp;<a href="#">进入查询</a></li>
+							<li class="exam_name"><a href="#">9月证券从业</a></li><li class="exam_time"><span>10月9日开始</span></li><li class="exam_entrance"><a href="#">题库</a>&nbsp;&nbsp;<a href="#">进入查询</a></li>
+							<li class="exam_name tr_bg"><a href="#">9月证券从业</a></li><li class="exam_time tr_bg"><span>10月9日开始</span></li><li class="exam_entrance tr_bg"><a href="#">题库</a>&nbsp;&nbsp;<a href="#">进入查询</a></li>
+							<li class="exam_name"><a href="#">9月证券从业</a></li><li class="exam_time"><span>10月9日开始</span></li><li class="exam_entrance"><a href="#">题库</a>&nbsp;&nbsp;<a href="#">进入查询</a></li>
+							<li class="exam_name tr_bg"><a href="#">9月证券从业</a></li><li class="exam_time tr_bg"><span>10月9日开始</span></li><li class="exam_entrance tr_bg"><a href="#">题库</a>&nbsp;&nbsp;<a href="#">进入查询</a></li>
+							<li class="exam_name"><a href="#">9月证券从业</a></li><li class="exam_time"><span>10月9日开始</span></li><li class="exam_entrance"><a href="#">题库</a>&nbsp;&nbsp;<a href="#">进入查询</a></li>
+							<li class="exam_name tr_bg"><a href="#">9月证券从业</a></li><li class="exam_time tr_bg"><span>10月9日开始</span></li><li class="exam_entrance tr_bg"><a href="#">题库</a>&nbsp;&nbsp;<a href="#">进入查询</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!--layout ads-->
+			<div class="ads_column layout_mtop"><img src="{$SKIN}ads_exam.gif" width="295" height="60"/></div>
+		</div>
+		
+		<div class="layout_middle fleft layout_mtop">
+			<div class="layout_box common_border">
+				<div class="layout_title"><h3>推荐内容</h3></div>
+				<div class="layout_hotarc_box" style="height: 260px;">
+				$label[CMS首页推荐]
+				</div>
+			</div>
+		</div>			
+	</div>
+	
+	<div id="blockright" class="fright">
+		<!--layout statistics-->
+		<div class="layout_box layout_statis common_border inline-block">
+			<ul>
+				<li>文章主题:<span>520</span>篇</li>
+				<li>文章栏目:<span>150</span>个</li>
+				<li>文章评论:<span>315</span>条</li>
+				<li>注册会员:<span>201</span>位</li>
+			</ul>
+		</div>
+		<!--layout common-->
+		<div class="layout_box layout_mtop common_border">
+			<div class="layout_title">
+				<h3>公告</h3>
+				<div class="layout_more">
+					<a href="#">更多>></a>
+				</div>
+			</div>
+			<div class="layout_common_box" style="height: 155px;">
+			$label[CMS首页公告]
+			</div>
+		</div>
+		<!--layout announcement-->
+		<div class="layout_box layout_mtop common_border">
+			<div class="layout_title">
+				<h3>网站</h3>
+				<div class="layout_more">
+					<a href="#">更多>></a>
+				</div>
+			</div>
+			<div class="layout_announcement">
+				<ul>
+					<li><a href="#">广州开增值税发票|广州开发票</a><span>(11)</span></li>	
+					<li><a href="#">PHP168为中国龙芯提供方案</a><span>(23)</span></li>	
+					<li><a href="#">广州开增值税发票|广州开发票</a><span>(11)</span></li>	
+					<li><a href="#">PHP168为中国龙芯提供方案</a><span>(23)</span></li>	
+					<li><a href="#">广州开增值税发票|广州开发票</a><span>(11)</span></li>	
+					<li><a href="#">PHP168为中国龙芯提供方案</a><span>(23)</span></li>						
+					<li><a href="#">PHP168为中国龙芯提供方案</a><span>(23)</span></li>						
+				</ul>
+			</div>
+		</div>
+		<!--layout vote-->
+		<div class="layout_box layout_mtop common_border">
+			<div class="layout_title"><h3>投票调查</h3></div>
+			<div class="layout_vote inline-block">
+				<ul>
+					<li>
+						<h2><a href="#">百度粉丝团</a></h2>
+						<dl>
+							<dt><a href="#"><img src="{$SKIN}baidu.gif"/></a></dt>
+							<dt>共<span>162</span>票</dt>
+							<dd><a href="#">投一票</a><a href="#">评一评</a></dd>
+						</dl>
+					</li>
+					<li>
+						<h2><a href="#">百度粉丝团</a></h2>
+						<dl>
+							<dt><a href="#"><img src="{$SKIN}baidu.gif"/></a></dt>
+							<dt>共<span>162</span>票</dt>
+							<dd><a href="#">投一票</a><a href="#">评一评</a></dd>
+						</dl>
+					</li>
+					<li class="layout_vote_title">你喜欢使用哪个搜索引擎呢,请投上一票?</li>
+				</ul>	
+			</div>
+			<div class="layout_vote_textlist">
+				<ul>
+					<li><a href="#">广州开增值税发票|广州开发票|广州..</a></li>
+					<li><a href="#">广州开增值税发票|广州开发票|广州..</a></li>
+					<li><a href="#">广州开增值税发票|广州开发票|广州..</a></li>
+					<li><a href="#">广州开增值税发票|广州开发票|广州..</a></li>
+					<li><a href="#">广州开增值税发票|广州开发票|广州..</a></li>
+				</ul>
+			</div>
+		</div>	
+	</div>
+	
+	<!--layout ads-->
+		<div class="ads_column common_mtop">
+			<li class="common_mright">
+				<Img src="{$SKIN}ads_m.gif"/></li>
+				<li><Img src="{$SKIN}ads_z.jpg"/>
+			</li>
+		</div>
+		
+	
+	<div id="blockleft" class="common_mright fleft">
+		<!--layout topics article-->
+		<div class="layout_left fleft common_mtop layout_mright">	
+			<div class="layout_box common_border">
+				<div class="layout_title"><h3>新闻专题</h3><div class="layout_more"><a href="#">更多>></a></div></div>
+				<div class="layout_topics_article inline-block">
+					<ul>
+						<li>
+							<h1><a href="#"><img src="{$SKIN}topics.jpg"/></a></h1>
+							<h2><a href="#">Chinaz.com阿飞的财</a><div>阿飞是成功地阿飞是成功地,无论从他以一个中专生地身份,到千万身价地过程,还是从.</div></h2>
+						</li>
+						<li>
+							<h1><a href="#"><img src="{$SKIN}topics.jpg"/></a></h1>
+							<h2><a href="#">Chinaz.com阿飞的财</a><div>阿飞是成功地阿飞是成功地,无论从他以一个中专生地身份,到千万身价地过程,还是从.</div></h2>
+						</li>
+						<li>
+							<h1><a href="#"><img src="{$SKIN}topics.jpg"/></a></h1>
+							<h2><a href="#">Chinaz.com阿飞的财</a><div>阿飞是成功地阿飞是成功地,无论从他以一个中专生地身份,到千万身价地过程,还是从.</div></h2>
+						</li>						
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div class="layout_middle fleft common_mtop">
+			<div class="layout_box common_border">
+				<div class="layout_title"><h3>在线报名</h3></div>
+				<div class="layout_jobs_textlist inline-block">
+					<ul>
+						<li class="jobs_name tr_bg">招聘职位</li><li class="jobs_edu tr_bg">学历要求</li><li class="jobs_sex tr_bg">性别要求</li><li class="jobs_experience tr_bg">经验要求</li><li class="jobs_salary tr_bg">月薪待遇</li>
+						<li class="jobs_name"><a href="#">市场总监助理</a></li><li class="jobs_edu">本科</li><li class="jobs_sex">不限</li><li class="jobs_experience">应届毕业生</li><li class="jobs_salary">8000元/月</li>
+						<li class="jobs_name"><a href="#">市场总监助理</a></li><li class="jobs_edu">本科</li><li class="jobs_sex">不限</li><li class="jobs_experience">应届毕业生</li><li class="jobs_salary">8000元/月</li>
+						<li class="jobs_name"><a href="#">市场总监助理</a></li><li class="jobs_edu">本科</li><li class="jobs_sex">不限</li><li class="jobs_experience">应届毕业生</li><li class="jobs_salary">8000元/月</li>
+						<li class="jobs_name"><a href="#">市场总监助理</a></li><li class="jobs_edu">本科</li><li class="jobs_sex">不限</li><li class="jobs_experience">应届毕业生</li><li class="jobs_salary">8000元/月</li>
+						<li class="jobs_name"><a href="#">市场总监助理</a></li><li class="jobs_edu">本科</li><li class="jobs_sex">不限</li><li class="jobs_experience">应届毕业生</li><li class="jobs_salary">8000元/月</li>
+						<li class="jobs_name"><a href="#">市场总监助理</a></li><li class="jobs_edu">本科</li><li class="jobs_sex">不限</li><li class="jobs_experience">应届毕业生</li><li class="jobs_salary">8000元/月</li>
+						<li class="jobs_name"><a href="#">市场总监助理</a></li><li class="jobs_edu">本科</li><li class="jobs_sex">不限</li><li class="jobs_experience">应届毕业生</li><li class="jobs_salary">8000元/月</li>
+						<li class="jobs_name"><a href="#">市场总监助理</a></li><li class="jobs_edu">本科</li><li class="jobs_sex">不限</li><li class="jobs_experience">应届毕业生</li><li class="jobs_salary">8000元/月</li>
+						<li class="jobs_name"><a href="#">市场总监助理</a></li><li class="jobs_edu">本科</li><li class="jobs_sex">不限</li><li class="jobs_experience">应届毕业生</li><li class="jobs_salary">8000元/月</li>
+						<li class="jobs_name"><a href="#">市场总监助理</a></li><li class="jobs_edu">本科</li><li class="jobs_sex">不限</li><li class="jobs_experience">应届毕业生</li><li class="jobs_salary">8000元/月</li>
+						<li class="jobs_name"><a href="#">市场总监助理</a></li><li class="jobs_edu">本科</li><li class="jobs_sex">不限</li><li class="jobs_experience">应届毕业生</li><li class="jobs_salary">8000元/月</li>
+						<li class="jobs_name"><a href="#">市场总监助理</a></li><li class="jobs_edu">本科</li><li class="jobs_sex">不限</li><li class="jobs_experience">应届毕业生</li><li class="jobs_salary">8000元/月</li>
+						<li class="jobs_name"><a href="#">市场总监助理</a></li><li class="jobs_edu">本科</li><li class="jobs_sex">不限</li><li class="jobs_experience">应届毕业生</li><li class="jobs_salary">8000元/月</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="blockright" class="fright common_mtop">
+		<!--layout digg-->
+		<div class="layout_box common_border">
+			<div class="layout_title"><h3>最受关注</h3><div class="layout_more"><a href="#">更多>></a></div></div>
+			<div class="layout_digg">
+				<ul>
+					<li>
+						<dt><b>191</b><a href="#">顶一下</a></dt>
+						<dd>
+							<a href="#">PHP168行业电子商务</a>
+							<div>
+								官方建议企业及创业团队选择商务系统商业版，其平台功能体
+							</div>
+						</dd>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!--layout merchant-->
+	<div class="layout_box layout_merchant layout_wrap layout_mtop common_border inline-block">
+		<div class="layout_title"><h3>商家黄页</h3><div class="layout_more"><a href="#">我是商家?登记>></a></div></div>
+		<ul>
+			<li><a href="#"><img src="{$SKIN}php168.jpg"/></a><br/><a href="#">PHP168 V6专题--创</a></li>
+		</ul>
+	</div>
+	<!--layout partner-->
+	<div class="layout_box layout_partner common_border layout_mtop inline-block">
+		<div class="layout_title"><h3>友情链接 &amp;&amp; 合作伙伴</h3></div>
+		<ul class="layout_partner_logolist">
+			<a href="#"><Img src="{$SKIN}ceo.jpg"/></a>
+		</ul>
+		<ul class="layout_partner_textlist">
+			<a href="#">CEO导航</a>
+		</ul>
+	</div>
+	
+</div>
+<div>
+$label[首页底部]
+</div>
+$label[测试]
+<!--{template $this_system footer}-->
+<!--{/php168}-->

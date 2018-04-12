@@ -1,0 +1,23 @@
+<!--{php168}-->
+<ul class = "label_ul_s" id="label_{$label['id']}">
+	<!--{php $i = 0;}-->
+	<!--{foreach $list $value}-->
+	<!--{php $i++;}-->
+	<!--{if $i <= 3}-->
+	<li class="himg" >
+		<span class = "label_order4_a">$i</span><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a>
+		<p style="display:none"><img src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" width="100%" height="60" /></p>
+	</li>
+	<!--{else}-->
+	<li>
+		<span class = "label_order4_b">$i</span><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a>
+	</li>
+	<!--{/if}-->
+	<!--{/foreach}-->
+</ul>
+<script type="text/javascript">
+(function(){
+	$('#label_{$label['id']}').find('.himg').eq(0).find('p').show();$('#label_{$label['id']}').find('.himg').each( function(){ $(this).mousemove( function(){ $(this).siblings('.himg').find('p').hide();$(this).find('p').show() }) })  
+})()
+</script>
+<!--{/php168}-->

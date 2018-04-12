@@ -1,0 +1,21 @@
+<?php
+return array(
+	'id' => '',
+	'uid' => '',
+	'title' => '',
+	'industry' => '',
+	'job' => '',
+	'city' => '',
+	'kind' => '',
+	'salary' => '',
+	'entrytime' => '',
+	'entry' => '',
+	'timestamp' => '',
+	'list_order' => '',
+	'lastupdate' => '',
+	'view' => '',
+	'keyword' => '',
+	'type' => '',
+	'status' => '',
+	'def' => '',
+);?>

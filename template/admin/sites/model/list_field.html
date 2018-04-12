@@ -1,0 +1,82 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 
+    您现在的位置：<a href="{$core.admin_controller}/sites/farm-index">分站系统</a> &gt; 
+    <a href="#">字段列表</a></td>
+  </tr>
+</table>
+
+<form action="$this_url" method="POST" id="form">
+<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table" align="center">
+	<tr class="title fix_head">
+    	<td width="5%" class="list_top list_left">ID</td>
+		<td width="9%" class="list_top">字段名称</td>
+		<td width="17%" class="list_top">字段别名</td>
+        <td width="17%" class="list_top">字段类型</td>
+		<td width="12%" class="list_top">字段排序</td>
+		<td width="17%" class="list_top list_right">操作</td>
+	</tr>
+	<!--{foreach $list $value}-->
+	<tr id="field_{$value['id']}">
+		<td class="list_left">{$value['id']}</td>
+		<td>{$value['name']}</td>
+		<td>{$value['alias']}</td>
+		<td>{$value['type']}</td>
+        <td><input type="text" class="txt" name="display_order[{$value['id']}]" value="{$value['display_order']}" size="3"  /></td>
+		<td>
+			<a href="$this_router-update_field?id={$value['id']}">{$P8LANG['edit']}</a>
+			<a href="$this_router-delete_field?id={$value['id']}" onclick="return delete_field(this)">{$P8LANG['delete']}</a>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+    <tr>
+	<td class="tdL" colspan="6">
+	<input type="submit" value="修改字段排序" class="submit_btn"/>
+	<input type="button" value="添加字段" class="submit_btn" onclick="location.href='{$this_router}-add_field?model=$model'"/></td>
+	</tr>
+</table>
+<input type="hidden" name="model" value="$model" />
+</form>
+
+<script type="text/javascript">
+function delete_field(obj){
+	var sure = confirm('确定要删除此字段么');
+	
+	if(!sure) return false;
+	
+	var id = parseInt($(obj).parent().parent().attr('id').replace(/field_/, ''));
+	$.ajax({
+		url: '$this_router-delete_field',
+		type: 'post',
+		dataType: 'text',
+		data: {id: id},
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(status){
+			ajaxing({action: 'hide'});
+			if(status == 1){
+				$(obj).parent().parent().remove();
+			}
+		}
+	});
+	return false;
+}
+
+$('form input[name^=display_order]').change(function(){
+	this.value = this.value.replace(/[^0-9]/g, '') || 0;
+	if(this.value > 255) this.value = 255;
+	if(this.value < 0) this.value = 0;
+	$('#form').append('<input type="hidden" name="_display_order['+ this.name.replace(/[^0-9]/g, '') +']" value="'+ this.value +'" />');
+	$(this).css({border: '1px solid #ff0000'});
+});
+
+</script>
+
+
+
+<!--{template $this_system footer admin}-->
+<!--{/php168}-->

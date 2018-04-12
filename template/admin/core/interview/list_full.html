@@ -1,0 +1,714 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+
+<form action="$this_url" id="form" method="post" onsubmit="return verify_label();">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable ">
+				<tr>
+					<td class="title">访谈详情</td>
+				</tr>
+				<tr>
+				
+				<td >
+				
+				<div id="tabs"  class="tab_box mtop">
+					<div class="head">
+						<span><a>基本信息</a></span> <span><a>嘉宾信息</a></span> <span><a>主持人信息</a></span> <span><a>访谈内容</a></span><span><a>网友留言</a></span><span><a>精彩点评</a></span>
+					</div>
+					<div class="main">
+						<div class="content">
+							<table width="100%" class="content hover_table">
+								<tr>
+									<td class="tdL">访谈主题:</td>
+									<td class="tdR">
+										<!-- {if !empty($subject[title])} -->
+										$subject[title]
+										<!--{else}-->
+										&nbsp;
+										<!-- {/if} -->
+									</td>
+								</tr>
+								<tr>
+									<td class="tdL">访谈摘要:</td>
+									<td class="tdR">
+										<!-- {if !empty($subject[title])} -->
+										$subject[summary]
+										<!--{else}-->
+										&nbsp;
+										<!-- {/if} -->
+									</td>
+								</tr>
+								<tr>
+									<td class="tdL">标题图片</td>
+									<td><img src="<!-- {if !empty($subject[picture])} -->$subject[picture]<!--{else}-->&nbsp;<!-- {/if} -->" width="110" height="80"/></td>
+								</tr>
+								<tr>
+									<td class="tdL">视频</td>
+									<td>
+										<!-- {if !empty($subject[video])} -->
+										<script type="text/javascript" src="{$RESOURCE}/js/media.js"></script>
+										<script type="text/javascript">
+														showMedia({
+														url: '{$subject[video]}',
+														width: 330,
+														height: 260
+														});
+														</script>
+										<!--{else}-->
+										&nbsp;
+										<!-- {/if} -->
+									</td>
+								</tr>
+								<tr>
+									<td class="tdL">开始时间:</td>
+									<td class="tdR">
+										<!--{php echo date("Y-m-d",$subject[begintime]);}-->
+									</td>
+								</tr>
+								<tr>
+									<td class="tdL">结束时间:</td>
+									<td class="tdR">
+										<!--{php echo date("Y-m-d",$subject[endtime]);}-->
+									</td>
+								</tr>
+								<tr>
+									<td class="tdL">状态:</td>
+									<td class="tdR">
+										<!-- {if empty($subject[status])} -->
+										待审核
+										<!-- {elseif $subject[status]==1} -->
+										待开始
+										<!-- {elseif $subject[status]==2} -->
+										访谈中
+										<!-- {else} -->
+										结束
+										<!-- {/if} -->
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">&nbsp;</td>
+								</tr>
+							</table>
+						</div>
+						<div class="content">
+							<table width="100%" class="hover_table">
+								<tr>
+									<td class="tdL">嘉宾图片：</td>
+									<td class="tdR"><img src="$subject[gpicture]" width="110" height="80" /></td>
+								</tr>
+								<tr>
+									<td class="tdL">嘉宾姓名：</td>
+									<td class="tdR">
+										<!-- {if !empty($subject[gname])} -->
+										$subject[gname]
+										<!--{else}-->
+										&nbsp;
+										<!-- {/if} -->
+									</td>
+								</tr>
+								<tr>
+									<td class="tdL">嘉宾简介：</td>
+									<td class="tdR">
+										<!-- {if !empty($subject[gintroduction])} -->
+										$subject[gintroduction]
+										<!--{else}-->
+										&nbsp;
+										<!-- {/if} -->
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">&nbsp;</td>
+								</tr>
+							</table>
+						</div>
+						<div class="content">
+							<table width="100%" class="hover_table">
+								<tr>
+									<td class="tdL">主持人图片：</td>
+									<td class="tdR"><img src="$subject[cpicture]" width="110" height="80" /></td>
+								</tr>
+								<tr>
+									<td class="tdL">主持人姓名：</td>
+									<td class="tdR">
+										<!-- {if !empty($subject[cname])} -->
+										$subject[cname]
+										<!--{else}-->
+										&nbsp;
+										<!-- {/if} -->
+									</td>
+								</tr>
+								<tr>
+									<td class="tdL">主持人简介：</td>
+									<td class="tdR">
+										<!-- {if !empty($subject[cintroduction])} -->
+										$subject[cintroduction]
+										<!--{else}-->
+										&nbsp;
+										<!-- {/if} -->
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">&nbsp;</td>
+								</tr>
+							</table>
+						</div>
+						<div class="content">
+							<table  class="columntable formtable">
+								<tr>
+									<td class="tdL"><input type="checkbox" onclick="check_all(this, 'id_content[]');"/><font style="font-weight:bold;">发言人</font></td>
+									<td class="tdL"><font style="font-weight:bold;">内容</font></td>
+									<td class="tdL"><font style="font-weight:bold;">发言时间</font></td>
+									<td class="tdL"><font style="font-weight:bold;">操作</font></td>
+								</tr>
+							</table>
+							<div  id="content_container" style="overflow: scroll; height: 200px;">
+								<table  class="columntable formtable">
+									<tbody id="add_content">
+									</tbody>
+								</table>
+							</div>
+							<table  class="columntable formtable">
+								<tr>
+									<td><input type="button" value="删除选中"  onclick="delete_all_content();"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+								</tr>
+								<tr>
+									<td><input type="radio" name="sender" value="0" /><span>主持人</span><input type="radio" name="sender" value="1" /><span>嘉宾</span></td>
+								</tr>
+								<tr>
+									<td>
+										<textarea id="content" name="content" cols="50" rows="5"></textarea>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4"><input type="button" value="发表" onclick="sendContent();"/>可以直接按住Ctrl+Enter发表</td>
+								</tr>
+							</table>
+						</div>
+						<div class="content">
+							<table  class="columntable formtable">
+								<tr>
+									<td class="tdL"><input type="checkbox" onclick="check_all(this, 'id_ask[]');"/><font style="font-weight:bold;">用户昵称</font></td>
+									<td class="tdL"><font style="font-weight:bold;">内容</font></td>
+									<td class="tdL"><font style="font-weight:bold;">状态</font></td>
+									<td class="tdL"><font style="font-weight:bold;">IP地址</font></td>
+									<td class="tdL"><font style="font-weight:bold;">发言时间</font></td>
+									<td class="tdL"><font style="font-weight:bold;">操作</font></td>
+								</tr>
+							</table>
+							<div  id="ask_container" style="overflow: scroll; height: 300px;">
+								<table  class="columntable formtable">
+									<tbody id="add_ask">
+									</tbody>
+								</table>
+							</div>
+							<table  class="columntable formtable">
+								<tr>
+									<td> <input type="button" value="删除选中"  onclick="delete_all_ask();"/> <input type="button" value="批量审核"  onclick="check_all_ask();"/> </td>
+								</tr>
+							</table>
+						</div>
+						<div class="content">
+							<table  class="columntable formtable">
+								<tr>
+									<td class="tdL"><input type="checkbox" onclick="check_all(this, 'id_picture[]');"/><font style="font-weight:bold;">图片</font></td>
+									<td class="tdL"><font style="font-weight:bold;">点评</font></td>
+									<td class="tdL"><font style="font-weight:bold;">操作</font></td>
+								</tr>
+							</table>
+							<div  id="picture_container" style="overflow: scroll; height: 200px;">
+								<table  class="columntable formtable">
+									<tbody id="add_picture">
+									</tbody>
+								</table>
+							</div>
+							<table  class="columntable formtable">
+								<tr>
+									<td　colspan="2">
+									<input type="button" value="删除选中"  onclick="delete_all_picture();"/>
+								</td>
+								
+								</tr>
+								
+								<tr>
+									<td class="tdL">图片</td>
+									<td class="tdR"><input type="text" name="" style="width:400px;" id="picture_url"/><input type="button" name="" value="选择图片" onclick="uploaddialog.element.src=$(this).prev();uploaddialog.choseup();" /></td>
+								</tr>
+								<tr>
+									<td class="tdL">点评</td>
+									<td class="tdR">
+										<textarea id="picture_summary" cols="50" rows="5"></textarea>
+									</td>
+								</tr>
+								<tr>
+									<td><input type="button" name="" value="添加点评" onclick="add_picture();"/></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				</td>
+				
+				</tr>
+				
+			</table>
+		</div>
+	</div>
+	<input type="hidden" name="id" value="$subject[id]" />
+</form>
+<script type="text/javascript">
+$(document).ready(function(){
+	MoveTabs("tabs",3);
+	var ctrlKeyDown = false;
+	var enterKeyDown = false;
+	$('body').keydown(
+		function(event){
+			switch(event.keyCode){
+				case 17:
+					ctrlKeyDown = true;
+					break;
+				case 13:
+					enterKeyDown = true;
+					break;
+			}
+			if(ctrlKeyDown && enterKeyDown) sendContent();
+		}
+	).keyup(
+		function(event){
+			switch(event.keyCode){
+				case 17:
+					ctrlKeyDown = false;
+					break;
+				case 13:
+					enterKeyDown = false;
+					break;
+			}
+		}
+	);
+	list_content();
+	list_ask();
+	list_picture();
+});
+
+var uploaddialog = new P8_Upload({
+	element: {
+		attribute: 'value'
+	}
+});
+
+function sendContent(){
+	var content = $('#content').val(); 
+	var sender = $("input[name='sender']:checked").val();
+	var sid = "$subject[id]";
+	if(typeof(sender) == 'undefined'){
+		 ajaxing({});
+		 ajaxing({action: 'hide',text: '请选择发言人！'});
+		 return;
+	}
+	if($.trim(content) == '') {
+		ajaxing({});
+		ajaxing({action: 'hide',text: '发表内容不能为空！'});
+		return;
+	}else{
+		content = html_entities(content);
+	}
+
+	$.ajax({
+		url: '$this_router-add_content',
+		type: 'POST',
+		dataType: 'json',
+		data: ajax_parameters({sid: sid, sender: sender, content: content}),
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			if(json != 0){
+				$('#content').val('');
+				list_content();
+			}
+		}
+	});
+}
+
+function add_picture(){
+	var picture_url = $('#picture_url').val(); 
+	var picture_summary = $('#picture_summary').val(); 
+	var sid = "$subject[id]";
+	if($.trim(picture_summary) == '') {
+		ajaxing({});
+		ajaxing({action: 'hide',text: '发表内容不能为空！'});
+		return;
+	}else if($.trim(picture_url) == ''){
+		ajaxing({});
+		ajaxing({action: 'hide',text: '图片链接不能为空！'});
+		return;
+	}else{
+		picture_summary = html_entities(picture_summary);
+	}
+
+	$.ajax({
+		url: '$this_router-add_picture',
+		type: 'POST',
+		dataType: 'json',
+		data: ajax_parameters({sid: sid, url: picture_url, summary: picture_summary}),
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			if(json != 0){
+				$('#picture_url').val('');
+				$('#picture_summary').val('');
+				list_picture();
+			}
+		}
+	});
+}
+
+function list_content(){
+	var sid = "$subject[id]";
+	$.ajax({
+		url: '$this_router-list_content',
+		type: 'POST',
+		dataType: 'json',
+		data: ajax_parameters({sid: sid}),
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			var str = '';
+			for(var i=0;i<json.length;i++){
+				str += '<tr>'+
+							'<td class="tdL"><input type="checkbox" name="id_content[]" value="'+json[i].id+'" />'+(json[i].sender == 0 ? '主持人': '嘉宾')+'</td>'+
+							'<td class="tdL"><textarea style="height:15px;border:0px;" id="tcontent_'+json[i].id+'">'+json[i].content+'</textarea></td>'+
+							'<td class="tdL">'+date('Y-m-d H:i:s',json[i].posttime)+'</td>'+
+							'<td class="tdL">'+
+							'<a id="content_'+json[i].id+'" href="javascript:;" onclick="delete_content([this.id]);">[删除] </a>'+
+							'<a id="edit_content_'+json[i].id+'" href="javascript:;" onclick="edit_content(this.id);">[修改]</a>'+
+							'</td>'+
+						'</tr>';
+			}
+			$('#add_content').empty().append(str);
+			$('#content_container').animate({scrollTop: $('#content_container')[0].scrollHeight});
+		}
+	});
+}
+
+function list_ask(){
+	setTimeout(list_ask,10000);//时间可控   
+	var sid = "$subject[id]";
+	$.ajax({
+		url: '$this_router-list_ask',
+		type: 'POST',
+		dataType: 'json',
+		data: ajax_parameters({sid: sid}),
+		cache: false,
+		beforeSend: function(){
+		},
+		success: function(json){
+			var str = '';
+			for(var i=0;i<json.length;i++){
+				str += '<tr>'+
+							'<td class="tdL"><input type="checkbox" name="id_ask[]" value="'+json[i].id+'" />'+(json[i].username==''?'匿名':json[i].username)+'</td>'+
+							'<td class="tdL"><textarea style="height:15px;border:0px;">'+json[i].content+'</textarea></td>'+
+							'<td class="tdL" id="status_'+json[i].id+'">'+(json[i].status==0? '<font color="red">未审核</font>' : '<font color="green">已审核</font>')+'</td>'+
+							'<td class="tdL">'+json[i].ip+'</td>'+
+							'<td class="tdL">'+date('Y-m-d H:i:s',json[i].posttime)+'</td>'+
+							'<td class="tdL">'+
+							'<a id="ask_'+json[i].id+'" href="javascript:;" onclick="delete_ask([this.id]);">[删除] </a>'+
+							'<a id="ask_check_'+json[i].id+'" href="javascript:;" onclick="check_ask([this.id])">[审核]</a>'+
+							'</td>'+
+						'</tr>';
+			}
+			$('#add_ask').empty().append(str);
+			$('#ask_container').animate({scrollTop: $('#ask_container')[0].scrollHeight});
+		}
+	});
+}
+
+function list_picture(){
+	var sid = "$subject[id]";
+	$.ajax({
+		url: '$this_router-list_picture',
+		type: 'POST',
+		dataType: 'json',
+		data: ajax_parameters({sid: sid}),
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			var str = '';
+			for(var i=0;i<json.length;i++){
+				str += '<tr>'+
+							'<td class="tdL"><input type="checkbox" name="id_picture[]" value="'+json[i].id+'" /><img id="pimg_'+json[i].id+'" src="'+json[i].url+'" width="100" height="100" /></td>'+
+							'<td class="tdL"><textarea style="height:105px;border:0px;" id="tpicture_'+json[i].id+'">'+json[i].summary+'</textarea></td>'+
+							'<td class="tdL">'+date('Y-m-d H:i:s',json[i].posttime)+'</td>'+
+							'<td class="tdL">'+
+							'<a id="picture_'+json[i].id+'" href="javascript:;" onclick="delete_picture([this.id]);">[删除] </a>'+
+							'<a id="edit_picture_'+json[i].id+'" href="javascript:;" onclick="edit_picture(this.id);">[修改]</a>'+
+							'</td>'+
+						'</tr>';
+			}
+			$('#add_picture').empty().append(str);
+			$('#picture_container').animate({scrollTop: $('#picture_container')[0].scrollHeight});
+		}
+	});
+}
+
+function delete_content(array){
+	var id = [];
+	$.each(array, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	
+	if(!id.length) return false;
+	
+	if(confirm('{$P8LANG['confirm_to_delete']}')){
+		$.ajax({
+			url: '$this_router-delete_content',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({id: id}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				
+				for(var i in json){
+					$('#content_'+ json[i]).parent().parent().remove();
+				}
+			}
+		});
+	}
+}
+
+function delete_ask(array){
+	var id = [];
+	$.each(array, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	
+	if(!id.length) return false;
+	
+	if(confirm('{$P8LANG['confirm_to_delete']}')){
+		$.ajax({
+			url: '$this_router-delete_ask',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({id: id}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				
+				for(var i in json){
+					$('#ask_'+ json[i]).parent().parent().remove();
+				}
+			}
+		});
+	}
+}
+
+function delete_picture(array){
+	var id = [];
+	$.each(array, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	
+	if(!id.length) return false;
+	
+	if(confirm('{$P8LANG['confirm_to_delete']}')){
+		$.ajax({
+			url: '$this_router-delete_picture',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({id: id}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				
+				for(var i in json){
+					$('#picture_'+ json[i]).parent().parent().remove();
+				}
+			}
+		});
+	}
+}
+
+function check_ask(array){
+	var id = [];
+	$.each(array, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	
+	if(!id.length) return false;
+	
+	$.ajax({
+		url: '$this_router-check_ask',
+		type: 'POST',
+		dataType: 'json',
+		data: ajax_parameters({id: id}),
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			for(var i=0;i<json.length;i++){
+				$('#status_'+json[i]).empty().append('<font color="green">已审核</font>');
+			}
+		}
+	});
+}
+
+function delete_all_content(){
+	var inputs=$("input[name='id_content[]']:checked");
+	var ids = checked_values('id_content[]');
+	delete_content(ids);
+}
+
+function delete_all_picture(){
+	var inputs=$("input[name='id_picture[]']:checked");
+	var ids = checked_values('id_picture[]');
+	delete_picture(ids);
+}
+
+function delete_all_ask(){
+	var inputs=$("input[name='id_ask[]']:checked");
+	var ids = checked_values('id_ask[]');
+	delete_ask(ids);
+}
+
+
+function check_all_ask(){
+	var inputs=$("input[name='id_ask[]']:checked");
+	var ids = checked_values('id_ask[]');
+	check_ask(ids);
+}
+
+function edit_content(id){
+
+	id = id.replace(/[^0-9]/g, '');
+	$.ajax({
+		url: '$this_router-edit_content',
+		type: 'GET',
+		dataType: 'json',
+		data: ajax_parameters({id: id}),
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			if(json != 0){
+				var str = '<textarea cols="60" rows="8">'+json.content+'</textarea>';
+				var edit_dialog = new P8_Dialog({
+					title_text: '修改内容',
+					button: true,
+					width: 400,
+					height: 200,
+					ok: function(){
+						var strcontent = $(edit_dialog.content).children('textarea').val();
+						$.ajax({
+							url: '$this_router-edit_content',
+							type: 'POST',
+							dataType: 'json',
+							data: ajax_parameters({id: id,content:strcontent}),
+							cache: false,
+							beforeSend: function(){
+								ajaxing({});
+							},
+							success: function(json){
+								ajaxing({action: 'hide'});
+								if(json == 1){
+									$('#tcontent_'+id).val(strcontent);
+								}
+							}
+						});
+					},
+					show: function(){
+						
+					}
+				});
+				edit_dialog.content.empty().append(str);
+				edit_dialog.show();
+			}
+		}
+	});
+}
+
+function edit_picture(id){
+
+	id = id.replace(/[^0-9]/g, '');
+	$.ajax({
+		url: '$this_router-edit_picture',
+		type: 'GET',
+		dataType: 'json',
+		data: ajax_parameters({id: id}),
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			if(json != 0){
+				var str = '<input type="text" value="'+json.url+'"/><a href="javascript:;" onclick="uploaddialog.element.src=$(this).prev();uploaddialog.choseup();">[选择图片]</a><br/><textarea cols="60" rows="6">'+json.summary+'</textarea>';
+				var edit_dialog = new P8_Dialog({
+					title_text: '修改内容',
+					button: true,
+					width: 400,
+					height: 200,
+					ok: function(){
+						var url = $(edit_dialog.content).children('input').val();
+						var summary = $(edit_dialog.content).children('textarea').val();
+						$.ajax({
+							url: '$this_router-edit_picture',
+							type: 'POST',
+							dataType: 'json',
+							data: ajax_parameters({id: id,url:url,summary:summary}),
+							cache: false,
+							beforeSend: function(){
+								ajaxing({});
+							},
+							success: function(json){
+								ajaxing({action: 'hide'});
+								if(json == 1){
+									$('#pimg_'+id).attr('src',url);
+									$('#tpicture_'+id).val(summary);
+								}
+							}
+						});
+					},
+					show: function(){
+						
+					}
+				});
+				edit_dialog.content.empty().append(str);
+				edit_dialog.show();
+			}
+		}
+	});
+}
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

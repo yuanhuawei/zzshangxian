@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="gbk">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>·一键替换和选择整套模板_学术讲座_国微学校方案----领先的学校内容管理系统</title>
+<link rel="stylesheet" type="text/css" href="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/style.css" />
+<script src="http://120.26.77.20/yanshi/schoolzhanqun/js/util_mobile.js"></script>
+<script src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/TouchSlide.1.1.js"></script>
+<!--[if IE]>
+<script src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/html5.js"></script>
+<![endif]-->
+<!--[if IE 6]>
+<script type="text/javascript" src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/DD_belatedPNG_0.0.8a.js" ></script>
+<script>
+DD_belatedPNG.fix('.,img,background');
+</script>
+<![endif]-->
+
+</head>
+<body>
+<div id="nav-over"></div>
+<div class="warmp">
+<header class="header">
+<section class="fix navbar">
+<div class="top">
+<a class="back fl" href="javascript:history.go(-1);"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/back.png"></a>
+<span>学术讲座</span>
+<a class="menue navHome" href="#"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/ico-nav.jpg"></a>
+</div>
+</section>
+</header>
+</div>
+<nav id="nav" class="nav home">
+<h2><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/logo1.jpg"></h2>
+<div id="scrollerBox" class="scrollerBox">
+<div class="scroller">
+<ul><li><a href="/" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/home.png"> 首页</a> </li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-view-id-1053.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/gk.png"> 学校概况</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-view-id-1055.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/sz.png"> 机构设置</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-729.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/rc.png"> 人才培养</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-55.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/yj.png"> 科学研究</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-61.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/xk.png"> 学科建设</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-724.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/dw.png"> 队伍建设</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-76.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/jl.png"> 合作交流</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/m/index.php/cms/item-list-category-27.shtml" onclick="hidenav()"><img src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/zs.png"> 招生就业</a></li></ul>
+</div>
+</div>
+</nav> 
+<script>
+function hidenav(){
+$("#nav").hide();
+window.location.reload();
+}
+</script>
+<div class="show">
+<div class="bt">
+<h1>·一键替换和选择整套模板</h1>
+<p>发布：2016-03-02　　作者：admin　　浏览:8次 <span id="operation" style="display: none; cursor: pointer;">操作</span></p>
+</div>
+<div class="Con"> 
+<div> 
+<!--<b>内容</b> :-->  
+<ul class="label_ul_b" style="word-break: break-all; margin: 0px; padding: 0px; list-style: none; color: rgb(69, 69, 69); font-size: 14px; line-height: 25px; overflow: hidden; font-family: 'Microsoft YaHei', 微软雅黑, tahoma, arial, simsun, 宋体; background-color: rgb(248, 248, 248);">
+	<li style="word-break: break-all; margin: 0px; padding: 0px; list-style: none;"><a href="http://www.php168.net/index.php/cms/item-view-id-1306.shtml" style="word-break: break-all; color: rgb(51, 51, 51); text-decoration: none;" target="_blank" title="网站首页实施教程">网站首页实施教程</a></li>
+	<li style="word-break: break-all; margin: 0px; padding: 0px; list-style: none;"><span class="label_datatime" style="word-break: break-all; float: right; color: rgb(101, 102, 104); font-size: 12px;">[2016-02-14]</span>&middot;<a href="http://www.php168.net/index.php/cms/item-view-id-1305.shtml" style="word-break: break-all; color: rgb(51, 51, 51); text-decoration: none;" target="_blank" title="标签操作教程">标签操作教程</a></li>
+	<li style="word-break: break-all; margin: 0px; padding: 0px; list-style: none;"><span class="label_datatime" style="word-break: break-all; float: right; color: rgb(101, 102, 104); font-size: 12px;">[2016-01-28]</span>&middot;<a href="http://www.php168.net/index.php/cms/item-view-id-1188.shtml" style="word-break: break-all; color: rgb(51, 51, 51); text-decoration: none;" target="_blank" title="06--标签选择与使用的教程">06--标签选择与使用的教程</a></li>
+	<li style="word-break: break-all; margin: 0px; padding: 0px; list-style: none;"><span class="label_datatime" style="word-break: break-all; float: right; color: rgb(101, 102, 104); font-size: 12px;">[2016-01-28]</span>&middot;<a href="http://www.php168.net/index.php/cms/item-view-id-1203.shtml" style="word-break: break-all; color: rgb(51, 51, 51); text-decoration: none;" target="_blank" title="一键导入标签数据教程">一键导入标签数据教程</a></li>
+	<li style="word-break: break-all; margin: 0px; padding: 0px; list-style: none;"><span class="label_datatime" style="word-break: break-all; float: right; color: rgb(101, 102, 104); font-size: 12px;">[2015-04-05]</span>&middot;<a href="http://www.php168.net/index.php/cms/item-view-id-1094.shtml" style="word-break: break-all; color: rgb(51, 51, 51); text-decoration: none;" target="_blank" title="栏目的模板和标签样式">栏目的模板和标签样式</a></li>
+	<li class="label_dashed" style="word-break: break-all; margin: 5px 0px; padding: 0px; list-style: none; border-bottom-width: 1px; border-bottom-style: dashed; border-bottom-color: rgb(204, 204, 204); font-size: 0px; line-height: 1px; height: 1px;">&nbsp;</li>
+	<li style="word-break: break-all; margin: 0px; padding: 0px; list-style: none;"><span class="label_datatime" style="word-break: break-all; float: right; color: rgb(101, 102, 104); font-size: 12px;">[2015-04-05]</span>&middot;<a href="http://www.php168.net/index.php/cms/item-view-id-1084.shtml" style="word-break: break-all; color: rgb(51, 51, 51); text-decoration: none;" target="_blank" title="如何进入到“显示标签”状态">如何进入到&ldquo;显示标签&rdquo;状态</a></li>
+</ul>
+  
+</div> 
+</div>
+</div><div class="foot">
+<h1>广州国微大学主办    版权所有 <a id="pclink" href="" style="float:right; margin-right:20px; color:#ffffff; font-weight:bold">PC版</a></h1>
+<p>广州国微大学信息办公室承办 </p>
+<p>广州国微大学信息办公室    建设维护</p>
+<p>粤ICP备11023858号</p>
+<p>Tel：020-5688888    Fax：020-5288888</p>
+
+</div>
+<script type="text/javascript">
+$(function(){
+var l = location.href;
+$('#pclink').attr('href',l.indexOf('ismobile')>-1?l.replace('ismobile=1','ismobile=0'):l+((l.indexOf('?')>-1?'&':'?')+'ismobile=0'));					 
+})
+</script>
+<script src="http://120.26.77.20/yanshi/schoolzhanqun/skin/mobile/foolish/index.js"></script>
+
+</body>
+</html>

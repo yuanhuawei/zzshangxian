@@ -1,0 +1,72 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<form  method="post" id="form" action="">
+			<table width="100%" border="0" cellspacing="1" cellpadding="3" class="columntable formtable hover_table click_changeable">
+				<tr class="title"> 
+				  <td width="7%" align="center">序号 </td>
+				  <td width="33%" align="center">单独页名称</td>
+				  <td width="28%" align="center">内容标签 </td>
+				  <td width="15%" align="center">查看 </td>
+				  <td width="32%" align="center">修改 / 删除 / 生成静态</td>
+				</tr>
+			<!--{foreach $list $k $rs}-->
+				<tr bgcolor="#FFFFFF"> 
+				  <td align="center"><input type="checkbox" name="id[]" value="$rs[id]" /> $rs[id]</td>
+				  <td ><a href="{$this_module.controller}-view-id-$rs[id]" target="_blank">$rs[name]</a></td>
+				  <td  align="center"><a href="{$this_module.controller}-view-id-$rs[id]?edit_label=1" target="_blank">内容标签管理</a></td>
+				  <td align="center"><a href="{$rs['url']}" target="_blank">动态</a> {if $rs['htmlurl']}/ <a href="{$rs['htmlurl']}" target="_blank">静态</a>{/if}</td>
+				  <td align="center"><a href="$this_router-edit?id=$rs[id]" >修改</a> /
+				  <a href="$this_router-delete?id=$rs[id]"  onclick="return confirm('删除后不可恢复,你确实要删除吗?')">删除</a> /
+				   <a href="###" onclick="html_page([$rs[id]])">静态化</a></td>
+				</tr>
+			<!--{/foreach}-->
+				<tr bgcolor="#FFFFFF"> 
+				  <td colspan="5" align="center">
+					<div style="float:left"><a href="javascript:void(0)" onclick="check_all(true, 'id[]');init_tr($('#form'));">{$P8LANG['select_all']}</a> /
+						<a href="javascript:void(0)" onclick="check_all(false, 'id[]');init_tr($('#form'));">{$P8LANG['select_back']}</a>
+						<input type="button" value="静态化" class="submit_btn" onclick="html_page()" />
+					</div> 
+					<div class="pages">$pages</div>
+				</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table width="100%" border="0" cellspacing="1" cellpadding="3" class="tablewidth">
+			<tr class="head"> 
+			  <td>帮助说明</td>
+			</tr>
+			<tr bgcolor="#FFFFFF"> 
+			  <td>通过做出各种各样的独立页模板,你就可以实现不同功能的页面,比如友情链接页,公司介绍页,等等.这会变得非常的轻松自如.<br>
+				如果你想节省服务器资源加快页面浏览速度的话,可以生成静态,静态页面名称可以自由定义,当然可以定义成多级目录的形式,系统会自动创建目录的</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="mainbox mainborder">
+	<div class="section">
+		<form method="post" id="view_to_html" action="$this_router-html" target="_blank">
+		</form>
+	</div>
+</div>
+<script language="javascript">
+function html_page(ids){
+	if(ids==undefined){
+		var ids = checked_values('id[]', $('#form'));
+	}
+	if(!ids.length) return;
+	$('#view_to_html').html('');
+	for(var i = 0; i < ids.length; i++){
+			$('#view_to_html').append($('<input type="hidden" name="ids[]" value="'+ ids[i] +'" />'));
+		}
+
+	$('#view_to_html').submit();
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

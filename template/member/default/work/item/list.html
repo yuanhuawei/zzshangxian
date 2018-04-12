@@ -1,0 +1,30 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{php $CURN_TITLE='办事中心';}-->
+<!--{template $this_module header}-->
+<!--{template $this_module menu}-->
+<div class="wrapper">
+		<div class="main" style="min-height:200px;">
+			<!--{php $rand=rand(100,999);}-->
+			<!--{php $width=($label['option']['rows']>1)? (100/$label['option']['rows']-1).'%':'99%';}-->
+			<style>
+			.label_dotlist_$rand {line-height:180%;font-size:14px;color:}
+			.label_dotlist_$rand li.label_dottitle {background:none;display:block; float:left; width:$width; }
+			.label_dotlist_$rand li.label_dottitle .dottitle_dot{color:#CCC;}
+			.label_dotlist_$rand a{font-size:12px;}
+			</style>
+			<ul class="label_dotlist_$rand">
+			<!--{foreach $list $value}-->
+				<li class="label_dottitle">
+					<span class="dottitle_dot">·</span><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a>
+				</li>
+			<!--{/foreach}-->
+				<li style="clear:both;"></li>
+			</ul>
+			<div class="mtop pages">
+				{$pages}
+			</div>
+		</div>
+</div>
+<!--{template $this_module footer}-->
+<!--{/php168}-->

@@ -1,0 +1,241 @@
+<!--{php168}-->
+<!--{php $TITLE='通知管理';}-->
+<!--{template $this_module header}-->
+
+<div class="wrap main_wrap">
+	<div style="background-color:#FFF;width:94%;margin:10px auto; border:1px solid #cccccc; padding:5px; line-height:150%">
+		<h2 style="text-align:center; font-size:16px;font-weight:bold; margin-top:10px">$data[title]</h2>
+		<div style="margin:10px 20px;"> <div id="p8_content_show">$data[content]</div> </div>
+	</div>
+	<div style="width:94%;margin:10px auto; background-color:#FFF; border:1px solid #cccccc; padding:5px; line-height:150%;text-align:right; ">
+		<form action="$this_url" method="post" onsubmit="request_item(1);return false;" id="request">
+			<select name="role_gid" id="role_gid" onchange="if(this.value) change_role_group(this.value);">
+				<option value="0">全部部门</option>
+			</select>
+			&nbsp;
+			<select name="role_id" id="role_id" onchange="if(this.value) request_item(1);">
+				<option value="0">全部岗位</option>
+			</select>
+			&nbsp;
+			<select name="receive">
+				<option value="">查收情况</option>
+				<option value="0">未查收</option>
+				<option value="1">已查收</option>
+			</select>
+			<select name="status">
+				<option value="">确定情况</option>
+				<!--{foreach $this_module->CONFIG['status'] $key $st}-->
+				<option value="$key">$st</option>
+				<!--{/foreach}-->
+			</select>
+			姓名:<input type="text" name="keyword" onclick="this.value=''" value=""/>
+			<input type="submit" value="搜索" class="submit_btn" />
+			<input type="hidden" name="action" value="list" />
+			<input type="hidden" name="id" value="$id" />
+		</form>
+	</div>
+	<form name="form1" id="form1" action="" method="post">
+		<table width="95%" border="0" align="center" cellspacing="1" cellpadding="1" class="show_table">
+		<tbody>
+			<tr class="tablehead">
+				<td width="6%">ID</td>
+				<td width="8%">姓名</td>
+				<td width="8%">部门</td>
+				<td width="12%">职位</td>
+				<td width="8%">查收情况</td>
+				<td width="8%">确定情况</td>
+				<td width="13%">签收时间</td>
+				<td width="20%">收件人备注</td>
+				<td width="12%">操作</td>
+			</tr>
+			</tbody>
+			<tbody id="list">
+			
+			</tbody>
+			<tr>
+				<td colspan="9" align="center"><a href="javascript:void(0)" onclick="check_all(true,'id[]',$('#form1'))">全选</a>/<a href="javascript:void(0)" onclick="check_all(false,'id[]',$('#form1'));">反选</a> <input type="checkbox" id="select_all" name="select_all" value="1"/>全选所有
+					<input type="button" value="重发"  class="submit_btn" onclick="post_submit('resend')" /> <input  class="submit_btn" type="button" onclick="post_submit('download')" value="导出" /> <input  class="submit_btn" type="button" value="删除" onclick="delete_sign()" />
+					<input type="hidden" name="role_gid" value="0"/>
+					<input type="hidden" name="role_id" value="0"/>
+					<input type="hidden" name="receive" value=""/>
+					<input type="hidden" name="status" value=""/>
+					<input type="hidden" name="keyword" value=""/>
+					<input type="hidden" name="ac" value="re"/>
+					<input type="hidden" name="nid" value="$id" />
+					<span id="pages">$pages</span></td>
+			</tr>
+		</table>
+	</form>
+	<script type="text/javascript">
+var ROLE_GROUP_JSON = $role_group_json,
+	ROLE_JSON = $role_json,
+	STATUS_JSON = $status_json,
+	checked_ids = {};
+var dialog = new P8_Dialog({
+	title_text:'查看及修改',
+	width: 500,
+	height: 200,
+	button: true,
+	ok:function(){
+		$.ajax({
+			url: '$this_url',
+			type: 'post',
+			dataType: 'json',
+			cache: false,
+			data: $('#postform').serialize()+'&action=sign',
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+					var info = $('#user_'+ json.uid).find('td')
+						info.eq(4).html('已查收');
+						info.eq(5).html(STATUS_JSON[json.status]);
+						info.eq(6).html(json.timestamp);
+						info.eq(7).html(json.comment);
+					ajaxing({action: 'hide'});
+						
+			}
+		});
+		
+	}
+});
+
+function show_notify(uid){
+	$.ajax({
+		url: '$this_url',
+		type: 'post',
+		dataType: 'json',
+		cache: false,
+		data: ajax_parameters({action: 'show', uid: uid, id:$id}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			var inneerhtml = '<form id="postform"><p>选择操作:'+
+			<!--{foreach $this_module->CONFIG['status'] $key $st}-->
+			'<input type="radio" name="status" value="$key" '+(json.status==$key? 'checked' : '')+'/>$st'+
+			<!--{/foreach}-->
+			'<p>操作原因:</p>'+
+			'<textarea style="width:465px;height:100px;font-size:12px" name="comment">'+json.comment+'</textarea>'+
+			'<input type="hidden" name="id" value="'+json.id+'"/><input type="hidden" name="uid" value="'+json.uid+'"/><input type="hidden" name="hash" value="'+json.hash+'"/></form>';
+			dialog.content.html(inneerhtml);
+			dialog.show();
+			ajaxing({action: 'hide'});
+				
+		}
+	});
+	
+}
+function delete_sign(ids){
+	if(!confirm('确定要删除？'))return
+	if(ids==undefined){
+		var ids=[];
+		$.each(checked_values('id[]'), function(k, v){
+		ids.push(v.replace(/[^0-9]/g, ''));
+	});
+	}
+	$.ajax({
+			url: '$this_url',
+			type: 'post',
+			dataType: 'json',
+			cache: false,
+			data: ajax_parameters({id: '{$id}', uid:ids, action: 'delete'}),
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				for(var i in json){
+					$('#user_'+ json[i]).remove();
+				}
+			}
+		});
+	
+}
+function change_role_group(gid){
+	$('#role_id').attr('length', 1);
+	for(var i in ROLE_JSON){
+		if(ROLE_JSON[i].gid != gid) continue;
+		
+		$('#role_id').append($('<option value="'+ ROLE_JSON[i].id +'">'+ ROLE_JSON[i].name +'</option>'));
+	}
+	
+}
+
+
+function request_item(page){
+	$.ajax({
+		url: '$this_url',
+		data: $('#request').serialize() +'&page='+ (page === undefined ? 1 : page),
+		dataType: 'json',
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			PAGE = page;
+			$('#pages').html(json.pages);
+			$('#list').empty();
+			for(var i in json.list){
+				_list_item(json.list[i]);
+			}
+			
+			$('#pages').html(json.pages);
+			
+			ajaxing({action: 'hide'});
+			
+			
+			
+		}
+	});
+}
+
+function _list_item(json){
+	
+	var tr = 
+	'<tr id="user_'+json.uid+'">'+
+		'<td><input type="checkbox" name="id[]" value="'+ json.uid +'"'+ (checked_ids[json.uid] ? ' checked' : '') +' /> '+ json.uid +'</td>'+
+		'<td>'+ (json.name==''? json.username :json.name) +'</td>'+
+		'<td>'+ (ROLE_JSON[json.role_gid] ? ROLE_GROUP_JSON[json.role_gid].name : '') +'</td>'+
+		'<td>'+ (ROLE_JSON[json.role_id] ? ROLE_JSON[json.role_id].name : '') +'</td>'+
+		'<td>'+ (json.receive=='0'? '<font color="blue">未查收</font>':'已查收') +'</td>'+
+		'<td>'+ (json.status==0? '' : STATUS_JSON[json.status]) +'</td>'+
+		'<td>'+ (json.timestamp !=0? date('Y-m-d H:i', json.timestamp) : '') +'</td>'+
+		'<td>'+ json.comment +'</td>'+
+		'<td><a href="javascript:void(0)" onclick="show_notify('+json.uid+')">修改</a>|<a href="javascript:void(0)" onclick="delete_sign(['+json.uid+'])">删除</a></td>'+
+	'</tr>';
+	
+	$('#list').append($(tr));
+}
+
+function post_submit(action){
+	var obj=checked_values('id[]');
+	var id = [];
+	$.each(obj, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(id.length<1){
+		if(!confirm('你没选中任何个人，是否操作全部'))return;
+	}
+	if(action !== undefined){
+		$('#form1').attr('action','{$this_router}-'+action);	
+	}
+	$('#form1 input[name="role_gid"]').attr('value',$('#request select[name="role_gid"]').val());
+	$('#form1 input[name="role_id"]').attr('value',$('#request select[name="role_id"]').val());
+	$('#form1 input[name="receive"]').attr('value',$('#request select[name="receive"]').val());
+	$('#form1 input[name="status"]').attr('value',$('#request select[name="status"]').val());
+	$('#form input[name="keyword"]').attr('value',$('#request input[name="keyword"]').val());
+	
+	$('#form1').submit();
+	
+}
+$(function(){
+	
+	for(var i in ROLE_GROUP_JSON){
+		$('#role_gid').append($('<option value="'+ ROLE_GROUP_JSON[i].id +'">'+ ROLE_GROUP_JSON[i].name +'</option>'));
+	}
+	request_item(1);
+});
+
+</script>
+<!--{template $core footer}-->
+<!--{/php168}-->

@@ -1,0 +1,82 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/dangwei/core/letter/style.css" />
+<div class="nav">
+	您的位置：<a href="{$this_system.url}">首页</a>&nbsp;&gt;&nbsp;<a href="#">{$P8LANG['letter']}</a>
+</div>
+<div class="mtop">
+	<div class="contain_left">	
+		<div class="border1">
+			<div class="head_gov">
+				<span class="title1">
+					$label[email_menu_title]
+				</span>
+			</div>	
+				<div class="main1" id='leftbox'>
+					$label[email_menu]
+				</div>
+				<div class="clear">
+				</div>
+		</div>
+		
+		<div class="border1 mtop">
+			<div class="head_gov">
+				<span class="title1">
+					$label[email_title_2]
+				</span>
+			</div>	
+				<div class="main1 bg_grey">
+				<table width="100%" class="lettertb" cellspacing="0" cellpadding="0">
+				<tr><td align="center"><b>信件类型</b></td><td align="center"><b>回复总数</b></td></tr>
+				<!--{foreach $cates['type'] $key $row}-->
+				<tr><td align="center">{$row['name']}</td><td align="center"><span style="color:#4d3739"><!--{if !empty($tatistics[$row['id']]['total'])}-->{$tatistics[$row['id']]['solve']}/{$tatistics[$row['id']]['total']}<!--{else}-->0/0<!--{/if}--></span></td></tr>
+				<!--{/foreach}-->
+				</table>
+				</div>
+		</div>
+		<div class="mtop">$label[progress_ads13]</div>
+		<div class="mtop">$label[progress_ads23]</div>
+	</div>
+	<div class="contain_right">
+        <div class="quicknav mbottom">
+		<div class="fl">$label[letter_imads]</div>
+		<div class="fr">$label[letter_imads2]</div>
+		</div>
+       <div class="clear"></div>
+		<div class="show_box_grey">
+		<div class="conbox">
+       <div class="innerbox">
+	   <form action="{$this_router}-detail" method="post" onsubmit="return checkform()">
+        姓  名：<input type="text" name="susername" value="" id="susername"/>
+		查询码：<input type="text" name="snumber" value="" id="snumber"/>
+		<input type="submit" value="进度查询" />
+		</form>
+		<div class="clear"></div>
+		<h2 class="tt">进度信息</h2>
+		{$progress}
+	   </div>
+       </div>
+		</div>
+	</div>
+</div>
+<div class="clear">
+</div>
+<script type="text/javascript">
+function checkform(){
+if($('#susername').val()==''){
+	alert('姓名必须要填哦！');return false;
+}
+if($('#snumber').val()==''){
+	alert('查询码必须要填哦！');return false;
+}
+return true;
+}
+</script>
+<!--{if $addcontent}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/images/dialog.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<!--{/if}-->
+<!--{template $core footer}-->
+<!--{/php168}-->

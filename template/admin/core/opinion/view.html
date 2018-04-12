@@ -1,0 +1,61 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="columntable formtable hover_table padding_table">
+			<tr class="title">
+				<td colspan="2">内容查看</td>
+			</tr>
+			<tr >
+				<td class="tdL">项目: </td>
+				<td class="tdR">
+					$data[item_title]
+				</td>
+			</tr>
+			<tr >
+				<td class="tdL">标 题: </td>
+				<td class="tdR">
+					$data[title]
+				</td>
+			</tr>
+			
+			<tr bgcolor="#FFFFFF">
+				<td class="tdL"> 发布时间: </td>
+				<td  class="tdR">
+					<!--{php echo !empty($data['timestamp'])?date("Y-m-d H:i:s",$data['timestamp']):'';}-->
+				</td>
+			</tr>
+			<tr bgcolor="#FFFFFF">
+				<td class="tdL">名字: </td>
+				<td  class="tdR">
+					$data[name]
+				</td>
+			</tr>
+			<tr bgcolor="#FFFFFF">
+				<td class="tdL">联系方式: </td>
+				<td  class="tdR">
+					$data[mobile]
+				</td>
+			</tr>
+			
+			<tr bgcolor="#FFFFFF">
+				<td class="tdL">内容: </td>
+				<td class="tdR">
+					$data[content]
+				</td>
+			</tr>
+			
+			<tr bgcolor="#FFFFFF" align="center">
+				<td colspan="2" class="tdL"> 
+				<input type="button" value="返回" onclick="history.go(-1)"> 
+				</td>
+			</tr>
+
+		</table>
+	</div>
+</div>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

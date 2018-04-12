@@ -1,0 +1,95 @@
+<!--{php168}-->
+
+<!--{template $this_system header admin}-->
+	
+<form action="$this_router-$ACTION" method="post">
+	<table class="mainbox mainborder">
+	<tr><td>
+		<table class="formtable">
+			<tr>
+				<td colspan="2" class="title">{$P8LANG['ask_config_core']}</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['bind_domain']} <span class="help">濡傛兂鏈珻MS绯荤粺缁戝畾鏌愪釜涓€绾у煙鍚嶏紝璇峰～鍐欏?锛歨ttp://www.php168.net</span></td>
+				<td class="tdR"><input type="text" class="txt" name="config[domain]" size="30" value="{if !empty($config['domain'])}{$config['domain']}{/if}" /></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['ask_config_sitename']}</td>
+				<td class="tdR"><input type="text" class="txt" name="config[sitename]" size="65"  value="<!--{if !empty($config['sitename'])}-->{$config['sitename']}<!--{/if}-->" /></td>
+			</tr>
+			<tr>
+				<td class="tdL">{$P8LANG['ask_config_sitetitle']}</td>
+				<td class="tdR"><input type="text" class="txt" name="config[sitetitle]" size="65"  value="<!--{if !empty($config['sitetitle'])}-->{$config['sitetitle']}<!--{/if}-->" /></td>
+			</tr>
+			<tr>
+				<td class="tdL">{$P8LANG['ask_config_keywords']}</td>
+				<td class="tdR"><input type="text" class="txt" name="config[meta_keywords]" size="65"  value="<!--{if !empty($config['meta_keywords'])}-->{$config['meta_keywords']}<!--{/if}-->" /></td>
+			</tr>	
+			<tr>
+				<td class="tdL">{$P8LANG['ask_config_description']}</td>
+				<td class="tdR"><input type="text" class="txt" name="config[meta_description]" size="65"  value="<!--{if !empty($config['meta_description'])}-->{$config['meta_description']}<!--{/if}-->" /></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['ask_config_verify']}</td>
+				<td class="tdR">
+					<input type="radio" name="config[verify]" value="1"<!--{if !empty($config['verify'])}--> checked<!--{/if}-->/> {$P8LANG['Y']}
+					<input type="radio" name="config[verify]" value="0"<!--{if empty($config['verify'])}--> checked<!--{/if}-->/> {$P8LANG['N']}
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['ask_config_verify_answer']}</td>
+				<td class="tdR">
+					<input type="radio" name="config[verify_answer]" value="1"<!--{if !empty($config['verify_answer'])}--> checked<!--{/if}-->/> {$P8LANG['Y']}
+					<input type="radio" name="config[verify_answer]" value="0"<!--{if empty($config['verify_answer'])}--> checked<!--{/if}-->/> {$P8LANG['N']}
+				</td>
+			</tr>
+			<tr>
+				<td class="tdL">{$P8LANG['ask_config_captcha']}</td>
+				<td class="tdR">
+					<input type="radio" name="config[captcha]" value="1"<!--{if !empty($config['captcha'])}--> checked<!--{/if}-->/> {$P8LANG['Y']}
+					<input type="radio" name="config[captcha]" value="0"<!--{if empty($config['captcha'])}--> checked<!--{/if}-->/> {$P8LANG['N']}
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['ask_config_expired_days']}</td>
+				<td class="tdR"><input type="text" class="txt" name="config[expired_days]" size="10"  value="<!--{if !empty($config['expired_days'])}-->{$config['expired_days']}<!--{/if}-->" /> {$P8LANG['ask_expire_unit']}</td>
+			</tr>
+			<tr>
+				<td class="tdL">{$P8LANG['ask_config_history_expired_days']}</td>
+				<td class="tdR"><input type="text" class="txt" name="config[history_expired_days]" size="10"  value="<!--{if !empty($config['history_expired_days'])}-->{$config['history_expired_days']}<!--{/if}-->" /> {$P8LANG['ask_expire_unit']}</td>
+			</tr>		
+			<tr>
+				<td class="tdL">{$P8LANG['ask_config_reply_credit']}</td>
+				<td class="tdR">
+					<textarea cols="40" rows="7" name="config[reply_credit]"><!--{if !empty($config['reply_credit'])}-->{$config['reply_credit']}<!--{/if}--></textarea>					
+					<br/>
+					{$P8LANG['ask_config_credit_unit_title']}{$P8LANG['ask_credit_unit']}
+				</td>
+			</tr>
+			<tr>
+				<td class="tdL">{$P8LANG['ask_config_urgent_credit']}</td>
+				<td class="tdR"><input type="text" class="txt" name="config[urgent_credit]" size="10"  value="<!--{if !empty($config['urgent_credit'])}-->{$config['urgent_credit']}<!--{/if}-->" /> {$P8LANG['ask_credit_unit']}</td>
+			</tr>
+			<tr>
+				<td class="tdL">{$P8LANG['ask_config_best_reply_credit']}</td>
+				<td class="tdR"><input type="text" class="txt" name="config[best_reply_credit]" size="10"  value="<!--{if !empty($config['best_reply_credit'])}-->{$config['best_reply_credit']}<!--{/if}-->" /> {$P8LANG['ask_credit_unit']}</td>
+			</tr>	
+			<tr>
+			  <td class="tdL">&nbsp;</td>
+			  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		  </tr>
+	    </table>
+	</td></tr>
+    </table>
+	
+</form>
+
+
+<!--{template $core footer admin}-->
+
+<!--{/php168}-->

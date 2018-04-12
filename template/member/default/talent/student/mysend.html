@@ -1,0 +1,39 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+
+<div id="tab_1" class="tab_box mtop20">
+	<div class="head">
+		<span class="over"><a href="$this_router-mysend">求职记录</a></span> <span ><a href="$this_router-invite">面试邀请</a></span>
+	</div>
+	<div class="main profile" style="margin-top:20px">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table">
+			<tr class="head">
+				<td width="20">
+					<input type="checkbox" name="id[]" />
+				</td>
+				<td width="200">职位名称</td>
+				<td width="200">公司名称</td>
+				<td width="100">发布时间</td>
+				<td width="200">操作</td>
+			</tr>
+			<!--{foreach $list $key $val}-->
+			<tr>
+				<td>
+					<input type="checkbox" name="id[]" value="$val[id]" />
+				</td>
+				<td>$val[jobname]</td>
+				<td>$val[toname]</td>
+				<td>{date('Y-m-d',$val['timestamp'])}</td>
+				<td>删除</td>
+			</tr>
+			<!--{/foreach}-->
+			<tr>
+				<td align="center" colspan="5" class="pages"> $pages </td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="clear">
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

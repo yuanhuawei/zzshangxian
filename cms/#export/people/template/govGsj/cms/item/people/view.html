@@ -1,0 +1,84 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/item/item.js"></script>
+<script type="text/javascript" src="{$this_router}-check_verify_action?cid=$cid"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+<script type="text/javascript">
+<!--{template_init_js}-->
+
+<!--{template $this_module item_js}-->
+</script>
+<!--位置栏开始-->
+<div class="nav_wrap">
+     <a href="{$core.url}">首页</a>&nbsp;&gt;&nbsp;
+	 <!--{foreach $parent_cats $v}-->
+	 <a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	 <!--{/foreach}-->
+	 <a href="$CAT[url]">$CAT[name]</a>&nbsp;&gt;<span>正文</span>
+
+</div>
+<div class="people">
+<!--人物简介栏-->
+<div id="people_wrap">
+            <a class="backButton" href="$v[url]"></a>
+		<div class="photo">
+			<image src="{$data['photo']['url']}" width="148" height="220" />
+		</div>
+		<div class="people_detail">
+			<ul>
+			    <li class="cDRed" style="padding-bottom:12px;"><span class="name">$data[name]</span>&nbsp;&nbsp;&nbsp;&nbsp;
+				<span id="operation" style="display: none; color:#C30;font-weight:bold; cursor: pointer;">{$P8LANG['operation']}</span></li>
+				<li class="each1"><b>部门：</b>$data[department]</li>
+				<li class="each2"><b>职位：</b>$data[office]</li>
+				<li class="each1"><b>籍贯：</b>$data[Hometown]</li>
+				<li class="each2"><b>出生日期：</b>$data[birthday]</li>
+				<li class="each3"><b>学历：</b>$data[education]</li>
+				<div class="clear"></div>
+				<li class="l1"><b>简介：</b>$data[content]</li>
+			</ul>
+		</div>
+</div>				
+<!--介绍栏-->
+<div id="people_bottom">
+        <div class="list_head">
+		<span class="list_title">人物事迹</span><a class="list_more1" href="$v[url]">更多>></a>
+		</div>
+		    <div class="list_content">
+			 <span class="list_con">$data[event]</span>
+			 </div>
+</div>
+<div id="people_bottom">
+        <div class="list_head">
+		<span class="list_title">公司提案</span><a class="list_more1" href="$v[url]">更多>></a>
+		</div>
+		    <div class="list_content">
+			 <span class="list_con">$data[motion]</span>
+			 </div>
+</div>
+<div id="people_bottom">
+        <div class="list_head">
+		<span class="list_title">奖项荣誉</span><a class="list_more1" href="$v[url]">更多>></a>
+		</div>
+		    <div class="list_content">
+			 <span class="list_con">$data[award]</span>
+			 </div>
+</div>
+<div id="people_bottom">
+        <div class="list_head">
+		<span class="list_title">相关新闻</span><a class="list_more1" href="$v[url]">更多>></a>
+		</div>
+		    <div class="list_content">
+			 <span class="list_con">$label[list_con]</span>
+			 </div>
+</div>
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->
+
+
+

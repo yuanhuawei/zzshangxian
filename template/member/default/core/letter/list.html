@@ -1,0 +1,64 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<div id="tab_1" class="tab_box mtop20">
+	<div class="head">
+		<span {$sta[0]}><a href="$this_router-list?status=0">未解决问题</a></span>
+		<span {$sta[1]}><a href="$this_router-list?status=1">已解决问题</a></span>
+		<a href="{$this_module.controller}-post" target="_blank" class="sendmsg_link_bg">我要写信</a>
+	
+	</div>
+</div>
+<form name="form" id="searchFrom" action="" method="post" target="_self">
+<div class="mtop">
+	 部门: <select name="department">
+			<option value="">所有</option>
+			<!--{foreach $cates['department'] $key $val}-->
+			<option value="$val[id]" {if !empty($department) && $department == $val['id']}selected{/if}>$val[name]</option>
+			<!--{/foreach}-->
+		</select> 
+    类别: <select name="type">
+			<option value="">所有</option>
+			<!--{foreach $cates['type'] $key $val}-->
+			<option value="$val[id]" {if !empty($type) && $type == $val['id']}selected{/if}>$val[name]</option>
+			<!--{/foreach}-->
+		</select> 
+	问题编号：<input name="number" type="text" value="$number" size="10"/> 
+	关键词：<input name="keyword" type="text" value="$keyword" size="15"/> 
+	<input type="hidden" name="act" value="search"/>
+	<input type="button" value="搜索" onclick="searchthis()"/>
+</div>
+</form>
+ <table width='99%' align="center" cellspacing='1' cellpadding='3' class="formtable columntable hover_table mtop20">
+	<tr class="head">
+		<td width="25" align="center">编号</td>
+		<td width="50" align="center">状态</td>
+		<td width="*">标题</td>
+		<td width="90" align="center">提问时间</td>
+		<td width="100" align="center"><!--{if isset($sta[1])}-->解决时间<!--{else}-->提交人<!--{/if}--></td>
+		<td width="85" align="center">操作</td>
+	</tr>
+<!--{foreach $list $k $v}-->	
+	<tr>
+		<td align="center">$v[number]</td>
+		<td style="color:#009900" align="center">{$P8LANG['status_'.$v['status']]}</td>
+		<td><font color="#bb9900">[{$cates['department'][$v['department']]['name']}/{$cates['type'][$v['type']]['name']}]</font> $v[title]</td>
+		<td align="center"><!--{php echo date("y-m-d H:i",$v['create_time']);}--></td>
+		<td align="center"><!--{if isset($sta[1])}-->{date('y-m-d H:i',$v['create_time'])}<!--{else}--><font color="#009900">$v[username]</font><!--{/if}--></td>
+		<td><a  href="{$this_module.controller}-detail?id={$v['id']}"  target="_blank">查看</a><!--{if $v['status']==0}--> <a  href="{$this_module.controller}-update?id={$v['id']}" target="_blank">编辑</a> <a  href="$this_router-delete?id={$v['id']}" >删除</a><!--{/if}--></td>
+	</tr>
+<!--{/foreach}-->	
+	
+	<tr><td colspan="6" align="center" class="pages">{$pages}</td></tr>
+</table>		
+<script type="text/javascript">
+function printthis(){
+	$('#searchFrom input[name="act"]').val('print');
+	$('#searchFrom').attr('target','_blank').submit();
+}
+function searchthis(){
+	$('#searchFrom input[name="act"]').val('search');
+	$('#searchFrom').attr('target','_self').submit();
+}
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

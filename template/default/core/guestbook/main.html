@@ -1,0 +1,75 @@
+<!--{php168}-->
+<!--{php 
+$TITLE='留言板-'.$core->CONFIG['site_name'];
+$SEO_KEYWORDS = $core->CONFIG['site_key_word'];
+$SEO_DESCRIPTION = $core->CONFIG['site_description'];
+}-->
+<!--{template $core header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/guestbook/style.css">
+<div class="page Lujing">
+	<a href="{$core.controller}">首页</a> > <a href="{$this_module.controller}">留言板 </a>
+</div>
+<div class="border1 mtop">
+	<!--{foreach $category $k $v}-->
+	<span class="eachcid"><a href="{$this_router}-main-id-$v[id]">$v[name]</a></span>
+	<!--{/foreach}-->
+</div>
+<div id="maincontent">
+<!--{foreach $listdb $key $val}-->
+<div class="border2 mtop" id="gbs_$val[id]">
+	<p class="head"><span class="user">
+		<!--{if !empty($val['username'])}-->
+		$val[username] :
+		<!--{else}-->
+		$val[ip] :
+		<!--{/if}-->
+		</span><span class="title">$val[title]</span>
+		<!--{if $reply}-->
+		<!--{/if}-->
+	</p>
+	<div class="main" >
+		<span class="content">
+				$val[content] 
+		</span>
+		<span id="reply_$val[id]">
+			<!--{if !empty($val['reply'])}-->
+			<div class="border3 mtop">
+				$val[reply]
+				<p class="replyer">回复人：$val[replyer] &nbsp;回复时间：
+					<!--{php echo date("Y-m-d H:i:s",$val['replytime']);}-->
+				</p>
+			</div>
+			<!--{/if}-->
+		</span>
+	</div>
+	<div class="buttom">
+		<span class="status">状态：
+		<!--{if !empty($val['reply'])}-->
+		已回复
+		<!--{else}-->
+		未回复
+		<!--{/if}-->
+		</span>
+		<!--{if $delete}-->
+		<a href="javascript:void(0)" class="fright" onclick="_delete_guestbook($val[id])">删除&nbsp; </a>
+		<!--{/if}-->
+		<!--{if $edit}-->
+		<a href="javascript:void(0)" class="fright" onclick="_edit_guestbook($val[id])">修改&nbsp;</a>
+		<!--{/if}-->
+		<!--{if $reply}-->
+		<a href="javascript:void(0)" class="fright" onclick="_reply_guestbook($val[id])">回复&nbsp; </a>
+		<!--{/if}-->
+		<span class="datatime">发表时间：
+		<!--{php echo date("Y-m-d H:i:s",$val['posttime']);}-->
+		</span>
+	</div>
+</div>
+<!--{/foreach}-->
+</div>
+<div class="border1 mtop pages">
+	$pages
+</div>
+<!--{template $this_module post}-->
+<!--{template $core footer}-->
+<!--{/php168}-->

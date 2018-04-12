@@ -1,0 +1,461 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{php $CURN_TITLE='提交办事';}-->
+<!--{template $this_module header}-->
+<!--{template $this_module menu}-->
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/iColorPicker.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<link rel="stylesheet" href="{$SKIN}category_selector.css" type="text/css" />
+<style> 
+.tdL{background-color:#E7F5FE}
+</style>
+<script type="text/javascript">
+var form_submit;
+
+window.onbeforeunload = function(){
+	P8_Upload.del(form_submit);
+};
+
+$(document).ready(function(){
+	$('#form').validate({
+		rules: {
+			<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+			title: {
+				required: true,
+				maxlength: 80
+			},
+			
+			summary: {
+				maxlength: 100
+			},
+			
+			cid: {
+				required: true
+			},
+			
+			html_view_url_rule: {
+				required: false,
+				maxlength: 80
+			}
+			<!--{/if}-->
+		},
+		
+		messages: {
+			<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+			title: {
+				required: '{$P8LANG['cms_item']['title_required']}',
+				maxlength: '{$P8LANG['cms_item']['title_oversize']}'
+			},
+			
+			summary: {
+				maxlength: '{$P8LANG['cms_item']['summary_oversize']}'
+			},
+			
+			cid: {
+				required: '{$P8LANG['cms_item']['category_required']}'
+			},
+			
+			html_view_url_rule: {
+				maxlength: '{$P8LANG['cms_item']['html_view_url_rule_oversize']}'
+			}
+			<!--{/if}-->
+		},
+		
+		errorPlacement: function(error, element) {
+			if(element.parent().attr('tagName').toLowerCase() == 'td')
+				error.wrap('<div></div>').appendTo(element.parent().prev());
+			else
+				error.wrap('<div></div>').appendTo(element.parent().parent().prev());
+		},
+		wrapper: 'div',
+		
+		submitHandler: function(){
+			form_submit = true;
+			
+			$('#form').get(0).submit();
+		},
+		
+		onkeyup: false
+	});
+});
+</script>
+<div class="wrapper">
+<div class="toptitle">
+	<!--{if $ACTION == 'add' || $ACTION == 'addon'}-->
+	{$P8LANG['cms_item']['add']}
+	<!--{elseif $ACTION == 'update' || $ACTION == 'update_addon'}-->
+	{$P8LANG['cms_item']['update']}
+	<!--{/if}-->
+</div>
+<form action="$this_url" method="post" id="form">
+				<table class="formtable columntable hover_table"  width="100%">
+					<tbody>
+						<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+						<tr>
+							<td class="tdL" width="12%">办事类别(<font color="#ff0000">*</font>)：</td>
+							<td class="tdR" width="87%"><span id="cids" size="30" style="border:none"></span><input type="hidden" name="cid" value="{if isset($data['cid'])}$data[cid]{/if}"/><input type="hidden" id="cid" value="{if isset($data['cid'])}$data[cid]{/if}"/></td>
+						</tr>
+						<tr>
+							<td class="tdL">办事项目(<font color="#ff0000">*</font>)：</td>
+							<td class="tdR"> <input type="text" name="title" class="txt" value="{if !empty($data['title'])}{$data['title']}{/if}" size="50" /> &nbsp; 
+								</td>
+						</tr>
+	
+					<!--{/if}-->
+					</tbody>					
+		</table>
+		<p class="toptitle">个人资料 <a href="{$core.U_controller}/core/member-profile" class="edit_profile">[修改个人资料]</a></p>
+		<table class="formtable columntable hover_table"  width="100%">
+			<tbody>
+				<tr>
+							<td class="tdL" width="12%">真实姓名(<font color="#ff0000">*</font>)：</td>
+							<td class="tdR" width="38%">
+								<!--{php $field = 'realname'; $field_data = $this_model['fields'][$field]; $__name = '';}-->
+								<input type="hidden" name="#field_{$field}_posted" />
+								<input type="text" id="field#[$field]" name="field#[$field]" value="{if isset($data[$field])}$data[$field]{else}{$field_data['default_value']}{/if}" {$field_data['widget_addon_attr']} />
+
+								<script type="text/javascript">
+								$(document).ready(function(){
+									$('#form *[name="field#[$field]$__name"]').rules('add', {
+										required: function(){ return !$('#url').val().length && true},
+										messages: { required: '{$P8LANG['cms_item']['field_required']}'}
+									});
+								});
+								</script>
+							</td>
+							<td class="tdL" width="12%">性别(<font color="#ff0000">*</font>)：</td>
+							<td class="tdR" width="38%">
+								<!--{php $field = 'gender'; $field_data = $this_model['fields'][$field]; $__name = '';}-->
+<input type="hidden" name="#field_{$field}_posted" />
+<!--{foreach $field_data['data'] $value $key}-->
+<input type="radio" name="field#[$field]" id="field#[$field][$value]" value="$value"{if isset($data[$field]) && $data[$field] == $value} checked{elseif !isset($data[$field]) && $field_data['default_value'] == $value} checked{/if} {$field_data['widget_addon_attr']} /><label for="field#[$field][$value]">$key</label> 
+<!--{/foreach}-->
+
+								<script type="text/javascript">
+								$(document).ready(function(){
+									$('#form *[name="field#[$field]$__name"]').rules('add', {
+										required: function(){ return !$('#url').val().length && true},
+										messages: { required: '{$P8LANG['cms_item']['field_required']}'}
+									});
+								});
+								</script>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">部门(<font color="#ff0000">*</font>)：</td>
+							<td class="tdR">
+								<!--{php $field = 'postcore'; $field_data = $this_model['fields'][$field]; $__name = '';}-->
+<input type="hidden" name="#field_{$field}_posted" />
+<input type="text" id="field#[$field]" name="field#[$field]" value="{if isset($data[$field])}$data[$field]{else}{$field_data['default_value']}{/if}" {$field_data['widget_addon_attr']} />
+
+								<script type="text/javascript">
+								$(document).ready(function(){
+									$('#form *[name="field#[$field]$__name"]').rules('add', {
+										required: function(){ return !$('#url').val().length && true},
+										messages: { required: '{$P8LANG['cms_item']['field_required']}'}
+									});
+								});
+								</script>
+							</td>
+							<td class="tdL">岗位(<font color="#ff0000">*</font>)：</td>
+							<td class="tdR">
+								<!--{php $field = 'material'; $field_data = $this_model['fields'][$field]; $__name = '';}-->
+<input type="hidden" name="#field_{$field}_posted" />
+<input type="text" id="field#[$field]" name="field#[$field]" value="{if isset($data[$field])}$data[$field]{else}{$field_data['default_value']}{/if}" {$field_data['widget_addon_attr']} />
+
+								<script type="text/javascript">
+								$(document).ready(function(){
+									$('#form *[name="field#[$field]$__name"]').rules('add', {
+										required: function(){ return !$('#url').val().length && true},
+										messages: { required: '{$P8LANG['cms_item']['field_required']}'}
+									});
+								});
+								</script>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">联系电话：</td>
+							<td class="tdR">
+								<!--{php $field = 'telephone'; $field_data = $this_model['fields'][$field]; $__name = '';}-->
+<input type="hidden" name="#field_{$field}_posted" />
+<input type="text" id="field#[$field]" name="field#[$field]" value="{if isset($data[$field])}$data[$field]{else}{$field_data['default_value']}{/if}" {$field_data['widget_addon_attr']} />
+
+							</td>
+							<td class="tdL">邮箱：</td>
+							<td class="tdR">
+								<!--{php $field = 'email'; $field_data = $this_model['fields'][$field]; $__name = '';}-->
+<input type="hidden" name="#field_{$field}_posted" />
+<input type="text" id="field#[$field]" name="field#[$field]" value="{if isset($data[$field])}$data[$field]{else}{$field_data['default_value']}{/if}" {$field_data['widget_addon_attr']} />
+
+								
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">手机号码(<font color="#ff0000">*</font>)：</td>
+							<td class="tdR">
+								<!--{php $field = 'mobilephone'; $field_data = $this_model['fields'][$field]; $__name = '';}-->
+								<input type="hidden" name="#field_{$field}_posted" />
+								<input type="text" id="field#[$field]" name="field#[$field]" value="{if isset($data[$field])}$data[$field]{else}{$field_data['default_value']}{/if}" {$field_data['widget_addon_attr']} />
+
+								<script type="text/javascript">
+								$(document).ready(function(){
+									$('#form *[name="field#[$field]$__name"]').rules('add', {
+										required: function(){ return !$('#url').val().length && true},
+										messages: { required: '{$P8LANG['cms_item']['field_required']}'}
+									});
+								});
+								</script>
+							</td>
+							<td class="tdL">联系地址：</td>
+							<td class="tdR">
+								<!--{php $field = 'address'; $field_data = $this_model['fields'][$field]; $__name = '';}-->
+<input type="hidden" name="#field_{$field}_posted" />
+<input type="text" id="field#[$field]" name="field#[$field]" value="{if isset($data[$field])}$data[$field]{else}{$field_data['default_value']}{/if}" {$field_data['widget_addon_attr']} />
+
+							</td>
+						</tr>
+			</tbody>
+		</table>
+		<p class="toptitle">办事详情</p>
+		<table class="formtable columntable hover_table"  width="100%">
+			<tbody>
+				<tr>
+							<td class="tdL">办事详细说明(<font color="#ff0000">*</font>)：</td>
+							<td class="tdR">
+								<!--{php $field = 'content'; $field_data = $this_model['fields'][$field]; $__name = '';}-->
+<input type="hidden" name="#field_{$field}_posted"  />
+<textarea name="field#[$field]" cols="65" rows="7" id="field#[$field]" {$field_data['widget_addon_attr']}>{if isset($data[$field])}$data[$field]{else}{$field_data['default_value']}{/if}</textarea>
+
+								<script type="text/javascript">
+								$(document).ready(function(){
+									$('#form *[name="field#[$field]$__name"]').rules('add', {
+										required: function(){ return !$('#url').val().length && true},
+										messages: { required: '{$P8LANG['cms_item']['field_required']}'}
+									});
+								});
+								</script>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">附件资料：<br><span class="help">{$P8LANG['work_item']['zhiliao']}</span></td>
+							<td class="tdR">
+								<!--{php $field = 'material2'; $field_data = $this_model['fields'][$field]; $__name = '[url][]';}-->
+<input type="hidden" name="#field_{$field}_posted" />
+<div id="{$field}_holder">
+<div></div>
+<input type="button" value="{$P8LANG['continue_add']}" />
+</div>
+<script type="text/javascript" src="{$RESOURCE}/js/sortable.js"></script>
+						<script type="text/javascript">
+$(function(){
+	
+	function copy(value, title, thumb){
+		var div = $('<div>'+
+			'<b style="cursor: move; background: url('+ P8CONFIG.RESOURCE +'/images/draggable.png) no-repeat 0px -20px;">&nbsp;&nbsp;</b>'+
+			'<span>'+ P8LANG.title +' </span>&nbsp;<span></span>&nbsp;<span>附件地址 </span>&nbsp;</div>'
+		);
+		
+		$('<input type="text" name="field#[$field][title][]" size="10" autocomplete="off" />').val(title === undefined ? '' : title).appendTo(div.find('span:eq(0)'));
+		
+		//var thumb = $('<input type="text" name="field#[$field][thumb][]" size="30" />').val(thumb === undefined ? '' : thumb).appendTo(div.find('span:eq(1)'));
+		
+		var input = $('<input type="text" name="field#[$field][url][]" id="field#[$field]" {$field_data['widget_addon_attr']} size="30" /> ').val(value === undefined ? '' : value).appendTo(div.find('span:eq(2)'));
+		
+		var uploader = new P8_Upload({
+			element: {
+				src: input,
+				attribute: 'value'
+			},
+			callback: function(json){
+				var files = json.attachments;
+				
+				input.val(files[0].thumb == 2 ? files[0].file + '.cthumb.jpg' : files[0].file);
+				//$('input:eq(1)', div).val(files[0].thumb != 0 ? files[0].file +'.thumb.jpg' : files[0].file);
+				
+				if(!$('input:eq(0)', div).val().length){
+					$('input:eq(0)', div).val(files[0].name);
+				}
+				
+				if(files.length == 1){
+					
+					return;
+				}
+				files.shift();
+				
+				for(var i = 0; i < files.length; i++){
+					copy(
+						files[i].thumb == 2 ? files[i].file + '.cthumb.jpg' : files[i].file,
+						files[i].name,
+						files[i].thumb != 0 ? files[i].file +'.thumb.jpg' : files[i].file
+					);
+				}
+			},
+			param: {
+				count: -99
+				<!--{if isset($field_data['CONFIG']['thumb_width']) && isset($field_data['CONFIG']['thumb_width'])}-->
+				,thumb_width: {$field_data['CONFIG']['thumb_width']},
+				thumb_height: {$field_data['CONFIG']['thumb_height']}
+				<!--{/if}-->
+				,content_thumb_width: P8CONFIG.cthumb_width || 0,
+				content_thumb_height: P8CONFIG.cthumb_height || 0
+			}
+		});
+		
+		$('<input type="button" class="up_botton" value="'+ P8LANG.upload +'" />').click(function(){
+			uploader.choseup();
+		}).appendTo(div);
+		
+		
+		//$('<input type="button" class="up_botton" value="'+ P8LANG.image_cut +'" />').click(function(){
+		//	uploader.image_cut();
+		//}).appendTo(div);
+		
+		$('<input type="button" class="up_botton" value="'+ P8LANG['delete'] +'" />').click(function(){
+			$(this).parent().remove();
+		}).appendTo(div);
+		
+		$('#{$field}_holder div:last').after(div);
+		
+		sortable.refresh();
+	}
+	
+	var sortable = new $.p8_sortable({
+		selector: {
+			range: '#{$field}_holder div',
+			drag: 'b'
+		},
+		type: 'y'
+	});
+	
+	$('#{$field}_holder input[type=button]:last').click(function(){
+		copy();
+	});
+	<!--{foreach $data[$field] $vv}-->
+		copy('$vv[url]', '$vv[title]', '$vv[thumb]');
+	<!--{/foreach}-->
+	<!--{foreachelse}-->
+		copy();
+	<!--{/foreachelse}-->
+});
+</script>
+
+								<script type="text/javascript"></script>
+							</td>
+						</tr>
+						
+						
+						<tr>
+							<td class="tdL">&nbsp;</td>
+							<td class="tdR"> <input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/> </td>
+						</tr>
+					</tbody>
+				</table>
+	<input type="hidden" name="url" id="url" />
+	<input type="hidden" name="model" value="$MODEL" />
+	<input type="hidden" name="verified" value="{if isset($verified)}$verified{/if}" />
+	<input type="hidden" name="action" value="$ACTION" />
+	<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" />
+	<input type="hidden" name="iid" value="{if !empty($data['iid'])}{$data['iid']}{/if}" />
+	<!--{if $ACTION == 'addon' || $ACTION == 'update_addon'}-->
+	<input type="hidden" name="url" id="url" />
+	<!--{/if}-->
+	<input type="hidden" name="attachment_hash" value="<!--{php echo $attachment_hash = unique_id(16);}-->" />
+</form>
+</div>
+<script type="text/javascript">
+var attachment_hash = '$attachment_hash';
+
+<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+var my_addible_category = $my_addible_category;
+
+var dialog = new P8_Dialog({
+	title_text: '请选择栏目',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		var id = cs.get_value();
+		$('#form input[name=cid]').val(id);
+		category_path(id);
+	},
+	show: function(){
+		cs.init();
+	}
+});
+
+var cs = new Recursive_Selector({
+	input: $('#cid'),
+	dialog: dialog,
+	sub_property: 'categories',
+	url: '{$this_system.controller}/category-json',
+	value: $('#form input[name=cid]').val(),
+	filter: function(cat){
+		if(!my_addible_category || my_addible_category[0] || my_addible_category[cat.id]){
+			return true;
+		}
+	},
+	item_callback: function(cat, item){
+		if(cat.model != '$MODEL')
+			item.css({opacity: '0.3', alpha: '(opacity=30)'});
+		
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	},
+	init_callback: function(){
+		category_path(this.get_value());
+	},
+	change: function(select){
+		var cat = cs.get_by_id(select.data('value'));
+		if(cat.model != '$MODEL' && !cat.categories) alert('你选了一个非本模型的分类');
+		
+	}
+});
+
+function category_path(cid){
+	if(cid == 0){
+		$('#cids').html('');
+		return;
+	}
+	
+	var tmp = cs.get_by_id(cid);
+	var html = '';
+	
+	while(true){
+		html = tmp.name +' &gt; '+ html;
+		if(tmp.parent == 0) break;
+		
+		tmp = cs.get_by_id(tmp.parent);
+	}
+	
+	$('#cids').html(html);
+}
+<!--{/if}-->
+
+
+$(function(){ 
+	<!--{if $ACTION == 'add'}-->
+	$('#form input[name=title]').focus();
+	<!--{/if}-->
+	
+	<!--{if $ACTION == 'add' || $ACTION == 'update'}-->
+	cs.init();
+	<!--{/if}-->
+});
+
+function showmorebox(){
+	var stype = $("#morechose").css('display');
+	if(stype == 'none' )$("#morechose:hidden").show();
+	else $("#morechose").hide();
+}
+</script>
+<!--{template $this_module footer}-->
+<!--{/php168}-->

@@ -1,0 +1,28 @@
+<div id="message_remind" style="width:272px;padding:0px;font-size:12px;overflow-x:hidden;position:fixed !important;position:absolute;right:0px;bottom:0px;display:none;">
+<div style="background:url({$SKIN}member/message_remind_title.gif);width:272px;height:24px;padding:0px;overflow:hidden;">
+	<img style="position:relative;top:5px;left:10px;" border="0" src="{$SKIN}member/message_remind_tips.gif" />
+    <span style="position:relative;top:3px;left:10px;font-weight:bolder;">短消息</span>
+    <span style="position:relative;top:4px;left:120px;color:#FF0000;"><a href="###" id="message_inbox_url" target="wrapright" onclick="closeMessage();">未读消息<font id="message_count"></font>条</a></span>
+	<img style="position:relative;top:5px;left:120px;cursor:pointer;" border="0" onclick="closeMessage();" src="{$SKIN}member/message_remind_close.gif"/>
+</div>
+<div style="width:250px;*width:272px;padding:7px 10px 0px 10px;border-bottom:#CCCCCC 1px solid;border-left:#CCCCCC 1px solid;border-right:#CCCCCC 1px solid;background:#ffffff;overflow:hidden;">
+	<div>
+	<span style="color:#020711;font-size:18px;">$USERNAME</span>
+	<span style="color:#999999;margin-left:40px;">From:<font id="message_from"></font></span>
+    </div>
+    <div style="color:#993333;margin-top:10px;">标题：<font id="message_title"></font></div>
+    <div style="color:#999999;margin-top:10px;">内容：<font id="message_content"></font></div>
+    <div style="color:#999999;margin-top:10px;text-align:right;padding-right:10px;">
+    	<span style="position:relative;top:-2px;margin-right:10px;"><a href="" target="wrapright" id="message_read_url" onclick="closeMessage();">阅读</a></span>
+        <span style="position:relative;top:-2px;margin-right:10px;"><a href="###" id="message_refuse">拒绝</a></span>
+        <span style="position:relative;top:-2px;"><a href="###">查看</a></span><img border="0" src="{$SKIN}member/message_remind_arrow.gif"  />
+    </div>
+</div>
+</div>
+<script language="javascript">
+var messageBox=$("#message_remind");
+$(window).scroll( function() {
+	messageBox.css("bottom","1px");
+	messageBox.css("bottom","0px");
+});
+</script>

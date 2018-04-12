@@ -1,0 +1,171 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<form id="form1">
+			<table width="100%" border="0" cellspacing="1" cellpadding="3" id="" class="columntable formtable hover_table padding_table">
+				<tr class="title">
+					<td width="5%" align="center">ID</td>
+					<td width="38%" align="center">{$P8LANG['title']}</td>
+					<td width="7%" align="center">{$P8LANG['category']}</td>
+					<td width="7%" align="center">{$P8LANG['verify']}</td>
+					<td width="9%" align="center">{$P8LANG['name']}</td>
+					<td width="9%" align="center">IP</td>
+					<td width="6%" align="center">{$P8LANG['guestbook']['reply']}</td>
+					<td width="19%" align="center">{$P8LANG['operation']}</td>
+				</tr>
+				<!--{foreach $listdb   $key $rs}-->
+				<tr bgcolor="#FFFFFF" id="guest_$rs[id]">
+					<td width="5%" align="center"> <input type="checkbox" name="ids[]" value="{$rs['id']}" /> $rs[id]</td>
+					<td width="38%">
+						<!--{php $rs['title'] =empty($rs['title'])?p8_cutstr($rs['content'],50):$rs['title'];echo $rs['title'];}-->
+					</td>
+					<td width="7%" align="center"><a href="$this_url?cid=$rs[cid]">{$category[$rs['cid']]['name']}</a></td>
+					<td align="center" width="7%" id="verify_$rs[id]">
+						<!--{if $rs['verified']}-->
+						{$P8LANG['guestbook']['verified']}
+						<!--{else}-->
+						<font color="#FF0000">{$P8LANG['guestbook']['unverify']}</font>
+						<!--{/if}-->
+					</td>
+					<td width="9%" align="center">
+						<!--{if $rs['username']}-->
+						$rs[username]
+						<!--{else}-->
+						{$P8LANG['guestbook']['noname']}
+						<!--{/if}-->
+					</td>
+					<td width="9%" align="center">$rs[ip]</td>
+					<td align="center" width="6%">
+						<!--{if $rs['reply']}-->
+						{$P8LANG['guestbook']['replied']}
+						<!--{else}-->
+						<font color="#FF0000">{$P8LANG['guestbook']['disreply']}</font>
+						<!--{/if}-->
+					</td>
+					<td width="19%" align="center"><a href="$this_url?action=delete&id=$rs[id]" onclick="return delete_guestbook(['$rs[id]'])">[{$P8LANG['delete']}]</a> <a href="$this_url?job=show&id=$rs[id]" target="_blank" onclick="return _show_guestbook($rs[id])">[{$P8LANG['view']}]</a> <a href="$this_url?job=reply&id=$rs[id]" onclick="return _reply_guestbook($rs[id])">[{$P8LANG['guestbook']['reply']}]</a></td>
+				</tr>
+				<!--{/foreach}-->
+				<tr bgcolor="#FFFFFF">
+					<td colspan="8" align="center" class="pages"> $pages </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td colspan="8" align="center"> <a href="javascript:" onclick="check_all(true, 'ids[]')">{$P8LANG['select_all']}</a>/<a href="javascript:" onclick="check_all(false, 'ids[]')">{$P8LANG['select_back']}</a> <input type="button" name="Submit" value="{$P8LANG['delete']}" class="submit_btn" onclick="_delete()"> <input type="button" name="Submit" value="{$P8LANG['verify']}" class="submit_btn" onclick="_verify()"> <input type="button" name="Submit" value="{$P8LANG['deverify']}" class="submit_btn" onclick="_uverify()"> </td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<SCRIPT LANGUAGE="JavaScript">
+
+function CheckAll(va){
+	var form=document.form_work;
+	for (var i=0;i<form.elements.length;i++){
+		var e = form.elements[i];
+		if(va=='all'){
+			e.checked = true;
+		}else{
+			e.checked == true ? e.checked = false : e.checked = true;
+		}
+	}
+}
+function get_ids(){
+	var array = checked_values('ids[]', $('#form1'));
+	var id = [];
+	$.each(array, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	
+	if(!id.length) return false;
+	return id;
+}
+function _delete(){
+	id=get_ids();
+	delete_guestbook(id);
+}
+
+function delete_guestbook(id){
+	if(confirm('{$P8LANG['confirm_to_delete']}')){
+		$.ajax({
+			url: '$this_url',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({id: id,action:'delete'}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				
+				ajaxing({action: 'hide'});
+				
+				for(var i in json){
+					$('#guest_'+ json[i]).remove();
+				}
+			}
+		});
+	}
+	
+	return false;
+}
+
+function _verify(){
+	id=get_ids();
+	verify_guestbook(id,1);
+}
+function _uverify(){
+	id=get_ids();
+	verify_guestbook(id,0);
+}
+function verify_guestbook(id,st){
+		$.ajax({
+			url: '$this_url',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({id: id,action:'verify',yz:st}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				
+				ajaxing({action: 'hide'});
+				
+				for(var i in json){
+					if(st==1)
+					$('#verify_'+ json[i]).html('{$P8LANG['guestbook']['verified']}');
+					else $('#verify_'+ json[i]).html('<font color=red>{$P8LANG['guestbook']['unverify']}</font>');
+				}
+			}
+		});
+	
+	return false;
+}
+var edit_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['edit']}',
+	width: 700,
+	height: 400
+});
+function _show_guestbook(id){
+	edit_dialog.show();
+	$(edit_dialog.content).css({height:'350px',"overflow-y":'scroll'});
+	edit_dialog.content.load('{$this_url}?job=show&id='+id);
+	
+	return false;
+}
+function _edit_guestbook(id){
+	edit_dialog.show();
+	edit_dialog.content.load('{$this_url}?job=edit&id='+id);
+	
+	return false;
+}
+function _reply_guestbook(id){
+	edit_dialog.show();
+	edit_dialog.content.load('{$this_url}?job=reply&id='+id);
+	
+	return false;
+}
+</SCRIPT>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

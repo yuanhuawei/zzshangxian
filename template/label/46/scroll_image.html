@@ -1,0 +1,46 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+</head>
+<body>
+
+<div id="p8_46_$data[id]" style="margin-right: {$data['data']['margin']}px; position: absolute;  bottom: {$data['data']['bottom']}px; right: 0px;">
+	<div style="position: absolute; top: 3px; right: 3px; cursor: pointer; width: 18px; height: 18px; background: url($RESOURCE/images/close.gif) no-repeat 0 -18px;"></div>
+	<a href="$url" target="_blank"><img width="$data[width]" height="$data[height]" src="{$data['data']['right']}" /></a>
+</div>
+
+<script type="text/javascript">
+(function(){
+
+var e = document.getElementById('p8_46_$data[id]');
+e.getElementsByTagName('div')[0].onclick = function(){
+	e.style.display = 'none';
+};
+
+if(/msie 6/i.test(navigator.userAgent)){
+	//god damn ie6
+	e.style.position = 'absolute';
+	e.style.bottom = '';
+	
+	function scroll(){
+		e.style.top = (document.documentElement.scrollTop || document.body.scrollTop) +
+			(document.documentElement.offsetHeight || document.body.offsetHeight) - e.offsetHeight - {$data['data']['bottom']} +'px';
+	}
+	
+	window.attachEvent('onscroll', function(){
+		setTimeout(scroll, 200);
+	});
+	
+	scroll();
+}else{
+	e.style.position = 'fixed';
+}
+
+})();
+</script>
+
+</body>
+</html>
+<!--{/php168}-->

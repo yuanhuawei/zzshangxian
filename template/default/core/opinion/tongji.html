@@ -1,0 +1,180 @@
+<!--{php168}-->
+<!--{php $TITLE = '来信统计  - ';}-->
+<!--{template $this_module header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/opinion/tongji.css">
+<div id="main2">
+  <div class="add-inner">
+    <div id="breadcrumb">
+      <p>您现在的位置：<a href="/Category_892/Index.aspx">首页</a>&gt;&gt; <span class="current"> <a target="_self" href="/Category_95/Index.aspx">网络问政</a>&gt;&gt; <a target="_self" href="/Category_138/Index.aspx">统计监督</a></span></p>
+    </div>
+    <div class="sjtj">
+      <div class="leftCol">
+        <h3 class="title">数据统计</h3>
+        <div class="con">
+            <form method="post" action="">
+              部门单位：<select name="department"><option value="">所有</option><!--{foreach $cate['department'] $row}--><option value="{$row['id']}" {if $row['id']==$filter['department']}selected{/if}>{$row['name']}</option><!--{/foreach}--></select>
+              &#12288;统计周期：
+             <input type="text" name="begin_time" value="{$filter['begin_time']}" maxlength="10" size="12" onclick="rcalendar(this , 'YYY-MM-DD');" /> 
+             至 <input type="text"  maxlength="10" size="12"  name="end_time" value="{$filter['end_time']}" onclick="rcalendar(this ,'YYY-MM-DD');" />
+              <input width="73" type="image" height="22" src="{$RESOURCE}/skin/default/core/opinion/hzsearchBtn.gif" name="button">
+            </form>
+            <div class="leftTxt"> 来信总数<span> {$total[0]} </span>件&#12288;已受理<span> {$total[1]} </span>件&#12288;已办结<span> {$total[2]} </span>件 <br>
+             <!--{foreach $total[4] $row}-->{$cate['type'][$row['type']]['name']}<span> {$row['count']}</span> 件    <!--{/foreach}-->
+             </div>
+          </div>
+      </div>
+      <div class="rightCol">
+       <div class="rightTxt">
+            <div class="time">今天是：<!--{php echo date('Y-m-d');}-->  <!--{php echo $P8LANG['week_'.date('N')];}--></div>
+            <div class="yesterday">
+            	 来信总数<span> $alldata[0] </span>件<br>
+				  受理总数<span> $alldata[1] </span>件<br>
+				  办结总数<span> $alldata[2] </span>件 <br>
+				  待办总数<span> $alldata[3] </span>件 </div>
+            <div class="today">
+            	本月来信<span> $mon_total[0] </span>件<br>
+				  本月受理<span> $mon_total[1]</span>件<br>
+				  本月办结<span> $mon_total[2] </span>件 <br>
+				  本月待办<span> $mon_total[3] </span>件 </div>
+            <div class="clear"></div>
+          </div>
+      	
+      </div>
+    </div>
+    <div class="clear"></div>
+    <div class="Hang2">
+      <div class="topTenBox">
+        <div class="title"><span class="more"><a href="{$this_router}-tjgd?i=1" target="_blank">查看全部</a></span>
+          <h4>年度来信总数</h4>
+        </div>
+        <div class="con">
+            <ul><!--{php $i=0;}-->
+            	<!--{foreach $list_01['list'] $key $row}-->
+                <!--{php $i+=1;}-->
+                <li><span class="{if $i<4}red{else}gry{/if}"><!--{php echo $i;}--></span><span class="num">{$row['count']}</span>{$row['department_name']} </li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+      </div>
+      <div class="topTenBox" style="margin-left:17px">
+        <div class="title"><span class="more"><a href="{$this_router}-tjgd?i=2" target="_blank">查看全部</a></span>
+          <h4>年度受理总数</h4>
+        </div>
+        <div class="con">
+          	<ul><!--{php $i=0;}-->
+            	<!--{foreach $list_02['list'] $key $row}-->
+                <!--{php $i+=1;}-->
+                <li><span class="{if $i<4}red{else}gry{/if}"><!--{php echo  $i;}--></span><span class="num">{$row['count']}</span>{$row['department_name']} </li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+      </div>
+      <div class="topTenBox" style="margin-left:17px">
+        <div class="title"><span class="more"><a href="{$this_router}-tjgd?i=3" target="_blank">查看全部</a></span>
+          <h4>年度办结总数</h4>
+        </div>
+        <div class="con">
+        	<ul><!--{php $i=0;}-->
+            	<!--{foreach $list_03['list'] $key $row}-->
+                <!--{php $i+=1;}-->
+                <li><span class="{if $i<4}red{else}gry{/if}"><!--{php echo  $i;}--></span><span class="num">{$row['count']}</span>{$row['department_name']} </li>
+                <!--{/foreach}-->
+            </ul>
+         </div>
+      </div>
+      <div class="topTenBox" style="margin-left:17px">
+        <div class="title"><span class="more"><a href="{$this_router}-tjgd?i=4" target="_blank">查看全部</a></span>
+          <h4>年度办结率</h4>
+        </div>
+        <div class="con"> 
+        	<ul><!--{php $i=0;}-->
+            	<!--{foreach $list_04['list'] $key $row}-->
+                <!--{php $i+=1;}-->
+                <li><span class="{if $i<4}red{else}gry{/if}"><!--{php echo  $i;}--></span><span class="num">{$row['count']}%</span>{$row['department_name']} </li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+      </div>
+    </div>
+    <div class="clear"></div>
+    <div class="bannerBox">$label[bannerBox01]</div>
+    <div class="clear"></div>
+    <div class="Hang3">
+      <div class="topTenBox">
+        <div class="title"><span class="more"><a href="{$this_router}-tjgd?i=5" target="_blank">查看全部</a></span>
+          <h4>全部红灯警示</h4>
+        </div>
+        <div class="con">
+       		 <ul>
+            	<!--{foreach $list_05['list'] $key $row}-->
+                <li><span class="tip"><img src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp3.gif"/></span><span class="num"> {$row['count']}</span> {$row['department_name']}</li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+      </div>
+      <div class="topTenBox" style="margin-left:17px">
+        <div class="title"><span class="more"><a href="{$this_router}-tjgd?i=6" target="_blank">查看全部</a></span>
+          <h4>全部黄灯警示</h4>
+        </div>
+        <div class="con">
+        	<ul>
+            	<!--{foreach $list_06['list'] $key $row}-->
+                <li><span class="tip"><img src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp2.gif"/></span><span class="num"> {$row['count']}</span> {$row['department_name']}</li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+      </div>
+      <div class="topTenBox" style="margin-left:17px">
+        <div class="title"><span class="more"><a href="{$this_router}-tjgd?i=7" target="_blank">查看全部</a></span>
+          <h4>本周红灯警示<strong></strong></h4>
+        </div>
+        <div class="con">
+        	<ul>
+            	<!--{foreach $list_07['list'] $key $row}-->
+                <li><span class="tip"><img src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp3.gif"/></span><span class="num"> {$row['count']}</span> {$row['department_name']}</li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+      </div>
+      <div class="topTenBox" style="margin-left:17px">
+        <div class="title"><span class="more"><a href="{$this_router}-tjgd?i=8" target="_blank">查看全部</a></span>
+          <h4>本周黄灯警示</h4>
+        </div>
+        <div class="con">
+        	<ul>
+            	<!--{foreach $list_08['list'] $key $row}-->
+                <li><span class="tip"><img src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp2.gif"/></span><span class="num"> {$row['count']}</span> {$row['department_name']}</li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+      </div>
+    </div>
+    <div class="clear"></div>
+    <div class="bannerBox">$label[bannerBox02]</div>
+    <div class="clear"></div>
+    <div class="hang4">
+      <div class="threeBox">
+        <div class="title"><span class="more">$label[threeBoxMore_01]</span>
+          <h4>$label[threeBoxTitle_01]</h4>
+        </div>
+        <div class="con"> $label[threeBoxCon_01] </div>
+      </div>
+      <div class="threeBox" style="margin-left:8px">
+        <div class="title"><span class="more">$label[threeBoxMore_02]</span>
+          <h4>$label[threeBoxTitle_02]</h4>
+        </div>
+        <div class="con"> $label[threeBoxCon_02] </div>
+      </div>
+      <div class="threeBox" style="margin-left:8px">
+        <div class="title"><span class="more">$label[threeBoxMore_03]</span>
+          <h4>$label[threeBoxTitle_03]</h4>
+        </div>
+        <div class="con"> $label[threeBoxCon_03] </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
+<!--{template $this_module footer}-
+<!--{/php168}-->

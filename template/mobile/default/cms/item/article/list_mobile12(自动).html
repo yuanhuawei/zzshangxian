@@ -1,0 +1,57 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!--{template $core header_mobile_1}-->
+<div class="banner">$label[Coray_mobile_list_banner]</div>
+<div class="position">
+	<a href="{$core.mobile_controller}">首页</a>
+	<!--{foreach $parent_cats $v}-->
+	&gt; <a href="$v[url]">$v[name]</a>
+	<!--{/foreach}-->
+	&gt; <a href="$CAT[url]">$CAT[name]</a> 
+</div>
+<div class="listbox9">
+	<!--{if empty($subcategories)}-->
+	<div class="show_box2">
+		<div class="head">
+			<div class="title">$CAT[name]</div>
+		</div>
+		<div class="main2">
+			<div class="cover"><img  alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($v['frame'])}{$RESOURCE}/images/nopic.jpg{else}$v[frame]{/if}" /></div>
+			<div class="con">
+				<!--{php include template($TEMP_OBJ, $CAT['item_template'], 'label');}-->
+				<div class="mtop pages" id="page">
+					{$pages}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--{else}-->
+	<!--{foreach $subcategories $v}-->
+	<!--{php $i++;}-->
+	<!--{php if($i>6)break;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+	<div class="show_box2">
+		<div class="head">
+			<div class="title fl">$v[name]</div>
+			<div class="more fr"><a href="$this_url-category-$v[id]">More</a></div>
+		</div>
+		<div class="main2">
+			<div class="cover"><img  alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($v['frame'])}{$RESOURCE}/images/nopic.jpg{else}$v[frame]{/if}" /></div>
+			<div class="con">
+				$label[CMS子分类内容列表]{'i.cid' => $subcat, 'model' => $MODEL}
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+	<!--{/foreach}-->
+	<!--{/if}-->
+</div>
+<div id="end_cd">
+	<ul>
+		<li class="lione"><a href="{$core.mobile_controller}">&lt; &lt; 返回首页</a></li>
+		<li class="litwo"></li>
+		<li class="lithree"></li>
+	</ul>
+</div>
+<!--{template $core footer_mobile}-->
+<!--{/php168}-->

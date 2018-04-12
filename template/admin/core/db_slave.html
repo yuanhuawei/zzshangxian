@@ -1,0 +1,174 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+						<tr>
+							<td colspan="2" class="title">{$P8LANG['db_slave_config']}</td>
+						</tr>
+						
+						<tbody class="db_slave_copy" style="display: none;">
+						<tr>
+							<td class="tdL">{$P8LANG['db_host']}</td>
+							<td class="tdR">
+								<input  type="text" class="txt" name="config[D_B_slave][host][]" value="" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['db_port']}</td>
+							<td class="tdR">
+								<input  type="text" class="txt" name="config[D_B_slave][port][]" value="" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['db_user']}</td>
+							<td class="tdR">
+								<input  type="text" class="txt" name="config[D_B_slave][user][]" value="" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['db_password']}</td>
+							<td class="tdR">
+								<input  type="text" class="txt" name="config[D_B_slave][password][]" value="" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['db_name']}</td>
+							<td class="tdR">
+								<input  type="text" class="txt" name="config[D_B_slave][db][]" value="" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL"><input type="button" value="{$P8LANG['test_mysql']}" onclick="test_mysql(this)" /></td>
+							<td class="tdR">
+								<div class="mysql_test_result"></div>
+							</td>
+						</tr>
+						</tbody>
+						
+						
+						<!--{foreach $config['D_B_slave'] $v}-->
+						<tbody class="D_B_slave">
+						<tr>
+							<td class="tdL">{$P8LANG['db_host']}</td>
+							<td class="tdR">
+								<input  type="text" class="txt" name="config[D_B_slave][host][]" value="{$v['host']}" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['db_port']}</td>
+							<td class="tdR">
+								<input  type="text" class="txt" name="config[D_B_slave][port][]" value="{$v['port']}" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['db_user']}</td>
+							<td class="tdR">
+								<input  type="text" class="txt" name="config[D_B_slave][user][]" value="{$v['user']}" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['db_password']}</td>
+							<td class="tdR">
+								<input   type="text" class="txt" name="config[D_B_slave][password][]" value="{$v['password']}" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['db_name']}</td>
+							<td class="tdR">
+								<input  type="text" class="txt" name="config[D_B_slave][db][]" value="{$v['db']}" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL"><input type="button" value="{$P8LANG['test_mysql']}" onclick="test_mysql(this)" /></td>
+							<td class="tdR">
+								<div class="mysql_test_result"></div>
+							</td>
+						</tr>
+						</tbody>
+						<!--{/foreach}-->
+						
+						<script type="text/javascript">
+							function add_db_slave(){
+								if($('.db_slave').length){
+									$('.db_slave:last').after(
+										$('.db_slave_copy').clone(true).show().
+										removeClass('db_slave_copy').
+										addClass('db_slave')
+									);
+								}else{
+									$('.db_slave_copy:first').after(
+										$('.db_slave_copy').clone(true).show().
+										removeClass('db_slave_copy').
+										addClass('db_slave')
+									);
+								}
+							}
+						
+							function test_mysql(e){
+								var data = {connect_type: '{$config['mysql_connect_type']}'};
+								
+								var field = $(e).parent().parent().parent();
+								field.find('input[type=text]').each(function(i){
+									switch(this.name){
+										case 'config[D_B_slave][host][]': data.host = this.value; break;
+										case 'config[D_B_slave][user][]': data.user = this.value; break;
+										case 'config[D_B_slave][password][]': data.password = this.value; break;
+										case 'config[D_B_slave][port][]': data.port = this.value; break;
+										case 'config[D_B_slave][db][]': data.db = this.value; break;
+									}
+								});
+								
+								$.ajax({
+									url: '$this_router-test_mysql',
+									dataType: 'json',
+									type: 'post',
+									data: data,
+									success: function(json){
+										var result = '';
+										var str;
+										if(json.connect == 0){
+											str = 'Yes';
+										}else if(json.connect == -1){
+											str = '{$P8LANG['test_mysql_connect_fail']}';
+										}else if(json.connect == -2){
+											str = '{$P8LANG['test_mysql_select_db_fail']}';
+										}
+										
+										result += '{$P8LANG['test_mysql_connect']}: '+ str +'<br />';
+										
+										field.find('.mysql_test_result').html(result);
+									}
+								});
+							}
+						</script>
+						<tr>
+						  <td class="tdL"><input type="button" value="{$P8LANG['add_a_db_slave']}" onclick="add_db_slave()" /></td>
+						  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+						</tr>
+					  
+					</table>
+					  </td>
+				  </tr>
+			</table>
+		</div>
+	</div>
+	
+</form>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,106 @@
+<?php
+
+return array(
+	'cms_model' => 'CMS模型',
+	'cms_model_name' => 'CMS模型名称',
+	'cms_model_alias' => 'CMS模型别名',
+	'cms_model_enabled' => '启用模型',
+	'cms_model_ifwork' => '是否办事模型',
+	'cms_model_sphinx' => 'CMS模型sphinx配置',
+	'cms_model_admin_edit_template' => '后台编辑模板',
+	'cms_model_member_edit_template' => '会员中心编辑模板',
+	'cms_model_list_edit_template' => '前台列表页模板',
+	'cms_model_prev&next_item' => '上下篇内容',
+	
+	'cms_model_name_can_not_be_empty' => '名称不能为空',
+	'cms_model_name_oversize' => '名称不能超过30字符',
+	'cms_model_name_invalid' => '名称包含不允许的字符',
+	'cms_model_alias_required' => '别名必须填写',
+	'cms_model_name_note' => '名称只能以英文数字及_组成,必须以字母开头',
+	'confirm_to_delete_cms_model' => '确定要删除此模型吗?',
+	
+	'add_cms_model' => '添加模型',
+	'update_cms_model' => '更新模型',
+	'cms_model_list' => '模型列表',
+	'cms_model_export' => '导出模型',
+	'cms_model_import' => '导入模型',
+	'cms_model_name_duplicate' => '模型名称重复',
+	
+	'cms_model_field' => '自定义字段',
+	'cms_model_field_name' => '字段名称',
+	'cms_model_field_name_note' => '字段名称添加之后不能修改,必须以字母开头',
+	'cms_model_field_alias' => '字段别名',
+	'cms_model_field_type' => '字段类型',
+	'cms_model_field_editable' => '是否能编辑',
+	'cms_model_field_list_table' => '列表字段',
+	'cms_model_field_list_table_note' => '存放在列表页表可以在列表页调用并且可以用来作过滤/排序,反之则存放在内容表,一经确定无法修改',
+	'cms_model_field_filterable' => '列表页的过滤字段',
+	'cms_model_field_filterable_note' => '可以用于列表页的条件过滤，如果模型有一个字段是可过滤字段，那么此模型所属的分类将<font color="red">不能生成静态</font>，务必注意。而且类型最好为单选,下拉框类型。记得生成模型模板',
+	'cms_model_field_orderby' => '列表页的排序字段',
+	'cms_model_field_length' => '字段长度',
+	'cms_model_field_is_unsigned' => '非负数',
+	'cms_model_field_order' => '字段排序',
+	'cms_model_field_not_null' => '字段必须填写',
+	'cms_model_field_default_value' => '字段默认值',
+	
+	'cms_model_field_name_can_not_be_empty' => '字段名称不能为空',
+	'cms_model_field_name_invalid' => '字段名称包含不允许的字符',
+	'cms_model_field_name_duplicate' => '字段名称重复',
+	'confirm_to_delete_cms_model_field' => '确定要删除此字段吗?',
+	
+	
+	'add_cms_model_field' => '添加字段',
+	'update_cms_model_field' => '更新字段',
+	'cms_model_field_list' => '字段列表',
+	'cms_model_field_update_order' => '修改字段排序',
+	
+	/* 字段类型 */
+	'cms_model_field_type_tinyint' => '小整数 (tinyint 255)',
+	'cms_model_field_type_smallint' => '小整数 (smallint 6万)',
+	'cms_model_field_type_mediumint' => '中整数 (mediumint 1600万)',
+	'cms_model_field_type_int' => '整数 (int)',
+	'cms_model_field_type_bigint' => '大整数 (bigint)',
+	
+	'cms_model_field_type_decimal' => '浮点数 (decimal) 长度格式(n,m)',
+	
+	'cms_model_field_type_char' => '字符 (char, 长度自定)',
+	'cms_model_field_type_varchar' => '字符 (varchar, 长度自定)',
+	'cms_model_field_type_text' => '文本 (65,535 字符)',
+	'cms_model_field_type_mediumtext' => '中文本 (16,777,215 字符)',
+	'cms_model_field_type_longtext' => '长文本 (4,294,967,295 字符)',
+	
+	'cms_model_field_widget' => '字段输入方式',
+	'cms_model_field_widget_addon_attr' => '输入容器附加属性',
+	'cms_model_field_widget_addon_attr_note' => '如 style="color: red;" onclick="alert(1)" ',
+	'cms_model_field_widget_data' => '字段输入数据',
+	
+	
+	/* 可用的字段输入方式 */
+	'cms_model_widget_radio' => '单选',
+	'cms_model_widget_checkbox' => '多选',
+	'cms_model_widget_multi_select' => '多选下拉框',
+	'cms_model_widget_select' => '下拉框',
+	'cms_model_widget_text' => '文本框(单行)',
+	'cms_model_widget_textarea' => '文本框(多行)',
+	'cms_model_widget_textdate' => '文本框(时间选择)',
+	'cms_model_widget_uploader' => '普通上传',
+	'cms_model_widget_multi_uploader' => '多文件上传',
+	'cms_model_widget_image_uploader' => '图片上传(适用于图片模型)',
+	'cms_model_widget_video_uploader' => '视频上传(只能用于视频模型)',
+	'cms_model_widget_editor' => '编辑器(全功能)',
+	'cms_model_widget_editor_common' => '编辑器(普通功能)',
+	'cms_model_widget_editor_basic' => '编辑器(精简)',
+	'cms_model_widget_news_paper_map' => '报纸版块',
+	'cms_model_widget_city' => '城市选择',
+	'cms_model_widget_vote' => '投票',
+	'cms_model_widget_google_map' => 'Google 地图',
+	
+	'cms_category_manage' => '分类管理',
+	'add_cms_category' => '添加分类',
+	'add_cms_item' => '添加内容',
+	'cms_item_manage' => '内容管理',
+	'cms_category_list' => '分类列表',
+	'cms_item_list' => '内容列表',
+	
+	'cms_model_generate_template' => '生成模板',
+);

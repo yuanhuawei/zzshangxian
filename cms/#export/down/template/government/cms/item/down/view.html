@@ -1,0 +1,133 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/item/item.js"></script>
+<script type="text/javascript">
+var item_id = $data[id],
+	model = '$data[model]',
+	item_cid = $data[cid],
+	verified = \$_GET['verified'] !== undefined || \$_GET['verified'] == 1 ? 1 : 0;
+
+$(function(){
+	if(get_cookie('IS_ADMIN') == 1){
+		item_operation($('#operation').show());
+	}
+});
+</script>
+
+<div class="nav mtop">
+	<a href="{$core.controller}">首页</a>
+	<!--{foreach $cats $v}-->
+	&gt;&gt; <a href="$v[url]">$v[name]</a>
+	<!--{/foreach}-->
+	&gt;&gt; <a href="$CAT[url]">$CAT[name]</a> &gt;&gt; 详细内容
+	</h5>
+</div>
+<div class="news_left mtop6">
+	<div class="border1">
+		<div class="head6">
+			<span class="title7">$label[dw_view_title_1]</span> <span class="more3">$label[dw_view_more_1]</span>
+		</div>
+		<div class="main1">
+			$label[dw_view_content_1]
+		</div>
+	</div>
+	<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[dw_view_title_2]</span> <span class="more3">$label[dw_view_more_2]</span>
+		</div>
+		<div class="main1">
+			$label[dw_view_content_2]
+		</div>
+	</div>
+	<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[dw_view_title_4]</span> <span class="more3">$label[dw_view_more_4]</span>
+		</div>
+		<div class="main1">
+			$label[dw_view_content_4]
+		</div>
+	</div>
+	<div class="mtop6">
+		$label[dw_view_content_5]
+	</div>
+</div>
+<div class="news_right mtop6">
+	<div class=" border1">
+		<div class="head5">
+			<span class="title6">$data[title]</span><span class="more1" id="operation" style="display: none; cursor: pointer;">{$P8LANG['operation']}</span>
+		</div>
+		<div class="xxnr" id="maincontent">
+			<div class="frame fr">
+				<img src="{if !empty($data['frame'])}$data[frame]{/if}" onerror="this.src='{$RESOURCE}/images/nopic.jpg'" width="150" />
+			</div>
+			<p>软件名称：$data[title]</p>
+			<p>运行环境：
+				<!--{foreach $data['operatingsystem'] $val}-->
+				{$this_model['fields'][operatingsystem]['data'][$val]}
+				<!--{/foreach}-->
+			</p>
+			<p>演示地址：<a href="$data[demo]" target="_blank">$data[demo]</a></p>
+			<p>授权形式：{$this_model['fields'][copyright]['data'][$data['copyright']]}</p>
+			<p>资源语言：{$this_model['fields'][softlanguage]['data'][$data['softlanguage']]}</p>
+			<p>资源大小：$data[softsize]</p>
+			<p>发布者：作者：$data[username]</p>
+			<p>浏览量：<span class="item_views">$data[views]</span>次 </p>
+			<p>总下载量：<span class="item_down">$data[totaldown]</span>次 </p>
+			<p>发布日期：
+				<!--{php echo date("Y-m-d",$data['timestamp']);}-->
+			</p>
+			<p>下载地址：
+			<!--{if is_array($data['softurl'][0])}-->
+				<!--{foreach $data['softurl'] $key $val}-->
+				<a href="{$this_module.controller}-down?id=$data[id]&ti=$key&model=$MODEL" target="_blank"><!--{if !empty($val['title'])}-->$val[title]<!--{else}-->点击下载<!--{/if}--></a>
+				<!--{/foreach}-->
+				<!--{else}-->
+				<a href="{$this_module.controller}-down?id=$data[id]&ti=$key&model=$MODEL" target="_blank" class="dow_url">点击本地下载</a>
+			<!--{/if}-->
+			</p>
+			<p>资源介绍：$data[content]</p>
+			<p>下载说明：</p>
+		</div>
+		<div class="clear">
+		</div>
+		<div class="xxnr">
+			<span  class="fl"><strong>上一篇：</strong>
+			<!--{if !empty($prev_item[subject])}-->
+			<a href="$prev_item[url]" title="$prev_item[title]">$prev_item[subject]</a>
+			<!--{else}-->
+			没有了
+			<!--{/if}-->
+			</span> <span class="fr"><strong>下一篇：</strong>
+			<!--{if !empty($next_item[subject])}-->
+			<a href="$next_item[url]" title="$next_item[title]">$next_item[subject]</a>
+			<!--{else}-->
+			没有了
+			<!--{/if}-->
+			</span>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="border1 mtop6 fl half">
+		<div class="head6">
+			<span class="title7">$label[dw_view_title_2]</span> <span class="more3">$label[dw_view_more_2]</span>
+		</div>
+		<div class="main1">
+			$label[dw_view_content_2]
+		</div>
+	</div>
+	<div class="border1 mtop6 fr half">
+		<div class="head6">
+			<span class="title7">$label[dw_view_title_2]</span> <span class="more3">$label[dw_view_more_2]</span>
+		</div>
+		<div class="main1">
+			$label[dw_view_content_2]
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="$this_router-count?id=$data[id]"></script>
+<script type="text/javascript" src="$this_router-down?id=$data[id]&model=$MODEL&job=totaldown"></script>
+<div class="clear">
+</div>
+<!--{template $this_system foot_pre}-->
+<!--{template $this_system footer}-->
+<!--{/php168}-->

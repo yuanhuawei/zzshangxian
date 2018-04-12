@@ -1,0 +1,252 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<link rel="stylesheet" href="{$RESOURCE}/images/category_selector.css" type="text/css">
+<div class="wrapbox light_blue_border">
+   <div class="topic_title light_blue_bg"><h3 class="mark"><!--{if !empty($exper)}-->鍚 <font color=red>$expertor</font> <!--{/if}-->{$P8LANG['ask_question']}</h3></div>
+   <div class="postbox">
+     <form method="post" action="{$this_router}-post" name="AskForm" id="AskForm">
+	    <ul>
+		   <li class="grey_dash_bg">
+		     <dl>
+			     <dt>
+				 <div class="itemform_con">
+				 	<div class="tips">{$P8LANG['ask_title']}锛欬/div>
+				 	<div class="con">
+				 		<input type="text" name="title" id="title" value="{$title}" class="input topic_input_text"/>
+				 	</div>
+				 </div>
+				 <div class="itemform_con">
+					<div class="tips">{$P8LANG['ask_content']}锛欬/div>
+					<div class="con">
+						
+						<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+						<textarea name="content" id="content"></textarea>
+						<script text="text/javascript">
+							var toolbar= [
+								['Undo','Redo','Bold','Italic','Underline','NumberedList','BulletedList','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','FontSize','TextColor','BGColor','Image']
+							];
+							P8_CKEDITOR({id:'content', config:{toolbar:toolbar, height:250, resize_enabled:false}})
+						</script>					
+					</div>
+				</div>
+				 <div class="setting">
+				 	<input type="checkbox" name="offercredit" id="offercredit" value="1"/> {$P8LANG['ask_reward']} 
+				 	<select name="credits" id="credits">
+				 		<!--{if $reward}-->
+							<!--{foreach $reward $v}-->
+				 				<option value="{$v}">{$v}{$P8LANG['ask_credit_unit']}</option>
+				 			<!--{/foreach}-->
+						<!--{/if}-->
+				 	</select>&nbsp;
+				 	<input type="checkbox" name="urgent" id="urgent" value="1"/> {$P8LANG['ask_urgent']} <input type="checkbox" name="anonymous" id="anonymous" value="1"/> {$P8LANG['ask_anonymous']}&nbsp;&nbsp;&nbsp;&nbsp;
+				</div>
+				 </dt>
+				 <dd>
+				   <div class="notice_tips_title">骞冲潎<span>4鍒?9绉扅/span>寰楀埌鍥炵瓟</div>
+				   <div class="notice_tips_content">
+				      <ul>
+					     {$P8LANG['ask_question_post_li'] $urgent_credit}
+					  </ul>
+				   </div>
+				 </dd>
+			  </dl>
+		   </li>
+		   <li class="grey_dash_bg" style="display:none">
+		      <label>{$P8LANG['ask_additional_info']}锛欬/label>{$P8LANG['ask_additional_email']}&nbsp;<input type="text" name="info" id="info" class="input" size="25" />&nbsp;&nbsp;&nbsp;&nbsp;{$P8LANG['ask_telephone']}&nbsp;<input type="text" class="input" name="tel" id="tel" size="25" />
+		   </li>
+		   <li class="grey_dash_bg">
+		      <label>{$P8LANG['ask_topic_tags']}锛欬/label><input type="text" name="tags" id="tags" style="width:300px" class="input topic_input_text"/>&nbsp;{$P8LANG['ask_tags_tips']}
+		   </li>
+		   <li class="grey_dash_bg">
+		   	  		<div class="tips">{$P8LANG['ask_category']}锛欬/div>
+		   	  		<div class="setting" style="padding-top:3px;*padding-top:6px;">
+		   	  			<span id="categoryList"></span>
+						<a href="javascript:void(0);" onClick="dialog.show()"><strong class="u">鑷?€夊垎绫狐/strong></a>
+						<input type="hidden" name="cid" value="{if !empty($cid)}$cid{/if}"  />
+						<input type="hidden" id="cid"/>
+	         		</div>
+		   </li>
+           <!--{if $this_system->CONFIG['captcha']}-->
+           <li class="grey_dash_bg">
+            <label>{$P8LANG['captcha']}锛欬/label><input type="text" name="captcha" style="border:#7F9DB9 1px solid;width:206px;height:17px;" /> <span id="captcha"></span>
+								<script type="text/javascript">
+								captcha($('#captcha'), $('#form input[name="captcha"]'));
+								</script>
+           </li>
+           <!--{/if}-->
+		   <li class="postbtn_li">
+		   <input type="hidden" name="to_uid" value="{if !empty($exper)}$exper{/if}" />
+		   <input type="submit" value="{$P8LANG['ask_submit_topic']}" class="postbtn"/>		  
+		   </li>
+		</ul>
+	 </form>
+	 <div class="clear"></div>
+   </div>
+   <div class="clear"></div>
+</div>
+<script type="text/javascript">
+
+var title_error = "{$P8LANG['ask_error_title'] $this_system->CONFIG['title_length']}";
+var content_error = "{$P8LANG['ask_error_content'] $this_system->CONFIG['content_min_length'],$this_system->CONFIG['content_max_length']}";
+var category_error = "{$P8LANG['ask_error_not_choose_category']}";
+
+var _CATEGORY_EXPER= $json[exper];
+
+
+
+var dialog = new P8_Dialog({
+	title_text: '閫夋嫨鍒嗙被',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20002,
+	ok: function(){
+		var values = cs.get_value();
+		$('#AskForm input[name=cid]').val(values);
+		
+		parent_path(values);
+	},
+	show: function(){
+		cs.init();
+	}
+});
+var cs = new Recursive_Selector({
+	input: $('#cid'),
+	dialog: dialog,
+	url: '{$this_system.controller}/category-json',
+	sub_property: 'categories',
+	value: $('#AskForm input[name=cid]').val(),
+	
+	init_callback: function(){
+		parent_path(this.get_value());
+	},
+	item_callback: function(cat, item){
+		if(cat.type == 1){
+			item.find('span').addClass('frame_category');
+			item.find('input[type=checkbox]').attr('disabled', true);
+		}
+		if(cat.categories)
+			item.addClass('sub_category');
+	}<!--{if !empty($exper)}-->
+	,
+	change: function(select){
+		var cat = cs.get_by_id(select.data('value'));
+		if(cat.id != _CATEGORY_EXPER[cat.id] && !cat.categories){alert('浣犻€変簡涓€涓?潪鏈?笓瀹剁殑鍒嗙被');$('#cid').attr('value','');}
+		
+	}
+	<!--{/if}-->
+});
+
+function parent_path(cid){
+	if(!cid){
+		$('#cids').html('');
+		return;
+	}
+	var tmp = cs.get_by_id(cid);
+	var html = '';
+	while(true){
+		html = tmp.name +' &gt; '+ html;
+		if(tmp.parent == 0) break;
+		
+		tmp = cs.get_by_id(tmp.parent);
+	}
+	
+	$('#cids').html(html);
+	
+	$('#categoryList').html(html);
+}
+$(document).ready(function(){
+
+cs.init();
+jQuery.validator.addMethod("ifsmallcat", 
+			function(value, element) {    
+			  var cat = cs.get_by_id(value);    
+			  return this.optional(element) || (!cat.categories);    
+			}, 
+			category_error);
+		
+$('#AskForm').validate({
+	rules:{
+		title:{
+			required: true,
+			rangelength: [{$this_system.CONFIG['title_length']}, 80]
+		},
+		content:{
+			required: true,
+			rangelength: [{$this_system.CONFIG['content_min_length']}, {$this_system.CONFIG['content_max_length']}]
+		},
+		//tags:{
+		//	required: true
+	//	},
+		cid:{
+			check_category: true,
+			ifsmallcat:true
+		}<!--{if !empty($this_system->CONFIG['captcha'])}-->,
+        captcha:{
+            required:true,
+            remote: {
+                url: '{$this_router}-post',
+                cache: false,
+                type: 'post',
+                data: {checkcaptcha: '1'},
+                beforeSend: function(){
+                    ajaxing({});
+                },
+                complete: function(){
+                    ajaxing({action: 'hide'});
+                }
+            }
+		}<!--{/if}-->
+	},
+	messages:{
+		title:{
+			required: title_error,
+			rangelength: title_error
+		},
+		content:{
+			required: content_error,
+			rangelength: content_error
+		},
+		//tags:{
+		//	required: '{$P8LANG['tag_is_need']}'
+		//},
+		cid:{
+			check_category: category_error,
+			ifsmallcat : category_error
+		}<!--{if !empty($this_system->CONFIG['captcha'])}-->,
+				captcha:{
+				required:'{$P8LANG['captcha_incorrect']}',
+				remote: '{$P8LANG['captcha_incorrect']}'
+				}
+<!--{/if}-->
+		
+	},
+	errorPlacement: function(error, element){
+		if(element.attr('name') == 'content'){
+			error.insertAfter(element.next());
+		}else{
+			error.insertAfter(element);
+		}
+	},
+	onkeyup:false
+});
+
+$.validator.addMethod("check_category",function(value,element){
+
+   var cid = $('input[name=cid]').val();
+   var allow_post = $('input[name=allow_post]').val();
+   var reg = /^[0-9]*$/;
+
+   if(!reg.test(cid) || cid<=0 || allow_post=='false'){
+		return false;
+   }else{
+		return true;
+		}
+
+},category_error);
+ })
+</script>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

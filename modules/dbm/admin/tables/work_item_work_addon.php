@@ -1,0 +1,22 @@
+<?php
+return array(
+	'id' => 'ID',
+	'iid' => '信息ID',
+	'page' => '页数',
+	'addon_title' => '追加标题',
+	'addon_frame' => '追加封面',
+	'addon_summary' => '追加摘要',
+	'ip' => 'ID',
+	'last_update_ip' => '最后更新IP',
+	'timestamp' => '添加时间',
+	'address' => '联系地址',
+	'content' => '办事详细说明',
+	'email' => '邮箱',
+	'gender' => '性别',
+	'material' => '岗位',
+	'material2' => '附件资料',
+	'mobilephone' => '手机',
+	'postcore' => '部门',
+	'realname' => '真实姓名',
+	'telephone' => '联系电话',
+);?>

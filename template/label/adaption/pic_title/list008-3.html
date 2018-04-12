@@ -1,0 +1,12 @@
+<!--{php168}-->
+<ul class="label_adap_pic_ul8_2">
+	<!--{foreach $list $value}-->
+	<li class="col-xs-4 col-sm-3 col-md-2dot4">
+        <div class="label-pic">
+			<img width="262" height="100" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" />
+		</div>
+        <div class="label-title text-center">$value[title]</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

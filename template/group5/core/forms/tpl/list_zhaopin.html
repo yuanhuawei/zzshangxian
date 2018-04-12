@@ -1,0 +1,84 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/alonepage/style.css" />
+<div class="container">
+	$label[form_top_ad]
+</div>
+<div class="clear"></div>
+<div class="container common_mtop">
+	<div class="contain_left">
+		<div class="show_box_1">
+			<div class="sb1_head">
+				$label[zp_let_menu_title_1]
+			</div>
+			<div class="sb1_main">
+				$label[zp_let_menu_1]
+			</div>
+		</div>
+		<div class="show_box_1 Mtop">
+			<div class="sb1_head">
+				$label[zp_let_menu_title_2]
+			</div>
+			<div class="sb1_main">
+				$label[zp_let_menu_2]
+			</div>
+		</div>
+		<div class="ad_box Mtop">
+		$label[zp_ad_1]
+		</div>
+	</div>
+	<div class="contain_right">
+		<div class="show_box_2">
+			<div class="sb2_head">
+			<span class="title_jian">你现在的位置是:首页&gt;&gt;人才招聘</span><span class="more" id="editcontent"></span>
+			</div>
+			<div class="sb2_main">
+				<table width='99%' cellspacing='1' cellpadding='3'>
+					<tr bgcolor='#E8E8E8' style="border:#ffffff 1px solid;">
+						<!--{if $mid}-->
+					<!--{foreach $this_model['list_table_fields'] $field $field_data}-->
+					<td width="15%">$field_data[alias]</td>
+					<!--{/foreach}-->
+					<!--{/if}-->
+						<td align="center" style="width:80px;">发布时间</td>
+						<td align="center" style="width:80px;">详情</td>
+					</tr>
+					<!--{foreach $list $key $value}-->
+					<tr bgcolor='#FFFFFF'>
+					<!--{if $mid}-->
+					<!--{foreach $this_model['list_table_fields'] $field $field_data}-->
+					<td>
+						<span style="{if !empty($field_data['color'])}color:$field_data[color]{/if}">
+						<!--{if isset($value[$field]) && ($field_data['widget']=='radio' || $field_data['widget']=='select' || $field_data['widget']=='city')}-->
+						{$field_data['data'][$value[$field]]}
+						<!--{elseif isset($value[$field]) && ($field_data['widget']=='checkbox' || $field_data['widget']=='multi_select')}-->
+						<!--{foreach $value[$field] $v}-->
+						{$field_data['data'][$v]},
+						<!--{/foreach}-->
+						<!--{elseif isset($value[$field])}-->
+							$value[$field]
+						<!--{/if}-->
+						</span>
+						<!--{if !isset($field_data['units'])}-->
+							$field_data[units]
+						<!--{/if}-->
+					</td>
+					<!--{/foreach}-->
+					<!--{/if}-->
+						
+						<td align="center" >{date('y-m-d',$value['timestamp'])} </td>
+						<td align="center" ><a href="$value[url]" target="_blank"><img src="{$RESOURCE}/skin/admin/icon_view.gif" border="0" alt="查看">查看</a>
+						</td>
+					</tr>
+					<!--{/foreach}-->
+					<tr bgcolor='#FFFFFF' class="formlist_page">
+						<td colspan="12" align="center"> $showpage</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->
+

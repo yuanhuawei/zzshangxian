@@ -1,0 +1,212 @@
+/* CSS Document php = personal homepage*/
+body{margin:0px;padding:0px;text-align:center;font-size:12px;}
+img{border:none;}
+/*登录条*/
+.php_login_bar
+{
+	width:930px;
+	height:26px;
+	margin-left:auto;
+	margin-right:auto;
+	padding:5px 15px 5px 15px;
+	overflow:hidden;
+	font-size:12px;
+	text-align:left;
+	background:url(homepage_login_bar_bg.gif) repeat;
+}
+
+/*头部框架*/
+.php_head
+{
+	width:960px;
+	margin-left:auto;
+	margin-right:auto;
+	overflow:hidden;
+	text-align:left;
+}
+
+/*横幅*/
+.php_banner
+{
+	position:absolute;
+	width:960px;
+	height:155px;
+	overflow:hidden;
+	z-index:-1;
+	
+}
+
+/*横幅上的标题*/
+.php_captain
+{
+	width:760px;
+	height:100px;
+	overflow:hidden;
+	font-size:36px;
+	font-weight:bolder;
+	color:#FFFFFF;
+	padding:55px 100px 0px 100px;
+}
+
+/*菜单条*/
+.php_menu
+{
+	width:900px;
+	height:36px;
+	background:url(homepage_menu_bg.gif) no-repeat;
+	padding-left:60px;
+	overflow:hidden;
+}
+
+/*菜单项*/
+.php_menu_button
+{
+	width:91px;
+	height:26px;
+	overflow:hidden;
+	background:url(homepage_menu_button_bg.gif);
+	float:left;
+	margin:0px 10px 0px 0px;
+	padding-top:10px;
+	text-align:center;
+}
+
+/*菜单文字*/
+.php_menu_button a:hover,.php_menu_button a:link,.php_menu_button a:active,.php_menu_button a:visited
+{
+	font-size:14px;
+	font-weight:bolder;
+	color:#FFFFFF;
+	text-decoration:none;
+}
+
+/*页脚框架*/
+.php_foot
+{
+	width:960px;
+	overflow-x:hidden;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:10px;
+	padding-top:10px;
+	border-top:#CCCCCC 2px solid;
+}
+
+
+/*主体框架*/
+.php_main
+{
+	width:960px;
+	overflow-x:hidden;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:10px;
+	text-align:left;
+}
+
+/*主体左边框架*/
+.php_main_left
+{
+	width:198px;
+	overflow-x:hidden;
+	float:left;
+}
+
+/*个人头像框架*/
+.php_user_photo
+{
+	width:192px;
+	height:192px;
+	overflow:hidden;
+	padding:2px;
+	border:1px #CCCCCC solid;
+}
+
+/*主体左边 块样式*/
+.php_main_left_block
+{
+	width:196px;
+	overflow-x:hidden;
+	margin-top:10px;
+	border:1px #CCCCCC solid;
+}
+
+/*主体左边 类菜单样式*/
+.php_main_left_menu
+{
+	height:17px;
+	padding:4px 0px 4px 0px;
+	margin:3px 0px 0px 0px;
+}
+
+.php_main_left_menu a:hover,.php_main_left_menu a:link,.php_main_left_menu a:active,.php_main_left_menu a:visited
+{
+	position:relative;
+	top:-5px;
+	color:#C41D08;
+	text-decoration:none;
+}
+
+/*主体左边 标题样式*/
+.php_main_left_title
+{
+	width:196px;
+	height:20px;
+	overflow:hidden;
+	background:url(homepage_main_left_title_bg.gif);
+}
+
+.php_main_left_title_text
+{
+	width:186px;
+	height:20px;
+	overflow:hidden;
+	padding:3px 0px 3px 15px;
+}
+
+/*主体内容 行样式*/
+.php_main_content
+{
+	line-height:120%;
+	padding:10px;
+}
+
+.php_main_content_line
+{
+	margin-top:3px;
+	padding:5px;
+	font-size:12px;
+	border-bottom:#DDDDDD 1px dashed;
+}
+
+/*主体右边框架*/
+.php_main_right
+{
+	width:732px;
+	overflow-x:hidden;
+	margin-left:10px;
+	background-color:#EEEEEE;
+	padding:10px;
+	float:right;
+}
+
+/*主体右边 标题*/
+.php_main_right_title
+{
+	height:28px;
+	padding:10px 0px 0px 0px;
+	font-size:14px;
+	font-weight:bolder;
+	color:#3A5998;
+	border-bottom:#CCCCCC 1px solid;
+}
+
+/**/
+
+/**/
+
+/**/
+
+/**/
+
+/**/

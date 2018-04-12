@@ -1,0 +1,150 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<div class="list_nave">
+	您的位置：<a href="{$this_system.url}">首页</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>
+</div>
+<!--左边-->
+<div class="intranet_bglist_down_left">
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[peixun_blist_more0]</span> <span class="list_title1">$label[peixun_blist_title0]</span>
+	</div>
+	<div class="list_content_categories">
+	    <table>
+		    <tr>
+			   <td>
+		<!--{foreach $subcategories $v}-->
+		<div class="intranet_list_nm"><a href="$v[url]">$v[name]</a></div>
+		<!--{/foreach}-->
+		</td>
+	   </tr>
+	</table>
+	</div>
+		<div class="mtop">
+	    $label[peixun_blist_artical_ad1]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[peixun_blist_more1]</span> <span class="list_title1">$label[peixun_blist_title1]</span>
+	</div>
+	<div class="list_content1">
+		$label[peixun_blist_content1]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[peixun_blist_more2]</span> <span class="list_title1">$label[peixun_blist_title2]</span>
+	</div>
+	<div class="list_content1">
+		$label[peixun_blist_content2]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[peixun_blist_more3]</span> <span class="list_title1">$label[peixun_blist_title3]</span>
+	</div>
+	<div class="list_content1">
+		$label[peixun_blist_content3]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[peixun_blist_more4]</span> <span class="list_title1">$label[peixun_blist_title4]</span>
+	</div>
+	<div class="list_content1">
+		$label[peixun_blist_content4]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[peixun_blist_more_5]</span> <span class="list_title1">$label[peixun_blist_title_5]</span>
+	</div>
+	<div class="list_content1">
+		$label[peixun_blist_content_5]
+	</div>
+	<div class="mtop">
+	    $label[peixun_blist_artical_ads]
+	</div>
+</div>
+
+<div class="intranet_bglist_down_right">
+	<!--中间-->
+	<div class="intranet_peixun_index_center">
+		<div class="peixun_content_c mtop">
+			$label[peixun_content_c00]
+		</div>
+		<div class="list_head1 mtop">
+			<span class="list_more1">$label[peixun_c01_more1]</span> <span class="list_title2">$label[peixun_title_c01]</span>
+		</div>
+		<div class="list_content1 main">
+			$label[peixun_big_list_c01]
+		</div>
+
+		<div class="list_head1 mtop">
+			<span class="list_more1">$label[peixun_c02_more2]</span> <span class="list_title2">$label[peixun_title_c02]</span>
+		</div>
+		<div class="list_content1 main">
+			$label[peixun_big_list_c02]
+		</div>
+
+
+		<div class="list_head1 mtop head">
+			<span class="list_more1">$label[peixun_c03_more3]</span> <span class="list_title2">$label[peixun_title_c03]</span>
+		</div>
+		<div class="list_content1 main">
+			$label[peixun_big_list_c03]
+		</div>
+		
+		<div class="list_head1 mtop head">
+			<span class="list_more1">$label[peixun_c04_more4]</span> <span class="list_title2">$label[peixun_title_c04]</span>
+		</div>
+		<div class="list_content1 main">
+			$label[peixun_big_list_c04]
+		</div>
+	</div>
+	
+	<!--右边-->
+
+	<div class="intranet_peixun_index_right mtop">
+		<div class="peixun_right_top">
+			<div class="list_head3">
+				$label[peixun_list_title1] <span class="list_more2">$label[peixun_list_top_more1]</span>
+			</div> 
+			<div class="list_content3">
+				$label[peixun_list_content1]
+			</div>
+		</div>
+	
+		<div class="list_head1 mtop">
+			<span class="list_more1">$label[peixun_blist_more5]</span> <span class="list_title1">$label[peixun_blist_title5]</span>
+		</div>		
+		<div class="list_content1" style="padding:2px 0">
+			$label[peixun_blist_content5]
+		</div>
+		<div class="list_head1 mtop">
+			<span class="list_more1">$label[peixun_blist_more6]</span> <span class="list_title1">$label[peixun_blist_title6]</span>
+		</div>
+		<div class="list_content1" style="padding:2px 0">
+			$label[peixun_blist_content6]
+		</div>
+		<div class="list_head1 mtop">
+			<span class="list_more1">$label[peixun_blist_more7]</span> <span class="list_title1">$label[peixun_blist_title7]</span>
+		</div>
+		<div class="list_content1" style="padding:2px 0">
+			$label[peixun_blist_content7]
+		</div>
+		<div class="list_head1 mtop">
+			<span class="list_more1">$label[peixun_blist_more8]</span> <span class="list_title1">$label[peixun_blist_title8]</span>
+		</div>
+		<div class="list_content1">
+			$label[peixun_blist_content8]
+		</div>
+	</div>
+	<div class="clear"></div>	
+</div>
+	<!--底部-->
+<div class="clear"></div>
+	<div class="list_head1 mtop">
+		<span class="list_title1">$label[peixun_blist_bottom_title01]</span> <span class="list_more1">$label[peixun_blist_bottom_more01]</span>
+	</div>	
+	<div class="list_content1">
+		$label[peixun_blist_bottom_content01]
+	</div>
+<div class="clear"></div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

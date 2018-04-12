@@ -1,0 +1,55 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--主体内容-->
+<div class="wrapbox">
+<div id="blockleft" class="float_right">
+<!--历史-->
+<div class="left_box layout_border margin_bottom">
+<div class="layout_title"><span>{$P8LANG['ask_view_history']}</span><a href="javascript:void(0);" onclick="javascript:clearHistory();">{$P8LANG['ask_clear']}</a></div>
+<div id="categoryHistory" class="layout_textlist"></div>
+</div>
+</div>
+
+<div id="blockinner" class="float_left blockleft_mleft">
+	<!--标签列表框-->
+	<div class="wrapbox light_blue_border">
+		<div class="topic_title light_blue_bg"><h3>{$P8LANG['ask_tags']}</h3></div>
+		<div class="itemtags inline-block">
+			<!--{foreach $itemtags $i $value}-->
+			<li><a href="{$this_router}-{$ACTION}-tagname-{$value['tagnameenc']}" target="_blank">{$value['tagname']}</a><span>({$value['total']})</span></li>
+			<!--{/foreach}-->
+		</div>
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+
+var categoryHistory = '';
+var categoryID = get_cookie('cid');
+var categoryName = get_cookie('catName');
+for(var i in categoryID){
+	if(categoryName[i] != ''){
+		categoryHistory += '<li><a href="{$this_router}-list-cid-' + categoryID[i] + '" target="_blank">' + categoryName[i] + '</a></li>';
+	}
+}
+
+$('#categoryHistory').html(categoryHistory);
+
+function clearHistory()
+{
+	for(var i in categoryID){
+		set_cookie('cid['+i+']', '');
+		set_cookie('catName['+i+']','');
+	}
+	$('#categoryHistory').html('');
+}
+
+function _search()
+{
+	var url = $('#topiclist_form').attr('action');
+	$('#topiclist_form').attr('action', url+'-t-'+base64_encode($('#t').attr('value')));
+	$('#topiclist_form').submit();
+}
+</script>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

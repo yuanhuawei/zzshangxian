@@ -1,0 +1,71 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/css/style.css">
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/common/style.css">
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/{$this_module.name}/style.css">
+<div class="breadnav">
+	<div class="container">
+		<div class="row">
+			<div class="position fr">
+				<a href="{$this_system.url}">首页</a>&nbsp;&gt;&nbsp;<a href="#">{$P8LANG['letter']}</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="maincon">
+	<div class="container">
+		<div class="row">
+			<div class="dt_left">
+				<div class="border1 mbottom">
+					<div class="head1">
+						<span class="title1">$label[hdjl-email_menu_title]</span>
+					</div>	
+					<div class="main1">
+						$label[hdjl-email_menu]
+					</div>
+				</div>
+			</div>
+			<div class="dt_right">
+				<div class="quicknav mbottom">
+				<div class="fl">$label[hdjl-letter_imads]</div>
+				<div class="fr">$label[hdjl-letter_imads2]</div>
+				</div>
+			   <div class="clear"></div>
+				<div class="show_box_grey">
+				<div class="conbox">
+			   <div class="innerbox">
+			   <form action="{$this_router}-detail" method="post" onsubmit="return checkform()">
+				
+				查询码：<input type="text" name="snumber" value="" id="snumber"/>
+				<input type="submit" value="进度查询" />
+				</form>
+				<div class="clear"></div>
+				<h2 class="tt">其他查询方式:</h2>$label[ny2_progress]
+			{$progress}
+			   </div>
+			   </div>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+<script type="text/javascript">
+function checkform(){
+if($('#susername').val()==''){
+	alert('姓名必须要填哦！');return false;
+}
+if($('#snumber').val()==''){
+	alert('查询码必须要填哦！');return false;
+}
+return true;
+}
+</script>
+<!--{if $addcontent}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/images/dialog.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<!--{/if}-->
+<!--{template $core footer}-->
+<!--{/php168}-->

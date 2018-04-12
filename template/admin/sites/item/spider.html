@@ -1,0 +1,106 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<link rel="stylesheet" href="{$SKIN}/cms/category_selector.css" type="text/css" />
+
+<form action="$this_url" method="post" id="form">
+<div class="mainbox mainborder">
+	<table class="columntable formtable">
+		<tr>
+			<td colspan="2" class="title">采集内容</td>
+		</tr>
+		
+		<tr>
+			<td>
+				采集步骤
+				<ol>
+					<li>1.请先用“后台-模块中心-采集”配置好采集规则并采集入库。如果已经有操作请跳过此步。</li>
+					<li>2.点击“选择内容入库”打开采集好的内容窗口，选择好要采集的内容。点击“采集入库”按钮返回本页面。</li>
+					<li>3.选择好入库目标栏目后，就可以点击“开始采集”按钮进行操作，之后可以查看内容管理。</li>
+				</ol>
+				<p>第一步：<input type="button" id="a" onclick="window.open('{$core.admin_controller}/core/spider-item')" value="选择入库内容" /><span class="help">点击“选择入库内容”按钮打开采集好的内容窗口，选择好要采集的内容。点击“采集入库”按钮后返回本页面。</span></p>
+				<p>第二步：<input type="button" value="选择入库栏目" onclick="category_dialog.show()" /><span class="help">点击此按钮，选择好系统栏目，本次采集的内容就存放在此栏目中了。</span></p>
+				<!--{if $this_controller->check_admin_action('verify')}-->
+				<p>第三步：<input type="checkbox" name="verify" id="verify" value="1" checked /><label for="verify">内容是否自动审核</label><span class="help">如果打勾，则表示采集内容自动审核。如果不打勾，则需要管理员审核后，这些采集内容才能对外显示。</span></p>
+				<!--{/if}-->
+				<p>第四步：<input type="button" value="开始采集内容" onclick="_submit()" /><span class="help">点击“开始采集”按钮，则将相关的内容开始采集到目标栏目了。</span></p>
+			</td>
+		</tr>
+	</table>
+</div>
+<input type="hidden" name="cid" id="cid" value="" />
+<div id="spider"></div>
+</form>
+
+<script type="text/javascript">
+/*
+json = {
+	count:
+	rid:
+	id:
+	delete:
+};
+*/
+var category_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_category']}',
+	button: true,
+	width: 700,
+	height: 300,
+	ok: function(){
+		var cid = category_filter.get_value();
+		var cat = category_filter.get_by_id(cid);
+		
+		if(!cat || cat.type != 2){
+			alert('你选择的分类不能入库');
+		}
+	},
+	show: function(){
+		category_filter.init();
+	}
+});
+
+var category_filter = new Recursive_Selector({
+	url: '{$this_system.controller}/category-json',
+	input: $('#cid'),
+	sub_property: 'categories',
+	item_callback: function(cat, item){
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	},
+	dialog: category_dialog
+});
+
+function _submit(){
+	if(!category_filter.get_value()){
+		alert('没选择分类');
+		return;
+	}
+	
+	if(!$('#form input[name=count]').val()){
+		alert('没有内容可以采集');
+		return;
+	}
+	
+	$('#form').submit();
+}
+
+function spider(json){
+	//alert($.toJSON(json));
+	
+	$('#spider').empty();
+	
+	$('#spider').append($('<input type="hidden" name="count" value="'+ json.count +'" />'));
+	$('#spider').append($('<input type="hidden" name="rid" value="'+ json.rid +'" />'));
+	$('#spider').append($('<input type="hidden" name="delete" value="'+ json['delete'] +'" />'));
+	
+	for(var i in json.id){
+		$('#spider').append($('<input type="hidden" name="id[]" value="'+ json.id[i] +'" />'));
+	}
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

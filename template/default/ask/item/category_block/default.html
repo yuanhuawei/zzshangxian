@@ -1,0 +1,57 @@
+<!--//默认列表页-->
+<!--{php168}-->
+<div class="topic_textlist">
+<ul>
+<li class="topic_title topic_header">{$P8LANG['ask_topic'] $count}</li><li class="topic_views topic_header">{$P8LANG['ask_reply']}/{$P8LANG['ask_view']}</li><li class="topic_status topic_header">{$P8LANG['ask_status']}</li><li class="topic_times topic_header">{$P8LANG['ask_lastpost']}</li>
+</ul>
+<!--置顶列表-->
+<!--{if $page==1}-->
+	<ul>
+	<!--{foreach $list_top $k $v}-->
+		<!--{php if(empty($category->categories[$v['cid']])) continue; }-->
+		<li class="topic_title">
+			<h1>
+				<!--{if !empty($v['offercredit'])}--><p>{$v['credits']}</p><!--{/if}-->
+				<a href="{$v['url']}" target="_blank"><!--{if !empty($v['sub_title'])}-->{$v['sub_title']}<!--{else}-->{$v['title']}<!--{/if}--></a>&nbsp;
+				[<a href="{$category.categories[$v['cid']]['url']}" class="catname">{$category.categories[$v['cid']]['name']}</a>]
+			</h1>			
+			<!--{if $v['display_order']==3}-->&nbsp;<img src="{$SKIN}display_top.gif"/><!--{/if}-->
+			<!--{if $v['display_order']==2}-->&nbsp;<img src="{$SKIN}display_category.gif"/><!--{/if}-->
+			<!--{if $v['display_order']==1}-->&nbsp;<img src="{$SKIN}display_current.gif"/><!--{/if}-->
+			<!--{if $v['recommend']}-->&nbsp;<img src="{$SKIN}recommend.gif"/><!--{/if}-->
+			<!--{if $v['urgent']}-->&nbsp;<img src="{$SKIN}urgent.gif" class="icon_urgent"/><!--{/if}-->
+		</li>
+		<li class="topic_views topic_views_font">{$v['replies']}/{$v['views']}</li>
+		<li class="topic_status"><img src="{$SKIN}status_{$v['status']}.gif"/></li>
+		<li class="topic_times topic_times_font"><!--{php echo date('y-m-d',$v['lastpost']);}--></li>
+	<!--{/foreach}-->
+	</ul>
+<!--{/if}-->
+<!--主题列表-->
+<!--{if $list}-->
+	<ul>
+	<!--{foreach $list $v}-->
+	<li class="topic_title">
+		<h1>
+			<!--{if $v['offercredit']}--><p>{$v['credits']}</p><!--{/if}-->
+			<a href="{$v['url']}" target="_blank"><!--{if !empty($v['sub_title'])}-->{$v['sub_title']}<!--{else}-->{$v['title']}<!--{/if}--></a>
+			[<a href="{$category.categories[$v['cid']]['url']}" class="catname">{$category.categories[$v['cid']]['name']}</a>]
+		</h1>
+		<!--{if $v['recommend']}-->&nbsp;<span class="recommend"></span><!--{/if}-->
+		<!--{if $v['urgent']}-->&nbsp;<span class="urgent"></span><!--{/if}-->
+	</li>
+	<li class="topic_views topic_views_font">{$v['replies']}/{$v['views']}</li>
+	<li class="topic_status"><span class="status_{$v['status']}"></span></li>
+	<li class="topic_times topic_times_font"><!--{php echo date('y-m-d',$v['lastpost']);}--></li>
+	<!--{/foreach}-->
+	</ul>
+<!--{/if}-->
+<!--{if !empty($pages)}-->
+<ul>
+<div id="page" class="pages">
+{$pages}
+</div>
+</ul>
+<!--{/if}-->
+</div>
+<!--{/php168}-->

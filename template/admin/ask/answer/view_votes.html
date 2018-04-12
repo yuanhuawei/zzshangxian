@@ -1,0 +1,80 @@
+<!--{php168}-->
+<form action="$this_router-$ACTION" id="votesform" name="votesform" method="post">
+<table cellspacing="0" cellpadding="0" width="210" class="ajaxBox">
+<tr>
+<td><h3>{$P8LANG['ask_view_vote']}</h3></td>
+</tr>
+<tr>
+	<td style="display:inline-block; padding:5px 0px;">
+		<div style="margin-bottom:10px;">
+			{$P8LANG['ask_vote_total']}<span id="totalvalue" style="color:#127DB5; font-weight:bold;">{$totalvalue}</span>
+			<div style="width:209px; padding:1px; border:1px solid #ccc; "><div id="totalpencentage" style="width:{$total_percentage}%; height:10px; font-size:1px; background:#000;"></div></div> 
+		</div>
+		<div style="float:left;">
+			<div>{$P8LANG['ask_vote_good']}<span id="goodvalue" style="color:#FA5238; font-weight:bold;">{$goodvalue}</span></div>
+			<div style="width:100px; padding:1px; border:1px solid #ccc; "><div id="goodpencentage" style="width:{$good_percentage}%; height:8px; font-size:1px; background:#47B5EF;"></div></div>
+		</div>
+		<div style="float:left; margin-left:5px;">
+			<div>{$P8LANG['ask_vote_bad']}<span id="badvalue" style="color:#FA5238; font-weight:bold;">{$badvalue}</span></div>
+			<div style="width:100px; padding:1px; border:1px solid #ccc; "><div id="badpencentage" style="width:{$bad_percentage}%; height:8px; font-size:1px; background:#F14D34;"></div></div>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td style="padding-top:15px;*padding-top:0px;">
+	{$P8LANG['ask_clear_votes']}：
+	<input type="checkbox" name="clearVotes" id="clearVotes" value="1" onclick="javascript:_voteBtn(this);"/> {$P8LANG['Y']}
+	</td>
+</tr>
+<tr>
+	<td height="35"><input type="button" id="voteBtn" value="{$P8LANG['submit']}" disabled="disabled" class="edit_btn" onclick="javascript:remove_votes({id:{$id}});"/></td>
+</tr>
+</table>
+</form>
+<script type="text/javascript">
+function _voteBtn(obj)
+{
+	if($(obj).prop('checked')==true){
+		$('#voteBtn').attr('disabled', false);
+	}else{
+		$('#voteBtn').attr('disabled', true);
+	}
+}
+
+function remove_votes(options)
+{
+	if(options.id == undefined || !reg.test(options.id)){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+
+	var is_clear_votes = false;
+
+	if($('#clearVotes').prop('checked')==true){
+		is_clear_votes = true;
+	}
+
+	if(is_clear_votes){
+		$.ajax({
+			url: '{$this_router}-{$ACTION}',
+			type: 'POST',
+			dataType: 'json',
+			data: {id:options.id},
+			cache: false,
+			success: function(json){
+				$('#totalvalue').html('0');
+				$('#goodvalue').html('0');
+				$('#badvalue').html('0');
+				$("#totalpencentage").css({'width':'0%'});
+				$("#goodpencentage").css({'width':'0%'});
+				$("#badpencentage").css({'width':'0%'});
+				alert('{$P8LANG['ask_success']}');
+				$('.php168_dialog').hide("slow");
+				$('#overlay').hide("slow");
+			}
+		});
+	}
+}
+
+</script>
+<!--{/php168}-->

@@ -1,0 +1,93 @@
+<!--{php168}-->
+<!--{template $this_module $template_path/header admin}-->
+<form action="$_this_url" method="post" id="form">
+<table width="100%" cellspacing="0" cellpadding="0"  class="zq_list" align="center">
+			<tr>
+				<td class="list_top list_left"></td><td class="list_top list_right"></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['cluster_admin']['username']}</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="username" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['cluster_admin']['role']}</td>
+				<td class="tdR">
+					<select name="role_id">
+						<!--{foreach $roles $v}-->
+						<option value="$v[id]">$v[name]</option>
+						<!--{/foreach}-->
+					</select>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['cluster_admin']['password']}</td>
+				<td class="tdR">
+					<input type="text" class="txt" id="password" name="password" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['cluster_admin']['repassword']}</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="repassword" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['cluster_admin']['email']}</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="email" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">&nbsp;</td>
+				<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+			</tr>
+	    </table>
+</form>
+
+<script type="text/javascript">
+
+$.validator.addMethod('valid_username', function(value, element){
+	return /^\w{4,}/.test(value);
+});
+
+$.validator.addMethod('valid_email', function(value, element){
+	return value.length > 3 && /^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/.test(value);
+});
+
+$('#form').validate({
+	rules: {
+		username: {
+			required: true,
+			rangelength: [4, 20],
+			valid_username: true
+		},
+		role_id: {required: true},
+		password: {required: true},
+		repassword: {
+			required: true,
+			equalTo: '#password'
+		},
+		email: {
+			required: true,
+			valid_email: true
+		}
+	},
+	
+	messages: {
+		username: {
+			required: '&nbsp;'
+		}
+	}
+});
+</script>
+
+<!--{template $this_module footer admin}-->
+<!--{/php168}-->

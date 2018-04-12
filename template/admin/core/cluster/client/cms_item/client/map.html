@@ -1,0 +1,187 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+	<tr>
+		<td><img src="{$_SKIN}/$MODULE/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：<a href="{$core.admin_controller}/core/cluster-index">PHP168站群系统</a> &gt; <a href="#">服务端的内容列表</a></td>
+	</tr>
+</table>
+
+<table width="100%" cellspacing="0" cellpadding="0" class="operate">
+	<tr>
+		<td>
+			<ul>
+				<li id="lifont">{$P8LANG['cluster_cms_item']['edit']}：</li>
+				<li><a href="$_this_router&action=list">{$P8LANG['cluster_cms_item']['con_list']}</a></li>
+				<li><a href="$_this_router&action=map">{$P8LANG['cluster_cms_item']['add_list']}</a></li>
+			</ul>
+		</td>
+	</tr>
+</table>
+
+<link rel="stylesheet" href="{$_SKIN}/$MODULE/$service/category_selector.css" type="text/css">
+
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+
+<form action="$_this_url" method="post" id="form">
+	<table width="100%" cellspacing="0" cellpadding="0" class="zq_list" align="center">
+		<tr>
+			<td width="51%" class="list_top list_left"> {$P8LANG['cluster_cms_item']['chose_cluster_cat']}</td><td width="49%" class="list_top list_right">{$P8LANG['cluster_cms_item']['chose_client_cat']}</td>
+		</tr>
+		
+		<tr style="display: none;" id="clone">
+			<td class="tdL">
+				<span class="r_category_path"></span>
+				<input type="button" value="{$P8LANG['cluster_cms_item']['chose_cat']}" />
+			</td>
+			<td class="tdR">
+				<span class="category_path"></span>
+				<input type="button" value="{$P8LANG['cluster_cms_item']['chose_cat']}" />
+				<input type="hidden" name="map[]" />
+				<input type="button" value="{$P8LANG['cluster_cms_item']['delete_cat']}" />
+			</td>
+		</tr>
+		
+		<tbody id="maps">
+		
+		</tbody>
+		
+		<tr>
+			<td class="tdL"><input type="button" onclick="add_map()" value="{$P8LANG['cluster_cms_item']['add_cat']}" /></td>
+			<td class="tdR">&nbsp;</td>
+		</tr>
+		
+		<tr>
+			<td class="tdL">{$P8LANG['cluster_cms_item']['auto_yz']}</td>
+			<td class="tdR">
+				<input type="radio" name="auto_verify" value="1"{if !empty($config['auto_verify'])} checked{/if} />{$P8LANG['Y']}
+				<input type="radio" name="auto_verify" value="0"{if empty($config['auto_verify'])} checked{/if} />{$P8LANG['N']}
+			</td>
+		</tr>
+		
+		
+		<tr>
+			<td class="tdL">&nbsp;</td>
+			<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		</tr>
+	</table>
+</form>
+
+<script type="text/javascript">
+var CATEGORY_JSON = $json[json];
+var CATEGORY_PATH = $json[path];
+
+var r_CATEGORY_JSON = <!--{php echo $r_json['json']?$r_json['json']:'{}'; }-->;
+var r_CATEGORY_PATH = <!--{php echo $r_json['path']?$r_json['path']:'{}'; }-->;
+
+function add_map(rcid, cid){
+	
+	var copy = $('#clone').clone().show();
+	$('#maps').append(copy);
+	
+	copy.find('input[type=button]:eq(0)').click(function(){
+		r_dialog.show();
+	});
+	copy.find('input[type=button]:eq(1)').click(function(){
+		dialog.show();
+	});
+	copy.find('input[type=button]:eq(2)').click(function(){
+		$(this).parent().parent().remove();
+	});
+	
+	var dialog = new P8_Dialog({
+		title_text: '{$P8LANG['select_category']}',
+		button: true,
+		width: 700,
+		height: 300,
+		ok: function(){
+			copy.find('.category_path').empty();
+			var val = cs.get_value();
+			var path = CATEGORY_PATH[val];
+			for(var i in path){
+				copy.find('.category_path').append($('<span>'+ cs.get_by_id(path[i]).name +' &gt; </span>'));
+			}
+			copy.find('input[type=hidden]').val(val);
+		},
+		show: function(){
+			cs.init();
+		}
+	});
+	dialog.content.height(240);
+
+	var cs = new Recursive_Selector({
+		json: CATEGORY_JSON,
+		path: CATEGORY_PATH,
+		input: $('#cid'),
+		dialog: dialog,
+		sub_property: 'categories',
+		parents: CATEGORY_PATH[cid] ? clone(CATEGORY_PATH[cid]) : null,
+		item_callback: function(cat, item){
+			
+			if(cat.type == 1)
+				item.find('span').addClass('frame_category');
+			
+			if(cat.categories)
+				item.addClass('sub_category');
+		}
+	});
+	
+	var r_dialog = new P8_Dialog({
+		title_text: '{$P8LANG['select_category']}',
+		button: true,
+		width: 700,
+		height: 300,
+		ok: function(){
+			copy.find('input[type=hidden]').attr('name', 'map['+ r_cs.get_value() +']');
+			
+			copy.find('.r_category_path').empty();
+			var val = r_cs.get_value();
+			var path = r_CATEGORY_PATH[val];
+			for(var i in path){
+				copy.find('.r_category_path').append($('<span>'+ r_cs.get_by_id(path[i]).name +' &gt; </span>'));
+			}
+			copy.find('input[type=hidden]').val(val);
+		},
+		show: function(){
+			r_cs.init();
+		}
+	});
+	r_dialog.content.height(240);
+
+	var r_cs = new Recursive_Selector({
+		json: r_CATEGORY_JSON,
+		path: r_CATEGORY_PATH,
+		input: $('#cid'),
+		dialog: r_dialog,
+		sub_property: 'categories',
+		parents: r_CATEGORY_PATH[rcid] ? clone(r_CATEGORY_PATH[rcid]) : null,
+		item_callback: function(cat, item){
+			if(cat.categories)
+				item.addClass('sub_category');
+		}
+	});
+	
+	if(rcid !== undefined){
+		var path = r_CATEGORY_PATH[rcid];
+		for(var i in path){
+			copy.find('.r_category_path').append($('<span>'+ r_cs.get_by_id(path[i]).name +' &gt; </span>'));
+		}
+		copy.find('input[type=hidden]').attr('name', 'map['+ rcid +']');
+	}
+	
+	if(cid !== undefined){
+		var path = CATEGORY_PATH[cid];
+		for(var i in path){
+			copy.find('.category_path').append($('<span>'+ cs.get_by_id(path[i]).name +' &gt; </span>'));
+		}
+		copy.find('input[type=hidden]').val(cid);
+	}
+}
+
+<!--{foreach $config['map'] $rcid $cid}-->
+add_map($rcid, $cid);
+<!--{/foreach}-->
+</script>
+
+<!--{template $this_module footer admin}-->
+<!--{/php168}-->

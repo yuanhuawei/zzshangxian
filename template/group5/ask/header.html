@@ -1,0 +1,50 @@
+<!--{php168}-->
+<!--{php
+$TITLE = $sitename;
+$SEO_KEYWORDS = $meta_keywords;
+$SEO_DESCRIPTION = $meta_description;
+}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<!--搜索-->
+<div class="search1 margin_top margin_bottom">
+	<div class="ask_search_form">
+		<form action="{$this_system.controller}/item" name="Search" id="Search" method="get" onsubmit="javascript:return searchAsk({type:'s'});">
+			<b><input type="text" name="keyword" id="askkeyword" value="" class="search_txt"/></b> <input type="button" value="{$P8LANG['ask_search_answer']}" class="search_btn" onClick="javascript:return searchAsk({type:'s'});"/> <input type="button" value="{$P8LANG['ask_search_question']}" class="search_btn" onClick="javascript:location.href='{$this_system.controller}/item-ask'"/>
+		</form>
+	</div>
+	<div class="ask_search_text">
+		$label[ask_search_text]
+	</div>
+</div>
+<script type="text/javascript">
+//搜索
+function searchAsk(options)
+{
+	var keyword = $('#askkeyword').val();
+	var url = $('#Search').attr('action');
+	if(options.type == undefined){
+		option.type = 's';
+	}
+	if(keyword.length<=0){
+		alert('{$P8LANG['ask_search_keyword']}');
+		$('#askkeyword').focus();
+		return false;
+	}
+
+	if(options.type == 'q'){
+		url += '-confirm';
+	}else{
+		url += '-search';
+	}
+
+	$('#Search').attr('action',  url+'?keyword=');
+	$('#Search').submit();
+}
+
+</script>
+<div>
+	$label[ask_top_ad]
+</div>
+<!--{/php168}-->
+

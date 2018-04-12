@@ -1,0 +1,74 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/newmedia/css/cmsstyle.css">
+<div class="list_banner">
+	$label[gov_list_ad1]
+</div>
+<div class="list_nave">
+	<a href="{$this_system.url}">首页</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>
+</div>
+<!--左边-->
+<div class="v_left">
+	<!--{if $CAT['type'] == 1}-->
+	<!--{php $i = 0;}-->
+	<!--{foreach $subcategories $v}-->
+	<!--{php if($i > 5) break; $i++;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+	<div class="list_head1 mtop mtop" >
+		<span class="list_title2">$v[name]</span> <a class="list_more1" href="$v[url]">>>>更多</a>
+	</div>
+	<div class="list_content1">
+		$label[dow_sm_list]{'i.cid' => $subcat, 'model' => $MODEL}
+	</div>
+	<!--{/foreach}-->
+	
+	<!--{else}-->
+	
+	<div class="list_head1 mtop" >
+		<span class="list_title2"> $CAT[name]</span><a class="list_more1" href="$CAT[url]">更多>></a>
+	</div>
+	<div class="list_content1">
+		<!--{php include template($TEMP_OBJ, $CAT['item_template'], 'label');}-->
+		<div class="mtop pages" style="text-align:center;">
+			$pages
+		</div>
+	</div>
+	<!--{/if}-->
+</div>
+<!--右边-->
+<div class="v_right">
+	<!--{if !empty($subcategories)}-->
+	<div class="list_head1 mtop">
+		<span class="list_more1"></span> <span class="list_title1">$label[menu_down_nav]</span>
+	</div>
+	<div class="list_content1">
+		<!--{php include template($TEMP_OBJ, $this_module->CONFIG['list_navigagion'], 'label/cms/navigation');}-->
+	</div>
+	<!--{else}-->
+	<div class="list_head1 mtop">
+		<span class="list_more1"></span> <span class="list_title1">$label[gov_list_title1]</span>
+	</div>
+	<div class="list_content1">$label[navi_text_list]
+	</div>
+	<!--{/if}-->	
+	<div class="list_head1 mtop">
+		<span class="list_title1">$label[dow_list_title2]</span> <span class="list_more1">$label[dow_list_more2]</span>
+	</div>
+	<div class="list_content1">
+		$label[dow_list_content2]{'i.cid'=>$CATEGORY, 'model' => $MODEL}
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_title1">$label[dow_list_title3]</span> <span class="list_more1">$label[dow_list_more3]</span>
+	</div>
+	<div class="list_content1">
+		$label[dow_list_content3]{'a.cid'=>$CATEGORY, 'model' => $MODEL}
+	</div>	
+</div>
+<div class="clear">
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

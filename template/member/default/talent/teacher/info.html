@@ -1,0 +1,276 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+
+
+<div id="tab_1" class="tab_box mtop20">
+	<div class="head">
+		<span>基本资料</span> <span>个人照片</span>
+	</div>
+	<div class="main profile" style="margin-top:20px">
+	<form action="$this_router-$ACTION" method="post">
+		<div class="content">
+			<table width="100%" border="0" cellspacing="1" cellpadding="5">
+				<tr>
+					<td width="12%"><font color="red">*</font>姓名:</td>
+					<td width="88%"><input type="text" name="name" id="name" value="{if !empty($data['name'])}{$data['name']}{/if}" /></td>
+				</tr>
+				<tr>
+					<td><font color="red">*</font>性别:</td>
+					<td><input type="radio" name="gender" id="gender" value="1" {if $data['gender']==1 || empty($data['gender'])}checked{/if} />男 
+                    <input type="radio" name="gender" id="gender" value="2" {if $data['gender']==2}checked{/if} />女</td>
+				</tr>
+				<tr>
+					<td><font color="red">*</font>婚姻状况:</td>
+					<td><input type="radio" name="married"  value="0" {if empty($data['married'])}checked{/if} />未婚
+                    <input type="radio" name="married" value="1" {if $data['married']==1}checked{/if} />已婚</td>
+				</tr>
+				<tr>
+					<td><font color="red">*</font>出生年月:</td>
+					<td><select id="birthday_year" name="birthday_year">
+						<!--{php $datenow=getdate();}-->
+						<!--{php for($y=$datenow['year']-10;$y>=$datenow['year']-50;$y--){}-->
+                        	<option value="$y" {$by[$y]}>$y</option>
+							<!--{php }}-->
+                        </select>年
+                        <select id="birthday_month" name="birthday_month">
+						<!--{php for($m=12;$m>=1;$m--){$m=str_pad($m,2,0,STR_PAD_LEFT);}-->
+                        	<option value="$m" {$bm[$m]}>$m</option>
+							<!--{php }}-->
+                        </select>月
+                        <select id="birthday_day" name="birthday_day">
+						<!--{php for($d=31;$d>=1;$d--){$d=str_pad($d,2,0,STR_PAD_LEFT);}-->
+                        	<option value="$d" {$ba[$d]}>$d</option>
+							<!--{php }}-->
+                        </select>日</td>
+				</tr>
+				
+				<tr>
+					<td>民族:</td>
+					<td><input type="text" name="national" id="national" size="10" value="{$data['national']}" /></td>
+				</tr>
+				<tr>
+					<td>户口:</td>
+					<td><select><option value="1">广东</option></select> <select name="census"><option value="56">广州</option></select></td>
+				</tr>
+				<tr>
+					<td><font color="red">*</font>身份证号码:</td>
+					<td><input type="text" name="idcard" id="idcard" value="{$data['idcard']}" /></td>
+				</tr>
+				<tr>
+					<td>固定电话:</td>
+					<td><input type="text" name="telephone" id="telephone" value="{$data['telephone']}" /></td>
+				</tr>
+				<tr>
+					<td><font color="red">*</font>手机号码:</td>
+					<td><input type="text" name="mobile" id="mobile" value="{$data['mobile']}" /></td>
+				</tr>
+				<tr>
+					<td><font color="red">*</font>电子邮箱:</td>
+					<td><input type="text" name="email" id="email" value="{$data['email']}" /></td>
+				</tr>
+				<tr>
+					<td><font color="red">*</font>居住地址:</td>
+					<td><input type="text" name="address" id="address" size="40" value="{$data['address']}" /></td>
+				</tr>
+				<tr>
+					<td>学历:</td>
+					<td><select name="education">
+					<!--{foreach $this_system->CONFIG['education'] $key $val}-->
+						<option value="$key" {if $data['education']==$key}selected{/if}>$val</option>
+					<!--{/foreach}-->	
+						</select></td>
+				</tr>
+				<tr>
+					<td>工作经验:</td>
+					<td><select name="worktime">
+						<!--{php for($i=1;$i<=10;$i++){ }-->
+						<option value="$i" {if !empty($data['worktime']) && $data['worktime']==$i}selected{/if}>$i 年</option>
+						<!--{php }}-->
+						<option value="11" {if !empty($data['worktime']) && $data['worktime']==11}selected{/if}>10年以上</option>
+						</select></td>
+				</tr>
+				<tr>
+					<td>工作单位:</td>
+					<td><input type="text" name="company" id="company" value="{$data['company']}" /></td>
+				</tr>
+				<tr>
+					<td>担任职位:</td>
+					<td><input type="text" name="job" id="job" value="{$data['job']}" /></td>
+				</tr>
+				<tr>
+					<td>个人主页:</td>
+					<td><input type="text" name="website" id="website" value="{$data['website']}" /></td>
+				</tr>
+				<tr>
+					<td><font color="red">*</font>自我介绍:</td>
+					<td><textarea name="introduction" rows="5" cols="50">{$data['introduction']}</textarea></td>
+				</tr>
+			</table>
+		</div>
+
+		
+		<div class="content">
+		<form action="$this_router-$ACTION" method="post">
+			<table width="100%" border="0" cellspacing="1" cellpadding="5">
+				<tr>
+					<td width="20%"><img src="$data[photo]" id="icon_img" width="100" height="120" onerror="this.src='{$MEMBERSKIN}/nomenpic.gif'"/><br />
+						<input type="text" name="photo" id="icon" value="{$data['photo']}" size="35" onchange="$('#icon_img').attr('src', this.value)" />&nbsp;<input type="button" value="上传" onclick="icon_uploader.choseup()"  /><a href="###" onclick="icon_uploader.image_cut()">[$P8LANG[image_cut]]</a><br />
+						注：允许上传格式为.jpg .gif，图片大小不可超过500k
+						<input type="hidden" name="attachment_hash" value="<!--{php echo $attachment_hash = unique_id(16);}-->" />
+						<script type="text/javascript">
+						var attachment_hash = '$attachment_hash';
+						var icon_uploader;
+						
+						$(function(){
+							
+							icon_uploader = new P8_Upload({
+								element: {
+									src: $('#icon'),
+									attribute: 'value'
+								},
+								param: {
+									return_thumb: true
+								},
+								callback: function(json){
+									$('#icon').attr('src', json.attachments[0].file);
+								}
+							});
+						});
+						</script></td>
+				</tr>
+				
+			</table>
+			
+		</div>
+                   <div style="padding-left:150px"><input type="hidden" name="ac" value="$ac" /> <input type="submit" name="button2" id="button2" value="提交" class="submit_btn"/>
+                  </div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+// 选项卡
+MoveTabs("tab_1");
+</script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+
+<form action="$this_url" method="post" style="display:none">
+	<div class="blockright" style="border: solid 1px #CDDEF0; ">
+		<h5 class="com_bt"> <strong class="com_btwz">　联系方式</strong><span style="font-size:12px; color:#FF0000; margin-left:5px;">带*符号为必填信息</span> </h5>
+		<table width="92%" align="center" style="font-size:14px; color:#333; margin:5px auto 5px auto;">
+			<tr>
+				<td width="17%" height="42">真实姓名<font color="#FF0000"> *</font></td>
+				<td height="42" colspan="2"> <input type="text" name="name" value="{$data['name']}" /> </td>
+			</tr>
+			<tr>
+				<td height="42">性 别 <font color="#FF0000">*</font></td>
+				<td height="42" colspan="2">
+					<table>
+						<tr>
+							<td width="26"><input name="radiobutton" type="radio" value="radiobutton" checked="checked" /></td>
+							<td width="29">男</td>
+							<td width="28"><input type="radio" name="radiobutton" value="radiobutton" /></td>
+							<td width="67">女</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td height="42">城 市 <font color="#FF0000">*</font></td>
+				<td height="42" colspan="2">
+					<table>
+						<tr>
+							<td width="125">
+								<select name="select">
+									<option>请选择所在省份</option>
+									<option>湖南省</option>
+									<option>湖北省</option>
+								</select>
+							</td>
+							<td width="125">
+								<select name="select2">
+									<option>请选择所在城市</option>
+									<option>北京市</option>
+									<option>长沙市</option>
+								</select>
+							</td>
+							<td width="125">
+								<select name="select3">
+									<option>请选择所在区域</option>
+									<option>朝阳区</option>
+									<option>天安门</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td height="42">地 址 <font color="#FF0000">*</font></td>
+				<td width="33%" height="42"> <input type="text" name="address" value="{$data['address']}" size="40" /> </td>
+				<td width="50%" height="42">&nbsp;</td>
+			</tr>
+			<tr>
+				<td height="42">电 话 <font color="#FF0000">*</font></td>
+				<td height="42"> <input type="text" name="phone" value="{$data['phone']}" /> </td>
+				<td height="42">&nbsp;</td>
+			</tr>
+			<tr>
+				<td height="42">手 机 <font color="#FF0000">*</font></td>
+				<td height="42"> <input type="text" name="cell_phone" value="{$data['cell_phone']}" /> </td>
+				<td height="42">&nbsp;</td>
+			</tr>
+			<!--{foreach $this_model['fields'] $field $v}-->
+			<tr>
+				<td height="42">{$v['alias']} <font color="#FF0000">*</font></td>
+				<td height="42">
+					<!--{php include template($core, 'widget/'. $v['widget'], 'default');}-->
+				</td>
+				<td height="42">&nbsp;</td>
+			</tr>
+			<!--{/foreach}-->
+			<tr>
+				<td height="40" colspan="3">
+					<table width="99%" class="fgx">
+						<tr>
+							<td width="96%" height="40" align="right" valign="middle">完善更完整资料（选项）</td>
+							<td width="4%" valign="middle"><a href="#"></a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td height="42">Q Q</td>
+				<td height="42"><input name="textfield232" type="text" size="30" /></td>
+				<td height="42">&nbsp;</td>
+			</tr>
+			<tr>
+				<td height="42">个人主页</td>
+				<td height="42"><input name="textfield233" type="text" size="30" /></td>
+				<td height="42">&nbsp;</td>
+			</tr>
+			<tr>
+				<td height="135">个人说明</td>
+				<td height="135" colspan="2">
+					<textarea name="textarea" cols="66" rows="6"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td height="46" colspan="3">
+					<table width="64%" align="center">
+						<tr>
+							<td width="39%"><input type="submit" value="{$P8LANG['submit']}" /></td>
+							<td width="61%"></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+<div class="clear">
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

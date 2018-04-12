@@ -1,0 +1,285 @@
+<!--{php168}-->
+<!--{template $core header_govopen}-->
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$SKDIR}core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../cms/item/govopen/style.css" />
+
+<div class="siderBar fl">
+<div class="ztcx_hd">$label[ztcx_tt]</div>
+<div class="ztcx_con box_con">
+$label[ztcx_con]
+</div>
+<div class="gkcx mtop">
+<div class="gkcx_hd"><span>$label[gkcx_tt]</span></div>
+<div class="gkcx_con">
+<table>
+<tbody><tr><td height="2" colspan="2"></td></tr>
+<tr>
+<td width="28%" height="28" align="right">用户名：</td>
+<td width="72%" align="left"><input type="text" id="loginname" name="loginname" size="14" value=""></td>
+</tr>
+<tr>
+<td height="28" align="right">密&nbsp;&nbsp;码：</td>
+<td align="left"><input type="password" id="loginpwd" name="loginpwd" size="14"></td>
+</tr>
+<tr>
+</tr><tr>
+<td height="32" align="center" colspan="2">
+<input type="image" name="imageField2" src="{$SKIN}../cms/item/govopen/btn1_2013.jpg" onclick="ssoLogin();">
+<img width="48" height="20" src="{$SKIN}../cms/item/govopen/btn2_2013.jpg" style="cursor:hand; vertical-align: top;" onclick="regedit();">
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="bmcx_hd mtop">$label[bmcx_tt]</div>
+<div class="bmcx_con">
+$label[bmcx_con]
+</div>
+<div class="leftad_box mtop">
+$label[leftad01]
+</div>
+<div class="leftad_box mtop">
+$label[leftad02]
+</div>
+<div class="leftad_box mtop mbot">
+$label[leftad03]
+</div>
+
+
+</div>
+<div class="mainBody fr">
+<div class="rtbox_biglist mbot">
+<div class="hd">
+<div class="nav mtop">$label[nav]</div>
+</div>
+<div class="con">
+<div id="ysqgk">
+<div class="headbtn">
+<div class="btnbox"><span>$label[ysqgk_btn01]</span></div><div class="btnbox"><span>$label[ysqgk_btn02]</span></div><div class="btnbox"><span>$label[ysqgk_btn03]</span></div>
+</div>
+
+<form name="form2" method="post" action="/zwgk/public/index.xp">
+<input type="hidden" value="ysqAdd" name="doAction">
+<input type="hidden" value="" name="handleunit">
+<input type="hidden" value="0" id="hmit" name="hmit">
+<table width="94%" cellspacing="1" cellpadding="0" border="0" bgcolor="#e2e2e2" align="center"  style="margin-bottom:15px">
+<tbody>
+<tr>
+<td bgcolor="#f2f2f2" style="padding:9px 20px;">$label[ysqgk_intro]
+</td>
+</tr>
+</tbody>
+</table>
+<table width="94%" cellspacing="8" cellpadding="0" border="0" align="center">
+    <tbody>
+    <tr>
+        <td align="center" class="font24">政府信息公开申请表</td>
+    </tr>
+    <tr>
+        <td style="text-align:center"><font color="#e70000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;＊</font>&nbsp;为必填项&nbsp;&nbsp;&nbsp;
+        </td>
+    </tr>
+    </tbody>
+</table>
+<table width="94%" cellspacing="1" cellpadding="0" border="0" bgcolor="#e2e2e2" align="center" style="margin-bottom:10px;text-align:center">
+    <tbody>
+   <tr>
+
+        <td height="28" bgcolor="#f2f2f2" colspan="2">申请信息！ <span class="height28">&#12288;&#12288;</span>申请人信息： <input type="radio" onclick="fenlei(0)" name="applytype" value="0" checked=""> 公民 $label[sq_dw01]<input type="radio" onclick="fenlei(1)" name="applytype" value="1">法人/其它组织 $label[sq_dw02]
+        </td>
+        </tr>
+    </tbody>
+</table>
+<table width="94%" cellspacing="1" cellpadding="0" border="0" bgcolor="#e2e2e2" align="center">
+<tbody>
+<tr>
+    <td width="40" bgcolor="#ffeeee" align="center" class="font16">
+        <nobr>申<br>请<br>人<br>信<br>息</nobr>
+    </td>
+    <td valign="top">
+        <table width="100%" cellspacing="1" cellpadding="4" border="0" bgcolor="#dfdfdf">
+            <tbody><tr>
+                <td>
+                    <table width="100%" style="display:block;" id="gongming">
+                        <tbody><tr>
+                            <td width="20" bgcolor="#fff7f7" align="center" rowspan="5">
+                                <nobr><b>公<br>民</b></nobr>
+                            </td>
+                            <td width="90" bgcolor="#f8f8f8" align="center">
+                                <font color="#e70000">＊</font>姓名
+                            </td>
+                            <td bgcolor="#ffffff">
+                            <span class="height28">
+                                <input name="name" size="15" maxlength="10">
+                            </span>
+                            </td>
+                            <td width="90" bgcolor="#f8f8f8" align="center"><font color="#e70000">＊</font>工作单位
+                            </td>
+                            <td bgcolor="#ffffff"><span class="height28"><input name="workunit" size="15" maxlength="10"></span></td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#f8f8f8" align="center"><font color="#e70000">＊</font>证件名称
+                            </td>
+                            <td width="160" bgcolor="#ffffff"><span class="height28"><input name="zjname" size="15" maxlength="10"></span></td>
+                            <td width="90" bgcolor="#f8f8f8" align="center"><font color="#e70000">＊</font>证件号码
+                            </td>
+                            <td bgcolor="#ffffff"><span class="height28"><input name="zjnumber" size="15" maxlength="20"></span></td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#f8f8f8" align="center"><font color="#e70000">＊</font>证件扫描件
+                            </td>
+                            <td bgcolor="#ffffff"><span class="height28"><input name="linkadd" size="15" maxlength="50"></span></td>
+                            <td bgcolor="#f8f8f8" align="center"><font color="#e70000">＊</font>手机号码
+                            </td>
+                            <td bgcolor="#ffffff"><span class="height28"><input name="linkcode" size="15" maxlength="6"></span></td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#f8f8f8" align="center"><font color="#e70000">＊</font>传真
+                            </td>
+                            <td bgcolor="#ffffff"><span class="height28"><input name="linktel" size="15" maxlength="20"></span></td>
+                            <td bgcolor="#f8f8f8" align="center"><font color="#e70000">&nbsp;＊</font>电子邮箱
+                            </td>
+                            <td bgcolor="#ffffff"><span class="height28"><input name="linkcz" size="15" maxlength="20"></span></td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#f8f8f8" align="center"><font color="#e70000">＊</font>联系地址
+                            </td>
+                            <td bgcolor="#ffffff" colspan="3"><span class="height28"><input name="linkmail" maxlength="20"></span></td>
+                        </tr>
+
+                    </tbody></table>
+
+                    <table width="100%" style="display:none;" id="faren">
+                        <tbody><tr>
+                            <td width="20" bgcolor="#fff7f7" align="center" rowspan="5">
+                                <nobr><b>法<br>人<br>/<br>其<br>他<br>组<br>织</b></nobr>
+                            </td>
+                            <td bgcolor="#f8f8f8" align="center"><font color="#e70000">＊</font>名称
+                            </td>
+                            <td bgcolor="#ffffff"><span class="height28"><input name="frname" size="15" maxlength="10"></span></td>
+                            <td bgcolor="#f8f8f8" align="center">组织机构代码</td>
+                            <td bgcolor="#ffffff"><span class="height28"><input name="frjgcode" size="15"></span></td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#f8f8f8" align="center"><font color="#e70000">＊</font>法人代表
+                            </td>
+                            <td bgcolor="#ffffff"><span class="height28"><input name="frdb" size="15" maxlength="10"></span></td>
+                            <td bgcolor="#f8f8f8" align="center"><font color="#e70000">＊</font>联系人姓名
+                            </td>
+                            <td bgcolor="#ffffff"><span class="height28"><input name="frlinkname" size="15" maxlength="10"></span></td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#f8f8f8" align="center"><font color="#e70000">＊</font>联系人电话
+                            </td>
+                            <td bgcolor="#ffffff"><span class="height28"><input name="frlinktel" size="15" maxlength="20"></span></td>
+                            <td bgcolor="#f8f8f8" align="center"><font color="#e70000">＊&nbsp;</font>传真
+                            </td>
+                            <td bgcolor="#ffffff"><span class="height28"><input name="frlinkcz" size="15" maxlength="20"></span></td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#f8f8f8" align="center"><font color="#e70000">＊</font>联系地址
+                            </td>
+                            <td bgcolor="#ffffff" colspan="3"><span class="height28"><input name="frlinkadd" maxlength="20"></span></td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#f8f8f8" align="center"><font color="#e70000">＊</font>电子邮箱
+                            </td>
+                            <td bgcolor="#ffffff" colspan="3"><span class="height28"><input name="frlinkmail" maxlength="20"></span></td>
+                        </tr>
+
+                    </tbody></table>
+
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#f8f8f8" align="left"><font color="#e70000">＊</font>申请时间
+                <span class="height28"><input value="2013-07-01" name="applytime" size="10" readonly=""></span>
+                </td>
+            </tr>
+
+        </tbody></table>
+    </td>
+</tr>
+<tr>
+    <td bgcolor="#ffeeee" align="center" class="font16">
+        <nobr>所<br>需<br>信<br>息<br>情<br>况</nobr>
+    </td>
+    <td valign="top">
+        <table width="100%" cellspacing="1" cellpadding="4" border="0" bgcolor="#dfdfdf" class="text-1">
+            <tbody>
+            <tr>
+                <td width="119" bgcolor="#f8f8f8" align="center"><font color="#e70000">＊</font>所需信息的内容描述
+                </td>
+                <td bgcolor="#ffffff"><span class="height28"><textarea cols="60" rows="9" name="applynote"></textarea>
+                  </span></td>
+            </tr>
+            <tr>
+                <td width="90" bgcolor="#f8f8f8" align="center"><font color="#e70000">＊</font>所需信息的用途
+                </td>
+                <td bgcolor="#ffffff"><span class="height28"><textarea cols="60" rows="9" name="applyyt"></textarea>
+                  </span></td>
+            </tr>
+            </tbody>
+        </table>
+        <table width="100%" cellspacing="1" cellpadding="4" border="0" bgcolor="#dfdfdf">
+            <tbody>
+            <tr bgcolor="#f8f8f8" align="center">
+                <td width="50%">所需信息的指定提供方式（可选）</td>
+                <td>获取信息的方式（可选）</td>
+            </tr>
+            <tr bgcolor="#ffffff">
+                <td valign="top" bgcolor="#ffffff"><input type="hidden" name="tgfs">
+                  <span class="height28"><input type="checkbox" name="curtgfs" value="纸面" size="15">&nbsp;&nbsp;纸面</span> <br><span class="height28"><input type="checkbox" name="curtgfs" value="电子邮件" size="15">&nbsp;&nbsp;电子邮件</span> <br><span class="height28"><input type="checkbox" name="curtgfs" value="光盘" size="15">&nbsp;&nbsp;光盘</span> <br><span class="height28"><input type="checkbox" name="curtgfs" value="磁盘" size="15">&nbsp;&nbsp;磁盘</span></td>
+                <td valign="top" bgcolor="#ffffff"><input type="hidden" name="hqfs">
+                  <span class="height28"><input type="checkbox" name="curhqfs" value="邮寄" size="15">&nbsp;&nbsp;邮寄</span> <br><span class="height28"><input type="checkbox" name="curhqfs" value="快递" size="15">&nbsp;&nbsp;快递</span> <br><span class="height28"><input type="checkbox" name="curhqfs" value="电子邮件" size="15">&nbsp;&nbsp;电子邮件</span> <br><span class="height28"><input type="checkbox" name="curhqfs" value="传真" size="15">&nbsp;&nbsp;传真</span> <br><span class="height28"><input type="checkbox" name="curhqfs" value="自行领取" size="15">&nbsp;&nbsp;自行领取</span></td>
+            </tr>
+            <tr bgcolor="#f8f8f8">
+                <td width="50%"><font color="#e70000">＊</font>查询密码：<span class="height28"><input type="password" name="applypassword" size="15" maxlength="8"></span>(8位)</td>
+                <td><font color="#e70000">＊</font>确认密码：<span class="height28"><input type="password" name="applypassword2" size="15" maxlength="8"></span></td>
+            </tr>
+            <tr bgcolor="#f8f8f8">
+										<td width="50%">
+											<font color="#e70000">＊</font>验  证  码：
+											<span class="height28"><img align="middle" style="cursor:pointer" onclick="tochange()" title="点击刷新验证码" id="validataimg" name="validataimg" src="../image?rnd=1372643315543">&nbsp;
+                                                        <input type="text" onfocus="this.select();" maxlength="4" value="" id="validatacode" name="validatacode" style="width:60px" class="inputText">
+											</span>
+										</td>
+										<td>
+
+										</td>
+									</tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+<tr align="center">
+    <td height="35" bgcolor="#fafafa" colspan="3"><input type="button" onclick="dosave()" value="提 交">
+        &#12288; <input type="reset" value="重 填">
+    </td>
+</tr>
+</tbody>
+</table>
+</form>
+
+
+
+</div>
+
+
+
+</div>
+</div>
+</div></div><!--主体结束-->
+<div class="clear"></div>
+<script type="text/javascript">
+$(function(){
+	$('#gov_left .tree_menu p').bind('click',function(){	$('#gov_left .tree_menu .one_manu').slideUp("normal");if($(this).parent().find('.one_manu').css('display')=='none'){	$(this).parent().find('.one_manu').slideDown('normal');	}else{	$(this).parent().find('.one_manu').slideUp("normal");}});
+	$('#gov_left .two_manu span').bind('click',function(){	$('#gov_left .two_manu dl').slideUp("normal"); if($(this).parent().find('dl').css('display')=='none'){	$(this).parent().find('dl').slideDown('normal');	}else{	$(this).parent().find('dl').slideUp("normal");}});
+})
+</script>
+<!--{template $core footer_govopen}-->
+<!--{/php168}-->

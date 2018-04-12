@@ -1,0 +1,85 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="POST" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table click_changeable">
+						<tr class="title">
+							<td class="title" width="3%"><input type="checkbox" onclick="check_all(this, 'id[]'); init_tr($('#form'));" /></td>
+							<td width="5%">ID</td>
+							<td>标题</td>
+							<td>发送人数</td>
+							<td>签到人数</td>
+							<td>时间</td>
+							<td>操作</td>
+						</tr>
+						
+						<!--{foreach $list $value}-->
+						<tr id="item_$value[id]">
+							<td><input type="checkbox" name="id[]" value="$value[id]" /></td>
+							<td>$value[id]</td>
+							<td><a href="$this_router-send?id=$value[id]" target="_blank">$value[title]</a></td>
+							<td>$value[send_count]</td>
+							<td>$value[sign_in_count]</td>
+							<td>{date('Y-m-d H:i:s', $value['timestamp'])}</td>
+							<td>
+								<a href="$this_router-update?id=$value[id]" target="_blank">修改</a>
+							</td>
+						</tr>
+						<!--{/foreach}-->
+					</table>
+				</td></tr>
+				
+				<tr>
+					<td colspan="3">
+						<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+							<tr>
+								<td align="center" id="pages" class="pages">$pages</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="button" value="{$P8LANG['delete']}" class="edit_btn" onclick="delete_item()" />
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+<input type="hidden" name="action" value="" />
+</form>
+	
+<script type="text/javascript">
+
+function delete_item(){
+	var ids = checked_values('id[]', $('#form'));
+	if(!ids.length) return;
+	if(!confirm('{$P8LANG['confirm_to_delete']}')) return;
+	
+	$.ajax({
+		url: '$this_router-delete',
+		type: 'post',
+		dataType: 'json',
+		cache: false,
+		data: ajax_parameters({id: ids}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i in json){
+				$('#item_'+ json[i]).remove();
+			}
+		}
+	});
+}
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

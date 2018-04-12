@@ -1,0 +1,64 @@
+<!--{php168}-->
+<span id="login_info" {if !$UID}style="display:none"{/if} >
+	<span style="margin-left:10px;"><a href="{$core.U_controller}"><font color="#FF7F04"><b class="username">{if $UID}<!--{php if(!empty($this_module->role_name))echo $this_module->role_name;else echo $this_module->username;}--> {/if}</b></font></a>&nbsp;<a class="rolename"></a> 欢迎您回来！&nbsp;&nbsp;<a href="{$core.U_controller}">会员中心</a> 
+	<a href="{$core.U_controller}?main_page={urlencode('/message-inbox?message_type=new')}" {if empty($this_module->new_messages)}style="display:none"{/if} target="_blank"><font color="red" >你有新信息(<u class="new_messages">{$this_module.new_messages}</u>)</font></a> 
+	<a href="{$core.U_controller}/member-logout" onclick="return ajax_logout()">安全退出</a></span>
+</span>
+<span id="login_link" {if $UID}style="display:none"{/if}>
+<form method="post" id="login_form" action="{$core.U_controller}/member-login"   onsubmit="ajax_login();return false;">
+	<span>用户名：</span><input type="text" name="username" value="" class="input common_input_border"/>
+	<span>密码：</span><input type="password" name="password" value="" class="input common_input_border" onfocus="javascript:$('#forward').attr('value',window.location.href)" />
+	<!--{if !empty($this_module->CONFIG['login_with_captcha'])}-->
+	<span>验证码:</span><input name="captcha" type="text" id="captcha" class="input common_input_border" size="10" /> <span id="captcham"></span>
+		<script type="text/javascript">
+		captcha($('#captcham'), $('#captcha'));
+		</script>
+	<!--{/if}-->
+	<input type="submit" name="submit" value="登录" class="submit pointer"/>
+	<input type='hidden' name='forward' id='forward' value="javascript:window.location.href"><span>
+	<a href="{$core.controller}/member-register">注册</a> | <a href="{$core.controller}/member-getpassword">忘记密码</a> </span>
+	<span>$plugin[qqconnect]</span>
+</form>
+</span>
+<script language="javascript">
+function ajax_login(){
+	if($('#login_form input[name=username]').val()==''){alert('账号不能为空');return false;}
+	if($('#login_form input[name=password]').val()==''){alert('密码不能为空');return false;}
+	<!--{if !empty($this_module->CONFIG['login_with_captcha'])}-->
+	if($('#login_form input[name=captcha]').val()==''){alert('验证码不能为空');return false;}
+	<!--{/if}-->
+	$.ajax({
+		   type:'POST',
+		   url:"{$core.U_controller}/member-login",
+		   data:$('#login_form').serialize(),
+		   dataType:'json',
+		   success:function(msg){
+			   if(msg=='no_such_username')alert('此用户不存在');
+			   if(msg=='user_no_verify')alert('此用户还在审核中');
+			   if(msg=='wrong_password')alert('帐号或密码错误');
+			 	if(msg.status=='0'){
+					$('#login_link').hide();
+					$('#login_info .username').html(msg.username);
+					if(msg.message){
+						$('#login_info .new_messages').show().html(msg.message);
+						
+					}
+					$('#login_info').show();
+				}
+		   }
+	 })
+}
+function ajax_logout(){
+	if(!confirm('真嘀要退出么？'))return false;
+	$.ajax({
+		   type:'POST',
+		   url:"{$core.U_controller}/member-logout",
+		   success:function(msg){
+				$('#login_link').show();
+				$('#login_info').hide();
+				}
+	 });
+	 return false;
+}
+</script>
+<!--{/php168}-->

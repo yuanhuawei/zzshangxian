@@ -1,0 +1,319 @@
+<!--{php168}-->
+<!--{template $core header_govopen}-->
+<link rel="stylesheet" type="text/css" href="{$SKDIR}core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/forms/style.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/images/category_selector.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<script type="text/javascript">
+var MODEL = '$MODEL';
+var attachment_hash = '$attachment_hash';
+var form_submit = false;
+{if !empty($this_model['CONFIG']['content_thumb_width'])}P8CONFIG.cthumb_width = {$this_model['CONFIG']['content_thumb_width']};{/if}
+{if !empty($this_model['CONFIG']['content_thumb_height'])}P8CONFIG.cthumb_height = {$this_model['CONFIG']['content_thumb_height']};{/if}
+
+window.onbeforeunload = function(){
+	P8_Upload.del(form_submit);
+};
+$(function(){
+
+$.validator.addMethod('jsreg',function(value, element, params){
+	return this.optional(element) || params.test(value);
+});
+
+$('#form').validate({
+	rules: { },
+	messages: { },
+	
+	errorPlacement: function(error, element) {
+			element.siblings(".jsregmsg").html(error);	
+	},
+	submitHandler: function(form){
+		form_submit = true;		
+		form.submit();
+	},		
+	onkeyup: false
+});
+
+});
+</script>
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../cms/item/govopen/style.css" />
+
+<div class="siderBar fl">
+<div class="ztcx_hd">$label[ztcx_tt]</div>
+<div class="ztcx_con box_con">
+$label[ztcx_con]
+</div>
+<div class="gkcx mtop">
+<div class="gkcx_hd"><span>$label[gkcx_tt]</span></div>
+<div class="gkcx_con">
+<form name="request" id="request" action="" method="get">
+<table>
+<tbody><tr><td height="2" colspan="2"></td></tr>
+<tr>
+<td width="28%" height="28" align="right">用户名：</td>
+<td width="72%" align="left"><input type="text" value="" name="field#[xingming]" id="field#[xingming]" size="14"></td>
+</tr>
+<tr>
+<td height="28" align="right">密&nbsp;&nbsp;码：</td>
+<td align="left"><input type="text" id="mima" name="field#[mima]" size="14"></td>
+</tr>
+<tr>
+</tr><tr>
+<td height="32" align="center" colspan="2">
+<input type="submit" value="查 询" onclick="this.form.action='forms-list-mid-37';this.form.method='get'">
+<input type="hidden" name="mid" value="$mid" />
+<input type="hidden" name="ids" value="" />
+</td>
+</tr>
+</tbody>
+</table>
+</form>
+</div>
+</div>
+<div class="bmcx_hd mtop">$label[bmcx_tt]</div>
+<div class="bmcx_con">
+$label[bmcx_con]
+</div>
+<div class="leftad_box mtop">
+$label[leftad01]
+</div>
+<div class="leftad_box mtop">
+$label[leftad02]
+</div>
+<div class="leftad_box mtop mbot">
+$label[leftad03]
+</div>
+
+
+</div>
+<div class="mainBody fr">
+<div class="rtbox_biglist mbot">
+<div class="hd">
+<div class="nav mtop">$label[nav]</div>
+</div>
+<div class="con">
+<div id="ysqgk">
+<div class="headbtn">
+<div class="btnbox"><span>$label[ysqgk_btn01]</span></div><div class="btnbox"><span>$label[ysqgk_btn02]</span></div><div class="btnbox"><span>$label[ysqgk_btn03]</span></div>
+</div>
+
+<form name="form" id="form" action="$this_url" method="post">
+<input type="hidden" value="ysqAdd" name="doAction">
+<input type="hidden" value="" name="handleunit">
+<input type="hidden" value="0" id="hmit" name="hmit">
+<table width="94%" cellspacing="1" cellpadding="0" border="0" bgcolor="#e2e2e2" align="center"  style="margin-bottom:15px">
+<tbody>
+<tr>
+<td bgcolor="#f2f2f2" style="padding:9px 20px;">$label[ysqgk_intro]
+</td>
+</tr>
+</tbody>
+</table>
+<table width="94%" cellspacing="8" cellpadding="0" border="0" align="center">
+    <tbody>
+    <tr>
+        <td align="center" class="font24">$this_model[alias]</td>
+    </tr>
+    <tr>
+        <td style="text-align:center"><font color="#e70000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;＊</font>&nbsp;为必填项&nbsp;&nbsp;&nbsp;
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="common_mtop">
+	<div class="forms_main">
+		<form name="form" id="form" action="$this_url" method="post">
+<table width="94%" border="0" bgcolor="#e2e2e2" align="center" cellspacing="1" cellpadding="0" class="pop_table">			
+				<!--{if empty($this_model['CONFIG']['parts'])}-->
+				<!--简单布局开始-->
+				<!--{foreach $this_model['fields'] $field $field_data}-->
+				<!--{php
+					if(!$field_data['editable']) continue;
+					
+					$__name = '';
+					
+					switch($field_data['widget']){
+					
+					case 'checkbox': case 'multi_select':case 'linkage':
+						$__name = '[]';
+					break;
+					case 'uploader': case 'image_uploader':
+						$__name = '[url]';
+					break;
+					case 'multi_uploader':
+						$__name = '[url][]';
+					break;
+					
+					}
+				}-->
+				<tr>
+					<td class="tdL" valign="top">{$field_data['alias']}:
+						<!--{if $field_data['not_null']}-->
+						<font color="red">*</font>
+						<!--{/if}-->
+					</td>
+					<td class="tdR">
+						<!--{php include template($core, 'widget/'. $field_data['widget'], 'default');}-->
+						<!--{if !empty($field_data['units'])}-->
+						$field_data[units]
+						<!--{/if}-->
+						<!--{if !empty($field_data['description'])}-->
+						<span class="description">$field_data[description]</span>
+						<!--{/if}-->
+						<span class="jsregmsg"></span>
+					</td>
+				</tr>
+					<!--{if $field_data['not_null']}-->
+					<script type="text/javascript">
+					$(document).ready(function(){
+						$('#form *[name="field#[$field]$__name"]').rules('add', {
+							required: true,
+							messages: { required: "{$P8LANG['forms_field_required']}"}
+						});
+					});
+					</script>
+					<!--{/if}-->
+					<!--{if $field_data['jsreg']}-->
+					<script type="text/javascript">
+						$(document).ready(function(){
+							$('#form *[name="field#[$field]$__name"]').rules('add', {
+								jsreg: {$field_data['jsreg']},
+								messages: {jsreg:'{$field_data['jsregmsg']}'}
+							});
+						});
+						</script>
+					<!--{/if}-->
+				<!--{/foreach}-->
+				<!--{else}-->
+				
+				<!--复杂布局开始-->
+				<!--{foreach $this_model['CONFIG']['parts'] $pk $pd}-->				
+				<tr>
+					<td bgcolor="#fff7f7">
+						<table width="94%" border="0" bgcolor="#e2e2e2" align="center" cellspacing="1" cellpadding="0" class="pop_table">
+							<tr>
+								<!--{php $tdwidth = 100/$pd['row'].'%'; for($i=1;$i<=$pd['row'];$i++){ $tdid = "$pk-$i";}-->
+								<td id="$pk-$i" width="$tdwidth" valign="top" bgcolor="#fff7f7">
+									<table width="100%" border="0"  cellpadding="5" cellspacing="0">
+										<!--{foreach $this_model['parts'][$tdid] $fid $field}-->
+										<!--{php
+											$field_data = $this_model['fields'][$field];
+											
+											if(!$field_data['editable']) continue;
+											
+											$__name = '';
+											
+											switch($field_data['widget']){
+											
+											case 'checkbox': case 'multi_select':
+												$__name = '[]';
+											break;
+											case 'uploader': case 'image_uploader':
+												$__name = '[url]';
+											break;
+											case 'multi_uploader':
+												$__name = '[url][]';
+											break;
+											
+											}
+										}-->
+										<tr>
+											<td class="tdL">{$field_data['alias']}:
+												<!--{if $field_data['not_null']}-->
+												<font color="red">*</font>
+												<!--{/if}-->
+												</td>
+											<td class="tdR">
+												<!--{php include template($core, 'widget/'. $field_data['widget'], 'default');}-->
+												<!--{if !empty($field_data['units'])}-->
+												$field_data[units]
+												<!--{/if}-->
+												<!--{if !empty($field_data['description'])}-->
+												<span class="description">$field_data[description]</span>
+												<!--{/if}-->
+												<span class="jsregmsg"></span>
+											</td>
+										</tr>
+										
+										<!--{if $field_data['not_null']}-->
+										<script type="text/javascript">
+											$(document).ready(function(){
+												$('#form *[name="field#[$field]$__name"]').rules('add', {
+													required: true,
+													messages: { required: "{$P8LANG['forms_field_required']}"}
+												});
+											});
+											</script>
+										<!--{/if}-->
+										<!--{if $field_data['jsreg']}-->
+										<script type="text/javascript">
+											$(document).ready(function(){
+												$('#form *[name="field#[$field]$__name"]').rules('add', {
+													jsreg: {$field_data['jsreg']},
+													messages: {jsreg:'{$field_data['jsregmsg']}'}
+												});
+											});
+											</script>
+										<!--{/if}-->
+										<!--{/foreach}-->
+									</table>
+								</td>
+								<!--{php }}-->
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<!--{/foreach}-->
+				<!--{/if}-->
+				<!--{if $this_model['CONFIG']['captcha']}-->
+				<tr><td bgcolor="#fff7f7"><table><tr><td class="tdL">验证码<font color="red">*</font>:</td><td  class="tdR"><input type="text"  class="txt"  name="captcha" id="captcha" size="10"/> <span id="captchachr"></span></td></tr></td></tr></table>
+			<script type="text/javascript">
+(function(){
+	captcha($("#captchachr"), $("input[name=captcha]"));
+})();
+</script>
+				<!--{/if}-->
+			</table>
+			<div style="padding-left:100px">
+					<input type="submit" name="" class="forms_btn" value="提 交" />
+					<input type="reset" name="" class="forms_btn" value="取 消" />
+					<input type="hidden" name="mid" value="$mid" />
+					<input type="hidden" name="id" value="{if !empty($id)}$id{/if}" />
+					<input type="hidden" name="attachment_hash" value="{$attachment_hash}" />
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+
+$(function(){
+	<!--{if empty($this_model['CONFIG']['parts'])}-->	   
+	$('.pop_table tr:even').addClass('pop_tr');	
+	<!--{/if}-->
+})
+
+</script>
+
+
+
+</div>
+
+
+
+</div>
+</div>
+</div></div><!--主体结束-->
+<div class="clear"></div>
+<script type="text/javascript">
+$(function(){
+	$('#gov_left .tree_menu p').bind('click',function(){	$('#gov_left .tree_menu .one_manu').slideUp("normal");if($(this).parent().find('.one_manu').css('display')=='none'){	$(this).parent().find('.one_manu').slideDown('normal');	}else{	$(this).parent().find('.one_manu').slideUp("normal");}});
+	$('#gov_left .two_manu span').bind('click',function(){	$('#gov_left .two_manu dl').slideUp("normal"); if($(this).parent().find('dl').css('display')=='none'){	$(this).parent().find('dl').slideDown('normal');	}else{	$(this).parent().find('dl').slideUp("normal");}});
+})
+</script>
+<!--{template $core footer_govopen}-->
+<!--{/php168}-->

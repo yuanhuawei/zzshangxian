@@ -1,0 +1,109 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $this_module header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+
+<link rel="stylesheet" href="{$RESOURCE}/images/category_selector.css" type="text/css">
+<form action="$this_router-$ACTION" method="post" id="myform" name="myform">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="formtable">
+						<tr>
+							<td colspan="2" class="title">{$P8LANG['ask_category_add']}</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_category_name']}</td>
+							<td class="tdR">
+								<textarea name="name" rows="7" cols="50"></textarea>
+								<br/>
+								{$P8LANG['ask_category_add_tips']}
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_belong_category']}</td>
+							<td class="tdR">
+							<span id="parents"></span>
+								<input type="button" value="选择" onclick="dialog.show()" />
+								<input type="hidden" name="parent" />
+								<input type="hidden" id="parent" value="{if !empty($id)}$id{/if}" />
+							</td>
+						</tr>
+						<tr>
+						  <td class="tdL">&nbsp;</td>
+						  <td class="tdR">
+							<input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/>
+						</td>
+					  </tr>
+					</table>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+$('#myform').validate({
+	rules: {
+		name: {
+			required: true
+		}
+	},
+	messages: {
+		name: {
+			required: '{$P8LANG['ask_category_name_not_allow_empty']}'
+		}
+	},
+	onkeyup: false
+});
+var _CATEGORY_JSON = $json[json];
+var _CATEGORY_PATH = $json[path];
+
+var dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_parent_category']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		parent_path();
+	},
+	show: function(){
+		cs.init();
+	}
+});
+
+function parent_path(){
+	var val = $('#parent').val();
+	$('#myform input[name=parent]').val(val);
+	
+	$('#parents').empty();
+	
+	var path = _CATEGORY_PATH[val];
+	if(!path) return;
+	for(var i = 0; i < path.length; i++){
+		var cat = cs.get_by_id(path[i]);
+		$('#parents').append($('<span>'+ cat.name +' &gt; </span>'));
+	}
+}
+
+var cs = new Recursive_Selector({
+	json: _CATEGORY_JSON,
+	path: _CATEGORY_PATH,
+	input: $('#parent'),
+	dialog: dialog,
+	sub_property: 'categories',
+	item_callback: function(cat, item){
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	},
+	parents: <!--{if !empty($id)}-->clone(_CATEGORY_PATH[$id])<!--{else}-->null<!--{/if}-->
+});
+parent_path();
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

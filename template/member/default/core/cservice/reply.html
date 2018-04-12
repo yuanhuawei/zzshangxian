@@ -1,0 +1,24 @@
+<!--{php168}-->
+<form action="{$this_router}-reply" method="post">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="replybox">
+	<tr>
+		<td>标题</td>
+		<td><input name="title" type="text" value="{if !empty($repdb[title])}$repdb[title]{/if}" /></td>
+	</tr>
+	<tr>
+		<td>内容</td>
+		<td><textarea name="content" cols="50" rows="5"><!--{if !empty($repdb[content])}-->$repdb[content]<!--{/if}--></textarea></td>
+	</tr>
+	<tr>
+		<td>
+			<input type="hidden" name="askid" value="$askid" />
+			<input type="hidden" name="repid" value="$repid" />
+			<input type="hidden" name="replay_id" value="{if !empty($repdb[id])}$repdb[id]{/if}" />
+		</td>
+		<td><input name="submit" type="submit" value="提交" /></td>
+	</tr>
+</table>
+</form>
+
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

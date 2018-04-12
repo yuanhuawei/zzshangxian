@@ -1,0 +1,40 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module header}-->
+<div class="list_box mtop20">
+	<div class="head" id="boxhead">
+		<span class="$all_over"><a href="$this_url?job=all">{$P8LANG['ask_all_answered']}</a></span>
+		<span  class="$verify_over"><a href="$this_url?job=verify">{$P8LANG['ask_accept_answered']}</a></span>
+		<span  class="$best_over"><a href="$this_url?job=best">{$P8LANG['ask_best_answered']}</a></span>
+		<span class="$unverify_over" ><a href="$this_url?job=unverify">{$P8LANG['ask_unaudited']}</a></span>
+	</div>
+</div>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table" id="list">
+	<tr class="head">
+		<td>标题</td>
+		<td>{$P8LANG['ask_asker']}</td>
+		<td>{$P8LANG['ask_answer_time']}</td>
+		<td>操作</td>
+	</tr>
+	
+	<!--{foreach $list $k $v}-->
+	<tr id="ask_{$v['id']}">
+		<td class="al"><a href="{$this_system.controller}/item-view-id-$v[id]" target="_blank">$v[title]</a>&nbsp;[<a href="{$this_url}?cid=$v[cid]" >{$category.categories[$v['cid']]['name']}</a>] </td>
+		<td>
+			<a>{$v['pusername']}</a>
+		</td>
+		<td><!--{php echo date('Y-m-d',$v['addtime']);}--></td>
+		<td>
+			<a href="{$this_system.controller}/item-view-id-$v[id]" target="_blank">补充</a>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+	
+	<tr>
+		<td align="center" colspan="5" class="pages">
+			$pages
+		</td>
+	</tr>
+</table>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

@@ -1,0 +1,48 @@
+<!--{php168}-->
+<!--{php 
+$mtop=$sheight-30;
+}-->
+<style type="text/css">
+#play_{$label['id']}{width:{$swidth}px;height:{$sheight}px; overflow:hidden; }
+#play_{$label['id']} .playNum{width:{$swidth}px;overflow:hidden;margin:{$mtop}px 5px 0 0px;z-index:3; text-align:right;position:absolute;height:25px;}
+#play_{$label['id']} .playNum a{margin:5px 5px 10px 0;border:1px solid #ffffff;width:10px;height:10px; display:inline-block;cursor:pointer;color:#000;background:#D7D6D7;text-align:center; }
+#play_{$label['id']} .playShow img{width:{$swidth}px;height:{$sheight}px;}
+</style>
+<div id="play_{$label['id']}">
+	<ul>
+        <li class="playNum"></li>
+        <li class="playShow">
+		<!--{foreach $list $value}-->
+            <a href="$value[url]" target="_blank"><img src="$value[frame]" alt="$value[title]"  width="{$swidth}" height="{$sheight}"/></a> 
+		<!--{/foreach}-->
+        </li>
+    </ul>
+</div>
+<script type=text/javascript>
+(function(){
+	var playdiv = $('#play_{$label['id']}');
+	var t = i = 0, c = clas("playShow").find('a').size();
+	for(ii=1;ii<=c;ii++){
+		clas("playNum").append('<a>&nbsp;</a>');
+	}
+	showImg();
+	clas('playNum').find('a').click(function(){
+		i =   clas('playNum').find('a').index(this);
+	   showImg();									 									 
+	});
+	t = setInterval(showImg, 5000);
+	playdiv.hover( function(){ clearInterval(t);}, function(){ t = setInterval(showImg, 5000);});
+	function clas(className){
+		return playdiv.find('.'+className);
+	}
+	function showImg(){
+	  clas('playNum').find('a').eq(i).siblings().css({"background":"#EB2526",'color':'#000'}).end().css({"background":"#FFFFFF",'color':'#FFFFFF'});
+	  clas("playShow").find('a').eq(i).siblings().hide().end().fadeIn(1200);
+	 
+	  i++;
+	  if(i==c){i =0;}
+	}
+
+})();
+</script>
+<!--{/php168}-->

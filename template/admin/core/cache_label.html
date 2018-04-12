@@ -1,0 +1,23 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<form action="$this_url" method="POST">
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['update_cache']}</td>
+			</tr>
+			
+			<tr>
+				<td class="headerbtn_list" align="center">
+					
+					<p style="margin:100px 0;"><input type="submit" value="{$P8LANG['cache_label']}" class="cache_btn" onclick="this.form.type.value='label'" size="30"/><span class="ab_c">内容没有立即显示，请点击此处</span></p>				 
+				   <input type="hidden" name="type" value="all" /> </td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+</form>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,451 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $this_system menu_bar admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/autocomplete.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<link rel="stylesheet" href="{$SKIN}/office/category_selector.css" type="text/css" />
+<style type="text/css">
+.field{
+	border: 1px solid #CCCCCC;
+	padding: 10px;
+	margin: 1em;
+}
+
+.field legend{
+	border: 1px solid #CCCCCC;
+	padding: 2px 4px;
+}
+</style>
+
+<div style="display: none;">
+	<input type="text" id="srh" size="30" />
+</div>
+
+<form action="$this_url" method="post" id="form">
+	<div class="mainbox mainborder">
+		<table class="columntable formtable hover_table click_changeable">
+			<tr class="title fix_head">
+				<td width="1%" class="title">&nbsp;</td>
+				<td width="1%" class="title"><input type="checkbox" onclick="check_all(this, 'id[]', $('#form'));" /></td>
+				<td width="2%" class="title">ID</td>
+				<td width="10%" class="title" title="0" onclick="if(this.title == 1){this.title=0;hide_all();$(this).find('span img').attr('src', '{$SKIN}/show.gif');}else{this.title=1;show_all();$(this).find('span img').attr('src', '{$SKIN}/hide.gif');}" style="cursor: pointer;"><span><img src="{$SKIN}/show.gif" /></span>{$P8LANG['office_category_name']}</td>
+				<td width="4%" class="title">{$P8LANG['office_category_model']}</td>
+				<td width="3%" class="title">{$P8LANG['office_category_type']}</td>
+				<td width="4%" class="title">{$P8LANG['htmlize']}</td>
+				<td width="3%" class="title">{$P8LANG['office_category_item_count']}</td>
+				<td width="2%" class="title">{$P8LANG['office_category_order']}</td>
+				<td width="12%" class="title">{$P8LANG['operation']}</td>
+			</tr>
+			
+			<tbody id="__">
+			
+			</tbody>
+	    </table>
+		
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+		<tr>
+			<td>
+				<input type="submit" value="{$P8LANG['office_category_update_order']}" class="edit_btn" />
+				<input type="button" value="{$P8LANG['update_cache']}" onclick="_submit('cache')" class="edit_btn" />
+				<input type="button" value="{$P8LANG['office_category_fix']}" onclick="_submit('fix')" class="edit_btn" />
+				<input type="button" value="静态化" onclick="list_to_html()" class="edit_btn" />
+				<input type="button" value="开启所有栏目静态" onclick="_submit('htmlize')" class="edit_btn" />
+				<input type="button" value="关闭所有栏目静态" onclick="_submit('unhtmlize')" class="edit_btn" />
+				<input type="button" value="{$P8LANG['delete']}" onclick="delete_category(checked_values('id[]', $('#form')))" class="edit_btn" />
+			</td>
+		</tr>
+		</table>
+	</div>
+	
+	<input type="hidden" name="action" value="" />
+</form>
+
+<div id="status">
+<fieldset class="field" id="shower">
+	<legend>列表页</legend>
+	<iframe name="shower" width="100%" height="120" marginheight="0" marginheight="0" frameborder="0"></iframe>
+</fieldset>
+
+<fieldset class="field" id="shower2">
+	<legend>内容页</legend>
+	<iframe name="shower2" width="100%" height="120" marginheight="0" marginheight="0" frameborder="0"></iframe>
+</fieldset>
+</div>
+
+<form id="list_to_html" action="{$core.admin_controller}/$SYSTEM/item-list_to_html" method="post" target="shower">
+</form>
+<form id="view_to_html" action="{$core.admin_controller}/$SYSTEM/item-view_to_html" method="post" target="shower2">
+</form>
+
+<iframe name="poster" src="about:blank" style="display: none;"></iframe>
+
+<script type="text/javascript">
+var CATEGORY_JSON = $json[json];
+var CATEGORY_PATH = $json[path];
+var MODEL_JSON = $json[models];
+
+function _submit(action){
+	if(!confirm('$P8LANG[confirm_to_do]')) return;
+	
+	$('#form input[name=action]').val(action);
+	$('#form').submit();
+}
+
+function show_all(){
+	$('#__ tr').each(function(){
+		var tr = $(this).show();
+		
+		if(tr.attr('sub')){
+			tr.attr('title', 1).find('td:eq(3) span').html('<img src="{$SKIN}/hide.gif" />');
+		}
+	});
+}
+
+function hide_all(){
+	$('#__ tr').each(function(){
+		var tr = $(this);
+		
+		if(tr.attr('sub')){
+			tr.attr('title', 0).find('td:eq(3) span').html('<img src="{$SKIN}/show.gif" />');
+		}
+		
+		if(tr.attr('level') != 1) tr.hide().attr('title', 1);
+	});
+}
+
+function ___(json, l, p){
+	l = l === undefined ? 0 : l;
+	p = p === undefined ? 0 : p;
+	
+	var j = 0, k = count(json);
+	
+	for(var i in json){
+		
+		var html = '';
+		j++;
+		var c = '';
+		if(l != 0){
+			c += str_repeat('│&nbsp;&nbsp;', l - p) + str_repeat('&nbsp;&nbsp;&nbsp;', p);
+			if(j == k){
+				p++;
+				c += '└';
+			}else{
+				c += '├';
+			}
+		}
+		if(json.id>370){alert(json.id);}
+		var sub = json[i].categories ? true : false;
+		var path = CATEGORY_PATH[json[i].id].join('_');
+		c += (json[i].categories ? '<span style="cursor: pointer;"><img src="{$SKIN}/hide.gif" /></span> ' : '') +
+			'<a href="{$core.admin_controller}/$SYSTEM/item-list?model='+ (json[i].categories ? json[i].model : '') +'&cid='+ json[i].id +'" target="_blank">'+ json[i].name +'</a>';
+		
+		html += 
+		'<tr id="category_'+ json[i].id +'" path="path_'+ path +'" title="1"'+ (sub ? ' sub="1"' : '') +' level="'+ (l +1) +'">'+
+			'<td>&nbsp;</td>'+
+			'<td><input type="checkbox" name="id[]" value="'+ json[i].id +'" onclick="_check(\''+ path +'\', this.checked)" /></td>'+
+			'<td>'+ json[i].id +'</td>'+
+			'<td class="c_name" model="'+ json[i].model +'">'+ c +'</td>'+
+			'<td><a href="###" onclick="filter_model(\''+ json[i].model +'\')">'+ (json[i].type==3?'none':MODEL_JSON[json[i].model].alias) +'</a></td>'+
+			'<td>'+ (json[i].type == 1 ? '{$P8LANG['office_category_type_1_s']}' : json[i].type == 2? '{$P8LANG['office_category_type_2_s']}':'{$P8LANG['office_category_type_3_s']}') +'</td>'+
+			'<td><img src="{$SKIN}/'+ (json[i].htmlize == 1 ? 'check_yes.gif' : 'check_no.gif') +'"></td>'+
+			'<td>'+ json[i].item_count +'</td>'+
+			'<td><input type="text" class="txt" name="display_order['+ json[i].id +']" value="'+ json[i].display_order +'" size="4" /></td>'+
+			'<td>'+
+				'<a href="'+ json[i].url +'" target="_blank" title="{$P8LANG['preview']}"><img src="{$SKIN}/icon_view.gif" /></a> '+
+				'<a href="'+(json[i].type==3?json[i].url:'{$this_system.modules['item']['controller']}-list-category-'+ json[i].id )+'" target="_blank" title="{$P8LANG['preview']}"><img src="{$SKIN}/icon_view.gif" /></a> '+
+				'<a href="$this_router-add?parent='+ json[i].id +'" title="{$P8LANG['add_office_sub_category']}" target="_blank"><img src="{$SKIN}/icon_add.gif" /></a> '+
+				'<a href="{$core.admin_controller}/$SYSTEM/item-add?model='+ json[i].model +'&cid='+ json[i].id +'" target="_blank" title="{$P8LANG['add_office_item']}"><img src="{$SKIN}/post_icon.gif" /></a> '+
+				'<a href="{$core.controller}/$SYSTEM/item-list-category-'+ json[i].id +'?edit_label=1" target="_blank" title="{$P8LANG['label']}"><img src="{$SKIN}/icon_updatalabel.gif" /></a> '+
+				'<a href="{$core.controller}/$SYSTEM/item-view-id-?edit_label=1" target="_blank" onclick="edit_view_label('+json[i].type+','+json[i].id+');return(false)" title="{$P8LANG['office_category_view_page_label']}"><img src="{$SKIN}/html.gif" /></a> '+
+				'<a href="###" title="{$P8LANG['office_category_merge']}" onclick="merge('+ json[i].id +');"><img src="{$SKIN}/plub.gif" /></a> '+
+				'<a href="{$core.admin_controller}/core/credit-list_rule?system=$SYSTEM&module=item&postfix=category_'+ json[i].id +'" target="_blank" title="{$P8LANG['credit_rule']}"><img src="{$SKIN}/credit.gif" /></a> '+
+				'<a href="$this_router-update?model=&id='+ json[i].id +'" title="{$P8LANG['edit']}" target="_blank"><img src="{$SKIN}/button_edit.gif" /></a> '+
+				'<a id="delete_'+ json[i].id +'" href="$this_router-delete?model=$MODEL&id='+ json[i].id +'" onclick="return delete_category([this.id]);" title="{$P8LANG['delete']}"><img src="{$SKIN}/del_icon2.gif" /></a> '+
+			'</td>'+
+		'</tr>';
+		
+		var tr = $(html);
+		$('#__').append(tr);
+		if(sub){
+			___(json[i].categories, l +1, p);
+			_toggle(
+				$(tr).find('td:eq(3) span').
+				bind('click', function(){_toggle($(this)); return false;})
+			);
+		}
+	}
+}
+
+___(CATEGORY_JSON);
+
+
+function _toggle(span){
+	var id = $(span).parent().parent().attr('id').replace(/[^0-9]/g, '');
+	var path = CATEGORY_PATH[id].join('_');
+	
+	var on = $('#category_'+ id).attr('title') == 0;
+	
+	var keep_close = [];
+	$('tr[path^=path_'+ path +'_]').each(function(){
+		if(on){
+			
+			if($(this).show().attr('title') == 1 && $(this).attr('sub')){
+				keep_close.push(this.id.replace(/[^0-9]/g, ''));
+				$(this).attr('title', 0);
+			}else{
+				$(this).attr('title', 1);
+			}
+			
+		}else{
+			
+			if($(this).hide().attr('title') == 0 && $(this).attr('sub')){
+				//keep close
+				$(this).attr('title', 1);
+			}else{
+				$(this).attr('title', 0);
+			}
+			
+		}
+	});
+	
+	if(on){
+		$(span).parent().parent().attr('title', 1);
+		$(span).html('<img src="{$SKIN}/hide.gif" />');
+	}else{
+		$(span).parent().parent().attr('title', 0);
+		$(span).html('<img src="{$SKIN}/show.gif" />');
+	}
+	
+	for(var i = 0; i < keep_close.length; i++){
+		$('tr[path^=path_'+ CATEGORY_PATH[keep_close[i]].join('_') +'_]').hide().find('span');
+	}
+	return false;
+}
+
+function delete_category(array){
+	if(confirm('{$P8LANG['office_category_confirm_to_delete']}')){
+		
+		var id = [];
+		$.each(array, function(k, v){
+			id.push(v.replace(/[^0-9]/g, ''));
+		});
+		
+		$.ajax({
+			url: '$this_router-delete',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({model: '$MODEL', id: id}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				
+				ajaxing({action: 'hide'});
+				
+				for(var i in json){
+					$('#delete_'+ json[i]).parent().parent().remove();
+				}
+			}
+		});
+	}
+	
+	return false;
+}
+
+function filter_model(m){
+	$('#__ td.c_name[model='+ m +']').attr('style', '');
+	$('#__ td.c_name[model!='+ m +']').attr('style', 'filter: alpha(opacity=40); opacity: 0.4;');
+}
+
+$('form input[name^=display_order]').change(function(){
+	this.value = this.value.replace(/[^0-9]/g, '') || 0;
+	if(this.value > 9999) this.value = 9999;
+	if(this.value < 0) this.value = 0;
+	
+	$('#form').append('<input type="hidden" name="_display_order['+ this.name.replace(/[^0-9]/g, '') +']" value="'+ this.value +'" />');
+	$(this).css({border: '1px solid #ff0000'});
+});
+
+function get_category_by_id(id){
+	var path = clone(CATEGORY_PATH[id]);
+	var root = path.shift();
+	var search = CATEGORY_JSON[root];
+	
+	if(path.length == 0){
+		return search;
+	}
+	for(var i in path){
+		search = search.categories[path[i]];
+	}
+	return search;
+}
+
+function edit_view_label(b,id){
+	if(b == '1'){
+		alert('{$P8LANG['office_category_type_1_no_item_label']}');
+		return;
+	}
+	
+	$.ajax({
+		url: '$this_router-edit_view_label',
+		type: 'POST',
+		dataType: 'html',
+		data: 'cid='+id,
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			if(json=='-1'){alert('{$P8LANG['office_category_no_item_yet']}');return;}
+			window.open("{$core.controller}/{$SYSTEM}/item-view-id-"+json+"?edit_label=1&postfix=");
+		}
+	});
+}
+
+function _check(path, checked){
+	$('#form tr[path^=path_'+ path +'_] input[name="id[]"]').prop('checked', checked);
+}
+
+function list_to_html(){
+	$('#list_to_html').empty();
+	$('#view_to_html').empty();
+	
+	var ids = checked_values('id[]', $('#form'));
+	if(!ids.length) return;
+	
+	var pages = prompt('生成多少页列表。默认为“0”:生成所有，如输入“1”:仅生成第一页', 0);
+	if(pages === null) return;
+	var items = prompt('是否同时生成内容页。默认为“0”:不生成，“1”:仅生成分类中的一条内容，“-1”:生成所有', 0);
+	
+	$('#list_to_html').append($('<input type="hidden" name="pages" value="'+ pages +'" />'));
+	for(var i = 0; i < ids.length; i++){
+		$('#list_to_html').append($('<input type="hidden" name="cids[]" value="'+ ids[i] +'" />'));
+	}
+	
+	$('#list_to_html').submit();
+	
+	html_dialog.show();
+	
+	if(items === null) return;
+	if(items != 0){
+		$('#view_to_html').append($('<input type="hidden" name="items" value="'+ items +'" />'));
+		for(var i = 0; i < ids.length; i++){
+			$('#view_to_html').append($('<input type="hidden" name="cids[]" value="'+ ids[i] +'" />'));
+		}
+		
+		$('#view_to_html').submit();
+		
+	}
+}
+
+
+var merge_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['office_category_merge']}',
+	button: true,
+	width: 700,
+	height: 300,
+	show: function(){
+		cs.init();
+	}
+});
+
+var cs = new Recursive_Selector({
+	json: CATEGORY_JSON,
+	path: CATEGORY_PATH,
+	input: $('#move_cid'),
+	dialog: merge_dialog,
+	sub_property: 'categories',
+	item_callback: function(cat, item){
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	},
+	change: function(select){
+		var cat = this.get_by_id(select.data('value'));
+	}
+});
+
+function merge(id){
+	merge_dialog.show();
+	
+	merge_dialog.ok(function(){
+		$.ajax({
+			url: '$this_router-merge',
+			type: 'post',
+			cache: false,
+			data: {id: id, to_id: cs.get_value()},
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(s){
+				ajaxing({action: 'hide'});
+				
+				merge_dialog.close();
+			}
+		});
+		return false;
+	});
+}
+
+function _find(n, json){
+	var ret = [];
+	for(var i in json){
+		if(json[i].name.indexOf(n) != -1)
+			ret.push(json[i].id);
+		
+		if(json[i].categories){
+			ret = ret.concat(_find(n, json[i].categories));
+		}
+	}
+	
+	return ret;
+}
+
+var auto = new P8_Autocomplete({
+	input: $('#srh'),
+	className: 'autocomplete',
+	trigger: function(){
+		var find = _find(this.keyword, CATEGORY_JSON);
+		
+		if(!find.length) return;
+		//alert(find);
+		var json = [];
+		var parents = '';
+		for(var i = 0; i < find.length; i++){
+			var parents = '';
+			for(var j in CATEGORY_PATH[find[i]]){
+				parents += get_category_by_id(CATEGORY_PATH[find[i]][j]).name +' &gt; ';
+			}
+			
+			var cat = get_category_by_id(find[i]);
+			json.push({text: parents, value: cat.id});
+		}
+		
+		this.deploy(json);
+	},
+	callback: function(li){
+		alert(li.data('value'));
+		
+		return false;
+	}
+});
+
+var html_dialog = new P8_Dialog({
+	width: 600,
+	height: 400,
+	overlay: false,
+	cancel: function(){
+		this.content.find('iframe').attr('src', 'about:blank');
+	}
+});
+html_dialog.content.append($('#status'));
+
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

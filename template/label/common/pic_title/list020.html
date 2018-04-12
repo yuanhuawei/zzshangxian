@@ -1,0 +1,22 @@
+<!--{php168}-->
+<ul class="label_pic_ul_20">
+	<!--{foreach $list $value}-->
+	<li class="col-xs-12 col-sm-6 col-md-3">
+		<div class="probox">
+			<img src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" width="253" height="200" alt="$value[title]" />
+			<div class="prolist-title">
+				<h3><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></h3>
+				<p class="prolist-detail">
+					<a href="#1" target="_blank" class="details">查看详细</a>
+					<a href="#2" class="details">在线订购</a>
+				</p>
+			</div>
+			<div class="prolist-overlay"></div>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->
+
+
+

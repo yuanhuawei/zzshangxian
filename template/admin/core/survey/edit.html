@@ -1,0 +1,156 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<div class="mainbox mainborder">
+	<div class="section">
+		<form id="form" name="form1" method="post" action="$this_url">
+			<table class="columntable formtable hover_table padding_table">
+				<tr class="title">
+					<td colspan="2">项目管理</td>
+				</tr>
+				<tr >
+					<td class="tdL">标 题: </td>
+					<td class="tdR">
+						<input type="text" class="txt" name="title" value="{if !empty($rsdb['title'])}$rsdb[title]{/if}" size="70">
+					</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td class="tdL"> 结束时间: </td>
+					<td  class="tdR">
+						<input type="text" name="endtime" value="<!--{php echo !empty($rsdb['endtime'])?date("Y-m-d H:i:s",$rsdb['endtime']):'';}-->" autocomplete="off" onclick="rcalendar(this, 'full')" />
+					</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td class="tdL">是否启用: </td>
+					<td  class="tdR">
+						<input type="radio" name="status" value="1" {if !isset($rsdb['status']) || !empty($rsdb['status'])}checked="checked"{/if}/>启用 <input type="radio" name="status" value="0" {if isset($rsdb['status']) && empty($rsdb['status'])}checked="checked"{/if}/>关闭
+					</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td class="tdL">是否开启验证码: </td>
+					<td class="tdR">
+						<input type="radio" name="captcha" value="1" {if !isset($rsdb['captcha']) || !empty($rsdb['captcha'])}checked="checked"{/if}/>开启 <input type="radio" name="captcha" value="0" {if isset($rsdb['captcha']) && empty($rsdb['captcha'])}checked="checked"{/if}/>不开启
+					</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td class="tdL">内容: </td>
+					<td class="tdR">
+						<textarea id="content" name="content" type="text/plain">{if isset($rsdb['content'])}{html_entities($rsdb['content'])}{/if}</textarea>			
+						<script type="text/javascript">UE.getEditor('content',{allowDivTransToP: false,initialFrameHeight: 350});</script>
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">模板</td><td  class="tdR"> 
+						填写模板:<input type="text" class="txt" name="post_template" id="ht" value="{if !empty($rsdb['post_template'])}$rsdb[post_template]{/if}" /><input type="button" value="选择" onclick="ht_template_dialog.show()" /><br>
+						<!--列表模板:<input type="text" class="txt" name="list_template" id="ft" value="{if !empty($rsdb['list_template'])}$rsdb[list_template]{/if}" /><input type="button" value="选择" onclick="ft_template_dialog.show()" /> <br>-->
+						结果模板:<input type="text" class="txt" name="view_template" id="mt2" value="{if !empty($rsdb['view_template'])}$rsdb[view_template]{/if}" /><input type="button" value="选择" onclick="mt2_template_dialog.show()" /><br>
+				</tr>
+				<tr bgcolor="#FFFFFF" align="center">
+					<td colspan="2" class="tdL"> 
+					<input type="hidden" name="id" value="{if !empty($id)}$id{/if}"> 
+					<input type="submit" name="Submit" value="提交"> 
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table width="100%" border="0" cellspacing="1" cellpadding="3" class="tablewidth">
+
+			<tr class="head">
+				<td>帮助说明</td>
+			</tr>
+			<tr bgcolor="#FFFFFF">
+				<td>填写模板,列表模板,你都可以自己做一个有个性的,然后在上面输入他们所在的目录即可调用显示.留空的话.将以默认为标准.</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+
+
+var ht_template_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		$('#ht').val(ht_template_selector.value);
+	}
+});
+var ht_template_selector = new Template_Selector({
+	base_dir: '{$template_dir}/',
+	selected: $('#ht').val(),
+	dialog: ht_template_dialog
+});
+
+
+var ft_template_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		$('#ft').val(ft_template_selector.value);
+	}
+});
+var ft_template_selector = new Template_Selector({
+	base_dir: '{$template_dir}/',
+	selected: $('#ft').val(),
+	dialog: ft_template_dialog
+});
+
+
+var mt2_template_dialog = new P8_Dialog({
+	title_text: '选择模板',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		$('#mt').val(mt2_template_selector.value);
+		$('#mt2').val(mt2_template_selector.value);
+	}
+});
+var mt2_template_selector = new Template_Selector({
+	base_dir: '{$template_dir}/',
+	selected: $('#mt2').val(),
+	dialog: mt2_template_dialog
+});
+
+$(function() {
+	ht_template_selector.init();
+	ft_template_selector.init();
+	mt2_template_selector.init();
+	
+	
+$('#form').validate({
+	rules: {
+		title: {
+			required: true	
+		}
+	},
+	
+	messages: {
+		title: {
+			required: "标题不能为空",
+		}
+	},
+	
+	errorPlacement: function(error, element) {
+		error.wrap('<div></div>').appendTo(element.parent().prev());
+	},
+	wrapper: 'div',
+	
+	onkeyup: false
+})
+
+});
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

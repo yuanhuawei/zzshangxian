@@ -1,0 +1,294 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $core menu_bar admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript">
+var SYSTEM = 'core';
+var MODULE = '';
+</script>
+
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td colspan="2" class="title">{$P8LANG['config']}</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['site_close']}</td>
+					<td class="tdR">
+						<input type="radio" name="config[site_close]" value="1"{if !empty($config['site_close'])} checked{/if} />{$P8LANG['Y']}
+						<input type="radio" name="config[site_close]" value="0"{if empty($config['site_close'])} checked{/if} />{$P8LANG['N']}<br />
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">是否开启rewrite隐藏index.php
+					<span class="help" style="display: none;">http://www.***.com/index.php/cms/item-view,隐藏后http://www.***.com/cms/item-view</span>
+					</td>
+					<td class="tdR">
+						<input type="radio" name="config[url_rewrite_enabled]" value="1"{if !empty($config['url_rewrite_enabled'])} checked{/if} />{$P8LANG['Y']}
+						<input type="radio" name="config[url_rewrite_enabled]" value="0"{if empty($config['url_rewrite_enabled'])} checked{/if} />{$P8LANG['N']}<br />
+						
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['site_close_reason']}</td>
+					<td class="tdR">
+						<textarea name="config[site_close_reason]">{if !empty($config['site_close_reason'])}{$config['site_close_reason']}{/if}</textarea>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['site_url']}</td>
+					<td class="tdR"><input type="text" class="txt" name="config[url]" size="30"  value="{if !empty($config['url'])}{$config['url']}{/if}" /></td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['site_name']}</td>
+					<td class="tdR"><input type="text" class="txt" name="config[site_name]" size="30"  value="{if !empty($config['site_name'])}{$config['site_name']}{/if}" /></td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['base_domain']}</td>
+					<td class="tdR"><input type="text" class="txt" name="config[base_domain]" size="30"  value="{if !empty($config['base_domain'])}{$config['base_domain']}{/if}" /></td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['which_system_to_index']}</td>
+					<td class="tdR">
+						<select name="config[index_system]">
+							<option value="">{$P8LANG['default']}</option>
+							<!--{foreach $core->systems $system $v}-->
+							<option value="$system"{if !empty($config['index_system']) && $config['index_system'] == $system} selected{/if}>$v[alias]</option>
+							<!--{/foreach}-->
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['logo']}</td>
+					<td class="tdR">
+						<input type="text" class="txt" name="config[logo]" id="logo" size="60"  value="{if !empty($config['logo'])}{$config['logo']}{/if}" />
+						<input type="button" onclick="upload.uploader();" value="{$P8LANG['upload']}" class="u" />
+						<input type="button" onclick="upload.browser();" value="{$P8LANG['browse']}" class="b" />
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['site_name']}</td>
+					<td class="tdR"><input type="text" class="txt" name="config[site_name]" size="30"  value="{if !empty($config['site_name'])}{$config['site_name']}{/if}" /></td>
+				</tr>
+			
+				<tr>
+					<td class="tdL">{$P8LANG['page_charset']}</td>
+					<td class="tdR"><input type="text" class="txt" name="config[page_charset]" size="30"  value="{if !empty($config['page_charset'])}{$config['page_charset']}{/if}" /></td>
+				</tr>
+			
+				<tr>
+					<td class="tdL">{$P8LANG['language']}</td>
+					<td class="tdR">
+						<select name="config[lang]">
+						<!--{foreach $core->CONFIG['language'] $k $v}-->
+							<option value="$k"{if !empty($core->CONFIG['lang']) && $core->CONFIG['lang'] == $k} selected{/if}>$v</option>
+						<!--{/foreach}-->
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['template']}</td>
+					<td class="tdR">
+						<select name="config[template]">
+						<!--{foreach $core->CONFIG['templates'] $k $v}-->
+							<option value="$k"{if !empty($core->CONFIG['template']) && $core->CONFIG['template'] == $k} selected{/if}>$v</option>
+						<!--{/foreach}-->
+						</select>
+					</td>
+				</tr>
+			
+				<tr>
+					<td class="tdL">{$P8LANG['admin_controller']}</td>
+					<td class="tdR"><input type="text" class="txt" name="config[admin_controller]" size="30"  value="{if !empty($config['admin_controller'])}{$config['admin_controller']}{/if}" /></td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">后台登录安全码</td>
+					<td class="tdR">
+						<input type="text" class="txt" name="config[admin_login_code]" size="30"  value="{if !empty($config['admin_login_code'])}{$config['admin_login_code']}{/if}" />
+						
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['mysql_connect_type']}</td>
+					<td class="tdR">
+						<select name="config[mysql_connect_type]">
+						<!--{foreach $info['mysql_connect_types'] $k $v}-->
+							<option value="$k"{if !empty($config['mysql_connect_type']) && $config['mysql_connect_type'] == $k} selected{/if}>$v</option>
+						<!--{/foreach}-->
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['mysql_charset']}</td>
+					<td class="tdR"><input type="text" class="txt" name="config[mysql_charset]" size="30"  value="{if !empty($config['mysql_charset'])}{$config['mysql_charset']}{/if}" /></td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['encode']} {$P8LANG['function']}</td>
+					<td class="tdR">
+						<select name="config[encode_conv_func]">
+						<!--{foreach $info['encode_conv_functions'] $k $v}-->
+							<option value="$v"{if !empty($config['encode_conv_func']) && $config['encode_conv_func'] == $v} selected{/if}>$k</option>
+						<!--{/foreach}-->
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">附件出入库处理</td>
+					<td class="tdR">
+						<input type="radio" name="config[attachment][confuse]" value="1"{if !empty($config['attachment']['confuse'])} checked{/if} />{$P8LANG['Y']}
+						<input type="radio" name="config[attachment][confuse]" value="0"{if empty($config['attachment']['confuse'])} checked{/if} />{$P8LANG['N']}
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">附件地址</td>
+					<td class="tdR"><input type="text" class="txt" name="config[attachment][url]" size="100"  value="{if !empty($config['attachment']['url'])}{$config['attachment']['url']}{/if}" /></td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">远程附件地址</td>
+					<td class="tdR">
+						<div id="ratt_clone" style="display: none;">
+							序号<input type="text" size="3" />
+							地址<input type="text" size="60" />
+							使用<input type="radio" name="config[attachment][remote][current]" value="" />
+							<input type="button" value="删除" onclick="$(this).parent().remove()" />
+						</div>
+						
+						<div id="remotes">
+							<div></div>
+						</div>
+						<input type="button" value="添加" onclick="add_remote_attachment()" />
+						
+						<script type="text/javascript">
+						function add_remote_attachment(id, url){
+							var copy = $('#ratt_clone').clone().attr('id', '').show();
+							copy.find('input:eq(0)').
+							val(id === undefined ? '' : id).
+							change(function(){
+								$(this).parent().find('input[type=radio]').val(this.value);
+								
+								copy.find('input:eq(1)').attr('name', 'config[attachment][remote][server]['+ this.value +']');
+							});
+							
+							copy.find('input:eq(1)').
+							val(url === undefined ? '' : url).
+							attr('name', 'config[attachment][remote][server]['+ id +']');
+							
+							copy.find('input:eq(2)').prop('checked', '{if !empty($config['attachment']['remote']['current'])}{$config['attachment']['remote']['current']}{/if}' == id ? true : false).val(id == undefined ? '' : id);
+							
+							$('#remotes div:last').after(copy);
+						}
+						
+						$(function(){
+							<!--{foreach $config['attachment']['remote']['server'] $id $url}-->
+							add_remote_attachment('$id', '$url');
+							<!--{/foreach}-->
+						});
+						</script>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['cookie_prefix']}</td>
+					<td class="tdR"><input type="text" class="txt" name="config[cookie][prefix]" size="30"  value="{if !empty($config['cookie']['prefix'])}{$config['cookie']['prefix']}{/if}" /></td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['cookie_path']}</td>
+					<td class="tdR"><input type="text" class="txt" name="config[cookie][path]" size="30"  value="{if !empty($config['cookie']['path'])}{$config['cookie']['path']}{/if}" /></td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['resource_url']}</td>
+					<td class="tdR"><input type="text" class="txt" name="config[resource_url]" size="100"  value="{if !empty($config['resource_url'])}{$config['resource_url']}{/if}" /></td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['template_dir']}</td>
+					<td class="tdR"><input type="text" class="txt" name="config[template_dir]" size="60"  value="{if !empty($config['template_dir'])}{$config['template_dir']}{/if}" /></td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['p8_key']}</td>
+					<td class="tdR"><input type="text" class="txt" name="config[p8_key]" size="32"  value="{if !empty($config['p8_key'])}{$config['p8_key']}{/if}" /></td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">sphinx前缀</td>
+					<td class="tdR"><input type="text" class="txt" name="config[sphinx_prefix]" size="32"  value="{if !empty($config['sphinx_prefix'])}{$config['sphinx_prefix']}{/if}" /></td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">开启调试模式</td>
+					<td class="tdR">
+						<input type="radio" name="config[debug]" value="1"{if !empty($config['debug'])} checked{/if} />{$P8LANG['Y']}
+						<input type="radio" name="config[debug]" value="0"{if empty($config['debug'])} checked{/if} />{$P8LANG['N']}
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">SESSION跨域域名列表</td>
+					<td class="tdR">
+						<div id="scd_clone" style="display: none;">
+							域名<input type="text" size="20" />
+							同步文件<input type="text" size="60" />
+							<input type="button" value="删除" />
+						</div>
+						<div id="scds"></div>
+						<input type="button" value="添加" onclick="add_scd()" />
+						<script type="text/javascript">
+						function add_scd(domain, url){
+							var copy = $('#scd_clone').clone().show();
+							
+							copy.find('input:eq(0)').val(domain === undefined ? '' : domain).
+							change(function(){
+								copy.find('input:eq(1)').
+								attr('name', 'config[session_cross_domains]['+ this.value +']');							
+							});
+							
+							copy.find('input:eq(1)').
+							attr('name', 'config[session_cross_domains]['+ domain +']').
+							val(url === undefined ? '' : url);
+							
+							copy.find('input:eq(2)').click(function(){
+								$(this).parent().remove();
+							});
+							
+							$('#scds').append(copy);
+						}
+						
+						<!--{foreach $config['session_cross_domains'] $k $v}-->
+						add_scd('$k', '$v');
+						<!--{/foreach}-->
+						</script>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">&nbsp;</td>
+					<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

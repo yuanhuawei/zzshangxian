@@ -1,0 +1,98 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $core config/menu_bar admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript">
+var SYSTEM = 'core';
+var MODULE = '';
+</script>
+
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td colspan="2" class="title">移动设置</td>
+				</tr>
+				
+				
+				<tr>
+					<td class="tdL">开启移动模式</td>
+					<td class="tdR">
+						<input type="radio" name="config[enable_mobile]" onchange="$('#show_site_url_mobile').toggle();" value="1"{if !empty($config['enable_mobile']) || !isset($config['enable_mobile'])} checked{/if} />{$P8LANG['Y']}
+						<input type="radio" name="config[enable_mobile]" onchange="$('#show_site_url_mobile').toggle();" value="0"{if isset($config['enable_mobile']) && empty($config['enable_mobile'])} checked{/if} />{$P8LANG['N']}
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">是否自动跳转</td>
+					<td class="tdR">
+						<input type="radio" name="config[mobile_auto_jump]" value="1"{if !empty($config['mobile_auto_jump']) || !isset($config['mobile_auto_jump'])} checked{/if} />{$P8LANG['Y']}
+						<input type="radio" name="config[mobile_auto_jump]" value="0"{if isset($config['mobile_auto_jump']) && empty($config['mobile_auto_jump'])} checked{/if} />{$P8LANG['N']}
+						 <span class="help">开启时，若是移动设备访问，将自动跳转到移动版</span>
+					</td>
+				</tr>
+				
+				 <tr>
+						<td class="tdL">{$P8LANG['site_url_mobile']}</td>
+						<td class="tdR">
+							<input type="text" class="txt" name="config[murl]" size="38"  value="{if !empty($config['murl'])}{$config['murl']}{else}{$core.url}/m{/if}" />  <span class="point">绑定/m 目录,最好是基域名相同的二级域名，如 http://m.php168.net</span>
+						</td>
+				</tr>
+
+				<tr>
+					<td class="tdL">{$P8LANG['logo']}</td>
+					<td class="tdR" id="up">
+					  <span id="u">
+							<input type="text" class="txt" name="config[mobile_logo]" id="logo_img" size="38"  value="{if !empty($config['mobile_logo'])}{$config['mobile_logo']}{/if}" />
+							<input type="button" onclick="imgupload.choseup()" value="{$P8LANG['upload']}" class="u" />
+					  </span>
+						
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">二维码图片</td>
+					<td class="tdR" id="up">
+					  <span id="u">
+							<input type="text" class="txt" name="config[2dimensional]" id="2dimensional" size="38"  value="{if !empty($config['2dimensional'])}{$config['2dimensional']}{/if}" />
+							<input type="button" onclick="dimensional.choseup()" value="{$P8LANG['upload']}" class="u" />
+					  </span>
+						
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">&nbsp;</td>
+					<td class="tdR"> <input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/> </td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+var imgupload = new P8_Upload({
+	element: {
+		src: $('#logo_img'),
+		attribute: 'value'
+	},
+	param: {
+		filter: {
+			gif: 1024000,
+			jpg: 1024000
+		}
+	}
+});
+var dimensional = new P8_Upload({
+	element: {
+		src: $('#2dimensional'),
+		attribute: 'value'
+	},
+	param: {
+		filter: {
+			gif: 1024000,
+			jpg: 1024000
+		}
+	}
+});
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,96 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/alonepage/style.css"/>
+<div class="mtop">
+	<div class="contain_left">
+	
+	
+		<div class="border1">
+			<div class="head6">
+				<span class="title7">
+					$label[let_menu_title]
+				</span>
+			</div>	
+				<div class="main1" id='leftbox'>
+					$label[let_menu]
+				</div>
+				<div class="clear">
+				</div>
+		</div>
+		<div class="mtop">
+			$label[let_content_343]
+		</div>
+		<div class="border1 mtop">
+			<div class="head6">
+				<span class="title7">
+					$label[let_title_2]
+				</span>
+			</div>	
+				<div class="main1">
+				$label[let_content_2]
+				</div>
+		</div>
+		<div class="mtop">
+			$label[let_content_344]
+		</div>
+		<div class="border1 mtop">
+			<div class="head6">
+				<span class="title7">
+					$label[let_title_3]
+				</span>
+			</div>	
+				<div class="main1">
+				$label[let_content_3]
+				</div>
+		</div>
+		<div class="mtop">
+			$label[let_content_346]
+		</div>
+		<div class="mtop">
+			$label[let_content_348]
+		</div>
+	</div>
+	<div class="contain_right">
+		<div class="show_box_2">
+			<div class="head11">
+			<span class="title11">$data[title]</span> <span class="more1" id="editcontent"></span>
+			</div>
+			<div class="main1" id='rightbox'>
+				$data[content]
+				<div class="clear">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clear">
+</div>
+<!--{if $addcontent}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/images/dialog.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<script type="text/javascript">
+<!--{template_init_js}-->
+
+var \$id='$id';
+var editlabel = get_cookie('IS_ADMIN');
+var dialog
+$(document).ready(function(){
+dialog = new P8_Dialog({
+	title_text: '编辑内容',
+	button: false,
+	zIndex:10000,
+	width: 750,
+	height: 500,
+	url: \$this_router+'-addcontent?id='+\$id
+});
+if(editlabel !==undefined){
+$("#editcontent").html("<a href='javascript:void(0)' onClick='dialog.show()'>编辑</a>");
+}
+						   })
+</script>
+<!--{/if}-->
+<!--{template $core footer}-->
+<!--{/php168}-->
+

@@ -1,0 +1,86 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+ 
+<form action="$this_url" method="POST" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+						<tr class="title">
+						  <td class="tdL">ID</td>
+						  <td class="tdL">名称</td>
+						  <td class="tdL">显示顺序</td>
+						</tr>
+						
+						<!--{foreach $this_module->categories $value}-->
+						<tr>
+							<td class="tdL">$value[id]</td>
+							<td class="tdL"><input type="text" name="new_name[$value[id]]" value="$value[name]" /></td>
+							<td class="tdL"><input type="text" name="order[$value[id]]" value="$value[display_order]" size="3" /></td>
+						</tr>
+						<!--{/foreach}-->
+						
+						<tr>
+							<td class="tdL">新增</td>
+							<td class="tdL"><input type="text" name="name" /></td>
+							<td class="tdL"><input type="text" name="display_order" size="3" /></td>
+						</tr>
+						
+						<tr>
+							<td colspan="3"><input type="submit" class="submit_btn" value="{$P8LANG['submit']}" /></td>
+						</tr>
+					</table>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+function delete_sort(array){
+	var id = [];
+	$.each(array, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	
+	if(!id.length) return false;
+	
+	if(confirm('{$P8LANG['confirm_to_delete']}')){
+		$.ajax({
+			url: '$this_router-deletesort',
+			type: 'POST',
+			dataType: 'json',
+			data: ajax_parameters({fid: id}),
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				
+				for(var i in json){
+					$('#sort_'+ json[i]).parent().parent().remove();
+				}
+			}
+		});
+	}
+}
+
+$(function(){
+	$('#form input[name^="order["]').change(function(){
+		this.value = this.value.replace(/[^0-9]/g, '') || 0;
+		if(this.value > 255) this.value = 255;
+		if(this.value < 0) this.value = 0;
+		$('#form').append('<input type="hidden" name="_update[]" value="'+ this.name.replace(/[^0-9]/g, '') +'" />');
+		$(this).css({border: '1px solid #ff0000'});
+	});
+	
+	$('#form input[name^="new_name["]').change(function(){
+		
+		$('#form').append('<input type="hidden" name="_update[]" value="'+ this.name.replace(/[^0-9]/g, '') +'" />');
+		$(this).css({border: '1px solid #ff0000'});
+	});
+});
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,182 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<link rel="stylesheet" href="{$_SKIN}/$MODULE/$service/category_selector.css" type="text/css">
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+	<tr>
+		<td><img src="{$_SKIN}/$MODULE/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：<a href="{$core.admin_controller}/core/cluster-index">PHP168站群系统</a> &gt; <a href="#">服务端的内容列表</a></td>
+	</tr>
+</table>
+<table width="100%" cellspacing="0" cellpadding="0" class="operate">
+	<tr>
+		<td>
+			<ul>
+				<li id="lifont">{$P8LANG['cluster_cms_item']['edit']}：</li>
+				<li><a href="$_this_router&action=list">{$P8LANG['cluster_cms_item']['con_list']}</a></li>
+				<li><a href="$_this_router&action=map">{$P8LANG['cluster_cms_item']['add_list']}</a></li>
+			</ul>
+		</td>
+	</tr>
+</table>
+
+<form action="$_this_url" method="get" id="request" onsubmit="request_item(1);return false;">
+
+</form>
+
+<form action="$this_url" method="POST" id="form">
+	<table width="100%" cellspacing="0" cellpadding="0" class="zq_list" align="center">
+		<tr class="title">
+			<td width="2%" class="list_top list_left"><input type="checkbox" onclick="check_all(this, 'id[]')" /></td>
+			<td width="5%" class="list_top">ID</td>
+			<td width="10%" class="list_top">{$P8LANG['cluster_client']['']}</td>
+			<td width="10%" class="list_top">{$P8LANG['cluster_cms_item']['model']}</td>
+			<td width="30%" class="list_top">{$P8LANG['cluster_cms_item']['title']}</td>
+			<td width="10%" class="list_top">{$P8LANG['cluster_cms_item']['time']}</td>
+			<td width="10%" class="list_top list_right">{$P8LANG['operation']}</td>
+		</tr>
+		
+		<tbody id="list">
+		
+		</tbody>
+		
+	</table>
+	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+		<tr>
+			<td align="center">
+				<a href="javascript:void(0)" onclick="check_all(true, 'id[]')">全选</a> / <a href="javascript:void(0)" onclick="check_all(false, 'id[]')" >反选</a>
+				<input type="button" value="采集" onclick="category_dialog.show()" class="edit_btn" />
+				<span id="pages" class="pages"></span>
+			</td>
+		</tr>
+	</table>
+</form>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<script type="text/javascript">
+
+var CATEGORY_JSON = $category_json[json],
+	CATEGORY_PATH = $category_json[path],
+	client_json = $client_json,
+	model_json = $model_json,
+	PAGE;
+
+
+
+function request_item(page){
+	
+	$.ajax({
+		url: '$_this_url',
+		data: $('#request').serialize() +'&page='+ (page === undefined ? 1 : page),
+		dataType: 'json',
+		beforeSend: function(){
+			ajaxing({});
+		},
+		cache: false,
+		success: function(json){
+			PAGE = page;
+			
+			$('#list').empty();
+			for(var i in json.list){
+				_list_item(json.list[i]);
+			}
+			
+			$('#pages').html(json.pages);
+			
+			ajaxing({action: 'hide'});
+			
+			window.scrollTo(0,0);
+			
+			var keywords = $.trim($('#request input[name=keyword]').val());
+			if(!keywords.length) return;
+			
+			var keywords = keywords.replace(/[\+\-\*\|\!]/g, '').split(/\s+/);
+			
+			$('.list_item').each(function(){
+				for(var i = 0; i < keywords.length; i++){
+					var html = $(this).find('.item_title').get(0).innerHTML;
+					$(this).find('.item_title').get(0).innerHTML = html.replace(keywords[i], '<font color="red">'+ keywords[i] +'</font>', 'ig');
+				}
+			});
+			
+		}
+	});
+}
+
+function _list_item(json){
+	var tr = '\
+	<tr>\
+		<td><input type="checkbox" name="id[]" value="'+ json.id +'" /></td>\
+		<td>'+ json.id +'</td>\
+		<td>'+ (client_json[json.client_id] ? client_json[json.client_id].name : '未知客户端') +'</td>\
+		<td>'+ (model_json[json.model] ? model_json[json.model].alias : 'unknown') +'</td>\
+		<td>'+ json.title +'</td>\
+		<td>'+ date('Y-m-d H:i:s', json.timestamp) +'</td>\
+		<td><a href="$_this_url&action=view&id='+ json.id +'" target="_blank">{$P8LANG['cluster_cms_item']['vister']}</a></td>\
+	</tr>';
+	
+	$('#list').append($(tr));
+}
+
+
+var category_dialog = new P8_Dialog({
+	button: true,
+	width: 700,
+	height: 300,
+	title_text: '选择要采集到的分类',
+	ok: function(){
+		
+		var id = [];
+		var array = checked_values('id[]', $('#form'));
+			$.each(array, function(k, v){
+			id.push(v.replace(/[^0-9]/, ''));
+		});
+		if(!id.length) return false;
+		
+		var cid = cs.get_value();
+		if(cs.get_by_id(cid).type == 1){
+			alert('这分类不能选喔');
+			return false;
+		}
+		
+		fetch_item(id, cid);
+	}
+});
+
+var cs = new Recursive_Selector({
+	json: CATEGORY_JSON,
+	path: CATEGORY_PATH,
+	dialog: category_dialog,
+	sub_property: 'categories',
+	item_callback: function(cat, item){
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	},
+});
+
+function fetch_item(id, cid){
+	$.ajax({
+		url: '$_this_router&action=fetch',
+		type: 'post',
+		dataType: 'json',
+		cache: false,
+		data: ajax_parameters({id: id, cid: cid}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			alert(json.length +'条内容被采集');
+		}
+	});
+}
+
+cs.init();
+request_item();
+</script>
+<!--{template $this_module footer admin}-->
+<!--{/php168}-->

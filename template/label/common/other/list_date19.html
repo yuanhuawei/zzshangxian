@@ -1,0 +1,30 @@
+<!--{php168}-->
+<style type="text/css">
+.label_list19_date li{ margin-bottom:22px; height: 82px;clear:both; }
+.label_list19_date a:hover{ color:#165aa1;}
+.noleft{ width:70px; height:100px; float:left;}
+.noleft span{height:35px; width:70px; line-height:35px; display:block; text-align:center;}
+.noleft span.notop{ background:#165aa1; color:#fff;}
+.noleft span.nobottom{ border:1px solid #ccc; width:68px;}
+.noright{width:310px; float:left; margin-left:20px;}
+.noright h1 a{ font-size:16px; font-weight:normal; color:#2F2F2F;}
+.noright .time{ color:#a9a9a9; height:25px; line-height:25px;}
+.noright time strong{ font-weight:normal; padding-left:10px;}
+.notitle a{ color:#565656; line-height:18px; font-size:12px;text-decoration:none;}
+</style>
+<ul class="label_list19_date">
+	<!--{foreach $list $value}-->
+	<li>
+		<div class="noleft">
+			<span class="notop"><!--{php echo date('D',$value['timestamp']);}--></span>
+			<span class="nobottom"><!--{php echo date('M.d',$value['timestamp']);}--></span>
+		</div>
+		<div class="noright">
+			<h1><a href="$value[url]">$value[title]</a></h1>
+			<div class="time"><!--{php echo date('Y年m月d日', $value['timestamp']);}--></div>
+			<div class="notitle"><a href="$value[url]">$value[summary]</a></div>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

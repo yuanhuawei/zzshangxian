@@ -1,0 +1,21 @@
+<!--{php168}-->
+<!--phpwind config-->
+<tbody id="pw" style="display: none;">
+<th colspan="2">phpwind config</th>
+
+<tr>
+	<td class="tdL">通行证地址</td>
+	<td class="tdR">
+		<input type="text" class="txt" name="config[pw][api]" value="{if !empty($config['pw']['api'])}{$config['pw']['api']}{else}http://bbs.**.com{/if}" size="60" />
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL">通信密码</td>
+	<td class="tdR">
+		<input type="text" class="txt" name="config[pw][code]" value="{if !empty($config['pw']['code'])}{$config['pw']['code']}{else}php168{/if}" size="32" />
+	</td>
+</tr>
+
+</tbody>
+<!--{/php168}-->

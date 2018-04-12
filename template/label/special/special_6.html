@@ -1,0 +1,20 @@
+<!--{php168}-->
+<style>
+.label_special_ul{$label['id']} li{float:left;margin-top:15px;position:relative;overflow:hidden;}
+.label_special_ul{$label['id']} li p{width:100%;height:30px;background:#000;position:absolute;left:0;bottom:0;opacity: 0.3;filter: alpha(opacity=30);margin:0;}
+.label_special_ul{$label['id']} .label_pic_title{width:100%;position: absolute;left: 0;bottom: 0;color: #fff;line-height:30px}
+.label_special_ul{$label['id']} .label_pic_title a{display:block;color:#fff;text-decoration:none;}
+@media screen and (max-width: 768px){
+	.label_special_ul{$label['id']} li img{width:100%;height:auto;}
+}
+</style>
+<ul class="label_special_ul{$label['id']}">
+	<!--{foreach $list $value}-->
+	<li>
+		<a href="$value[url]" target="_blank" title="$value[full_title]"><img width="255px" height="147" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a>
+		<p></p>
+		<div class="label_pic_title text-center"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

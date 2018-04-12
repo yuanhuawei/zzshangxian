@@ -1,0 +1,62 @@
+<!--{php168}-->
+<!--{template $core header_govopen}-->
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}../cms/item/govopen/style.css" />
+
+<div class="siderBar fl">
+<div class="ldjs_hd">&nbsp;</div>
+<div class="ldjs_con">
+<p class="p1">$label[job_tt]</p>
+<p class="p2">$label[ld_name]</p>
+<div class="pic">
+$label[ld_photo]
+</div>
+</div>
+<div class="ldjs_bot">&nbsp;</div>
+<div class="leftad_box mtop">
+$label[leftad01]
+</div>
+<div class="leftad_box mtop">
+$label[leftad02]
+</div>
+<div class="leftad_box mtop">
+$label[leftad03]
+</div>
+
+</div>
+<div class="mainBody fr ldjs">
+<div class="rtbox1_hd mtop">$label[rtbox1_tt]</div>
+<div class="rtbox1_con">$label[rtbox1_con]</div>
+<div class="rtbox2_hd mtop"><span class="more">$label[rtbox2_more]</span>$label[rtbox2_tt]</div>
+<div class="rtbox2_con">$label[rtbox2_con]</div>
+<div class="rtbox3 box mtop">
+<div class="hd"><span class="more">$label[rtbox3_more]</span>$label[rtbox3_tt]</div>
+<div class="con">
+$label[rtbox3_con]
+</div>
+</div>
+<div class="rtbox4 box mtop">
+<div class="hd"><span class="more">$label[rtbox4_more]</span>$label[rtbox4_tt]</div>
+<div class="con">
+$label[rtbox4_con]
+</div>
+</div>
+<div class="rtbox4 box mtop">
+<div class="hd"><span class="more">$label[rtbox5_more]</span>$label[rtbox5_tt]</div>
+<div class="con">$label[rtbox5_con]</div>
+</div>
+
+
+</div>
+</div>
+</div><!--主体结束-->
+<div class="clear"></div>
+<script type="text/javascript">
+$(function(){
+	$('#gov_left .tree_menu p').bind('click',function(){	$('#gov_left .tree_menu .one_manu').slideUp("normal");if($(this).parent().find('.one_manu').css('display')=='none'){	$(this).parent().find('.one_manu').slideDown('normal');	}else{	$(this).parent().find('.one_manu').slideUp("normal");}});
+	$('#gov_left .two_manu span').bind('click',function(){	$('#gov_left .two_manu dl').slideUp("normal"); if($(this).parent().find('dl').css('display')=='none'){	$(this).parent().find('dl').slideDown('normal');	}else{	$(this).parent().find('dl').slideUp("normal");}});
+})
+</script>
+<!--{template $core footer_govopen}-->
+<!--{/php168}-->

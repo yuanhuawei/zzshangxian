@@ -1,0 +1,251 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<form action="$this_url" method="post" id="form">
+	<table class="mainbox">
+	<tr><td>
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td width="100">{$P8LANG['office_model_field_name']}</td>
+				<td>
+					<input type="text" class="txt" name="name" id="name" value="{if !empty($data['name'])}{$data['name']}{/if}" /><span class="point">(必须以字母开头)</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>{$P8LANG['office_model_field_alias']}</td>
+				<td>
+					<input type="text" class="txt" name="alias"  value="{if !empty($data['alias'])}{$data['alias']}{/if}" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td >{$P8LANG['office_model_field_type']}</td>
+				<td>
+					<select name="type" onchange="on_select_type(this.value)" id="type">
+						<!--{foreach $this_module->field_types $type $lang}-->
+						<option value="$type"{if !empty($data['type']) && $data['type'] == $type} selected{/if}>{$P8LANG[$lang]}</option>
+						<!--{/foreach}-->
+					</select>
+				</td>
+			</tr>
+			
+			<tr>
+				<td >{$P8LANG['office_model_field_not_null']}</td>
+				<td>
+					<input type="checkbox" name="not_null"  value="1"{if !empty($data['not_null']) || !isset($data['not_null'])} checked{/if} />
+				</td>
+			</tr>
+			<tr id="length">
+				<td >{$P8LANG['office_model_field_length']}</td>
+				<td>
+					<input type="text" class="txt" id="len" name="length"  value="{if !empty($data['length'])}{$data['length']}{/if}" size="10" />
+				</td>
+			</tr>
+			<tr id="is_unsigned" style="display:none">
+				<td >{$P8LANG['office_model_field_is_unsigned']}</td>
+				<td>
+					<input type="checkbox" name="is_unsigned"  value="1"{if !empty($data['is_unsigned'])} checked{/if} />
+				</td>
+			</tr>
+			
+			<tr>
+				<td >{$P8LANG['office_model_field_default_value']}</td>
+				<td>
+					<input type="text" name="default_value" value="{if !empty($data['default_value'])}{$data['default_value']}{/if}"/>
+				</td>
+			</tr>
+			<tr>
+				<td >单位:(一般为空)</td>
+				<td>
+					<input type="text" name="units" value="{if !empty($data['units'])}$data[units]{/if}" size="5" />
+				</td>
+			</tr>
+			<tr>
+				<td>{$P8LANG['office_model_field_display_order']}</td>
+				<td>
+					<input type="text" name="display_order" size="5" value="{if !empty($data['display_order'])}{$data['display_order']}{/if}" />
+				</td>
+			</tr>
+			<tr>
+				<td>表单附注文字:<span class="help">一般为空。若有内容则在后台以此帮助方式显示，前台则显示在右边</span></td>
+				<td>
+					<input type="text" name="description" value="{if !empty($data['description'])}{$data['description']}{/if}" />
+				</td>
+			</tr>
+			<tr>
+				<td>{$P8LANG['office_model_field_widget']}</td>
+				<td>
+					<select name="widget" id="widget" onchange="on_select_widget(this.value)">
+						<!--{foreach $this_module->widgets $type $lang}-->
+						<option value="$type"{if !empty($data['widget']) && $data['widget'] == $type} selected{/if}>{$P8LANG[$lang]}</option>
+						<!--{/foreach}-->
+					</select>
+				</td>
+			</tr>
+			
+			<tr id="widget_data" style="display: none;">
+				<td >{$P8LANG['office_model_field_widget_data']}</td>
+				<td>
+					<div id="data_copy" style="display: none;" class="data">
+						<b style="cursor: move; background: url({$RESOURCE}/images/draggable.png) no-repeat 0px -20px;">&nbsp;&nbsp;</b>
+						值<input type="text" class="txt" value="" size="10" />
+						显示文字<input type="text" class="txt" value="" />
+						<input type="button" value="{$P8LANG['delete']}" />
+					</div>
+					<input type="button" value="{$P8LANG['add']}" onclick="_copy_data()" />
+					
+					<script type="text/javascript" src="{$RESOURCE}/js/sortable.js"></script>
+					<script type="text/javascript">
+					function _copy_data(key, value){
+						var copy = $('#data_copy').clone().show().attr('id', '');
+						
+						$('input:eq(0)', copy).attr('name', 'data_key[]').val(key === undefined ? '' : key);
+						$('input:eq(1)', copy).attr('name', 'data_value[]').val(value === undefined ? '' : value);
+						
+						copy.find('input[type=button]').attr('onclick', '').
+						click(function(){
+							$(this).parent().remove();
+						});
+						
+						$('#widget_data div:last').after(copy);
+						
+						sortable.refresh();
+					}
+					
+					var sortable = new $.p8_sortable({
+						selector: {
+							range: '.data',
+							drag: 'b'
+						},
+						type: 'y'
+					});
+					
+					$(document).ready(function(){
+						<!--{foreach $widget_data $key $value}-->
+						_copy_data('$key', '$value');
+						<!--{/foreach}-->
+					});
+					</script>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>{$P8LANG['office_model_field_widget_addon_attr']}</td>
+				<td>
+					<textarea id="widget_addon_attr" name="widget_addon_attr" rows="2" cols="50">{if !empty($data['widget_addon_attr'])}<!--{php echo html_entities($data['widget_addon_attr']);}-->{/if}</textarea>
+					<span class="help">{$P8LANG['office_model_field_widget_addon_attr_note']}</span>
+				</td>
+			</tr>
+
+			<tr>
+			  <td>&nbsp;</td>
+			  <td><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		  </tr>
+	    </table>
+	</td></tr>
+    </table>
+	<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" />
+	<input type="hidden" name="cid" value="{if !empty($cid)}{$cid}{/if}" />
+</form>
+<script type="text/javascript">
+$('#widget_addon_attr').textarea_tab();
+
+var type_length = {
+	tinyint: 3,
+	smallint: 5,
+	mediumint: 5,
+	int: 10,
+	bigint: 20,
+	'float': '',
+	'double': '',
+	decimal: '10,2',
+	char: 100,
+	varchar: 255,
+	tinytext: '',
+	text: '',
+	mediumtext: '',
+	longtext: ''
+};
+<!--{if empty($data['id'])}-->
+on_select_type($('#type').val());
+on_select_widget($('#widget').val());
+<!--{/if}-->
+function on_select_type(type){
+	switch(type){
+		case 'tinyint': case 'smallint': case 'mediumint': case 'int': case 'bigint': case 'decimal':
+			$('#is_unsigned').show();
+			$('#length').show();
+		break;
+		
+		case 'text': case 'mediumtext': case 'longtext':
+			$('#length').hide();
+			$('#is_unsigned').hide();
+		break;
+		
+		default:
+			$('#is_unsigned').hide();
+		break;
+	}
+	
+	$('#len').val(type_length[type]);
+}
+
+function on_select_widget(type){
+	switch(type){
+		case 'checkbox': case 'radio': case 'select': case 'multi_select':
+			$('#widget_data').show();
+		break;
+		
+		default:
+			$('#widget_data').hide();
+	}
+}
+
+$.validator.addMethod('valid_field', function(value, element){
+	return /^[a-zA-Z]/.test(value) && !/[^0-9a-zA-Z_]/.test(value);
+});
+
+$('#form').validate({
+	rules: {
+		name: {
+			required: true,
+			valid_field: true,
+			
+			remote: {
+				url: '$this_router-check_field_name',
+				cache: false,
+				type: 'post',
+				data: {cid: '$cid', name: function(){return $('#name').val();},id:'{if !empty($data['id'])}{$data['id']}{/if}'},
+				beforeSend: function(){
+					ajaxing({});
+				},
+				complete: function(){
+					ajaxing({action: 'hide'});
+				}
+			}
+		}
+	},
+	
+	messages: {
+		name: {
+			required: '{$P8LANG['office_model_field_name_can_not_be_empty']}',
+			valid_field: '{$P8LANG['office_model_field_name_invalid']}',
+			remote: '{$P8LANG['office_model_field_name_duplicate']}'
+
+		}
+	},
+	
+	errorPlacement: function(error, element) {
+		error.wrap('<div></div>').appendTo(element.parent());
+	},
+	wrapper: 'div',
+	
+	onkeyup: false
+});
+
+$('#name').get(0).focus();
+
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

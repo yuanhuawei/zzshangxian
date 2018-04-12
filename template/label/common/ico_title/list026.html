@@ -1,0 +1,14 @@
+<!--{php168}-->
+<!--{foreach $list $k $value}-->
+<div class="col-md-3 col-sm-3 col-xs-8">
+				<div class="recruit-title"><h4>$value[title]</h4></div>
+				</div>
+				<div class="col-md-3 col-sm-3 hidden-xs">
+					<div class="recruit-place"><i class="fa fa-place"></i>{$value[didian]}</div>
+				</div>
+				<div class="col-md-2 col-sm-2 hidden-xs"><div class="recruit-number">{$value[renshu]}</div></div>
+				<div class="col-md-2 col-sm-2 hidden-xs"><div class="recruit-number"><!--{php echo date('Y-m-d', $value['timestamp']);}--></div></div>
+				<div class="col-md-2 col-sm-2 col-xs-4 text-center"><a class="btn btn-recruit-see" href="$value[url]" target="_blank" title="$value[full_title]">查看> ></a></div>
+<!--{/foreach}-->
+	<div class="clear"></div>
+<!--{/php168}-->

@@ -1,0 +1,91 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>$TITLE</title>
+<link rel="stylesheet" type="text/css" href="{$SKIN}common.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<meta name="keywords" content="$SEO_KEYWORDS" />
+<meta name="description" content="$SEO_DESCRIPTION" />
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+</head>
+<body>
+<div class="top">
+	<div class="top_content">
+		<div id="header_login">
+		<!--{if !$UID}-->
+		<form method="post" action="{$core.U_controller}/core/member-login">
+			<span>用户名：</span><input type="text" name="username" value="" class="input common_input_border"/>
+			<span>密码：</span><input type="password" name="password" value="" class="input common_input_border"/>
+			<input type="submit" name="submit" value="登录" class="submit pointer"/>
+			<span>
+			<a href="{$core.controller}/core/member-register">注册</a> |
+			<a href="{$core.controller}/core/member-getpassword">忘记密码</a>
+			</span>
+		</form>
+		<!--{else}-->
+		<span style="margin-left:10px;"><a href="{$core.U_controller}"><font color="#FF7F04"><b>{$USERNAME}</b></font></a> 欢迎您回来！&nbsp;&nbsp;<a href="{$core.U_controller}">会员中心</a> &nbsp;&nbsp;<a href="{$core.U_controller}/core/member-logout">安全退出</a></span>
+		<!--{/if}-->
+		</div>
+		<div id="header_t">
+		<a href="javascript:void(0)" onClick="loginbox.show()">登录</a>|<a href="#" class="each_item">收藏本页</a>|<a href="#" class="each_item">帮助中心</a>|<a href="#" class="each_item">RSS订阅<span class="rss"></span></a>
+		</div>
+	</div> 
+</div>
+<div class="wrap">
+<!--header-->
+<div class="header">
+	<!--top column-->
+	
+	<!--logo column-->
+	<div class="header_nav common_mtop inline-block">
+		<div id="logo"><a href="#"><img src="{$SKIN}logo.gif"/></a></div>
+		<div id="header_nav_menu">
+			<ul>
+				<li class="header_bbs"><span></span><a href="#">社 区</a></li>
+				<li class="header_contribute"><span></span><a href="#">投 稿</a></li>
+				<li class="header_sufficient"><span></span><a href="#">充 值</a></li>
+				<li class="header_credit"><span></span><a href="#">积 分</a></li>
+				<li class="header_jobs"><span></span><a href="#">招 聘</a></li>
+				<li class="header_search"><span></span><a href="#">搜 索</a></li>
+				<li class="header_book"><span></span><a href="#">留 言</a></li>
+				<li class="header_digg"><span></span><a href="#">顶 客</a></li>
+			</ul>
+		</div>
+	</div>
+	<!--module column-->
+	<div id="module_nav" class="common_mtop">
+			<ul id="menu_nav">
+			<!--{php 
+			$loadsystem = $SYSTEM == $this_system->name? 'core' : $this_system->name;
+			$navigation_menu = $CACHE->read('', $loadsystem, 'navigation');
+			}-->
+				<!--{foreach $navigation_menu['menus'] $k $v}-->	
+				<li><a href="$v[url]">$v[name]</a>
+				<!--{if !empty($v['menus']) && !empty($core->CONFIG['ShowMenu'])}-->
+					<dl>
+					<!--{foreach $v['menus'] $k2 $v2}-->
+					<dt><a href="$v2[url]">$v2[name]</a></dt>
+					
+					<!--{/foreach}-->
+					</dl>
+				<!--{/if}-->
+				</li>
+				<!--{/foreach}-->		
+			</ul>
+	</div>
+</div>
+<script type="text/javascript" src="{$RESOURCE}/skin/media/core/media.js"></script>
+<!--{/php168}-->

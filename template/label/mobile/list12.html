@@ -1,0 +1,15 @@
+<!--{php168}-->
+<ul class="dotlist12">
+<!--{foreach $list $value}-->
+	<li style="$wf;">
+		<a href="$value[url]"  title="$value[full_title]" target="_blank">
+			<img src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}">
+			<div class="minfo">
+				<h3>$value[title]</h3>
+				<p>$value[summary]</p>
+			</div>
+		</a>
+	</li>
+<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

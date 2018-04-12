@@ -1,0 +1,112 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<div class="nav mtop">您的位置：
+<a href="{$core.controller}">首页</a>
+&gt;&gt; <a href="##">政府信息公开 </a> 
+</div>
+<!--搜索按钮部分-->
+<form action="{$this_router}-search" method="get" target="_blank">
+<div class="searchformdiv">
+	<strong>政务信息公开：</strong>
+	<select class="selectwidth">
+		<option value="title">信息标题</option>
+		<option value="no">内容文号</option>
+	</select>
+	<input type="hidden" name="model" value="government_affairs"/>
+	<input type="text" name="keyword" value="" size="30" /> <input type="submit" value="信息查询" /> <strong>公开信息统计<font>{$CAT[item_count]}</font>条</strong><span>$label[fffff]</span>
+</div>
+</form>
+<div class="dt_left">
+	<div class="border1">
+		<div class="head6">
+			<span class="title7">信息公开导航</span>
+		</div>
+		<div id="gov_left" class="main1">
+			<div class="tree_menu">
+				<p>主题分类</p>
+				<ul class="one_manu" {if !$parent_cats}style="display:none"{/if}>
+				<!--{php array_shift($parent_cats);}-->
+				<!--{foreach $root_cates $index $cates}-->
+					<li class="two_manu">
+					<span>{$cates['name']}</span>
+					<dl {if $cates['id']!=$parent_cats[0]['id']}style="display:none"{/if}>
+					<!--{foreach $cates['categories'] $ke $cate}-->
+						<dd><a href="{$this_url}-category-$ke" {if $cid==$ke}class="over"{/if}>{$cate['name']}</a></dd>
+						<!--{/foreach}-->
+					<dl>
+					</li>	
+				<!--{/foreach}-->
+				</ul>
+			</div>	
+				<!--{foreach $this_model['filterable_fields'] $filename $filedata}-->
+			<div class="tree_menu">
+				<p>{$filedata['alias']}</p>
+				<dl class="one_manu" {if !array_key_exists($filename,$selected_fields)}style="display:none"{/if}>
+				<!--{foreach $filedata['data'] $index $dname}-->
+				<dd><a href="{$this_url}-category-{$root_cate}-{$filename}-{$index}" {if $index==$selected_fields[$filename]}class="over"{/if}>$dname</a></dd>
+				<!--{/foreach}-->
+				</dl>
+			</div>
+			<!--{/foreach}-->
+		</div>
+		
+		
+	</div>
+	
+	<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[ar_list_title_2]</span> <span class="more3">$label[gov_ar_list_more_2]</span>
+		</div>
+		<div class="main1">
+			$label[ar_list_content_2]
+		</div>
+	</div>
+	
+	<div class="mtop6">
+		$label[ar_list_ad_12]
+	</div>
+	<div class="mtop6">
+		$label[ar_list_ad_22]
+	</div>
+	
+</div>
+<div class="dt_right">
+<div class="border1 mtop4">
+		<div class="head5">
+			<strong class="title6">$label[zw_title_1]</strong><h3 class="more1">$label[zw_more_1]</h3>
+		</div>
+		<div class="main">$label[main_content1]</div>
+</div>
+<div class="border1 mtop6">
+		<div class="head5">
+			<strong class="title6">$label[zw_title_2]</strong><h3 class="more1">$label[zw_more_2]</h3>
+		</div>
+		<div class="main">$label[main_content2]</div>
+</div>
+<div class="border1 mtop6">
+		<div class="head5">
+			<strong class="title6">$label[zw_title_3]</strong><h3 class="more1">$label[zw_more_3]</h3>
+		</div>
+		<div class="main">$label[main_content3]</div>
+</div>
+<div class="border1 mtop6">
+		<div class="head5">
+			<strong class="title6">$label[zw_title_4]</strong><h3 class="more1">$label[zw_more_4]</h3>
+		</div>
+		<div class="main">$label[main_content4]</div>
+</div>
+</div>
+<div class="clear">
+</div>
+<script type="text/javascript">
+$(function(){
+	$('#gov_left .tree_menu p').bind('click',function(){	$('#gov_left .tree_menu .one_manu').slideUp("normal");if($(this).parent().find('.one_manu').css('display')=='none'){	$(this).parent().find('.one_manu').slideDown('normal');	}else{	$(this).parent().find('.one_manu').slideUp("normal");}});
+	$('#gov_left .two_manu span').bind('click',function(){	$('#gov_left .two_manu dl').slideUp("normal"); if($(this).parent().find('dl').css('display')=='none'){	$(this).parent().find('dl').slideDown('normal');	}else{	$(this).parent().find('dl').slideUp("normal");}});
+})
+</script>
+<!--{template $core foot_pre}-->
+<!--{template $this_system footer}-->
+<!--{/php168}-->

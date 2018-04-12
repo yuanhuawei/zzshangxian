@@ -1,0 +1,132 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="POST">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					
+					<table class="columntable formtable hover_table">
+					<tr class="title">
+						<td class="title">ID</td>
+						<td class="title">{$P8LANG['crontab_name']}</td>
+						<td class="title">{$P8LANG['crontab_script']}</td>
+						<td class="title">{$P8LANG['crontab_run_interval']}</td>
+						<td class="title">{$P8LANG['crontab_last_run_time']}</td>
+						<td class="title">{$P8LANG['crontab_next_run_time']}</td>
+						<td class="title">{$P8LANG['enabled']}</td>
+						<td class="title">{$P8LANG['operation']}</td>
+					</tr>
+					
+					<!--{foreach $list $value}-->
+						<!--{php $value['last_run_time'] = $value['last_run_time'] ? date('Y-m-d H:i:s', $value['last_run_time']) : '-';}-->
+						<!--{php $value['next_run_time'] = date('Y-m-d H:i:s', $value['next_run_time']);}-->
+						<tr>
+							<td>{$value['id']}</td>      
+							<td>{$value['name']}</td>
+							<td>{$value['script']}</td>
+							<td><!--{php
+								switch($value['interval']){
+									case 'day':
+										$value['interval'] = $value['day'] . $P8LANG['day'] . $value['hour'] . $P8LANG['hour'] . $value['minute'] . $P8LANG['minute'];
+									break;
+									
+									case 'week':
+										$value['interval'] = $P8LANG['week_'. $value['week']] . $value['hour'] . $P8LANG['hour'] . $value['minute'] . $P8LANG['minute'];
+									break;
+									
+									case 'month':
+										$value['interval'] = $value['month'] . $P8LANG['month'] . $value['hour'] . $P8LANG['hour'] . $value['minute'] . $P8LANG['minute'];
+									break;
+									
+									case 'hour':
+										$value['interval'] = $value['hour'] . $P8LANG['hour'] . $value['minute'] . $P8LANG['minute'];
+									break;
+									
+									case 'minute':
+										$value['interval'] = $value['minute'] . $P8LANG['minute'];
+									break;
+								}
+							}-->
+							{$value['interval']}</td>
+							<td>{$value['last_run_time']}</td>
+							<td>{$value['next_run_time']}</td>
+							<td><img src="{$SKIN}/<!--{if !empty($value['status'])}-->check_yes.gif<!--{else}-->check_no.gif<!--{/if}-->" /></td>
+							<td>
+								<a href="{$this_router}-update?id={$value['id']}">{$P8LANG['edit']}</a>
+								<a id="crontab_{$value['id']}" href="###" onclick="return _delete(this)">{$P8LANG['delete']}</a>
+								<input type="button" value="{$P8LANG['run_crontab']}" onclick="this.form.action='$this_router-run';this.form.id.value='{$value['id']}';this.form.submit();" />
+							</td>
+						</tr>
+					<!--{/foreach}-->
+					
+					</table>
+					
+					
+				</td></tr>
+			</table>
+		</div>
+	</div>
+	<div class="mainbox mainborder">
+		<div class="section">
+			{$P8LANG['crontab_lock_status']}:
+			<!--{if $lock_status}-->
+			{$P8LANG['Y']}<br />id 为 $lock_status 的任务正在锁定中
+			{$P8LANG['you_should_unlock_crontab_lock']}
+			<!--{else}-->
+			{$P8LANG['N']}
+			<!--{/if}-->
+			<input type="hidden" name="id" value="" />
+			<input type="button" class="submit_btn" value="{$P8LANG['crontab_unlock']}" onclick="this.form.action='$this_router-list';this.form.submit();" />
+		</div>
+	</div>
+</form>
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['help_about']}</td>
+			</tr>
+			<tr>
+				<td class="headerbtn_list">
+						
+					1、你可以开启、编辑、删除官方已经提供的计划任务，根据需要进行操作。<br>
+
+					2、如果你自己要添加个性化计划任务，需要将所编的计划任务程序文件用FTP上传至系统inc/crontab里面。<br>
+
+					3、官方将不定期的为大家提供各类计划任务功能，方便大家操作。<br>
+				</td>
+			</tr>				
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+function _delete(obj){
+	if(!confirm('{$P8LANG['confirm_to_delete']}')) return;
+	
+	$.ajax({
+		url: '$this_router-delete',
+		type: 'POST',
+		dataType: 'text',
+		data: {id: obj.id.replace(/[^0-9]/g, '')},
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(status){
+			
+			ajaxing({action: 'hide'});
+			
+			if(status == 1){
+				$(obj).parent().parent().remove();
+			}
+		}
+	});
+	
+	return false;
+}
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

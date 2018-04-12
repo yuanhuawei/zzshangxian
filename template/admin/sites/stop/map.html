@@ -1,0 +1,175 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<link rel="stylesheet" href="{$SKIN}/{$SYSTEM}/category_selector.css" type="text/css" />
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 
+    您现在的位置：<a href="{$core.admin_controller}/sites/farm-index">站群系统</a> &gt; 
+    <a href="{$core.admin_controller}/sites/stop-add_category">栏目对接</a></td>
+  </tr>
+</table>
+
+<form action="$this_url" method="post" id="form">
+	<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table" align="center">
+		<tr>
+			<td width="51%" class="list_top list_left"> 选择公共栏目</td>
+			<td width="49%" class="list_top list_right">选择本站栏目</td>
+		</tr>
+		
+		<tr style="display: none;" id="clone">
+			<td class="tdL">
+				<span class="r_category_path"></span>
+				<input type="button" value="选择栏目" />
+			</td>
+			<td class="tdR">
+				<span class="category_path"></span>
+				<input type="button" value="选择对接栏目" />
+				<input type="hidden" name="map[]" />
+				<input type="button" value="移除对接栏目" />
+			</td>
+		</tr>
+		
+		<tbody id="maps">
+		
+		</tbody>
+		
+		<tr>
+			<td class="tdL"><input type="button" onclick="add_map()" value="添加站点栏目" /></td>
+			<td class="tdR">&nbsp;</td>
+		</tr>
+		
+		<tr>
+			<td class="tdL">自动接收内容</td>
+			<td class="tdR">
+				<input type="radio" name="auto_verify" value="0"{if empty($config['auto_verify'])} checked{/if} />{$P8LANG['N']}
+				<input type="radio" name="auto_verify" value="1"{if !isset($config['auto_verify']) || !empty($config['auto_verify'])} checked{/if} />{$P8LANG['Y']}
+				
+			</td>
+		</tr>
+		<tr>
+			<td class="tdL">&nbsp;</td>
+			<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		</tr>
+	</table>
+</form>
+
+<script type="text/javascript">
+var CATEGORY_JSON = $json[json];
+var CATEGORY_PATH = $json[path];
+
+var r_CATEGORY_JSON = $r_json[json];
+var r_CATEGORY_PATH = $r_json[path];
+
+function add_map(rcid, cid){
+	
+	var copy = $('#clone').clone().show();
+	$('#maps').append(copy);
+	
+	copy.find('input[type=button]:eq(0)').click(function(){
+		r_dialog.show();
+	});
+	copy.find('input[type=button]:eq(1)').click(function(){
+		dialog.show();
+	});
+	copy.find('input[type=button]:eq(2)').click(function(){
+		$(this).parent().parent().remove();
+	});
+	
+	var dialog = new P8_Dialog({
+		title_text: '{$P8LANG['select_category']}',
+		button: true,
+		width: 700,
+		height: 300,
+		ok: function(){
+			copy.find('.category_path').empty();
+			var val = cs.get_value();
+			var path = CATEGORY_PATH[val];
+			for(var i in path){
+				copy.find('.category_path').append($('<span>'+ cs.get_by_id(path[i]).name +' &gt; </span>'));
+			}
+			copy.find('input[type=hidden]').val(val);
+		},
+		show: function(){
+			cs.init();
+		}
+	});
+	dialog.content.height(240);
+
+	var cs = new Recursive_Selector({
+		json: CATEGORY_JSON,
+		path: CATEGORY_PATH,
+		input: $('#cid'),
+		dialog: dialog,
+		sub_property: 'categories',
+		parents: CATEGORY_PATH[cid] ? clone(CATEGORY_PATH[cid]) : null,
+		item_callback: function(cat, item){
+			
+			if(cat.type == 1)
+				item.find('span').addClass('frame_category');
+			
+			if(cat.categories)
+				item.addClass('sub_category');
+		}
+	});
+	
+	var r_dialog = new P8_Dialog({
+		title_text: '{$P8LANG['select_category']}',
+		button: true,
+		width: 700,
+		height: 300,
+		ok: function(){
+			copy.find('input[type=hidden]').attr('name', 'map['+ r_cs.get_value() +']');
+			
+			copy.find('.r_category_path').empty();
+			var val = r_cs.get_value();
+			var path = r_CATEGORY_PATH[val];
+			for(var i in path){
+				copy.find('.r_category_path').append($('<span>'+ r_cs.get_by_id(path[i]).name +' &gt; </span>'));
+			}
+			copy.find('input[type=hidden]').val(val);
+		},
+		show: function(){
+			r_cs.init();
+		}
+	});
+	r_dialog.content.height(240);
+
+	var r_cs = new Recursive_Selector({
+		json: r_CATEGORY_JSON,
+		path: r_CATEGORY_PATH,
+		input: $('#cid'),
+		dialog: r_dialog,
+		sub_property: 'categories',
+		parents: r_CATEGORY_PATH[rcid] ? clone(r_CATEGORY_PATH[rcid]) : null,
+		item_callback: function(cat, item){
+			if(cat.categories)
+				item.addClass('sub_category');
+		}
+	});
+	
+	if(rcid !== undefined){
+		var path = r_CATEGORY_PATH[rcid];
+		for(var i in path){
+			copy.find('.r_category_path').append($('<span>'+ r_cs.get_by_id(path[i]).name +' &gt; </span>'));
+		}
+		copy.find('input[type=hidden]').attr('name', 'map['+ rcid +']');
+	}
+	
+	if(cid !== undefined){
+		var path = CATEGORY_PATH[cid];
+		for(var i in path){
+			copy.find('.category_path').append($('<span>'+ cs.get_by_id(path[i]).name +' &gt; </span>'));
+		}
+		copy.find('input[type=hidden]').val(cid);
+	}
+}
+
+<!--{foreach $config['map'] $rcid $cid}-->
+add_map($rcid, $cid);
+<!--{/foreach}-->
+</script>
+
+<!--{template $this_system footer admin}-->
+<!--{/php168}-->

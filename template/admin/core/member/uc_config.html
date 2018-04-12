@@ -1,0 +1,147 @@
+<!--{php168}-->
+<!--uc config-->
+<tbody id="uc" style="display: none;">
+<th colspan="2">{$P8LANG['uc']['config']}</th>
+
+<tr>
+	<td class="tdL">{$P8LANG['uc']['connect']}</td>
+	<td class="tdR">
+		<select name="config[uc][connect]">
+			<option value="mysql"{if !empty($config['uc']['connect']) && $config['uc']['connect'] == 'mysql'} selected{/if}>mysql({$P8LANG['recommend']})</option>
+			<option value="socket"{if !empty($config['uc']['connect']) && $config['uc']['connect'] == 'socket'} selected{/if}>socket</option>
+		</select>{$P8LANG['uc']['note1']}
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL">{$P8LANG['uc']['db_host']}</td>
+	<td class="tdR">
+		<input type="text" class="txt" name="config[uc][db_host]" value="{if !empty($config['uc']['db_host'])}{$config['uc']['db_host']}{else}localhost{/if}" /> {$P8LANG['uc']['note2']}
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL">{$P8LANG['uc']['db_user']}</td>
+	<td class="tdR">
+		<input type="text" class="txt" name="config[uc][db_user]" value="{if !empty($config['uc']['db_user'])}{$config['uc']['db_user']}{else}{/if}" /> {$P8LANG['uc']['note3']}
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL">{$P8LANG['uc']['db_password']}</td>
+	<td class="tdR">
+		<input type="password" class="txt" name="config[uc][db_password]" value="{if isset($config['uc']['db_password'])}{$config['uc']['db_password']}{else}{/if}" /> {$P8LANG['uc']['note4']}
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL">{$P8LANG['uc']['db_name']}</td>
+	<td class="tdR">
+		<input type="text" class="txt" name="config[uc][db_name]" value="{if !empty($config['uc']['db_name'])}{$config['uc']['db_name']}{else}ucenter{/if}" /> {$P8LANG['uc']['note5']}
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL">{$P8LANG['uc']['db_charset']}</td>
+	<td class="tdR">
+		<input type="text" class="txt" name="config[uc][db_charset]" value="{if !empty($config['uc']['db_charset'])}{$config['uc']['db_charset']}{else}{$core.DB_master->charset}{/if}" /> {$P8LANG['uc']['note6']}
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL">{$P8LANG['uc']['db_table_prefix']}</td>
+	<td class="tdR">
+		<input type="text" class="txt" name="config[uc][db_table_prefix]" value="{if !empty($config['uc']['db_table_prefix'])}{$config['uc']['db_table_prefix']}{else}ucenter.uc_{/if}" /> {$P8LANG['uc']['note7']}
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL">{$P8LANG['uc']['key']}</td>
+	<td class="tdR">
+		<input type="text" class="txt" name="config[uc][key]" value="{if !empty($config['uc']['key'])}{$config['uc']['key']}{/if}" /> {$P8LANG['uc']['note8']}
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL">{$P8LANG['uc']['api']}</td>
+	<td class="tdR">
+		<input type="text" class="txt" name="config[uc][api]" value="{if !empty($config['uc']['api'])}{$config['uc']['api']}{else}http://127.0.0.1/uc{/if}" size="40" /> {$P8LANG['uc']['note9']}
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL">{$P8LANG['uc']['ip']}</td>
+	<td class="tdR">
+		<input type="text" class="txt" name="config[uc][ip]" value="{if !empty($config['uc']['ip'])}{$config['uc']['ip']}{/if}" /> {$P8LANG['uc']['note10']}
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL">{$P8LANG['uc']['charset']}</td>
+	<td class="tdR">
+		<input type="text" class="txt" name="config[uc][charset]" value="{if !empty($config['uc']['charset'])}{$config['uc']['charset']}{else}{$core.CONFIG['page_charset']}{/if}" /> {$P8LANG['uc']['note11']}
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL">{$P8LANG['uc']['appid']}</td>
+	<td class="tdR">
+		<input type="text" class="txt" name="config[uc][appid]" value="{if !empty($config['uc']['appid'])}{$config['uc']['appid']}{/if}" /> {$P8LANG['uc']['note12']}
+	</td>
+</tr>
+
+<tr>
+	<td class="tdL"><input type="button" value="{$P8LANG['uc']['test_api']}" onclick="test_uc_api()" /> <input type="button" value="{$P8LANG['uc']['transition']}" onclick="test_uc_api(1)" /></td>
+	<td class="tdR" id="uc_test_result">
+		
+	</td>
+</tr>
+<tr id="transition" style="display:none">
+	<td class="tdL">{$P8LANG['uc']['tran_type']}</td>
+	<td class="tdR">
+		<input type="radio" name="fromto" value="1" checked>{$P8LANG['uc']['this_system']} → UC  <input type="radio" name="fromto" value="2">UC → {$P8LANG['uc']['this_system']} <br/>
+		<input type="button" onclick="test_uc_api(2)" value="{$P8LANG['ok']}"/>
+	</td>
+</tr>
+</tbody>
+
+<script type="text/javascript">
+function test_uc_api(tran){
+	$.ajax({
+		url: '$this_router-test_uc_api',
+		type: 'POST',
+		data: {
+			connect: $('select[name="config[uc][connect]"]').val(),
+			db_host: $('input[name="config[uc][db_host]"]').val(),
+			db_user: $('input[name="config[uc][db_user]"]').val(),
+			db_password: $('input[name="config[uc][db_password]"]').val(),
+			db_name: $('input[name="config[uc][db_name]"]').val(),
+			db_charset: $('input[name="config[uc][db_charset]"]').val(),
+			db_table_prefix: $('input[name="config[uc][db_table_prefix]"]').val(),
+			key: $('input[name="config[uc][key]"]').val(),
+			api: $('input[name="config[uc][api]"]').val(),
+			ip: $('input[name="config[uc][ip]"]').val(),
+			charset: $('input[name="config[uc][charset]"]').val(),
+			appid: $('input[name="config[uc][appid]"]').val()
+		},
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(v){
+			ajaxing({action: 'hide'});
+			if(tran==1){
+				if(v==1)
+				$('#transition').show();
+				else
+				 alert("{$P8LANG['uc']['note13']}");
+			}else if(tran==2){
+				if(confirm("{$P8LANG['uc']['note14']}"))
+				$('#form').attr('action','$this_router-transition').submit();
+			}else{
+				$('#uc_test_result').html('<img src="'+ (v == 1 ? '{$SKIN}/check_yes.gif' : '{$SKIN}/check_no.gif') +'" />');
+			}
+		}
+	});
+}
+</script>
+<!--{/php168}-->

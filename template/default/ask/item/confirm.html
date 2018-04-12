@@ -1,0 +1,44 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+
+<div class="wrapbox light_blue_border">
+   <div class="topic_title light_blue_bg"><h3 class="mark">{$P8LANG['ask_question']}</h3></div>
+	  <div class="postbox_search">
+	     <h3>{$P8LANG['ask_question_confirm']}</h3>
+		 <div class="postbox_search_textlist">
+		   <ul>
+		   		<!--{if empty($list)}-->
+		   			<li style="color:#ff0000;">{$P8LANG['ask_no_records']}</li>
+		   		<!--{else}-->
+					<!--{foreach $list $value}-->
+						<li><a href="{$this_system.controller}/topic-question-id-{$value['id']}" target="_blank">{$value['title']}</a></li>
+					<!--{/foreach}-->
+				<!--{/if}-->
+		   </ul>
+		   <!--{if $pages}-->
+		   <div id="page" style="text-align:left;font-size:13px;" class="pages">{$pages}</div>
+		   <!--{/if}-->
+		 </div>
+		 <h3>{$P8LANG['ask_question_etiq']}</h3>
+		 <div class="postbox_search_known">
+		   <ul>
+		    <!--{foreach $P8LANG['ask_question_etiq_li'] $value}-->
+		      <li>{$value}</li>
+			<!--{/foreach}-->
+		   </ul>
+		 </div>
+		 <div class="postbox_next_btn"><input type="button" name="" value="{$P8LANG['ask_question_continue']}" onClick="javascript:return toAsk();"/></div>
+	  </div>
+   <div class="clear"></div>
+</div>
+<script type="text/javascript">
+function toAsk()
+{
+	var title = '{$keyword}';
+
+	window.location.href = '{$this_router}-ask?title=' + encodeURIComponent(title);
+	return false;
+}
+</script>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

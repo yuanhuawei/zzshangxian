@@ -1,0 +1,40 @@
+body { font-size:12px; font-family:宋体,Arial, Helvetica, sans-serif; color:#000; background-color:#FFFFFF; margin: 0px; padding: 0px;}
+img { border:0; vertical-align:middle; }
+body, html, h1, h2, h3, h4, h5, h6, div, ul, li, p, span, input, dl, dt, dd, label, table, th, td, tr, radio, select { margin:0; padding:0; }
+ul, li { list-style:none; }
+a:link, a:visited { color:#333; text-decoration:none; }
+a:hover { color:#666666; text-decoration: underline; }
+.clear { clear:both; line-height:0; height:0; font-size:0; overflow:hidden; float:none}
+.none { display:none; }
+.fl { float:left; }
+.fr { float:right; }
+.wrapper{width:900px; margin:30px auto 50px;border:3px solid #95C4E0}
+.layer{margin:10px;}
+.nav{background:url(navbg.gif) repeat-x; height:30px;line-height:30px; color:#006699;padding-left:10px}
+.nav a{color:#006699}
+.bigtitle{font-size:20px; font-weight:bold; color:#003CDB; text-align:center;padding:10px 50px;10px 50px}
+.info{text-align:center;color:#333333}
+.content{font-size:14px;line-height:180%; color:#333333}
+.content p{margin:14px 0;}
+.tools{text-align:right;background:url(toolsbg.gif) repeat-x;height:26px;line-height:26px;padding-right:10px; margin-bottom:30px}
+.content .tbl{width:500px; display:inline-block}
+.center{text-align:center}
+/**办事查看**/
+.workviewtitle{background:url(title_bg.gif) no-repeat 10px -118px;padding-left:25px;font-weight:bold}
+.workviewtable{margin:10px auto 20px;border-collapse:collapse}
+.workviewtable td{ border:1px solid #999999;padding:5px 5px 5px 10px;}
+.workviewtable a{color:#00F}
+.workviewtable td.tdl{text-align:right;background-color:#CAE3FF;width:20%}
+.workviewtable td.tdr{text-align:left;width:80%}
+.content .reason{color:#0000cc;font-size:12px;padding-left:20px;}
+.content .text{color:#000;font-size:12px;background: url("c2.gif") no-repeat scroll 5px 5px transparent;padding-left:20px;}
+#maincontent{min-height:300px;_height:300px}
+.content{min-height:100px;_height:100px}
+.status{font-weight:bold;color:#FF8040}
+.uploadown{width:48%;display:inline-block; margin:5px 0;}
+
+.wrapper_print{width:650px;margin:30px auto 50px;}
+.verify_show{line-height:25px;}
+.verify_show .v_1{width:100px;display:inline-block}
+.verify_show .v_2{width:200px;display:inline-block}
+.verify_show .v_c{display:inline-block}

@@ -1,0 +1,44 @@
+@charset "utf-8";
+/* CSS Document */
+body,p,h1,h2,h3,h4,h5,h6,ul,li,dl,dt,dd,pre{margin:0;padding:0;border:none;list-style:none; box-sizing: border-box;}
+body{color:#000; font-size:14px; font-family:"微软雅黑",Arial; background:#fff;}
+table{border-collapse:collapse;border-spacing:0;}
+fieldset, img{border:0;}
+address, caption, cite, code, dfn, em, strong, th, i, var, s{font-weight:normal;font-style:normal;}
+ol, ul{list-style:none;}
+caption,th{text-align:left;}
+input, label{vertical-align:middle;}
+input{border:0;}
+h1, h2, h3, h4, h5, h6{font-weight:normal;font-size:100%;}
+a{text-decoration:none;color:#333;}
+a:hover{text-decoration:underline;}
+.fl{float:left;}
+.fr{float:right;}
+.clear{zoom:1;}
+.clear:after{content:'';display:block;clear:both;}
+
+.headbar{width:100%;min-width:1100px;}
+.header{width:1100px;margin:0 auto;padding:80px 0 30px 0;overflow:hidden;}
+.header .home{margin-top:40px;}
+.header .home a{display:block;color:#595959;padding-left:26px;background:url(images/home.png) left center no-repeat;text-decoration:none;}
+
+.contentbox{width:100%;min-width:1100px;height:420px;background: url(images/bg.png) repeat-x 0 0;}
+.wrapper{width:1100px;margin:0 auto;}
+.logobox{height:438px;}
+.logindiv{width:323px;height:328px;margin-top:45px;padding:0 30px;border-top:2px solid #005faf;background:#fff;}
+.brand h3{font-size:16px;color:#4c4c4c;margin:20px 0;}
+.formint,.formbtn{width:323px;height:40px;margin-bottom:15px;}
+.formint input{width:267px;padding-left:54px;border:1px solid #cccccc;height:36px;line-height:36px;font-family:"微软雅黑";color:#999;}
+.formbtn input{width:321px;border:1px solid #005faf;height:40px;line-height:38px;background:#005faf;font-size:16px;font-family:"微软雅黑";color:#fff;}
+.formint .username{background:url(images/user.png) left center no-repeat;}
+.formint .password{background:url(images/pwd.png) left center no-repeat;}
+.formcode{width:160px;border:1px solid #cccccc;padding:7px 10px 7px 38px;background:url(images/yzm.png) 10px center no-repeat;margin-bottom:15px;}
+.formcode input{width:100px;border:1px solid #cccccc;height:21px;line-height:21px;text-align:center;font-family:"微软雅黑";color:#999;}
+.formul li{display:inline-block;margin-right:20px;}
+.formul li a{color:#1b5bc6;text-decoration:none;}
+
+.footbar{width:100%;min-width:1000px;padding:15px 0;}
+.footer{width:1000px;margin:0 auto;text-align:center;color:#333;font-size:12px;}
+.footnav {margin-bottom:15px;color:#ddd;}
+.footnav a{color:#333;margin:0 10px;font-size:14px;}
+.copyright{line-height:24px;}

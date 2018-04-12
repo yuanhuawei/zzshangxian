@@ -1,0 +1,40 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/special/style.css">
+<div class="page Lujing">
+	<a href="{$core.controller}">首页</a> > <a href="{$this_module.controller}">专题</a> &gt; <a href="$CAT[url]">$CAT[name]</a>
+</div>
+<div class="list">
+<!--{if !empty($list['categories'])}-->
+	<!--{foreach $list['categories'] $rs}-->
+	<div class="slist">
+	<p class="head">$rs[name]<a class="more" href="$rs[url]">more</a></p>
+	<ul class="main">
+			<!--{foreach $rs['data'] $value}-->
+			<li class="tr">
+				<a href="$value[url]" target="_blank" class="sp_icon"><img src="$value[frame]" border="0" width="100" height="80" onError="this.src='{$RESOURCE}/images/nopic.jpg'" /></a>
+				<p class="sp_title"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></p>
+				<p class="sp_des">$value[summary]<a class="red" href="$value[url]">[详细]</a></p> 
+			</li>
+			<!--{/foreach}-->
+			<li class="clear"></li>
+	</ul>
+	</div>
+	<!--{/foreach}-->
+<!--{else}-->
+	<div class="slist">
+	<p class="head">$list[name]<a class="more" href="$list[url]">more</a></p>
+	<ul class="main">
+<!--{foreach $list['data'] $value}-->
+			<li class="tr">
+				<a href="$value[url]" target="_blank" class="sp_icon"><img src="$value[frame]" border="0" width="100" height="80" onError="this.src='{$RESOURCE}/images/nopic.jpg'" /></a>
+				<p class="sp_title"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></p>
+				<p class="sp_des">$value[summary]<a class="red" href="$value[url]">[详细]</a></p> 
+			</li>
+			<!--{/foreach}-->
+			<li class="clear"></li>	</ul>
+	</div>
+<!--{/if}-->
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->

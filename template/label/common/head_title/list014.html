@@ -1,0 +1,18 @@
+<!--{php168}-->
+<ul class="label_ul_s mtop8">
+<!--{foreach $list $k $value}-->
+	<!--{if $k==0}-->
+	<li class="label_head_li">
+		<a class="fleft" target="_blank" title="{$value['full_title']}" href="{$value['url']}"><img src="{if empty($value[frame])}$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" class="summary_image" border="0" width="90" height="90" onError="this.src='{$RESOURCE}/images/nopic.jpg';" /></a>
+		<h3 class="label_bigsize_s" style=""><a class="normal_title" target="_blank" title="{$value['full_title']}" href="{$value['url']}">{$value['title']}</a></h3>
+		<p class="label_summary">$value[summary] <span class="cDRed">[<a target="_blank" href="{$value['url']}">详细</a>]</span></p>
+		<p class="clear"></p>
+	</li>
+	<!--{/if}-->
+
+	<li>·<a class="normal_title" target="_blank" title="{$value['full_title']}" href="{$value['url']}">{$value['title']}</a></li>
+<!--{/foreach}-->
+<li class="clear"></li>
+</ul>
+<!--{/php168}-->
+

@@ -1,0 +1,73 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+
+
+<form action="$this_url" method="POST" id="form">
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td class="title" colspan="2">{$P8LANG['copy_label']}</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['label_name']}</td>
+				<td class="tdR">
+					<input type="text" class="txt" name="name" value="{$name}_copy" id="name" size="60" />
+				</td>
+			</tr>
+			
+			<tr>
+			  <td class="tdL">&nbsp;</td>
+			  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<input type="hidden" name="id" value="$id" />
+<input type="hidden" name="system" value="$data[system]" />
+<input type="hidden" name="module" value="$data[module]" />
+<input type="hidden" name="postfix" value="$data[postfix]" />
+</form>
+
+<script type="text/javascript">
+	
+	$('#form').validate({
+		rules: {
+			name: {
+				required: true,
+				remote: {
+					url: P8CONFIG.admin_controller +'/core/label-check',
+					type: 'post',
+					data: {
+						system: function(){return $('#form input[name=system]').val();},
+						module: function(){return $('#form input[name=module]').val();},
+						postfix: function(){return $('#form input[name=postfix]').val();},
+						name: function(){return $('#form input[name=name]').val();}
+					},
+					beforeSend: function(){
+						ajaxing({});
+					},
+					complete: function(){
+						ajaxing({action: 'hide'});
+					}
+				}
+			}
+		},
+		
+		messages: {
+			name: {
+				required: '{$P8LANG['label_name_can_not_be_empty']}',
+				remote: '{$P8LANG['label_duplicate']}'
+			}
+		},
+		
+		onkeyup: false
+	});
+	
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

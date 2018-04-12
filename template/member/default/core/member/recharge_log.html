@@ -1,0 +1,54 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+
+<div style="font-size:12px; font-weight:bolder; color:#F00;border-bottom:#EEEEEE 1px solid;padding:0px 0px 10px 0px;">&rarr; 历史充值记录</div>
+	 <table width='99%' align="center" cellspacing='1' cellpadding='3' class="formtable columntable hover_table mtop20">
+	<tr class="head">
+		<td align="center">订单号</td>
+		<td align="center">数额</td>
+		<td align="center">状态</td>
+		<td align="center">时间</td>
+	</tr>
+	
+	<!--{foreach $list $value}-->
+	<tr>
+		<td align="center">$value[order_NO]</td>
+		<td align="center">$value[amount]</td>
+		<td align="center">
+			<!--{if $value['status'] == 1}-->
+			充值成功
+			<!--{elseif $value['status'] == 0}-->
+			<!--{php $pay = get_module('core', 'pay');}-->
+			<a href="{$pay['controller']}-pay?NO=$value[order_NO]" target="_blank">未付款</a>
+			<!--{/if}-->
+		</td>
+		<td align="center">{date('Y-m-d H:i:s', $value['timestamp'])}</td>
+	</tr>
+	<!--{/foreach}-->
+	</table>
+
+<!--
+<br /><span style="font-size:12px;">查询指定时间段的财务流水：</span>
+<form action="?" method="post" id="form" style="padding:5px 0px 5px 20px;margin-top:5px;font-size:12px;border:1px #DDDDDD solid;">
+起始时间：<input type="text"  id="start_time" name="start_time" size="10" value="" />
+结束时间：<input type="text"  id="end_time" name="end_time" size="10" value="" />
+每页记录数：<input type="text"  id="count" name="count" size="4" value="" />
+分类：
+<select id="sort" name="sort" >
+	<option value="1">分类1</option>
+	<option value="2">分类2</option>
+</select>
+<input type="hidden" name="action" value="" />
+<input type="submit" value="查找" />
+</form>
+
+<div style="margin-top:30px;font-size:12px;">
+<strong>订单查询说明：</strong><br /><br />
+
+1.订单号码：你可以根据预定情况查看所有订单，安类别查询及按时间查询均可。<br />
+2.支付状态：当有订单没有支付成功时候，可以继续完成支付。
+</div>
+-->
+
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

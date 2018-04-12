@@ -1,0 +1,63 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/newmedia/css/cmsstyle.css">
+<div class="list_banner">
+	$label[dow_list_ad1]
+</div>
+<div class="list_nave">
+	<a href="{$this_system.url}">Ê×Ò³</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>
+</div>
+<!--×ó±ß-->
+<div class="v_left">
+	<!--{php $i = 0;}-->
+	<!--{foreach $subcategories $v}-->
+	<!--{php if($i > 8) break; $i++;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+	<div style="width:48%; float:left; margin-right:10px">
+	<div class="list_head1 mtop mtop" >
+		<span class="list_title2">$v[name]</span> <a class="list_more1" href="$v[url]">>>>¸ü¶à</a>
+	</div>
+	<div class="list_content1">
+		$label[dow_big_list]{'i.cid' => $subcat, 'model' => $MODEL}
+	</div>
+	</div>
+	<!--{/foreach}-->
+</div>
+<!--ÓÒ±ß-->
+<div class="list_right" style="width:298px">
+	<div class="list_head1 mtop">
+		<span class="list_more1"></span> <span class="list_title1">$label[menu_down_nav]</span>
+	</div>
+	<div class="list_content2">
+		<!--{php include template($TEMP_OBJ, $this_module->CONFIG['list_navigagion'], 'label/cms/navigation');}-->
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_title1">$label[dow_blist_title1]</span> <span class="list_more1">$label[dow_blist_more1]</span>
+	</div>
+	<div class="list_content1">
+		$label[dow_blist_content1]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_title1">$label[dow_blist_title2]</span> <span class="list_more1">$label[dow_blist_more2]</span>
+	</div>
+	<div class="list_content1">
+		$label[dow_blist_content2]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_title1">$label[dow_blist_title3]</span> <span class="list_more1">$label[dow_blist_more3]</span>
+	</div>
+	<div class="list_content1">
+		$label[dow_blist_content3]
+	</div>	
+</div>
+<div class="clear">
+</div>
+
+<script type="text/javascript" src="http://v2.jiathis.com/code/jiathis_r.js?move=0" charset="utf-8"></script>
+
+<!--{template $this_system footer}-->
+<!--{/php168}-->

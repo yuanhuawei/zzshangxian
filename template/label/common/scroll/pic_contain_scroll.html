@@ -1,0 +1,79 @@
+<!--{php168}-->
+<div style="overflow: hidden; height: 285px;" id="marqueebox0">
+<ul class="label_pic_com_ul">
+	<!--{foreach $list $value}-->
+	<li style="$wf;">
+		<a href="$value[url]" target="_blank" title="$value[full_title]"><img width="120" height="90" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a>
+		<h3><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></h3>
+		<p class="label_summary">$value[summary]<span class="cDRed"><a href="$value[url]" target="_blank">[详细]</a></span></p>
+		<p class="clear"></p>
+	</li>
+	<!--{/foreach}-->
+	<li class="clear"></li>
+
+</ul>
+
+	 <script type="text/javascript"> 
+
+<!-- 
+
+function startmarquee(lh,speed,delay,index){ 
+
+var t; 
+
+var p=false; 
+
+var o=document.getElementById("marqueebox"+index); 
+
+o.innerHTML+=o.innerHTML; 
+
+o.onmouseover=function(){p=true} 
+
+o.onmouseout=function(){p=false} 
+
+o.scrollTop = 0; 
+
+function start(){ 
+
+t=setInterval(scrolling,speed); 
+
+if(!p) o.scrollTop += 2; 
+
+} 
+
+function scrolling(){ 
+
+if(o.scrollTop%lh!=0){ 
+
+o.scrollTop += 2; 
+
+if(o.scrollTop>=o.scrollHeight/2) o.scrollTop = 0; 
+
+}else{ 
+
+clearInterval(t); 
+
+setTimeout(start,delay); 
+
+} 
+
+} 
+
+setTimeout(start,delay); 
+
+} 
+
+startmarquee(100,50,3000,0); 
+
+/**startmarquee(一次滚动高度,速度,停留时间,图层标记);**/ 
+
+
+//--> 
+
+</script>
+
+</div>
+
+
+<!--{/php168}-->
+

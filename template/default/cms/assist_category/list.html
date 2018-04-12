@@ -1,0 +1,47 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+
+<!--content-->
+
+<div class="container">
+
+		$label[company_top_ad]
+</div>
+<div class="clear"></div>
+<div class="container common_mtop">
+	<div class="contain_left">
+		<div class="show_box_1">
+			<div class="sb1_head">
+				$label[cms_left_box_title_1]
+			</div>
+			<div class="sb1_main">
+				<!--{foreach $childs $v}-->
+				<div><a href="$this_url?sid=$v[id]">$v[name]</a></div>
+				<!--{/foreach}-->
+			</div>
+		</div>
+		<div class="show_box_1 common_mtop">
+			<div class="sb1_head">
+				$label[cms_left_box_title_2]
+			</div>
+			<div class="sb1_main">
+				$label[cms_left_box_content_2]
+			</div>
+		</div>
+	</div>
+	<div class="contain_right">	
+		<div class="show_box_2">
+			<div class="sb2_head">
+				<a class="title">$ac[name]</a>
+			</div>
+			<div class="sb2_main">
+				<!--{foreach $list $v}-->
+				<div><a href="{$core.controller}/cms/item-view-id-$v[iid]" target="_blank">$v[title]</a></div>
+				<!--{/foreach}-->
+			</div>
+		</div>
+	</div>
+
+</div>	
+<!--{template $this_system footer}-->
+<!--{/php168}-->

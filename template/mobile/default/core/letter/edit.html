@@ -1,0 +1,238 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/mobile/default/core/letter/style.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<script type="text/javascript">
+var MODEL = '$MODEL';
+var attachment_hash = '$attachment_hash';
+$(function(){
+	
+	$('#form').validate({
+		rules: {
+			title: {
+				required: true,
+				maxlength: 80
+			},
+			
+			username: {
+				required: true,
+				maxlength: 10
+			},
+			
+			phone: {
+				required: true,
+				maxlength: 15,
+				valid_phone:true
+			},
+			address: {
+				required: true
+			},
+			content: {
+				required: true
+			},
+			type: {
+				required: true
+			},
+			captcha: {
+				required: true,
+				remote: {
+					url: '$this_url',
+					cache: false,
+					type: 'post',
+					data: {checkcaptcha: '1'},
+		
+				}
+			}
+		},
+		
+		messages: {
+			title: {
+				required: '{$P8LANG['required']}',
+				maxlength: '{$P8LANG['title_oversize']}'
+			},
+			username: {
+				required: '{$P8LANG['required']}',
+				maxlength: '{$P8LANG['username_oversize']}'
+			},
+			phone: {
+				required: '{$P8LANG['required']}',
+				maxlength:'{$P8LANG['too_long']}',
+				valid_phone:'{$P8LANG['format_error']}'
+			},
+			address: {
+				required: '{$P8LANG['required']}'
+			},
+			content: {
+				required: '{$P8LANG['required']}'
+			},
+			type: {
+				required: '{$P8LANG['required']}'
+			},
+			captcha: {
+				required: '{$P8LANG['required']}',
+				remote: '{$P8LANG['captcha_incorrect']}'
+			}
+		},
+		
+		errorPlacement: function(error, element) {
+			if(element.parent().attr('tagName').toLowerCase() == 'td')
+				error.appendTo(element.parent());
+			else
+				error.appendTo(element.parent().prev());
+		},
+		
+		submitHandler: function(form){
+			form_submit = true;
+			
+			form.submit();
+		},
+		
+		onkeyup: false
+	});
+});
+$.validator.addMethod('valid_email', function(value, element){
+	return value.length > 3 && /^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/.test(value);
+});
+$.validator.addMethod('valid_phone', function(value, element){
+	return value.length > 3 && /^[0-9_-]+$/.test(value);
+});
+</script>
+
+
+ <div class="show_box_govs email4">
+   
+    <form id="form" action="" method="post">
+      <table width="100%" cellspacing="0" cellpadding="0" border="none" style="border:#f0f0f0 1px solid">
+        <tr class="tt">
+          <td colspan="2"><span style="color:#ff0000;"><b>鍐欎俊浜轰俊鎭?/b>(娉ㄦ剰鏍囨湁<span class="start">*</span>鐨勫繀椤诲～鍐欙紱涓?汉鏁忔劅淇℃伅寰楀埌淇濇姢)</span></td>
+
+        </tr>
+        <tr>
+          <td class="grey" width="20%">濮撳悕:</td>
+          <td class="white" width="*"><input type="text" name="username" id="username" value="{if !empty($data['username'])}{$data['username']}{/if}" />
+            <span class="start">*</span><span style="color:#808069"> 浠呰嚜宸卞彲瑙?/span></td>
+        </tr>
+        <tr>
+          <td class="grey" width="103">鎬у埆:</td>
+          <td class="white"><select name="gender" id="gender">
+              <option value="">璇烽€夋嫨</option>
+              <option value="1" {if !empty($data['gender']) && $data['gender']==1}selected{/if}>鐢饵/option>
+              <option value="2" {if !empty($data['gender']) && $data['gender']==2}selected{/if}>濂颤/option>
+            </select></td>
+        </tr>
+        <tr>
+          <td class="grey">骞撮緞:</td>
+          <td class="white"><input type="text" name="age" id="age"  value="{if !empty($data['age'])}{$data['age']}{/if}"/></td>
+        </tr>
+        <tr>  
+          <td class="grey">鑱屼笟:</td>
+          <td class="white"><input type="text" name="profession" id="profession"  value="{if !empty($data['profession'])}{$data['profession']}{/if}"/></td>
+        </tr>
+        <tr>
+          <td class="grey">璇佷欢绫诲瀷:</td>
+          <td class="white"><select name="id_type" id="id_type">
+                <option value="">璇烽€夋嫨</option>
+             <!--{foreach $id_type $key $row}-->
+              <option value="{$key}" {if !empty($data['id_type']) && $data['id_type']==$key}selected{/if}>{$row}</option>
+           <!--{/foreach}-->   
+            </select><span style="color:#808069"> 浠呰嚜宸卞拰绠＄悊鍛樺彲鏌ョ湅</span></td>
+        </tr>
+        <tr>
+          <td class="grey">璇佷欢鍙风爜:</td>
+          <td class="white"><input type="text" name="id_num" id="id_num"  value="{if !empty($data['id_num'])}{$data['id_num']}{/if}"/>
+            <span class="start">*</span></td>
+        </tr>
+        <tr>
+          <td class="grey">鑱旂郴鐢佃瘽:</td>
+          <td class="white"><input type="text" name="phone" id="phone"  value="{if !empty($data['phone'])}{$data['phone']}{/if}"/>
+            <span class="start">*</span> <span style="color:#808069">鎺ユ敹鐭?俊</span></td>
+        </tr>
+        <tr>  
+          <td class="grey">鐢靛瓙閭?欢:</td>
+          <td  class="white"><input type="text" name="email" id="email" value="{if !empty($data['email'])}{$data['email']}{/if}" />
+            <span style="color:#808069">鎺ユ敹鍥炲?</span></td>
+        </tr>
+        <tr>
+          <td class="grey">鑱旂郴鍦板潃:</td>
+          <td  class="white" ><input type="text" name="address" id="address"  value="{if !empty($data['address'])}{$data['address']}{/if}" />
+            <span class="start">*</span></td>
+        </tr>
+        <tr class="tt">
+          <td colspan="4"><b>淇¤?浜嬮」淇℃伅</b>(娉ㄦ剰鏍囨湁<span class="start">*</span>鐨勫繀椤诲～鍐?</td>
+        </tr>
+        <!--{if !empty($letterconfig['receive']) && !empty($letterconfig['redepartment'])}-->
+        <input type="hidden" name="department" id="department" value="{$letterconfig['redepartment']}"/>
+        <!--{else}-->
+        <tr>
+          <td class="grey">閫夋嫨閮ㄩ棬:</td>
+          <td  class="white" >
+          <select name="department" id="department">
+            <option value="">璇烽€夋嫨</option>
+          <!--{foreach $cates['department'] $key $row}-->
+              <option value="{$row['id']}" {if !empty($data['department']) && $data['department']==$row['id']}selected{/if}>{$row['name']}</option>
+           <!--{/foreach}-->   
+            </select> <span class="start">*</span> <span style="color:#808069">鑻ヤ笉鐭ラ儴闂?紝鍙?€夆€滃叕鍏变俊绠扁€滭/span></td>
+        </tr>
+        <!--{/if}-->
+        <tr>
+          <td class="grey">闂??绫诲埆:</td>
+          <td  class="white" ><select name="type" id="type">
+            <option value="">----璇烽€夋嫨绫诲埆----</option>
+             <!--{foreach $cates['type'] $key $row}-->
+              <option value="{$row['id']}" {if !empty($data['type']) && $data['type']==$row['id']}selected{/if}>{$row['name']}</option>
+           <!--{/foreach}--> 
+            </select>
+            <span class="start">*</span></td>
+        </tr>
+        <tr>
+          <td class="grey">涓婚?:</td>
+          <td  class="white" ><input type="text" name="title" id="title" value="{if !empty($data['title'])}{$data['title']}{/if}"/>
+            <span class="start">*</span></td>
+        </tr>
+        <tr>
+          <td class="grey">鍐呭?:</td>
+          <td  class="white" ><textarea name="content" id="content" cols="30" rows="5">{if !empty($data['content'])}{$data['content']}{/if}</textarea>
+            <span class="start">*</span></td>
+        </tr>
+        <!--<tr>
+          <td class="grey">闄勪欢:</td>
+          <td  class="white" ><p> 鏍囬?锛
+              <input type="text" class="txt" name="attachment_name" id="attachment_name"  value="{if !empty($data['attachment_name'])}{$data['attachment_name']}{/if}"/>
+              <br/>
+              鍦板潃锛
+              <input type="text" class="txt" name="attachment" id="attachment"  value="{if !empty($data['attachment'])}{$data['attachment']}{/if}" />
+            </p></td>
+        </tr>-->
+        <tr>
+          <td class="grey">鏄?惁鍏?紑:</td>
+          <td  class="white" ><input type="radio" name="visual"  value="1"  {if !empty($data['visual'])}checked{/if}/>
+            鍏?紑
+            <input type="radio" name="visual"  value="0" {if empty($data['visual'])}checked{/if} />
+            涓嶅叕寮€
+            </td>
+        </tr>
+        <tr>
+          <td class="grey">楠岃瘉鐮?</td>
+          <td  class="white" ><input name="captcha" type="text" id="captcha" class="input" size="5" />
+            <span id="captcham"></span>
+            <script type="text/javascript">
+    $('#captcham').append($('<img src="{$core.url}/api/captcha.php" align="top" style="cursor: pointer;" onclick="this.src=\'{$core.url}/api/captcha.php?_=\'+ Math.random()" title="鐐瑰嚮鍒锋柊" />'));
+    
+    </script><span style="color:#808069">锛堢偣鍑诲浘鐗囧彲鍒锋柊锛堻/span>
+    
+    </td>
+        </tr>
+        <tr>
+          <td  class="last" colspan="4"><input type="submit" name="submitbutton" value="鎻愪氦" />
+            <input type="reset" name="reset" value="閲嶇疆" />
+            <input type="hidden" name="id" value="{if !empty($id)}{$id}{/if}" />
+            <input type="hidden" name="attachment_hash" value="{$attachment_hash}" />
+           </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+<!--{template $core footer}-->
+<!--{/php168}-->
+

@@ -1,0 +1,24 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<table class="columntable formtable hover_table mtop20" width="100%">
+	<tr class="head">
+	  <td>广告名称</td>
+      <td>订单号</td>
+      <td>投放时间</td>
+      <td>备注</td>
+      <td>请求时间</td>
+      <td>审核与否</td>
+	</tr>
+	<!--{foreach $sales $sale}-->
+	<tr>
+	  <td>$sale[ad_name]</td>
+      <td>$sale[order_no]</td>
+      <td><!--{php echo date("Y-m-d", $sale[begintime]).'到';echo date("Y-m-d", $sale[endtime]);}--></td>
+      <td>$sale[note]</td>
+      <td><!--{php echo date("Y-m-d", $sale[posttime]);}--></td>
+      <td><!--{if $sale[checked]==true}--><font color="green">已审核</font><!--{else}-->未审核<!--{/if}--></td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

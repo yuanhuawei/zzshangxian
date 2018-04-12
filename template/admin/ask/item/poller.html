@@ -1,0 +1,120 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $this_module header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr><td>
+			<form action="{$this_router}-{$ACTION}" id="form" name="form" method="post">
+				<table class="formtable columntable" id="list">			
+					<tr class="title">
+						<td width="4%">ID</td>
+						<td width="30%">{$P8LANG['ask_belong_item']}</td>
+						<td>{$P8LANG['user']}</td>
+						<td>{$P8LANG['ask_time']}</td>
+						<td>IP</td>
+						<td>{$P8LANG['ask_markup_handler']}</td>
+						<td class="cleartd">{$P8LANG['operation']}</td>
+					</tr>
+					<!--{if empty($list)}-->
+						<tr><td colspan="7">{$P8LANG['ask_no_records']}</td></tr>
+					<!--{else}-->
+					<!--{foreach $list $value}-->
+					<tr id="poller_{$value['id']}">
+						<td>{$value['id']}</td>
+						<td class="txtlist"><input type="checkbox" name="ids[]" value="{$value['id']}"/> <a href="{$this_module.controller}-view-id-{$value['tid']}" target="_blank">{$value['title']}</a></div></td>
+						<td><!--{if $value['anonymous'] && empty($value['username'])}-->{$P8LANG['ask_anonymous']}<!--{else}--><a href="#{$value['uid']}">{$value['username']}</a><!--{/if}--></td>
+						<td><!--{php echo date('Y-m-d H:i:s',$value['addtime']);}--></td>
+						<td>{$value['ip']}</td>
+						<td><!--{if $value['handler']}--><img src="{$RESOURCE}/skin/admin/check_yes.gif" id="handler_{$value['id']}"/><!--{else}--><img src="{$RESOURCE}/skin/admin/check_no.gif" id="handler_{$value['id']}"/><!--{/if}--></td>
+						<td class="cleartd">
+							<a href="javascript:void(0);" onclick="javascript:view_poller({id:{$value['id']}});">{$P8LANG['ask_view_content']}</a> | <a href="javascript:void(0);" onclick="javascript:delete_poller({id:{$value['id']}});">{$P8LANG['delete']}</a>
+						</td>
+					</tr>
+					<!--{/foreach}-->
+					<!--{/if}-->
+				</table>
+				</form>
+				<!--{if $list}-->
+				<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+					<tr>
+						<td width="6%">
+							<div align="right"><input type="checkbox" id="ChkAll" onclick="check_all(this, 'ids[]', $('#list'))"/> {$P8LANG['ask_checkall']}</div>
+						</td>
+						<td width="*">
+							<input type="button" name="Submit" value="{$P8LANG['delete']}" class="edit_btn" onclick="javascript:delete_poller({});"/>
+						</td>
+					</tr>
+					<!--{if $pages}-->
+					<tr>
+					<td colspan="2" height="40" class="pages">&nbsp;&nbsp;&nbsp;{$pages}</td>
+					</tr>
+					<!--{/if}-->
+				</table>
+				<!--{/if}-->
+			</td></tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+var reg = /^[0-9]*$/;
+
+//查看投诉内容
+function view_poller(options)
+{
+	if(options.id == undefined || !reg.test(options.id)){
+		alert('{$P8LANG['ask_not_chose_record']}');
+		return false;
+	}
+	var dialog = new P8_Dialog({
+		title_text: '查看内容',
+		button: false,
+		zIndex:10000,
+		width: 720,
+		height: 480,
+		url: '{$this_router}-view_poller?id='+options.id
+	});
+	dialog.show();
+}
+
+//删除投诉内容
+function delete_poller(options)
+{
+	var ids = data = [];
+
+	if(options.id == undefined || !reg.test(options.id)){
+		ids = checked_values('ids[]', $('#list'));
+		var data = ajax_parameters({ids:ids});
+	}else{
+		ids = options.id;
+		var data = ajax_parameters({ids:[ids]});
+	}
+
+	if(data.length<1){alert('{$P8LANG['ask_not_chose_record']}');return false;}
+
+	if(!confirm('{$P8LANG['ask_delete_tips']}')){
+		return false;
+	}
+
+	$.ajax({
+		url: '{$this_router}-delete_poller',
+		type: 'POST',
+		dataType: 'json',
+		data: data,
+		cache: false,
+		success: function(json){
+			
+			if(!json.length) return;
+
+			for(var i in json){
+				$('#poller_' + json[i]).remove();
+			}
+
+		}
+	});
+
+}
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

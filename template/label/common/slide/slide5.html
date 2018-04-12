@@ -1,0 +1,51 @@
+<!--{php168}-->
+<!--{php
+$slide_num=0;
+$swidth1 = 4/5*$swidth;
+$swidth2 = 1/5*$swidth;
+$sheight2 = 1/4*$sheight;
+}-->
+<style type="text/css">
+.clssMainRoll {FILTER: progid:DXImageTransform.Microsoft.Slide(slidestyle=SWAP, Bands=1); CURSOR: pointer }
+</style>
+<script language="JavaScript" type="text/javascript" src="{$core->url}/js/slide3/imagerollover.js"></script>
+<SCRIPT language=javascript>
+var m_nPageInitTime = new Date();
+var MainTopRoll = new xwzRollingImageTrans("IMG_MAIN_TOP_ROLL_DETAIL_{$label['id']}", "IMGS_MAIN_TOP_ROLL_THUMBNAIL_{$label['id']}");
+<!--{foreach $list $value}-->
+<!--{php $slide_num++;}-->
+<!--{if $slide_num == 1 }-->
+	<!--{php $first_frame = $value['frame']; }-->
+<!--{/if}-->
+<!--{php if($slide_num > 4) break;}-->
+MainTopRoll.addItem("$value[url]","$value[frame]");
+<!--{/foreach}-->
+</SCRIPT>
+<TABLE cellSpacing="0" cellPadding="0" width="{$swidth}" height="{$sheight}" align="center">
+	<TBODY>
+		<TR>
+			<TD id="IDS_DIV_MAIN_TOP_ROLL_DETAIL_{$label['id']}" width="{$swidth1}" height="{$sheight}"> <IMG class="clssMainRoll" width="{$swidth1}" height = "{$sheight}" border="0" name="IMG_MAIN_TOP_ROLL_DETAIL_{$label['id']}" src="$first_frame" /> </TD>
+			<TD width="5">&nbsp;</TD>
+			<TD width="{$swidth2}" bgcolor="#F4F4F4">
+				<TABLE cellSpacing="0" cellPadding="0" align="center">
+					<TBODY>
+						<!--{php $slide_num=0;}-->
+						<!--{foreach $list $value}-->
+						<!--{php if($slide_num > 3) break;}-->
+						<TR>
+							<TD align="right" height="{$sheight2}"> <IMG style="DISPLAY: none" height="5" src="" width=9 align="absMiddle" border="0" name="IMGS_MAIN_TOP_ROLL_THUMBNAIL_{$label['id']}"> <IMG  width="{$swidth2}" height="{$sheight2}" style="CURSOR: pointer" onclick="MainTopRoll.alterImage($slide_num)" border="0"
+                    src="$value[frame]" /> </TD>
+						</TR>
+						<!--{php $slide_num++;}-->
+						<!--{/foreach}-->
+					</TBODY>
+				</TABLE>
+			</TD>
+		</TR>
+	</TBODY>
+</TABLE>
+<SCRIPT language=JavaScript>
+MainTopRoll.Index =  parseInt('0');
+MainTopRoll.install();
+    </SCRIPT>
+<!--{/php168}-->

@@ -1,0 +1,113 @@
+<!--{php168}-->
+<style type="text/css">
+.iosSliderDemo{$label['id']} {clear: both;width: 100%;height:{$sheight}px;position: relative;overflow: hidden;}
+.iosSliderDemo{$label['id']} .fluidHeight{position:absolute;width:100%;height:{$sheight}px;}
+.iosSliderDemo{$label['id']} .sliderContainer {height: 100%;max-height:{$sheight}px;padding: 0 0;}
+.iosSliderDemo{$label['id']} .iosSlider {position: relative;top: 0;left: 0;overflow: hidden;width: 100%;height: 100%;}
+.iosSliderDemo{$label['id']} .iosSlider .slider {width: 100%;height: 100%;}
+.iosSliderDemo{$label['id']} .iosSlider .slider .item {width: 100%;max-width:1380px;height: 100%;padding: 0 0 0 0;text-align: center;}
+.iosSliderDemo{$label['id']} .iosSlider .slider .item .inner{position: relative;top: 0;left: 0;width:100%;margin: 0 auto;height: 100%;box-shadow: 0 0 10px -5px #000;background-position: 50% 0;background-repeat: no-repeat;}
+.iosSliderDemo{$label['id']} .iosSlider .slider .item .inner img {position: relative;top: 0;left: 0;width: 100%;height:{$sheight}px;margin: 0 auto;}
+.iosSliderDemo{$label['id']} .iosSlider .slider .item .inner .text1{opacity: 0;filter: alpha(opacity=0);background: none repeat scroll 0 0 #000000;position: absolute;bottom: 12%;padding: 0 12px 0 12px;height:50px;text-align: left;}
+.iosSliderDemo{$label['id']} .iosSlider .slider .item .inner .text1 span{color: #fff;font-size:24px;font-weight: 700;line-height:50px;padding: 0 8px;font-family:"Microsoft Yahei";}
+.iosSliderDemo{$label['id']} .iosSlider .slider .item .inner .text2 {background: none repeat scroll 0 0 #000000;opacity: 0;filter: alpha(opacity=0);padding: 10px 12px 10px;position: absolute;left: 100px;top: 451px;text-align: left;}
+.iosSliderDemo{$label['id']} .iosSlider .slider .item .inner .text2 span {display: block;color: #fff;font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5;font-weight: 100;padding: 0 8px;font-family:"Microsoft Yahei"}
+.iosSliderDemo{$label['id']} .sliderContainer .slideSelectors {position: relative;bottom:30px;max-width: 1366px;margin: 0 auto;z-index: 1;height: 11px; text-align:center}
+.iosSliderDemo{$label['id']} .sliderContainer .slideSelectors .prev {width:54px; height:54px; position:absolute; top:-250px; left:20px; background: url({$RESOURCE}/skin/label/ico_arrow.png) no-repeat 0 0;opacity:0.6; filter:alpha(opacity=60);}
+.iosSliderDemo{$label['id']} .sliderContainer .slideSelectors .prev:hover{ background-position:0 -58px;opacity:0.8; filter:alpha(opacity=80);}
+.iosSliderDemo{$label['id']} .sliderContainer .slideSelectors .next {width:54px; height:54px; position:absolute; top:-250px; right:20px; background: url({$RESOURCE}/skin/label/ico_arrow.png) no-repeat -54px 0;opacity:0.6; filter:alpha(opacity=60);}
+.iosSliderDemo{$label['id']} .sliderContainer .slideSelectors .next:hover{ background-position:-54px -58px;opacity:0.8; filter:alpha(opacity=80);}
+.iosSliderDemo{$label['id']} .sliderContainer .slideSelectors .item { display:inline-block;width: 9px;height: 9px;background: #aaa;margin: 1px 1px 1px 11px;filter: alpha(opacity=25);border-radius: 10px;}
+.iosSliderDemo{$label['id']} .sliderContainer .slideSelectors .selected {width: 11px;height: 11px;margin: 0 0 0 10px;background: #eee;opacity: 1;filter: alpha(opacity=100);box-shadow: none;}
+.iosSliderDemo{$label['id']} .sliderContainer .leftbg{ width:500px;height:494px; position:absolute; top:0; background: url({$RESOURCE}/skin/label/ico_bg.png) repeat; left:50%; margin-left:-1195px; z-index:99;}
+.iosSliderDemo{$label['id']} .sliderContainer .rightbg{ width:500px; height:494px;position:absolute; top:0; background: url({$RESOURCE}/skin/label/ico_bg.png) repeat; right:50%; margin-right:-1195px; z-index:99;}
+</style>
+<div class="iosSliderDemo{$label['id']}">
+  	<div class="fluidHeight">
+	    <div class="sliderContainer">
+	      	<div class="iosSlider">
+		        <div class="slider">
+					<!--{foreach $list $value}-->
+						<div class="item item1">
+							<div class="inner"> 
+								<a href="{$value['url']}" target="_blank"><img src="{$value['frame']}" alt="{$value['title']}"/></a>
+								<div class="text1"><span>{$value['title']}</span></div>
+							</div>
+						</div>
+					<!--{/foreach}-->
+		        </div>
+	      	</div>
+	      	<div class="slideSelectors">
+	        	<div class="prev"></div>
+					<!--{foreach $list $k $value}-->
+						<a class="item"></a>  
+					<!--{/foreach}-->     
+	        	<div class="next"></div>
+	      	</div>
+	      	<div class="leftbg"></div>
+	     	<div class="rightbg"></div>
+	    </div>
+  	</div>
+</div>
+<script>
+$(document).ready(function() {
+	$('.iosSlider').iosSlider({
+		desktopClickDrag: true,
+		snapToChildren: true,
+		infiniteSlider: true,
+		snapSlideCenter: true,
+		navSlideSelector: '.sliderContainer .slideSelectors .item',
+		navPrevSelector: '.sliderContainer .slideSelectors .prev',
+		navNextSelector: '.sliderContainer .slideSelectors .next',
+		onSlideComplete: slideComplete,
+		onSliderLoaded: sliderLoaded,
+		onSlideChange: slideChange,
+		autoSlide: true,
+		autoSlideTransTimer: 1000,
+		scrollbar: true,
+		scrollbarContainer: '.sliderContainer .scrollbarContainer',
+		scrollbarMargin: '0',
+		scrollbarBorderRadius: '0',
+		keyboardControls: true
+	});
+});
+
+function slideChange(args) {
+	$('.sliderContainer .slideSelectors .item').removeClass('selected');
+	$('.sliderContainer .slideSelectors .item:eq(' + (args.currentSlideNumber - 1) + ')').addClass('selected');
+}
+
+function slideComplete(args) {
+	if(!args.slideChanged) return false;
+
+	$(args.sliderObject).find('.text1, .text2').attr('style', '');
+
+	$(args.currentSlideObject).find('.text1').animate({
+		left: '120px',
+		opacity: '0.8'
+	},1500, 'easeOutQuint');
+
+	$(args.currentSlideObject).find('.text2').animate({
+		left: '120px',
+		opacity: '0.8'
+	},1500, 'easeOutQuint');
+	
+}
+
+function sliderLoaded(args) {
+	$(args.sliderObject).find('.text1, .text2').attr('style', '');
+
+	$(args.currentSlideObject).find('.text1').animate({
+		left: '120px',
+		opacity: '0.8'
+	},1000, 'easeOutQuint');
+
+	$(args.currentSlideObject).find('.text2').animate({
+		left: '120px',
+		opacity: '0.8'
+	},1000, 'easeOutQuint');
+	
+	slideChange(args);
+}
+</script>
+<!--{/php168}-->

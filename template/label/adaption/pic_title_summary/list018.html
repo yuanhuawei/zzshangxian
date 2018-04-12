@@ -1,0 +1,16 @@
+<!--{php168}-->
+<ul class="label_adap_pic_com_ul18">
+	<!--{foreach $list $value}-->	
+	<li class="col-md-3 col-sm-3 col-xs-12">
+		<div class="item">
+			<div class="thumb"><img width="457" height="214" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></div>
+			<div class="bgshow"></div>
+			<div class="caption">
+				<h3><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h3>
+				<p>$value[summary]...<a href="$value[url]" title="$value[full_title]" target="_blank" class="more">查看详情>></a></p>
+			</div>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

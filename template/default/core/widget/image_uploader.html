@@ -1,0 +1,41 @@
+<!--{php168}-->
+<input type="hidden" name="#field_{$field}_posted" />
+{$P8LANG['title']} <input type="text" name="field#[$field][title]" size="10" value="{if isset($data[$field]['title'])}{$data[$field]['title']}{/if}" />
+{$P8LANG['thumb_image']} <input type="text" name="field#[$field][thumb]" size="30"  value="{if isset($data[$field]['thumb'])}{$data[$field]['thumb']}{/if}" />
+{$P8LANG['url']} <input type="text" name="field#[$field][url]" id="field#[$field]" size="30"  value="{if isset($data[$field]['url'])}{$data[$field]['url']}{/if}" />
+<span id="{$field}_holder"></span>
+<script type="text/javascript">
+$(function(){
+	var uploader = new P8_Upload({
+		element: {
+			src: $('#field#[$field]'),
+			attribute: 'value'
+		},
+		callback: function(json){
+			if(json.attachments[0].thumb){
+				$('input[name="field#[$field][thumb]"]').val(json.attachments[0].file +'.thumb.jpg');
+			}else if(/\.(gif|jpg|jpeg|png)$/i.test(json.attachments[0].file)){
+				$('input[name="field#[$field][thumb]"]').val(json.attachments[0].file);
+			}
+			
+			$('input[name="field#[$field][title]"]').val(json.attachments[0].name);
+		},
+		param: {
+			<!--{if isset($field_data['CONFIG']['thumb_width']) && isset($field_data['CONFIG']['thumb_width'])}-->
+			thumb_width: {$field_data['CONFIG']['thumb_width']},
+			thumb_height: {$field_data['CONFIG']['thumb_height']}
+			<!--{/if}-->
+		}
+	});
+
+	$('<input type="button" value="{$P8LANG['upload']}" />').click(function(){
+		uploader.choseup();
+	}).appendTo($('#{$field}_holder'));
+
+	
+	$('<input type="button" value="'+ P8LANG.image_cut +'" />').click(function(){
+		uploader.image_cut();
+	}).appendTo($('#{$field}_holder'));
+});
+</script>
+<!--{/php168}-->

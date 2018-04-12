@@ -1,0 +1,12 @@
+.comment_item{ width:94%; margin:10px auto; text-align:left; border-bottom: 1px dotted #AFAFB0; display:block;padding:3px 2px; }
+.comment_item .date{ float: right; margin-right: 20px; }
+.comment_item .quote{ border: 1px solid #999999; background-color: #FFFFEE; padding: 3px; margin-bottom: 5px; }
+.comment_item .quote .postby{ margin-bottom: 5px; }
+.comment_item .quote .postby span.author{ color: #1E50A2; }
+.comment_item .quote .postby span.floor{ float: right; }
+.comment_item .comment_item{ border-bottom: 1px dotted #000000; padding-bottom: 20px; margin-bottom: 20px; }
+.comment_item .button_bar { float: right; }
+.comment_item.pre_reply { background-color: #F5F5F5; }
+#logined_box{padding:5px 2px; font-weight:bold}
+#login_com_box{padding:5px 0}
+.layout_comment .item_comments{color:#F00; font-weight:bold}

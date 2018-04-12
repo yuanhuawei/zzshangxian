@@ -1,0 +1,273 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/item/item.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+<script type="text/javascript">
+<!--{template_init_js}-->
+
+var item_id = $data[id],
+	model = '$data[model]',
+	item_cid = $data[cid],
+	verified = \$_GET['verified'] !== undefined || \$_GET['verified'] == 1 ? 1 : 0;
+$(function(){
+	if(get_cookie('IS_ADMIN') == 1){
+		item_operation($('#operation').show());
+	}
+});
+</script>
+<!--位置栏开始-->
+<div class="nav_wrap">
+	<a href="{$core.url}">首页</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>&nbsp;&gt; <span>正文</span>
+</div>
+<!--左边栏开始-->
+<div class = "view_left">
+	<div class="contenter" >
+		<div class = "view_ad">
+			$label[gov_article_ad1]
+		</div>
+		<div class="view_title">
+			$data[title]
+		</div>
+		<div class="view_info">
+			来源：$data[source]  作者：$data[username]  浏览：<span class="item_views">$data[views]</span>次  评论：$data[comments]条  
+			【<a href="javascript:;" onclick="document.getElementById('maincontent').style.fontSize = '16px';">大</a> <a href="javascript:;" onclick="document.getElementById('maincontent').style.fontSize = '14px';">中</a> <a href="javascript:;" onclick="document.getElementById('maincontent').style.fontSize = '12px';">小</a>】<span id="operation" style="display: none; cursor: pointer;">{$P8LANG['operation']}</span>
+		</div>
+		<div class="view_summary">
+			核心提示:$data[summary]
+		</div>
+		<div id="maincontent">
+			<!--自定义字段内容开始-->
+			<!--!!fields!!-->
+			<!--{foreach $this_model['fields'] $field $v}-->
+			<div class="each_field">
+				<b>$v[alias]</b> :
+				<!--{php
+					switch($v['widget']){
+						case 'text': case 'textarea': case 'editor': case 'editor_basic': case 'editor_basic'://字段输入方式为：输入杠、文本、编辑器
+				}-->
+				$data[$field]
+				<!--{php
+						break;
+						
+						case 'checkbox': case 'multi_select':
+							foreach($v['data'] as $value => $key){
+								if(in_array($value, $data[$field])){
+				}-->
+				$key
+				<!--{php
+								}
+							}
+						break;
+						
+						case 'select': case 'radio'://字段输入方式为：单选
+							foreach($v['data'] as $value => $key){
+								if($value == $data[$field]){
+				}-->
+				$key
+				<!--{php
+									break;
+								}
+							}
+						break;
+						
+						case 'uploader'://字段输入方式为：上传器
+				}-->
+				<a href="{$data[$field]['url']}" target="_blank">{$data[$field]['title']}</a>
+				<!--{php
+						break;
+						
+						case 'multi_uploader'://字段输入方式为：多上传器
+						foreach($data[$field] as $vv){
+						if(preg_match("/[.+](jpg|jpeg|gif|png|bmp)$/i",$vv['url'])){
+							}-->
+							<div class="mbottom">
+								<a href="$vv[url]" target="_blank"><img src="$vv[thumb]" /></a>
+							</div>
+							<!--{php
+							}else{
+							}-->
+							<div class="mbottom">
+								<a href="$vv[url]" target="_blank">{$vv['title']}</a>
+							</div>
+							<!--{php
+							}
+						}	
+						break;
+						case 'video_uploader'://字段输入方式为：视频上传器
+				}-->
+				<div>
+					<script type="text/javascript" src="{$RESOURCE}/js/media.js"></script>
+					<!--{if !empty($data[$field])}-->
+					<script type="text/javascript">
+					showMedia({
+						url: '$data[video_url]',
+						width: 550,
+						height: 400
+					});
+					</script>
+					<!--{/if}-->
+				</div>
+				<!--{php
+						break;
+						
+						default://其它输入方式
+				}-->
+				$data[$field]
+				<!--{php
+					}
+				}-->
+			</div>
+			<!--{/foreach}-->
+			<!--!!fields!!-->
+		</div>
+		<div class="view_page">
+			$pages
+		</div>
+		<!--顶踩开始-->
+		<div class="common_digg">
+		
+			<!--{if !empty($this_module->CONFIG['allow_digg'])}-->
+			<div id="" style="width:300px;float:left;height:30px;">
+				<iframe allowtransparency="true" style="background-color:transparent" frameborder="0" width="300" height="30" scrolling="no" marginheight="0" marginwidth="0" src="" id="digg_iframe"></iframe>
+			</div>
+			<script type="text/javascript">
+			$(function(){
+				scroll_to_load($('#digg_iframe'), function(){
+					$('#digg_iframe').attr('src', '$this_router-digg?iid=$data[id]');
+				});
+			});
+			</script>
+			<!--{/if}-->
+			
+			<!--{if !empty($this_module->CONFIG['comment']['enabled']) && !empty($data['allow_comment'])}-->
+			<div class="gov_article_comment_total">
+				【<a href="{$this_router}-comment?iid={$data[id]}" target="_blank">共有&nbsp;<font color="#cc3300"><strong>$data[comments]</strong></font>&nbsp;条评论信息,点击查看</a>】
+			</div>
+			<!--{/if}-->
+			
+			<div class="clear">
+			</div>
+		</div>
+		<div class="clear">
+		</div>
+		<!--相关文章开始-->
+		<!--{if !empty($KEYWORD)}-->
+		<div id="" class="morecom_rap common_mtop">
+			<div class="head">
+				<span class="title">更多关于 <font color="red">$KEYWORD</font> 的新闻</span>
+			</div>
+			$label[gov_view_kewlist]{'i.title' =>$KEYWORD}
+		</div>
+		<!--{/if}-->
+		<!--表情开始-->
+		<div id="" class="common_mtop">
+			<div class="head">
+				<span class="title">您看到此篇文章时的感受是</span>
+			</div>
+			<!--{if !empty($this_module->CONFIG['allow_mood'])}-->
+			<iframe allowtransparency="true" style="background-color:transparent" frameborder="0" width="500" scrolling="no" marginheight="0" marginwidth="0" src="" id="mood_iframe"></iframe>
+			<script type="text/javascript">
+			$(function(){
+				scroll_to_load($('#mood_iframe'), function(){
+					$('#mood_iframe').attr('src', '$this_router-mood?iid=$data[id]');
+				});
+			});
+			</script>
+			<!--{/if}-->
+		</div>
+		<div class="commot_mtop dashed">
+		</div>
+		<div class="common_mtop backnext">
+			<p><strong>上一篇: </strong>
+				<!--{if empty($backdb[title])}-->
+				没有了...
+				<!--{else}-->
+				<a href="$backdb[url]" >$backdb[title]</a>
+				<!--{/if}-->
+			</p>
+			<p><strong>下一篇: </strong>
+				<!--{if empty($nextdb[title])}-->
+				没有了...
+				<!--{else}-->
+				<a href="$nextdb[url]" >$nextdb[title]</a>
+				<!--{/if}-->
+			</p>
+		</div>
+	</div>
+	<!--评论开始-->
+	<div class="contenter2 mtop">
+		<a name="top"></a>
+		<!--{if !empty($this_module->CONFIG['comment']['enabled']) && !empty($data['allow_comment'])}-->
+		<!--{template $this_module view_comment}-->
+		<!--{/if}-->
+	</div>
+</div>
+<div class = "view_right">
+	<div class="gov_article_ad2">
+		$label[gov_article_ad2]
+	</div>
+	<div>
+		<div class="list_head1 mtop">
+			<span class="list_title1">$label[gov_article_title4]</span>
+		</div>
+		<div class="list_content1">
+			$label[gov_article_content1]
+		</div>
+	</div>
+	<div>
+		<div class="list_head1 mtop">
+			<span class="list_title1">$label[gov_article_title5]</span>
+		</div>
+		<div class="list_content1">
+			$label[gov_article_content2]
+		</div>
+	</div>
+	<div>
+		<div class="list_head1 mtop">
+			<span class="list_title1">$label[gov_article_title6]</span>
+		</div>
+		<div class="list_content1">
+			$label[gov_article_content3]
+		</div>
+	</div>
+	<div>
+		<div class="list_head1 mtop">
+			<span class="list_title1">$label[gov_article_title7]</span>
+		</div>
+		<div class="list_content1">
+			$label[gov_article_content7]
+		</div>
+	</div>
+	<div>
+		<div class="list_head1 mtop">
+			<span class="list_title1">$label[gov_article_title8]</span>
+		</div>
+		<div class="list_content1">
+			$label[gov_article_content8]
+		</div>
+	</div>
+	<div>
+		<div class="list_head1 mtop">
+			<span class="list_title1">$label[gov_article_title9]</span>
+		</div>
+		<div class="list_content1">
+			$label[gov_article_content11]
+		</div>
+	</div>
+	<div class="gov_article_ad5 common_mtop">
+		$label[gov_article_content5]
+	</div>
+</div>
+<!--浏览计数器-->
+<script type="text/javascript" src="$this_router-count?id=$data[id]"></script>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

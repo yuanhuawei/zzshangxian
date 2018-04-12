@@ -1,0 +1,84 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/css/style.css">
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/css/style_list.css">
+<div class="breadnav">
+	<div class="container">
+		<div class="row">
+			<div class="position fr">
+				<a href="{$core.controller}">首页</a>
+				&gt; <a href="#">领导信箱</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="maincon">
+	<div class="container">
+		<div class="row">
+			<div class="contain-left fl">	
+				<div class="border1 mbottom">
+					<div class="head1">
+						<span class="title1">$label[hdjl-email_menu_title]</span>
+					</div>	
+					<div class="main1">
+						$label[hdjl-email_menu]
+					</div>
+				</div>
+			</div>
+			<div class="contain-right fr">
+				<div class="quicknav mbottom">
+					<div class="fl">$label[hdjl-letter_imads]</div>
+					<div class="fr">$label[hdjl-letter_imads2]</div>
+				</div>
+				<div class="clearfix"></div>
+				<div class="show_box_govs">
+					<div class="form_title">
+					<span class="f_l"> $label[hdjl-email_txt2]</span>
+					<span class="f_r">
+						<form action="" method="get" name="form1" id="form1">
+							<input type="text" value="$keyword" class="keyword" id="keyword" name="keyword">
+							<input type="submit" class="submitbtn" value="搜索" id="button" name="button">
+						</form>
+					</span>
+					<span class="more1" id="editcontent"></span></div>
+					<div class="form_content">
+						<table width="100%" class="letter_list_table">
+							<tr>
+								<th width="45">编号</th>
+								<th width="330">标题</th>
+								<th width="80">类型</th>
+								<th width="70">来信日期</th>
+								<th width="80">办理状态</th>
+								<th width="*">承办单位</th>
+								<th width="30">预警</th>
+							</tr>
+							<!--{foreach $list $key $row}-->
+							<!--{php $k=$key%2;}-->
+							<tr class="trc_{$k}">
+								<td class="no_right">$row[id]</td>
+								<td class="ltitle"><a href="$row[url]" title="$row[title]" target="_blank">$row[title_s]</a></td>
+								<td>$row[type_name]</td>
+								<td><!--{php echo date('Y-m-d',$row['create_time']);}--></td>
+								<td><span style="color:{if $row['status']==3}#0F96E5{else}#F27D03{/if}">{if $row['status']==3}√{else}＝{/if}$row[status_name]</span></td>
+								<td>$row[department_name]</td>
+								<td><img src="{$RESOURCE}/skin/default/core/{$this_module.name}/dp{$row['dp']}.gif"/></td>
+							</tr>
+							<!--{/foreach}-->
+							<tr>
+								<td class="pages no_right" colspan="6"> {$pages}  </td>
+							</tr>
+						</table> 
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--{if $addcontent}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/images/dialog.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<!--{/if}-->
+<!--{template $core footer}-->
+<!--{/php168}-->

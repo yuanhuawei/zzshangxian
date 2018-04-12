@@ -1,0 +1,65 @@
+<!--{php168}-->
+<!--{php
+$TITLE = $CAT['name'];
+$SEO_KEYWORDS = $CAT['seo_keywords'];
+$SEO_DESCRIPTION = $CAT['seo_description'];
+}-->
+<!--{template $this_system header}-->
+
+<!--content-->
+
+<div id="container" class="layout_mtop">
+	
+	<!--layout left-->
+	<div class="conleft fleft common_mright">		
+		<div class="layout_box common_border">
+			<div class="layout_cat_tips_title"><h3>$CAT[name]</h3></div>
+			<div class="layout_cat_article_box">
+					<!--{php include template($TEMP_OBJ, $CAT['item_template'], 'label');}-->
+				<div id="page" class="pages">
+					$pages
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	<div class="conright fright">
+		<!--文章分类-->
+		<div class="layout_box conright_category common_border layout_mbottom inline-block">
+			<!--{foreach $subcategories $v}-->
+			<div><a href="$v[url]">$v[name]</a></div>
+			
+			<!--{/foreach}-->
+			
+		</div>
+		<!--广告-->
+		<div class="ads_column layout_mbottom"><img src="{$SKIN}ads1.gif"/></div>
+		<!--layout article-->
+		<div class="layout_box blue_border common_bg_color layout_padding">
+			<div class="layout_article_side_title"><h3>新闻版块</h3><div class="more"><a href="#">更多>></a></div></div>
+			<div class="layout_article_side_number_textlist">
+				<ul>
+					<li><a href="#">房贷利率优惠明年或叫停 相关政策有望下月公</a></li>
+				</ul>
+			</div>
+		</div>
+		<!--layout article-->
+		<div class="layout_box blue_border common_bg_color layout_mtop layout_padding">
+			<div class="layout_article_side_title"><h3>新闻版块</h3><div class="more"><a href="#">更多>></a></div></div>
+			<div class="layout_article_side_number_textlist">
+				<ul>
+					<li><a href="#">房贷利率优惠明年或叫停 相关政策有望下月公</a></li>
+				</ul>
+			</div>
+		</div>
+		<!--layout ads-->
+		<div class="ads_column ads_side_90 layout_mtop">
+			<img src="{$SKIN}side_ads.gif" width="295"/>
+		</div>
+	</div>
+	
+</div>
+
+<!--{template $this_system footer}-->
+<!--{/php168}-->

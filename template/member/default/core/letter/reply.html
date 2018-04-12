@@ -1,0 +1,116 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $this_module header}-->
+<form action="" method="post">
+<!--{php $item=$data['data'][0];}-->
+<table width="100%" style="margin-top:10px" cellpadding="5" cellspacing="0" border="0"><tr><td><strong>编 号：</strong>$data[number]</td><td align="right"><strong>信访时间：</strong><!--{php echo date("Y-m-d H:i",$data['create_time']);}--></td></p>
+<table class="columntable hover_table mtop" width="99%" align="center">
+<tbody>
+	<tr>
+		<td width="10%" align="right">姓名：</td>
+		<td width="40%">$data[username]</td>
+		<td width="15%" align="right">性别：</td>
+		<td width="35%">{if $data['gender']==2}女{else}男{/if}</td>
+	</tr>
+	<tr>
+		<td align="right">年龄：</td>
+		<td>$data[age]</td>
+		<td align="right">职业：</td>
+		<td>$data[profession]</td>
+	</tr>
+	<tr>
+		<td align="right">证件类型：</td>
+		<td>{$P8LANG['id_type_'.$data['id_type']]}</td>
+		<td align="right">证件号码：</td>
+		<td>$data[id_num]</td>
+	</tr>
+	<tr>
+		<td align="right">联系电话：</td>
+		<td>$data[phone]</td>
+		<td align="right">电子邮件：</td>
+		<td>$data[email]</td>
+	</tr>
+	<tr>
+		<td align="right">联系地址：</td>
+		<td colspan="3">$data[address]</td>
+	</tr>
+	<tr>
+		<td align="right" width="10%">标题：</td><td colspan="3">$data[title]</td>
+		</tr>
+	<tr>
+			<td align="right"  width="10%">内容：</td>
+			<td style="padding:10px" colspan="3">{$item['content']}</td>
+		</tr>
+		<!--{if !empty($item['attachment'])}-->
+		<tr>
+		<td align="right">附件：</td>
+		<td colspan="3"><a href="$item[attachment]" target="_blank">$item[attachment_name]</a></td>
+		</tr>
+		<!--{/if}-->
+	</tbody>
+</table>
+
+<table class="mtop20 columntable"  width="100%" align="center">
+	<tbody>
+		<tr>
+			<td bgcolor="#ececec" colspan="4"><strong>信件回复</strong></td>
+		</tr>
+		<tr>
+		<td align="right" width="10%">信访部门：</td>
+		<td width="40%">
+		<select name="department" id="department">
+	  <!--{foreach $cates['department'] $key $row}-->
+		  <option value="{$row['id']}" {if !empty($data['department']) && $data['department']==$row['id']}selected{/if}>{$row['name']}</option>
+	   <!--{/foreach}-->   
+		</select>
+		</td>
+		<td align="right" width="15%">问题类别：</td>
+		<td width="35%">
+		<select name="type" id="type">
+		 <!--{foreach $cates['type'] $key $row}-->
+		  <option value="{$row['id']}" {if !empty($data['type']) && $data['type']==$row['id']}selected{/if}>{$row['name']}</option>
+	   <!--{/foreach}--> 
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<td align="right">状态：</td>
+		<td colspan="3">
+			<input type="radio" name="status" value="0" {if $data['status']==0}checked{/if}/>{$P8LANG['status_0']}
+			<input type="radio" name="status" value="1" {if $data['status']==1}checked{/if}/>{$P8LANG['status_1']}
+			<input type="radio" name="status" value="2" {if $data['status']==2}checked{/if}/>{$P8LANG['status_2']}
+			<input type="radio" name="status" value="3" {if $data['status']==3}checked{/if}/>{$P8LANG['status_3']}
+		</td>
+	</tr>
+	<tr>
+			<td align="right">回复：</td>
+			<td style="padding:10px" colspan="3">
+			<textarea id="content" name="reply[{$item['id']}]" style="width:80%; height:50px" onchange="ifedit(this)">$item[reply] </textarea>
+			<input type="hidden" name="reply_id[{$item['id']}]" value="{$item['id']}"/><br/><br/>
+			常用短语:<select onchange="inputextarea(this)"><option value="">-请选择-</option><!--{foreach $shortcuts $sh}--><option value="{$sh['content']}">{$sh['content']}</option><!--{/foreach}--></select>
+			<!--{if !empty($item['reply_time'])}-->
+			<div class="mtop10">回复时间：<!--{php echo date("Y-m-d H:i",$item['reply_time']);}--></div>
+			<!--{/if}-->
+		</td>
+	</tr>
+	</tbody>
+</table>
+<p style="border:1px solid #CDCDCD; background-color:#E0D5C3;line-height:30px; text-align:center; margin:10px 0">请工作为员三个工作日内回复相关问题</p>
+<div style="text-align:center;padding:10px"><input type="submit" value=" 确定 "/>     <input type="reset" value=" 取消 "/>      <input type="button" value=" 关闭 " onclick="javascript:window.close()"/></div>
+<input type="hidden" name="id" value="$id"/>
+</form>
+<p style="text-align:right; margin:10px 0 20px 0">【<a href="javascript:;" onclick="message.send($data[uid])"><img src="{$RESOURCE}/images/qyfa.gif" border="0" align="top"/></a>】 
+【<a  href="{$this_url}?act=del&id={$data['id']}" onclick="javascript:if(!confirm('确定要删？'))return false;" target="_blank">删除</a>】
+</p>
+</div>
+<script type="text/javascript">
+var message = new Message();
+function ifedit(obj){
+$(obj).next().val(1)
+}
+function inputextarea(obj){
+	$('#content').val($(obj).val());
+}
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

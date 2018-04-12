@@ -1,0 +1,318 @@
+<!--{php168}-->
+<!--{template $LABEL header admin}-->
+<link rel="stylesheet" href="{$SKIN}/cms/category_selector.css" type="text/css" />
+
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+
+<script type="text/javascript">
+_order_by_offset = -1;
+
+var label_type = 'module_data';
+var action = '$action';
+var _system;
+var _module;
+</script>
+<form action="$this_url?action=$action" id="form" method="post">
+
+<table class="mainbox mainborder">
+	<tr><td>
+		<table class="columntable formtable ">
+			<tr>
+				<td colspan="2" class="title">编辑标签</td>
+			</tr>
+			<tr><td colspan="2">
+				<div id="tabs"  class="tab_box mtop">
+					<div class="head">
+						<span><a>基本设置</a></span>
+						<span><a>风格样式</a></span>
+						<span><a>其它设置</a></span>
+					</div>
+					<div class="main">
+						<div class="content">
+							<table width="100%" class="hover_table">
+								<tr>
+									<td class="tdL">显示哪个统计</td>
+									<td class="tdR">
+										<select name="option[statistic_id]" id="statistic_id" onchange="show_change()">
+											<!--<option value="0" {if $option['statistic_id']=='0'}selected="selected"{/if}>办事内容</option>-->
+											<option value="1" {if $option['statistic_id']=='1'}selected="selected"{/if}>办事总数</option>
+											<option value="2" {if $option['statistic_id']=='2'}selected="selected"{/if}>受理总数</option>
+											<option value="3" {if $option['statistic_id']=='3'}selected="selected"{/if}>办结总数</option>
+											<option value="4" {if $option['statistic_id']=='4'}selected="selected"{/if}>办结率</option>
+											<option value="5" {if $option['statistic_id']=='5'}selected="selected"{/if}>全部红灯</option>
+											<option value="6" {if $option['statistic_id']=='6'}selected="selected"{/if}>全部黄灯</option>
+											<option value="7" {if $option['statistic_id']=='7'}selected="selected"{/if}>本周红灯</option>
+											<option value="8" {if $option['statistic_id']=='8'}selected="selected"{/if}>本周黄灯</option>
+										</select>
+									</td>
+								</tr>
+								<tbody id="namal" {if !empty($option['statistic_id'])}style="display:none"{/if}>
+								<tr>
+									<td class="tdL">统计时间</td>
+									<td class="tdR">
+										<select name="option[timelong]">
+											<option value="all" {if $option['timelong']=='all' || empty($option['timelong'])}selected{/if}>所有</option>
+											<option value="2year" {if $option['timelong']=='2year'}selected{/if}>前年</option>
+											<option value="1year" {if $option['timelong']=='1year'}selected{/if}>去年</option>
+											<option value="year" {if $option['timelong']=='year'}selected{/if}>本年</option>
+											<option value="three" {if $option['timelong']=='three'}selected{/if}>本季</option>
+											<option value="month" {if $option['timelong']=='month'}selected{/if}>本月</option>
+											<option value="week" {if $option['timelong']=='week'}selected{/if}>本周</option>
+											<option value="day" {if $option['timelong']=='day'}selected{/if}>本日</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td class="tdL">模型</td>
+									<td class="tdR">
+										<select name="option[model]" >
+											<option value="">------</option>
+											<!--{foreach $models $model $v}-->
+											<!--{php if($sid=='govopen' && $model!='govopen')continue;}-->
+											<option value="$model"{if isset($option['model']) && $option['model'] == $model} selected{/if}>$v[alias]</option>
+											<!--{/foreach}-->
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td class="tdL">{$P8LANG['label_order_by']}</td>
+									<td class="tdR">
+										<!-- for clone -->
+										<div id="order_by">
+											<div style="display: none;">
+												<select name="">
+													<!--{foreach $order_bys $k $v}-->
+													<option value="$k">$v</option>
+													<!--{/foreach}-->
+													<option value="">------</option>
+												</select>
+												<input type="radio" name="" value="1" />{$P8LANG['label_desc']} 
+												<input type="radio" name="" value="0" />{$P8LANG['label_asc']}
+												<input type="button" value="{$P8LANG['delete']}" onclick="label_delete_order_by(this)" />
+											</div>
+										</div>
+										<!-- /for clone -->
+										
+										<div id="add_order_by">
+											<!--{foreach $option['order_by'] $field $v}-->
+											<script type="text/javascript">
+												label_add_order_by($('#order_by'), $('#add_order_by'), '$field', '$v');
+											</script>
+											<!--{/foreach}-->
+										</div>
+										<br />
+										<input type="button" value="{$P8LANG['label_add_order_by']}" onclick="label_add_order_by($('#order_by'), $('#add_order_by'))" /> </td>
+								</tr>
+								
+								<tr>
+									<td>是否开启sphinx搜索</td>
+									<td> <input name="option[sphinx]" type="radio" value="1" {if !empty($option['sphinx'])} checked {/if} /> 开启 <input name="option[sphinx]" type="radio" value="0" {if empty($option['sphinx'])} checked {/if}/> 不开启</td>
+								</tr>
+								<tr>
+									<td>是否可分页</td>
+									<td> <input name="option[pageable]" type="radio" value="1" {if !empty($option['pageable'])} checked {/if}/> 可以 <input name="option[pageable]" type="radio" value="0" {if empty($option['pageable'])} checked {/if}/> 不可以</td>
+								</tr>
+								</tbody>
+								<tr>
+									<td>&nbsp;</td>
+									<td></td>
+								</tr>
+							</table>
+						</div>
+
+						<div class="content">
+							<table width="100%" class="hover_table">
+								<!--{if in_array($data['type'], array('sql', 'module_data'))}-->
+								<tr>
+									<td class="tdL">{$P8LANG['label_template']} <span class="help">模板选择即可，一般不用编辑。编辑功能是用于修改模板</span></td>
+									<td class="tdR">
+										<input type="text" class="txt" name="option[template]" id="template" value="{if !empty($option['template'])}$option[template]{else}office/statistic/list{/if}" size="30" />
+										<input type="button" value="选择模板.." onclick="template_dialog.show()" /><input type="button" class="usethistpl" value="编辑此模板" onclick="useThisTpl()" >(想自己进一步修改可用此功能)<br />
+									<img style="max-height:300px; max-width:500px;display:block; border:1px solid #ff0000; padding:2px; " id="templateshowimg" src="{$RESOURCE}/images/nopic.jpg" onerror="this.src='{$RESOURCE}/images/nopic.jpg'"  />
+								
+									<script type="text/javascript">
+									$(document).ready(function(){
+										$('#templateshowimg').attr('src',function(){
+											return P8CONFIG.RESOURCE +'/{$core.CONFIG['template_dir']}label/'+$('#template').val()+'.jpg';
+										});
+									});
+									
+									</script>
+									</td>
+								</tr>
+								<!--{/if}-->
+								<tr>
+									<td class="tdL">幻灯片宽高：<br>（<font color="red">仅当选择幻灯片模版时生效</font>）</td>
+									<td class="tdR">
+										宽:<input type="text" class="txt" name="option[width]" size="3" value="{if !empty($option['width'])}{$option['width']}{else}300{/if}" />
+										高:<input type="text" class="txt" name="option[height]" size="3" value="{if !empty($option['height'])}{$option['height']}{else}300{/if}" /></td>
+								</tr>
+								<tr>
+									<td class="tdL">{$P8LANG['label_limit']}</td>
+									<td class="tdR"> <input type="text" class="txt" name="option[limit]" size="3" value="{if !empty($option['limit'])}{$option['limit']}{else}10{/if}" /> </td>
+								</tr>
+								<tr>
+									<td class="tdL">分几列</td>
+									<td class="tdR">
+										<input name="option[rows]" type="text" size="3" class="txt" id="rows" value="{if !empty($option['rows'])}$option[rows]{else}1{/if}" />(对有些模板无效)
+									</td>
+								</tr>
+								<tr>
+									<td class="tdL">大标题长度<span class="help">对于“head_title”等一类有大标题的模板才有效</span></td>
+									<td class="tdR"> <input type="text" class="txt" name="option[top_title_length]" size="3" value="{if !empty($option['top_title_length'])}{$option['top_title_length']}{else}40{/if}" /> </td>
+								</tr>
+								<tr>
+									<td class="tdL">列表标题长度</td>
+									<td class="tdR"> <input type="text" class="txt" name="option[title_length]" size="3" value="{if !empty($option['title_length'])}{$option['title_length']}{else}60{/if}" /> </td>
+								</tr>
+								<tr>
+									<td>标题超过字数是否用省略号表示</td>
+									<td>
+										<input type="radio" name="option[title_dot]" value="1"{if !empty($option['title_dot'])} checked{/if} /> 用
+										<input type="radio" name="option[title_dot]" value="0"{if empty($option['title_dot'])} checked{/if} /> 不用</td>
+								</tr>
+								<tr>
+									<td>内容简介显示几个字</td>
+									<td> <input name="option[summary_length]" type="text" class="txt" id="textfield4" value="{if !empty($option['summary_length'])}$option[summary_length]{else}120{/if}" /> </td>
+								</tr>
+								
+								<tr>
+									<td>模板代码 <span class="help">一般为空，保证自己掌握了标签模板规则才可编辑，否则页面会报错</span></td>
+									<td>
+								<textarea name="option[tplcode]" id="tplcode" style="display:{if !empty($option['tplcode'])}{else}none{/if}" rows="15" cols="100" wrap=off>{if !empty($option['tplcode'])}{$option['tplcode']}{/if}</textarea>
+								<a href="javascript:void(0);" id="toshow" onclick="$('#tplcode').show();$(this).hide();">查看</a>
+									</td>
+							
+						</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr>
+							</table>
+						</div>
+
+						<div class="content">
+							<!--{template $LABEL other_set admin}-->
+						</div>
+					</div>
+				</div>
+			</td></tr>
+		</table>
+	</td></tr>
+	
+	<tr>
+		<td class="tdL">
+			<input type="button" value="{$P8LANG['explain_sql']}" class="submit_btn" onclick="explain_sql()" />
+			<input type="button" value="{$P8LANG['preview']}" class="submit_btn" onclick="preview()" />
+			<input type="hidden" name="verify" value="0" />
+			{$P8LANG['label_submit_fail_note']}
+		</td>
+	</tr>
+	<tr>
+		<td class="tdR" id="explain"></td>
+	</tr>
+	<tr>
+		<td align="center">
+			<input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/>
+		</td>
+	</tr>
+</table>
+
+</form>
+
+<script type="text/javascript">
+MoveTabs("tabs",1);
+
+function show_change(){
+	sid = $('#statistic_id').val();
+	if(sid==0){
+		$('#namal').show();
+	}else{
+		$('#namal').hide();
+	}
+}
+function showcate(){
+	if($('#item').val()=='cat'){
+		$('#category').show();
+	}else{
+		$('#category').hide();
+	}
+}
+
+function valid_add_time(time, obj){
+	var time1 = $('#timestamp1').val();
+	var time2 = $('#timestamp2').val();
+	
+	if(time2 && time1 >= time2){
+		$(obj).val('');
+	}
+}
+
+var dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_category']}',
+	button: true,
+	width: 700,
+	height: 300,
+	ok: function(){
+		var values = cs.get_value();
+		$('#form input[name="option[category]"]').val(values.join(','));
+		
+		category_path(values);
+	},
+	show: function(){
+		cs.init();
+	}
+});
+dialog.content.height(240);
+
+var cs = new Recursive_Selector({
+	multiple: true,
+	input: $('#categories'),
+	dialog: dialog,
+	url: '{$this_system.controller}/category-json',
+	values: $('#form input[name="option[category]"]').val(),
+	sub_property: 'categories',
+	init_callback: function(){
+		category_path(this.get_value());
+	},
+	item_callback: function(cat, item){
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	}
+});
+
+function category_path(cids){
+	$('#category_path').empty();
+	
+	cids = array_filter(cids);
+	
+	var html = '';
+	for(var i in cids){
+		
+		cs.get_by_id(cids[i], function(json){
+			if(!json) return;
+			
+			var p = [];
+			while(true){
+				p.unshift(json.name);
+				if(json.parent == 0) break;
+				
+				json = cs.get_by_id(json.parent);
+			}
+			html += '<div>'+ p.join(' &gt; ') +'</div>';
+		});
+	}
+	
+	$('#category_path').html(html);
+}
+
+$(function(){
+	cs.init();
+	showcate();
+});
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

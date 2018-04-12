@@ -1,0 +1,738 @@
+<!--{php168}-->
+<!--{if !P8_AJAX_REQUEST}-->
+<!--{template $this_module header admin}-->
+<!--{/if}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/jq_ui.core.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_tabs.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/ueditor/ueditor.all.min.js"></script>
+<link rel="stylesheet" href="{$SKIN}/{$SYSTEM}/category_selector.css" type="text/css" />
+
+<form action="$this_url" method="post" id="form"{if P8_AJAX_REQUEST} target="poster"{/if}>
+<div class="mainbox mainborder">
+	<table border="0" cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+			<td class="title">{$P8LANG['update_office_category']}</td>
+		</tr>
+		<tr>
+			<td id="tabs">
+				<ul>
+					<li><a href="#tabs-1"> <span>{$P8LANG['office_config']}</span> </a></li>
+					<!--{if $ACTION == 'update'}-->
+					<li><a href="#tabs-2"> <span>{$P8LANG['office_config_office']}</span> </a></li>
+					<!--{if $data['type'] == '2'}-->
+					<li><a href="#tabs-3"> <span>{$P8LANG['office_exten_filed']}</span> </a></li>
+					<!--{/if}-->
+					<!--{/if}-->
+					<li><a href="#tabs-4"> <span>{$P8LANG['office_config_style']}</span> </a></li>
+
+					<li><a href="#tabs-5"> <span>{$P8LANG['office_config_other']}</span> </a></li>
+
+				</ul>
+				
+				<div id="tabs-1">
+					<table class="columntable formtable hover_table">
+						<tr>
+							<td class="tdL">{$P8LANG['office_category_name']}</td>
+							<td class="tdR">
+								<!--{if $ACTION == 'update'}-->
+									<input type="text" class="txt" id="name" name="name" value="{if isset($data['name'])}$data[name]{/if}" />
+								<!--{else}-->
+									<textarea id="name" name="name"  cols="30" rows="5"></textarea>
+									<span class="help">{$P8LANG['top_office_notes_2']}</span>
+								<!--{/if}-->
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['office_category_type']}</td>
+							<td class="tdR">
+								<input name="type" id="type_1" type="radio" value="1"{if !empty($data['type']) && $data['type'] == 1} checked{/if}  onclick="showoutlink(1)"/>
+								<label for="type_1">{$P8LANG['office_category_type_1']}</label>
+								<input name="type" id="type_2" type="radio" value="2"{if !empty($data['type']) && $data['type'] == 2} checked{/if}  onclick="showoutlink(2)"/>
+								<label for="type_2">{$P8LANG['office_category_type_2']}</label>
+								<input name="type" id="type_3" type="radio" value="3"{if !empty($data['type']) && $data['type'] == 3} checked{/if} onclick="showoutlink(3)"/>
+								<label for="type_3">{$P8LANG['office_category_type_3']}</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['office_parent_category']}</td>
+							<td class="tdR">
+								<span id="parents"></span>
+								<input type="button" value="选择栏目.." onclick="dialog.show()" />
+								<input type="hidden" name="parent" value="{if isset($data['parent'])}$data[parent]{/if}" />
+								<input type="hidden" id="parent" />
+							</td>
+						</tr>
+						<tr id="category_outlink">
+										<td class="tdL">{$P8LANG['office_category_outlink']}</td>
+										<td class="tdR">
+											<input type="text" class="txt" name="url" id="outlink" value="{if !empty($data['url'])}$data[url]{/if}" size="50"/>
+										</td>
+						</tr>
+						<tbody id="category_model">			
+						<tr>
+							<td class="tdL">{$P8LANG['office_category_model']}</td>
+							<td class="tdR">
+								<select name="model" id="model" onchange="change_model(this.value)">
+									<!--{foreach $models $mod $v}-->
+									<option value="$mod"{if !empty($data['model']) && $data['model'] == $mod}selected{/if}>$v[alias]
+									</option>
+									<!--{/foreach}-->
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">每页内容数量</td>
+							<td class="tdR"><input type="text" class="txt" name="page_size"  value="{if !empty($data['page_size'])}{$data['page_size']}{else}20{/if}" size="4" /> 条
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">排序</td>
+							<td class="tdR"><input type="text" class="txt" name="display_order"  value="{if !empty($data['display_order'])}{$data['display_order']}{else}0{/if}" size="4" /> 
+							</td>
+						</tr>
+						<!--{if $ACTION == 'update'}-->
+						<tr>
+							<td class="tdL">{$P8LANG['office_category_content_orderby']}</td>
+							<td class="tdR">
+								<select name="config[orderby]">
+									<!--{foreach $order_fields $name $v}-->
+									<option value="$name"{if !empty($config['orderby']) && $config['orderby'] == $name} selected{/if}>$v</option>
+									<!--{/foreach}-->
+								</select>
+								<input type="radio" name="config[orderby_desc]" value="0"{if empty($config['orderby_desc'])} checked{/if} />降序
+								<input type="radio" name="config[orderby_desc]" value="1"{if !empty($config['orderby_desc'])} checked{/if} />升序
+							</td>
+						</tr>
+						<!--{/if}-->
+						
+						<!--
+						<tr>
+							<td class="tdL">栏目管理员</td>
+							<td class="tdR">
+								<input type="text" name="config[administrator]" value="{if !empty($config['administrator'])}$config[administrator]{/if}" size="80" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['office_category_Commentable']}</td>
+							<td class="tdR"><input name="allowcomment" type="radio" value="1" checked="checked"/>
+								{$P8LANG['office_category_Comments_open']}
+								<input name="allowcomment" type="radio" value="0" />
+								{$P8LANG['office_category_Comments_close']} </td>
+						</tr>
+						-->
+						</tbody>
+					</table>
+				</div>
+
+				<!--{if $ACTION == 'update'}-->
+				<div id="tabs-2">
+					<table class="columntable formtable">
+						<!--{if $data['type'] == '2'}-->
+						<tr>
+							<td class="tdL">{$P8LANG['process']}</td>
+							<td class="tdR">
+								<select name="process_id">
+								<option value="">请选择</option>
+								<!--{foreach $process_item $row}-->
+								<option value="{$row['id']}" {if !empty($data['process_id']) && $data['process_id']==$row['id']} selected{/if}>{$row['name']}</option>
+								<!--{/foreach}-->
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">办理时限</td>
+							<td class="tdR"><input type="text" style="width:300px" name="pro_timelimit" value="{if isset($data['pro_timelimit'])}{$data['pro_timelimit']}{/if}"	/>					</td>
+						</tr>
+						<tr>
+							<td class="tdL">办理地址</td>
+							<td class="tdR"><input type="text" style="width:300px" name="pro_addr" value="{if isset($data['pro_addr'])}{$data['pro_addr']}{/if}"	/>					</td>
+						</tr>
+						<tr >
+							<td class="tdL">{$P8LANG['materials']}</td>
+							<td class="tdR">
+								<table id="master_tb">
+									<tr><td width="30">必须</td><td width="400">名称</td><td>样本</td><td>材料说明</td><td>删除</td></tr>
+                                   
+									<!--{foreach $materials $val}-->
+									<tr>
+										<td><input type="checkbox" name="must[{$val['id']}]" value="1"{if $val['must']}checked="checked"{/if}/></td>
+                                    	<td><input type="text" style="width:200px" name="materials[{$val['id']}]" value="{$val['m_name']}"/></td>
+                                        <td><input type="text" name="demo[{$val['id']}]" id="demo_{$val['id']}" value="{$val['demo']}"><input type="button" onclick="uplpad_demo({$val['id']})" value="{$P8LANG['upload']}" class="u" /></td>
+                                        <td><input type="text" style="width:200px" name="description[{$val['id']}]" value="{$val['description']}"/></td>
+                                        <td><input type="checkbox" name="del_master[{$val['id']}]" value="{$val['id']}"/></td>
+                                     </tr>
+									<!--{/foreach}-->
+								</table>
+                                <input type="button" value="增加一个" onclick="add_mater()"/>	
+							</td>
+						</tr>
+						<!--{/if}-->
+						<!--{if $data['type'] == '1'}-->
+						<tr>
+							<td class="tdL">项目编码</td>
+							<td class="tdR"><input type="text" style="width:300px" name="pro_no" value="{if isset($data['pro_no'])}{$data['pro_no']}{/if}"	/>					</td>
+						</tr>
+						<tr>
+							<td class="tdL">项目类型</td>
+							<td class="tdR">
+								<select name="pro_type">
+									<option value="">请选择</option>
+									<!--{foreach $pro_cat['type'] $row}-->
+									<option value="{$row['id']}" {if !empty($data['pro_type']) && $data['pro_type']==$row['id']} selected{/if}>{$row['name']}</option>
+									<!--{/foreach}-->
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">项目类别</td>
+							<td class="tdR">
+								<select name="pro_kind">
+									<option value="">请选择</option>
+									<!--{foreach $pro_cat['department'] $row}-->
+									<option value="{$row['id']}" {if !empty($data['pro_kind']) && $data['pro_kind']==$row['id']} selected{/if}>{$row['name']}</option>
+									<!--{/foreach}-->
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">需要现场到政务中心<br/>提交相关纸质文件的事项</td>
+							<td class="tdR"><input type="radio" name="pro_yu" value="1"	{if !empty($data['pro_yu'])} checked{/if}/>是 <input type="radio" name="pro_yu" value="0"	{if empty($data['pro_yu'])} checked{/if}/>否					</td>
+						</tr>
+                        <tr>
+							<td class="tdL" valign="top">办事指南    <input type="button" value="显示/隐藏" onclick="$('#guide_div').toggle()"/></td>
+							<td class="tdR"><div id="guide_div" style="width:82%;display:none">
+								<textarea name="guide" id="guide" type="text/plain" style="display: none;">{if isset($guides['guide'])}{html_entities($guides['guide'])}{/if}</textarea>
+								<script type="text/javascript">UE.getEditor('guide',{toolbars: [['fullscreen', 'source','|', 'undo', 'redo','|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'forecolor', 'backcolor', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc'],['paragraph','fontfamily','fontsize','|','indent','justifyleft','justifyright','justifycenter','justifyjustify','|','link','unlink','|','touppercase','tolowercase','|','imagenone','imageleft','imageright','imagecenter','simpleupload','|','insertvideo','attachment']],allowDivTransToP: false,initialFrameHeight: 350});</script>
+							</div>
+							</td>
+						</tr>
+                        <tr>
+							<td class="tdL" valign="top">审批条件   <input type="button" value="显示/隐藏" onclick="$('#conditions_div').toggle()"/></td>
+							<td class="tdR"><div id="conditions_div" style="width:82%;display:none">
+                            	<textarea name="conditions" id="conditions" type="text/plain" style="display: none;">{if isset($guides['conditions'])}{html_entities($guides['conditions'])}{/if}</textarea>
+								<script type="text/javascript">UE.getEditor('conditions',{toolbars: [['fullscreen', 'source','|', 'undo', 'redo','|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'fontfamily','fontsize', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']],allowDivTransToP: false,initialFrameHeight: 350});</script>
+							</div>
+                            </td>
+                         </tr>
+                         <tr>
+							<td class="tdL" valign="top">许可依据    <input type="button" value="显示/隐藏" onclick="$('#basedon_div').toggle()"/></td>
+							<td class="tdR"><div id="basedon_div" style="width:82%;display:none">
+                            	<textarea name="basedon" id="basedon" type="text/plain" style="display: none;">{if isset($guides['basedon'])}{html_entities($guides['basedon'])}{/if}</textarea>
+								<script type="text/javascript">UE.getEditor('basedon',{toolbars: [['fullscreen', 'source','|', 'undo', 'redo','|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'fontfamily','fontsize', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']],allowDivTransToP: false,initialFrameHeight: 350});</script>
+							</div>
+                            </td>
+                         </tr> 
+						  <tr>
+							<td class="tdL" valign="top">应交材料 <input type="button" value="显示/隐藏" onclick="$('#chailiao_div').toggle()"/></td>
+							<td class="tdR"><div id="chailiao_div" style="width:82%;display:none">
+                            	<textarea name="chailiao" id="chailiao" type="text/plain" style="display: none;">{if isset($guides['chailiao'])}{html_entities($guides['chailiao'])}{/if}</textarea>
+								<script type="text/javascript">UE.getEditor('chailiao',{toolbars: [['fullscreen', 'source','|', 'undo', 'redo','|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'fontfamily','fontsize', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']],allowDivTransToP: false,initialFrameHeight: 350});</script>
+							</div>
+                            </td>
+                         </tr>
+						 <!--{/if}-->
+						   <tr>
+							<td class="tdL" valign="top">其它说明    <input type="button" value="显示/隐藏" onclick="$('#morecom_div').toggle()"/></td>
+							<td class="tdR"><div id="morecom_div" style="width:82%;display:none">
+                            	<textarea name="morecom" id="morecom" type="text/plain" style="display: none;">{if isset($guides['morecom'])}{html_entities($guides['morecom'])}{/if}</textarea>
+								<script type="text/javascript">UE.getEditor('morecom',{toolbars: [['fullscreen', 'source','|', 'undo', 'redo','|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'fontfamily','fontsize', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']],allowDivTransToP: false,initialFrameHeight: 350});</script>
+							</div>
+                            </td>
+                         </tr>   
+						
+					</table>
+
+				</div>
+				<!--{if $data['type'] == '2'}-->
+				<div id="tabs-3">
+					<table class="columntable formtable hover_table">
+						<tr >
+							<td class="title">ID</td>
+							<td class="title">字段名称</td>
+							<td class="title">字段别名</td>
+							<td class="title">字段排序</td>
+							<td class="title">操作</td>
+						</tr>
+						<tbody id="field_box">
+						<!--{foreach $enten_field $row}-->
+						<tr>
+							<td>{$row['id']}</td>
+							<td>{$row['name']}</td>
+							<td>{$row['alias']}</td>
+							<td>{$row['display_order']}</td>
+							<td><a href="javascript:;" onclick="edit_field({$row['id']})">编辑</a>  <a href="javascript:;" onclick="delete_field({$row['id']},this)">删除</a></td>
+						</tr>
+						<!--{/foreach}-->
+						</tbody>
+						<tr><td colspan="5" align="right"><input type="button" value="增加字段" onclick="add_field({$data['id']})"/>&nbsp;<input type="button" value="更新缓存" onclick="cacheexten()"/></td></tr>
+					</table>
+<script type="text/javascript">			
+var field_dialog = new P8_Dialog({
+	title_text: '增加/修改字段',
+	button: false,
+	iframe: true,
+	zIndex:10000,
+	width: 510,
+	height: 435,
+	show : function(){
+		
+	}
+});
+function add_field(cid){
+	field_dialog.content.html('<iframe frameborder="0" style="width: 500px; height: 390px; visibility: inherit; z-index: 1000; overflow-x: hidden;" src="{$this_system.admin_controller}/extension-field?cid='+cid+'"></iframe>')
+	field_dialog.show();
+}
+function edit_field(i){
+	field_dialog.content.html('<iframe frameborder="0" style="width: 500px; height: 390px; visibility: inherit; z-index: 1000; overflow-x: hidden;" src="{$this_system.admin_controller}/extension-field?id='+i+'"></iframe>')
+	field_dialog.show();
+}
+function flash_field(msg){
+	var myhtml = '';
+	for(var i in msg){
+		myhtml +='<tr>'+
+			'<td>'+ msg[i].id+'</td>'+
+			'<td>'+ msg[i].name+'</td>'+
+			'<td>'+ msg[i].alias+'</td>'+
+			'<td>'+ msg[i].display_order+'</td>'+
+			'<td><a href="javascript:;" onclick="edit_field('+ msg[i].id+')">编辑</a>  <a href="delete_field('+ msg[i].id+',this)">删除</a></td>'+
+		'</tr>';
+	}
+	$('#field_box').html(myhtml);
+}
+function delete_field(id,obj){
+	if(confirm("删除字段会连同数据也一并删除，且不可恢复。\n\r确定要删除此字段？")){
+		$.ajax({ url: '{$this_system.admin_controller}/extension-delete_field',data:'id='+id, type:'post',success: function(){ $(obj).parent().parent().remove();}});
+	}
+}
+function cacheexten(){
+	$.post('{$this_system.admin_controller}/extension-cache','',function(){alert('缓存更新成功');})
+}
+</script>			</div>
+				<!--{/if}-->
+				<!--{/if}-->
+				<div id="tabs-4">
+					<table class="columntable formtable hover_table">
+						<tr>
+							<td class="tdL">{$P8LANG['office_category_list_template']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="list_template" id="lt" value="{if !empty($data['list_template'])}$data[list_template]{/if}" size="30" />
+								<input type="button" value="{$P8LANG['select_template']}" onclick="list_template_dialog.show()" />
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['office_category_view_template']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="view_template" id="vt" value="{if !empty($data['view_template'])}$data[view_template]{/if}" size="30" />
+								<input type="button" value="{$P8LANG['select_template']}" onclick="view_template_dialog.show()" />
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['office_category_item_template']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="item_template" id="it" value="{if !empty($data['item_template'])}$data[item_template]{else}common/ico_title/list016{/if}" size="30" />
+								<input type="button" value="{$P8LANG['select_template']}" onclick="item_template_dialog.show()" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['office_category_list_pages_template']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="config[list_pages_template]" value="{if !empty($config['list_pages_template'])}$config[list_pages_template]{/if}" size="30" />
+								<span class="help">{$P8LANG['office_category_pages_template_note']}</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['office_category_view_pages_template']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="config[view_pages_template]" value="{if !empty($config['view_pages_template'])}$config[view_pages_template]{else}base_page_template{/if}" size="30" />
+								<span class="help">{$P8LANG['office_category_pages_template_note']}</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['office_category_frame']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="frame" id="frame"  value="{if !empty($data['frame'])}{$data['frame']}{/if}" size="50" />
+								<input type="button" onclick="uploader.choseup();" value="{$P8LANG['upload']}" />
+								<input type="button" id="frame_toggle" onclick="" value="" style="display: none;" />
+								<a href="###" onclick="uploader.image_cut()">[$P8LANG[image_cut]]</a><br />
+								
+								<script type="text/javascript">
+								var uploader;
+								$(function(){
+									uploader = new P8_Upload({
+										element: {
+											src: $('#frame'),
+											attribute: 'value'
+										},
+										param: {
+											return_thumb: true<!--{if !empty($this_model['CONFIG']['frame_thumb_width']) && !empty($this_model['CONFIG']['frame_thumb_height'])}-->,
+											thumb_width: {$this_model['CONFIG']['frame_thumb_width']},
+											thumb_height: {$this_model['CONFIG']['frame_thumb_height']}
+											<!--{/if}-->
+										}
+									});
+								});
+								</script>
+							</td>
+						</tr>
+						
+					</table>
+				</div>
+				
+				<div id="tabs-5">
+					<table class="columntable formtable hover_table">
+					<!--{if $ACTION == 'update'}-->
+						<tr>
+							<td class="tdL">{$P8LANG['bind_domain']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="domain"  value="{if !empty($data['domain'])}{$data['domain']}{/if}" size="60" />
+								<span class="help">{$P8LANG['office_category_domain_note']}</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['htmlize']}</td>
+							<td class="tdR">
+								<input type="radio" name="htmlize" value="1"{if !empty($data['htmlize']) && $data['htmlize'] == 1} checked{/if} />全部静态
+								<input type="radio" name="htmlize" value="2"{if !empty($data['htmlize']) && $data['htmlize'] == 2} checked{/if} />仅内容页静态
+								<input type="radio" name="htmlize" value="0"{if empty($data['htmlize'])} checked{/if} />不静态
+								<input type="checkbox" name="htmlize_apply_category" value="1" id="apply" /><label for="apply">{$P8LANG['office_category_apply_to_sub_categories']}</label>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['office_category_html_path']}</td>
+							<td class="tdR"><!--{if !empty($data['path'])}-->
+								<input type="text" class="txt" name="path"  value="<!--{php echo basename($data['path']);}-->" size="60" /> {\$DOCUMENT_ROOT}<!--{php echo str_replace(PHP168_PATH, '', $this_system->path . $data['path']);}-->
+								<!--{else}-->
+								<input type="text" class="txt" name="path"  value="" size="60" />
+								<!--{/if}-->
+								<span class="help">{$P8LANG['office_category_html_path_note']}</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['html_list_url_rule']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="html_list_url_rule"  value="{if !empty($data['html_list_url_rule'])}{$data['html_list_url_rule']}{else}{\$category_url}/#list-{\$page}.html#{/if}" size="70" />
+								<input type="checkbox" name="list_rule_apply_category" value="1" />{$P8LANG['office_category_apply_to_sub_categories']}
+								<span class="help">{$P8LANG['office_category_html_list_rule_note']}</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['html_view_url_rule']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="html_view_url_rule"  value="{if !empty($data['html_view_url_rule'])}{$data['html_view_url_rule']}{else}{\$category_url}/{\$Y}_{\$m}/{\$d}_{\$H}/content-{\$id}#-{\$page}#.html{/if}" size="70" />
+								<input type="checkbox" name="view_rule_apply_category" value="1" />{$P8LANG['office_category_apply_to_sub_categories']}
+								<span class="help">{$P8LANG['office_category_html_view_rule_note']}</span>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">栏目收费</td>
+							<td class="tdR">
+								<input type="radio" name="config[fee][credit_type]" id="credit_0" value="0" /><label for="credit_0">不收费</label>
+								<!--{foreach $core->credits $id $v}-->
+								<input type="radio" name="config[fee][credit_type]" id="credit_$id" value="$id"{if !empty($config['fee']['credit_type']) && $config['fee']['credit_type'] == $id} checked{/if} /><label for="credit_$id">$v[name]</label>
+								<!--{/foreach}-->
+								<input type="text" name="config[fee][credit]" size="4" value="{if !empty($config['fee']['credit'])}{$config['fee']['credit']}{/if}" />
+								<br />
+								忽略收费的会员组: 
+								<!--{foreach $core->roles $id $v}-->
+								<!--{php if($v['gid'] == $core->CONFIG['administrator_role_group']) continue;}-->
+								<input type="checkbox" name="config[fee][ignore_roles][$id]" id="gid_$id" value="1"{if !empty($config['fee']['ignore_roles'][$id])} checked{/if} /><label for="gid_$id">$v[name]</label>
+								<!--{/foreach}-->
+							</td>
+						</tr>
+						<!--{/if}-->
+						<tr>
+							<td class="tdL">{$P8LANG['seo_keywords']}</td>
+							<td class="tdR">
+								<input type="text" name="seo_keywords" value="{if !empty($data['seo_keywords'])}$data[seo_keywords]{/if}" size="80" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['seo_description']}</td>
+							<td class="tdR">
+								<input type="text" name="seo_description" value="{if !empty($data['seo_description'])}$data[seo_description]{/if}" size="80" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">标题样式</td>
+							<td class="tdR">
+								<input type="radio" name="config[title_style]" id="tt_1" value="1"{if !empty($config['title_style']) && $config['title_style'] == 1}checked{/if} /><label for="tt_1">标题_网站名称</label><br />
+								<input type="radio" name="config[title_style]" id="tt_2" value="2"{if !empty($config['title_style']) && $config['title_style'] == 2}checked{/if} /><label for="tt_2">标题_栏目名称</label><br />
+								<input type="radio" name="config[title_style]" id="tt_3" value="3"{if !empty($config['title_style']) && $config['title_style'] == 3}checked{/if} /><label for="tt_3">标题_栏目名称_网站名称</label>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['office_category_label_postfix']}</td>
+							<td class="tdR">
+								<input type="text" name="label_postfix" value="{if !empty($data['label_postfix'])}$data[label_postfix]{/if}" size="15" />
+								<!--{if $ACTION == 'update'}--><input type="button" value="填充后缀" onclick="$(this).prev().val('category_$data[id]')" /><!--{/if}-->
+								<span class="help">{$P8LANG['office_category_label_postfix_note']}</span>
+							</td>
+						</tr>
+						
+					</table>
+				</div>
+				
+			</td>
+		</tr>
+		<tr>
+			<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		</tr>
+	</table>
+</div>
+<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" />
+<!--{if P8_AJAX_REQUEST}-->
+<input type="hidden" name="_ajax_request" value="1" />
+<!--{/if}-->
+</form>
+<script type="text/javascript">
+
+
+function uplpad_demo(i){
+	var imgupload = new P8_Upload({
+		element: {
+			src: $('#demo_'+i),
+			attribute: 'value'
+		}
+	});
+	imgupload.choseup();
+}
+</script>
+<script type="text/javascript">
+function change_model(name){
+	$('#lt').val(name ? name +'/list' : 'list');
+	$('#vt').val(name ? name +'/view' : 'view');
+}
+var masterCount = 0;
+function add_mater(){
+	masterCount++;
+	var shtml = ' <tr><td><input type="checkbox" name="must['+masterCount+']" value="1"/></td>'+
+					'<td><input type="text" style="width:200px" name="materials_new['+masterCount+']" value=""/></td>'+
+					'<td><input type="text" id="demo_'+masterCount+'" name="demo['+masterCount+']"/><input type="button" onclick="uplpad_demo('+masterCount+')" value="{$P8LANG['upload']}" class="u" /></td>'+
+					'<td><input type="text" style="width:300px" name="description['+masterCount+']" value=""/></td>'+
+					'<td><input type="button" value="移除" onclick="javascript:$(this).parent().parent().remove()"/></td></tr>';
+	$('#master_tb').append(shtml);
+
+}
+$('#form').validate({
+	rules: {
+		name: {
+			required: true
+		}<!--{if $ACTION == 'update'}-->,
+		
+		parent: {
+			remote: {
+				url: '$this_router-verify',
+				data: {
+					data: 'parent',
+					id: function(){return $('#form input[name=id]').val();},
+					parent: function(){return $('#form input[name=parent]').val();}
+				},
+				beforeSend: function(){
+					ajaxing({});
+				},
+				complete: function(){
+					ajaxing({action: 'hide'});
+				}
+			}
+		},
+		path: {
+			required: function(){return parseInt($('#form input[name=htmlize]:checked').val()) ? true : false},
+			remote: {
+				url: '$this_router-verify',
+				data: {
+					id: $('#form input[name=id]').val(),
+					data: 'path',
+					parent: function(){return $('#form input[name=parent]').val();},
+					path: function(){return $('#form input[name=path]').val();}
+				},
+				beforeSend: function(){
+					ajaxing({});
+				},
+				complete: function(){
+					ajaxing({action: 'hide'});
+				}
+			}
+		}
+		<!--{/if}-->
+
+	},
+	
+	messages: {
+		name: {
+			required: '{$P8LANG['office_category_name_can_not_be_empty']}'
+		},
+		parent: {
+			remote: '{$P8LANG['office_parent_category_error']}'
+		},
+		path: {
+			required: 'path',
+			remote: '{$P8LANG['office_category_html_path_exists']}'
+		}
+	},
+	
+	errorPlacement: function(error, element) {
+		error.wrap('<div></div>').appendTo(element.parent().prev());
+	},
+	wrapper: 'div',
+	
+	onkeyup: false
+});
+
+$('#name').focus();
+
+var dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_parent_category']}',
+	button: true,
+	width: 600,
+	height: 300,
+	ok: function(){
+		var id = cs.get_value();
+		$('#form input[name=parent]').val(id);
+		parent_path(id);
+	},
+	show: function(){
+		cs.init();
+	}
+});
+
+var cs = new Recursive_Selector({
+	input: $('#parent'),
+	dialog: dialog,
+	sub_property: 'categories',
+	url: '{$this_system.controller}/category-json',
+	value: $('#form input[name=parent]').val(),
+	init_callback: function(){
+		parent_path(this.get_value());
+	},
+	item_callback: function(cat, item){
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	}
+});
+
+function parent_path(cid){
+	if(cid == 0){
+		$('#parents').html('');
+		return;
+	}
+	
+	var tmp = cs.get_by_id(cid);
+	var html = '';
+	
+	while(true){
+		html = tmp.name +' &gt; '+ html;
+		if(tmp.parent == 0) break;
+		
+		tmp = cs.get_by_id(tmp.parent);
+	}
+	
+	$('#parents').html(html);
+}
+
+function showoutlink(f){
+	if(f=='3'){
+		$('#category_outlink').show(); $('#category_model').hide();
+		$('#form *[name="model"]').rules('remove', {
+			required: true,
+			messages: { required: '{$P8LANG['office_category_model_can_not_be_empty']}'}
+		});
+	}else{
+		$('#category_outlink').hide(); $('#category_model').show();
+		$('#form *[name="model"]').rules('add', {
+			required: true,
+			messages: { required: '{$P8LANG['office_category_model_can_not_be_empty']}'}
+		});
+	}
+}
+
+var list_template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#lt').val(list_template_selector.value);
+	},
+	show: function(){
+		list_template_selector.init();
+	}
+});
+var list_template_selector = new Template_Selector({
+	base_dir: '{$this_system.CONFIG['template']}/{$this_system.name}/item/',
+	selected: $('#lt').val(),
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: list_template_dialog
+});
+
+var view_template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#vt').val(view_template_selector.value);
+	},
+	show: function(){
+		view_template_selector.init();
+	}
+});
+var view_template_selector = new Template_Selector({
+	base_dir: '{$this_system.CONFIG['template']}/{$this_system.name}/item/',
+	selected: $('#vt').val(),
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: view_template_dialog
+});
+
+var item_template_dialog = new P8_Dialog({
+	title_text: '{$P8LANG['select_template']}',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20003,
+	ok: function(){
+		$('#it').val(item_template_selector.value);
+	},
+	show: function(){
+		item_template_selector.init();
+	}
+});
+var item_template_selector = new Template_Selector({
+	base_dir: 'label/',
+	selected: $('#it').val(),
+	template_dir: '{$core.CONFIG['template_dir']}',
+	dialog: item_template_dialog
+});
+
+$(function() {
+	$("#tabs").tabs();
+	
+	showoutlink('{$data['type']}');
+	
+	cs.init();
+});
+
+</script>
+<!--{if !P8_AJAX_REQUEST}-->
+<!--{template $core footer admin}-->
+<!--{/if}-->
+<!--{/php168}-->

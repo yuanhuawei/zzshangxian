@@ -1,0 +1,8 @@
+<!--{php168}-->
+<ul>
+<!--{foreach $list $value}-->
+<li><span class="bm"><a  href="$value[category_url]" target="_blank">[$value[category_name]]</a></span> <a  href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a> <span class="date"><!--{php echo date('m-d',$row['create_time']);}--></span></li>	
+<!--{/foreach}-->
+	<div class="clear"></div>
+</ul>
+<!--{/php168}-->

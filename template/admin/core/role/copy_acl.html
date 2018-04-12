@@ -1,0 +1,60 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+
+
+<form action="$this_url" method="POST" id="form">
+<div class="mainbox mainborder">
+	<div class="section">
+	
+		<table class="columntable formtable hover_table">
+			
+			<tr class="title">
+				<td width="3%" class="title">{$P8LANG['source_role']}</td>
+				<td width="10%" class="title">{$P8LANG['target_role']}</td>
+			</tr>
+			
+			<tr>
+				<td>$src_role[name]</td>
+				<td>
+					<select name="target_role[]" multiple style="height: 200px;">
+						<!--{foreach $this_module->roles $v}-->
+						<option value="$v[id]">$v[name]</option>
+						<!--{/foreach}-->
+					</select>
+				</td>
+			</tr>
+			
+			<tr>
+				<td colspan="2"><font color="red">$P8LANG[role_copy_acl_note2]</font></td>
+			</tr>
+			
+			<tr>
+				<td colspan="2"><input type="submit" value="{$P8LANG['submit']}" onclick="return confirm('$P8LANG[role_copy_acl_note]')" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<input type="hidden" name="id" value="$id" />
+
+</form>
+
+<script type="text/javascript">
+$('#form').validate({
+	rules: {
+		'target_role[]': {
+			required: true,
+			minlength: 1
+		}
+	},
+	
+	messages: {
+		'target_role[]': {
+			required: '&nbsp;'
+		}
+	}
+});
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

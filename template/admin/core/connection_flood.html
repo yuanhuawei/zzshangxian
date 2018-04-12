@@ -1,0 +1,66 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<form action="$this_url" method="post" id="form" onsubmit="return validForm();">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+						<tr>
+							<td colspan="10" class="title">防御CC频繁刷新网页恶意攻击设置</td>
+						</tr>
+						<tr>
+							<td class="tdL">是否启用防CC攻击:</td>
+							<td class="tdR">
+								<input type="radio" name="config[cc_enabled]" value="1" {if !empty($config['cc_enabled'])} checked{/if}/>开启
+								<input type="radio" name="config[cc_enabled]" value="0" {if empty($config['cc_enabled'])} checked{/if}/>不开启(一般情况,如果你的网站没有受到攻击,就不要启用)
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">同一IP每3秒钟超过多少次访问视为CC攻击:</td>
+							<td class="tdR">
+								<input id="cc_num" type="text"class="txt" name="config[cc_num]" value="{if !empty($config['cc_num'])}{$config['cc_num']}{/if}" />
+								次,推荐20次,小于10次的话,设置无效,因为会把正常用户屏蔽
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">针对攻击IP,隔多久才允许访问:</td>
+							<td class="tdR">
+								<input id="cc_time" type="text" class="txt" name="config[cc_time]" value="{if !empty($config['cc_time'])}{$config['cc_time']}{/if}" />分钟
+							</td>
+						</tr>
+					</table>
+				</td></tr>
+			</table>
+			<input type="submit" value="保存设置" style="margin-left:5px;margin-top:10px;" />
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+<!--
+function validForm(){
+	var ccNum = $("#cc_num").val();
+	var ccTime = $("#cc_time").val();
+	var reg = /^\d+$/;
+	var flag = false;
+	if(!reg.test(ccNum)){
+		flag = true;
+		$("#cc_num").css("border","solid 1px red");
+		$("#cc_time").css("border","");
+	}else if(!reg.test(ccTime)){
+		$("#cc_num").css("border","");
+		$("#cc_time").css("border","solid 1px red");
+		flag = true;
+	}
+	if(flag){
+		return false;
+	}else{
+		return true;
+	}
+}
+//-->
+</script>
+
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,164 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/newmedia/css/cmsstyle.css">
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/newmedia/css/down_view.css">
+<script type="text/javascript" src="{$this_router}-check_verify_action?cid=$cid"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/item/item.js"></script>
+<script type="text/javascript">
+<!--{template_init_js}-->
+
+<!--{template $this_module item_js}-->
+</script>
+<script src='http://pstatic.xunlei.com/js/webThunderDetect.js'></script>
+<script type="text/javascript">
+<!--{template_init_js}-->
+<!--{template $this_module item_js}-->
+</script>
+<div class="gov_frame mtop10">$label[down_banner_01]</div>
+<div class="list_nave mtop">
+	<a href="{$core.url}">首页</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>
+</div>
+<div class="down_left mtop">
+	<div class="">
+		<div class="list_head1">
+			<span class="list_title2">$label[dw_view_title_1]</span> <span class="list_more1">$label[dw_view_more_1]</span>
+		</div>
+		<div class="list_content1">
+			$label[dw_view_content_1]{'i.cid' => $CATEGORY, 'model' => $MODEL}
+		</div>
+	</div>
+	<div class="mtop">
+		<div class="list_head1">
+			<span class="list_title2">$label[dw_view_title_2]</span> <span class="list_more1">$label[dw_view_more_2]</span>
+		</div>
+		<div class="list_content1">
+			$label[dw_view_content_2]{'a.cid' => $CATEGORY, 'model' => $MODEL}
+		</div>
+	</div>
+	<div class="mtop">
+		<div class="list_head1">
+			<span class="list_title2">$label[dw_view_title_4]</span> <span class="list_more1">$label[dw_view_more_4]</span>
+		</div>
+		<div class="list_content1">
+			$label[dw_view_content_4]{'i.cid' => $CATEGORY, 'model' => $MODEL}
+		</div>
+	</div>
+	<div class="mtop">
+		$label[dw_view_content_5]
+	</div>
+</div>
+<div class="down_right mtop">
+	<div>
+		<div class="dow_head1">
+			<span class="dow_title1">$data[title]</span><span class="list_more1" id="operation" style="display: none; cursor: pointer;">{$P8LANG['operation']}</span>
+		</div>
+		<div class="down_content1" id="maincontent">
+			<div class="down_frame">
+				<!--{if preg_match('/(.+)\.thumb\.jpg$/', $data['frame'], $m)}-->
+					<a href="$m[1]" target="_blank"><img src="{if !empty($data['frame'])}$data[frame]{/if}" alt="$data[title]" onerror="this.src='{$RESOURCE}/images/nopic.jpg'" width="150" /></a>
+				<!--{else}-->
+					<img src="{if !empty($data['frame'])}$data[frame]{/if}" alt="$data[title]" onerror="this.src='{$RESOURCE}/images/nopic.jpg'" width="150" />
+				<!--{/if}-->
+			</div>
+			<p class="bg"><span class="keyname">软件名称：</span>$data[title]</p>
+			<p><span class="keyname">运行环境：</span>
+				<!--{foreach $data['operatingsystem'] $val}-->
+				{$this_model['fields'][operatingsystem]['data'][$val]}
+				<!--{/foreach}-->
+			</p>
+			<p class="bg"><span class="keyname">演示地址：</span><a href="$data[demo]" target="_blank">$data[demo]</a></p>
+			<p class="nbg"><span class="keyname">授权形式：</span>{$this_model['fields'][copyright]['data'][$data['copyright']]}</p>
+			<p class="bg"><span class="keyname">资源语言：</span>{$this_model['fields'][softlanguage]['data'][$data['softlanguage']]}</p>
+			<p><span class="keyname">资源大小：</span>$data[softsize] {$this_model['fields']['softsize']['units']}</p>
+			<p class="bg"><span class="keyname">发布者：</span>$data[username]</p>
+			<p><span class="keyname">浏览量：</span><span class="item_views">$data[views]</span>次 </p>
+			<p class="bg"><span class="keyname">总下载量：</span><span class="item_down">$data[totaldown]</span>次 </p>
+			<p><span class="keyname">发布日期：</span>
+				<!--{php echo date("Y-m-d",$data['timestamp']);}-->
+			</p>
+			<div class="bg">
+				<span class="keyname fleft">下载地址：</span>
+				<div class="fleft">
+				<!--{if $pay_check}-->
+					<!--{if is_array($data['softurl'][0])}-->
+					<!--{foreach $data['softurl'] $key $val}-->
+					<!--{php 
+						$thunderUrl=Thunder_Encode($val['url']);
+						$flashgetUrl=Flashget_Encode($val['url'],$this_model->CONFIG['flashgeterid']);
+						$filename = $val['title'];
+					}-->
+					<a href="{$this_module.controller}-down?id=$data[id]&ti=$key&model=$MODEL" target="_blank" class="dow_url"><!--{if !empty($val['title'])}-->$val[title]<!--{else}-->点击下载<!--{/if}--></a>
+					<a href="#" thunderHref="$thunderUrl" thunderPid="{$this_model.CONFIG['thunderid']}" thunderType="" thunderResTitle="$filename" onClick="return OnDownloadClick_Simple(this,2)" oncontextmenu="ThunderNetwork_SetHref(this)" class="down_thunder">迅雷高速下载</a>
+					<a href="#" onClick="ConvertURL2FG('$flashgetUrl','',{$this_model.CONFIG['flashgetid']})" oncontextmenu="Flashget_SetHref(this)" fg="$flashgetUrl" class="down_flashget">快车高速下载</a>
+					<!--{/foreach}-->
+					<!--{else}-->
+					<!--{php 
+						$thunderUrl=Thunder_Encode($data['softurl']['url']);
+						$flashgetUrl=Flashget_Encode($data['softurl']['url'],$this_model->CONFIG['flashgeterid']);
+						$filename = $data['softurl']['title'];
+					}-->
+					<a href="{$this_module.controller}-down?id=$data[id]&ti=$key&model=$MODEL" target="_blank" class="dow_url">点击本地下载</a>
+					<a href="#" thunderHref="$thunderUrl" thunderPid="{$this_model.CONFIG['thunderid']}" thunderType="" thunderResTitle="$filename" onClick="return OnDownloadClick_Simple(this,2)" oncontextmenu="ThunderNetwork_SetHref(this)" class="down_thunder">迅雷高速下载</a>
+					<!--{/if}-->
+					
+				<!--{else}-->
+				<!--{php include template($this_module, 'down/pay');}-->
+				<!--{/if}-->
+				</div>
+				<p class="clear"></p>
+			</div>
+			<div class="mtop">
+				<span class="keyname fleft">资源介绍：</span>
+				<div class="fleft" style="width:80%">
+					$data[content]
+				</div>
+				<p class="clear"></p>
+			</div>
+			<div class="bg mtop">
+				<span class="keyname fleft">下载说明：</span>
+				<div class="fleft" style="width:80%">
+					☉推荐使用迅雷下载本站软件，使用 WinRAR v3.10 以上版本解压本站软件。 <br>
+					☉如果这个软件总是不能下载的请联系我们,谢谢合作!!<br>
+					☉下载本站资源，如果服务器暂不能下载请过一段时间重试！<br>
+					
+				</div>
+				<p class="clear"></p>
+			</div>
+		</div>
+	</div>
+	<div class="mtop fleft half">
+		<div class="list_head1">
+			<span class="list_title1">$label[dw_view_title_11]</span> <span class="list_more1">$label[dw_view_more_11]</span>
+		</div>
+		<div class="list_content1">
+			$label[dw_view_content_11]
+		</div>
+	</div>
+	<div class="mtop fright half">
+		<div class="list_head1">
+			<span class="list_title1">$label[dw_view_title_12]</span> <span class="list_more1">$label[dw_view_more_12]</span>
+		</div>
+		<div class="list_content1">
+			$label[dw_view_content_12]
+		</div>
+	</div>
+	<p class="clear"></p>
+</div>
+<script src="http://ufile.kuaiche.com/Flashget_union.php?fg_uid={$this_model.CONFIG['flashgetid']}"></script>
+<SCRIPT LANGUAGE='JavaScript'>
+function ConvertURL2FG(url,fUrl,uid){try{FlashgetDown(url,uid);}catch(e){location.href = fUrl;}}
+function Flashget_SetHref(obj,uid){obj.href = obj.fg;}
+</SCRIPT>
+<script type="text/javascript" src="$this_router-count?id=$data[id]"></script>
+<script type="text/javascript" src="$this_router-down?id=$data[id]&model=$MODEL&job=totaldown"></script>
+<div class="clear">
+</div>
+
+<script type="text/javascript" src="http://v2.jiathis.com/code/jiathis_r.js?move=0" charset="utf-8"></script>
+
+<!--{template $this_system footer}-->
+<!--{/php168}-->

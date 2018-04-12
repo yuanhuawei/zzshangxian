@@ -1,0 +1,96 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/sortable.js"></script>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：
+	<a href="{$core.admin_controller}/sites/farm-index">站群系统</a> &gt; 
+	<a href="{$core.admin_controller}/sites/farm-add">站点信箱分类设置</a></td>
+  </tr>
+</table>
+
+<form action="$this_url" method="post" id="form">
+<ul class="boxmenu">
+<li class="{if $kind=='department'}bm_over{else}bm_out{/if}"><a class="bm_l" href="$this_url?kind=department">部门</a></li>
+<li class="{if $kind=='type'}bm_over{else}bm_out{/if}"><a class="bm_l"  href="$this_url?kind=type">分类</a></li>
+</ul>
+
+<table width="100%" cellspacing="0" cellpadding="0" class="zq_list hover_table" id="table_list">
+	<tr>
+		<td width="23%"  class="list_top">ID</td >
+		<td width="25%" class="list_top">名称</td>
+		<td width="25%" class="list_top">排序</td>
+		<td width="22%" class="list_top">操作</td>
+	</tr>
+
+	<!--{foreach $data $k $row}-->	
+	<tr>
+		<td ><input type="checkbox" name="id[]" value="{$row['id']}" /> $row[id]</td>
+		<td >$row[name]</td>
+		<td >$row[num]</td>
+		<td ><a href="###" onclick="edit_item(this,$row[id])">编辑</a> <a href="###"  id="delete_{$row['id']}" onclick="return delete_item([this.id])">删除</a></td>
+	</tr>
+	<!--{/foreach}-->	
+	<tr id="more_item">
+		<td colspan="4">
+		<input type="button" onclick="delete_item(checked_values('id[]', $('#form')))" value=" 删除 " />
+		<input type="button" value="增加" class="submit_btn" onclick="addmore()"/>  
+		<input type="button" value="更新缓存" class="submit_btn" onclick="window.location.href='{$this_router}-cache'"/>  
+		<input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/>
+		<input type="hidden" name="kind" value="$kind"/>
+		</td>
+	</tr>
+</table>
+</form>
+<script type="text/javascript">
+
+function addmore(){
+	$('#more_item').before('<tr>\
+		<td ></td>\
+		<td ><input type="text" name="new[]"/></td>\
+		<td ><input type="text" name="newnum[]"/></td>\
+		<td ><a href="###" onclick="removeItem(this)">移除</a></td>\
+	</tr>');
+}
+function edit_item(obj,id){
+	var name = $(obj).parent().parent().find('td').eq(1);
+	name.html('<input type="text" name="old['+id+']" value="'+name.text()+'"/>');
+	var num = $(obj).parent().parent().find('td').eq(2);
+	num.html('<input type="text" name="oldnum['+id+']" value="'+num.text()+'"/>');
+	$(obj).remove();
+}
+function delete_item(obj){
+	var id = [];
+	$.each(obj, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(!id.length) return;
+	
+	if(!confirm('$P8LANG[confirm_to_delete]')) return false;
+	
+	$.ajax({
+		url: '{$this_router}-delete_cate',
+		type: 'POST',
+		cache: false,
+		dataType: 'json',
+		data: ajax_parameters({action: 'delete',kind:'{$kind}', id: id}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i in json){
+				$('#delete_'+ json[i]).parent().parent().remove();
+			}
+			alert('操作成功');
+		}
+	});
+	return false;
+}
+function removeItem(obj){
+	$(obj).parent().parent().remove();
+}
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

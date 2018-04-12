@@ -1,0 +1,215 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+
+<style type="text/css">
+.field{
+	border: 1px solid #CCCCCC;
+	padding: 10px;
+	margin: 1em;
+}
+
+.field legend{
+	border: 1px solid #CCCCCC;
+	padding: 2px 4px;
+}
+</style>
+
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">静态说明</td>
+			</tr>
+			
+			<tr>
+				<td class="headerbtn_list">
+					要静态化内容，内容所在的分类必须开启静态化开关。 编辑一个分类，在“其它设置”中开启静态化，可以应用到所有子分类。<br />
+					如果要全部开启栏目的静态化功能，请在 “CMS系统” -&gt; “栏目管理” -&gt; “<a href="{$core.admin_controller}/$SYSTEM/category-list" target="_blank"><font color="blue">栏目管理</font></a>”中点击开启所有栏目静态化
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div class="mainbox mainborder">
+	<div class="section">
+	
+		<table class="formtable">
+			<tr>
+				<td colspan="3" class="title">生成静态</td>
+			</tr>
+			<tr>
+				<td colspan="3">&nbsp;</td>
+			</tr>
+			
+			<tr>
+				<td>
+					<form action="$this_url" id="list_to_html" method="post" target="shower" onsubmit="$('#shower').show();dialog.show();if($('#list_to_html input[name=view_to_html][value=1]:checked').length){ _view_to_html();}">
+					<table>
+					<tr>
+						<td width="16%" align="right">生成内容</td>
+						<td colspan="2">
+							<input type="checkbox" name="view_to_html" value="1" />
+						</td>
+					</tr>
+					
+					<tr>
+						<td width="16%" align="right">生成类型</td>
+						<td colspan="2">
+							<input type="radio" name="type" value="0" checked />全部
+							<input type="radio" name="type" value="1" />大分类
+							<input type="radio" name="type" value="2" />栏目
+						</td>
+					</tr>
+					
+					<tr>
+						<td width="16%" align="right">生成前几页</td>
+						<td colspan="2">
+							<input type="input" name="pages" value="0" size="3" />
+						</td>
+					</tr>
+					
+					<tr>
+						<td align="right">选择栏目</td>
+						<td width="25%">
+							<select name="cids[]" id="cids" multiple style="width: 200px; height: 200px;" onchange="if(this.value == 0) this.selectedIndex = -1;">
+								<option value="0">所有栏目</option>
+							<!--{php
+							function _options($cs, $selected = 0, $level = -1){
+							$level++;
+							}-->
+							<!--{foreach $cs $v}-->
+								<option value="{$v['id']}"{if $selected == $v['id']} selected{/if}>{str_repeat('&nbsp;', $level * 3)}{$v['name']}</option>
+								<!--{if isset($v['categories'])}-->
+									<!--{php _options($v['categories'], $selected, $level);}-->
+								<!--{/if}-->
+							<!--{/foreach}-->
+							<!--{php
+							}
+							
+							_options($category->top_categories);
+							}-->
+							</select>
+							<div>
+								<input type="submit" name="button3" id="button3" value="开始生成栏目" class="header_r_btn" />
+							</div>
+							
+						</td>
+					</tr>
+					</table>
+					</form>
+				</td>
+				
+				<td width="60%">
+					<form action="$this_router-view_to_html" method="post" id="view_to_html" target="shower2">
+					<ul class="line10">
+					
+					<li>生成更新时间从 
+						<input type="text" class="txt" id="time1" name="time_range[]" onclick="rcalendar(this, 'full', _valid_time_range)" autocomplete="off" />
+						-
+						<input type="text" class="txt" id="time2" name="time_range[]" onclick="rcalendar(this, 'full', _valid_time_range)" autocomplete="off" />
+						<br />
+						<input type="button" value="1小时内" onclick="_set_time_range(mktime(_H, 0, 0, _m, _d, _Y), mktime(_H +1, 0, 0, _m, _d, _Y))" />
+						<input type="button" value="今天" onclick="_set_time_range(mktime(0, 0, 0, _m, _d, _Y), mktime(0, 0, 0, _m, _d +1, _Y))" />
+						<input type="button" value="近3天" onclick="_set_time_range(mktime(0, 0, 0, _m, _d -3, _Y), mktime(0, 0, 0, _m, _d, _Y))" />
+						<input type="button" value="本周" onclick="_set_time_range(mktime(0, 0, 0, _m, _d - _j, _Y), mktime(0, 0, 0, _m, _d + 7 - _j, _Y))" />
+						<input type="button" value="本月" onclick="_set_time_range(mktime(0, 0, 0, _m, 1, _Y), mktime(0, 0, 0, _m +1, 1, _Y));" />
+					</li>
+					
+					<li>
+						id 范围
+						<input type="text" class="txt" name="id_range" size="50" />
+					</li>
+					
+					<li>
+						每次生成的文件数
+						<input type="text" class="txt" name="perpage" value="100" size="3" />
+					</li>
+					
+					<li>
+						仅生成每个分类的一篇
+						<input type="checkbox" name="items" value="1" />
+					</li>
+						
+					<li>
+						线程数
+						<input type="text" class="txt" name="threads" size="4" value="1" />
+					</li>
+						
+					</ul>
+					<div id="_collect_category" style="display: none;"></div>
+					<input type="button" id="button3" value="开始生成内容" class="header_r_btn" onclick="_view_to_html();" />
+					</form>
+				</td>
+			</tr>
+			
+			<tr>
+				<td colspan="3">&nbsp;</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div id="status">
+<fieldset class="field" id="shower">
+	<legend>列表页</legend>
+	<iframe name="shower" width="100%" height="120" marginheight="0" marginheight="0" frameborder="0"></iframe>
+</fieldset>
+
+<fieldset class="field" id="shower2">
+	<legend>内容页</legend>
+	<iframe name="shower2" width="100%" height="120" marginheight="0" marginheight="0" frameborder="0"></iframe>
+</fieldset>
+</div>
+
+<script type="text/javascript">
+var _obj = new Date(<!--{php echo P8_TIME;}-->000);
+var _Y = _obj.getFullYear();
+var _m = _obj.getMonth() +1;
+var _d = _obj.getDate();
+var _H = _obj.getHours();
+var _j = _obj.getDay();
+
+function _set_time_range(t1 ,t2){
+	$('#time1').val(date('Y-m-d H:i:s', t1));
+	$('#time2').val(date('Y-m-d H:i:s', t2));
+}
+
+function _valid_time_range(time, obj){
+	var time1 = $('#time1').val();
+	var time2 = $('#time2').val();
+	if(time2 && time1 >= time2){
+		$(obj).val('');
+	}
+}
+
+function _view_to_html(){
+	$('#shower2').show();
+	$('#_collect_category').empty();
+	
+	var selected = $('#cids option:selected');
+	
+	$('#cids option:selected').each(function(){
+		$('<input type="hidden" name="cids[]" value="'+ this.value +'" />').appendTo($('#_collect_category'));
+	});
+	
+	$('#view_to_html').submit();
+	dialog.show();
+}
+
+var dialog = new P8_Dialog({
+	width: 600,
+	height: 400,
+	overlay: false,
+	cancel: function(){
+		this.content.find('iframe').attr('src', 'about:blank');
+	}
+});
+dialog.content.append($('#status'));
+
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,67 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<div class="breadbanner">
+	$label[zhuzhan-banner]
+</div>
+<div class="gp-container">
+	<div class="container">
+		<div class="breadcrumbbox">
+			<ol class="breadcrumb">
+				<li><a href="{$this_system->controller}"><i class="fa fa-home"></i>首页</a></li>
+				<!--{foreach $parent_cats $v}-->
+				<li><a href="$v[url]"><i class="fa fa-caret-right"></i>$v[name]</a></li>
+				<!--{/foreach}-->
+				<li class="active"><i class="fa fa-caret-right"></i>$CAT[name]</li>
+			</ol>
+			<div class="row-page-tabs">
+				<!--{template $this_module step_category3}-->
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="solution">
+			<div class="solution-pic">$label[list_solution_pic]</div>
+			<div class="page-header">
+				<h2 class="page-title">$label[list_solution2_tt1]</h2>
+			</div>
+			<div class="page-plane">
+				$label[list_solution2_con1]
+			</div>
+			<div class="page-header">
+				<h2 class="page-title">$label[list_solution2_tt2]</h2>
+			</div>
+			<div class="page-plane">
+				$label[list_solution2_con2]
+			</div>
+			<div class="page-header">
+				<h2 class="page-title">$label[list_solution2_tt3]</h2>
+			</div>
+			<div class="page-plane">
+				$label[list_solution2_con3]
+			</div>
+			<div class="page-header">
+				<h2 class="page-title">$label[list_solution2_tt4]</h2>
+			</div>
+			<div class="page-plane">
+				<div class="row">
+					<div class="scode text-center">
+						<div class="pic">$label[list_code_pic1]</div>
+						<span>$label[list_code_tt1]</span>
+					</div>
+					<div class="scode text-center ml30">
+						<div class="pic">$label[list_code_pic2]</div>
+						<span>$label[list_code_tt2]</span>
+					</div>
+					<div class="slist2">
+						$label[list_contact_con02]
+					</div>
+				</div>
+			</div>
+			<div class="check text-center">$label[list_solution2_more]</div>
+		</div>
+	</div>
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

@@ -1,0 +1,317 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="POST" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					
+					<table class="columntable formtable">
+						<tr class="title">
+							<td colspan="3" class="title"><!--{if $ACTION == 'add'}-->{$P8LANG['spider']['rule']['add']}<!--{else}-->{$P8LANG['spider']['rule']['update']} - $data[name]<!--{/if}--></td>
+						</tr>
+						
+						<tr>
+							<td colspan="3">
+								<div id="tabs" class="tab_box mtop">
+									<div class="head">
+										<span><a>列表页规则</a></span>
+										<span><a>内容页规则</a></span>
+										<span><a onclick="dialog.show(0, 0);">规则帮助</a></span>
+									</div>
+									<div class="main">
+										
+										<div class="content">
+											<table class="columntable formtable">
+												<tr>
+													<td class="tdL">{$P8LANG['spider']['rule']['name']}</td>
+													<td class="tdR">
+														<input class="txt" type="text" name="name" value="{if !empty($data['name'])}$data[name]{/if}" size="40" />
+													</td>
+												</tr>
+												
+												<tr>
+													<td class="tdL">{$P8LANG['spider']['category']}</td>
+													<td class="tdR">
+														<select name="cid">
+															<option value="0">{$P8LANG['select_category']}</option>
+															<!--{foreach $this_module->categories $v}-->
+																<option value="$v[id]" {if isset($data['cid']) && $data['cid'] == $v['id']} selected{/if}>$v[name]</option>
+															<!--{/foreach}-->
+														</select>
+													</td>
+												</tr>
+												
+												<tr>
+													<td class="tdL">页面编码</td>
+													<td class="tdR">
+														<select name="data[charset]">
+															<!--{foreach array('gbk','utf-8') $v}-->
+															<option value="$v"{if isset($data['data']['charset']) && $data['data']['charset'] == $v} selected{/if}>$v</option>
+															<!--{/foreach}-->
+														</select>
+													</td>
+												</tr>
+												
+												<tr>
+													<td class="tdL">列表倒序采集</td>
+													<td class="tdR">
+														<input type="checkbox" name="data[reverse]" value="1"{if !empty($data['data']['reverse'])} checked{/if} />
+													</td>
+												</tr>
+												
+												<tr>
+													<td class="tdL">{$P8LANG['spider']['rule']['timeout']}</td>
+													<td class="tdR">
+														<input type="input" name="data[timeout]" value="{if isset($data['data']['timeout'])}{$data['data']['timeout']}{else}300{/if}" size="4" />
+														<span class="help">{$P8LANG['spider']['rule']['timeout_hint']}</span>
+													</td>
+												</tr>
+												
+												<tr>
+													<td colspan="3"><hr /></td>
+												</tr>
+												
+												<tr>
+													<td class="tdL">
+														列表页规则<br />
+													</td>
+													<td class="tdR">
+														<textarea name="data[list_page]" cols="100">{if isset($data['data']['list_page'])}{$data['data']['list_page']}{/if}</textarea><br />
+														页码范围<input type="text" name="data[start]" value="{if isset($data['data']['start'])}{$data['data']['start']}{else}0{/if}" size="3" /> - 
+														<input type="text" name="data[end]" value="{if isset($data['data']['end'])}{$data['data']['end']}{/if}" size="3" />页
+														
+														补零<input type="text" name="data[zero_fill]" value="{if isset($data['data']['zero_fill'])}{$data['data']['zero_fill']}{else}0{/if}" size="1" />位
+													</td>
+												</tr>
+												
+												<tr>
+													<td colspan="3"><hr /></td>
+												</tr>
+												
+												<tr>
+													<td class="tdL">
+														内容页列表提取规则<br />
+														必须有<font color="blue">{#title#正则}</font>(标题)和<font color="blue">{#url#正则}</font>(内容页链接)这两项。<font color="blue">{#frame#正则}</font>为缩略图。
+													</td>
+													<td class="tdR">
+														<textarea name="data[list_item]" cols="100" rows="2">{if isset($data['data']['list_item'])}{html_entities($data['data']['list_item'])}{/if}</textarea>
+														<input type="checkbox" name="data[capture_frame]" value="1"{if !empty($data['data']['capture_frame'])} checked{/if} />保存缩略图
+														<br />
+														截取上下文
+														<textarea name="data[list_item_start]" cols="50" rows="2">{if isset($data['data']['list_item_start'])}{html_entities($data['data']['list_item_start'])}{/if}</textarea>到
+														<textarea name="data[list_item_end]" cols="50" rows="2">{if isset($data['data']['list_item_end'])}{html_entities($data['data']['list_item_end'])}{/if}</textarea>
+														
+														<input type="button" value="测试" onclick="_test('list')" />
+													</td>
+												</tr>
+											</table>
+										</div>
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										<div class="content">
+											<table class="columntable formtable">
+												<tr>
+													<td class="tdL" valign="top">
+														内容页分页提取规则
+													</td>
+													<td class="tdR" valign="top">
+														<textarea name="data[content_page]" cols="100" rows="2">{if isset($data['data']['content_page'])}{html_entities($data['data']['content_page'])}{/if}</textarea><br />
+														截取上下文
+														<textarea name="data[content_page_start]" cols="50" rows="2">{if isset($data['data']['content_page_start'])}{html_entities($data['data']['content_page_start'])}{/if}</textarea>到
+														<textarea name="data[content_page_end]" cols="50" rows="2">{if isset($data['data']['content_page_end'])}{html_entities($data['data']['content_page_end'])}{/if}</textarea>
+													</td>
+												</tr>
+											</table>
+											
+											<table class="columntable formtable">
+												<tr>
+													<td class="tdL" valign="top">
+														自定义提取规则
+													</td>
+													
+													<td class="tdR">
+														<table border="0" width="100%">
+															
+															<tr id="clone" style="display: none;">
+																<td>
+																	<textarea name="" cols="100" rows="2"></textarea><br />
+																	截取上下文<input type="checkbox" />
+																	<div>
+																		<textarea name="" cols="50" rows="2"></textarea>到
+																		<textarea name="" cols="50" rows="2"></textarea><br />
+																	</div>
+																	
+																	内容替换<textarea name="" cols="50" rows="2"></textarea>
+																	<input type="button" value="常用正则" onclick="common_reg_rule($(this))" />
+																</td>
+																<td>&nbsp;</td>
+															</tr>
+															
+															<tr id="add_rule">
+																<td colspan="3">
+																	<input type="button" value="{$P8LANG['add']}" onclick="add_diy_rule()" />
+																	<input type="button" value="测试" onclick="_test('item')" />
+																</td>
+															</tr>
+														</table>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</table>
+					
+				</td></tr>
+				<tr>
+					<td colspan="3" class="footer" align="center">
+						<input type="submit" class="submit_btn" value="{$P8LANG['submit']}" onclick="this.form.target = ''; this.form.action= '$this_url';" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+<input type="hidden" name="id" value="{if !empty($data['id'])}$data[id]{/if}" />
+<input type="hidden" name="test" value="" />
+</form>
+
+<div style="display: none;" id="hint" style="overflow: auto;">{$P8LANG['spider']['rule_hint']}</div>
+
+<div style="display: none;" id="common_reg_rule" style="overflow: auto;">
+	<ul>
+		<!--{foreach $P8LANG['spider']['reg_rule'] $name $reg}-->
+		<li><a href="javascript:apply_reg('$reg')">$name</label></li>
+		<!--{/foreach}-->
+	</ul>
+</div>
+
+<script type="text/javascript">
+var dialog = new P8_Dialog({
+	width: 800,
+	height: 500,
+	overlay: false
+});
+dialog.content.append($('#hint').show()).css({overflow: 'auto'});
+
+var reg_dialog = new P8_Dialog({
+	width: 400,
+	height: 300,
+	overlay: false
+});
+reg_dialog.content.append($('#common_reg_rule').show());
+
+$('#form').validate({
+	rules: {
+		name: {
+			required: true
+		},
+		
+		'data[list_page]': {
+			required: true
+		},
+		
+		'data[list_item]': {
+			required: true
+		}
+	},
+	
+	messages: {
+		name: {
+			required: '&nbsp;'
+		},
+		'data[list_page]': {
+			required: '&nbsp;'
+		},
+		'data[list_item]': {
+			required: '&nbsp;'
+		}
+	}
+});
+
+function add_diy_rule(rule){
+	rule = rule || {start: ''};
+	var copy = $('#clone').clone(true).show().attr('id', '').insertBefore($('#add_rule'));
+	
+	copy.find('textarea:eq(0)').attr('name', 'data[diy_rule][reg][]').val(rule.reg === undefined ? '' : rule.reg);
+	copy.find('textarea:eq(1)').attr('name', 'data[diy_rule][start][]').val(rule.start === undefined ? '' : rule.start);
+	copy.find('textarea:eq(2)').attr('name', 'data[diy_rule][end][]').val(rule.end === undefined ? '' : rule.end);
+	copy.find('textarea:eq(3)').attr('name', 'data[diy_rule][replace][]').val(rule.replace === undefined ? '' : rule.replace);
+	
+	copy.find('input[type=text]:eq(0)').attr('name', 'data[diy_rule][disallow_tags][]').val(rule.disallow_tags === undefined ? '' : rule.disallow_tags);
+	copy.find('input[type=text]:eq(1)').attr('name', 'data[diy_rule][replace1][]').val(rule.replace1 === undefined ? '' : rule.replace1);
+	copy.find('input[type=text]:eq(2)').attr('name', 'data[diy_rule][replace2][]').val(rule.replace2 === undefined ? '' : rule.replace2);
+	
+	if(!rule.start.length) copy.find('div').hide();
+	
+	copy.find('input[type=checkbox]').click(function(){
+		this.checked ? $(this).next().show() : $(this).next().hide();
+	}).prop('checked', rule.start.length ? true : false);
+}
+
+<!--{if !empty($data['data']['diy_rule'])}-->
+var rule_json = <!--{php echo p8_json($data['data']['diy_rule']);}-->;
+for(var i = 0; i < rule_json.length; i++){
+	add_diy_rule(rule_json[i]);
+}
+<!--{else}-->
+add_diy_rule();
+<!--{/if}-->
+
+MoveTabs("tabs",0);
+
+function _test(value){
+	$('#form input[name=test]').val(value);
+	$('#form').attr('action', '$this_router-test').attr('target', '_blank').submit();
+}
+
+var replace_textarea;
+function common_reg_rule(obj){
+	reg_dialog.show();
+	
+	replace_textarea = obj.prev('textarea');
+}
+
+function apply_reg(val){
+	if(val == 'tag' || val == 'tag_all'){
+		var tag = prompt('{$P8LANG['spider']['input_tag_name']}', 'tag');
+		if(tag == null) return;
+		
+		val = val == 'tag' ?
+			'</?'+ tag +'[^>]*?>' :
+			'<'+ tag +'[^>]*?>.*</'+ tag +'[^>]*?>';
+	}
+	
+	replace_textarea.val(replace_textarea.val() +'\r\n'+ val);
+}
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

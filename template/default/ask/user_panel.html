@@ -1,0 +1,23 @@
+<!--用户信息-->
+<!--{if empty($UID)}-->
+<div id="UserPanel" class="user_panel margin_top margin_bottom">
+   
+      <ul>
+	  <form action="" name="">
+	     <li>通行证|用户名：<input type="text" />&nbsp;&nbsp;密码：<input type="text" />&nbsp;<input type="submit" value="登录" />&nbsp;&nbsp;<a href="#">会员注册</a>&nbsp;&nbsp;<a href="#">忘记密码？</a></li>
+	  </form>
+	  </ul>
+   
+</div>
+<!--{else}-->
+<div id="UserPanel" class="user_panel margin_top margin_bottom">
+      <ul>
+	     <li class="hello">您好，<span>cqifeng</span></li>
+		 <li>[ <a href="#">个人主页</a> ｜ <a href="#">控制面板</a> ｜ <a href="#">我的论坛</a> ｜ <a href="#">我的博客</a> ｜ <a href="#">退出</a> ] </li>
+		 <li class="msg">您有<a href="#"><span>3</span></a>条新短消息</li>
+		 <li class="credit">积分：<a href="#"><span>15</span></a></li>
+		 <li class="topic">提问数：10</li>
+		 <li class="answer">回答数：20</li>
+	  </ul>
+</div>
+<!--{/if}-->

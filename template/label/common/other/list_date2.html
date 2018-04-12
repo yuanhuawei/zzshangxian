@@ -1,0 +1,10 @@
+<!--{php168}-->
+<ul class="label_list_date2" style="font-size:14px;">
+	<!--{foreach $list $value}-->
+	<li style="$wf;">
+		<span class="label_list_datatime"style="font-size:14px;"><!--{php echo date('m月',$value['timestamp']);}--></span><a href="$value[url]" target="_blank" title="$value[full_title]" style="color:#333;">$value[title]</a>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->
+

@@ -1,0 +1,52 @@
+<!--{php168}-->
+<!--{php $TITLE = '来信统计  - ';}-->
+<!--{template $this_module header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/opinion/tongji.css">
+<div id="main2">
+<div class="add-inner">
+	<div id="breadcrumb">
+						<p>您现在的位置：<a href="/Category_892/Index.aspx">首页</a>&gt;&gt; <span class="current"> 
+    
+    <a target="_self" href="/Category_95/Index.aspx">网络问政</a>&gt;&gt;
+    <a target="_self" href="/Category_138/Index.aspx">统计</a></span></p>
+	</div>
+	<div class="sjtj moredata">
+	<h3 class="title">数据统计</h3><span class="title2">&nbsp;>>&nbsp; 
+	<!--{php 
+	$names = array(
+				'1'=>'年度来信总数',
+				'2'=>'年度受理总数',
+				'3'=>'年度办结总数',
+				'4'=>'年度办结率',
+				'5'=>'全部红灯警示',
+				'6'=>'全部黄灯警示',
+				'7'=>'本周红灯警示',
+				'8'=>'本周黄灯警示',
+				);
+	}-->
+	{$names[$i]}
+	</span>
+	<div class="clear"></div>
+	<div class="con">
+	<div class="table_hd"><span class="a">部门</span><span class="a">数量</span></div>
+	<ul><!--{php $j=0;}-->
+	  <!--{foreach $list $key $row}-->
+		<!--{php $j+=1;}-->
+		<li><span class="{if $j<4}red{else}gry{/if}"><!--{php echo  $j;}--></span><span class="num">{$row['count']} {if $i==4}%{else}条{/if}</span>{$row['department_name']} </li>
+		<!--{/foreach}-->
+    </ul>
+
+</div>
+<div>{$pages}</div>
+</div>
+
+
+
+
+
+</div>
+</div>
+<div class="clear"></div>
+<!--{template $this_module footer}-
+<!--{/php168}-->

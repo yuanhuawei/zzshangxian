@@ -1,0 +1,73 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<div class="mainfluid">
+	<div class="msg drpdiv">
+		<div class="leftdiv">
+			<div class="mbox">
+				<div class="hd">
+					<span class="title one">我的内容</span>
+					<span class="more"><a href="{$core.U_controller}/cms/item-my_list">MORE+</a></span>
+				</div>
+				<div class="bd">							
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table">
+						<tr class="head">
+							<td>标题</td>
+							<td>时间</td>							
+							<td>状态</td>
+							<td>操作</td>
+						</tr>
+						<!--{foreach $listdb $val}-->
+							<td class="al"><a href="$val[url]" target="_blank" title="$val[full_title]">$val[title]</a></td>
+							<td>{date('m-d', $val[timestamp])}</td>
+							<td><!--{if $val['verified'] == 1}-->已审<!--{elseif $val['verified'] == -99}-->退稿<!--{else}-->未审<!--{/if}--></td>
+							<td><a href="$val[edit]" target="_blank">修改</a> / <a href="$val[addon]" target="_blank">追加</a></td>
+							</tr>
+							<!--{/foreach}-->
+					</table>		
+				</div>
+			</div>
+		</div>
+		<div class="rightdiv">
+			<div class="mbox">
+				<div class="hd">
+					<span class="title two">本站通告</span>
+					<span class="more"><a href="#">MORE+</a></span>
+				</div>
+				<div class="bd">
+					$label[member_note]
+				</div>
+			</div>
+		</div>
+		<div class="clear">
+		</div>
+	</div>
+	<div class="msg drpdiv mt30">
+		<div class="mfast">
+			<div class="mplane">
+				<div class="mc mc1"><a href="{$core.U_controller}?main_page=/cms/item-add" target="_blank">发布内容</a></div>
+			</div>
+			<div class="mplane">
+				<div class="mc mc2"><a href="{$core.U_controller}?main_page=/cms/item-my_list" target="_blank">我发布的内容</a></div>
+			</div>
+			<div class="mplane">
+				<div class="mc mc3"><a href="{$core.U_controller}?main_page=/cms/item-verify" target="_blank">我签核的内容</a></div>
+			</div>
+			<div class="mplane">
+				<div class="mc mc4">$label[member_mc4]</div>
+			</div>
+		</div>
+		<div class="clear">
+		</div>
+	</div>
+	<div class="mtop20 msg drpdiv">
+		<div class="drptitle">
+		<!--{if $IS_ADMIN}--><a href="?edit_label=1" style="font-weight:normal; fon-size:12px;margin-left:20px;float:right">[显示标签]</a><!--{/if}-->$label[member_c_232]
+		</div>
+		<div class="clear"></div>
+	</div>
+<script type="text/javascript">
+// 选项卡
+MoveTabs("tab_1");
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

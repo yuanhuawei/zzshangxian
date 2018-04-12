@@ -1,0 +1,136 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<!--
+<ul>
+	<!--{foreach $this_module->CONFIG['running_tasks'] $id $timestamp}-->
+	<li>$id <!--{php echo date('Y-m-d H:i:s', $timestamp);}--></li>
+	<!--{/foreach}-->
+</ul>
+-->
+
+<form action="$this_url" method="POST" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table click_changeable">
+						<tr class="title">
+							<td class="title" width="3%"><input type="checkbox" onclick="check_all(this, 'id[]'); init_tr($('#form'));" /></td>
+							<td width="5%">ID</td>
+							<td>名称</td>
+							<td>分类</td>
+							<td>操作</td>
+						</tr>
+						
+						<!--{foreach $list $value}-->
+						<tr id="rule_$value[id]">
+							<td><input type="checkbox" name="id[]" value="$value[id]" /></td>
+							<td>$value[id]</td>
+							<td>$value[name]</td>
+							<td><!--{if $value['cid']}-->{$this_module.categories[$value['cid']]['name']}<!--{/if}--></td>
+							<td>
+								<a href="$this_router-update_rule?id=$value[id]" target="_blank">编辑</a>
+								<input type="button" value="{$P8LANG['spider']['run']}" onclick="if(confirm('{$P8LANG['confirm_to_do']}')){ $('#poster input[name=id]').val($value[id]); $('#poster').submit(); }" />
+								<input type="button" value="{$P8LANG['spider']['unlock']}" onclick="return _action('unlock', $value[id])" />
+								<input type="button" value="{$P8LANG['spider']['clear_stat']}" onclick="return _action('', $value[id])" />
+							</td>
+						</tr>
+						<!--{/foreach}-->
+					</table>
+				</td></tr>
+				
+				<tr>
+					<td colspan="3">
+						<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+							<tr>
+								<td align="center" id="pages" class="pages">$pages</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="button" value="导入" onclick="import_dialog.show();" class="edit_btn" />
+									<input type="button" value="导出" onclick="_export()" class="edit_btn" />
+									<input type="button" value="删除" onclick="delete_rule()" class="edit_btn" />
+									<input type="submit" class="edit_btn" value="{$P8LANG['submit']}" />
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+<input type="hidden" name="action" value="" />
+</form>
+
+<form id="action" method="post" action="$this_router-rule">
+	<input type="hidden" name="action" value="" />
+	<input type="hidden" name="id" value="" />
+</form>
+
+<form id="poster" method="post" action="$this_router-walk" target="_blank">
+	<input type="hidden" name="id" value="" />
+</form>
+
+<script type="text/javascript">
+function _export(){
+	var id = checked_values('id[]', $('#form'));
+	
+	if(!id.length) return;
+	
+	$('#form input[name=action]').val('export');
+	$('#form').submit();
+}
+
+function _action(action, id){
+	if(confirm('{$P8LANG['confirm_to_do']}')){
+		$('#action input[name=action]').val(action);
+		$('#action input[name=id]').val(id);
+		
+		$('#action').submit();
+	}
+	return false;
+}
+
+function delete_rule(){
+	var id = checked_values('id[]', $('#form'));
+	
+	if(!id.length) return;
+	
+	if(!confirm('{$P8LANG['confirm_to_delete']}')) return;
+	
+	$.ajax({
+		url: '$this_url',
+		type: 'post',
+		dataType: 'json',
+		data: ajax_parameters({action: 'delete', id: id}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i in json){
+				$('#rule_'+ json[i]).remove();
+			}
+		}
+	});
+}
+
+var import_dialog = new P8_Dialog({
+	title_text: '导入规则',
+	width: 400,
+	height: 300,
+	button: true,
+	ok: function(){
+		$.trim(this.content.find('textarea').appendTo($('#form')).val());
+		
+		$('#form input[type=hidden][name=action]').val('import');
+		$('#form').submit();
+	}
+});
+import_dialog.content.append($('<textarea name="data" style="width: 380px; height: 220px;"></textarea>'));
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,36 @@
+<!--{php168}-->
+<!--{template $this_system header admin}-->
+<form action="$this_router-$ACTION" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="formtable">
+						<tr>
+							<td colspan="2" class="title">{$P8LANG['ask_statistics']}</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_all_items']}</td>
+							<td class="tdR">{$data['item_count']}</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_solved_items']}</td>
+							<td class="tdR">{$data['solve_item_count']}</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_unsolve_items']}</td>
+							<td class="tdR">{$data['unsolve_item_count']}</td>
+						</tr>
+						<tr>
+						  <td class="tdL">&nbsp;</td>
+						  <td class="tdR"><input type="submit" value="{$P8LANG['ask_statistics_submit']}" class="submit_btn"/></td>
+					  </tr>
+					</table>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+</form>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

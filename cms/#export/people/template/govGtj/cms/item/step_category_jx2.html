@@ -1,0 +1,25 @@
+<!--{php168}-->
+<!--{php 
+$i = sizeof($CAT['parents']);
+$j = $i>1? $i-2 : 0;
+if($CAT['parents'])
+$stepcat = $category->categories[$CAT['parents'][$j]]['categories'];
+else
+$stepcat = $category->categories[$cid]['categories'];
+}-->
+<ul class="main_ultop_jx01" id="left_nav_url">
+	<!--{foreach $stepcat $v}-->
+	<li class="{if $cid==$v['id']}over{/if}">
+		<dt><a href="$v[url]">$v[name]</a></dt>
+		<!--{if !empty($v['categories'])}-->
+		<dl style="{if array_key_exists($cid,$v['categories']) || $cid==$v['id']}display:;{else}display:none{/if}">
+		<!--{foreach $v['categories'] $sv}-->
+		<dd><a href="$sv[url]">$sv[name]</a></dd>
+		<!--{/foreach}-->
+		</dl>
+		<!--{/if}-->
+	</li>
+	<!--{/foreach}-->
+	<div class="clear"></div>
+</ul>
+<!--{/php168}-->

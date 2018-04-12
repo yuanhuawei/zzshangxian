@@ -1,0 +1,72 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<form action="$this_url" method="post">
+	<table class="mainbox mainborder">
+	<tr><td>
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td colspan="2" class="title">CMS设置</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['bind_domain']} <span class="help">如想本CMS系统绑定某个一级域名，请填写如：http://www.php168.net</span></td>
+				<td class="tdR"><input type="text" class="txt" name="config[domain]" size="30" value="{if !empty($config['domain'])}{$config['domain']}{/if}" /></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['bind_base_domain']} <span class="help">主要利于COOK作用，不需加www,域名和上面域名一致，如：php168.net</span></td>
+				<td class="tdR"><input type="text" class="txt" name="config[base_domain]" size="30" value="{if !empty($config['base_domain'])}{$config['base_domain']}{/if}" /></td>
+			</tr>
+				<td class="tdL">是否禁止访问动态页</td>
+				<td class="tdR">
+					<input type="radio" name="config[forbidden_dynamic]" value="1"{if !empty($config['forbidden_dynamic'])} checked{/if} />{$P8LANG['Y']}
+					<input type="radio" name="config[forbidden_dynamic]" value="0"{if empty($config['forbidden_dynamic'])} checked{/if} />{$P8LANG['N']}
+				</td>
+			<tr>
+				
+			</tr>
+			
+			<tr>
+				<td class="tdL">本系统模板</td>
+				<td class="tdR">
+					<select name="config[template]" id="template">
+					<!--{foreach $core->CONFIG['templates'] $k $v}-->
+						<option value="$k"{if !empty($config['template']) && $config['template'] == $k} selected{/if}>$v</option>
+					<!--{/foreach}-->
+					</select>
+				</td>
+			</tr>
+			<script type="text/javascript">
+			$('#template').change(function(){
+				detect_template({
+					system: SYSTEM,
+					module: MODULE,
+					template: this.value,
+					callback: function(status){
+						if(status == 0){
+							alert('模板不存在哦');
+						}
+						ajaxing({action: 'hide'});
+					}
+				});
+			});
+			</script>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['cms_index_page_cache_ttl']}</td>
+				<td class="tdR"><input type="text" size="5" class="txt" name="config[index_page_cache_ttl]" value="{if !empty($config['index_page_cache_ttl'])}{$config['index_page_cache_ttl']}{else}0{/if}" /> 秒</td>
+			</tr>
+			
+			<tr>
+			  <td class="tdL">&nbsp;</td>
+			  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		  </tr>
+	    </table>
+	</td></tr>
+    </table>
+	
+</form>
+
+<!--{template $core footer admin}-->
+
+<!--{/php168}-->

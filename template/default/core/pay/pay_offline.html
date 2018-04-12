@@ -1,0 +1,54 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/label/label.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/pay/pay.css" />
+<title>{$P8LANG['pay_offline']['']}</title>
+</head>
+<body>
+<br />
+<div class="pay_case">
+<div style="padding:10px 0 0 10px;font-weight:bold">
+{$P8LANG['pay_offline']['select_bank']}
+</div>
+<div class="clear"></div>
+	<form id="form" action="$this_url" method="post" onsubmit="return checks(this)">
+		<br />
+		<!--{foreach $this_module->CONFIG['interfaces']['offline']['config']['bank'] $k $v}-->
+			<div class="offline">
+				<label for="$k"><img src="{$RESOURCE}/images/pay/offline/{$v['logo']}" title="$v[name]" />
+				</label>
+				<div class="info">
+				{$P8LANG['pay_offline']['account']}:$v[account]<br />
+				{$P8LANG['pay_offline']['payee']}:$v[payee]<br />
+				</div>
+				<input type="radio" id="$k" name="__" value="$k" onclick="this.form.bank.value = this.value;" />
+			</div>
+		<!--{/foreach}-->
+	<div class="clear"></div>
+		<div>
+			<div class="chosebox">
+				{$P8LANG['order']['NO']}: $NO<br />
+				{$P8LANG['pay_offline']['note']}
+				<input type="hidden" name="bank" /><br />
+				<input type="hidden" name="NO" value="$NO" /><br />
+				<input type="submit" value="{$P8LANG['click_to_pay']}" />
+			</div>
+		</div>
+	</form>
+	
+</div>
+<script type="text/javascript">
+function checks(obj){
+	
+	if(!obj.bank.value){ alert('{$P8LANG['pay_interface_required']}');return false;}
+	return true;
+}
+</script>
+
+</body>
+</html>
+<!--{/php168}-->

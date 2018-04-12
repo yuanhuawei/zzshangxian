@@ -1,0 +1,109 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $this_module menu_bar admin}-->
+<form action="$this_url" method="POST" id="form">
+<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+					<tr class="title">
+						<td colspan="2" class="title">导入表单模型</td>
+					</tr>
+					<!--{if isset($step) && $step==1}-->
+					<tr>
+						<td width="%30">新模型名称</td><td><input type="text" name="name" id="name" value="$data[name]"/></td>
+					</tr>
+					<tr>
+						<td>新模型别名</td><td><input type="text" name="alias" id="alias" value="$data[alias]"/></td>
+					</tr>
+					<tr>
+						<td>模板文件<br/><span class="point">(若有同名文件，则可能会覆盖)</span></td><td>
+							<!--{if !empty($data['post_template'])}-->
+							<input type="checkbox" name="template[post_template]" value="1" checked="checked"/> $data[post_template].html <br/>
+							<!--{/if}-->
+							<!--{if !empty($data['list_template'])}-->
+							<input type="checkbox" name="template[list_template]" value="1"  checked="checked"/> $data[list_template].html<br/>
+							<!--{/if}-->
+							<!--{if !empty($data['view_template'])}-->
+							<input type="checkbox" name="template[view_template]" value="1"  checked="checked"/> $data[view_template].html 
+							<!--{/if}-->
+							</td>
+					</tr>
+					<tr>
+						<td>语言包</td><td>没有</td>
+					</tr>
+					<tr>
+						<td>脚本文件</td><td>没有</td>
+					</tr>
+					<tr>
+						<td></td><td><input type="submit" value="导入"/><input type="hidden" name="step" value="2"/><input type="hidden" name="oname" value="$data[name]"/></td>
+					</tr>
+					<!--{else}-->
+					<tr>
+						<td align="right" width="70%">把要导入的模型文件夹放到"modules/forms/#export/"目录下，然后在这里输入文件夹名<input type="text" name="name"/></td>
+						<td><input type="submit" value="确定"/><input type="hidden" name="step" value="1"/></td>
+					</tr>
+					<!--{/if}-->
+					</table>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+</form>
+<!--{if isset($step) && $step==1}-->
+<script type="text/javascript">
+$.validator.addMethod('valid_model', function(value, element){
+	return /^[a-zA-Z]/.test(value) && !/[^0-9a-zA-Z_]/.test(value);
+});
+$('#form').validate({
+	rules: {
+		name: {
+			required: true,
+			maxlength: 30,
+			valid_model: true,
+			remote: function(){
+				
+				return {
+					url: '$this_router-check_name',
+					cache: false,
+					type: 'post',
+					beforeSend: function(){
+						ajaxing({});
+					},
+					complete: function(){
+						ajaxing({action: 'hide'});
+					}
+				}
+			}
+			
+		},
+		alias: {
+			required: true
+		}
+	},
+	
+	messages: {
+		name: {
+			required: "{$P8LANG['forms_model_name_can_not_be_empty']}",
+			maxlength: "{$P8LANG['forms_model_name_oversize']}",
+			valid_model: "{$P8LANG['forms_model_name_invalid']}",
+			remote: "{$P8LANG['forms_model_name_duplicate']}"
+		},
+		alias: {
+			required: "{$P8LANG['forms_model_alias_required']}"
+		}
+	},
+	submitHandler:function(form){
+		$('#statuss').find('.pname').each( function(){ if($(this).val().length<1){ $(this).parent().remove(); }} );
+		$('#parts').find('.pname').each( function(){ if($(this).val().length<1){ $(this).parent().remove(); }} );
+		form.submit();
+	},
+	onkeyup: false
+});
+
+</script>
+<!--{/if}-->
+<!--{template $core footer admin}-->
+
+<!--{/php168}-->

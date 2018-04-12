@@ -1,0 +1,34 @@
+<!--{php168}-->
+<!--{php $swidth = strpos($swidth, '%')!==false?$swidth:$swidth.'px';}-->
+<div class="swiper-container">
+	<div class="swiper-wrapper slider">
+		<!--{foreach $list $value}-->
+		<div class="swiper-slide">
+			<a href="{$value['url']}"><img src="{$value['frame']}" width="$swidth" height="$sheight" alt=""></a>
+		</div>
+		<!--{/foreach}-->
+	</div>
+	<!-- Add Pagination -->
+	<div class="swiper-pagination"></div>
+	<!-- Add Arrows -->
+	<!--<div class="swiper-button-next"></div>
+	<div class="swiper-button-prev"></div>-->
+</div>
+<script>
+	//swiper = new Swiper('.swiper-container', {
+	//pagination: '.swiper-pagination',
+	//paginationClickable: true
+	//});
+	var swiper = new Swiper('.swiper-container', {
+		pagination: '.swiper-pagination',
+		nextButton: '.swiper-button-next',
+		prevButton: '.swiper-button-prev',
+		slidesPerView: 1,
+		paginationClickable: true,
+		spaceBetween: 30,
+		loop: true,
+		autoplay: 3000,
+		autoplayDisableOnInteraction: true
+	});
+</script>
+<!--{/php168}-->

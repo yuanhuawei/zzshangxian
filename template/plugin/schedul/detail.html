@@ -1,0 +1,54 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<title>值班信息_{$core.CONFIG['site_name']}</title>
+<style>
+body{font-size:14px; margin:0;padding:0}
+.wap{border:1px solid #ddd; padding:5px}
+.date_box{border-bottom:1px dashed #ddd}
+</style>
+</head>
+<body>
+<div style="width:950px; margin:auto">
+<br/>
+<br/>
+<div class="wap">
+你的位置：<a href="{$core.url}">首页</a> &gt; <a href="#">值班信息</a>
+</div>
+<br/>
+<div class="wap">
+	<div class="forms_main">
+			<table width="100%" cellpadding="5" cellspacing="0" class="Mtop hover_table columntable">
+				<!--{foreach $list $key $dates}-->
+				<tr>
+					<td style="color:red; padding-top:10px">[值班备勤]</td><td width="100" style="color:#666666; font-size:14px">$key</td>
+				</tr>
+				<tr>
+					<td colspan="2" class="date_box">
+					<!--{foreach $dates $key $row}-->
+						<p>
+						<!--{if $row['level']}-->$row[level]:<!--{/if}-->
+						<!--{if $row['date_time']}-->{$P8LANG['date_time_'.$row['date_time']]}:<!--{/if}-->
+						$row[name]
+						<!--{if $row['phone']}--> $row[phone]<!--{/if}-->
+						</p>
+					<!--{/foreach}-->
+					</td>
+				</tr>
+				<!--{/foreach}-->
+			</table>
+			<div style="margin-top:10px;text-align:center">
+				<span class="pages">$pages</span>
+			</div>
+	</div>
+</div>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+</body>
+</html>
+<!--{/php168}-->

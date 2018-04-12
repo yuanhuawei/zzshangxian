@@ -1,0 +1,24 @@
+<!--{php168}-->
+<table width="100%" class="tableList">
+    <tr>
+        <th width="50%">标题</th>
+        <th width="15%">发布时间</th>
+        <th width="10%">大小</th>
+        <th width="15%">下载次数</th>
+        <th width="10%">下载</th>
+    </tr>
+<!--{foreach $list $k $value}-->
+	<tr>
+		<td style="text-align:left"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></td>
+        <td><!--{php echo date('Y-m-d',$value['timestamp']);}--></td>
+        <td><span id="down_s_{$value['id']}">0</span>K</td>
+        <td><span id="down_c_{$value['id']}">0</span></td>
+        <td><a href="{$this_router}-down?model=down&id={$value['id']}">下载</a></td>
+	</tr>
+    <!--{php $dids[]=$value['id'];}-->
+<!--{/foreach}-->
+</table>
+<script type="text/javascript">
+$.get('{$this_router}-downcount?model=down',{id:'<!--{php echo implode(',',$dids);}-->'},function(data){ $(data).each(function(i){ console.log(i); $('#down_s_'+data[i].iid).html(data[i].softsize);$('#down_c_'+data[i].iid).html(data[i].totaldown); })},'json')
+</script>
+<!--{/php168}-->

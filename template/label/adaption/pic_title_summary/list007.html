@@ -1,0 +1,16 @@
+<!--{php168}-->
+<ul class="label_adap_pic_com_ul7">
+	<!--{foreach $list $value}-->	
+	<li class="media push-item">
+		<div class="media-left media-middle">
+			<div class="media-pic"><a href="$value[url]" target="_blank" title="$value[full_title]"><img class="media-object" width="157" height="108" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a></div>
+		</div>				    
+		<div class="media-body">
+			<h4 class="title"><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h4>
+			<p class="summary">$value[summary]</p>
+			<P class="date"><span><!--{php echo date('Y-m-d', $value['timestamp']);}--></span></p>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

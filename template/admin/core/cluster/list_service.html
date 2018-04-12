@@ -1,0 +1,87 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+	<tr>
+		<td><img src="{$_SKIN}/$MODULE/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：<a href="{$core.admin_controller}/core/cluster-index">PHP168站群系统</a> &gt; <a href="#">服务管理</a></td>
+	</tr>
+</table>
+<table width="100%" cellspacing="0" cellpadding="0" class="operate">
+	<tr>
+		<td>
+			<ul>
+				<li id="lifont">站点操作：</li>
+				<li><a href="$this_url">{$P8LANG['all_server']}</a></li>
+				<li><a href="$this_url?side=server">{$P8LANG['cluster_server']['']}</a></li>
+				<li><a href="$this_url?side=client">{$P8LANG['cluster_client']['']}</a></li>
+			</ul>
+		</td>
+	</tr>
+</table>
+<form action="$this_url" method="post" id="form">
+	<table width="100%" cellspacing="0" cellpadding="0"  class="zq_list" align="center">
+		<tr>
+			<td width="9%" class="list_top list_left">ID</td>
+			<td width="17%" class="list_top">类型</td>
+			<td width="29%" class="list_top">名称</td>
+			<td width="12%" class="list_top">安装</td>
+			<td width="16%" class="list_top">启用</td>
+			<td width="17%" class="list_top list_right">备注</td>
+		</tr>
+		<!--{foreach $list $value}-->
+		<tr>
+			<td>
+				<!--{if $value['side'] == 'server'}-->
+				{$P8LANG['cluster_server']['']}
+				<!--{else}-->
+				{$P8LANG['cluster_client']['']}
+				<!--{/if}-->
+			</td>
+			<td> {$value['name']} </td>
+			<td>{$value['description']}</td>
+			<td> <img src="{$SKIN}/{if $value['installed']}check_yes.gif{else}check_no.gif{/if}" style="cursor: pointer" onclick="_install_service('$value[side]', '$value[name]')" /> </td>
+			<td class="enables">
+				<!--{if $value['enabled']}-->
+				<img src="{$SKIN}/check_yes.gif" style="cursor: pointer;" side="$value[side]" alt="$value[name]" title="1" />
+				<!--{else}-->
+				<img src="{$SKIN}/check_no.gif" style="cursor: pointer;" side="$value[side]" alt="$value[name]" title="0" />
+				<!--{/if}-->
+			</td>
+			<td> </td>
+		</tr>
+		<!--{/foreach}-->
+		<tr>
+			<td colspan="6"> <input type="hidden" name="side" value="" /> <input type="hidden" name="name" value="" />
+				<div id="submits">
+				</div>
+				<input type="submit" value="{$P8LANG['refresh']}" /> </td>
+		</tr>
+	</table>
+</form>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+	<tr>
+		<td align="center"> <span id="page" class="pages">$pages</span> </td>
+	</tr>
+</table>
+<script type="text/javascript">
+function _install_service(side, name){
+	if(!confirm('{$P8LANG['confirm_to_do']}')) return;
+	
+	$('#form input[name=side]').val(side);
+	$('#form input[name=name]').val(name);
+	$('#form').attr('action', '$this_router-install_service').submit();
+}
+
+$('.enables img').click(function(){
+	var side = $(this).attr('side');
+	var name = this.alt;
+	var enabled = this.title;
+	
+	$(this).attr('src', enabled == 1 ? '{$SKIN}/check_no.gif' : '{$SKIN}/check_yes.gif').
+	attr('title', enabled == 1 ? 0 : 1);
+	
+	$('#submits').append('<input type="hidden" name="enables['+ side +']['+ name +']" value="'+ (enabled == 1 ? 0 : 1) +'" />');
+});
+</script>
+<!--{template $this_module footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,129 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $core menu_bar admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<form action="$this_url" method="post">
+			<table class="formtable">
+				<tr>
+					<td class="title">{$P8LANG['config']}</td>
+				</tr>
+				<tr>
+					<td class="headerbtn_list tcenter"> <input name="config[ShowMenu]" type="checkbox" value="1" {if isset($config['ShowMenu']) && $config['ShowMenu']=='1'}checked{/if} />启用下拉菜单  <input name="config[CoreMenu]" type="checkbox" value="1" {if isset($config['CoreMenu']) && $config['CoreMenu']=='1'}checked{/if}/>全站使用核心菜单 <input name="" type="submit" value="提交" class="submit_btn" /> <input type="button" value="{$P8LANG['add_menu']}" name="{$P8LANG['add']}" onclick="window.location.href='{$this_router}-navigation_menu_add'" class="edit_btn"  /></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<form action="$this_router-menu_cache" method="post" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table click_changeable">
+				<tr>
+					<td width="3%" class="title">ID</td>
+					<td width="10%" class="title">{$P8LANG['menu_name']}</td>
+					<td width="4%" class="title">{$P8LANG['menu_display']}</td>
+					<td width="4%" class="title">{$P8LANG['menu_display_order']}</td>
+					<td width="5%" class="title">{$P8LANG['operation']}</td>
+				</tr>
+				<!--{php
+				function _list($ms, $l = 0,$p=0){
+					global $this_router, $P8LANG, $SKIN;
+					$k=count($ms);
+					$j=0;
+				}-->
+				<!--{foreach $ms $v}-->
+				<!--{php $j++;}-->
+				<tr>
+					<td>{$v['id']}</td>
+					<td>
+						<!--{if  $l != 0}-->
+						<!--{php echo str_repeat('│&nbsp;&nbsp;', $l-$p).str_repeat('&nbsp;&nbsp;&nbsp;', $p);}-->
+						<!--{if $j==$k}--><!--{php $p++;}-->└<!--{else}-->├<!--{/if}--><!--{/if}-->
+						{$v['name']} </td>
+					<td> <span style="cursor: pointer;" id="display_$v[id]" onclick="display_menu(this)">
+						<!--{if $v['display']}-->
+						<img src="{$SKIN}/check_yes.gif" alt="1" />
+						<!--{else}-->
+						<img src="{$SKIN}/check_no.gif" alt="0" />
+						<!--{/if}-->
+						</span>
+					</td>
+					<td><input  type="text" class="txt" name="display_order[{$v['id']}]" value="{$v['display_order']}" size="4" /></td>
+					<td> <a href="$this_router-navigation_menu_edit?id={$v['id']}">{$P8LANG['edit']}</a> <a id="menu_{$v['id']}" {if $v['parent']!=0}href="$this_router-navigation_menu_delete?id={$v['id']}" onclick="return delete_menu(this);"  {/if}>{$P8LANG['delete']}</a></td>
+				</tr>
+				<!--{php if(isset($v['menus'])) _list($v['menus'], $l+1,$p);}-->
+				<!--{/foreach}-->
+				<!--{php
+				}
+				
+				_list($navigation_menu->top_menus);
+				}-->
+			</table>
+			<input type="hidden" name="parent" value="<!--{if !empty($data['parent'])}-->{$data['parent']}<!--{/if}-->" /> <input type="hidden" name="id" value="<!--{if !empty($data['id'])}-->{$data['id']}<!--{/if}-->" /> <input type="hidden" name="display_json" id="display_json" />
+			<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+				<tr>
+					<td> 
+					<input type="button" value="{$P8LANG['add_menu']}" name="{$P8LANG['add']}" onclick="window.location.href='{$this_router}-navigation_menu_add'" class="edit_btn"  /> 
+					<input type="button" value="{$P8LANG['submit_cache']}" onclick="this.form.action='$this_router-navigation_menu_cache';this.form.submit()" class="edit_btn" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+	
+	var display_json = {};
+	
+	function display_menu(obj){
+		var id = intval($(obj).attr('id'));
+		switch(parseInt($('img', obj).attr('alt'))){
+			case 0:
+				//show
+				display_json[id] = 1;
+				
+				$('img', obj).attr('src', '{$SKIN}/check_yes.gif').attr('alt', '1');
+			break;
+			
+			case 1:
+				//hide
+				display_json[id] = 0;
+				
+				$('img', obj).attr('src', '{$SKIN}/check_no.gif').attr('alt', '0');
+			break;
+		}
+		
+		$('#display_json').val($.toJSON(display_json));
+	}
+	
+	function delete_menu(obj){
+		if(confirm('{$P8LANG['confirm_to_delete']}')){
+			$.ajax({
+				url: '$this_router-navigation_menu_delete',
+				type: 'POST',
+				dataType: 'json',
+				data: {id: obj.id.replace(/[^0-9]/g, '')},
+				cache: false,
+				success: function(json){
+					for(var i in json){
+						$('#menu_'+ json[i]).parent().parent().remove();
+					}
+				}
+			});
+		}
+		
+		return false;
+	}
+	
+	$('form input[name^=display_order]').change(function(){
+		this.value = this.value.replace(/[^0-9]/g, '') || 0;
+		if(this.value > 255) this.value = 255;
+		if(this.value < 0) this.value = 0;
+		
+		$('#form').append('<input type="hidden" name="_display_order['+ this.name.replace(/[^0-9]/g, '') +']" value="'+ this.value +'" />');
+		$(this).css({border: '1px solid #ff0000'});
+	});
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

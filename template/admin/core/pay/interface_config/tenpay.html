@@ -1,0 +1,42 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="POST" id="form">
+
+<table class="mainbox mainborder">
+	<tr><td>
+		
+		<table class="columntable formtable hover_table">
+		<tr class="title">
+			<td class="title" colspan="2">财付通设置</td>
+		</tr>
+		
+		<tr>
+			<td width="10%">财付通商户号</td>
+			<td>
+				<input type="text" class="txt" name="config[account]" value="{if isset($config['account'])}{$config['account']}{/if}" size="60" />
+			</td>
+		</tr>
+		
+		<tr>
+			<td>密钥</td>
+			<td><input type="text" class="txt" name="config[key]" value="{if isset($config['key'])}{$config['key']}{/if}" size="60" /></td>
+		</tr>
+		
+		<tr>
+			<td class="tdL">&nbsp;</td>
+			<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		</tr>
+		
+		</table>
+		
+	</td></tr>
+</table>
+<input type="hidden" name="name" value="{if isset($interface)}{$interface}{/if}" />
+</form>
+
+<script type="text/javascript">
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

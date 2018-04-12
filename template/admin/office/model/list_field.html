@@ -1,0 +1,93 @@
+<!--{php168}-->
+
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="POST" id="form">
+<table class="mainbox mainborder">
+	<tr><td>
+		<table class="columntable formtable hover_table">
+		<tr>
+			<td class="title">ID</td>
+			<td class="title">{$P8LANG['office_model_field_name']}</td>
+			<td class="title">{$P8LANG['office_model_field_alias']}</td>
+			<td class="title">{$P8LANG['office_model_field_type']}</td>
+			<td class="title">{$P8LANG['office_model_field_order']}</td>
+			<td class="title">{$P8LANG['operation']}</td>
+		</tr>
+		
+		<!--{foreach $list $value}-->
+		<tr id="field_{$value['id']}">
+			<td>{$value['id']}</td>
+			<td>{$value['name']}</td>
+			<td>{$value['alias']}</td>
+			<td>{$value['type']}</td>
+			<td><input type="text" class="txt" name="display_order[{$value['id']}]" value="{$value['display_order']}" size="3"  /></td>
+			<td>
+				<a href="$this_router-update_field?id={$value['id']}">{$P8LANG['edit']}</a>
+				<a href="$this_router-delete_field?id={$value['id']}" onclick="return delete_field(this)">{$P8LANG['delete']}</a>
+			</td>
+		</tr>
+		<!--{/foreach}-->
+		
+	</table>
+	
+	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+		<tr>
+			<td>
+				<input type="submit" value="{$P8LANG['office_model_field_update_order']}" class="edit_btn" />
+			</td>
+		</tr>
+	</table>
+		
+	</td></tr>
+</table>
+<input type="hidden" name="model" value="$model" />
+
+</form>
+<div class="mainbox mainborder">
+	<div class="formtable">
+			<div class="title">{$P8LANG['help_about']}</div>
+
+			<div class="headerbtn_list">
+				帮助说明相关文字
+			</div>
+	</div>
+</div>
+<script type="text/javascript">
+function delete_field(obj){
+	var sure = confirm('{$P8LANG['confirm_to_delete_office_model_field']}');
+	
+	if(!sure) return false;
+	
+	var id = parseInt($(obj).parent().parent().attr('id').replace(/field_/, ''));
+	$.ajax({
+		url: '$this_router-delete_field',
+		type: 'post',
+		dataType: 'text',
+		data: {id: id},
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(status){
+			ajaxing({action: 'hide'});
+			if(status == 1){
+				$(obj).parent().parent().remove();
+			}
+		}
+	});
+	return false;
+}
+
+$('form input[name^=display_order]').change(function(){
+	this.value = this.value.replace(/[^0-9]/g, '') || 0;
+	if(this.value > 255) this.value = 255;
+	if(this.value < 0) this.value = 0;
+	$('#form').append('<input type="hidden" name="_display_order['+ this.name.replace(/[^0-9]/g, '') +']" value="'+ this.value +'" />');
+	$(this).css({border: '1px solid #ff0000'});
+});
+
+</script>
+
+<!--{template $core footer admin}-->
+
+<!--{/php168}-->

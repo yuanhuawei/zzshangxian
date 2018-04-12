@@ -1,0 +1,43 @@
+<!--{php168}-->
+<!--{php
+
+$TITLE = $data['name'] .'_'. $core->CONFIG['site_name'];
+$SEO_KEYWORDS = $data['name'];
+$SEO_DESCRIPTION = $data['content'];
+}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/vote/style.css" />
+
+<form method="post" action="{$this_module.controller}-vote" id="p8_vote_$data[id]">
+
+<div class="vote_wrap common_top">
+	<div class="vote_head_1 "><span class="vote_head_icon1">$data[name] 选项 {$data['options'][$oid]['name']} 的投票者</span></div>
+	
+	<table width="100%" cellspacing="0" cellpadding="0" id="hot" style="border:1px solid #CEE7FF;border-top:none;border-bottom:none; visibility: visible;">
+		<tr>
+			<td>&nbsp;</td>
+			<td width="50" id="border"><nobr><b>票数:</b><span id="hot_value">{$data['options'][$oid]['votes']}</span></nobr></td>
+		</tr>
+	</table>
+	
+	
+	<div id="vote_main">
+		<div class="title f16px">
+			$data[name]
+		</div>
+		<div class="content pages">
+			<ul>
+			<!--{foreach $list $value}-->
+				<li>$value[username]</li>
+			<!--{/foreach}-->
+			</ul>
+			
+			$pages
+		</div>
+	</div>
+</div>
+
+</form>
+
+<!--{template $core footer}-->
+<!--{/php168}-->

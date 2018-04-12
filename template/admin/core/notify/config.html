@@ -1,0 +1,63 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<form action="$this_router-$ACTION" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="formtable hover_table">
+						<tr>
+							<td colspan="2" class="title">模块设置</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">
+								签到状态设置
+								<span class="help">最好序号1不要删除也不要改变。</span>
+							</td>
+							<td class="tdR">
+								<div id="status"></div>
+								<input type="button" value="添加状态" onclick="add_status()" />
+								<div id="status_input" style="display: none;">
+									序号<input type="text" value="" size="3" />
+									状态描述<input type="text" name="" value="" />
+								</div>
+							</td>
+						</tr>
+						
+						<tr>
+						  <td class="tdL">&nbsp;</td>
+						  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+						</tr>
+					  
+					</table>
+					  </td>
+				  </tr>
+			</table>
+		</div>
+	</div>
+	
+</form>
+
+<script type="text/javascript">
+function add_status(id, value){
+	var copy = $('#status_input').clone(true).show().attr('id', '').appendTo($('#status'));
+	
+	copy.find('input:eq(0)').change(function(){
+		copy.find('input:eq(1)').attr('name', 'config[status]['+ this.value +']');
+	}).val(id !== undefined ? id : '');
+	
+	copy.find('input:eq(1)').attr('name', id !== undefined ? 'config[status]['+ id +']' : '').val(value !== undefined ? value : '');
+}
+
+<!--{foreach $config['status'] $id $v}-->
+add_status('$id', '$v');
+<!--{/foreach}-->
+<!--{foreachelse}-->
+add_status('', '');
+<!--{/foreachelse}-->
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

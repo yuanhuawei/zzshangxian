@@ -1,0 +1,22 @@
+.letter_main{width:95%;min-width:750px; margin:0 auto}
+.headerbar {background:url(email4_2_bar1.gif) repeat-x;height:29px;font-size:12px;font-weight:normal; }
+.headerbar  td{border-top:1px solid #F8E0A2}
+.nav_name{font-size:16px;color:#9A2A14; font-weight:bold; line-height:25px;}
+.search_box{font-weight:bold; padding-top:10px}
+.formtable td,.formtable th{text-align:center}
+.formtable .head th{border-left:1px solid #fefefe}
+.letter_list_table .status_0{background-color:#F27D03;color:#ffffff;padding:3px}
+.letter_list_table .status_1{background-color:#740774;color:#ffffff;padding:3px}
+.letter_list_table .status_2{background-color:#F27D03;color:#ffffff;padding:3px}
+.letter_list_table .status_3{background-color:#0F96E5;color:#ffffff;padding:3px}
+.red,a.red {color:#F7080E; padding:0 5px; font-weight:bold}
+
+
+
+.letter_top{background:url(letter_top.jpg) repeat left top;width:95%;height:166px;margin:0 auto;overflow:hidden;clear:both}
+.letter_top ul{margin-top:42px;margin-left:573px;font-size:14px;}
+.nav_menu{background:#0f96e5;height:50px;line-height:50px;}
+.nav_menu li{background:url(letter_nav_line.jpg) no-repeat right center;width:120px;text-align:center;float:left}
+.nav_menu li a{color:#fff;font-size:14px;font-weight:bold;text-decoration:none}
+
+#list_form{border-top:#dff7ff solid 34px;margin-top:10px;}

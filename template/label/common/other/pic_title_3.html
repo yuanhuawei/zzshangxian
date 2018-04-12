@@ -1,0 +1,15 @@
+<!--{php168}-->
+	<table class="head_pic line_hight">
+	<!--{php $i=0;}-->
+<!--{foreach $list $value}-->
+
+		<tr>
+		<!--{if $i%3==0}-->
+			<td rowspan="3"><img src="$value[frame]" width="70" height="60" class="hp_img"  onError="this.src='{$RESOURCE}/images/nopic.jpg'" /></td>
+		<!--{/if}-->
+			<td valign="top"><span class="icon3_title"><a href="$value[url]" target="_blank">$value[title]</a></span></td>
+		</tr>
+	<!--{php $i++;}-->
+<!--{/foreach}-->
+</table>
+<!--{/php168}-->

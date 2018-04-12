@@ -1,0 +1,85 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<form action="$this_url" method="get" id="request">
+<table class="mainbox mainborder">
+	<tr><td>
+	<table class="formtable columntable">
+		<tr class="title">
+			<td>$P8LANG[search]</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<input type="text" class="txt" size="60" name="keyword" value="{html_entities($keyword)}" />
+				
+				<input type="submit" value="$P8LANG[search]" class="submit_btn" />
+			</td>
+		</tr>
+	</table>
+	</td></tr>
+</table>
+</form>
+
+<form action="$this_url" method="POST" id="form">
+<table class="mainbox mainborder">
+	<tr><td>
+		<table class="columntable formtable hover_table click_changeable">
+			<tr class="title">
+				<td class="title" width="3%"><input type="checkbox" onclick="check_all(this, 'id[]'); init_tr($('#form'));" /></td>
+				<td width="5%" class="title">ID</td>
+				<td width="20%" class="title">标题</td>
+				<td width="6%" class="title">投票总量</td>
+				<td width="8%" class="title">时间间隔(天)</td>
+				<td width="8%" class="title">最大投票选项</td>
+				<td width="10%" class="title">时间</td>
+			</tr>
+			
+			<!--{foreach $list $value}-->
+			<tr id="item_$value[id]">
+				<td><input type="checkbox" name="id[]" value="$value[id]" /></td>
+				<td>$value[id]</td>
+				<td><a href="{$this_module.controller}-vote?id=$value[id]" target="_blank">$value[name]</a></td>
+				<td class="votes">$value[votes]</td>
+				<td>$value[vote_interval]</td>
+				<td>$value[multi]</td>
+				<td>{date('Y-m-d H:i', $value['timestamp'])}</td>
+			</tr>
+			<!--{/foreach}-->
+		</table>
+	</td></tr>
+	
+	<tr>
+		<td colspan="3">
+			<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+				<tr>
+					<td align="center" id="pages" class="pages">$pages</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+<input type="hidden" name="action" value="" />
+</form>
+
+<script type="text/javascript">
+
+if(window.parent){
+	var ids = {};
+	$('input[name="id[]"]').click(function(){
+		if(this.checked){
+			ids[this.value] = this.value;
+		}else{
+			delete ids[this.value];
+		}
+	});
+	
+	function select_callback(){
+		return ids;
+	}
+}
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

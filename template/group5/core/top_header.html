@@ -1,0 +1,34 @@
+<!--{php168}-->
+$label[头部预留标签]
+<div class="gov_top_bar">
+	<div class="top_bar">
+		<div id="header_login">
+			
+		</div>
+		<script type="text/javascript" src="{$core.U_controller}/member-login?style=gov18&id=header_login"></script>
+		<div id="header_t">
+			<a href="javascript:void(0)" onclick="javascript:window.external.AddFavorite('{$core.controller}','{$core.CONFIG['site_name']}')" class="each_item">收藏本站</a>|
+			<a href="javascript:void(0)" onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('{$core.controller}');" class="each_item">设为首页</a>|
+			<a href="{$core.url}/help" class="each_item" target="_blank">教程手册<span class="rss"></span></a>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	init_labelshows('header_t');
+	if(get_username()){
+		$.getJSON(P8CONFIG.URI['core']['member'].controller +'-info_jsonp?callback=?', function(json){
+			$('#login_link').hide();
+			var e = $('#login_info').show();
+			e.find('.username').html(json.username);
+			e.find('.rolename').html(json.role);
+			e.find('.new_messages').html(e.find('.new_messages').html().replace('0', json.new_messages));
+		});
+	}else{
+	//	_forward = window.location.href=P8CONFIG['url']? '' : '?forward='+window.encodeURIComponent(location.href);
+	//	window.location.href=P8CONFIG.URI['core'][''].url+_forward;
+	}
+});
+</script>
+<!--{/php168}-->

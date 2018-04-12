@@ -1,0 +1,48 @@
+<!--{php168}-->
+<!--{template $this_system seo}-->
+<!--{template $core header_two}-->
+<div class="position">
+	<a href="{$core.mobile_controller}">首页</a>
+	<!--{foreach $parent_cats $v}-->
+	&gt; <a>$v[name]</a>
+	<!--{/foreach}-->
+	&gt; <a>$CAT[name]</a> 
+</div>
+<div class="listbox3">
+	<!--{if empty($subcategories)}-->
+	<div class="showbox4">
+		<div class="head">
+			<div class="title">$CAT[name]</div>
+		</div>
+		<div class="main">
+			<!--{php include template($TEMP_OBJ, $CAT['item_template_mobile'], 'label');}-->
+			<div class="page">$pages</div>
+		</div>
+	</div>
+	<!--{else}-->
+	<!--{foreach $subcategories $v}-->
+	<!--{php $i++;}-->
+	<!--{php if($i>7)break;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+	<div class="showbox4">
+		<div class="head">
+			<div class="title fl">$v[name]</div>
+		</div>
+		<div class="main">
+			$label[CMS子分类内容列表product2]{'i.cid' => $subcat, 'model' => $MODEL}
+			<div class="clear"></div>
+		</div>
+		<div class="more center"><a href="$this_url-category-$v[id]">查看更多>></a></div>
+	</div>
+	<!--{/foreach}-->
+	<!--{/if}-->
+</div>
+<div id="end_cd">
+	<ul>
+		<li class="lione"><a href="{$core.mobile_controller}">&lt; &lt; 返回首页</a></li>
+		<li class="litwo"></li>
+		<li class="lithree"></li>
+	</ul>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->

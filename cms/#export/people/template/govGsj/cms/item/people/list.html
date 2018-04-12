@@ -1,0 +1,74 @@
+<!--{php168}-->
+<!--{template $this_system header}--> 
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+ <div class="nav mtop">您的位置：
+<a href="{$core.controller}">首页</a>
+<!--{foreach $parent_cats $v}-->
+&gt;&gt; <a href="$v[url]">$v[name]</a>
+<!--{/foreach}-->
+&gt;&gt; <a href="$CAT[url]">$CAT[name]</a> 
+</div>
+<div class="gov_frame">
+<div class="dt_left">
+	<div class="border1 gov18">
+			<div class="head1"><!--{php $parent = end($parent_cats);$parent_name = $parent ? $parent[name]:$CAT[name];$parent_url = $parent ? $parent[url] : $CAT[url];}-->
+				<div class="title1">
+					<a href="$parent_url">$parent_name</a>
+				</div>
+			</div>	
+				<div class="main4" id='leftbox'>
+					<!--{template $this_module step_category_jx3}-->
+				</div>
+				<div class="clear">
+				</div>
+		</div>
+	<div class="border1 mtop">
+			<div class="head1 gov18">
+				<span class="title1">
+					$label[ny3_tongzhi_title_2]
+				</span>
+			</div>	
+				<div class="main4">
+				<div style="min-height:40px;">$label[ny3_tongzhi_content_2]</div>
+                                </div>
+	</div>
+	<div class="mtop6">
+		$label[ar_list_ad_1]
+	</div>
+	<p class="pic_ny">&nbsp;</p>
+</div>
+<div class="dt_right">
+	<!--{if empty($subcategories)}-->
+	<div class="border3">
+		<div class="head5">
+			<span class="title8">$CAT[name]</span>
+		</div>
+		<div class="main">
+			<!--{php include template($TEMP_OBJ, $CAT['item_template'], 'label');}-->
+			<div class="mtop pages" id="page">
+				{$pages}
+			</div>
+		</div>
+	</div>
+	<!--{else}-->
+	<!--{foreach $subcategories $v}-->
+	<!--{php $i++;}-->
+	<!--{php if($i>5)break;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+	<div class="border1 mbottom">
+		<div class="head5">
+			<span class="title8"><a href="$this_url-category-$v[id]">$v[name]</a></span><a class="more1" href="$this_url-category-$v[id]">More>></a><span class="more1"><!--{if $add_enable}--><a href="{$core.U_controller}/cms/item-add?cid=$v[id]&model=$CAT[model]" target="_blank">发表</a> |<!--{/if}--></span>
+		</div>
+		<div class="main">
+			$label[pepole内容列表]{'i.cid' => $subcat, 'model' => $MODEL}
+			<div class="clear"></div>
+		</div>
+	</div>
+	<!--{/foreach}-->
+	<!--{/if}-->
+</div> 	                  
+</div>
+
+<!--{template $this_system footer}-->
+<!--{/php168}-->

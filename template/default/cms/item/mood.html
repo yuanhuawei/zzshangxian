@@ -1,0 +1,59 @@
+<!--{php168}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style>
+body { color:#000; font-size:12px; font-family:Arial; }
+html, body, form{ margin:0px; padding:0px; }
+td{ font-size:12px; line-height: 150%; }
+span{ cursor: pointer; }
+</style>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+</head>
+
+<body>
+<form id="form" action="$this_url" method="post">
+<table border="0" width="100%">
+	<tr>
+	
+<!--{foreach $moods $mid $v}-->
+	<td align="center" valign="bottom" width="40" height="100">
+		$data[$mid]<br />
+		<img src="{$RESOURCE}/images/$SYSTEM/mood/{if $mid == $max_id}bar_max.gif{else}bar.gif{/if}" width="20" height="<!--{php echo @ceil(($data[$mid] / $total)*50);}-->" /><br />
+		<span onclick="_submit(this)">
+			<img src="{$RESOURCE}/images/$SYSTEM/mood/$v[image]" title="$mid" /><br />
+			$v[name]
+		</span>
+	</td>
+<!--{/foreach}-->
+
+	</tr>
+</table>
+<input type="hidden" name="mid" id="mid" />
+<input type="hidden" name="iid" value="$iid" />
+</form>
+<script type="text/javascript">
+function _submit(e){
+	var cookie = get_cookie('mooded_cms_item') || ',';
+	if(cookie.indexOf(',$iid,') != -1){
+		alert(P8LANG.cms.item.mooded);
+		return;
+	}
+	cookie += '$iid,';
+	set_cookie('mooded_{$SYSTEM}_item', cookie);
+	
+	
+	$('#mid').val($(e).find('img').attr('title'));
+	$('#form').get(0).submit();
+}
+</script>
+</body>
+</html>
+<!--{/php168}-->

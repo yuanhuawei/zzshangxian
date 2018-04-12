@@ -1,0 +1,65 @@
+.clear { clear:both; line-height:0; height:0; font-size:0; overflow:hidden; }
+.top_head{background:#8DBDE9 url(top_head.gif) repeat-x; height:30px;}
+.top_head .title{background-color:#EDF4F9; border:1px solid #6295BF; border-bottom:1px solid #EDF4F9; float:left; height:25px;margin-top:3px;margin-left:20px;padding:0 20px; color:#053460; font-size:14px; line-height:25px;font-weight:bold; display:inline-block}
+.top_head .header_m{float:right;margin:5px 20px 0 0 ;}
+.m10{margin:10px}.m20{margin:20px}.mt10{margin-top:10px}
+.border{margin:3px 5px 0 5px;border:1px solid #8DBDE9;overflow:hidden;padding-top:1px;}
+.wrapper{margin:15px}
+.search_border{border:2px solid #E7F3F8;width:500px;padding:2px;margin:50px auto;}
+.searchbox{background:#D4E9F5 url(searchbg.gif) no-repeat; }
+.searchbox .search_box{width:400px;margin-left:100px;display:inline-block}
+.searchbox .search_box .searchform{ margin:auto; margin-top:20px;}
+.searchbox .search_box .search_btn{background:url(search_btn.gif) no-repeat;width:86px; height:24px; border:none; cursor:pointer}
+.searchbox .search_box .searchresult{ margin:auto; margin-top:20px; padding:10px}
+.searchbox .search_box .searchresult .head{ font-size:18px; color:#404040; font-weight:bold; padding-bottom:5px; border-bottom:2px solid #CFE2F0}
+.searchbox .search_box .searchresult li{color:#404040; line-height:120%;margin:10px 0}
+.searchbox .search_box .searchresult li p{padding:3px; color:#999}
+
+
+.note .note_h{color:#990000; font-size:14px; font-weight:bold; padding-left:20px; background:url(note_h.gif) no-repeat left 3px;}
+.note .notes{margin:10px 30px 10px 20px;}
+.note .notes .num{color:#f00;font-weight:bold}
+
+.layer .layer_h{border-bottom:2px solid #C80000; padding:5px;}
+.layer .layer_h .title{margin-left:20px; color:#000033; font-size:14px; font-weight:bold; height:20px}
+.layer .layer_h .more{float:right; padding-right:10px}
+
+/**list**/
+.nav{line-height:30px;color:#1A5DB0; }
+.nav span{color:#1A5DB0; background:url(nav.gif) no-repeat right 3px;padding-right:10px; margin:0 5px}
+.olw_left{width:220px; float:left; border:1px solid #dedede; border-top:none}
+.olw_right{width:750px; float:right}
+.main{padding:5px}
+
+.head21{height:32px; background:url(title21.gif) no-repeat;}
+.title21{padding:8px 0 0 30px; font-size:14px; color:#ff0000; float:left; font-weight:bold}
+.main21{  margin:1px; padding:5px;}
+
+/**search**/
+.olw_search{padding:15px 0; border:1px solid #86C1FF; height:28px}
+.olw_search .search_1{ background:url(search.gif) no-repeat; padding-left:20px; margin-left:15px; float:left}
+.olw_search .search_1 .s_input{border:1px solid #AEAEAE; margin-left:5px; line-height:15px;color:#666; height:18px}
+.olw_search .search_1 .s_button{border:1px solid #AEAEAE;color:#666; background-color:#F6F6F6; margin-left:10px }
+
+.head_tab{height:25px; border-bottom:2px solid #C80000}
+.head_tab span{ border:1px solid #cccccc; border-bottom:none; display:block;float:left; margin-left:10px; padding:5px 15px; line-height:120%}
+.head_tab span.over{ border:1px solid #C80000; background-color:#C80000; color:#ffffff; font-weight:bold}
+.head_tab span.over a{  color:#ffffff;}
+
+.img_work{width:140px;display:inline-block; float:left; margin-left:8px;}
+.img_work img{border:1px solid #cccccc; padding:3px}
+.img_work a{float:left}
+.img_work a.work_name{width:15px; float:right; display:block;color:#C80000; font-size:14px;border-right:1px dotted #cccccc; text-decoration:none; padding:5px 3px 5px 0}
+.img_line{border-bottom:1px dotted #cccccc;clear:both; font-size:0; height:1px; margin:10px 0}
+
+.list_23{background:url(ico23.gif) no-repeat 5px 5px; padding-left:15px;height:25px; line-height:25px; border-bottom:1px dashed #cccccc;}
+.list_23 a{ margin:0 15px;}
+
+.list_24{background:#F4F5F9 url(ico24.gif) no-repeat 5px 5px; padding-left:25px;height:25px; line-height:25px; border-bottom:1px solid #A8DAF3; font-weight:bold; color:#10659E}
+.main_24{padding:10px;}
+.main_24 .jian{background:url(ico25.gif) no-repeat;padding-left:20px; margin-left:10px}
+.status{color:#00C; font-weight:bold}
+.toptitle .edit_profile{font-weight:normal;color:#03C}
+
+
+

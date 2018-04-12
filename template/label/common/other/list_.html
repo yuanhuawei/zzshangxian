@@ -1,0 +1,33 @@
+<!--{php168}-->
+<!--!! modified by admin at 2010-06-08 17_30_47 !!-->
+<table>
+<!--{foreach $list $value}-->
+<!--{php $i++;}-->	
+<!--{if $i<=2}-->
+	<tr>
+		<td >
+			<a href="$value[url]" target="_blank" class="borderimg">
+			<img src="$value[frame]" width="130" height="100"  border="0" onError="this.src='{$RESOURCE}/images/nopic.jpg'"/>
+			</a>
+		</td>
+		<td valign="top">
+			<a class="title icon2_title" href="$value[url]"  target="_blank" title="$value[full_title]">$value[title]</a><br />
+			<span class="summary">$value[summary]</span>
+		
+		</td>
+	</tr>
+	<!--{php continue;}-->	
+	<!--{/if}-->
+	<tr>
+		<td colspan="2">
+			<a class="title icon2_title" href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a>
+			<span class="summary">{date('Y-m-d H:i:s', $value['timestamp'])}</span>
+			<span class="summary">$value[summary]</span>
+		
+		</td>
+	</tr>
+
+
+<!--{/foreach}-->
+</table>
+<!--{/php168}-->

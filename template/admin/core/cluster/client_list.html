@@ -1,0 +1,90 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+  <tr>
+    <td><img src="{$_SKIN}/$MODULE/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：<a href="{$core.admin_controller}/core/cluster-index">PHP168站群系统</a> &gt; <a href="#">管理首页</a></td>
+  </tr>
+</table>
+
+<form action="$this_url" method="post" id="form">
+<table width="100%" cellspacing="0" cellpadding="0" class="zq_list" align="center">
+	<tr>
+		<td width="9%" class="list_top list_left">ID</td>
+		<td width="17%" class="list_top">{$P8LANG['cluster_client']['name']}</td>
+		<td width="29%" class="list_top">{$P8LANG['cluster_client']['url']}</td>
+		<td width="12%" class="list_top">{$P8LANG['cluster_client']['status']}</td>
+		<td width="17%" class="list_top list_right">{$P8LANG['operation']}</td>
+	</tr>
+	<!--{foreach $list $value}-->
+	<tr>
+		<td class="list_left">{$value['id']}</td>
+		<td><a href="$this_router-client_call?client_id=$value[id]" target="_blank">{$value['name']}</a></td>
+		<td><a href="{$value['url']}" target="_blank">{$value['url']}</a></td>
+		<td id="status_$value[id]">
+			connecting...
+		</td>
+		<td>
+			<a href="$value[url]" target="_blank">访问</a>
+			<a href="$this_router-client_call?client_id={$value['id']}" target="_blank">{$P8LANG['manage']}</a>
+			<a href="$this_router-update_client?id={$value['id']}">{$P8LANG['edit']}</a>
+			<a href="$this_router-delete?id={$value['id']}" id="delete_$value[id]" onclick="return delete_client([this.id])">{$P8LANG['delete']}</a>
+		</td>
+	</tr>
+	
+	<script type="text/javascript">
+	$.ajax({
+		url: '$this_router-test_client',
+		type: 'post',
+		cache: false,
+		data: {client_id: $value[id]},
+		success: function(status){
+			$('#status_$value[id]').html('<img src="{$SKIN}/'+ (status == 1 ? 'check_yes.gif' : 'check_no.gif') +'" />');
+		}
+	});
+	</script>
+	<!--{/foreach}-->
+</table>
+</form>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+<tr>
+	<td align="center">
+		<span  id="page" class="pages">$pages</span>
+	</td>
+</tr>
+
+</table>
+
+<script type="text/javascript">
+function delete_client(obj){
+	if(!confirm('$P8LANG[confirm_to_delete]')) return false;
+	
+	var id = [];
+	$.each(obj, function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	
+	$.ajax({
+		url: '$this_router-delete_client',
+		type: 'POST',
+		cache: false,
+		dataType: 'json',
+		data: ajax_parameters({id: id}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i in json){
+				$('#delete_'+ json[i]).parent().parent().remove();
+			}
+		}
+	});
+	return false;
+}
+</script>
+
+<!--{template $this_module footer admin}-->
+<!--{/php168}-->

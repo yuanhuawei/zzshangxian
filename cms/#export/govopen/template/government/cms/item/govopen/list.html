@@ -1,0 +1,99 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--中间内容部分-->
+<div class="nav mtop">
+<a href="{$core.controller}">首页</a>
+<!--{foreach $cats $v}-->
+&gt;&gt; <a href="$v[url]">$v[name]</a>
+<!--{/foreach}-->
+&gt;&gt; <a href="$CAT[url]">$CAT[name]</a> 
+</div>
+<div class="dt_left mtop6">
+	<div class="border1">
+		<div class="head6">
+			<span class="title7">$label[ar_list_title_1]</span> <span class="more3">$label[gov_ar_list_more_1]</span>
+		</div>
+		<div class="main1">
+			$label[ar_list_content_1]
+			<ul class="chaoshi_ul">
+				<li class="chaoshi_li"><a href="#"><font color="#FF0000">学校简介</font></a></li>
+				<li class="chaoshi_li5"><a href="#">学校简介</a></li>
+				<li class="chaoshi_li5"><a href="#">学校简介</a></li>
+				<li class="chaoshi_li5"><a href="#">学校简介</a></li>
+				<li class="chaoshi_li5"><a href="#">学校简介</a></li>
+				<li class="chaoshi_li5"><a href="#">学校简介</a></li>
+				<li class="chaoshi_li5" style="border:none;"><a href="#">学校简介</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[ar_list_title_2]</span> <span class="more3">$label[gov_ar_list_more_2]</span>
+		</div>
+		<div class="main1">
+			<div class="hyuan">
+				<span class="yfm">用户名：</span> <span class="text_wb"> <input name="" type="text" class="text_wbk" /> </span>
+			</div>
+			<div class="hyuan">
+				<span class="yfm">密　码：</span> <span class="text_wb"> <input name="" type="text" class="text_wbk" /> </span>
+			</div>
+			<div class="hyuan">
+				<span class="dengl"><img src="{$SKIN}pic_1_11.gif" /></span> <span class="zc">注册&nbsp;&nbsp;|&nbsp;&nbsp;忘记密码</span>
+			</div>
+			<span class="danniou"> <img src="{$SKIN}pic_1_15.gif" /> <img src="{$SKIN}pic_1_17.gif" /> </span>
+		</div>
+	</div>
+	<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[ar_list_title_3]</span> <span class="more3">$label[gov_ar_list_more_3]</span>
+		</div>
+		<div class="main1">
+			$label[ar_list_content_3]
+		</div>
+	</div>
+	<div class="mtop6">
+		$label[ar_list_ad_1] <img src="{$SKIN}right_pic1.gif"  height="50" />
+	</div>
+	<div class="mtop6">
+		$label[ar_list_ad_2] <img src="{$SKIN}right_pic2.gif"  height="50" />
+	</div>
+	<div class="mtop6">
+		$label[ar_list_ad_3] <img src="{$SKIN}right_pic3.gif" width="231" height="50" />
+	</div>
+	<p class="pic_ny">&nbsp;</p>
+</div>
+<div class="dt_right mtop6">
+	<!--{if empty($subcategories)}-->
+	<div class="border1">
+		<div class="head5">
+			<strong class="title6">$CAT[name]</strong>
+		</div>
+		<div class="main">
+			<!--{php include template($TEMP_OBJ, $CAT['item_template'], 'label');}-->
+			<div class="mtop pages">
+				{$pages}
+			</div>
+		</div>
+	</div>
+	<!--{else}-->
+	<!--{foreach $subcategories $v}-->
+	<!--{php $i++;}-->
+	<!--{php if($i>5)break;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+	<div class="border1 mbottom">
+		<div class="head5">
+			<a class="title6" href="$this_url-category-$v[id]">$v[name]</a><a class="more1" href="$this_url-category-$v[id]">More</a>
+		</div>
+		<div class="main">
+			$label[CMS子分类内容列表]{'i.cid' => $subcat, 'model' => $MODEL}
+			<div class="clear"></div>
+		</div>
+	</div>
+	<!--{/foreach}-->
+	<!--{/if}-->
+</div>
+<div class="clear">
+</div>
+<!--{template $this_system foot_pre}-->
+<!--{template $this_system footer}-->
+<!--{/php168}-->

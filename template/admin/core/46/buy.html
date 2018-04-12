@@ -1,0 +1,451 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<script type="text/javascript">
+var form_submit = false;
+
+window.onbeforeunload = function(){
+	P8_Upload.del(form_submit);
+};
+
+$(function(){
+	$('#form').validate({
+		rules: {
+			aid: {
+				required: true
+			}
+		},
+		
+		messages: {
+			aid: {
+				required: '&nbsp;'
+			}
+		},
+		
+		submitHandler: function(form){
+			form_submit = true;
+			form.submit();
+		},
+		
+		wrapper: 'div',
+		
+		errorPlacement: function(error, element) {
+			error.wrap('<div></div>').appendTo(element.parent().prev());
+		},
+		
+		onkeyup: false
+	});
+});
+
+var url_validator = {
+	required: true,
+	//url: true,
+	
+	messages: {
+		required: '必须填写',
+		url: '$P8LANG[ad_url_valid]'
+	}
+};
+</script>
+
+<form action="$this_url" method="POST" id="form">
+<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+						<tr class="title">
+							<td colspan="3">投放广告</td>
+						</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+						
+						<!--{if $ad['type'] == 'text'}-->
+						<tr>
+							<td class="tdL">文字</td>
+							<td class="tdR">
+								<input type="text" name="data[name]" value="{if isset($data['data']['name'])}{$data['data']['name']}{/if}" size="60" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">链接</td>
+							<td class="tdR">
+								<input type="text" name="data[url]" value="{if isset($data['data']['url'])}{$data['data']['url']}{/if}" size="60" />
+							</td>
+						</tr>
+						
+						<script type="text/javascript">
+						$(function(){
+							$('#form input[name="data[name]"]').rules('add', {
+								required: true,
+								messages: {required: ''}
+							});
+							
+							$('#form input[name="data[url]"]').rules('add', url_validator);
+						});
+						</script>
+						
+						<!--{elseif $ad['type'] == 'image'}-->
+						
+						<tr>
+							<td class="tdL">文字</td>
+							<td class="tdR">
+								<input type="text" name="data[name]" value="{if isset($data['data']['name'])}{$data['data']['name']}{/if}" size="30" />
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">图片</td>
+							<td class="tdR">
+								<input type="text" id="image" name="data[media]" value="{if isset($data['data']['media'])}{$data['data']['media']}{/if}" size="60" />
+								<input type="button" value="上传" onclick="uploader.uploader()" />
+								<input type="button" value="浏览" onclick="uploader.browser()" />
+								<input type="button" value="剪裁" onclick="uploader.image_cut()" />
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">链接</td>
+							<td class="tdR">
+								<input type="text" name="data[url]" value="{if isset($data['data']['url'])}{$data['data']['url']}{/if}" size="60" />
+							</td>
+						</tr>
+						<script type="text/javascript">
+						var uploader = new P8_Upload({
+							element: {
+								src: $('#image'),
+								attribute: 'value'
+							}
+						});
+						
+						$(function(){
+							$('#form input[name="data[name]"]').rules('add', {
+								required: true,
+								messages: {required: ''}
+							});
+							
+							$('#form input[name="data[media]"]').rules('add', url_validator);
+							
+							$('#form input[name="data[url]"]').rules('add', url_validator);
+						});
+						</script>
+						
+						<!--{elseif $ad['type'] == 'flash'}-->
+						
+						<tr>
+							<td class="tdL">FLASH</td>
+							<td class="tdR">
+								<input type="text" id="flash" name="data[media]" value="{if isset($data['data']['media'])}{$data['data']['media']}{/if}" size="60" />
+								<input type="button" value="上传" onclick="uploader.uploader()" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">链接</td>
+							<td class="tdR">
+								<input type="text" name="data[url]" value="{if isset($data['data']['url'])}{$data['data']['url']}{/if}" size="60" />
+							</td>
+						</tr>
+						<script type="text/javascript">
+						var uploader = new P8_Upload({
+							element: {
+								src: $('#flash'),
+								attribute: 'value'
+							}
+						});
+						
+						$(function(){
+							$('#form input[name="data[media]"]').rules('add', url_validator);
+							
+							$('#form input[name="data[url]"]').rules('add', url_validator);
+						});
+						</script>
+						
+						<!--{elseif $ad['type'] == 'diy'}-->
+						<tr>
+							<td class="tdL">自定义</td>
+							<td class="tdR">
+								<textarea name="data[diy]" rows="10" cols="100%">{if isset($data['data']['diy'])}{html_entities($data['data']['diy'])}{/if}</textarea>
+								<span class="help">可以随便写HTML</span>
+							</td>
+						</tr>
+						<script type="text/javascript">
+						$(function(){
+							$('#form textarea[name="data[diy]"]').textarea_tab();
+							
+							$('#form textarea[name="data[diy]"]').rules('add', {
+								required: true,
+								messages: {required: ''}
+							});
+						});
+						</script>
+						
+						<!--{elseif $ad['type'] == 'effect'}-->
+						
+						<tr>
+							<td class="tdL">媒体文件</td>
+							<td class="tdR">
+								<input type="text" name="data[media]" value="{if isset($data['data']['media'])}{$data['data']['media']}{/if}" size="60" />
+								<input type="button" value="上传" onclick="uploader.choseup();" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">缩略图</td>
+							<td class="tdR">
+								<input type="text" name="data[thumb]" value="{if isset($data['data']['thumb'])}{$data['data']['thumb']}{/if}" size="60" /><br />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">文字</td>
+							<td class="tdR">
+								<input type="text" name="data[name]" value="{if isset($data['data']['name'])}{$data['data']['name']}{/if}" size="60" /><br />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">链接</td>
+							<td class="tdR">
+								<input type="text" name="data[url]" value="{if isset($data['data']['url'])}{$data['data']['url']}{/if}" size="60" />
+							</td>
+						</tr>
+						
+						<script type="text/javascript">
+						var uploader = new P8_Upload({
+							element: {
+								src: $('#form input[name="data[media]"]'),
+								attribute: 'value'
+							}
+						});
+						
+						$(function(){
+							$('#form input[name="data[media]"]').rules('add', url_validator);
+							
+							$('#form input[name="data[url]"]').rules('add', url_validator);
+						});
+						</script>
+						<!--{elseif $ad['type'] == 'windows'}-->
+						
+						<tr>
+							<td class="tdL">链接</td>
+							<td class="tdR">
+								<input type="text" name="data[url]" value="{if isset($data['data']['url'])}{$data['data']['url']}{/if}" size="60" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">间距</td>
+							<td class="tdR">
+								上间距<input type="text" name="data[top]" value="{if isset($data['data']['top'])}{$data['data']['top']}{/if}" size="3" />
+								左间距<input type="text" name="data[bottom]" value="{if isset($data['data']['bottom'])}{$data['data']['bottom']}{/if}" size="3" />
+								<span class="help">上间距和左间距必填，不填可能显示不了，可以填 0。</span>
+							</td>
+						</tr>			
+						
+						<!--{elseif $ad['type'] == 'fly'}-->
+						
+						<tr>
+							<td class="tdL">文字</td>
+							<td class="tdR">
+								<input type="text" name="data[name]" value="{if isset($data['data']['name'])}{$data['data']['name']}{/if}" size="30" />
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">图片</td>
+							<td class="tdR">
+								<input type="text" id="image" name="data[media]" value="{if isset($data['data']['media'])}{$data['data']['media']}{/if}" size="60" />
+								<input type="button" value="上传" onclick="uploader.uploader()" />
+								<input type="button" value="浏览" onclick="uploader.browser()" />
+								<input type="button" value="剪裁" onclick="uploader.image_cut()" />
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">链接</td>
+							<td class="tdR">
+								<input type="text" name="data[url]" value="{if isset($data['data']['url'])}{$data['data']['url']}{/if}" size="60" />
+							</td>
+						</tr>
+						<script type="text/javascript">
+						var uploader = new P8_Upload({
+							element: {
+								src: $('#image'),
+								attribute: 'value'
+							}
+						});
+						
+						$(function(){
+							$('#form input[name="data[name]"]').rules('add', {
+								required: true,
+								messages: {required: ''}
+							});
+							
+							$('#form input[name="data[media]"]').rules('add', url_validator);
+							
+							$('#form input[name="data[url]"]').rules('add', url_validator);
+						});
+						</script>
+						<!--{elseif $ad['type'] == 'scroll'}-->
+						
+						<tr>
+							<td class="tdL">链接</td>
+							<td class="tdR">
+								<input type="text" name="data[url]" value="{if isset($data['data']['url'])}{$data['data']['url']}{/if}" size="60" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">
+								媒体文件
+								<span class="help">非对联的只填“左”或“右”就可以了</span>
+							</td>
+							<td class="tdR">
+								左<input type="text" name="data[left]" value="{if isset($data['data']['left'])}{$data['data']['left']}{/if}" size="60" />
+								<input type="button" value="上传" onclick="uploader1.choseup();" />
+								<br />
+								右<input type="text" name="data[right]" value="{if isset($data['data']['right'])}{$data['data']['right']}{/if}" size="60" />
+								<input type="button" value="上传" onclick="uploader2.choseup();" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">间距</td>
+							<td class="tdR">
+								上间距<input type="text" name="data[top]" value="{if isset($data['data']['top'])}{$data['data']['top']}{/if}" size="3" />
+								下间距<input type="text" name="data[bottom]" value="{if isset($data['data']['bottom'])}{$data['data']['bottom']}{/if}" size="3" />
+								左右间距<input type="text" name="data[margin]" value="{if isset($data['data']['margin'])}{$data['data']['margin']}{/if}" size="3" />
+								<span class="help">上下间距必须填其中一个，不填可能显示不了，可以填 0。下间距有优先权。</span>
+							</td>
+						</tr>
+						
+						<script type="text/javascript">
+						
+						var uploader1 = new P8_Upload({
+							element: {
+								src: $('#form input[name="data[left]"]'),
+								attribute: 'value'
+							}
+						});
+						
+						var uploader2 = new P8_Upload({
+							element: {
+								src: $('#form input[name="data[right]"]'),
+								attribute: 'value'
+							}
+						});
+						
+						$(function(){
+							$('#form input[name="data[url]"]').rules('add', url_validator);
+						});
+						</script>
+						
+						<!--{/if}-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+						<tr>
+							<td class="tdL">备注</td>
+							<td class="tdR">
+								<textarea name="comment" cols="50" rows="5">{if isset($data['comment'])}$data[comment]{/if}</textarea>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">通过审核</td>
+							<td class="tdR">
+								<input type="checkbox" name="verified" value="1"{if !empty($data['verified'])} checked{/if} />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">显示</td>
+							<td class="tdR">
+								<input type="checkbox" name="showing" value="1"{if !empty($data['showing'])} checked{/if} />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">后缀</td>
+							<td class="tdR">
+								<input type="text" name="postfix" value="{if isset($data['postfix'])}$data[postfix]{/if}" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">有效期</td>
+							<td class="tdR">
+								<input type="text" name="expire" value="{if !empty($data['expire'])}{date('Y-m-d H:i:s', $data['expire'])}{/if}" size="20" onclick="rcalendar(this, 'full')" />
+							</td>
+						</tr>
+						
+					</table>
+				</td></tr>
+				
+				<tr>
+					<td colspan="3" class="footer" align="center">
+						<input type="submit" class="submit_btn" value="$P8LANG[submit]" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+<input type="hidden" name="aid" value="{if isset($ad['id'])}$ad[id]{/if}" />
+<input type="hidden" name="id" value="{if isset($data['id'])}$data[id]{/if}" />
+<input type="hidden" name="attachment_hash" value="<!--{php echo $attachment_hash = unique_id(16);}-->" />
+</form>
+
+<script type="text/javascript">
+var attachment_hash = '$attachment_hash';
+
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

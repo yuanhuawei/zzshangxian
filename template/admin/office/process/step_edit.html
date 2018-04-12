@@ -1,0 +1,168 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+	<table class="formtable">
+		<tr>
+			<td class="title">快捷操作</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				<ul>
+						<li><a href="$this_router-step?pid=$pid">流程步骤列表</a></li>
+					<li><a href="$this_router-step?act=add&pid=$pid">添加流程步骤</a></li>
+				</ul>
+			</td>
+		</tr>
+		
+	</table>
+</div>
+<form action="$this_url" method="post" onsubmit="varily()">
+	<table class="mainbox mainborder">
+	<tr><td>
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td colspan="2" class="title">{$P8LANG[$act]}流程步骤</td>
+			</tr>
+			<tr>
+				<td class="tdL">所属流程</td>
+				<td class="tdR">{$pdata['name']}</td>
+			</tr>
+			<tr>
+				<td class="tdL">流程步骤名称</td>
+				<td class="tdR"><input type="text" class="txt" name="name" size="30" value="{if !empty($data['name'])}{$data['name']}{/if}" /></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">流程步骤描述 </td>
+				<td class="tdR"><textarea rows="3" cols="50" name="description"><!--{if !empty($data['description'])}--><!--{$data['description']}--><!--{/if}--></textarea></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">流程步骤类型 </td>
+				<td class="tdR">
+					<select name="kind">
+						<option value="0" {if !empty($data) && $data['kind']=='0'}selected{/if}>常规</option>
+						<option value="1" {if !empty($data) && $data['kind']=='1'}selected{/if}>起始</option>
+						<option value="2" {if !empty($data) && $data['kind']=='2'}selected{/if}>终结</option>
+					</select>
+					<span class="help">一般默认常规。终结：此事项此步骤<font color="red">审核通过</font>后，即为办理完结。起始：暂为备用，无实际效果。</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">可以执行本步骤的角色角色</td>
+				<td class="tdR">
+				<!--{foreach $core->roles $id $v}-->
+					<input type="checkbox" name="acl_role[]" value="$v[id]" {if !empty($data['acl_role']) && in_array($v['id'],$data['acl_role'])}checked{/if}/>$v[name] &nbsp;
+				<!--{/foreach}-->
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">可以执行本步骤的会员</td>
+				<td class="tdR">
+					<textarea id="acl_user" name="acl_user" disabled cols="60" rows="5" style="background-color:#f1f1f1; border:1px solid #cccccc">{if isset($data['acl_user'])}$data[acl_user]{/if}</textarea>
+					<input type="button"  value="选择" class="intra_btn" onclick="show_dialog();"/>
+					<input type="button" value="清除" class="intra_btn"  onclick="_clear();" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">可以执行本步骤的状态码</td>
+				<td class="tdR">
+						<ul style="width:380px;height:100px; overflow:auto">
+						<!--{foreach $codes $id $v}-->
+						<li><input type="checkbox" name="status_code[]" value="$v[code]" {if !empty($data['status_code']) && in_array($v['code'],$data['status_code'])}checked{/if}/> $v[name]</li>
+						<!--{/foreach}-->
+						</ul>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">审核通过时的操作名</td>
+				<td class="tdR"><input type="text" class="txt" name="pass_name" size="30" value="{if !empty($data['pass_name'])}{$data['pass_name']}{/if}" /></td>
+			</tr>
+			<tr>
+				<td class="tdL">审核通过的状态码</td>
+				<td class="tdR">
+					<select name="pass_code">
+					<!--{foreach $codes $id $v}-->
+					<option value="$v[code]" {if !empty($data) && $data['pass_code']==$v['code']}selected{/if}> $v[name]</option>
+					<!--{/foreach}-->
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="tdL">未通过审核时的操作名</td>
+				<td class="tdR"><input type="text" class="txt" name="fail_name" size="30" value="{if !empty($data['fail_name'])}{$data['fail_name']}{/if}" /></td>
+			</tr>
+			<tr>
+				<td class="tdL">未审核通过时的状态码</td>
+				<td class="tdR">
+					<select name="fail_code">
+					<!--{foreach $codes $id $v}-->
+					<option value="$v[code]" {if !empty($data) && $data['fail_code']==$v['code']}selected{/if}> $v[name]</option>
+					<!--{/foreach}-->
+					</select>
+				</td>
+			</tr>
+			
+			<tr>
+			  <td class="tdL">
+				<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}"/>
+				<input type="hidden" name="pid" value="$pid"/>
+				<input type="hidden" name="act" value="{$act}"/></td>
+			  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		  </tr>
+	    </table>
+	</td></tr>
+    </table>
+</form>
+
+<script type="text/javascript">
+var check_uids = $member_json;
+
+function _clear(){
+	check_uids = {};
+	$('#acl_user').val('');
+}
+
+function member_single_select_callback(checked, json){
+
+	var s = $('#acl_user').val(), rep, reg = new RegExp(',+'+ json.username +'\\([^\\)]*\\),+', 'i');
+	
+	rep = ','+ json.username +'('+ json.id +'|'+ json.role +'),';
+	
+	if(!checked){
+		s = s.replace(reg, ',');
+		delete check_uids[json.id];
+	}
+	
+	if(checked && !reg.test(s)){
+		s += (s.length ? '' : ',') + json.username +'('+ json.id +'|'+ json.role +'),';
+		check_uids[json.id] = json.id;
+	}
+	
+	$('#acl_user').val(s);
+}
+
+var dialog = new P8_Dialog({
+	title_text:'选择会员',
+	width: 550,
+	height: 400,
+	button: true
+});
+dialog.content.append($('<iframe width="100%" height="330" frameborder="0" border="0" marginwidth="0" marginheight="0"></iframe>'));
+
+function show_dialog(){
+	dialog.show();
+	
+	var ifr = dialog.content.find('iframe');
+	
+	ifr.attr('src', '{$core.U_controller}/core/member-selectuser?'+ajax_parameters({'checked_ids': check_uids}));
+}
+function varily(){
+		$('#acl_user').attr('disabled', false);
+}
+</script>
+<!--{/php168}-->

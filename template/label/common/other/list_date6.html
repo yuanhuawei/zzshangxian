@@ -1,0 +1,39 @@
+<!--{php168}-->
+<style type="text/css">
+.label_list6_date li{margin:0 0 20px 0; height:61px;float:left;overflow: hidden;}
+.label_list6_date .date6{width:66px; height:61px;float:left;text-align:center;font-size:14px;}
+.label_list6_date .date6 .de1{width:66px;height:32px;line-height:32px;color:#fff;font-size:24px;background-color:#63065f;}
+.label_list6_date .date6 .de2{width:66px;height:29px;line-height:29px;color:#333;}
+.label_list6_date .text6{width:270px;float:right;height:61px;margin-left:24px;}
+.label_list6_date h4{font-size:14px;line-height:28px;overflow: hidden;font-weight:normal;}
+.label_list6_date h4 a{color:#63065f;}
+</style>
+<!--{php $list_count = count($list);}-->
+<!--{php $list_i = 0;}-->
+<ul class="label_list6_date">
+	<!--{foreach $list $value}-->
+	<!--{php $list_i ++;}-->
+	<!--{if $list_i == $list_count}-->
+	<li style="margin:0;">
+		<div class="date6">
+			<div class="de1">{date('d', $value['timestamp'])}</div>
+			<div class="de2">{date('Y-m', $value['timestamp'])}</div>
+		</div>
+	    <div class="text6">
+			<h4><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h4>
+		</div>
+	</li>
+	<!--{else}-->	
+	<li>
+		<div class="date6">
+			<div class="de1">{date('d', $value['timestamp'])}</div>
+			<div class="de2">{date('Y-m', $value['timestamp'])}</div>
+		</div>
+	    <div class="text6">
+			<h4><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h4>
+		</div>
+	</li>
+	<!--{/if}-->
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

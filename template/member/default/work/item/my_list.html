@@ -1,0 +1,51 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{php $CURN_TITLE='我提交的办事';}-->
+<!--{template $this_module header}-->
+<div class="wrapper">
+<div class="list_box mtop20">
+	<div class="head" id="boxhead">
+		<span id="verified" $class[100]><a href="$this_router-my_list?verified=99">已完结的办事</a></span>
+		<span id="verifing" $class[2]><a href="$this_router-my_list?verified=1">正在受理的办事</a></span>
+		<span id="unverified" $class[1]><a href="$this_router-my_list?verified=0">待受理的办事</a></span>
+		<span $class[98]><a href="$this_router-my_list?verified=-99">退返的办事</a></span>
+	</div>
+</div>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table">
+	<tr class="head">
+		<td width="16%">编号</td>
+		<td width="22%">办事名称</td>
+		<td width="23%">分类</td>
+		<td width="8%">提交时间</td>
+		<td width="10%">状态</td>
+		<td width="10%">操作</td>
+	</tr>
+	
+	<!--{foreach $list $k $v}-->
+	<tr><td>$v[number]</td>
+		<td class="al"><a href="{$this_module.controller}-view-id-$v[id]?verified=$verified&iswork=1" target="_blank">$v[title]</a></td>
+		<td>
+			<a href="{$this_url}?cid=$v[cid]&verified=$verified" >{$category.categories[$category.categories[$v['cid']]['parent']]['name']}</a>
+		</td>
+		<td><!--{php echo date('Y-m-d', $v['timestamp']);}--></td>
+		<td>{$very_acl[$v['verified']]}
+		</td>
+		<td>
+		<!--{if $verified==0}-->
+			<a href="$this_router-update?model=$v[model]&id=$v[id]&verified=$verified">修改</a> |
+		<!--{/if}-->
+		<a href="{$this_module.controller}-view-id-$v[id]?verified=$verified&iswork=1" target="_blank">查看</a>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+	
+	<tr>
+		<td align="center" colspan="6" class="pages">
+			$pages
+		</td>
+	</tr>
+</table>
+</div>
+<!--{template $this_module footer}-->
+<!--{/php168}-->

@@ -1,0 +1,119 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $this_module menu_bar admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<form name="form" id="form" method="post" action="$this_url">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0" >
+			  <tr> 
+				  <td> 
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="columntable formtable hover_table">
+						<tr align="center" height="18" class="title"> 
+							<td width="3%" class="title"><input type="checkbox" onclick="check_all(this, 'id[]')" /></td>
+							<td width="5%" class="title">ID</td>
+							<td width="10%" class="title">模型名称</td>
+							<td width="20%" class="title">表单名称</td>
+							<td width="10%" class="title">填写表单</td>
+							<td width="10%" class="title">前台列表</td>
+							<td width="10%" class="title">内容管理</td>
+							<td width="8%" class="title">数据</td>
+							<td width="8%" class="title">排序</td>
+							<td width="30%" class="title">操作</td>
+						</tr>
+						
+						<!--{foreach $list $key $value}-->
+						<tr id="model_$value[id]"> 
+							<td><input type="checkbox" name="id[]" value="$value[id]" /></td>
+							<td>$value[id]</td>
+							<td><a href="{$this_router}-list?mid=$value[id]">$value[name]</a></td>
+							<td><a href="{$this_router}-list?mid=$value[id]">$value[alias]</a></td>
+							<td align="center"><a href="{$this_module->controller}-post?mid=$value[id]" target="_blank">填写</a></td>
+							<td align="center"><a href="{$RESOURCE}/index.php/core/forms-list-mid-$value[id]" target="_blank">前台列表</a></td>
+							<td align="center"><a href="{$this_router}-list?mid=$value[id]">内容管理</a></td>
+							<td align="center">$value[count] 条</td>
+							<td  align="center"><input type="text" class="txt" name="display_order[{$value['id']}]" value="{$value['display_order']}" size="3"  /></td>
+							<td  align="center">
+								<a href="$this_router-edit_model?action=update&id=$value[id]">编辑</a> 
+								<a href="$this_router-field?mid=$value[id]">字段列表</a> 
+								<a href="$this_router-edit_field?mid=$value[id]">添加字段</a> 
+								<a href="{$core.admin_controller}/core/role-list">权限设置</a> 
+								<a href="$this_router-export?mid=$value[id]" onclick="javascript:return confirm('要导出表单模型么')">导出模型</a> 
+								<a href="javascript:void(0)" onclick="delete_item($value[id])">删除</a> 
+								<a href="javascript:void(0)" onclick="clear_item($value[id])">清空内容</a> </td>
+						</tr>
+						<!--{/foreach}-->
+					  
+						<tr><td colspan="8">
+							<input type="submit" class="submit_btn" value="修改排序" /> 
+							<input type="submit" onclick="$('#action').val('cache')" class="submit_btn" value="更新缓存" />
+							<input type="submit" onclick="$('#action').val('html')" class="submit_btn" value="生成静态" />
+							<input type="button" onclick="window.location.href='$this_router-import'" class="submit_btn" value="导入模型"/>
+							<input type="submit" onclick="if(!confirm('确定要清空所选表单的内容？'))return false;$('#action').val('clean')" class="submit_btn" value="清空内容"/>
+							<span class="pages">$pages</span>
+							<input type="hidden" id="action" name="action" value="" />
+						</td></tr>
+					</table>
+							
+					  </div>
+				  </td>
+			  </tr>
+			</table>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+
+function delete_item(id){
+	
+	if(!confirm('删除此模型将会删除所有属于该模型的表单数据，确定删除吗？？'))return;
+	if(!id) return false;
+	
+	$.ajax({
+		url: '$this_url',
+		type: 'post',
+		dataType: 'text',
+		data: 'id='+ id +'&action=delete',
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(status){
+			ajaxing({action: 'hide'});
+			if(status == id){
+				$('#model_'+id).remove();
+			}
+		}
+	});
+	return false;
+	
+}function clear_item(id){
+	
+	if(!confirm('将会删除所有属于该模型的表单数据，确定清除吗？？'))return;
+	if(!id) return false;
+	
+	$.ajax({
+		url: '$this_url',
+		type: 'post',
+		dataType: 'text',
+		data: 'id='+ id +'&action=clean',
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(status){
+			ajaxing({action: 'hide'});
+			$('#model_'+id).find('td').eq(7).html('0');
+			alert('清除成功');
+		}
+	});
+	return false;
+	
+}
+$('#form input[name^=display_order]').change(function(){
+	this.value = this.value.replace(/[^0-9]/g, '') || 0;
+	if(this.value > 255) this.value = 255;
+	if(this.value < 0) this.value = 0;
+	$('#form').append('<input type="hidden" name="_display_order['+ this.name.replace(/[^0-9]/g, '') +']" value="'+ this.value +'" />');
+	$(this).css({border: '1px solid #ff0000'});
+});
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

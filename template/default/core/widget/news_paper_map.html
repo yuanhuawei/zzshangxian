@@ -1,0 +1,18 @@
+<!--{php168}-->
+<input type="hidden" name="#field_{$field}_posted" />
+<input type="hidden" id="field#[$field]" name="field#[$field]" value="{if isset($data[$field])}$data[$field]{/if}" {$field_data['widget_addon_attr']} />
+
+<input type="button" id="{$field}_button" value="{$P8LANG['edit']}" />
+<script type="text/javascript">
+$(function(){
+
+$('#{$field}_button').click(function(){
+	var thumb = $('#field#[paper_thumb]').val();
+	if(!thumb.length) return;
+	
+	var w = window.open('{$core.admin_controller}/$SYSTEM/$MODULE-paper_map?model=$MODEL&thumb='+ encodeURIComponent(thumb));
+});
+
+});
+</script>
+<!--{/php168}-->

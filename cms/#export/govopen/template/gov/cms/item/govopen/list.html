@@ -1,0 +1,76 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<!--中间内容部分-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<div class="nav mtop">您的位置：
+<a href="{$core.controller}">首页</a>
+&gt;&gt; <a href="##">政府信息公开 </a> 
+</div>
+<div class="dt_left">
+	<div class="border1">
+		<div class="head6">
+			<span class="title7">分类导航</span>
+		</div>
+		<div id="gov_left" class="main1">
+			<div class="tree_menu">
+				<p>主题分类</p>
+				<ul class="one_manu" {if !$parent_cats}style="display:none"{/if}>
+				<!--{php array_shift($parent_cats);}-->
+				<!--{foreach $root_cates $index $cates}-->
+					<li class="two_manu">
+					<span>{$cates['name']}</span>
+					<dl {if $cates['id']!=$parent_cats[0]['id']}style="display:none"{/if}>
+					<!--{foreach $cates['categories'] $ke $cate}-->
+						<dd><a href="{$this_url}-category-$ke" {if $cid==$ke}class="over"{/if}>{$cate['name']}</a></dd>
+						<!--{/foreach}-->
+					<dl>
+					</li>	
+				<!--{/foreach}-->
+				</ul>
+			</div>	
+				<!--{foreach $this_model['filterable_fields'] $filename $filedata}-->
+			<div class="tree_menu">
+				<p>{$filedata['alias']}</p>
+				<dl class="one_manu" {if !array_key_exists($filename,$selected_fields)}style="display:none"{/if}>
+				<!--{foreach $filedata['data'] $index $dname}-->
+				<dd><a href="{$this_url}-category-{$root_cate}-{$filename}-{$index}" {if $index==$selected_fields[$filename]}class="over"{/if}>$dname</a></dd>
+				<!--{/foreach}-->
+				</dl>
+			</div>
+			<!--{/foreach}-->
+		</div>
+	</div>
+</div>
+<div class="dt_right">
+<table cellspacing="1" border="0" width="100%" id="list_table">
+	<tr class="ltbhead">
+	<td>序号</td>
+	<td>索引号</td>
+	<td>信息名称</td>
+	<td>生成日期</td>
+	<td>文号</td>
+</tr>
+<!--{foreach $list $index $item}-->
+	<td><!--{php echo $index+1;}--></td>
+	<td><a href="{$item['url']}" target="_blank">{$item['suoyin']}</a></td>
+	<td style="text-align:left"><a href="{$item['url']}" target="_blank">{$item['title']}</a></td>
+	<td><!--{php echo date('Y-m-d',$item['timestamp']);}--></td>
+	<td style="text-align:left">{$item['wenhao']}</td>
+<!--{/foreach}-->
+</table>
+<div class="mtop pages" id="page">
+				{$pages}
+</div>
+</div>
+<div class="clear">
+</div>
+<script type="text/javascript">
+$(function(){
+	$('#gov_left .tree_menu p').bind('click',function(){	$('#gov_left .tree_menu .one_manu').slideUp("normal");if($(this).parent().find('.one_manu').css('display')=='none'){	$(this).parent().find('.one_manu').slideDown('normal');	}else{	$(this).parent().find('.one_manu').slideUp("normal");}});
+	$('#gov_left .two_manu span').bind('click',function(){	$('#gov_left .two_manu dl').slideUp("normal"); if($(this).parent().find('dl').css('display')=='none'){	$(this).parent().find('dl').slideDown('normal');	}else{	$(this).parent().find('dl').slideUp("normal");}});
+})
+</script>
+<!--{template $core foot_pre}-->
+<!--{template $this_system footer}-->
+<!--{/php168}-->

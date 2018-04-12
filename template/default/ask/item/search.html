@@ -1,0 +1,65 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+
+<div class="wrap search_tabbox inline-block">
+	<ul class="search_tabs float_left">
+		<li
+		<!--{if $filter!='solve' && $filter!='unsolved'}-->
+		class="current"
+		<!--{/if}-->
+		><a href="{$this_router}-{$ACTION}?keyword=<!--{php echo rawurlencode($keyword);}-->">{$P8LANG['ask_all_topics']}</a>
+		</li>
+		<li
+		<!--{if $filter=='solve'}-->
+		class="current"
+		<!--{/if}-->
+		><a href="{$this_router}-{$ACTION}?keyword=<!--{php echo rawurlencode($keyword);}-->&filter=solve">{$P8LANG['ask_topic_solve']}</a>
+		</li>
+		<li
+		<!--{if $filter=='unsolved'}-->
+		class="current"
+		<!--{/if}-->
+		><a href="{$this_router}-{$ACTION}?keyword=<!--{php echo rawurlencode($keyword);}-->&filter=unsolved">{$P8LANG['ask_unsolved_topics']}</a>
+		</li>
+	</ul>
+	<ul class="search_stat float_right">
+		{$P8LANG['ask_search_stat'] $count}
+	</ul>
+</div>
+<!-- 搜索内容主体 -->
+<div class="wrapbox">
+	<div class="search_content float_left">
+		<ul>
+			<!--{foreach $list $value}-->
+			<li>
+				<h1><a href="{$value['url']}" target="_blank">
+					<!--{php echo p8_cutstr($value['title'],50);}-->
+					</a></h1>
+				<dl>
+					<!--{php echo p8_cutstr(strip_tags($value['content']),350);}-->
+				</dl>
+				<dt>{$P8LANG['ask_by_u']}<span class="u">{$value['username']}</span> -
+					<!--{php echo date('Y-m-d H:i:s',$value['addtime']);}-->
+					- {$value['category']} </dt>
+			</li>
+			<!--{/foreach}-->
+		</ul>
+		<!--{if empty($list)}-->
+		<p>没有相关答案，你可以自己<a href="{$this_system.controller}/item-ask?title=$keyword">发表提问</a></p>
+		<br />
+		<!--{else}-->
+		<p>没有满意答案？你可以自己<a href="{$this_system.controller}/item-ask?title=$keyword">发表提问</a></p>
+		<br />
+		<!--{/if}-->
+		<!--{if !empty($pages)}-->
+		<div id="page" class="pages">
+			{$pages}
+		</div>
+		<!--{/if}-->
+	</div>
+	<div class="search_r float_left">
+	</div>
+	<div class="clear"></div>
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

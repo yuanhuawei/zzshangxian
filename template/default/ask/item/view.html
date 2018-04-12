@@ -1,0 +1,610 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" >
+<!--{template $this_module item_js}-->
+</script>
+<script type="text/javascript"  src="{$RESOURCE}/js/$SYSTEM/item/item.js"></script>
+<div class="wrapbox">
+	<!-- 左边 -->
+	<!--
+			$is_creator:提问者本身,去掉可自己回答自己的问题
+			$is_answered:是否已回答过
+			$is_closed:是否已到期关闭
+			$closed:是否被管理员关闭
+			$is_solved:是否已解决关闭
+		-->
+	<div id="blockinner" class="float_left blockleft_mleft">
+		<div class="wrapbox light_blue_border margin_bottom">
+			<div class="topic_title light_blue_bg">
+				<h3 class="icon_view_title float_left">{$P8LANG['ask_question']} <span id="status"> (
+					<!--{if $closed}-->
+					{$P8LANG['ask_item_closed']}
+					<!--{elseif $status==3}-->
+					{$P8LANG['ask_item_sloved']}
+					<!--{else}-->
+					<!--{if $is_closed}-->
+					{$P8LANG['ask_item_closed']}
+					<!--{else}-->
+					{$P8LANG['ask_item_endtime'] $endtime['days'],$endtime['hours'],$endtime['minutes'],$endtime['seconds']}
+					<!--{/if}-->
+					<!--{/if}-->
+					) </span> </h3><i style="float:left;">&nbsp;|&nbsp;{$position}</i>
+				<i><a href="javascript:void(0);" onclick="javascript:doResize(20);">{$P8LANG['ask_big']}</a> <a href="javascript:void(0);" onclick="javascript:doResize(14);">{$P8LANG['ask_medium']}</a> <a href="javascript:void(0);" onclick="javascript:doResize(12);">{$P8LANG['ask_small']}</a> | <a href="javascript:void(0);" onclick="javascript:addFavorite({id:{$id}});">{$P8LANG['ask_add_favorites']}</a> <a id="operation" style="display: none; cursor: pointer;">{$P8LANG['operation']}</a></i>
+			</div>
+			<div class="topicbox {if $data['recommend']}iconr{/if}">
+				<!--{if $data['recommend']}--><div class="iconr"></div><!--{/if}-->
+				<h1 class="title">
+					<!--{if !empty($data['sub_title'])}-->
+					{$data['sub_title']}
+					<!--{else}-->
+					{$data['title']}
+					<!--{/if}-->
+				</h1>
+				
+				<pre id="itemDetail">{$data['content']}</pre>
+				<!-- 补充问题 -->
+				<div id="item_addition">
+					<!--{foreach $addition $k $v}-->
+					<li>
+						<!--{php $d=$k+1;}-->
+						<b>{$P8LANG['ask_addition'] $d}<span>(
+						<!--{php echo date('Y-m-d H:i',$v['addtime']);}-->
+						)</span></b> <br/>
+						{$v['content']} </li>
+					<!--{/foreach}-->
+				</div>
+				<div id="topic_asker_btn">
+					<ul class="list">
+						<li id="quickBtn"></li>
+						<li class="float_right"> <span>{$P8LANG['ask_by_u']}
+							<!--{if $data['anonymous'] && empty($data['username'])}-->
+							{$P8LANG['ask_anonymous']}
+							<!--{else}-->
+							<span class="u">{$data['username']}</span>
+							<!--{/if}-->
+							-&nbsp;&nbsp;
+							<!--{php echo date('Y-m-d H:i', $data['addtime']);}-->
+							</span>
+							<!--{if $allow_edit}-->
+							<input type="button" value="{$P8LANG['ask_addition_question']}" class="addition_btn" onclick="javascript:addAddition({id:{$id}});"/>
+							<input type="button" value="{$P8LANG['ask_nogoodanswer']}" class="addition_btn" onclick="javascript:nogoodanswer({id:{$id}});"/>
+							<!--{/if}-->
+						</li>
+					</ul>
+					<ul id="addition">
+					</ul>
+				</div>
+				<div id="topic_author">
+					<!--{if $allow_edit}-->
+					<!--修改按纽-->
+					<span id="Tedit"><a href="{$this_router}-edit?id={$id}" class="u">{$P8LANG['edit']}</a></span>
+					<!--{/if}-->
+					<!--{if $allow_poller}-->
+					<span><a href="javascript:void(0);" onclick="javascript:poller({id:{$id}});">{$P8LANG['ask_poller']}</a></span>
+					<!--{/if}-->
+				</div>
+				<div id="item_poller">
+				</div>
+			</div>
+		</div>
+		<!-- 快速回答 -->
+		<!--{if $allow_answer}-->
+		<div class="wrapbox quick_answer_box margin_bottom">
+			<form method="post" name="quickForm" id="quickForm" action="{$answer.controller}-post">
+				<input type="hidden" name="id" value="{$id}"/>
+				<input type="hidden" name="cid" value="{$CAT['id']}"/>
+				<div class="float_left">
+					<h1>{$P8LANG['ask_quick_answer']}</h1>
+				</div>
+				<div class="float_left">
+					<textarea name="content" id="content" class="quick_content"></textarea>
+					<br/>
+					<span>
+					<input type="submit" name="qbtn" id="qbtn" value="{$P8LANG['ask_submit_answer']}"/>
+					</span>&nbsp;
+					<!--{if !empty($UID)}-->
+					<span>
+					<input type="checkbox" name="anonymous" value="1"/>
+					{$P8LANG['ask_anonymous_answer']}</span>&nbsp;&nbsp;
+					<!--{/if}-->
+					<a href="#" class="u">{$P8LANG['ask_credit_rule']}</a>
+				</div>
+			</form>
+		</div>
+		<script type="text/javascript">		
+		var answer_content_length = {$this_system.CONFIG['answer_content_length']};
+		var allow_anonymous_answer = <!--{if $this_system->CONFIG['allow_anonymous_answer']}-->true<!--{else}-->false<!--{/if}-->;
+		var answerError = "{$P8LANG['ask_error_answer'] $this_system->CONFIG['answer_content_length']}"; 
+		var loginError = '{$P8LANG['ask_error_nologin']}';
+		var quickBtn = '<input type="button" name="" value="{$P8LANG['ask_answer_n']} " class="quick_btn" onclick="javascript:$(\'#quickForm #content\').focus();"/>';
+		//加载快速回答按钮
+		$('#quickBtn').html(quickBtn);
+		$('#quickBtn').addClass('float_left');
+
+		$('#quickForm').validate({
+			rules:{
+				content:{
+					required: true,
+					rangelength: [0, answer_content_length]
+				}
+			},
+			messages:{
+				content:{
+					required: answerError,
+					rangelength: answerError
+				}
+			},
+			submitHandler:function(form){
+				var UID = get_cookie('UID');
+
+				if(!allow_anonymous_answer){
+					if(UID == null){
+						alert(loginError);
+						return false;
+					}
+				}
+
+				var action = $('#quickForm').attr('action');
+			    $('#quickForm').attr('action', action+'?'+Math.random());
+				form.submit();
+			},
+			onkeyup: false;
+		});
+		</script>
+		<!--{/if}-->
+		<!--{if !empty($list['best'])}-->
+		<!-- 最佳答案 -->
+		<div class="wrapbox answerbox light_red_border margin_bottom" style="position:relative">
+			<div class="topic_title">
+				<h3 class="float_left icon_best">{$P8LANG['ask_best_answer']}</h3>
+			</div>
+			<div class="iconb">
+			</div>
+			<!--{foreach $list['best'] $key $value}-->
+			<div class="answer_content<!--{php if(($key+1)==sizeof($list['best'])){ echo " clearb";}}-->">
+				<pre>
+				{$value['content']}
+				</pre>
+				<!--{if !empty($value['follow'])}-->
+				<!--追问内容列表-->
+				<div class="follow_wrap">
+					<!--{foreach $value['follow'] $v}-->
+					<ul>
+						<li> <span>
+							<!--{if $is_creator}-->
+							{$P8LANG['ask_my_follow']}
+							<!--{else}-->
+							{$P8LANG['ask_answer_follow']}
+							<!--{/if}-->
+							{$v['addtime']}</span>
+							<h>{$v['content']}</h>
+							<!--没有补充追问时显示追问按钮 当前登录用户回答的问答才可补充提问-->
+						</li>
+						<!--{if !empty($v['reply_content'])}-->
+						<li> <span>
+							<!--{if $value['is_creator']}-->
+							{$P8LANG['ask_my_reply_follow']}
+							<!--{else}-->
+							{$P8LANG['ask_answer_reply_follow']}
+							<!--{/if}-->
+							{$v['reply_time']}</span>
+							<h>{$v['reply_content']}</h>
+						</li>
+						<!--{/if}-->
+					</ul>
+					<!--{/foreach}-->
+				</div>
+				<!--{/if}-->
+				<!--{if $allow_vote_answer && !$value['is_creator'] || $IS_FOUNDER}-->
+				<!-- 
+					**投票 
+					**不能对自己的回答进行投票
+					**变量：count=>投票总数,goodvalue=>好评总数,badvalue=>差评总数,good_percentage=>好评百分比,bad_percentage=>差评百分比
+				-->
+				<div class="vote" id="vote{$value['id']}">
+					<b>{$P8LANG['ask_vote']}</b>
+					<div class="vote_inner">
+						<a href="javascript:void(0);" class="vote_good" onclick="javascript:{if  $closed}alert('{$P8LANG['ask_item_closed']}');{else}askVote({id:{$value['id']},result:1});{/if}"></a>
+						<p>{$P8LANG['ask_vote_good']}<span id="goodvalue">{$value['goodvalue']}</span></p>
+						<div class="vote_outer">
+							<div class="goodblue" id="goodbar" style="width:{$value['good_percentage']}%;">
+							</div>
+						</div>
+					</div>
+					<div class="vote_inner">
+						<a href="javascript:void(0);" class="vote_bad" onclick="javascript:{if  $closed}alert('{$P8LANG['ask_item_closed']}');{else}askVote({id:{$value['id']},result:0});{/if}"></a>
+						<p>{$P8LANG['ask_vote_bad']}<span id="badvalue">{$value['badvalue']}</span></p>
+						<div class="vote_outer">
+							<div class="badblue" id="badbar" style="width:{$value['bad_percentage']}%;">
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--{/if}-->
+				<div class="topic_asker">
+					<!--{if $value['executor']==3}-->
+					{$P8LANG['ask_executor_administrator']}
+					<!--{elseif $value['executor']==2}-->
+					{$P8LANG['ask_executor_category_administrator']}
+					<!--{else}-->
+					{$P8LANG['ask_executor_author']}
+					<!--{/if}-->
+					{$P8LANG['ask_answer_u']}
+					<!--{if $value['anonymous']}-->
+					{$P8LANG['ask_anonymous']}
+					<!--{else}-->
+					<span class="u">{$value['username']}</span>
+					<!--{if $value['expert']}-->
+					- <a href="{$this_module.controller}-ask?exper=$value[uid]" class="u">{$P8LANG['ask_tome']}</a>
+					<!--{/if}-->
+					<span class="asker_credit">152</span>
+					<!--{/if}-->
+					|
+					<!--{php echo date('Y-m-d H:i', $value['addtime']);}-->
+					<!--{if $allow_poller_answer}-->
+					&nbsp;<a href="javascript:void(0);" onclick="javascript:answer_poller({id:{$value['id']},tid:{$id}});" class="s">{$P8LANG['ask_poller']}</a>
+					<!--{/if}-->
+				</div>
+				<div id="answer_poller_{$value['id']}">
+				</div>
+			</div>
+			<!--{/foreach}-->
+		</div>
+		<script type="text/javascript">
+		function askVote(options)
+		{
+			if(options.id == undefined || !reg.test(options.id) || options.result == undefined){
+				alert('{$P8LANG['ask_not_chose_record']}');
+				return false;
+			}
+
+			$.ajax({
+				url: '{$this_system.controller}/{$answer.name}-post_votes',
+				type: 'POST',
+				dataType: 'json',
+				data: {id:options.id, result:options.result},
+				cache: false,
+				success: function(json){
+						$('#vote'+options.id+' #goodvalue').html(json.vote_good);
+						$('#vote'+options.id+' #goodbar').css({width:json.good_percentage+'%'});
+						$('#vote'+options.id+' #badvalue').html(json.vote_bad);
+						$('#vote'+options.id+' #badbar').css({width:json.bad_percentage+'%'});
+				}
+			});
+		}
+		</script>
+		<!--{/if}-->
+		<!--管理组和专家回答-->
+		<!--{template $this_module answer_list_super}-->
+		<!--网友回答-->
+		<!--{template $this_module answer_list_normal}-->
+	</div>
+	<!-- 右边 -->
+	<div id="boxright" class="float_right">
+		<div class="wrapbox margin_bottom clear" style="height:55px">
+			<a href="{$this_router}-ask?cid={$CAT['id']}" target="_blank" ><img  src="{$SKIN}post_btn2.gif"/></a>
+		</div>
+		<div class="wrapbox light_blue_border2 margin_bottom">
+			<div class="topic_title light_blue_bg2">
+				<h3>$label[问答内页右一标题]</h3>
+			</div>
+			<div class="topicbox">
+				$label[问答内页右一内容]{'i.title'=>$KEYWORD}
+			</div>
+		</div>
+		<div class="wrapbox margin_bottom">
+			$lavel[问答内右1212]
+		</div>
+		<div class="wrapbox margin_bottom">
+			$lavel[问答内右1213]
+		</div>
+		<div class="wrapbox margin_bottom">
+			$lavel[问答内右1214]
+		</div>
+		<div class="wrapbox light_blue_border2 margin_bottom">
+			<div class="topic_title light_blue_bg2">
+				<h3>$label[问答内页右二标题]</h3>
+			</div>
+			<div class="topicbox">
+				$label[问答内页右二内容]{'E.cid'=>$CATEGORY}
+			</div>
+		</div>
+	</div>
+<div class="clear"></div>
+	</div>
+
+<script type="text/javascript">
+var reg = /^[0-9]*$/;
+var uid = get_cookie('UID');
+var dialog = new P8_Dialog({
+	title_text: '编辑',
+	button: true,
+	width: 500,
+	height: 250,
+	zIndex: 20002,
+	ok: function(){
+		ajaxing({action: 'show'});
+		post_edit();
+	}
+});
+dialog.content.html('<form id="form2" action="" method="post"><textarea name="content" rows="11" cols="75" value="" id="ascontent"></textarea><input type="hidden" name="id" id="asid"/></form>');
+
+function doResize(size)
+{
+	$('#itemDetail').css('font-size',size);
+	$('#item_addition li').css('font-size',size+'px');
+}
+
+function hidden(obj, msg, s, css)
+{
+	$('#'+obj).html(msg);
+	$('#'+obj).css('display', s);
+	$('#'+obj).addClass(css);
+}
+
+function addFavorite(option)
+{
+	if(option.id == undefined || !reg.test(option.id)){
+		return;
+	}	
+
+	if(uid == null || uid == undefined){
+		alert('{$P8LANG['ask_error_nologin']}');
+		return;
+	}
+	$.ajax({
+		url: '{$this_router}-collection',
+		type: 'POST',
+		dataType: 'json',
+		data: {id:option.id},
+		success: function(json){
+			if(!json.length) return;
+
+			if(json == 'exists'){
+				alert('{$P8LANG['ask_error_exists_favorites']}');
+			}else{
+				alert('{$P8LANG['ask_success_add_favorites']}');
+			}
+		}
+	});
+	return;
+}
+
+function addAddition(options)
+{
+	if(options.id == undefined || !reg.test(options.id)){
+		return;
+	}
+
+	if(uid == null || uid == undefined){
+		alert('{$P8LANG['ask_error_nologin']}');
+		return;
+	}
+
+	$.ajax({
+		url: '{$this_router}-addition',
+		type: 'GET',
+		data: 'id='+options.id,
+		cache: false,
+		success: function(html){
+			$('#addition').html(html);
+			$('#addition').addClass('addition light_blue_border');
+		}
+	});
+}
+function nogoodanswer(options){
+	if(options.id == undefined || !reg.test(options.id)){
+		return;
+	}
+
+	if(uid == null || uid == undefined){
+		alert('{$P8LANG['ask_error_nologin']}');
+		return;
+	}
+	if(!confirm('{$P8LANG['ask_confirm_noanswer']}'))return;
+	$.ajax({
+		url: '{$this_router}-nogoodanswer',
+		type: 'post',
+		dataType: 'json',
+		data: 'id='+options.id,
+		cache: false,
+		success: function(json){
+			if(json !='done'){alert("{$P8LANG['error']}"); return}
+			window.location.reload();
+		}
+	});
+	
+}
+function set_best_answer(options)
+{
+	if(options.id == undefined || !reg.test(options.id)){
+		alert('{$P8LANG['ask_error']}');
+		return false;
+	}
+	if(!confirm('{$P8LANG['ask_confirm_best_answer']}'))return;
+	$.ajax({
+		url: '{$answer.controller}-set_best_answer',
+		type: 'POST',
+		dataType: 'json',
+		data:'id='+options.id+'&tid='+{$id}+'&bestanswer=1',
+		cache: false,
+		success:function(json){
+			if(json=='no_privilege'){ alert("{$P8LANG['no_privilege']}");return; }
+			if(json=='no_category_privilege'){ alert("{$P8LANG['no_category_privilege']}");return; }
+			if(!json.length) return;
+			alert('{$P8LANG['done']}');
+			window.location.reload();
+		}
+	});
+}
+function edit_answer(options)
+{
+	if(options.id == undefined || !reg.test(options.id)){
+		alert('{$P8LANG['ask_error']}');
+		return false;
+	}
+	$.ajax({
+		url: '{$answer.controller}-edit',
+		type: 'GET',
+		data: 'id=' + options.id,
+		dataType:'json',
+		cache: false,
+		success: function(json){
+			if(json=='no_privilege'){ alert("{$P8LANG['no_privilege']}");return; }
+			if(json=='no_category_privilege'){ alert("{$P8LANG['no_category_privilege']}");return; }
+			dialog.content.find('#ascontent').val(json.content);
+			dialog.content.find('#asid').val(json.id);
+			dialog.show();
+			
+		}
+	});
+	
+}
+function post_edit(){
+	dialog.hide();
+	var content = dialog.content.find('textarea').val();
+	var id = dialog.content.find('input').val();
+	$.ajax({
+		url: '{$answer.controller}-edit',
+		type: 'POST',
+		data: 'content='+content+'&id='+id+'&cid='+{$data['cid']},
+		dataType: 'json',
+		cache: false,
+		success: function(json){
+			ajaxing({action: 'hide'});
+			if(json=='no_privilege'){ alert("{$P8LANG['no_privilege']}");return; }
+			if(json=='no_category_privilege'){ alert("{$P8LANG['no_category_privilege']}");return; }
+			if(json)$('#answer_'+id).html(content);
+			
+			
+		}
+	});
+	
+	return false;
+}
+function poller(options)
+{
+	if(options.id == undefined || !reg.test(options.id)){
+		return;
+	}
+
+	$.ajax({
+		url: '{$this_router}-poller',
+		type: 'GET',
+		data: 'id=' + options.id,
+		cache: false,
+		success: function(html){
+			if(html=='no_privilege'){ alert("{$P8LANG['no_privilege']}");return; }
+			if(html=='no_category_privilege'){ alert("{$P8LANG['no_category_privilege']}");return; }
+			$('#item_poller').html(html);
+			$('#item_poller').addClass('addition margin_top light_blue_border');
+		}
+	});
+}
+
+function answer_poller(options)
+{
+	if(options.id == undefined || options.tid == undefined || !reg.test(options.id) || !reg.test(options.tid)){
+		alert('{$P8LANG['ask_error']}');
+		return false;
+	}
+
+	$.ajax({
+		url: '{$answer.controller}-poller',
+		type: 'GET',
+		data: "id="+options.id+"&tid="+options.tid,
+		cache: false,
+		success: function(html){
+			if(html=='no_privilege'){ alert("{$P8LANG['no_privilege']}");return; }
+			if(html=='no_category_privilege'){ alert("{$P8LANG['no_category_privilege']}");return; }
+			$('#answer_poller_'+options.id).html(html);
+			$('#answer_poller_'+options.id).addClass('addition margin_top light_blue_border');
+		}
+	});
+}
+
+function toggle_follow(options)
+{
+	if(options.id == undefined || !reg.test(options.id)){
+		return;
+	}
+
+	$('#follow_frame_'+options.id).toggle();
+}
+
+
+//提交追问
+function post_follow(options)
+{
+	if(options.id == undefined || !reg.test(options.id)){
+		return;
+	}
+
+	if(uid == null || uid == undefined){
+		alert('{$P8LANG['ask_error_nologin']}');
+		return;
+	}
+	var content = $('#follow_frame_'+options.id+' #follow_content_'+options.id).val();
+	if(content.length<5){
+		$('#follow_error_'+options.id).html('{$P8LANG['ask_not_content_limit']}').addClass('fields_error');
+	}else{
+		$('#follow_error_'+options.id).hide();
+	}
+
+	$.ajax({
+		url: '{$answer.controller}-post_follow',
+		type: 'POST',
+		dataType: 'json',
+		data: {tid:{$id}, id:options.id, content:content},
+		cache: false,
+		success: function(json){
+			if(json=='no_privilege'){ alert("{$P8LANG['no_privilege']}");return; }
+			if(json=='no_category_privilege'){ alert("{$P8LANG['no_category_privilege']}");return; }
+			if(!json.length) return;	
+			window.location.reload();
+		}
+	});
+}
+function toggle_replay_follow(options)
+{
+	if(options.id == undefined || !reg.test(options.id)){
+		return;
+	}
+
+	$('#reply_follow_frame_'+options.id).toggle();
+}
+
+//提交补充追问
+function post_replay_follow(options)
+{
+	if(options.id == undefined || !reg.test(options.id) || options.aid == undefined || !reg.test(options.aid)){
+		return;
+	}
+
+	if(uid == null || uid == undefined){
+		alert('{$P8LANG['ask_error_nologin']}');
+		return;
+	}
+
+	var content = $('#reply_follow_frame_'+options.id+' #replay_follow_content_'+options.id).val();
+	if(content.length<1){
+		$('#reply_follow_error_'+options.id).html('{$P8LANG['ask_not_input_content']}').addClass('fields_error');
+	}else{
+		$('#reply_follow_error_'+options.id).hide();
+	}
+	$.ajax({
+		url: '{$answer.controller}-post_reply_follow',
+		type: 'POST',
+		dataType: 'json',
+		data: {aid:options.aid, id:options.id, content:content},
+		cache: false,
+		success: function(json){
+			if(!json.length) return;	
+			window.location.reload();
+		}
+	});
+}
+</script>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

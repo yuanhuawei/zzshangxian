@@ -1,0 +1,19 @@
+<!--{php168}-->
+<!--{if !empty($subcategories)}-->
+<ul class="main_ultop">
+	<!--{foreach $subcategories $v}-->
+	<li style="">
+		<a href="$v[url]">$v[name]</a>
+		<!--{if !empty($v['categories'])}-->
+		<dl style="{if array_key_exists($cid,$v['categories']) || $cid==$v['id']}display:;{else}display:none{/if}">
+		<!--{foreach $v['categories'] $sv}-->
+		<dd><a href="$sv[url]">$sv[name]</a><dd>
+		<!--{/foreach}-->
+		</dl>
+		<!--{/if}-->
+	</li>
+	<!--{/foreach}-->
+	<div class="clear"></div>
+</ul>
+<!--{/if}-->
+<!--{/php168}-->

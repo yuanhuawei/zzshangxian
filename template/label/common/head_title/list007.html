@@ -1,0 +1,14 @@
+<!--{php168}-->
+<!--{php $first=array_shift($list);$first_title=p8_cutstr($first['full_title'], $label['option']['top_title_length'],'');}-->
+<h3 class="label_bigsize center"><a class="bold_title" target="_blank" href="{$first['url']}">{$first_title}</a></h3>
+<ul class="label_ul_s">
+	<!--{foreach $list $i $value}-->
+	<li style="$wf;height:22px;overflow:hidden">
+		<!--{if $i%($label['option']['rows']>0?$label['option']['rows']:3) != 0}--> | <!--{/if}--><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a>
+	</li>
+	<!--{/foreach}-->
+
+<li class="clear"></li>
+</ul>
+<!--{/php168}-->
+

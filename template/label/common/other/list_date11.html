@@ -1,0 +1,39 @@
+<!--{php168}-->
+<style type="text/css">
+.label_list11_date li{overflow: hidden;margin-top:10px;height:43px;*float:left;padding-bottom:11px;border-bottom:1px solid #e5e5e5;}
+.label_list11_date .date11{width:42px;height:43px;float:left;background:#0068b7}
+.label_list11_date .date11 .de1{width:42px;height:21px;line-height:21px;text-align:center;color:#fff;}
+.label_list11_date .date11 .de2{width:42px;height:22px;line-height:22px;font-size:16px;text-align:center;color:#fff;}
+.label_list11_date .text11{width:204px;float:right;height:43px;}
+.label_list11_date h4{font-size:12px;line-height:20px;overflow: hidden;font-weight:normal;}
+.label_list11_date h4 a{color:#4d4d4d;}
+</style>
+<!--{php $list_count = count($list);}-->
+<!--{php $list_i = 0;}-->
+<ul class="label_list11_date">
+	<!--{foreach $list $value}-->
+	<!--{php $list_i ++;}-->
+	<!--{if $list_i == $list_count}-->
+	<li style="padding-bottom:0px;border-bottom:none;">
+		<div class="date11">
+			<div class="de1">{date('d', $value['timestamp'])}</div>
+			<div class="de2">{date('m月', $value['timestamp'])}</div>
+		</div>
+	    <div class="text11">
+			<h4><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h4>
+		</div>
+	</li>
+	<!--{else}-->	
+	<li>
+		<div class="date11">
+			<div class="de1">{date('d', $value['timestamp'])}</div>
+			<div class="de2">{date('m月', $value['timestamp'])}</div>
+		</div>
+	    <div class="text11">
+			<h4><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h4>
+		</div>
+	</li>
+	<!--{/if}-->
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->

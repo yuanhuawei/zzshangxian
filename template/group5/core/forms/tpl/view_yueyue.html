@@ -1,0 +1,173 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/forms/style.css" />
+<style>
+td{border:1px solid #f1f1f1}
+</style>
+<div class="breadbanner">
+	$label[zhuzhan-banner]
+</div>
+<div class="forms-container">
+	<div class="container">
+		<div class="breadcrumbbox">
+			<ol class="breadcrumb">
+				<li><a href="{$this_system->controller}"><i class="fa fa-home"></i>首页</a></li>
+				<li class="active"><i class="fa fa-caret-right"></i>$this_model[alias]</li>
+				<li><i class="fa fa-caret-right"></i>详细内容</li>
+			</ol>
+		</div>
+		<div class="forms_div mbt25">
+			<div class="forms_head">$this_model[alias]</div>
+			<div class="forms_main">
+					<table width="100%" cellpadding="0" cellspacing="0" class="pop_table hover_table collapsetable">
+						<!--{foreach $this_model['fields'] $field $v}-->
+						<tr>
+							<td class="tdL">$v[alias] :</td>
+							<td class="tdR">
+								<!--{php
+							switch($v['widget']){
+								case 'text': case 'textarea': case 'editor': case 'editor_basic': case 'editor_basic'://字段输入方式为：输入杠、文本、编辑器
+						}-->
+								$data[$field]
+								<!--{php
+								break;
+								
+								case 'checkbox': case 'multi_select':
+									foreach($v['data'] as $value => $key){
+										if(in_array($value, $data[$field])){
+						}-->
+								$key
+								<!--{php
+										}
+									}
+								break;
+								
+								case 'select': case 'radio'://字段输入方式为：单选
+									foreach($v['data'] as $value => $key){
+										if($value == $data[$field]){
+						}-->
+								$key
+								<!--{php
+											break;
+										}
+									}
+								break;
+								
+								case 'uploader'://字段输入方式为：上传器
+						}-->
+								<a href="{$data[$field]['url']}" target="_blank">{$data[$field]['title']}</a>
+								<!--{php
+								break;
+								case 'image_uploader'://字段输入方式为：图片上传器
+						}-->
+								<span class="mbottom"> <a href="{$data[$field]['url']}" target="_blank"><img src="{$data[$field]['thumb']}" /></a> </span>
+								<!--{php
+								break;
+								
+								case 'multi_uploader'://字段输入方式为：多上传器
+								foreach($data[$field] as $vv){
+								if(preg_match("/[.+](jpg|jpeg|gif|png|bmp)$/i",$vv['url'])){
+									}-->
+								<span class="mbottom"> <a href="$vv[url]" target="_blank"><img src="$vv[thumb]" /></a> </span><br/>
+								<!--{php
+									}else{
+									}-->
+								<div class="mbottom">
+									<a href="$vv[url]" target="_blank">{$vv['title']}</a>
+								</div>
+								<!--{php
+									}
+								}	
+								break;
+								case 'video_uploader'://字段输入方式为：视频上传器
+						}-->
+								<div>
+									<script type="text/javascript" src="{$RESOURCE}/js/media.js"></script>
+									<!--{if !empty($data[$field])}-->
+									<script type="text/javascript">
+									showMedia({
+										url: '$data[video_url]',
+										width: 550,
+										height: 400
+									});
+									</script>
+									<!--{/if}-->
+								</div>
+								<!--{php
+								break;
+								
+							case 'city'://城市选择
+							
+							
+						}-->
+						$data[$field]
+								
+								<!--{php
+							break;
+							case 'link'://超链接
+						}-->
+						<a href="$data[$field]" target="{if !empty($v['data']['target'])}{$v['data']['target']}{/if}">$data[$field]</a>
+								
+								<!--{php
+							break;
+							case 'linkage'://多级联动
+						}-->
+							<!--{php $split='';}-->
+							<!--{foreach $data[$field] $k=>$v}-->
+								{$split}{$v}
+							<!--{php $split='&nbsp;&gt;&nbsp;';}-->
+							<!--{/foreach}-->	
+								<!--{php
+							break;
+								default://其它输入方式
+						}-->
+								$data[$field]
+								<!--{php
+							}
+						}-->
+							</td>
+						</tr>
+						<!--{/foreach}-->
+						<tr>
+							<td class="tdL" >提交时间 :</td>
+							<td class="tdR">{date('Y-m-d h:i',$data['timestamp'])}</td>
+						</tr>
+						<tr>
+							<td class="tdL" >提交人 :</td>
+							<td class="tdR">$data[username]</td>
+						</tr>
+						<tr>
+							<td class="tdL" >处理状态 :</td>
+							<td class="tdR" id="status_$id">{$status[$data['status']]}</td>
+						</tr>
+						<tr>
+							<td class="tdL" >处理人 :</td>
+							<td class="tdR" id="manager_$id">$data[replyer]</td>
+						</tr>
+						<tr>
+							<td class="tdL" >处理时间 :</td>
+							<td class="tdR" id="rptime_$id">
+								<!--{if !empty($data['reply_time'])}-->
+								{date('Y-m-d h:i',$data['reply_time'])}
+								<!--{/if}-->
+							</td>
+						</tr>
+						<!--{if $manage}-->
+						<tr>
+							<td class="tdL" >我来处理 :</td>
+							<td class="tdR">[<a href="javascript:void(0)" onclick="setstatus()">处理</a>] 
+							[<a href="{$this_router}-update?id=$id">修改</a>] 
+							[<a href="javascript:void(0)" onclick="deleteitem()">删除</a>]</td>
+						</tr>
+						<!--{/if}-->
+					</table>
+			</div>
+		</div>
+	</div>
+</div>
+<!--{if $manage}-->
+<!--{template $this_module manage}-->
+<!--{/if}-->
+<!--{template $core footer}-->
+<!--{/php168}-->
+

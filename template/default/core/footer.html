@@ -1,0 +1,33 @@
+<!--{php168}-->
+
+<div id="footer" class="footer" class="common_mtop">
+	<ul>
+		<li>{$core.CONFIG['copyright']}</li>
+		<li>Copyright@{$core.CONFIG['url']} all rights reserved <a href="http://www.miibeian.gov.cn" target="_blank">{$core.CONFIG['copyright_domain']}</a></li>
+		<li>Powered by <a href="http://www.php168.net" target="_blank" class="vison">国微软件</a> Code &copy; <!--{php echo '2003-'.date('Y',P8_TIME);}--> <a href="http://www.php168.net" target="_blank">PHP168cms</a></li>
+		<!--{if !empty($core->CONFIG['statistics'])}-->
+		<li>{$core.CONFIG['statistics']}</li>
+	<!--{/if}-->
+	</ul>
+</div>
+
+
+</div>
+<script type="text/javascript">
+var loginbox = new P8_Dialog({
+	title_text: '登录',
+	button: false,
+	zIndex:10000,
+	width: 300,
+	height: 150,
+	position:'absolute',
+	show: function(){
+		this.content.html("<div class='loginbox'><form action='"+P8CONFIG['U_controller']+"/core/member-login' method='post'>帐号:<input type='text' name='username' /><br />密码:<input type='password' name='password' /><br><input type='submit' value='登 录' class='submit_btn'/><input type='button' value='取 消' onclick='loginbox.close()' class='submit_btn'></form></div>");
+	}
+});
+
+</script>
+$plugin[contact]
+</body>
+</html>
+<!--{/php168}-->

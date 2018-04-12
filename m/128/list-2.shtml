@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>通知公告_国微学校方案----领先的学校内容管理系统</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link rel="stylesheet" type="text/css" href="http://120.26.77.20/yanshi/schoolzhanqun/skin/school707/cms/../core/header/common.css" />
+<link rel="stylesheet" type="text/css" href="http://120.26.77.20/yanshi/schoolzhanqun/skin/school707/cms/../core/header/header.css" />
+<link rel="stylesheet" type="text/css" href="http://120.26.77.20/yanshi/schoolzhanqun/skin/label/label.css" />
+<script type="text/javascript" src="http://120.26.77.20/yanshi/schoolzhanqun/js/config.js"></script>
+<script type="text/javascript" src="http://120.26.77.20/yanshi/schoolzhanqun/js/util.js"></script>
+
+<script type="text/javascript" src="http://120.26.77.20/yanshi/schoolzhanqun/js/lang/core/zh-cn.js"></script>
+<script type="text/javascript" src="http://120.26.77.20/yanshi/schoolzhanqun/js/lang/cms/zh-cn.js"></script>
+
+<script type="text/javascript">
+P8CONFIG.RESOURCE = 'http://120.26.77.20/yanshi/schoolzhanqun';
+var SYSTEM = 'cms',
+MODULE = 'item',
+ACTION = 'list',
+LABEL_URL = 'http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-128-page-2?',
+$this_router = P8CONFIG.URI[SYSTEM][MODULE].controller,
+$this_url = $this_router +'-'+ ACTION,
+SKIN = 'http://120.26.77.20/yanshi/schoolzhanqun/skin/school707/cms/',
+TEMPLATE = 'school707';
+mobile_status= '1',
+mobile_auto_jump='0',
+mobile_url = 'http://120.26.77.20/yanshi/schoolzhanqun/m';
+if(mobile_status){
+if(browser.versions.android || browser.versions.iPhone || browser.versions.iPad){
+if(mobile_auto_jump && mobile_url!=P8CONFIG.RESOURCE){
+var this_url = location.href;
+if(this_url.indexOf(mobile_url)==-1){
+this_url = this_url.replace(P8CONFIG.RESOURCE, mobile_url);
+location.href = this_url;
+}
+}
+}
+}document.base_domain = '';
+</script>
+<script type="text/javascript">
+function doshouye()
+{
+alert("请使用浏览器选项进行设置!");
+}
+function doshoucang()
+{
+alert("请使用Ctrl+D进行添加!");
+}
+</script>
+</head>
+<body>
+<div class="topBox">
+<div class="top wrap">
+<div class="topL fl">
+<ul>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-view-id-1126.shtml">学生</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-view-id-1125.shtml">教职工</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-view-id-1124.shtml">校友</a></li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-view-id-1123.shtml">考生及访客</a></li>
+
+</ul>
+</div>
+<div class="topC fl">
+<span id="header_login">	
+<script type="text/javascript" src="http://120.26.77.20/yanshi/schoolzhanqun/u.php/core/member-login?style=com&id=header_login"></script>
+</span>
+</div>
+<div class="topR fr">
+<a href="#">学生工作管理</a>
+<a href="#">办公系统</a>
+<a href="#">信息门户</a>
+<a href="#">旧版网页</a>
+</div>
+</div>
+</div>
+<div class="headBox">
+<div class="header">
+<div class="logo">
+<a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms"></a>
+</div>
+<div class="top_right">
+<span  id="header_t"></span>
+</div>
+</div>
+</div>
+<div class="nav_menu_box">
+<div  class="nav_menu clearfix">
+<ul id="menu_nav">
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php" target="">首页</a>
+</li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-781.shtml" target="">学院介绍</a>
+<dl style="display:none">
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-781.shtml" target="">学院简介</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-view-id-1054.shtml" target="">学院领导</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-view-id-1055.shtml" target="">组织机构</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-view-id-1056.shtml" target="">学院委员会</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-view-id-1056.shtml" target="">历史沿革</a></dt>
+</dl>
+</li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-1.shtml" target="">新闻公告</a>
+<dl style="display:none">
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-128.shtml" target="">通知公告</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-44.shtml" target="">学术讲座</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-34.shtml" target="">学院新闻</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-782.shtml" target="">信息公开</a></dt>
+</dl>
+</li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-73.shtml" target="">合作交流</a>
+<dl style="display:none">
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-76.shtml" target="">国内交流</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-77.shtml" target="">国际交流</a></dt>
+</dl>
+</li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-45.shtml" target="">教育教学</a>
+<dl style="display:none">
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-58.shtml" target="">教学管理</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-59.shtml" target="">精品课程</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-78.shtml" target="">教学成果</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-86.shtml" target="">毕业设计</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-197.shtml" target="">实习基地</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-88.shtml" target="">实验室</a></dt>
+</dl>
+</li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-138.shtml" target="">视频图片</a>
+<dl style="display:none">
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-138.shtml" target="">视频频道</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-136.shtml" target="">图片频道</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-143.shtml" target="">下载频道</a></dt>
+</dl>
+</li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/core/forms-list-mid-27" target="">查询系统</a>
+<dl style="display:none">
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/core/forms-list-mid-66" target="">教职工通讯录</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/core/forms-list-mid-65" target="">学生会通讯录</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/core/forms-list-mid-14" target="">实用知识</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/core/forms-list-mid-17" target="">推荐书目</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/core/forms-list-mid-24" target="">创业案例</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/core/forms-list-mid-20" target="">著名校友</a></dt>
+</dl>
+</li>
+<li><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/letter-list" target="">互动交流</a>
+<dl style="display:none">
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/letter-list" target="">领导信箱</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/ask" target="">问答平台</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/opinion-list" target="">意见征集</a></dt>
+<dt><a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/core/guestbook" target="">用户留言</a></dt>
+<dt><a href="http://www.php168.net/" target="_blank">社区论坛</a></dt>
+</dl>
+</li>		
+</ul>
+</div>
+</div>		
+<script type="text/javascript">
+var USERNAME = get_username();
+$(document).ready(function(){
+//**show_edit**//					   
+init_labelshows('header_t');
+//**menu**//
+$('#menu_nav li>dl').hide();
+$("#menu_nav li:first").addClass('over');
+$("#menu_nav li").each(function () {
+$(this).hover(
+function(){
+$('#menu_nav li').removeClass();
+$('#menu_nav li>dl').hide();
+$(this).addClass('over');
+$(this).find('dl').show();
+$(this).find('dl').css({left: parseInt($(this).position().left) + 'px'});
+},
+function(){
+$(this).find('dl').hide();
+}
+)
+});	
+})
+</script>
+<div class="container" style="height:auto;text-align:center;"></div>
+<div class="wrap"><!--content-->
+<link rel="stylesheet" type="text/css" href="http://120.26.77.20/yanshi/schoolzhanqun/skin/school707/cms/style.css" />
+<div class="position">
+<a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php">首页</a>
+&gt;&gt; <a href="http://120.26.77.20/yanshi/schoolzhanqun/html/1/">新闻公告</a>
+&gt;&gt; <a href="http://120.26.77.20/yanshi/schoolzhanqun/html/128/">通知公告</a> 
+</div>
+<div class="clear"></div>
+<div class="col_main">
+<div class="col_left">
+<div class="show_box_leftmenu  common_mbottom ">
+<div class="sb1_head">
+<a href="http://120.26.77.20/yanshi/schoolzhanqun/html/1/">新闻公告</a>				
+</div>
+<div class="sb1_main">
+<ul class="tabs" id="tabs">    
+<li class="cid_34 ">
+<a href="http://120.26.77.20/yanshi/schoolzhanqun/html/34/">新闻聚焦</a>		
+</li>    
+<li class="cid_809 ">
+<a href="http://120.26.77.20/yanshi/schoolzhanqun/html/809/">院系动态</a>		
+</li>    
+<li class="cid_128 thistab">
+<a href="http://120.26.77.20/yanshi/schoolzhanqun/html/128/">通知公告</a>		
+</li>    
+<li class="cid_44 ">
+<a href="http://120.26.77.20/yanshi/schoolzhanqun/html/44/">学术讲座</a>		
+</li>    
+<li class="cid_782 ">
+<a href="http://120.26.77.20/yanshi/schoolzhanqun/html/782/">信息公开</a>		
+</li>    
+<li class="cid_807 ">
+<a href="http://120.26.77.20/yanshi/schoolzhanqun/html/807/">领导讲话</a>		
+</li>    
+<li class="cid_808 ">
+<a href="http://120.26.77.20/yanshi/schoolzhanqun/html/808/">媒体报道</a>		
+</li>
+
+</ul>
+<script type="text/javascript">
+(function(){ $('#left_nav_url dt').click(function(){ $(this).parent().parent().find('dl').hide('normal'); if($(this).nextAll('dl').css('display') == 'none') $(this).nextAll('dl').slideDown("normal"); else $(this).nextAll('dl').slideUp("normal");});
+})()
+</script>			</div>
+<div class="sb1_bottom">&nbsp;</div>
+</div>
+<div class="ad_box"  style="margin-top:5px;">
+<a href="item-list-category-143.shtml" target="_blank" title="" style="text-decoration:none;"><img width="248" height="65" border="none" alt="" src="http://120.26.77.20/yanshi/schoolzhanqun/attachment/core/label/2014_09/01_18/a7be9575c5176cf2.jpg" /></a>
+</div>
+<div class="ad_box="  style="margin-top:5px;">
+<a href="http://120.26.77.20/yanshi/schoolzhanqun/index.php/cms/item-list-category-3512.shtml" target="_blank" title="" style="text-decoration:none;"><img width="248" height="65" border="none" alt="" src="http://120.26.77.20/yanshi/schoolzhanqun/attachment/core/label/2015_08/12_06/c329037ad7d0eda7.jpg" /></a>
+</div>
+</div>
+<div class="col_right">		
+<div class="show_box_2">
+<div class="sb2_head">
+<span class="title">通知公告 </span>				
+</div>
+<div class="sb2_main">
+<div style="padding:20px;"><ul class="label_ul_b">
+<li style=";">
+<span class="label_datatime">[2012-08-23]</span>·<a href="http://120.26.77.20/yanshi/schoolzhanqun/html/128/2012-08-23/content-232.html" target="_blank" title="本周校领导接待日（7月19日）暂停通知">本周校领导接待日（7月19日）暂停通知</a>
+</li>
+<li class="clear"></li>
+</ul>
+<div id="page">
+21条 
+2/2页
+<a href="http://120.26.77.20/yanshi/schoolzhanqun/html/128/">首页</a>
+<span class="s1 s3">&lt;&lt;</span>
+<a href="http://120.26.77.20/yanshi/schoolzhanqun/html/128/">上一页</a>
+ <a href="http://120.26.77.20/yanshi/schoolzhanqun/html/128/">1</a>  <a href="###" class="s2">2</a> 
+<span class="s1 s3">下一页</span>
+<span class="s1 s3">&gt;&gt;</span>
+<span class="s1 s3">末页</span>
+<script type="text/javascript">var __page5709 = {url:'http://120.26.77.20/yanshi/schoolzhanqun/html/128/#list-?page?.html#',pages:2};</script><input type="text" value="2" id="p__page5709" size="4" onkeyup="var p=this.value.replace(/[^0-9]/g,'');if(p!=''){p=Math.max(p,1);p=Math.min(p,__page5709.pages);}this.value=p;" onkeydown="if(event.keyCode==13){var p=this.value;p=Math.min(p,__page5709.pages);p=Math.max(1,p);if(p == 2)return;if(p==1){__page5709.url=__page5709.url.replace(/#([^#]+)#/, '');}else{__page5709.url=__page5709.url.replace(/#([^#]+)#/, '$1');}if(pos=__page5709.url.indexOf('javascript:')!=-1){eval(__page5709.url.substr(pos).replace('?page?',p));}else{window.location.href=__page5709.url.replace('?page?',p);}return false;}" />
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+<div id="bottomNav">
+<div class="wrap">
+<div class="btmList">
+<ul>
+<li><h2>国微大学校内网站</h2></li>
+<li>
+<ul class="Listnav">
+<li><a href="#">学校主页</a></li>
+<li><a href="#">教务处</a></li>
+<li><a href="#">招生在线</a></li>
+<li><a href="#">图书馆</a></li>
+<li><a href="#">国微青年</a></li>
+<li><a href="#">新闻网</a></li>
+<li><a href="#">青春在线</a></li>
+<li><a href="#">新闻网</a></li>
+<li><a href="#">一卡通</a></li>
+<li><a href="#">网络中心</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="btmLogo"><a href="#" target="_blank" title="" style="text-decoration:none;"><img width="240" height="120" border="none" alt="" src="http://120.26.77.20/yanshi/schoolzhanqun/attachment/core/label/2016_01/11_09/e9214c8afe0b5342.png" /></a></div>
+<div class="btmCode">
+<div class="code">
+<div class="code_pic"><a href="#" target="_blank" title="" style="text-decoration:none;"><img width="100" height="100" border="none" alt="" src="http://120.26.77.20/yanshi/schoolzhanqun/attachment/core/label/2016_02/17_09/41d944dd17da614a.jpg" /></a></div>
+<span>学校门户手机版</span>
+</div>
+<div class="code ml30">
+<div class="code_pic"><a href="#" target="_blank" title="" style="text-decoration:none;"><img width="100" height="100" border="none" alt="" src="http://120.26.77.20/yanshi/schoolzhanqun/attachment/core/label/2016_02/17_09/41d944dd17da614a.jpg" /></a></div>
+<span>学校门户手机版</span>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div class="inner">
+<div id="footer_login" style="text-align:center;"><script type="text/javascript" src="http://120.26.77.20/yanshi/schoolzhanqun/u.php/member-login?style=admin_main&id=footer_login"></script></div>
+
+<script type="text/javascript" src="http://120.26.77.20/yanshi/schoolzhanqun/api/crontab.php"></script>
+
+
+
+<ul>
+<li>联系方式: MSN: php168sales@hotmail.com 邮箱:setpoterheight QQ：1062538254 电话：020-87202645 传真：020-88888888</li>
+<li>Copyright@http://120.26.77.20/yanshi/schoolzhanqun all rights reserved <a href="http://www.miibeian.gov.cn" target="_blank">粤ICP备05011111号 </a></li>
+<li>Powered by <a href="http://www.php168.net" target="_blank"  class="vison">国微CMS学校版</a> Code &copy; 2003-2016 </li>
+<li><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1694374'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s6.cnzz.com/stat.php%3Fid%3D1694374%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script></li>
+</ul>
+</div>
+</div>
+
+
+</body></html>

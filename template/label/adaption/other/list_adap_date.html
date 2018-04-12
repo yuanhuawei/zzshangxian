@@ -1,0 +1,28 @@
+<!--{php168}-->
+<style type="text/css">
+.list_adap_date .item{padding:12px 0;border-bottom: 1px dashed #eee;margin:0 10px;}
+.list_adap_date .time{width:60px;height:60px;float:left;border:1px solid #eee;text-align: center;margin-right: 20px;}
+.list_adap_date .time span{display:block;text-align:center;font-size:16px;}
+.list_adap_date .time .text{color: #850000;font-size:18px;padding: 5px;text-align: center;}
+.list_adap_date .info h4{font-size:16px;font-weight:normal;margin:0;padding:5px 0;}
+.list_adap_date .info h4 a{display:block;color:#850000;text-decoration:none;}
+.list_adap_date .info h4 a:hover{color:#9c231b;}
+.list_adap_date .info p{color:#666;font-size:14px;margin:10px 0 0;}
+</style>
+<ul class="list_adap_date">
+	<!--{foreach $list $value}-->
+	<li class="col-md-6 col-sm-6 col-xs-12">
+		<div class="media item">
+			<div class="time">
+				<span class="text">{date('m月d日', $value['timestamp'])}</span>
+			</div>
+			<div class="media-body info">
+				<h4 class="item-tit"><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h4>
+				<p class="summary">$value[summary]</p>
+			</div>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->
+

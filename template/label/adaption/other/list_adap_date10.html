@@ -1,0 +1,34 @@
+<!--{php168}-->
+<style type="text/css">
+.list_adap_date10 li{margin-top:7px;padding-bottom:7px;}
+.list_adap_date10 .item, .list_adap_date10 .item-body {overflow: hidden;zoom: 1;}
+.list_adap_date10 .item>.pull-left{margin-right: 10px;}
+.list_adap_date10 .time{width:60px;height:60px;background:url({$RESOURCE}/skin/label/date_bg2.png) no-repeat;text-align:center;}
+.list_adap_date10 .time span{display:block;text-align:center;font-size:14px;padding:4px 0;}
+.list_adap_date10 .time .date{color:#ffffff;font-size: 18px;}
+.list_adap_date10 .time .year{color: #333333;font-size: 14px;}
+.list_adap_date10 .label_title{font-size:14px;font-weight:normal;margin:0;line-height:25px;}
+.list_adap_date10 .label_title a{display:block;color:#165aa1;text-decoration:none;}
+.list_adap_date10 .label_title a:hover{color:#9c231b;}
+.list_adap_date10 .label_summary{color: #646464;margin:0;}
+.list_adap_date10 .label_summary a{color:#646464;font-size:12px;text-decoration:none;}
+</style>
+<ul class="list_adap_date10">
+	<!--{foreach $list $value}-->
+	<li>
+		<div class="item">
+			<div class="pull-left time">
+				<span class="date"><!--{php echo date('m-d', $value['timestamp']);}--></span>
+				<span class="year"><!--{php echo date('Y', $value['timestamp']);}--></span>
+			</div>
+			<div class="item-body">
+				<h4 class="label_title"><a href="$value[url]" title="$value[full_title]" target="_blank">$value[title]</a></h4>
+				<p class="label_summary"><a href="$value[url]">$value[summary]</a></p>
+			</div>
+		</div>
+	</li>
+	<!--{/foreach}-->
+</ul>
+<!--{/php168}-->
+
+

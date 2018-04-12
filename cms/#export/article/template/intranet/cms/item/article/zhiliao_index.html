@@ -1,0 +1,109 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<div class="list_banner">
+	$label[gov_list_ad1]
+</div>
+<div class="list_nave">
+	您的位置：<a href="{$this_system.url}">首页</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>
+</div>
+<!--左边-->
+<div class="intranet_bglist_down_left">
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[gov_blist_more7]</span> <span class="list_title1">$label[gov_blist_title7]</span>
+	</div>
+	<div class="list_content_categories">
+	    <table>
+		    <tr>
+			   <td>
+		<!--{foreach $subcategories $v}-->
+		<div class="intranet_list_nm"><a href="$v[url]">$v[name]</a></div>
+		<!--{/foreach}-->
+		</td>
+	   </tr>
+	</table>
+	</div>
+	<div class="mtop">
+	    $label[gov_blist_artical_ad1]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[gov_blist_more6]</span> <span class="list_title1">$label[gov_blist_title6]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_blist_content6]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[gov_blist_more8]</span> <span class="list_title1">$label[gov_blist_title8]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_blist_content8]
+	</div>
+	<div class="mtop">
+	    $label[gov_blist_artical_ad3]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[gov_blist_more9]</span> <span class="list_title1">$label[gov_blist_title9]</span>
+	</div>	
+	<div class="list_content1">
+		$label[gov_blist_content9]
+	</div>
+	<div class="list_head1 mtop">
+		<span class="list_more1">$label[gov_blist_more10]</span> <span class="list_title1">$label[gov_blist_title10]</span>
+	</div>
+	<div class="list_content1">
+		$label[gov_blist_content10]
+	</div>
+	<div class="mtop">
+	    $label[gov_blist_artical_ad2]
+	</div>
+</div>
+
+<!--右边-->
+<div class="intranet_bglist_down_right">
+	<div class="intranet_actical_main mtop">
+		<div class="intranet_actical_main_left">
+		   <div class="aleft">$label[zhiliao_main_01]</div>
+		   <div class="aleft mtop">$label[zhiliao_main_02]</div>
+		</div>
+		<div class="intranet_actical_main_right">
+			<p>$label[zhiliao_main_title]</p>
+			$label[zhiliao_main_03]{'i.cid' => $CATEGORY, 'model' => $MODEL}
+		</div>
+	</div>
+	<div class="clear"></div>
+	<!--{php $i = 0;}-->
+	<!--{foreach $subcategories $v}-->
+	<!--{php if($i > 7) break; $i++;}-->
+	<!--{php $k = $i%2;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+	<div class="leftorright_$k">
+		<div class="list_head1 mtop">
+			<span class="list_more1" ><a href="$v[url]">更多>>></a></span> <span class="list_title2">$v[name]</span>
+		</div>
+		<div class="list_content1">
+			$label[gov_big_list]{'i.cid' => $subcat, 'model' => $MODEL}
+		</div>
+	</div>
+	<!--{/foreach}-->
+	<!--{if empty($subcategories)}-->
+	<div>
+		<div class="list_head1" >
+			<span class="title_5">$CAT[name]</span>
+		</div>
+		<div class="list_head1">
+			<!--{php include template($TEMP_OBJ, $CAT['item_template'], 'label');}-->
+			<div id="page">
+				{$pages}
+			</div>
+		</div>
+	</div>
+	<!--{/if}-->
+</div>
+<div class="clear"></div>
+
+<!--{template $this_system footer}-->
+<!--{/php168}-->

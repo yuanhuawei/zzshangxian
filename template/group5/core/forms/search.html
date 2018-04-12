@@ -1,0 +1,116 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/forms/style.css" />
+<div class="nav">
+你的位置：<a href="{$this_system.url}">首页</a> &gt; <a href="#">搜索</a>
+</div>
+<div class="container forms_div common_mtop">
+	<div class="forms_head">搜索</div>
+	<div class="forms_main">
+			<form name="request" id="request" action="$this_url" method="get">
+				<table width="100%" cellpadding="0" cellspacing="1" class="Mtop columntable">
+					<tr>
+						<td class="headerbtn_list">
+							<div style="margin-left:10px; float:left">
+								<strong>表单名称</strong><select name="mid" onchange="window.location.href='$this_url?mid='+this.options[this.options.selectedIndex].value">
+								<option value="">--所有--</option>
+								<!--{foreach $models $modelname $modeldata}-->
+									<option value="$modeldata[id]" {if $mid && $mid == $modeldata['id']}selected{/if}>$modeldata[alias]</option>
+								<!--{/foreach}-->
+								</select>	
+							</div>
+							<div style="margin-left:10px; float:left">
+								<strong> 提交时间:</strong>
+								<input type="text" name="mindate" size="10" onclick="rcalendar(this);" value="{if !empty($mindate)}$mindate{/if}"/>
+								-
+								<input type="text" name="maxdate" size="10" onclick="rcalendar(this);"  value="{if !empty($maxdate)}$maxdate{/if}"/>
+							</div>
+							<div style="margin-left:10px; float:left">
+								<strong>用户名:</strong>
+								<input type="text" name="username"    value="{if !empty($username)}$username{/if}"/>
+							</div>
+							<div style="margin-left:10px; float:left">
+								<input type="checkbox" name="accurate" value="1" {if !empty($accurate)}checked="checked"{/if}/> 精确搜索
+							</div>
+							<div style="margin-left:10px; float:left">
+								<input type="submit" class="forms_btn" onclick="request.action='$this_url';request.method='get'" value="搜索" />
+								<input type="hidden" name="mid" value="$mid" />
+								<input type="hidden" name="ids" value="" />
+							</div><br />
+							<!--{if $mid}-->
+							<!--{foreach $this_model['filterable_fields'] $field $field_data}-->
+							<div style="margin-left:10px; float:left">
+								<strong>{$field_data['alias']}:</strong>
+								<!--{php include template($core, 'widget/'. $field_data['widget'], 'default');}-->
+							</div>
+							<!--{/foreach}-->
+							<div style="margin-left:10px; float:left">
+								<strong>状态:</strong>
+								<select name="selectstatus">
+									<option value="">所有</option>
+									<!--{foreach $status $k $v}-->
+									<option value="$k" {if isset($selectstatus) && $selectstatus===$k}selected{/if}>$v</option>
+									<!--{/foreach}-->
+								</select>
+							</div>
+							<!--{/if}-->
+						</td>
+					</tr>
+				</table>
+			</form>
+			<table width="100%" cellpadding="0" cellspacing="1" class="Mtop hover_table columntable">
+				<tr align="center" height="18" class="head">
+					<td width="5%" class="5%">ID</td>
+					<td width="10%" class="title">用户名</td>
+					<!--{if $mid}-->
+					<!--{foreach $this_model['filterable_fields'] $field $field_data}-->
+					<td width="10%">$field_data[alias]</td>
+					<!--{/foreach}-->
+					<!--{/if}-->
+					<td width="10%" class="title">提交时间</td>
+					<td width="10%">状态</td>
+				</tr>
+				<!--{foreach $list $key $value}-->
+				<tr id="item_$value[id]">
+					<td>$value[id]</td>
+					<td>$value[username]</td>
+					<!--{if $mid}-->
+					<!--{foreach $this_model['filterable_fields'] $field $field_data}-->
+					<td>
+						<!--{if !empty($value[$field]) && ($field_data['widget']=='radio' || $field_data['widget']=='select' || $field_data['widget']=='city')}-->
+						{$field_data['data'][$value[$field]]}
+						<!--{elseif !empty($value[$field]) && ($field_data['widget']=='checkbox' || $field_data['widget']=='multi_select')}-->
+							<!--{foreach $value[$field] $v}-->
+							{$field_data['data'][$v]},
+							<!--{/foreach}-->
+						<!--{elseif isset($value[$field]) && $field_data['widget']=='linkage'}-->
+							<!--{php  $field_value= array_pop($value[$field]);}-->
+								{$field_value}
+						<!--{elseif isset($value[$field])}-->
+							$value[$field]		
+						<!--{/if}-->
+					</td>
+					<!--{/foreach}-->
+					<!--{/if}-->
+					<td align="center">{date('Y-m-d h:i',$value['timestamp'])}</td>
+					<td align="center" id="status_$value[id]">
+						<!--{if $value['status']==0}-->
+						<strong>
+						<!--{/if}-->
+						{$status[$value['status']]}
+						<!--{if $value['status']==0}-->
+						</strong>
+						<!--{/if}-->
+					</td>
+				</tr>
+				<!--{/foreach}-->
+			</table>
+			<div style="margin-top:10px;text-align:center">
+				<span class="pages">$pages</span>
+			</div>
+		</div>
+</div>
+<!--{template $core footer}-->
+<!--{/php168}-->
+

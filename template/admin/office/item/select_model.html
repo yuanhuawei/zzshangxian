@@ -1,0 +1,20 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<div class="mainbox mainborder">
+<table width="100%" align="center" class="columntable formtable hover_table">
+	<tr class="title fix_head">
+		<td >名称</td>
+		<td >操作</td>
+	</tr>
+	<!--{foreach $models $k $v}-->
+	<!--{php if(empty($v['enabled'])) continue;}-->
+	<tr>
+		<td>{$v['alias']}</td>
+		<td><input type="button" value="发表" onclick="window.location.href = '$this_router-add?model=$k';" /></td>
+	</tr>
+	<!--{/foreach}-->
+</table>
+</div>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,120 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="GET">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td class="title">TAG</td>
+				</tr>
+				
+				<tr>
+					<td class="headerbtn_list">
+						<input type="text" class="txt" name="name" value="$name" size="40" /> 
+						<input type="submit" class="submit_btn" value="{$P8LANG['search']}" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+
+<form action="$this_url" method="POST" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table click_changeable">
+				<tr class="title">
+					<td width="1%" class="title"><input type="checkbox" onclick="check_all(this, 'id[]'); init_tr($('#form'));" /></td>
+					<td width="5%" class="title">ID</td>
+					<td width="20%" class="title">Tag名称</td>
+					<td width="12%" class="title">关联内容数</td>
+					<td width="12%" class="title">排序</td>
+				</tr>
+				
+				<!--{foreach $list $value}-->
+				<tr id="tag_$value[id]">
+					<td><input type="checkbox" name="id[]" value="$value[id]" /></td>
+					<td>{$value['id']}</td>
+					<td id="name_$value[id]">{$value['name']}</td>
+					<td>{$value['item_count']}</td>
+					<td><input type="text" name="_display_order[$value[id]]" value="$value[display_order]" size="4" /></td>
+				</tr>
+				<!--{/foreach}-->
+				
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td><input type="text" name="new_name" /></td>
+					<td>0</td>
+					<td><input type="text" name="new_display_order" size="4" /></td>
+				</tr>
+			
+			</table>
+	
+			<table width="100%" border="0" cellpadding="0" cellspacing="0" class="foot_btn">
+				<tr>
+					<td align="center" id="pages" class="pages">
+						$pages
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="button" value="修改排序" onclick="_submit('order');" class="edit_btn" />
+						<input type="button" value="重新统计标签内容数" onclick="_submit('statistic');" class="edit_btn" />
+						<input type="button" value="删除" onclick="_delete()" class="edit_btn" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<input type="hidden" name="action" value="" />
+</form>
+
+<script type="text/javascript">
+
+function _submit(val){
+	$('#form input[name=action]').val(val);
+	
+	$('#form').submit();
+}
+
+function _delete(){
+	var id = checked_values('id[]');
+	if(!id.length) return;
+	
+	if(!confirm('{$P8LANG['confirm_to_delete']}')) return;
+	
+	$.ajax({
+		url: '$this_url',
+		type: 'post',
+		dataType: 'json',
+		data: ajax_parameters({action: 'delete', id: id}),
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i in json){
+				$('#tag_'+ json[i]).remove();
+			}
+		}
+	});
+}
+
+$('form input[name^=_display_order]').change(function(){
+	this.value = this.value.replace(/[^0-9]/g, '') || 0;
+	if(this.value > 9999) this.value = 9999;
+	if(this.value < 0) this.value = 0;
+	
+	$('#form').append('<input type="hidden" name="display_order['+ this.name.replace(/[^0-9]/g, '') +']" value="'+ this.value +'" />');
+	$(this).css({border: '1px solid #ff0000'});
+});
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

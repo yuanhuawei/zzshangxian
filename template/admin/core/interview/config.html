@@ -1,0 +1,42 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+	
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="columntable formtable hover_table">
+						<tr>
+							<td colspan="2" class="title">设置</td>
+						</tr>
+						
+						<tr>
+							<td class="tdL">{$P8LANG['templatestyle']}</td>
+							<td class="tdR">
+							<select name="config[template]">
+							<option value="">----</option>
+							<!--{foreach $core->CONFIG['templates'] $name $alias}-->
+							<!--{if is_dir(TEMPLATE_PATH . $name .'/core/'. $this_module->name)}-->
+							<option value="$name" {if $config['template']==$name}selected{/if}>$alias</option>
+							<!--{/if}-->
+							<!--{/foreach}-->
+							</select>	<span class="point">一般不作设置</span>			
+							</td>
+						</tr>
+						
+						<tr>
+						  <td class="tdL">&nbsp;</td>
+						  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+					  </tr>
+					</table>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+</form>
+
+
+<!--{template $core footer admin}-->
+
+<!--{/php168}-->

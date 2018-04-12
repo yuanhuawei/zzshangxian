@@ -1,0 +1,35 @@
+<!--{php168}-->
+<style type="text/css">
+.label_pic_ul11c_{$label['id']} li{height:{$sheight}px;width: {$swidth}px;text-align:center;float:left;border:1px solid #cebfb0;margin-right:12px;position:relative; display:inline;overflow:hidden;zoom:1}
+.label_pic_ul11c_{$label['id']} .conimg{height:{$sheight}px;width: {$swidth}px;}
+.label_pic_ul11c_{$label['id']} .label_pic_title {position: absolute;left: 0;bottom: 0;width: 100%; height:25px;line-height:25px;text-align: center;color: #fff;background: #92867c;filter: alpha(opacity=75);background-color: rgba(146,134,124,0.7);z-index: 100;}
+.label_pic_ul11c_{$label['id']} .label_pic_title a{color:#fff;}
+</style>
+<!--{php $list_count=count($list);}-->
+<!--{php $list_i=0;}-->
+<ul class="label_pic_ul11c_{$label['id']}">
+	<!--{foreach $list $value}-->
+	<!--{php $list_i ++;}-->
+	<!--{if $list_i == $list_count}-->
+	<li style="margin-right:0px;">
+		<a href="$value[url]" target="_blank" title="$value[full_title]"><img class="conimg" alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a>
+		<div class="label_pic_title" style="width: {$swidth}px;"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></div>
+	</li>
+	<!--{else}-->
+	<li>
+		<a href="$value[url]" target="_blank" title="$value[full_title]"><img class="conimg"  alt="$value[full_title]" onError="this.src='$RESOURCE/images/nopic.jpg'" src="{if empty($value['frame'])}{$RESOURCE}/images/nopic.jpg{else}$value[frame]{/if}" /></a>
+		<div class="label_pic_title" style="width: {$swidth}px;"><a href="$value[url]" target="_blank" title="$value[full_title]">$value[title]</a></div>
+	</li>
+	<!--{/if}-->
+	<!--{/foreach}-->
+</ul>
+<script type="text/javascript">
+$(function(){
+	$(".label_pic_ul11c_{$label['id']} li").hover(function() {
+		$(this).find(".conimg").stop().animate({"width":205,"height":72});
+	}, function() {
+		$(this).find(".conimg").stop().animate({"width":201,"height":70});
+	})
+});
+</script>
+<!--{/php168}-->

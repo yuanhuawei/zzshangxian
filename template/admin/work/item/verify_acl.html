@@ -1,0 +1,92 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+	
+<form action="$this_url" method="post" id="form">
+	<div class="mainbox mainborder">
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td colspan="2" class="title">分级审核</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL" width="3%">
+					
+				</td>
+				<td class="tdR">
+					<div style="display: none;" id="clone">
+						<b style="cursor: move; background: url({$RESOURCE}/images/draggable.png) no-repeat 0px -20px;">&nbsp;&nbsp;</b>
+						<input type="text" name="verify_acl[*][name]" />
+						<!--{foreach $roles $id $v}-->
+						<input type="checkbox" name="verify_acl[*][role][$id]" id="verify_acl[*][role][$id]" value="$id" /><label for="verify_acl[*][role][$id]">$v[name]</label> 
+						<!--{/foreach}-->
+						<input type="button" value="删除" />
+					</div>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL"><input type="button" value="添加" onclick="copy()" /></td>
+				<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+			</tr>
+	    </table>
+	</div>
+</form>
+
+<script type="text/javascript" src="{$RESOURCE}/js/sortable.js"></script>
+<script type="text/javascript">
+
+var role_json = $role_json,
+	acl_json = $acl_json;
+
+var offset = count(acl_json);
+
+function copy(json){
+	json = json === undefined ? {status: 'none', role: {}} : json;
+	
+	var sys_default = $.inArray(json.status, [0, 1,99, -99]) != -1;
+	
+	var _offset = sys_default ? json.status : 'offset'+ offset;
+	var copy = $('#clone').clone(true).show().attr('id', '').
+		attr('class', 'item').insertAfter($('#clone'));
+	
+	copy.find('input[type=text]').
+		attr('name', function(){return this.name.replace('*', _offset);}).
+		val(json.name);
+	
+	copy.find('input[type=checkbox]').each(function(i){
+		$(this).attr('name', this.name.replace('*', _offset)).
+			attr('id', this.id.replace('*', _offset)).
+			prop('checked', json.role[this.value] ? true : false);
+		
+		copy.find('label').eq(i).
+			attr('for', function(){return $(this).attr('for').replace('*', _offset);});
+	});
+	
+	copy.find('input[type=button]').click(function(){
+		$(this).parent().remove();
+	});
+	
+	if(sys_default){
+		copy.attr('class', '').find('input[type=text]').attr('disabled', true);
+		copy.find('b').css({background: 'url({$RESOURCE}/images/draggable.png) no-repeat 0px 0px'});;
+		copy.find('input[type=button]').remove();
+		copy.insertBefore($('#clone'));
+	}
+	
+	offset--;
+	
+	$.p8_sortable({
+		selector: {
+			range: '.item',
+			drag: 'b'
+		},
+		type: 'y'
+	});
+}
+
+<!--{foreach $config $status $v}-->
+copy($.extend(acl_json[$status], {status: $status}));
+<!--{/foreach}-->
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

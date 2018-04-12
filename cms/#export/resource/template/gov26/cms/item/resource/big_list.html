@@ -1,0 +1,72 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}item/{$MODEL}/style.css" />
+<div class="list_banner">
+	$label[dow_list_ad1]
+</div>
+<div class="list_nave">
+	<a href="{$this_system.url}">Ê×Ò³</a>&nbsp;&gt;&nbsp;
+	<!--{foreach $parent_cats $v}-->
+	<a href="$v[url]">$v[name]</a>&nbsp;&gt;&nbsp;
+	<!--{/foreach}-->
+	<a href="$CAT[url]">$CAT[name]</a>
+</div>
+<!--×ó±ß-->
+<div class="dt_left">
+	<div class="border1">		
+		<div class="head6"><!--{php $parent = end($parent_cats);$parent_name = $parent ? $parent[name]:$CAT[name];$parent_url = $parent ? $parent[url] : $CAT[url];}-->
+		<span class="title7"><a href="$parent_url">$parent_name</a></span>
+ 	</div>
+	<div class="main1">
+		<!--{template $this_module step_category}-->
+	</div>
+	</div>
+	
+		<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[ny2_list_new]</span> <span class="list_more1">$label[dow_blist_more1]</span>
+	</div>
+	<div class="main1">
+		$label[ny2_ar_list_content_new]{'i.cid'=>$CATEGORY,'model'=>$MODEL}
+	</div>
+	</div>
+	
+	<div class="border1 mtop6">
+		<div class="head6">
+			<span class="title7">$label[ny2_hot_content_list]</span> <span class="list_more1">$label[dow_blist_more2]</span>
+	</div>
+	<div class="main1">
+		$label[ny2_hot_list_content]{'i.cid'=>$CATEGORY,'model'=>$MODEL}
+	</div>	
+	</div>	
+
+
+<div class="mtop">
+	$label[ny2_zhuanti_ad11]
+	</div>
+	<div class="mtop">
+	 $label[ny2_zhuanti_ad22]
+	</div>
+
+
+</div>
+<!--ÓÒ±ß-->
+<div class="dt_right">
+	<!--{php $i = 0;}-->
+	<!--{foreach $subcategories $v}-->
+	<!--{php if($i > 5) break; $i++;}-->
+	<!--{php $subcat = array($v['id']) + $category->get_children_ids($v['id']);}-->
+	<div class="border1 mbottom">
+		<div class="head5">
+			<span class="title6"><a href="$this_url-category-$v[id]">$v[name]</a></span><a class="more1" href="$this_url-category-$v[id]">More>></a><span class="more1"><a href="{$core.U_controller}/cms/item-add?cid=$v[id]&model=$CAT[model]" target="_blank">·¢±í</a>  |</span>
+		</div>
+	<div class="main">
+		$label[dow_big_list]{'i.cid' => $subcat, 'model' => $MODEL}
+	</div>
+</div>
+	<!--{/foreach}-->
+</div>
+
+<div class="clear"></div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

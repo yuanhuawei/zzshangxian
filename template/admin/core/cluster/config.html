@@ -1,0 +1,50 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="x_nav">
+	<tr>
+		<td><img src="{$_SKIN}/$MODULE/nav_z.gif" width="20" height="22" align="absmiddle" /> 您现在的位置：<a href="{$core.admin_controller}/core/cluster-index">PHP168站群系统</a> &gt; <a href="#">参数配置</a></td>
+	</tr>
+</table>
+<form action="$this_url" method="post" id="form">
+	<table width="100%" cellspacing="0" cellpadding="0" class="zq_list">
+		<tr>
+			<td width="22%"  class="list_top">{$P8LANG['client_config']}</td >
+			<td width="34%" class="list_top">{$P8LANG['client_option']}</td>
+			<td width="44%" class="list_top">{$P8LANG['back']}</td>
+		</tr>
+		<tr>
+			<td class="tdL">{$P8LANG['cluster_client']['id']}</td>
+			<td class="tdR"> <input type="text" class="txt" name="config[server][id]" value="{if !empty($config['server']['id'])}{$config['server']['id']}{/if}" size="3" /> </td>
+			<td  class="tdR">站群先添加你所在分站，会产生一个ID</td>
+		</tr>
+		<tr>
+			<td class="tdL">{$P8LANG['cluster_server']['url']}</td>
+			<td class="tdR"> <input type="text" class="txt" name="config[server][url]" value="{if !empty($config['server']['url'])}{$config['server']['url']}{else}http://www.xxx.com/index.php/core/cluster-server{/if}" size="60" /> </td>
+			<td  class="tdR">格式如左框所示，xxx处替换站群网址即可</td>
+		</tr>
+		<tr>
+			<td class="tdL">{$P8LANG['cluster_client']['code']}</td>
+			<td class="tdR"> <input type="text" class="txt" name="config[server][code]" value="{if !empty($config['server']['code'])}{$config['server']['code']}{/if}" size="32" /> </td>
+			<td class="tdR">请将主站站群设定好的本分站通信密码填入</td>
+		</tr>
+		<tr>
+			<td class="tdL">{$P8LANG['cluster_server']['charset']}</td>
+			<td class="tdR"> <input type="text" class="txt" name="config[server][charset]" value="{if !empty($config['server']['charset'])}{$config['server']['charset']}{else}{$core.CONFIG['page_charset']}{/if}" size="5" /> </td>
+			<td class="tdR">根据站群服务端自身编码情况，一般为gbk 或 utf8</td>
+		</tr>
+		<tr>
+			<td class="tdL">{$P8LANG['cluster_server']['ip']}</td>
+			<td class="tdR"> <input type="text" class="txt" name="config[server][ip]" value="{if !empty($config['server']['ip'])}{$config['server']['ip']}{/if}" size="15" /> </td>
+			<td class="tdR">可以不填,如域名通信不了可以填IP通信</td>
+		</tr>
+		<tr>
+			<td class="tdL">&nbsp;</td>
+			<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn" /></td>
+			<td class="tdR"><input type="button" value="更新服务器资料" class="submit_btn" onclick="this.form.update.value=1;this.form.submit();" /></td>
+		</tr>
+	</table>
+	<input type="hidden" name="update" value="0" />
+</form>
+<!--{template $this_module footer admin}-->
+<!--{/php168}-->

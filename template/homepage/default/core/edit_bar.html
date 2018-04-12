@@ -1,0 +1,269 @@
+<!--{php168}-->
+<link type="text/css" rel="stylesheet" href="{$SKIN}/edit.css" />
+
+<script type="text/javascript">
+var LAYOUT = {p8_json($LAYOUTS)},
+	BLOCK = {p8_json($BLOCKS)},
+	block_dialog = new P8_Dialog({
+		title_text: '{$P8LANG['homepage']['edit_block']}',
+		width: 700,
+		height: 500,
+		zIndex: 2000,
+		button: true
+	}),
+	uploader,
+	edited_block = {},
+	sortable,
+	menu_sortable;
+
+$(function(){
+	sortable = new $.p8_sortable({
+		selector: {
+			range: '.block',
+			container: '.layout',
+			drag: '.title'
+		},
+		sorted: function(e1, e2){
+			
+		},
+		holder_css: '2px dashed #ff0000',
+		drop_to_sort: true
+	});
+	
+	menu_sortable = new $.p8_sortable({
+		selector: {
+			range: '.nav_menu'
+		},
+		drop_to_sort: true,
+		type: 'x'
+	});
+	
+	$('.nav_menu').each(function(){
+		$(this).css({cursor: 'move'});
+	});
+	
+	$('.block').each(function(){
+		block_init($(this));
+	});
+	
+	uploader = new P8_Upload({
+		element: {
+			src: $('input[name=banner]'),
+			attribute: 'value'
+		},
+		callback: function(json){
+			$('#banner').attr('src', json.attachments[0].file);
+		}
+	});
+});
+
+window.onbeforeunload = function(){
+	return '{$P8LANG['homepage']['confirm_to_quit']}';
+};
+
+function layout(l){
+	var layout = LAYOUT[l];
+	
+	$('.layout:eq(0)').css({width: layout.left});
+	
+	$('.layout:eq(1)').css({width: layout.center});
+	
+	$('.layout:eq(2)').css({width: layout.right}).show();
+	if(layout.right == 0){
+		$('.layout:eq(2)').hide().find('.block').appendTo($('.layout:eq(1)'));
+	}
+}
+
+function block(b, add){
+	if(add){
+		if($('#block_'+ b, '#recycle').length){
+			$('#block_'+ b, '#recycle').prependTo($('.layout:eq(0)'));
+		}else{
+			$.ajax({
+				url: '$URL-get_block',
+				data: {name: b},
+				beforeSend: function(){ajaxing({});},
+				cache: false,
+				success: function(s){
+					ajaxing({action: 'hide'});
+					//alert(s);return;
+					var block = $(s);
+					block.prependTo($('.layout:eq(0)'));
+					
+					block_init(block);
+				}
+			});
+		}
+	}else{
+		$('#block_'+ b).appendTo($('#recycle'));
+	}
+}
+
+function block_config(b){
+	block_dialog.onShow = function(){
+		
+		var div = block_dialog.content.find('div:visible:first');
+		if(div.length){
+			div.hide();
+			//div.appendTo($('#block_dialog'));
+		}
+		
+		if($('#block_dialog_'+ b).length){
+			$('#block_dialog_'+ b).show();
+			
+			if(CKEDITOR !== undefined){
+				for(var i in CKEDITOR.instances){
+					CKEDITOR.instances[i].setMode('source');
+					
+					setTimeout(function(){CKEDITOR.instances[i].setMode('wysiwyg');}, 100);
+				}
+			}
+			
+		}else{
+			
+			ajaxing({});
+			
+			var div = $('<div id="block_dialog_'+ b +'"></div>');
+			block_dialog.content.append(div);
+			
+			div.load('$URL-block_config?name='+ b, function(){
+				ajaxing({action: 'hide'});
+			});
+		}
+	};
+	
+	block_dialog.show();
+	
+	block_dialog.ok(function(){
+		
+		var form = block_dialog.content.find('div:visible form');
+		var s = form.serialize();
+		
+		$('#block_'+ b +' .title span').html(form.find('input[name$="[alias]"]').val());
+	});
+	
+	edited_block[b] = 1;
+}
+
+function block_init(b){
+	
+	$('.title', b).css({cursor: 'move'}).prepend(
+		$('<div style="float: right; cursor: pointer;">'+ P8LANG.edit +'</div>').mousedown(function(){
+			block_config($(this).parent().parent().attr('id').replace(/^block_/, ''));
+			return false;
+		})
+	);
+	
+	sortable.refresh();
+}
+
+
+
+
+function save(){
+	var ret = {},
+		forms = [];
+	ret.left = [], ret.center = [], ret.right = [];
+	ret.layout = $('input[name=layout]:checked').val();
+	
+	var layouts = {left: '.layout:eq(0) .block', center: '.layout:eq(1) .block', right: '.layout:eq(2) .block'};
+	for(var l in layouts){
+		$(layouts[l]).each(function(){
+			var name = $(this).attr('id').replace(/^block_/, '');
+			
+			if($('#block_form_'+ name).length){
+				forms.push($('#block_form_'+ name).serialize());
+			}else if(BLOCK[name] && !edited_block[name]){
+				//not modified
+				var obj = {};
+				BLOCK[name]['not_modified'] = 1;
+				obj['block['+ name +']'] = BLOCK[name];
+				forms.push(ajax_parameters(obj));
+			}
+			
+			ret[l].push({
+				name: $(this).attr('id').replace(/^block_/, ''),
+				alias: $(this).find('.title span').html()
+			});
+		});
+	}
+	
+	$.ajax({
+		url: '$URL?edit=1',
+		type: 'post',
+		data: ajax_parameters(ret) +'&'+ forms.join('&') +'&'+ $('#other_config_form').serialize(),
+		cache: false,
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(s){
+			ajaxing({action: 'hide'});
+			//alert(s);return;
+			window.onbeforeunload = function(){};
+			window.location.href = '$URL';
+		}
+	});
+}
+</script>
+
+<div id="edit_bar">
+	<ul class="func">
+		<li><a href="###">{$P8LANG['homepage']['layout']}</a></li>
+		<li><a href="###">{$P8LANG['homepage']['style']}</a></li>
+		<li><a href="###">{$P8LANG['homepage']['block']}</a></li>
+		<li><a href="###">{$P8LANG['homepage']['other_config']}</a></li>
+		<li><input type="button" value="{$P8LANG['submit']}" onclick="save()" /></li>
+		<li><input type="button" value="{$P8LANG['cancel']}" onclick="window.location.href = '$URL';" /></li>
+	</ul>
+	<div style="clear: both;"></div>
+	
+	<div id="layout">
+		<!--{foreach $LAYOUTS $name $v}-->
+			<input type="radio" id="layout_$name" name="layout" value="$name" onclick="layout('$name')"{if $LAYOUT[''] == $name} checked{/if} /><label for="layout_$name">$name</label>
+		<!--{/foreach}-->
+	</div>
+	
+	<div id="skin">
+		<!--{foreach $SKINS $v}-->
+			<input type="radio" />
+		<!--{/foreach}-->
+	</div>
+	
+	<div id="block">
+		<!--{foreach $BLOCKS $v}-->
+			<input type="checkbox" id="_block_$v[name]" value="$v[name]" onclick="block('$v[name]', this.checked)"{if isset($selected_block[$v['name']])} checked{/if} /><label for="_block_$v[name]">$v[alias]</label>
+		<!--{/foreach}-->
+	</div>
+	
+	<div id="other_config">
+		<form id="other_config_form">
+		<table>
+			<tr>
+				<td>{$P8LANG['homepage']['name']}</td><td><input type="text" name="name" value="{$USER['homepage']['name']}" /></td>
+			</tr>
+			<tr>
+				<td>{$P8LANG['homepage']['banner']}</td>
+				<td>
+					<input type="text" name="banner" value="{$USER['homepage']['banner']}" size="60" />
+					<input type="button" value="{$P8LANG['upload']}" onclick="uploader.uploader();" />
+				</td>
+			</tr>
+			<tr>
+				<td>SEO关键词</td><td><input type="text" name="seo_keywords" value="{$USER['homepage']['seo_keywords']}" /></td>
+			</tr>
+			<tr>
+				<td>SEO描述</td><td><input type="text" name="seo_description" value="{$USER['homepage']['seo_description']}" /></td>
+			</tr>
+		</table>
+		</form>
+	</div>
+	<div id="debug">&nbsp;</div>
+</div>
+<div style="clear: both;"></div>
+<div id="recycle" style="display: none;"></div>
+<div id="block_dialog" style="display: none;"></div>
+
+
+<script type="text/javascript" src="{$RESOURCE}/js/sortable.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<!--{/php168}-->

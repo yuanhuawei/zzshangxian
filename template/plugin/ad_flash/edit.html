@@ -1,0 +1,141 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<style>
+.box { padding:2px; border:1px solid #cccccc; }
+.head{ background-color:#eeeeee}
+</style>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<div class="mainbox mainborder">
+	<table class="formtable">
+		<tr>
+			<td class="title">{$P8LANG['operation']}</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				<ul>
+					<li><a href="{$this_url}?plugin=ad_flash">列表</a></li>
+					<li><a href="{$this_url}?plugin=ad_flash&job=cache">刷新缓存</a></li>
+					<li><a href="{$this_url}?plugin=ad_flash&job=add">添加一个</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mainbox mainborder">
+	<form name="form" action="{$this_url}" method="post" id="form">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['operation']}</td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td height="25" >
+					<table width="100%" border="0" cellspacing="1" cellpadding="1">
+						<tr>
+							<td rowspan="4" width="50%" align="center"><img id="show_img" class="box" src="{if !empty($data['bigpic'])}$data[bigpic]{/if}" width="300" height="100" onerror="{$core.url}/images/nopic.jpg" />&nbsp;<img id="show_img2" class="box" src="{if !empty($data['smallpic'])}$data[smallpic]{/if}" width="70" height="50" onerror="{$core.url}/images/nopic.jpg" /></td>
+							<td width="10%">标题</td>
+							<td width="40%"><input type="text" name="title" value="$data[title]" id="textfield" /></td>
+						</tr>
+						<tr>
+							<td>链接地址</td>
+							<td><input type="text" name="link" id="textfield2" value="{if !empty($data['link'])}$data[link]{/if}" size="50" /></td>
+						</tr>
+						<tr>
+							<td>大图</td>
+							<td><input type="text" name="bigpic" value="{if !empty($data['bigpic'])}$data[bigpic]{/if}" id="bigpic" size="30"/>
+							<input type="button" onclick="uploader1.browser();" value="{$P8LANG['browse']}"/>
+							<input type="button" onclick="uploader1.uploader();" value="{$P8LANG['upload']}"/></td>
+						</tr>
+						<tr>
+							<td>小图</td>
+							<td><input type="text" name="smallpic" value="{if !empty($data['smallpic'])}$data[smallpic]{/if}" id="smallpic" size="30"/>
+							<input type="button" onclick="uploader2.browser();" value="{$P8LANG['browse']}"/>
+							<input type="button" onclick="uploader2.uploader();" value="{$P8LANG['upload']}"/></td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td><input type="submit" value="提交" class="submit_btn" />
+							<input type="hidden" name="do" value="$job" />
+							<input type="hidden" name="id" value="{if !empty($data['id'])}$data[id]{/if}" />
+							<input type="hidden" name="plugin" value="ad_flash" />
+							</td>
+							<td>&nbsp;</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+<div class="mainbox mainborder">
+	<table class="formtable">
+		<tr>
+			<td class="title">注意事项</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				注意：<br />
+				1, 大图只能上传JPEG格式图片<br />
+				2,小图只能上传PNG格式图片，否则不显示
+			</td>
+		</tr>
+	</table>
+</div>
+<script type="text/javascript">
+
+									var uploader;
+									$(document).ready(function(){
+										uploader1 = new P8_Upload({
+											element: {
+												src: $('#bigpic'),
+												attribute: 'value'
+											},
+											callback: function(json){
+												$('#show_img').attr('src', json.attachments[0].file);
+											}											
+										});
+										uploader2 = new P8_Upload({
+											element: {
+												src: $('#smallpic'),
+												attribute: 'value'
+											},
+											callback: function(json){
+												$('#show_img2').attr('src', json.attachments[0].file);
+											}	
+										});
+										$('#form').validate({
+											rules: {
+												title: {
+													required: true
+												},
+												link: {
+													required: true
+												},
+												bigpic: {
+													required: true
+												},
+												smallpic: {
+													required: true
+												}
+											},
+											messages: {
+												title: {
+													required: '<font color=red>标题不能为空</font>'
+												},
+												link: {
+													required: '<font color=red>链接地址不能为空</font>'
+												},
+												bigpic: {
+													required: '<font color=red>大图必须有</font>'
+												},
+												smallpic: {
+													required: '<font color=red>小图必须有</font>'
+												}
+											},
+											onkeyup: false
+											
+										})
+									});	
+									
+</script>
+<!--{/php168}-->

@@ -1,0 +1,91 @@
+<!--{php168}-->
+<!--{template $this_system header}-->
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/$SYSTEM/item/item.js"></script>
+<script type="text/javascript">
+var item_id = $data[id],
+	model = '$data[model]',
+	item_cid = $data[cid],
+	verified = \$_GET['verified'] !== undefined || \$_GET['verified'] == 1 ? 1 : 0;
+
+$(function(){
+	if(get_cookie('IS_ADMIN') == 1){
+		item_operation($('#operation').show());
+	}
+});
+</script>
+<link rel="stylesheet" type="text/css" href="{$SKIN}../core/alonepage/style.css" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}style.css" />
+<div class="nav mtop">您的位置：
+<a href="{$core.controller}">首页</a>
+<!--{foreach $parent_cats $v}-->
+&gt;&gt; <a href="$v[url]">$v[name]</a>
+<!--{/foreach}-->
+&gt;&gt; <a href="$CAT[url]">$CAT[name]</a> 
+</div>
+<div>
+	<div class="contain_left">	
+		<div class="border1 gov18">
+			<div class="head1"><!--{php $parent = end($parent_cats);$parent_name = $parent ? $parent[name]:$CAT[name];$parent_url = $parent ? $parent[url] : $CAT[url];}-->
+				<span class="title1">
+					<a href="$parent_url">$parent_name</a>
+				</span>
+			</div>	
+				<div class="main1" id='leftbox'>
+					<!--{template $this_module step_category_jx}-->
+				</div>
+				<div class="clear">
+				</div>
+		</div>
+		
+		<div class="border1 mtop">
+			<div class="head1 gov18">
+				<span class="title1">
+					$label[ny3_tongzhi_title_2]
+				</span>
+			</div>	
+				<div class="main1">
+				<div style="min-height:40px;">$label[ny3_tongzhi_content_2]</div>
+                                </div>
+		</div>
+		<div class="mtop">
+		$label[ny3_let_ad1]
+		</div>
+	</div>	
+       <div class="dt_right fn-right ldright">
+	   <div class="ldrhd"><a href="{$core.controller}">首页</a>
+<!--{foreach $parent_cats $v}-->
+&gt;&gt; <a href="$v[url]">$v[name]</a>
+<!--{/foreach}-->
+&gt;&gt; <a href="$CAT[url]">$CAT[name]</a> 
+&gt;&gt; 详细内容 <span id="operation" style="display: none; cursor: pointer;float:right;margin-right:26px;">{$P8LANG['operation']}</span></div>
+            <div class="ldData">
+               <div class="pic">
+                  <div class="fn-left">
+                     <img width="150" height="205" src="$data[frame]">                
+                  </div>
+                  <div class="fn-right">
+		<h4>姓　名：<span>{$data[name]}</span></h4>
+		<h4>职　务：<span>{$data[zhiwu]}</span></h4>
+		<h4>工作职责：<span>{$data[summary]}</span></h4>                    
+                  </div>
+               </div>
+			   <div class="clear"></div>
+               <div class="txt mtop">
+                  <h4>简历说明</h4>{$data[content]}               
+               </div>
+            </div>
+	<div class="leaderContent">
+	<div class="underBtn">
+<!--{if $data['speak']}--><span style="float:left;margin-right:32px;margin-left:32px"><a href="{$data[speak]}" target="_blank">领导讲话</a></span><!--{/if}-->
+<!--{if $data['huodong']}--><span  style="float:left;margin-right:32px"><a href="{$data[huodong]}" target="_blank">领导活动</a></span><!--{/if}-->
+<!--{if $data['email']}--><span  style="float:right;margin-right:30px;"><a href="{$data[email]}" target="_blank">领导信箱</a></span><!--{/if}--></div>
+	</div>
+            <div style="height:34px;" class="clearSpace"></div>  
+            </div>
+</div>
+<script type="text/javascript" src="$this_router-count?id=$data[id]"></script>
+<div class="clear">
+</div>
+<!--{template $this_system footer}-->
+<!--{/php168}-->

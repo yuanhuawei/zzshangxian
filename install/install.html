@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>国微CMS系统安装程式</title>
+<link rel="stylesheet" href="install/images/css.css" type="text/css">
+<script type="text/javascript" src="js/jq.js"></script>
+</head>
+<script type="text/javascript">
+<!--
+	re=/install\.php/i;
+	if (re.test(window.self.location)==false){
+		alert('你访问的页面有误,系统将自动跳转到正常页面安装整站系统!');
+		window.location.href="../install.php";
+	}
+//-->
+</script>
+<body>
+<div id="header">
+	<div class="logo"><img src="install/images/logo.gif" /></div>
+	<div class="head_title">
+	欢迎您使用国微PHP168开源平台<br>
+      该界面为<span class="style1">程序初始化</span>安装
+	</div>
+	<div class="head_bottom"></div>
+</div>
+<div id="main">
+		<?php include("install/$step.html"); ?>
+</div>
+<script type="text/javascript">
+//$(document).ready(function(){
+//	var clk=0;
+//	$("#main input[type=submit]").click(function(){clk++;if(clk>1)return false;})})
+</script>
+<div id="footer">
+	开 发 团 队<br>
+      <br>
+      官方网站： <a href="http://www.php168.net" target="_blank" style="color:#ffffff">http://www.php168.net</a> <br>
+      系统设计： 骏龙,秋号,罗你命3000,十三月,幻想鸟,启迪,晨风,百事通<br>
+      购买咨询： 电话：020-87202645 QQ：1103315866  ,1062538254 MSN:php168sales@hotmail.com<br>
+      团队管理： 骏龙<br>
+      特别感谢： viqtokgn 、toopd <br>
+      协作发展： 国微官方论坛斑竹团队 <br />
+</div>
+</body>
+</html>
+

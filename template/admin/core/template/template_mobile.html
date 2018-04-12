@@ -1,0 +1,60 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<div class="mainbox mainborder">
+	<div class="section">
+		<table class="formtable">
+			<tr>
+				<td class="title">{$P8LANG['operation']}</td>
+			</tr>
+			<tr><td class="headerbtn_list">
+				<ul>
+					<li class="li1"><a href="{$core.admin_controller}/core-template_system">网站模板</a></li>
+					<li><a href="{$core.admin_controller}/core-template_mobile">移动模板</a></li>
+					<li><a href="{$core.admin_controller}/core-navigation_menu_list">前台导航管理</a></li>
+					<li><a href="{$core.admin_controller}/core-menu_list">后台菜单管理</a></li>
+					<li><a href="{$core.admin_controller}/core-member_menu_list">会员中心菜单管理</a></li>
+					<li class="li5"><a href="$this_router-cache">{$P8LANG['update_cache']}</a></li>
+				</ul>
+			</td></tr>
+			
+		  </table>
+	</div>
+</div>
+<div class="mainbox mainborder">
+	<div class="section">
+		<form action="$this_url" method="post">
+			<table class="formtable template_box">
+				<tr>
+					<td  class="title">模板选择</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="max_title">
+							<span class="min_title">移动模式模板选择</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="list_template">
+						<!--{foreach $core->CONFIG['mobile_templates'] $name $alias}-->
+						<!--{if is_dir(TEMPLATE_PATH .'mobile/'. $name)}-->
+						<div class="each_template">
+							<img src="{$RESOURCE}/{$core.CONFIG['template_dir']}/mobile/$name/preview.jpg" border="0" width="150" height="180" onclick="" onerror="this.src='{$RESOURCE}/images/nopic.jpg'" /><br />
+							$alias<br>
+							<input type="radio" name="mobile_template" id="template_$name" value="mobile/$name"{if !empty($config['mobile_template']) && $config['mobile_template'] == 'mobile/'.$name} checked{/if} /><input type="hidden" name="system" value="core" /><label for="template_$name"> 设置为当前模板</label>
+						</div>
+						<!--{/if}-->
+						<!--{/foreach}-->
+						
+					</td>
+				</tr>
+				<tr><td align="center">
+				<p><input type="submit" value="提交" class="submit_btn"/></p>
+				</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

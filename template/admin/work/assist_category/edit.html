@@ -1,0 +1,38 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<form action="$this_url" method="post">
+	<div class="mainbox mainborder">
+		<table class="columntable formtable hover_table padding_table">
+			<tr>
+				<td colspan="2" class="title">
+					辅栏目设置
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">名称</td>
+				<td><input type="text" name="name" value="$data[name]"/></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL" colspan="2"><input type="submit" value="提交" class="submit_btn"/></td>
+			</tr>
+		</table>
+		<input type="hidden" name="id" value="$id"/>
+		<table class="columntable formtable hover_table padding_table">
+			<tr>
+				<td colspan="2" class="title">
+					说明:
+				</td>
+			</tr>
+			<tr>
+				<td>
+					... 
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

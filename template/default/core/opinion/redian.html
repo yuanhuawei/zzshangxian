@@ -1,0 +1,59 @@
+<!--{php168}-->
+<!--{php $TITLE = '热点追踪  - ';}-->
+<!--{template $this_module header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/opinion/index.css">
+<div id="main">
+  <div class="add-inner">
+    <div id="breadcrumb">
+       <p>您现在的位置：<a href="{$core.url}">首页</a>&gt;&gt; <a href="{$this_router}-main">网络问政</a>&gt;&gt; <span class="current">热点追踪</span></p>
+    </div>
+    <div id="page_feedback">
+      <h1 class="page-title-red">热点追踪</h1>
+      <div class="article-content pager-content">
+        $label[redian_content]
+      </div>
+    </div>
+  </div>
+  <div style="height:30px"><span style="float:right;margin-right:20px"">$label[redian_more]</span></div>
+</div>
+<div id="aside_second">
+  <div class="add-inner">
+    <div class="aside-block" id="block_nav_quick">
+      <div class="block-bd">
+        <ul class="nav-links">
+          <li class="link-wenzheng"><a href="{$core.controller}/letter-post" target="_blank">我要问政</a></li>
+      <li class="link-xinxiang"><a href="{$core.controller}/opinion-letter" target="_blank">领导信箱</a></li>
+      <li class="link-xinfang"><a href="{$core.controller}/opinion-list" target="_blank">网上信访</a></li>
+      <li class="link-chaxun"><a href="{$core.controller}/letter-progress" target="_blank">信件处理进度查询</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="others-block">
+      <div class="aside-block pt5" id="block_today_news">
+        <div class="block-hd bar-hd">
+           <h3>$label[last_news_1]</h3>
+        </div>
+        <div class="block-bd"> $label[survey_list_1] </div>
+      </div>
+      <div class="aside-block pt5" id="block_hot_news">
+        <div class="block-hd bar-hd">
+          <h3>$label[host_news_2]</h3>
+        </div>
+        <div class="block-bd"> $label[survey_list_2] </div>
+      </div>
+      <div class="aside-block pt5" id="block_hot_news">
+        <div class="block-hd bar-hd">
+         <h3>$label[host_news_3]</h3>
+        </div>
+        <div class="block-bd"> $label[survey_list_3] </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
+<div class="mszx">
+  <div class="tt">民生在线</div>
+  $label[survey_content_1] </div>
+<div class="clear"></div>
+<!--{template $this_module footer}-
+<!--{/php168}-->

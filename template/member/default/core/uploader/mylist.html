@@ -1,0 +1,107 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<!--{template $core member/header}-->
+
+<div class="mtop10">
+    <select name="system" id="system" onchange="if(this.value) _goto(this.value)">
+	<option value="">{$P8LANG['system']}</option>
+	<!--{foreach $this_module->CONFIG['enables'] $s $m}-->
+	<option value="$s"{if $system == $s} selected{/if}><!--{if $s == 'core'}-->{$P8LANG['core']}<!--{else}-->{$core.systems[$s]['alias']}<!--{/if}--></option>
+	<!--{/foreach}-->
+</select>
+ - 
+<select name="module" id="module" onchange="_goto('$system', this.value)">
+	<option value="">{$P8LANG['null']}</option>
+	<!--{php $module_info = get_modules($system);}-->
+	<!--{foreach $this_module->CONFIG['enables'][$system] $m $v}-->
+		<!--{if $m == ''}--><!--{php continue;}--><!--{/if}-->
+		<option value="$m"{if $module == $m} selected{/if}>{$module_info[$m]['alias']}</option>
+	<!--{/foreach}-->
+</select>
+ </div>  
+	<form name="att_list" action="" method="post" id="form">
+	 <table width='99%' align="center" cellspacing='1' cellpadding='3' class="formtable columntable hover_table mtop20">
+	<tr class="head">
+		<td><input type="checkbox" onclick="check_all(this, 'id[]')" /></td>
+		<td>ID</td>
+		<td>{$P8LANG['upload_username']}</td>
+		<td>{$P8LANG['upload_filename']}</td>
+		<td>{$P8LANG['upload_path']}</td>
+		<td>{$P8LANG['upload_ext']}</td>
+		<td>{$P8LANG['operation']}</td>
+	</tr>
+	
+	<!--{foreach $list $value}-->
+	<tr id="item_$value[id]">
+		<td><input type="checkbox" name="id[]" value="{$value['id']}" /></td>
+		<td>{$value['id']}</td>
+		<td>{$value['username']}</td>
+		<td>{$value['filename']}</td>
+		<td>
+			<a href="{if $value['remote']}{$core.CONFIG['attachment']['remote']['server'][$value['remote']]}{else}{$core.attachment_url}{/if}/{$value['path']}" target="_blank">{$value['path']}</a>
+		</td>
+		<td>{$value['ext']}</td>
+		<td>
+			<a href="###" onclick="_delete_item(['$value[id]'])">{$P8LANG['delete']}</a>
+		</td>
+	</tr>
+	<!--{/foreach}-->
+	
+	</table>
+	</form>
+	
+	<table width="100%" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td align="center" class="pages">
+			$pages
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<input type="button" onclick="check_all(true, 'id[]')" value="全选" />
+			<input type="button" onclick="check_all(false, 'id[]')" value="全不选" />
+            <input type="button" value="{$P8LANG['delete']}" onclick="_delete_item(checked_values('id[]', $('#form')))" class="edit_btn" />
+		</td>
+	</tr>
+	</table>
+
+<script type="text/javascript">
+function _delete_item(array){
+	var id = [];
+	$(array).each(function(k, v){
+		id.push(v.replace(/[^0-9]/g, ''));
+	});
+	if(!id.length) return;
+	
+	if(!confirm('{$P8LANG['confirm_to_delete']}')) return;
+	
+	$.ajax({
+		url: '$this_router-delete',
+		type: 'post',
+		dataType: 'json',
+		cache: false,
+		data: ajax_parameters({system: '$system', id: id}),
+		beforeSend: function(){
+			ajaxing({});
+		},
+		success: function(json){
+			ajaxing({action: 'hide'});
+			
+			for(var i = 0; i < json.length; i++){
+				$('#item_'+ json[i]).remove();
+			}
+		}
+	});
+}
+
+function _goto(s, m){
+	s = s || 'core';
+	m = m || '';
+	
+	window.location.href = '$this_url?system='+ s +'&module='+ m;
+}
+
+</script>
+
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

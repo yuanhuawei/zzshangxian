@@ -1,0 +1,125 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+
+
+<form action="$this_router-$ACTION" method="post" id="form">
+	<table class="mainbox mainborder">
+	<tr><td>
+		<table class="columntable formtable hover_table">
+			<tr>
+				<td colspan="2" class="title"><!--{if $ACTION == 'add'}-->{$P8LANG['mcredit']['add']}<!--{else}-->{$P8LANG['mcredit']['update']}<!--{/if}--></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['mcredit']['name']}</td>
+				<td class="tdR"><input type="text" class="txt" name="name"  value="<!--{if !empty($data['name'])}-->{$data['name']}<!--{/if}-->" /><span class="point">{$P8LANG['mcredit']['note1']}</span></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['mcredit']['unit']}</td>
+				<td class="tdR"><input type="text" class="txt" name="unit"  value="<!--{if !empty($data['unit'])}-->{$data['unit']}<!--{/if}-->" /><span class="point">{$P8LANG['mcredit']['note2']}</span></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['mcredit']['default_value']}</td>
+				<td class="tdR"><input type="text" class="txt" name="default_value"  value="<!--{if !empty($data['default_value'])}-->{$data['default_value']}<!--{else}-->0<!--{/if}-->" /><span class="point">{$P8LANG['mcredit']['note3']}</span></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['mcredit']['float_bit']}</td>
+				<td class="tdR"><input type="text" class="txt" name="float_bit"  value="<!--{if !empty($data['float_bit'])}-->{$data['float_bit']}<!--{/if}-->" /><span class="point">{$P8LANG['mcredit']['note4']}</span></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['mcredit']['float_point']}</td>
+				<td class="tdR"><input type="text" class="txt" name="float_point"  value="<!--{if !empty($data['float_point'])}-->{$data['float_point']}<!--{/if}-->" /><span class="point">{$P8LANG['mcredit']['note5']}</span></td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['mcredit']['unsigned']}</td>
+				<td class="tdR">
+					<input type="radio" name="unsigned" value="0" {if !empty($data['unsigned'])}  checked {/if}  />{$P8LANG['Y']}
+					<input type="radio" name="unsigned" value="1" {if empty($data['unsigned'])}  checked {/if}  />{$P8LANG['N']}
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">{$P8LANG['mcredit']['roe']}<span class="help">{$P8LANG['mcredit']['note15']}</span></td>
+				<td class="tdR" id="roes">
+					<div id="roe" style="display: none;">
+						<select>
+						<option value="0">-{$P8LANG['mcredit']['roefo']}-</option>
+						<!--{foreach $core->credits $id $credit}-->
+						<option value="$id">$credit[name]</option>
+						<!--{/foreach}-->
+						</select>
+						{$P8LANG['mcredit']['roe2']}
+						<input type="text" class="txt" size="4" />
+						<input type="button" value="{$P8LANG['delete']}" />
+					</div>
+					<input type="button" value="{$P8LANG['mcredit']['add_roe']}" onclick="roe()" />
+				</td>
+			</tr>
+			
+			<tr>
+			  <td class="tdL">&nbsp;</td>
+			  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+		  </tr>
+	    </table>
+	</td></tr>
+    </table>
+	<input type="hidden" name="id" value="<!--{if !empty($data['id'])}-->{$data['id']}<!--{/if}-->" />
+</form>
+<div class="mainbox mainborder">
+	<table class="formtable">
+		<tr>
+			<td class="title">{$P8LANG['help_about']}</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				...
+			</td>
+		</tr>
+		
+	</table>
+</div>
+<script type="text/javascript">
+$('#form').validate({
+	rules: {
+		name: 'required'
+	},
+	
+	messages: {
+		name: {
+			required: '{$P8LANG['mcredit']['name_required']}'
+		}
+	}
+});
+
+function roe(credit_id, rate){
+	var copy = $('#roe').clone().show();
+	
+	if(credit_id !== undefined && rate !== undefined){
+		copy.find('select option[value='+ credit_id +']').attr('selected', true);
+		copy.find('input[type=text]').attr('name', 'roe['+ credit_id +']').val(rate);
+		
+	}
+	
+	$(copy).find('select').change(function(){
+		$(this).parent().find('input').attr('name', 'roe['+ this.value +']');
+	});
+	copy.find('input[type=button]').click(function(){
+		$(this).parent().remove();
+	});
+	
+	$('#roes').append(copy);
+}
+
+<!--{foreach $data['roe'] $credit_id $rate}-->
+roe($credit_id, $rate);
+<!--{/foreach}-->
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

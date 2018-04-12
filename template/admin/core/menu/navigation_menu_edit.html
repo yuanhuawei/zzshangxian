@@ -1,0 +1,263 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $core menu_bar admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/iColorPicker.js"></script>
+<script type="text/javascript">
+var _system;
+var _module;
+var _action;
+var parent;
+var last_parent;
+var parent_queue;
+var _modules_inited = false;
+</script>
+<form action="$this_router-$ACTION" method="post" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td colspan="2" class="title">{$P8LANG['add_menu']}</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['menu_name']}</td>
+					<td class="tdR">
+						<input  type="text" class="txt" name="name" value="{if !empty($data['name'])}{$data['name']}{/if}" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['url']}</td>
+					<td class="tdR">
+						<input  type="text" class="txt" name="url" id="url" size="60" value="{if !empty($data['url'])}{$data['url']}{/if}" /> {$P8LANG['menu_url_note']}
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">菜单颜色</td>
+					<td class="tdR">
+						<input  name="color" type="text" value="{if !empty($data['color'])}{$data['color']}{/if}" id="titlecolor" class="iColorPicker"/> <img src="{$RESOURCE}/images/color_picker.gif" onclick="iColorShow('titlecolor','titlecolor', function(v){ $('#titlecolor').val(v);})" style="cursor: pointer;" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['parent_menu']}</td>
+					<td class="tdR">
+						
+						<select id="parent" onchange="get_sub_menus(this)">
+							<option value="0" class="_top_option">{$P8LANG['top_menu']}</option>
+							
+							<!--{foreach $navigation_menu->top_menus $v}-->
+							<option value="{$v['id']}"{if !empty($data['parent']) && $top['id'] == $v['id']} selected{/if}{if isset($v['menus'])} sub_menu="1"{/if}>{$v['name']}</option>
+							<!--{/foreach}-->
+						</select>
+						<input type="hidden" name="parent" value="{if !empty($data['parent'])}{$data['parent']}{/if}" />
+						如果使用公共头部，请选择“核心”
+					</td>
+				</tr>
+				<tr id="action_select">
+					<td class="tdL">{$P8LANG['menu_system']}</td>
+					<td class="tdR">
+						<select name="system" id="system" onchange="if(this.value) _get_modules(this.value)">
+							
+							<option value="core"{if !empty($data) && $data['system'] == 'core'} selected{/if}>{$P8LANG['core']}</option>
+							<!--{foreach $systems $k $v}-->
+							<option value="$k"{if !empty($data) && $data['system'] == $k} selected{/if}>{$v['alias']}</option>
+							<!--{/foreach}-->
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['menu_target']}</td>
+					<td class="tdR">
+						<select name="target">
+							<option value="" selected>{$P8LANG['default']}</option>
+							<option value="_blank"{if !empty($data['target']) && $data['target'] == '_blank'} selected{/if}>{$P8LANG['_blank']}</option>
+							<option value="_top"{if !empty($data['target']) && $data['target'] == '_top'} selected{/if}>{$P8LANG['_top']}</option>
+							<option value="_parent"{if !empty($data['target']) && $data['target'] == '_parent'} selected{/if}>{$P8LANG['_parent']}</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="tdL">{$P8LANG['menu_display']}</td>
+					<td class="tdR">
+						<input type="radio" name="display" value="1"{if !isset($data['display']) || !empty($data['display'])} checked{/if} />{$P8LANG['Y']}
+						<input type="radio" name="display" value="0"{if empty($data['display']) && isset($data['display'])} checked{/if} />{$P8LANG['N']}
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['menu_display_order']}</td>
+					<td class="tdR">
+						<input  type="text" class="txt" name="display_order" value="{if !empty($data['display_order'])}{$data['display_order']}{/if}" size="4" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">&nbsp;</td>
+					<td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+				</tr>
+			  
+			</table>
+		</div>
+    </div>
+	
+	<input type="hidden" name="id" value="{if !empty($data['id'])}{$data['id']}{/if}" />
+</form>
+<script type="text/javascript">
+	
+	
+	<!--{if !empty($data)}-->
+		parent_queue = $parent_js
+		
+		_system = '{$data['system']}';
+		_module = '{$data['module']}';
+		
+		_get_modules(_system, _module);
+		
+		get_sub_menus($('#parent').get(0), parent_queue.shift());
+		
+		$('input[name=parent]').val({$data['parent']});
+	<!--{/if}-->
+	
+	function get_sub_menus(select, selected){
+		
+		parent = $(select).val();
+		$('#form input[name=parent]').val(parent);
+		if(parent == 0){
+			$('#form input[name=parent]').val($(select).prev().val());
+			$(select).nextAll('select').remove();
+			return ;
+		}
+		
+		if(!select.options[select.selectedIndex].getAttribute('sub_menu')){
+			$(select).nextAll('select').remove();
+			return;
+		}
+		
+		var sub_menu = $('\
+			<select onchange="get_sub_menus(this)">\
+				<option value="0" class="_top_option">{$P8LANG['sub_menu']}</option>\
+			</select>').get(0);
+		
+		$.ajax({
+			url: '$this_router-navigation_menu_get',
+			dataType: 'json',
+			data: {id: $(select).val(), level: 1},
+			cache: false,
+			beforeSend: function(){
+				ajaxing({});
+			},
+			success: function(json){
+				ajaxing({action: 'hide'});
+				
+				if(!json.length) return;
+				
+				for(var i = 0; i < json.length; i++){
+					var option = $('<option value="'+ json[i].id +'"'+ (selected == json[i].id ? ' selected' : '') +'>'+ json[i].name +'</option>');
+					// if there are sub menus
+					if(json[i].menus != undefined) option.get(0).setAttribute('sub_menu', 1);
+					$(sub_menu).append(option);
+				}
+				
+				$(select).nextAll('select').remove();
+				
+				$(select).after($(sub_menu));
+				
+				if(parent_queue && parent_queue.length){
+					//alert(parent_queue);
+					get_sub_menus(sub_menu, parent_queue.shift());
+					
+				}
+			}
+		});
+		
+		return sub_menu;
+	}
+	
+	function _get_modules(s, selected){
+		_system = s;
+		
+		ajaxing({});
+		
+		get_modules(s, function(json){
+			$('#module').attr('length', 1);
+			
+			for(var i = 0; i < json.length; i++){
+				$('#module').append($('<option value="'+ json[i].name +'"'+ (selected == json[i].name ? ' selected' : '') +'>'+ json[i].alias +'</option>'));
+			}
+			
+			ajaxing({action: 'hide'});
+			
+			if(!_modules_inited){
+				_get_actions('admin_actions', _action);
+			}else{
+				if(!selected)
+				_get_actions('admin_actions');
+			}
+			
+			_modules_inited = true;
+		});
+	}
+	function _get_actions(type, selected){
+		ajaxing({});
+		
+		get_actions(_system, _module, type, function(json){
+			ajaxing({action: 'hide'});
+			
+			if(json){
+				$('#action').attr('length', 1);
+				
+				for(var i in json){
+					$('#action').append($('<option value="'+ i +'"'+ (selected == i ? ' selected' : '') +'>'+ json[i] +'</option>'));
+				}
+				
+				if(!selected)
+					$('#action').change();
+			}
+		});
+	}
+	function change_action(action){
+		$('#form input[name=action]').val(action);
+	}
+	$('#form').validate({
+		rules: {
+			name: 'required',
+			<!--{if $ACTION == 'menu_edit'}-->
+			parent: {
+				remote: {
+					url: '$this_router-menu_verify',
+					data: {id: function(){return $('#form input[name=id]').val();}, parent: function(){return $('#form input[name=parent]').val();}},
+					beforeSend: function(){
+						ajaxing({text: '正在验证父分类的合法性'});
+					},
+					complete: function(){
+						ajaxing({action: 'hide'});
+					}
+				}
+			},
+			<!--{/if}-->
+			system: {
+				required: function(){
+					return !$.trim($('#url').val()).length;
+				}
+			}
+		},
+		
+		messages: {
+			name: {
+				required: ''
+			},
+			<!--{if $ACTION == 'menu_edit'}-->
+			parent: {
+				remote: '不能移到子其分类下'
+			},
+			<!--{/if}-->
+			system: {
+			}
+		}
+	});
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

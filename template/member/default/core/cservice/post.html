@@ -1,0 +1,104 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+
+<div id="tab_1" class="tab_box mtop20">
+	<div class="head">
+		<span ><a href="$this_router-list?state=0">未解决问题</a></span> <span><a href="$this_router-list?state=1">已解决问题</a></span>  <a href="$this_router-post?job=list&yz=0" class="sendmsg_link_bg">发布问题</a>
+	</div>
+</div>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<form action="" method="post" id="form1" name="form1">
+	<table class="columntable hover_table mtop" width="100%">
+		<tr>
+			<td>标题</td>
+			<td><input name="title" id="title" type="text"  value="$data[title]"/></td>
+		</tr>
+		<tr>
+			<td>分类</td>
+			<td>
+				<select name="category">
+					<!--{foreach $category $k $v}-->
+					<option value="$k" {if $data['category'] == $k}selected{/if}>$v</option>
+					<br />
+					<!--{/foreach}-->
+				</select>
+			</td>
+		</tr>
+		<tr style="display:none">
+			<td>相关域名</td>
+			<td><input name="site" type="text" value="$data[site]"/>(如果有的话)</td>
+		</tr>
+		<tr style="display:none">
+			<td>相关IP</td>
+			<td><input name="ip" type="text"  value="$data[ip]"/></td>
+		</tr>
+		<tr>
+			<td>主要内容</td>
+			<td>
+				<textarea name="content" id="content" rows="9" cols="71"><div id="p8_content_show">$data[content]</div></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td>图片附件</td>
+			<td><input type="text" name="frame" id="frame" class="txt" value="{if !empty($data['frame'])}{$data['frame']}{/if}" size="30" /><input type="button" value="{$P8LANG['upload']}" onclick="upload.choseup()">
+
+			</td>
+		</tr>
+		<tr>
+			<td>联系电话</td>
+			<td><input name="mobilephone" id="mobilephone" type="text"  value="$data[mobilephone]"/></td>
+		</tr>
+		<tr style="display:none">
+			<td>短信回复</td>
+			<td><input name="sendmsg" type="checkbox" value="1" {if $data['sendmsg']}checked{/if}/></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="submit" value="提交"/>
+				<input type="hidden" name="id" value="{if $data['id']}$data[id]{/if}" />
+				<input type="hidden" name="attachment_hash" value="{$attachment_hash}" />
+			</td>
+		</tr>
+	</table>
+</form>
+<script type="text/javascript">
+var MODEL = '$MODEL';
+var attachment_hash = '$attachment_hash';
+var upload;
+$(document).ready(function(){
+						   
+				 upload = new P8_Upload({
+						element: {
+							src: $('#frame'),
+							attribute: 'value'
+						}
+					});		   
+	$('#form1').validate({
+		rules: {
+			title: {
+				required: true
+			}, 
+			
+			content: {
+				required: true
+			}
+		},
+		
+		messages:{
+			title: {
+				required: '<font color=red>标题不能为空</font>'
+			}, 
+			
+			content: {
+				required: '<font color=red>内容不能为空</font>'
+			}
+			
+		},
+		
+		onkeyup: false
+	});
+});
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

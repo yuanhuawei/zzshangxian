@@ -1,0 +1,31 @@
+<!--{php168}-->
+<!--{template $this_system config_header admin}-->
+<form action="" method="POST">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="formtable">
+						<tr>
+							<td class="title" colspan="2">分配权限</td>
+						</tr>
+							
+							<!--{template $role acl_action admin}-->
+						<tr>
+							<td class="tdL">&nbsp;</td>
+							<td class="tdR">
+							<input type="hidden" name="model" value="<!--{if !empty($MODEL)}-->$MODEL<!--{/if}-->" />
+							<input type="hidden" name="postfix" value="<!--{if !empty($postfix)}-->$postfix<!--{/if}-->" />
+							<input type="hidden" name="role_id" value="<!--{if !empty($role_id)}-->$role_id<!--{/if}-->" />
+							<input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/>
+							</td>
+						</tr>	
+					</table>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+		
+</form>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

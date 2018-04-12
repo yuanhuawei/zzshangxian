@@ -1,0 +1,33 @@
+<!--{php168}-->
+<input type="hidden" name="#field_{$field}_posted" />
+<input type="text" class="txt" id="field#[$field]" name="field#[$field]" value="{if isset($data[$field])}$data[$field]{else}{$field_data['default_value']}{/if}" {$field_data['widget_addon_attr']} />
+<input type="button" value="选择" id="{$field}_button" />
+
+<script type="text/javascript">
+$(function(){
+	var w;
+	var dialog = new P8_Dialog({
+		width: 700,
+		height: 420,
+		button: true,
+		show: function(){
+			this.content.find('iframe').attr('src', '{$core.controller}/core/vote-select');
+		},
+		ok: function(){
+			var ids = this.content.find('iframe').get(0).contentWindow.select_callback();
+			
+			for(var i in ids){
+				$('#field#[$field]').val(i);
+				break;
+			}
+		}
+	});
+	dialog.content.append($('<iframe src="about:blank" width="100%" height="360" frameborder="0"></iframe>'));
+
+	$('#{$field}_button').click(function(){
+		dialog.show();
+	});
+
+});
+</script>
+<!--{/php168}-->

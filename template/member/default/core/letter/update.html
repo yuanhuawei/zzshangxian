@@ -1,0 +1,121 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+<style>
+.columntable td{ padding:5px 2px}
+.columntable a.replay{color:#F00}
+</style>
+<div id="tab_1" class="tab_box mtop20">
+	<div class="head">
+		 <span ><a href="$this_router-manage?status=0">未解决信件</a></span>
+		 <span ><a href="$this_router-manage?status=1">已解决信件</a></span>
+		 <span class='over'>查看信件</span>
+	</div>
+</div>
+<form action="" method="post">
+<table class="columntable hover_table mtop" width="99%" align="center">
+<tbody>
+	<tr>
+		<td width="10%" align="right">姓名：</td>
+		<td width="40%">$data[username]</td>
+		<td width="15%" align="right">性别：</td>
+		<td width="35%">{if $data['gender']==2}女{else}男{/if}</td>
+	</tr>
+	<tr>
+		<td align="right">年龄：</td>
+		<td>$data[age]</td>
+		<td align="right">职业：</td>
+		<td>$data[profession]</td>
+	</tr>
+	<tr>
+		<td align="right">证件类型：</td>
+		<td>{$P8LANG['id_type_'.$data['id_type']]}</td>
+		<td align="right">证件号码：</td>
+		<td>$data[id_num]</td>
+	</tr>
+	<tr>
+		<td align="right">联系电话：</td>
+		<td>$data[phone]</td>
+		<td align="right">电子邮件：</td>
+		<td>$data[email]</td>
+	</tr>
+	<tr>
+		<td align="right">联系地址：</td>
+		<td colspan="3">$data[address]</td>
+	</tr>
+	<tr>
+		<td align="right">信访部门：</td>
+		<td>
+		<select name="department" id="department">
+	  <!--{foreach $cates['department'] $key $row}-->
+		  <option value="{$row['id']}" {if !empty($data['department']) && $data['department']==$row['id']}selected{/if}>{$row['name']}</option>
+	   <!--{/foreach}-->   
+		</select>
+		</td>
+		<td align="right">问题类别：</td>
+		<td>
+		<select name="type" id="type">
+		 <!--{foreach $cates['type'] $key $row}-->
+		  <option value="{$row['id']}" {if !empty($data['type']) && $data['type']==$row['id']}selected{/if}>{$row['name']}</option>
+	   <!--{/foreach}--> 
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<td align="right">状态：</td>
+		<td>
+			<input type="radio" name="status" value="0" {if $data['status']==0}checked{/if}/>未处理
+			<input type="radio" name="status" value="1" {if $data['status']==1}checked{/if}/>已受理
+			<input type="radio" name="status" value="2" {if $data['status']==2}checked{/if}/>处理中
+			<input type="radio" name="status" value="3" {if $data['status']==3}checked{/if}/>已处理
+		</td>
+		<td align="right" ><span style="display:none">不可再追问：</span></td>
+		<td><span style="display:none"><input type="checkbox" name="askable" value="1" {if $data['askable']==1}checked{/if}/></span></td>
+	</tr>
+	</tbody>
+</table>
+
+<!--{foreach $data['data'] $k $item}-->
+<table class="mtop20 columntable"  width="99%" align="center">
+	<tbody>
+		<tr>
+			<td bgcolor="#ececec" colspan="2"><img src="{$MEMBERSKIN}/status_1.gif" align="top" /> <strong style="display:none">第(<!--{php echo $k+1;}-->)次提问: &nbsp;</strong> 信访时间：&nbsp;<!--{php echo date("Y-m-d H:i",$k? $item['add_time'] :$data['create_time']);}--></td>
+		</tr>
+		<!--{if !$k}-->
+		<tr>
+			<td align="right" width="10%">标题：</td><td>$data[title]</td>
+		</tr>
+		<!--{/if}-->
+		<tr>
+			<td align="right"  width="10%">内容：</td>
+			<td style="padding:10px">$item[content]</td>
+		</tr>
+		<!--{if !empty($item['attachment'])}-->
+		<tr>
+		<td align="right">附件：</td>
+		<td colspan="3"><a href="$item[attachment]" target="_blank">$item[attachment_name]</a></td>
+		</tr>
+		<!--{/if}-->
+		<tr>
+			<td align="right">回复：</td>
+			<td style="padding:10px">
+			<textarea name="reply[{$item['id']}]" style="width:80%; height:50px" onchange="ifedit(this)">$item[reply] </textarea>
+			<input type="hidden" name="reply_id[{$item['id']}]" value="0"/>
+			<!--{if !empty($item['reply_time'])}-->
+			<div class="mtop10">回复时间：<!--{php echo date("Y-m-d H:i",$item['reply_time']);}--></div>
+			<!--{/if}-->
+			</td>
+		</tr>
+	</tr>
+	</tbody>
+</table>
+<!--{/foreach}-->
+<div style="text-align:center;padding:10px"><input type="submit" value=" 确定 "/></div>
+<input type="hidden" name="id" value="$id"/>
+</form>
+<script type="text/javascript">
+function ifedit(obj){
+$(obj).next().val(1)
+}
+</script>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

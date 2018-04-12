@@ -1,0 +1,62 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<form action="$this_url" method="post" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td colspan="3" class="title">{$P8LANG['system_integration']}</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['member_integration']}</td>
+					<td class="tdR">
+						<select name="config[integration_type]" id="integration_type" onchange="switch_integration(this.value)">
+							<option value="">{$P8LANG['member_no_integration']}</option>
+							
+							<!--{foreach $info['integration_types'] $k $v}-->
+							<option value="$k"{if !empty($config['integration_type']) && $k == $config['integration_type']} selected{/if}>$v</option>
+							<!--{/foreach}-->
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['integration_sync_id']}</td>
+					<td class="tdR">
+						<input type="radio" name="config[integration_sync_id]" value="1"{if !empty($config['integration_sync_id']) || !isset($config['integration_sync_id'])} checked{/if} />{$P8LANG['Y']}
+						<input type="radio" name="config[integration_sync_id]" value="0"{if empty($config['integration_sync_id']) && isset($config['integration_sync_id'])} checked{/if} />{$P8LANG['N']}
+					</td>
+				</tr>
+				
+				<!--{template $this_module uc_config admin}-->
+				
+				<!--{template $this_module php168_config admin}-->
+				
+				<!--{template $this_module pw_config admin}-->
+			</table>
+			<input type="submit" value="{$P8LANG['submit']}" style="margin-left:5px;margin-top:10px;" />
+		</div>
+	</div>
+</form>
+
+<script type="text/javascript">
+	var last_type;
+	function switch_integration(type){
+		if(!type){
+			if(last_type)
+				$(last_type).hide();
+			return;
+		}
+		
+		if(last_type)
+				$(last_type).hide();
+		last_type = $('#'+ type).show();
+	}
+	
+	switch_integration($('#integration_type').val());
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

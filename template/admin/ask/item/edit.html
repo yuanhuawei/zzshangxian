@@ -1,0 +1,185 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<!--{template $this_module header admin}-->
+<link rel="stylesheet" href="{$RESOURCE}/images/category_selector.css" type="text/css">
+<script type="text/javascript" src="{$RESOURCE}/js/recursive_selector.js"></script>
+<form name="editform" id="editform" action="$this_router-$ACTION" method="post">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr><td>
+					<table class="formtable hover_table">
+						<tr>
+							<td colspan="2" class="title">{$P8LANG['ask_topic_edit']}</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['user']}</td>
+							<td class="tdR"><!--{if $data['anonymous'] && empty($data['username'])}-->{$P8LANG['ask_anonymous']}<!--{else}-->{$data['username']}<!--{/if}--></td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_title']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="title" size="70" value="<!--{if !empty($data['title'])}-->{$data['title']}<!--{/if}-->"/>&nbsp;
+								<input type="checkbox" name="update_time" value="1" /> {$P8LANG['ask_update_time']}
+								<div id="title_error"></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_sub_title']}</td>
+							<td class="tdR">
+								<input type="text" class="txt" name="sub_title" size="70" value="<!--{if !empty($data['sub_title'])}-->{$data['sub_title']}<!--{/if}-->"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_content']}</td>
+							<td class="tdR">
+									
+									<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+									<div>
+										<textarea name="content" id="content">{$data['content']}</textarea>
+										<script text="text/javascript">
+											var toolbar= [
+												['Undo','Redo','Bold','Italic','Underline','NumberedList','BulletedList','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','FontSize','TextColor','BGColor','Image']
+											];
+											P8_CKEDITOR({id:'content', config:{toolbar:toolbar, height:250, resize_enabled:false}})
+										</script>	
+									</div>
+								<input type="checkbox" name="offercredit" id="offercredit" value="1" {if $data['offercredit']}checked{/if} disabled/> {$P8LANG['ask_reward']}
+								<select name="credits" id="credits" disabled>
+									<option value="0" {if !in_array($data['credits'],$reward)} selected{/if}>0{$P8LANG['ask_credit_unit']}</option>
+									<!--{foreach $reward $v}-->
+									<option value="{$v}"{if $data['credits']==$v} selected{/if}>{$v}{$P8LANG['ask_credit_unit']}</option>
+									<!--{/foreach}-->
+								</select>&nbsp;
+								<input type="checkbox" name="urgent" id="urgent" value="1"{if $data['urgent']} checked{/if} disabled/> {$P8LANG['ask_urgent']} <input type="checkbox" name="anonymous" id="anonymous" value="1"{if $data['anonymous']} checked{/if} disabled/> {$P8LANG['ask_anonymous']} 
+							</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_additional_info']}</td>
+							<td class="tdR">{$P8LANG['ask_additional_email']} <input type="text" class="txt" size="40" name="info" value="{$data['info']}"/>&nbsp;&nbsp;{$P8LANG['ask_telephone']} <input type="text" class="txt input" name="tel" id="tel" size="35" value="{$data['tel']}"/></td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_tags']}</td>
+							<td class="tdR"><input type="text" class="txt" size="70" name="tags" value="{$data['tags']}"/> {$P8LANG['ask_tags_tips']}</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_time']}</td>
+							<td class="tdR"><!--{php echo date('Y-m-d H:i:s', $data['addtime']);}--></td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_expire_time']}</td>
+							<td class="tdR"><!--{php echo date('Y-m-d H:i:s', $data['endtime']);}--></td>
+						</tr>
+						<tr>
+							<td class="tdL">IP</td>
+							<td class="tdR">{$data['ip']}</td>
+						</tr>
+						<tr>
+							<td class="tdL">{$P8LANG['ask_category']}</td>
+							<td class="tdR">
+								<span id="categoryList"></span>
+									<a href="javascript:void(0);" onclick="dialog.show()"><span class="u">自选分类</span></a>
+									<input type="hidden" name="cid" />
+									<input type="hidden" id="cid" value="{if !empty($data['cid'])}$data[cid]{/if}" />
+							</td>
+						</tr>
+						
+						<tr>
+						  <td class="tdL">&nbsp;</td>
+						  <td class="tdR">
+							<input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/>
+							<input type="hidden" name="id" value="{$id}" />
+							<input type="hidden" name="page" value="{$page}"/>
+						</td>
+					  </tr>
+					</table>
+				</td></tr>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+var title_error = vsprintf('{$P8LANG['ask_error_title']}',{$this_system.CONFIG['title_length']});
+var content_error = vsprintf('{$P8LANG['ask_error_content']}',[{$this_system.CONFIG['content_min_length']},{$this_system.CONFIG['content_max_length']}]);
+
+$('#editform').validate({
+	rules:{
+		title:{
+			required: true,
+			rangelength: [{$this_system.CONFIG['title_length']}, 80]
+		},
+		content:{
+			required: true,
+			rangelength: [{$this_system.CONFIG['content_min_length']}, {$this_system.CONFIG['content_max_length']}]
+		}
+	},
+	messages:{
+		title:{
+			required: title_error,
+			rangelength: title_error
+		},
+		content:{
+			required: content_error,
+			rangelength: content_error
+		}
+	},
+	errorPlacement: function(error, element){
+		if(element.attr('name') == 'content'){
+			error.insertAfter(element.next());
+		}else{
+			$('#title_error').html(error);
+		}
+	},
+	onkeyup:false
+});
+var _CATEGORY_JSON = $json[json];
+var _CATEGORY_PATH = $json[path];
+
+var dialog = new P8_Dialog({
+	title_text: '选择分类',
+	button: true,
+	width: 700,
+	height: 300,
+	zIndex: 20002,
+	ok: function(){
+		parent_path();
+	},
+	show: function(){
+		cs.init();
+	}
+});
+
+function parent_path(){
+	var val = $('#cid').val();
+	$('#editform input[name=cid]').val(val);
+	
+	$('#cid').empty();
+	$('#categoryList').empty();
+	var path = _CATEGORY_PATH[val];
+	if(!path) return;
+	for(var i = 0; i < path.length; i++){
+		var cat = cs.get_by_id(path[i]);
+		$('#categoryList').append($('<span>'+ cat.name +' &gt; </span>'));
+	}
+}
+var cs = new Recursive_Selector({
+	json: _CATEGORY_JSON,
+	path: _CATEGORY_PATH,
+	input: $('#cid'),
+	dialog: dialog,
+	sub_property: 'categories',
+	item_callback: function(cat, item){
+		if(cat.type == 1)
+			item.find('span').addClass('frame_category');
+		
+		if(cat.categories)
+			item.addClass('sub_category');
+	},
+	parents: <!--{if !empty($data['cid'])}-->clone(_CATEGORY_PATH[$data[cid]])<!--{else}-->null<!--{/if}-->
+});
+$(document).ready(
+parent_path()
+)
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

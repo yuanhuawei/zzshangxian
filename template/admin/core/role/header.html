@@ -1,0 +1,67 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<!--{if empty($acl_url)}-->
+<div class="mainbox mainborder">
+		<div class="section">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0" >
+				<tr><td>
+				<table class="formtable">
+					<tr>
+						<td class="title">$P8LANG[operation]</td>
+					</tr>
+					<tr><td class="headerbtn_list2">
+						<ul>
+							
+							
+							<!--{if $ACTION == 'list_group_field'}-->
+							<li><a href="$this_router-list_group_field?gid=$gid">{$P8LANG['list_role_group_field']}</a></li>
+							<li><a href="$this_router-add_group_field?gid=$gid">{$P8LANG['add_role_group_field']}</a></li>
+							<!--{else}-->
+							<li class="li1"><a href="{$core.admin_controller}/core/member-add">添加会员</a></li>
+							<li class="li2"><a href="{$core.admin_controller}/core/member-list">会员管理</a></li>
+							<li class="li3"><a href="$this_router-add">{$P8LANG['add_role']}</a></li>
+							<li class="li4"><a href="$this_router-list">{$P8LANG['list_role']}</a></li>
+							<li class="li5"><a href="$this_router-add_group">{$P8LANG['add_role_group']}</a></li>
+							<li class="li6"><a href="$this_router-list_group">{$P8LANG['list_role_group']}</a></li>
+							<!--{/if}-->
+							<li class="li7"><a href="$this_router-cache">{$P8LANG['update_cache']}</a></li>
+						</ul>
+					</td>
+					</tr>
+				</table>
+				
+				<!--{if $ACTION == 'list'}-->
+				<!--{if empty($core->CONFIG['use_core_roles_only'])}-->
+				<table class="formtable">
+					<tr>
+						<td class="title">{$P8LANG['role_system_filter']}</td>
+					</tr>
+					<tr>
+						<td class="headerbtn_list">
+							<ul>
+								<li><a href="$this_router-list?system=core">{$P8LANG['core']}</a></li>
+								<!--{foreach $system_list $k $v}-->	
+								<li><a href="$this_router-list?system=$k">{$v['alias']}</a></li>
+								<!--{/foreach}-->
+							</ul>
+						</td>
+					</tr>
+				</table>
+				<!--{/if}-->
+				<!--{/if}-->
+				
+				</td></tr>
+			</table>
+		</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	  $('.headerbtn_list2 li a').each(function () {
+               if ($($(this))[0].href == String(window.location))
+               $(this).addClass('active').attr('href', 'javascript:void(0);');
+      });
+});
+</script>
+<!--{/if}-->
+<!--{/php168}-->

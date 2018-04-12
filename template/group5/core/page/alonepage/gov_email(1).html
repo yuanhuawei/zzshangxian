@@ -1,0 +1,74 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$SKDIR}core/common.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/dangwei/core/alonepage/style.css"/>
+<div class="nav mtop">
+	您的位置：<a href="{$this_system.url}">首页</a>&nbsp;&gt;&nbsp;<a href="#">$data[title]</a>
+</div>
+<div class="mtop">
+	<div class="contain_left">	
+		<div class="border1">
+			<div class="head_gov">
+				<span class="title1">
+					$label[email_menu_title]
+				</span>
+			</div>	
+				<div class="main1" id='leftbox'>
+					$label[email_menu]
+				</div>
+				<div class="clear">
+				</div>
+		</div>
+		
+		<div class="border1 mtop">
+			<div class="head_gov">
+				<span class="title1">
+					$label[email_title_2]
+				</span>
+			</div>	
+				<div class="main1">
+				<div style="min-height:40px;">$label[email_content_2]</div>
+				<div style="min-height:40px;margin-top:10px;">$label[email_content_3]</div>
+				<div style="min-height:40px;margin-top:10px;">$label[email_content_4]</div>
+				</div>
+		</div>
+	</div>
+	<div class="contain_right">
+        <div class="quicknav mbottom">
+		<dl class="up">
+		<dd><img width="155" height="40" src="{$SKIN}../cms/item/government_affairs/quicknav_11.gif"></dd>
+		<dd><img width="155" height="40" src="{$SKIN}../cms/item/government_affairs/quicknav_12.gif"></dd>
+		<dd><img width="155" height="40" src="{$SKIN}../cms/item/government_affairs/quicknav_13.gif"></dd>
+		</dl>
+		<dl class="dw">
+		<dd><img width="65" height="56" src="{$SKIN}../cms/item/government_affairs/quicknav_21.gif"></dd>
+		<dd><img width="65" height="56" src="{$SKIN}../cms/item/government_affairs/quicknav_22.gif"></dd>
+		<dd><img width="65" height="56" src="{$SKIN}../cms/item/government_affairs/quicknav_23.gif"></dd>
+		<dd><img width="65" height="56" src="{$SKIN}../cms/item/government_affairs/quicknav_24.gif"></dd>
+		<dd><img width="65" height="56" src="{$SKIN}../cms/item/government_affairs/quicknav_25.gif"></dd>
+		<dd><img width="65" height="56" src="{$SKIN}../cms/item/government_affairs/quicknav_26.gif"></dd>
+		<dd><img width="65" height="56" src="{$SKIN}../cms/item/government_affairs/quicknav_27.gif"></dd>
+		</dl>		
+	   </div>
+       <div class="clear"></div>
+		<div class="show_box_govs">
+			<div class="form_title"><span class="f_l"> $label[email_txt2]</span><span class="more2">
+			<form action="{$core.controller}/cms/item-search" target="_blank" method="get" name="form1" id="form1">
+<input type="text" value="" class="keyword" id="keyword" name="keyword"> <input type="submit" class="submitbtn" value="搜索" id="button" name="button">
+</form></span><span class="more1" id="editcontent"></span></div>
+			<div class="form_content">
+			   $label[ld_form_1]
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clear">
+</div>
+<!--{if $addcontent}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/images/dialog.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<!--{/if}-->
+<!--{template $core footer}-->
+<!--{/php168}-->

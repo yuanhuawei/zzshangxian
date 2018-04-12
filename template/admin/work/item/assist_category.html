@@ -1,0 +1,89 @@
+<!--{php168}-->
+<!--{php
+$iid = isset($_GET['id']) ? $_GET['id'] : 0;
+
+$assist_category = $this_system->load_module('assist_category');
+
+$select = select();
+$select->from($assist_category->sort_table);
+$datas = $core->list_item($select);
+
+$datastemp = array();
+if(!empty($iid)){
+	$select = select();
+	$select->from($assist_category->list_table);
+	$select->in('iid',$iid);
+	$list = $core->list_item($select);
+	$listtemp = array();
+	foreach($list as $v){
+		$listtemp[$v['sid']] = $v['iid'];
+	}
+	
+	foreach($datas as $vv){
+		if(isset($listtemp[$vv['id']])){
+			$vv['checked'] = 1;
+		}else{
+			$vv['checked'] = 0;
+		}
+		$datastemp[] = $vv;
+	}
+}else{
+	$datastemp = $datas;
+}
+
+$contents = array();
+foreach($datastemp as $v){
+	$childs = $assist_category->get_childs($v['id'], $datastemp);
+	if($v['parent']==0){
+		if(!empty($childs)){
+			$v['childs'] = $childs;
+		}
+		$contents[] = $v;
+	}
+}
+
+$json_ac = p8_json($contents);
+
+}-->
+<div id="ac_checkbox"></div>
+<script type="text/javascript">
+<!--
+var AC_JSON = $json_ac;
+
+function json_ac(json, l, p){
+	l = l === undefined ? 0 : l;
+	p = p === undefined ? 0 : p;
+	
+	var j = 0, k = count(json);
+	for(var i in json){
+		var html = '';
+		j++;
+		var c = '';
+		if(l != 0){
+			c += str_repeat('│&nbsp;&nbsp;', l - p) + str_repeat('&nbsp;&nbsp;&nbsp;', p);
+			if(j == k){
+				p++;
+				c += '└';
+			}else{
+				c += '├';
+			}
+		}
+		
+		var sub = json[i].childs ? true: false;
+		var checked = json[i].checked==1 ? 'checked':'';
+		if(json[i].type==0){
+			html = c+'<input type="checkbox" name="assist_category[]" value="'+json[i].id+'" '+checked+'/>'+json[i].name+'<br/>';
+		}else{
+			html = c+json[i].name+'<br/>';
+		}
+		$('#ac_checkbox').append(html);
+		if(sub){
+			json_ac(json[i].childs, l +1, p);
+		}
+	}
+}
+json_ac(AC_JSON);
+
+//-->
+</script>
+<!--{/php168}-->

@@ -1,0 +1,120 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+<script type="text/javascript" src="{$RESOURCE}/js/rcalendar.js"></script>
+<style>
+.box { padding:2px; border:1px solid #cccccc; }
+.head{ background-color:#eeeeee}
+.formtable .title{ color:#FFF}
+#showimgbox{ display:none; width:305px; height:105px; position:absolute;  border:1px solid #cccccc}
+</style>
+
+<div class="mainbox mainborder">
+	<table class="formtable">
+		<tr>
+			<td class="title">{$P8LANG['operation']}</td>
+		</tr>
+		<tr>
+			<td class="headerbtn_list">
+				<ul>
+					<li><a href="{$this_url}?plugin=schedul&job=cache">刷新缓存</a></li>
+					<li><a href="{$this_url}?plugin=schedul">排班列表</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mainbox mainborder" style="display:">
+<form name="form1" action=""  onsubmit="return check();" method="post">
+	<table class="columntable formtable hover_table click_changeable">
+		<tr class="title">
+			<td class="title">日期</td>
+			<td class="title">时段</td>
+			<td class="title">姓名</td>
+			<td class="title">职称</td>
+			<td class="title">电话</td>
+			<td class="title">工作</td>
+			<td class="title"></td>
+		</tr>
+		<tbody id="list">
+		<!--{if !empty($row)}-->
+		<tr>
+			<td><input type="text" name="date[]" value="$row[date]" autocomplete="off" onclick="rcalendar(this, 'YYYY-MM-DD')" size="10"/></td>
+			<td>
+				<select name="date_time[]">
+				<option value="0" {if !$row['date_time']}selected{/if}>全天</option>
+				<option value="1" {if $row['date_time']==1}selected{/if}>上午</option>
+				<option value="2" {if $row['date_time']==2}selected{/if}>下午</option>
+				<option value="3" {if $row['date_time']==3}selected{/if}>晚上</option>
+				</select>
+			</td>
+			<td><input type="text" name="name[]" value="$row[name]"/></td>
+			<td><input type="text" name="level[]" value="$row[level]"/></td>
+			<td><input type="text" name="phone[]" value="$row[phone]"/></td>
+			<td><input type="text" name="event[]" value="$row[event]"/></td>
+			<td><input type="text" name="id" value="$row[id]"/></td>
+		</tr>
+		<!--{else}-->
+		<tr >
+			<td><input type="text" name="date[]" value="" autocomplete="off" onclick="rcalendar(this, 'YYYY-MM-DD')" size="10"/></td>
+			<td>
+				<select name="date_time[]">
+				<option value="0">全天</option>
+				<option value="1">上午</option>
+				<option value="2">下午</option>
+				<option value="3">晚上</option>
+				</select>
+			</td>
+			<td><input type="text" name="name[]" value=""/></td>
+			<td><input type="text" name="level[]" value=""/></td>
+			<td><input type="text" name="phone[]" value=""/></td>
+			<td><input type="text" name="event[]" value=""/></td>
+			<td></td>
+		</tr>
+		<!--{/if}-->
+		</tbody>
+		<tr>
+			<td colspan="6" align="center"><input type="submit" value="确定" class="submit_btn"/></td>
+			<td ><!--{if $job=='add'}--><input type="button" value="增加一个" onclick="add_one()"/><!--{/if}--><input type="hidden" name="do" value="$job"/></td>
+		</tr>
+	</table>
+	</form>
+</div>
+
+<div id="showimgbox"><img src="" id="showimg" width="300" height="100" /></div>
+<script type="text/javascript">
+function add_one(){
+	var shtml = '<tr>'+
+			'<td><input type="text" name="date[]" value="" autocomplete="off" onclick="rcalendar(this, \'YYYY-MM-DD\')"  size="10"/></td>>'+
+			'<td>'+
+				'<select name="date_time[]">'+
+				'<option value="0">全天</option>'+
+				'<option value="1">上午</option>'+
+				'<option value="2">下午</option>'+
+				'<option value="3">晚上</option>'+
+				'</select>'+
+			'</td>'+
+			'<td><input type="text" name="name[]"/></td>'+
+			'<td><input type="text" name="level[]"/></td>'+
+			'<td><input type="text" name="phone[]"/></td>'+
+			'<td><input type="text" name="event[]"/></td>'+
+			'<td><input type="button" value="同上" onclick="set_same(this)"/>  <input type="button" value="删除" onclick="$(this).parent().parent().remove()"/></td>>'+
+		'</tr>';
+	$('#list').append(shtml);	
+}
+function set_same(obj){
+	var this_div = $(obj).parent().parent();	
+	var source = this_div.prev();
+	
+	this_div.find('input[type!=button]').each( function(){
+		i = this_div.find('input[type!=button]').index(this);
+		$(this).val(source.find('input[type!=button]').eq(i).val());							   
+	});
+	this_div.find('select').each( function(){
+		i = this_div.find('select').index(this);
+		$(this).val(source.find('select').eq(i).val());							   
+	});
+	return false;
+
+}
+</script>
+<!--{/php168}-->

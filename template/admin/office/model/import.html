@@ -1,0 +1,39 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<form action="$this_url" method="POST" id="form">
+<table class="mainbox mainborder">
+	<tr><td>
+		<table class="columntable formtable hover_table">
+		<tr class="title">
+			<td colspan="2" class="title">{$P8LANG['office_model_import']}</td>
+		</tr>
+		
+		<!--{foreach $importable_models $v}-->
+		<tr>
+			<td>$v</td>
+			<td><a href="###" id="$v" onclick="_import(this.id)">{$P8LANG['import']}</a></td>
+		</tr>
+		<!--{/foreach}-->
+		
+		</table>
+	</td></tr>
+</table>
+<input type="hidden" name="name" />
+<input type="hidden" name="alias" />
+</form>
+
+<script type="text/javascript">
+
+function _import(name){
+	var alias = prompt('{$P8LANG['office_model_alias']}', name);
+	if(!alias) return;
+	
+	$('#form input[name=alias]').val(alias);
+	$('#form input[name=name]').val(name);
+	$('#form').submit();
+}
+</script>
+<!--{template $core footer admin}-->
+
+<!--{/php168}-->

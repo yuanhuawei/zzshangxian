@@ -1,0 +1,54 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<table class="formtable">
+	<tr>
+		<td class="title"></td>
+	</tr>
+	<tr>
+		<td class="headerbtn_list">
+			<ul>
+				<li><a href="{$core.admin_controller}/core-set_acl?role_id=$role_id">{$P8LANG['core']}</a></li>
+				<!--{foreach $core->systems $k $v}-->
+				<li><a href="{$core.admin_controller}/$k-set_acl?role_id=$role_id">{$v['alias']}</a></li>
+				<!--{/foreach}-->
+			</ul>
+		</td>
+	</tr>
+</table>
+
+
+<form action="$this_url" method="POST" onsubmit="check_privileges()">
+<table class="formtable hover_table">
+	
+	<!--{template $role acl_action admin}-->
+	
+	<!--{foreach $acls $module $acl}-->
+		<!--{template $role acl_module_action admin}-->
+	<!--{/foreach}-->
+	
+</table>
+<input type="hidden" name="role_id" value="<!--{if !empty($role_id)}-->$role_id<!--{/if}-->" />
+<input type="submit" />
+</form>
+
+<script type="text/javascript">
+	function check_privileges(){
+		$('.privileges input[type=checkbox]').each(function(i){
+			if(!this.checked){
+				this.checked = true;
+				this.value = 0;
+			}
+		});
+	}
+	
+	$('input[type=checkbox].check_all').click(function(){
+		var checked = this.checked;
+		$(this).parent().next().find('input[type=checkbox]').each(function(){
+			$(this).prop('checked', checked);
+		});
+	});
+</script>
+
+<!--{template $core footer admin}-->
+<!--{/php168}-->

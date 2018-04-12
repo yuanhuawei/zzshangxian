@@ -1,0 +1,81 @@
+<!--{php168}-->
+<!--{template $core header}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/gov2/core/alonepage/style.css"/>
+<div class="list_nave">
+	您的位置：<a href="{$this_system.url}">首页</a>&nbsp;&gt;&nbsp;<a href="#">$data[title]</a>
+</div>
+<div class="mtop">
+	<div class="contain_left">	
+		<div class="border1">
+			<div class="head_gov">
+				<span class="title1">
+					$label[email_menu_title]
+				</span>
+			</div>	
+				<div class="main1" id='leftbox'>
+					$label[email_menu]
+				</div>
+				<div class="clear">
+				</div>
+		</div>
+		
+		<div class="border1 mtop">
+			<div class="head_gov">
+				<span class="title1">
+					$label[email_title_2]
+				</span>
+			</div>	
+				<div class="main1">
+				<div style="min-height:40px;">$label[email_content_2]</div>
+				<div style="min-height:40px;margin-top:10px;">$label[email_content_3]</div>
+				<div style="min-height:40px;margin-top:10px;">$label[email_content_4]</div>
+				</div>
+		</div>
+	</div>
+	<div class="contain_right">
+        <div class="quicknav mbottom">
+		<dl class="up">
+		<dd><img width="155" height="40" src="{$SKIN}../cms/item/government_affairs/quicknav_11.gif"></dd>
+		<dd><img width="155" height="40" src="{$SKIN}../cms/item/government_affairs/quicknav_12.gif"></dd>
+		<dd><img width="155" height="40" src="{$SKIN}../cms/item/government_affairs/quicknav_13.gif"></dd>
+		</dl>
+		<dl class="dw">
+		<dd><img width="65" height="56" src="{$SKIN}../cms/item/government_affairs/quicknav_21.gif"></dd>
+		<dd><img width="65" height="56" src="{$SKIN}../cms/item/government_affairs/quicknav_22.gif"></dd>
+		<dd><img width="65" height="56" src="{$SKIN}../cms/item/government_affairs/quicknav_23.gif"></dd>
+		<dd><img width="65" height="56" src="{$SKIN}../cms/item/government_affairs/quicknav_24.gif"></dd>
+		<dd><img width="65" height="56" src="{$SKIN}../cms/item/government_affairs/quicknav_25.gif"></dd>
+		<dd><img width="65" height="56" src="{$SKIN}../cms/item/government_affairs/quicknav_26.gif"></dd>
+		<dd><img width="65" height="56" src="{$SKIN}../cms/item/government_affairs/quicknav_27.gif"></dd>
+		</dl>		
+	   </div>
+       <div class="clear"></div>
+		<div class="show_box_grey">
+		<div class="conbox">
+       <div class="inner_box">
+        <select name="bianhao" id="bh">   
+            <option value="1" selected>编号</option>   
+            <option value="2">22</option> 
+        </select>   
+        <input type="text" value="10223687" id="txtName1"/><input type="text" value="10223687" id="txtName2"/><input type="button" value="进度查询" onclick = " check()"/> 
+		<div class="clear"></div>
+		<h2 class="tt">进度信息</h2>
+		<p>2011-08-20 17:50 此办事已处理终审  处理人:admin</p>
+        <p>评语:无</p>
+		<p>2011-08-20 17:50 此办事已处理终审  处理人:admin</p>
+        <p>评语:无</p>
+	   </div>
+       </div>
+		</div>
+	</div>
+</div>
+<div class="clear">
+</div>
+<!--{if $addcontent}-->
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/images/dialog.css" />
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+<!--{/if}-->
+<!--{template $core footer}-->
+<!--{/php168}-->

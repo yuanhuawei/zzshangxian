@@ -1,0 +1,93 @@
+<!--{php168}-->
+<style type="text/css">
+#jsNav_{$label['id']} {
+	 position: relative;width:{$swidth}px;	height:{$sheight}px;    overflow: hidden;	
+}
+#jsNav_{$label['id']} .imageshow li {
+	position:absolute;
+	top:0px;
+	left:0px;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	-moz-opacity:0;
+	filter:alpha(opacity=0);
+	opacity:0;
+}
+#jsNav_{$label['id']} .imageshow li img{
+	width:{$swidth}px;	height:{$sheight}px; 
+}
+#jsNav_{$label['id']} .btnimage {
+	position:absolute;
+	display:block;
+	bottom:10px;
+	right:40px;
+	z-index:3;
+	height:20px;
+}
+
+#jsNav_{$label['id']} .btnimage li {
+	cursor:pointer;
+	float:left;
+	margin:3px;
+	width:14px;
+	height:11px;
+	background-image:url({$RESOURCE}/skin/label/li.png);
+}
+#jsNav_{$label['id']} .btnimage .over {
+	background-image:url({$RESOURCE}/skin/label/li_on.png);
+}
+</style>
+<div id="jsNav_{$label['id']}">
+  <ul class="imageshow">
+ <!--{foreach $list $value}-->
+    <li><a href="{$value['url']}" target="_blank"><img src="{$value['frame']}" width="$swidth" height="$sheight" alt="{$value['title']}"></a></li>
+   <!--{/foreach}--> 
+  </ul>
+  
+   <ul class="btnimage">
+    <!--{foreach $list $key $value}-->
+    <li></li>
+    <!--{/foreach}-->
+   </ul>
+</div>
+<script type="text/javascript">
+(function () {
+	var num = $("#jsNav_{$label['id']} .imageshow li").length,
+	now = 0;
+	$("#jsNav_{$label['id']} .imageshow li:first").css({"z-index":"2","opacity":"1"});
+	$("#jsNav_{$label['id']} .btnimage li:first").addClass("over");
+	
+	function next() {
+		now = (++now) % num;
+		return now;
+	}
+	 function callback() {
+		$("#jsNav_{$label['id']} .btnimage").find('li').removeClass('over');
+		$("#jsNav_{$label['id']} .imageshow").find('li').css('z-index', '1');
+		$("#jsNav_{$label['id']} .btnimage").find('li:eq(' + now + ')').addClass('over');
+		$("#jsNav_{$label['id']} .imageshow").find('li:eq(' + now + ')').css('z-index', '2');
+	};
+	
+	function animagea() {
+		$("#jsNav_{$label['id']} .imageshow").find('li:eq(' + now + ')').animate({opacity : 0}, 1500);
+		$("#jsNav_{$label['id']} .imageshow").find('li:eq(' + next() + ')').animate({	opacity : 1	}, 1500, callback);
+	}
+	var timer =  setInterval(animagea, 5000);
+	
+	$("#jsNav_{$label['id']} .btnimage li").hover(
+		function(){
+			clearInterval(timer);
+			$("#jsNav_{$label['id']} .btnimage").find('li').removeClass('over');
+			$(this).addClass('over');
+			$("#jsNav_{$label['id']} .imageshow").find('li:eq(' + now + ')').animate({opacity : 0,'z-index':1}, 500);
+			now = $("#jsNav_{$label['id']} .btnimage li").index($(this)); 
+			$("#jsNav_{$label['id']} .imageshow").find('li:eq(' + now + ')').animate({	opacity : 1,'z-index':2	}, 500);
+			
+		},										  
+		function(){
+			timer =  setInterval(animagea, 5000);
+		}										  
+	);
+})();
+</script>
+<!--{/php168}-->
+

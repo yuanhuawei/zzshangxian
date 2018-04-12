@@ -1,0 +1,35 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+<form action="" method="POST">
+<table width="100%">
+	<tr>
+		<td>{$P8LANG['sites_category_name']}</td>
+		<td>{$P8LANG['operation']}</td>
+	</tr>
+<!--{php
+function _trs($cs, $level = -1){
+global $this_router, $P8LANG, $this_system, $this_module, $core, $MODEL;
+$level++;
+}-->
+	<!--{foreach $cs $v}-->
+	<tr>
+		<td><!--{php echo str_repeat('&nbsp;', $level * 3);}-->{$v['name']}</td>
+		<td>
+			<a href="{$core.admin_controller}/core/credit-list_rule?system={$this_system.name}&module={$this_module.name}&postfix=category_{$v['id']}">{$P8LANG['list']}</a>
+			<a href="{$core.admin_controller}/core/credit-add_rule?system={$this_system.name}&module={$this_module.name}&postfix=category_{$v['id']}">{$P8LANG['set_category_credit_rule']}</a>
+			
+		</td>
+	</tr>
+	<!--{if isset($v['categories'])}-->
+		<!--{php _trs($v['categories'], $level);}-->
+	<!--{/if}-->
+	<!--{/foreach}-->
+<!--{php
+}
+}-->
+	<!--{php _trs($category->top_categories);}-->
+</table>
+<input type="submit" />
+</form>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

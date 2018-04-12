@@ -1,0 +1,113 @@
+<!--{php168}-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$core.CONFIG['page_charset']}" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>录取查询平台</title>
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/label/label.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="{$RESOURCE}/skin/default/core/css/baoming.css" />
+<script type="text/javascript" src="{$RESOURCE}/skin/default/core/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/util.js"></script>
+
+<script type="text/javascript" src="{$RESOURCE}/js/lang/core/{$core.CONFIG['lang']}.js"></script>
+<!--{if $SYSTEM != 'core'}-->
+<script type="text/javascript" src="{$RESOURCE}/js/lang/$SYSTEM/{$core.CONFIG['lang']}.js"></script>
+<!--{/if}-->
+
+<script type="text/javascript">
+<!--{template_init_js}-->
+</script>
+
+</head>
+<script type="text/javascript" src="{$RESOURCE}/js/jq_validator.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/upload.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/js/core/label/label.js"></script>
+
+<body id="chaxun">
+<div class="header container">
+	<img src="{$RESOURCE}/skin/default/core/images/logo_cx.png">
+	<div id="header_t" style="position: absolute;right:0;top:0"></div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="wrap_out">
+				<div class="cx_table">
+					<div class="cx_header">
+						<div class="notice_luqu">
+							$label[luqu2]
+						</div>
+					</div>
+					<div class="bm_middle">
+						<div class="tb luqu">
+							<form name="request" id="request" action="" method="get">
+								<table class="formtable">
+									<tr><td class="headerbtn_list">
+											<!--{foreach $this_model['filterable_fields'] $field $field_data}-->
+											<div class="channel_item">
+												<div class="channel_item_title luqu">{$field_data['alias']}:</div>
+												<div class="channel_item_input luqu"><!--{php include template($core, 'widget/'. $field_data['widget'], 'default');}--></div>
+											</div>
+											<div class="clearfix"></div>
+											<!--{/foreach}-->
+																		
+										</td>
+									</tr>
+								</table>
+								<div class="zhushi">$label[luqu1]</div>
+								<div class="clearfix"></div>	
+								<div class="form_submit">
+									<input type="submit"  class="forms_btn1" value="提交" onclick="this.form.action='';this.form.method='get'"/>
+									<input type="reset" name="" class="forms_btn1" value="重填" />
+									<input type="hidden" name="mid" value="$mid" />
+									<input type="hidden" name="accurate" value="1" />
+									<input type="hidden" name="ids" value="" />
+									<div class="forms_btn2">$label[luqu_btn]</div>
+								</div>
+							</form>
+						</div>						
+						<div class="notice_luqu">
+							<p style="text-align:center;font-size:18px;background: #eef7ff none repeat scroll 0 0;border: 1px solid #bed8f3;height:40px;line-height:40px;font-weight:bold;">录取结果</p>
+						</div>
+						<!--{if $F['tibaoren']}-->		
+							<!--{foreach $list $key $value}-->					
+								
+									<div style="background:#f5f5f5;margin:20px auto;width:400px;padding:20px;"><span style="font-weight:700;color:red;">$value[cpmc]</span>恭喜你，你已经被我校录取在：<span style="font-weight:700;color:red;">{$this_model['fields']['nianfen']['data'][$value[nianfen]]}</span>专业。预计在8月22日-25日发放录取通知书，新生9月7日报到，EMS快件编号：$value[sjsl]</div>									
+							
+							<!--{/foreach}-->
+											
+						<!--{/if}-->	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="footer_info">
+$label[luqu3]
+				
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+init_labelshows('header_t');
+</script>
+<script type="text/javascript">
+
+$(function(){
+	<!--{if empty($this_model['CONFIG']['parts'])}-->	   
+	$('.pop_table tr:even').addClass('pop_tr');	
+	<!--{/if}-->
+})
+
+</script>
+<!--{/php168}-->

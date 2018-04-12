@@ -1,0 +1,61 @@
+<!--{php168}-->
+<!--{template $core panel_header}-->
+
+<div id="tab_1" class="tab_box mtop20">
+	<div class="main profile" style="margin-top:20px">
+	<form name="form" id="form" action="{this_url}" method="post">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="hover_table list_table">
+			<tr class="head">
+				<td width="202">求职者</td>
+				<td width="202">性别</td>
+				<td width="176">学历</td>
+				<td width="252">应聘职位</td>
+				<td width="192">申请时间</td>
+				<td width="250">操作</td>
+			</tr>
+			<!--{foreach $list $key $val}-->
+			<tr>
+				<td>
+					<input type="checkbox" name="id[]" value="$val[id]" />
+					$val[fromname]</td>
+				<td>
+					<!--{if $val['gender']==1}-->
+					男
+					<!--{else}-->
+					女
+					<!--{/if}-->
+					</a></td>
+				<td>{$this_system.CONFIG['education'][$val['education']]}</a></td>
+				<td><a href="{$core.controller}/talent/company-job?id=$val[id]" target="_blank">$val[jobname]</a></td>
+				<td>{date('Y-m-d',$val['timestamp'])}</td>
+				<td><a href="{$core.controller}/talent/resume-view?id=$val[rid]" target="_blank" title="查看简历">查看</a> <a href="javascript:invite_dialog.show()"  title="邀请面试">邀请</a> <a href="#"  title="加入人才库">加入</a> <a href=""  title="删除记录">删除</a></td>
+			</tr>
+			<!--{/foreach}-->
+			<tr>
+				<td align="center" colspan="6"><a href="javascript:void(0)" onclick="check_all(true, 'id[]')">全选</a> /
+			<a href="javascript:void(0)" onclick="check_all(false, 'id[]');">反选</a> <input type="submit" value="删除" /><span  class="pages">&nbsp; $pages </span></td>
+			</tr>
+		</table>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+
+var invite_dialog = new P8_Dialog({
+		title_text: "邀请函",
+		button: true,
+		width: 500,
+		height: 230,
+		show: function(){
+			htmls = '<p>邀请标题: <input type="text" name="invite_title" size="45"/></p><p>邀请内容: <br><textarea rows="5" cols="55"></textarea></p><p></p>';
+			this.content.html(htmls);
+		},
+		ok: function(){
+
+		}
+	});
+</script>
+<div class="clear">
+</div>
+<!--{template $core panel_footer}-->
+<!--{/php168}-->

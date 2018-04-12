@@ -1,0 +1,75 @@
+<!--{php168}-->
+<!--{template $this_module header admin}-->
+
+<script type="text/javascript" src="{$RESOURCE}/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="{$RESOURCE}/ueditor/ueditor.all.min.js"></script>
+<form action="$this_url" method="post" id="form">
+	<div class="mainbox mainborder">
+		<div class="section">
+			<table class="columntable formtable hover_table">
+				<tr>
+					<td colspan="2" class="title">{$P8LANG['test']}</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL" width="15%">{$P8LANG['email']}</td>
+					<td class="tdR" width="85%">
+						<input type="text" class="txt" name="send_to" size="60" />{$P8LANG['memail']['note7']}
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['title']}</td>
+					<td class="tdR">
+						<input type="text" class="txt" name="subject" size="80" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="tdL">{$P8LANG['content']}</td>
+					<td class="tdR"><div style="width:82.5%">			
+						<script name="message" id="message" type="text/plain">test</script>
+						<script type="text/javascript">UE.getEditor('message',{toolbars: [['fullscreen', 'source','|', 'undo', 'redo','|', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'fontfamily','fontsize', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'selectall', 'cleardoc']],allowDivTransToP: false,initialFrameHeight: 350});</script>
+						</div>						
+					</td>
+				</tr>
+				
+				<tr>
+				  <td class="tdL">&nbsp;</td>
+				  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+</form>
+
+<script type="text/javascript">
+$('#form').validate({
+	rules: {
+		send_to: {
+			required: true
+		},
+		subject: {
+			required: true
+		},
+		message: {
+			required: true
+		}
+	},
+	
+	messages: {
+		send_to: {
+			required: '{$P8LANG['memail']['email_required']}'
+		},
+		subject: {
+			required: '{$P8LANG['memail']['subject_required']}'
+		},
+		message: {
+			required: '{$P8LANG['memail']['content_required']}'
+		}
+	}
+});
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

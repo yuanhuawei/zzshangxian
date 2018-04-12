@@ -1,0 +1,103 @@
+<!--{php168}-->
+<!--{template $core header admin}-->
+
+<form action="$this_router-$ACTION" method="post">
+	<table class="mainbox mainborder">
+	<tr><td>
+		<table class="formtable hover_table">
+			<tr>
+				<td colspan="2" class="title">模块设置</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">
+					客户类型
+				</td>
+				<td class="tdR">
+					<div id="type_div"></div>
+					<input type="button" value="添加" onclick="CTYPE.add_type({})" />
+					
+					<div id="type_copy" style="display: none;">
+						<b style="cursor: move; background: url({$RESOURCE}/images/draggable.png) no-repeat 0px -20px;">&nbsp;&nbsp;</b>
+						<input type="text" name="" value="" />
+					</div>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">
+					客户性质
+				</td>
+				<td class="tdR">
+					<div id="property_div"></div>
+					<input type="button" value="添加" onclick="CTYPE.add_property({})" />
+					
+					<div id="property_copy" style="display: none;">
+						<b style="cursor: move; background: url({$RESOURCE}/images/draggable.png) no-repeat 0px -20px;">&nbsp;&nbsp;</b>
+						<input type="text" name="" value="" />
+					</div>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="tdL">
+					客户日志类型
+				</td>
+				<td class="tdR">
+					<div id="log_type_div"></div>
+					<input type="button" value="添加" onclick="CTYPE.add_log_type({})" />
+					
+					<div id="log_type_copy" style="display: none;">
+						<b style="cursor: move; background: url({$RESOURCE}/images/draggable.png) no-repeat 0px -20px;">&nbsp;&nbsp;</b>
+						<input type="text" name="" value="" />
+					</div>
+				</td>
+			</tr>
+			
+			<tr>
+			  <td class="tdL">&nbsp;</td>
+			  <td class="tdR"><input type="submit" value="{$P8LANG['submit']}" class="submit_btn"/></td>
+			</tr>
+		  
+	    </table>
+		  </td>
+	  </tr>
+    </table>
+	
+</form>
+
+<script type="text/javascript" src="{$RESOURCE}/js/sortable.js"></script>
+<script type="text/javascript">
+
+var keys = ['type', 'property', 'log_type'],
+	CTYPE = {
+		type_offset: $type_max,
+		property_offset: $property_max,
+		log_type_offset: $log_type_max
+	};
+
+<!--{foreach $CTYPE $v}-->
+	CTYPE.add_$v = function(json){
+		var copy = $('#{$v}_copy').clone(true).show().attr('id', '').appendTo($('#{$v}_div')).addClass('{$v}_item');
+		copy.find('input').attr('name', 'config[$v]['+ (json.id !== undefined ? json.id : ++CTYPE.{$v}_offset) +']');
+		copy.find('input').val(json.name !== undefined ? json.name : '');
+		
+		{$v}_sortable.refresh();
+	};
+	
+	var {$v}_sortable = new $.p8_sortable({
+		selector: {
+			range: '.{$v}_item',
+			drag: 'b'
+		},
+		type: 'y'
+	});
+	
+	<!--{foreach $config[$v] $kk $vv}-->
+		CTYPE.add_$v({id: '$kk', name: '$vv'});
+	<!--{/foreach}-->
+	
+<!--{/foreach}-->
+</script>
+<!--{template $core footer admin}-->
+<!--{/php168}-->

@@ -1,0 +1,43 @@
+<!--{php168}-->
+<!--{php $baner = 'qiyetongzhi';$navgation = array(array('url'=>$this_router.'-list','title'=>'通知管理'),array('url'=>$this_router.'-add','title'=>'发布通知'));}-->
+<link type="text/css" rel="stylesheet" href="{$MEMBERSKIN}/letter/style.css" />
+<div class="letter_top">
+<ul>
+<li>我管理的部门：</li>
+<li>我管理的信件：{$P8LANG['status_0']}<a href="{$this_router}-manager?status=0" class="red">{$mana_message['mana'][0]}</a>条 
+{$P8LANG['status_1']}<a href="{$this_router}-manager?status=1"  class="red">{$mana_message['mana'][1]}</a>条 
+{$P8LANG['status_2']}<a href="{$this_router}-manager?status=2"  class="red">{$mana_message['mana'][2]}</a>条 
+{$P8LANG['status_3']}<a href="{$this_router}-manager?status=3"  class="red">{$mana_message['mana'][3]}</a>条
+</li>
+<li>信件评价回复：{$P8LANG['comments_0']}<a href="{$this_router}-manager?comment=0"  class="red">{$mana_message['comm'][0]}</a>条 
+{$P8LANG['comments_1']}<a href="{$this_router}-manager?comment=1" class="red">{$mana_message['comm'][1]}</a>条 
+{$P8LANG['comments_2']}<a href="{$this_router}-manager?comment=2" class="red">{$mana_message['comm'][2]}</a>条 
+{$P8LANG['comments_3']}<a href="{$this_router}-manager?comment=3" class="red">{$mana_message['comm'][3]}</a>条
+</li>
+<!--{php
+$mana_message_total = $mana_message['comm'][0]+$mana_message['comm'][1]+$mana_message['comm'][2]+$mana_message['comm'][3];
+$comm_0_rate = 100*round($mana_message['comm'][0]/$mana_message_total,2);
+$comm_1_rate = 100*round($mana_message['comm'][1]/$mana_message_total,2);
+$comm_2_rate = 100*round($mana_message['comm'][2]/$mana_message_total,2);
+$comm_3_rate = 100*round($mana_message['comm'][3]/$mana_message_total,2);
+}-->
+<li>信件评价比例：{$P8LANG['comments_0']}<span class="red">{$comm_0_rate}%</span>
+{$P8LANG['comments_1']}<span class="red">{$comm_1_rate}%</span>
+{$P8LANG['comments_2']}<span class="red">{$comm_2_rate}%</span>
+{$P8LANG['comments_3']}<span class="red">{$comm_3_rate}%</span></li>
+</ul>
+</div>
+<div  class="letter_main nav_menu clearfix">
+	<ul id="menu_nav">
+		<li><a href="{$this_router}-manager">管理信件</a></li>
+		<li><a href="{$this_router}-manager?status=0">暂未受理</a></li>
+		<li><a href="{$this_router}-manager?status=1">已经受理</a></li>
+		<li><a href="{$this_router}-manager?status=3">处理完结</a></li>
+		<li><a href="{$this_router}/../../index.php/opinion-tongji">数据统计</a></li>
+		<li><a href="$v[url]">部门管理</a></li>
+		<li><a href="$v[url]">手机短信</a></li>	
+		<li><a href="$v[url]">通知公告</a></li>
+	</ul>
+</div>	
+<div class="letter_main">
+<!--{/php168}-->
